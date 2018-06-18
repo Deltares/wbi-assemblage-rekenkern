@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,9 +20,11 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System;
+using System.Diagnostics;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -29,13 +32,198 @@ using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests {
+namespace Assembly.Kernel.Tests
+{
     [TestFixture]
-    public class TranslateAssessmentResultPerformanceTests {
+    public class TranslateAssessmentResultPerformanceTests
+    {
         private readonly IAssessmentResultsTranslator translator = new AssessmentResultsTranslator();
 
+
+        public void Wbi0E1(EAssessmentResultTypeE1 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0E1(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0E1({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0E2(EAssessmentResultTypeE1 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0E2(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0E2({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0E3(EAssessmentResultTypeE2 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0E3(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0E3({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0E4(EAssessmentResultTypeE2 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0E4(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0E4({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G1(EAssessmentResultTypeG1 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G1(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G1({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G2(EAssessmentResultTypeG1 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G1(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G2({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G3(EAssessmentResultTypeG2 input, double failureProb)
+        {
+            var section = new AssessmentSection(1000, 0.0001, 0.001);
+            var failureMechanism = new FailureMechanism(3, 0.2);
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G3(section, failureMechanism, input, failureProb);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G4(EAssessmentResultTypeG2 input, EFmSectionCategory? category)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G4(input, category);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G4({input}; {category}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G5(EAssessmentResultTypeG2 input, double failureProb)
+        {
+            var section = new AssessmentSection(1000, 0.0001, 0.001);
+            var failureMechanism = new FailureMechanism(3, 0.2);
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G5(section, failureMechanism, 0.5, input, failureProb);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0G6()
+        {
+            var compliancyResults = new FmSectionCategoryCompliancyResults()
+                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies);
+
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0G6(compliancyResults);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0G6: {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T1(EAssessmentResultTypeT1 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T1(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T1({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T2(EAssessmentResultTypeT2 input)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T2(input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T2({input}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T3(EAssessmentResultTypeT3 input, double failureProb)
+        {
+            var section = new AssessmentSection(1000, 0.0001, 0.001);
+            var failureMechanism = new FailureMechanism(3, 0.2);
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T3(section, failureMechanism, input, failureProb);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T4(EAssessmentResultTypeT3 input, EFmSectionCategory? category)
+        {
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T4(input, category);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T4({input}; {category}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T5(EAssessmentResultTypeT3 input, double failureProb)
+        {
+            var section = new AssessmentSection(1000, 0.0001, 0.001);
+            var failureMechanism = new FailureMechanism(3, 0.2);
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T5(section, failureMechanism, 0.003, input, failureProb);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T6(EAssessmentResultTypeT3 input)
+        {
+            FmSectionCategoryCompliancyResults compliancyResults = null;
+            if (input == EAssessmentResultTypeT3.ResultSpecified)
+            {
+                compliancyResults = new FmSectionCategoryCompliancyResults()
+                    .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
+                    .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                    .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                    .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                    .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies);
+            }
+
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T6(compliancyResults, input);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T6: {elapsedMs} ms (max: 200 ms)");
+        }
+
+        public void Wbi0T7(EAssessmentResultTypeT4 input, double failureProb)
+        {
+            var section = new AssessmentSection(1000, 0.0001, 0.001);
+            var failureMechanism = new FailureMechanism(3, 0.2);
+            var watch = Stopwatch.StartNew();
+            translator.TranslateAssessmentResultWbi0T7(section, failureMechanism, input, failureProb);
+            watch.Stop();
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Wbi0T7({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
+        }
+
         [Test]
-        public void TranslateAssessmentResults() {
+        public void TranslateAssessmentResults()
+        {
             Wbi0E1(EAssessmentResultTypeE1.Fv);
             Wbi0E1(EAssessmentResultTypeE1.Gr);
             Wbi0E1(EAssessmentResultTypeE1.Vb);
@@ -128,170 +316,5 @@ namespace Assembly.Kernel.Tests {
             Wbi0T7(EAssessmentResultTypeT4.Vn, double.NaN);
             Wbi0T7(EAssessmentResultTypeT4.ResultSpecified, 0.3);
         }
-
-        
-        public void Wbi0E1(EAssessmentResultTypeE1 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E1({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E2(EAssessmentResultTypeE1 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E2(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E2({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E3(EAssessmentResultTypeE2 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E3(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E3({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E4(EAssessmentResultTypeE2 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E4(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E4({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G1(EAssessmentResultTypeG1 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G1({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G2(EAssessmentResultTypeG1 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G2({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G3(EAssessmentResultTypeG2 input, double failureProb) {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G3(section, failureMechanism, input, failureProb);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G4(EAssessmentResultTypeG2 input, EFmSectionCategory? category) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G4(input, category);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G4({input}; {category}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G5(EAssessmentResultTypeG2 input, double failureProb) {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G5(section, failureMechanism, 0.5, input, failureProb);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G6() {
-            var compliancyResults = new FmSectionCategoryCompliancyResults()
-                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies);
-
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G6(compliancyResults);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G6: {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T1(EAssessmentResultTypeT1 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T1({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T2(EAssessmentResultTypeT2 input) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T2(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T2({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T3(EAssessmentResultTypeT3 input, double failureProb) {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T3(section, failureMechanism, input, failureProb);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T4(EAssessmentResultTypeT3 input, EFmSectionCategory? category) {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T4(input, category);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T4({input}; {category}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T5(EAssessmentResultTypeT3 input, double failureProb) {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T5(section, failureMechanism, 0.003, input, failureProb);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T6(EAssessmentResultTypeT3 input) {
-            FmSectionCategoryCompliancyResults compliancyResults = null;
-            if (input == EAssessmentResultTypeT3.ResultSpecified) {
-                compliancyResults = new FmSectionCategoryCompliancyResults()
-                    .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
-                    .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                    .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                    .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                    .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies);
-            }
-
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T6(compliancyResults, input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T6: {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0T7(EAssessmentResultTypeT4 input, double failureProb) {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T7(section, failureMechanism, input, failureProb);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0T7({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
     }
 }

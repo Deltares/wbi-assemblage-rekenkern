@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections;
@@ -29,17 +31,116 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
+
 // ReSharper disable UnusedMember.Local
 
-namespace Assembly.Kernel.Tests.Implementations {
-
-    public class AssessmentResultsTranslatorWbi0A1Tests {
-
+namespace Assembly.Kernel.Tests.Implementations
+{
+    public class AssessmentResultsTranslatorWbi0A1Tests
+    {
         private IAssessmentResultsTranslator translator;
 
-        private sealed class Wbi0A1TestCases {
-            public static IEnumerable Wbi0A1Direct {
-                get {
+        [SetUp]
+        public void Init()
+        {
+            translator = new AssessmentResultsTranslator();
+        }
+
+        [Test, TestCaseSource(
+             typeof(Wbi0A1TestCases),
+             nameof(Wbi0A1TestCases.Wbi0A1Direct))]
+        public EFmSectionCategory Wbi0A1DirectTest(
+            EFmSectionCategory? simpleAssessmentResult,
+            EFmSectionCategory? detailedAssessmentResult,
+            EFmSectionCategory? customAssessmentResult)
+        {
+            var result = (FmSectionAssemblyDirectResult) translator.TranslateAssessmentResultWbi0A1(
+                simpleAssessmentResult == null ? null : new FmSectionAssemblyDirectResult(simpleAssessmentResult.Value),
+                detailedAssessmentResult == null
+                    ? null
+                    : new FmSectionAssemblyDirectResult(detailedAssessmentResult.Value),
+                customAssessmentResult == null
+                    ? null
+                    : new FmSectionAssemblyDirectResult(customAssessmentResult.Value));
+
+            Assert.IsNotNull(result);
+            Assert.IsNaN(result.FailureProbability);
+            return result.Result;
+        }
+
+        [Test]
+        public void Wbi0A1DirectNullTest()
+        {
+            try
+            {
+                translator.TranslateAssessmentResultWbi0A1(
+                    (FmSectionAssemblyDirectResult) null,
+                    null,
+                    null);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        [Test, TestCaseSource(
+             typeof(Wbi0A1TestCases),
+             nameof(Wbi0A1TestCases.Wbi0A1Indirect))]
+        public EIndirectAssessmentResult Wbi0A1IndirectTest(
+            EIndirectAssessmentResult? simpleAssessmentResult,
+            EIndirectAssessmentResult? detailedAssessmentResult,
+            EIndirectAssessmentResult? customAssessmentResult)
+        {
+            var result = (FmSectionAssemblyIndirectResult) translator.TranslateAssessmentResultWbi0A1(
+                simpleAssessmentResult == null
+                    ? null
+                    : new FmSectionAssemblyIndirectResult(simpleAssessmentResult.Value),
+                detailedAssessmentResult == null
+                    ? null
+                    : new FmSectionAssemblyIndirectResult(detailedAssessmentResult.Value),
+                customAssessmentResult == null
+                    ? null
+                    : new FmSectionAssemblyIndirectResult(customAssessmentResult.Value));
+
+            Assert.IsNotNull(result);
+            return result.Result;
+        }
+
+        [Test]
+        public void Wbi0A1IndirectNullTest()
+        {
+            try
+            {
+                translator.TranslateAssessmentResultWbi0A1(
+                    (FmSectionAssemblyIndirectResult) null,
+                    null,
+                    null);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        private sealed class Wbi0A1TestCases
+        {
+            public static IEnumerable Wbi0A1Direct
+            {
+                get
+                {
                     yield return new TestCaseData(
                             EFmSectionCategory.IIIv,
                             EFmSectionCategory.IIv,
@@ -78,8 +179,10 @@ namespace Assembly.Kernel.Tests.Implementations {
                 }
             }
 
-            public static IEnumerable Wbi0A1Indirect {
-                get {
+            public static IEnumerable Wbi0A1Indirect
+            {
+                get
+                {
                     yield return new TestCaseData(
                             EIndirectAssessmentResult.FvEt,
                             EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
@@ -117,80 +220,6 @@ namespace Assembly.Kernel.Tests.Implementations {
                         .Returns(EIndirectAssessmentResult.Gr);
                 }
             }
-        }
-
-        [SetUp]
-        public void Init() {
-            translator = new AssessmentResultsTranslator();
-        }
-
-        [Test, TestCaseSource(
-             typeof(Wbi0A1TestCases),
-             nameof(Wbi0A1TestCases.Wbi0A1Direct))]
-        public EFmSectionCategory Wbi0A1DirectTest(
-            EFmSectionCategory? simpleAssessmentResult, 
-            EFmSectionCategory? detailedAssessmentResult,
-            EFmSectionCategory? customAssessmentResult) {
-
-            var result = (FmSectionAssemblyDirectResult) translator.TranslateAssessmentResultWbi0A1(
-                simpleAssessmentResult == null ? null : new FmSectionAssemblyDirectResult(simpleAssessmentResult.Value),
-                detailedAssessmentResult == null ? null : new FmSectionAssemblyDirectResult(detailedAssessmentResult.Value),
-                customAssessmentResult == null ? null : new FmSectionAssemblyDirectResult(customAssessmentResult.Value));
-
-            Assert.IsNotNull(result);
-            Assert.IsNaN(result.FailureProbability);
-            return result.Result;
-        }
-
-        [Test]
-        public void Wbi0A1DirectNullTest() {
-            try {
-                translator.TranslateAssessmentResultWbi0A1(
-                    (FmSectionAssemblyDirectResult)null, 
-                    null, 
-                    null);
-            } catch (AssemblyException e) {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("No expected exception not thrown");
-        }
-
-        [Test, TestCaseSource(
-             typeof(Wbi0A1TestCases),
-             nameof(Wbi0A1TestCases.Wbi0A1Indirect))]
-        public EIndirectAssessmentResult Wbi0A1IndirectTest(
-            EIndirectAssessmentResult? simpleAssessmentResult, 
-            EIndirectAssessmentResult? detailedAssessmentResult,
-            EIndirectAssessmentResult? customAssessmentResult) {
-
-            var result = (FmSectionAssemblyIndirectResult)translator.TranslateAssessmentResultWbi0A1(
-                simpleAssessmentResult == null ? null : new FmSectionAssemblyIndirectResult(simpleAssessmentResult.Value),
-                detailedAssessmentResult == null ? null : new FmSectionAssemblyIndirectResult(detailedAssessmentResult.Value),
-                customAssessmentResult == null ? null : new FmSectionAssemblyIndirectResult(customAssessmentResult.Value));
-
-            Assert.IsNotNull(result);
-            return result.Result;
-        }
-
-        [Test]
-        public void Wbi0A1IndirectNullTest() {
-            try {
-                translator.TranslateAssessmentResultWbi0A1(
-                    (FmSectionAssemblyIndirectResult)null,
-                    null,
-                    null);
-            } catch (AssemblyException e) {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("No expected exception not thrown");
         }
     }
 }

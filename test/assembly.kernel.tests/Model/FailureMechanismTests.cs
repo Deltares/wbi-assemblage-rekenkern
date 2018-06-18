@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,22 +20,26 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Model;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model {
+namespace Assembly.Kernel.Tests.Model
+{
     [TestFixture]
-    public class FailureMechanismTests {
-
+    public class FailureMechanismTests
+    {
         [Test]
-        public void ToStringTest() {
+        public void ToStringTest()
+        {
             const double LengthEffectFactor = 1.1;
             const double FailureProbMaringFactor = 0.2;
             var failureMechanism = new FailureMechanism(LengthEffectFactor, FailureProbMaringFactor);
             Assert.AreEqual($"Length effect factor: {LengthEffectFactor}, " +
-            $"Failure probability margin factor: {FailureProbMaringFactor}", failureMechanism.ToString());
+                            $"Failure probability margin factor: {FailureProbMaringFactor}",
+                failureMechanism.ToString());
         }
     }
 }

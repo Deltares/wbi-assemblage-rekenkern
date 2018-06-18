@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections;
@@ -30,16 +32,186 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
+
 // ReSharper disable UnusedMember.Local
 
-namespace Assembly.Kernel.Tests.Implementations {
-    public class AssessmentResultsTranslatorCategoryCompliancyTests {
-
+namespace Assembly.Kernel.Tests.Implementations
+{
+    public class AssessmentResultsTranslatorCategoryCompliancyTests
+    {
         private IAssessmentResultsTranslator translator;
 
-        private sealed class CategoryCompliancyTestCases {
-            public static IEnumerable Wbi0Gt6ResultSpecified {
-                get {
+        [SetUp]
+        public void Init()
+        {
+            translator = new AssessmentResultsTranslator();
+        }
+
+        [Test, TestCaseSource(
+             typeof(CategoryCompliancyTestCases),
+             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
+        public EFmSectionCategory Wbi0G6ResultSpecifiedTest(
+            FmSectionCategoryCompliancyResults compliancyResults)
+        {
+            var translateResult = translator.TranslateAssessmentResultWbi0G6(compliancyResults);
+
+            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
+                translateResult.ResultType);
+            Assert.IsNaN(translateResult.FailureProbability);
+
+
+            return translateResult.Result;
+        }
+
+        [Test]
+        public void Wbi0G6ComplyDoesNotComplyTest()
+        {
+            var inputResults = new FmSectionCategoryCompliancyResults()
+                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
+
+            try
+            {
+                translator.TranslateAssessmentResultWbi0G6(inputResults);
+            }
+            catch (AssemblyException e)
+            {
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.DoesNotComplyAfterComply, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception not thrown.");
+        }
+
+        [Test]
+        public void Wbi0G6NullTest()
+        {
+            try
+            {
+                translator.TranslateAssessmentResultWbi0G6(null);
+            }
+            catch (AssemblyException e)
+            {
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception not thrown.");
+        }
+
+        [Test, TestCaseSource(
+             typeof(CategoryCompliancyTestCases),
+             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
+        public EFmSectionCategory Wbi0T6ResultSpecifiedTest(
+            FmSectionCategoryCompliancyResults compliancyResults)
+        {
+            var translateResult = translator.TranslateAssessmentResultWbi0T6(compliancyResults,
+                EAssessmentResultTypeT3.ResultSpecified);
+
+            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
+                translateResult.ResultType);
+            Assert.IsNaN(translateResult.FailureProbability);
+
+
+            return translateResult.Result;
+        }
+
+        [Test, TestCaseSource(
+             typeof(CategoryCompliancyTestCases),
+             nameof(CategoryCompliancyTestCases.Wbi0T6Specific))]
+        public EFmSectionCategory Wbi0T6SpecificTest(EAssessmentResultTypeT3 assessmentResult)
+        {
+            var translateResult = translator.TranslateAssessmentResultWbi0T6(null, assessmentResult);
+
+            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
+                translateResult.ResultType);
+            Assert.IsNaN(translateResult.FailureProbability);
+
+            return translateResult.Result;
+        }
+
+        [Test]
+        public void Wbi0T6ComplyDoesNotComplyTest()
+        {
+            var inputResults = new FmSectionCategoryCompliancyResults()
+                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
+
+            try
+            {
+                translator.TranslateAssessmentResultWbi0T6(inputResults, EAssessmentResultTypeT3.ResultSpecified);
+            }
+            catch (AssemblyException e)
+            {
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.DoesNotComplyAfterComply, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception not thrown.");
+        }
+
+        [Test]
+        public void Wbi0T6NullTest()
+        {
+            try
+            {
+                translator.TranslateAssessmentResultWbi0T6(null, EAssessmentResultTypeT3.ResultSpecified);
+            }
+            catch (AssemblyException e)
+            {
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception not thrown.");
+        }
+
+        [Test]
+        public void Wbi0T6TestCompliancyAndAssessment()
+        {
+            var compliancyResults = new FmSectionCategoryCompliancyResults()
+                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
+                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
+                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult);
+
+            try
+            {
+                translator.TranslateAssessmentResultWbi0T6(compliancyResults, EAssessmentResultTypeT3.Fv);
+            }
+            catch (AssemblyException e)
+            {
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.TranslateAssessmentInvalidInput, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        private sealed class CategoryCompliancyTestCases
+        {
+            public static IEnumerable Wbi0Gt6ResultSpecified
+            {
+                get
+                {
                     yield return new TestCaseData(
                             new FmSectionCategoryCompliancyResults()
                                 .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
@@ -132,9 +304,10 @@ namespace Assembly.Kernel.Tests.Implementations {
                 }
             }
 
-            public static IEnumerable Wbi0Gt6Exceptions {
-                get {
-
+            public static IEnumerable Wbi0Gt6Exceptions
+            {
+                get
+                {
                     yield return new TestCaseData(null)
                         .Returns(EAssemblyErrors.ValueMayNotBeNull)
                         .SetName("Input is null");
@@ -151,155 +324,18 @@ namespace Assembly.Kernel.Tests.Implementations {
                 }
             }
 
-            public static IEnumerable Wbi0T6Specific {
-                get {
+            public static IEnumerable Wbi0T6Specific
+            {
+                get
+                {
                     yield return new TestCaseData(EAssessmentResultTypeT3.Fv).Returns(EFmSectionCategory.Iv)
-                         .SetName("AssessmentResult: Failure probability negligible");
+                        .SetName("AssessmentResult: Failure probability negligible");
                     yield return new TestCaseData(EAssessmentResultTypeT3.Gr).Returns(EFmSectionCategory.Gr)
-                         .SetName("AssessmentResult: No result");
+                        .SetName("AssessmentResult: No result");
                     yield return new TestCaseData(EAssessmentResultTypeT3.Ngo).Returns(EFmSectionCategory.VIIv)
                         .SetName("AssessmentResult: No judgement yet");
                 }
             }
-        }
-
-        [SetUp]
-        public void Init() {
-            translator = new AssessmentResultsTranslator();
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategoryCompliancyTestCases),
-             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
-        public EFmSectionCategory Wbi0G6ResultSpecifiedTest(
-            FmSectionCategoryCompliancyResults compliancyResults) {
-     
-            var translateResult = translator.TranslateAssessmentResultWbi0G6(compliancyResults);
-
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability, 
-                translateResult.ResultType);
-            Assert.IsNaN(translateResult.FailureProbability);
-
-
-            return translateResult.Result;
-        }
-
-        [Test]
-        public void Wbi0G6ComplyDoesNotComplyTest() {
-            var inputResults = new FmSectionCategoryCompliancyResults()
-                .Set( EFmSectionCategory.Iv, ECategoryCompliancy.NoResult )
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                .Set(EFmSectionCategory.IIIv,ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
-
-            try {
-                translator.TranslateAssessmentResultWbi0G6(inputResults);
-            } catch (AssemblyException e) {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.DoesNotComplyAfterComply, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test]
-        public void Wbi0G6NullTest() {
-            try {
-                translator.TranslateAssessmentResultWbi0G6(null);
-            } catch (AssemblyException e) {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategoryCompliancyTestCases),
-             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
-        public EFmSectionCategory Wbi0T6ResultSpecifiedTest(
-            FmSectionCategoryCompliancyResults compliancyResults) {
-
-            var translateResult = translator.TranslateAssessmentResultWbi0T6(compliancyResults, 
-                EAssessmentResultTypeT3.ResultSpecified);
-
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                translateResult.ResultType);
-            Assert.IsNaN(translateResult.FailureProbability);
-
-
-            return translateResult.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategoryCompliancyTestCases),
-             nameof(CategoryCompliancyTestCases.Wbi0T6Specific))]
-        public EFmSectionCategory Wbi0T6SpecificTest(EAssessmentResultTypeT3 assessmentResult) {
-
-            var translateResult = translator.TranslateAssessmentResultWbi0T6(null, assessmentResult);
-
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                translateResult.ResultType);
-            Assert.IsNaN(translateResult.FailureProbability);
-
-            return translateResult.Result;
-        }
-
-        [Test]
-        public void Wbi0T6ComplyDoesNotComplyTest() {
-            var inputResults = new FmSectionCategoryCompliancyResults()
-                .Set( EFmSectionCategory.Iv, ECategoryCompliancy.NoResult )
-                .Set( EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply )
-                .Set( EFmSectionCategory.IIIv,ECategoryCompliancy.Complies )
-                .Set( EFmSectionCategory.IIIv,ECategoryCompliancy.Complies )
-                .Set( EFmSectionCategory.IVv, ECategoryCompliancy.Complies )
-                .Set( EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply );
-
-            try {
-                translator.TranslateAssessmentResultWbi0T6(inputResults, EAssessmentResultTypeT3.ResultSpecified);
-            } catch (AssemblyException e) {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.DoesNotComplyAfterComply, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test]
-        public void Wbi0T6NullTest() {
-            try {
-                translator.TranslateAssessmentResultWbi0T6(null, EAssessmentResultTypeT3.ResultSpecified);
-            } catch (AssemblyException e) {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test]
-        public void Wbi0T6TestCompliancyAndAssessment() {
-            var compliancyResults = new FmSectionCategoryCompliancyResults()
-                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult);
-
-            try {
-                translator.TranslateAssessmentResultWbi0T6(compliancyResults, EAssessmentResultTypeT3.Fv);
-            } catch (AssemblyException e) {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.TranslateAssessmentInvalidInput, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("No expected exception not thrown");
         }
     }
 }

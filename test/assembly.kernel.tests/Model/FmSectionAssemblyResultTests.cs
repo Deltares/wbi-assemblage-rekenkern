@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Linq;
@@ -26,33 +28,56 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
+
 // ReSharper disable ObjectCreationAsStatement
 
-namespace Assembly.Kernel.Tests.Model {
+namespace Assembly.Kernel.Tests.Model
+{
     [TestFixture]
-    public class FmSectionAssemblyResultTests {
+    public class FmSectionAssemblyResultTests
+    {
+        private static void CheckException(AssemblyException e)
+        {
+            Assert.NotNull(e.Errors);
+            var message = e.Errors.FirstOrDefault();
+            Assert.NotNull(message);
+            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
+            Assert.Pass();
+        }
+
         [Test]
-        public void DirectFailureProbBelowZero() {
-            try {
+        public void DirectFailureProbAboveZero()
+        {
+            try
+            {
                 new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, -1.0);
-            } catch (AssemblyException e) {
+            }
+            catch (AssemblyException e)
+            {
                 CheckException(e);
             }
+
             Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void DirectFailureProbAboveZero() {
-            try {
+        public void DirectFailureProbBelowZero()
+        {
+            try
+            {
                 new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, -1.0);
-            } catch (AssemblyException e) {
+            }
+            catch (AssemblyException e)
+            {
                 CheckException(e);
             }
+
             Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void DirectToStringTest() {
+        public void DirectToStringTest()
+        {
             const double FailureProb = 0.2;
             var result = new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, FailureProb);
 
@@ -60,18 +85,11 @@ namespace Assembly.Kernel.Tests.Model {
         }
 
         [Test]
-        public void IndirectToStringTest() {
+        public void IndirectToStringTest()
+        {
             var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvEt);
 
             Assert.AreEqual("FmSectionAssemblyIndirectResult [FvEt]", result.ToString());
-        }
-
-        private static void CheckException(AssemblyException e) {
-            Assert.NotNull(e.Errors);
-            var message = e.Errors.FirstOrDefault();
-            Assert.NotNull(message);
-            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
-            Assert.Pass();
         }
     }
 }

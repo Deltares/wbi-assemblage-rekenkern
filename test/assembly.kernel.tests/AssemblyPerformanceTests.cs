@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
@@ -32,16 +33,97 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests {
+namespace Assembly.Kernel.Tests
+{
     [TestFixture]
-    public class AssemblyPerformanceTests {
+    public class AssemblyPerformanceTests
+    {
         private readonly IFailureMechanismResultAssembler fmAssembler = new FailureMechanismResultAssembler();
         private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
+
         private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
             new CommonFailureMechanismSectionAssembler();
 
+        private static void CreateTestInput(int sectionLength,
+            IDictionary<FailureMechanism, List<FmSection>> withoutFailureProb,
+            IDictionary<FailureMechanism, List<FmSection>> withFailureProb)
+        {
+            for (var i = 1; i <= 15; i++)
+            {
+                var failureMechanism = new FailureMechanism(i, 0.01 + i / 100.0);
+                var failureMechanismSections = new List<FmSection>();
+
+                var sectionLengthRemaining = sectionLength;
+                for (var k = 0; k < 250; k++)
+                {
+                    var sectionStart = sectionLengthRemaining / (250 - k) * k;
+                    var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
+                    if (i < 3)
+                    {
+                        failureMechanismSections.Add(
+                            new FmSection(
+                                new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv),
+                                $"TEST{i}",
+                                sectionStart,
+                                sectionEnd));
+                    }
+                    else
+                    {
+                        failureMechanismSections.Add(
+                            new FmSection(
+                                new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.002),
+                                $"TEST{i}F",
+                                sectionStart,
+                                sectionEnd));
+                    }
+
+                    sectionLengthRemaining -= sectionEnd - sectionStart;
+                }
+
+                if (i < 3)
+                {
+                    withoutFailureProb.Add(failureMechanism, failureMechanismSections);
+                }
+                else
+                {
+                    withFailureProb.Add(failureMechanism, failureMechanismSections);
+                }
+            }
+        }
+
+        private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
+            List<FmSection> fmSectionResults)
+        {
+            var fmsectionList = new FailureMechanismSectionList(fmSectionResults.FirstOrDefault()?.FmType,
+                fmSectionResults.Select(fmsection =>
+                    new FmSectionWithDirectCategory(fmsection.SectionStart, fmsection.SectionEnd,
+                        fmsection.Result.Result)));
+            return fmsectionList;
+        }
+
+        private sealed class FmSection
+        {
+            public FmSection(FmSectionAssemblyDirectResult result, string fmType, double sectionStart,
+                double sectionEnd)
+            {
+                Result = result;
+                FmType = fmType;
+                SectionStart = sectionStart;
+                SectionEnd = sectionEnd;
+            }
+
+            public FmSectionAssemblyDirectResult Result { get; }
+
+            public string FmType { get; }
+
+            public double SectionStart { get; }
+
+            public double SectionEnd { get; }
+        }
+
         [Test]
-        public void FullAssembly() {
+        public void FullAssembly()
+        {
             const int SectionLength = 3750;
             var section = new AssessmentSection(SectionLength, 1.0E-3, 1.0 / 300.0);
             var withoutFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
@@ -52,13 +134,14 @@ namespace Assembly.Kernel.Tests {
             CreateTestInput(SectionLength, withoutFailureProb, withFailureProb);
 
             // start timer
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            
+            var watch = Stopwatch.StartNew();
+
             var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
             var failureMechanismResultsWithoutFailureProb = new List<FailureMechanismAssemblyResult>();
 
             // assembly step 1
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb) {
+            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb)
+            {
                 var result = fmAssembler.AssembleFailureMechanismWbi1A1(
                     fmSectionResults.Value.Select(fmSection => fmSection.Result),
                     false);
@@ -67,7 +150,8 @@ namespace Assembly.Kernel.Tests {
                 failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
             }
 
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb) {
+            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb)
+            {
                 var result = fmAssembler.AssembleFailureMechanismWbi1B1(
                     section,
                     fmSectionResults.Key,
@@ -97,73 +181,6 @@ namespace Assembly.Kernel.Tests {
 
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
-        }
-
-        private static void CreateTestInput(int sectionLength,
-            IDictionary<FailureMechanism, List<FmSection>> withoutFailureProb,
-            IDictionary<FailureMechanism, List<FmSection>> withFailureProb) {
-
-            for (var i = 1; i <= 15; i++) {
-                var failureMechanism = new FailureMechanism(i, 0.01 + (i / 100.0));
-                var failureMechanismSections = new List<FmSection>();
-
-                var sectionLengthRemaining = sectionLength;
-                for (var k = 0; k < 250; k++) {
-                    var sectionStart = sectionLengthRemaining / (250 - k) * k;
-                    var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
-                    if (i < 3) {
-                        failureMechanismSections.Add(
-                            new FmSection(
-                                new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv),
-                                $"TEST{i}",
-                                sectionStart,
-                                sectionEnd));
-                    } else {
-                        failureMechanismSections.Add(
-                            new FmSection(
-                                new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.002),
-                                $"TEST{i}F",
-                                sectionStart,
-                                sectionEnd));
-                    }
-
-                    sectionLengthRemaining -= sectionEnd - sectionStart;
-                }
-
-                if (i < 3) {
-                    withoutFailureProb.Add(failureMechanism, failureMechanismSections);
-                } else {
-                    withFailureProb.Add(failureMechanism, failureMechanismSections);
-                }
-            }
-        }
-
-        private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
-            List<FmSection> fmSectionResults) {
-
-            var fmsectionList = new FailureMechanismSectionList(fmSectionResults.FirstOrDefault()?.FmType,
-                fmSectionResults.Select(fmsection =>
-                    new FmSectionWithDirectCategory(fmsection.SectionStart, fmsection.SectionEnd,
-                        fmsection.Result.Result)));
-            return fmsectionList;
-        }
-
-        private sealed class FmSection {
-            public FmSectionAssemblyDirectResult Result { get; }
-
-            public string FmType { get; }
-
-            public double SectionStart { get; }
-
-            public double SectionEnd { get; }
-
-            public FmSection(FmSectionAssemblyDirectResult result, string fmType, double sectionStart,
-                double sectionEnd) {
-                Result = result;
-                FmType = fmType;
-                SectionStart = sectionStart;
-                SectionEnd = sectionEnd;
-            }
         }
     }
 }

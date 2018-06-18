@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -27,27 +29,30 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
+
 // ReSharper disable ObjectCreationAsStatement
 
-namespace Assembly.Kernel.Tests.Model.CategoryLimits {
+namespace Assembly.Kernel.Tests.Model.CategoryLimits
+{
     [TestFixture]
-    public class CategoryLimitsTests {
-
-        [Test]
-        public void AssessmentSectionCategoryLimitsTests() {
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
-        }
-        public void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit, 
-            double upperLimit, bool shouldExceptionOccure) {
-            try {
+    public class CategoryLimitsTests
+    {
+        public void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
+            double upperLimit, bool shouldExceptionOccure)
+        {
+            try
+            {
                 new AssessmentSectionCategoryLimits(assessmentGrade, lowerLimit, upperLimit);
-            } catch (AssemblyException e) {
-                if (!shouldExceptionOccure) {
+            }
+            catch (AssemblyException e)
+            {
+                if (!shouldExceptionOccure)
+                {
                     Assert.Fail("Exception occured while it should not have.");
                 }
 
-                if (e.Errors != null) {
+                if (e.Errors != null)
+                {
                     var errors = e.Errors as List<AssemblyErrorMessage>;
 
                     Assert.NotNull(errors);
@@ -58,19 +63,15 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits {
                     Assert.AreEqual("Category: " + assessmentGrade, message.EntityId);
                 }
             }
+
             Assert.Pass();
         }
 
-        [Test]
-        public void FailureMechanismCategoryLimitsTests()
-        {
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.It, 0, 0.1, false);
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.VIIt, 0.5, 0.1, true);
-        }
         public void FailureMechanismCategoryLimitsTest(EFailureMechanismCategory category, double lowerLimit,
             double upperLimit, bool shouldExceptionOccure)
         {
-            try {
+            try
+            {
                 new FailureMechanismCategoryLimits(category, lowerLimit, upperLimit);
             }
             catch (AssemblyException e)
@@ -92,19 +93,15 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits {
                     Assert.AreEqual("Category: " + category, message.EntityId);
                 }
             }
+
             Assert.Pass();
         }
 
-        [Test]
-        public void FmSectionCategoryLimitsTests()
-        {
-            FmSectionCategoryLimitsTest(EFmSectionCategory.Iv, 0, 0.1, false);
-            FmSectionCategoryLimitsTest(EFmSectionCategory.VIv, 0.5, 0.1, true);
-        }
         public void FmSectionCategoryLimitsTest(EFmSectionCategory category, double lowerLimit,
             double upperLimit, bool shouldExceptionOccure)
         {
-            try {
+            try
+            {
                 new FmSectionCategoryLimits(category, lowerLimit, upperLimit);
             }
             catch (AssemblyException e)
@@ -126,7 +123,29 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits {
                     Assert.AreEqual("Category: " + category, message.EntityId);
                 }
             }
+
             Assert.Pass();
+        }
+
+        [Test]
+        public void AssessmentSectionCategoryLimitsTests()
+        {
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
+        }
+
+        [Test]
+        public void FailureMechanismCategoryLimitsTests()
+        {
+            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.It, 0, 0.1, false);
+            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.VIIt, 0.5, 0.1, true);
+        }
+
+        [Test]
+        public void FmSectionCategoryLimitsTests()
+        {
+            FmSectionCategoryLimitsTest(EFmSectionCategory.Iv, 0, 0.1, false);
+            FmSectionCategoryLimitsTest(EFmSectionCategory.VIv, 0.5, 0.1, true);
         }
     }
 }
