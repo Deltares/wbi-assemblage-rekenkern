@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Assembly.Kernel.Tests</RootNamespace>
+    <AssemblyName>Assembly.Kernel.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\ExtensionMethodTests.cs" />
+    <Compile Include="src\AssemblyPerformanceTests.cs" />
+    <Compile Include="src\Implementations\AssessmentGradeAssemblerTests.cs" />
+    <Compile Include="src\Implementations\AssessmentResultsTranslatorCategoryCompliancyTests.cs" />
+    <Compile Include="src\Implementations\AssessmentResultsTranslatorWbi0A1Tests.cs" />
+    <Compile Include="src\Implementations\AssessmentResultsTranslatorFailureProbTests.cs" />
+    <Compile Include="src\Implementations\AssessmentResultsTranslatorCategorySuppliedTests.cs" />
+    <Compile Include="src\Implementations\AssessmentResultsTranslatorAssessmentResultTests.cs" />
+    <Compile Include="src\Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
+    <Compile Include="src\Implementations\FailureMechanismResultAssemblerTests.cs" />
+    <Compile Include="src\Implementations\Validators\FailureMechanismValidatorTests.cs" />
+    <Compile Include="src\Implementations\Validators\AssessmentSectionValidatorTests.cs" />
+    <Compile Include="src\Implementations\CategoryLimitsCalculatorTests.cs" />
+    <Compile Include="src\Model\AssemblyResultTests.cs" />
+    <Compile Include="src\Model\CategoryLimits\CategoryLimitsTests.cs" />
+    <Compile Include="src\Model\FailureMechanismSectionListTests.cs" />
+    <Compile Include="src\Model\FailureMechanismTests.cs" />
+    <Compile Include="src\Model\FmSectionAssemblyResultTests.cs" />
+    <Compile Include="src\Model\FmSEctionCategoryCompliancyResultsTests.cs" />
+    <Compile Include="src\TranslateAssessmentResultPerformanceTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\sln\packages\NUnit.3.9.0\lib\net40\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\assembly.kernel\kernel.csproj">
+      <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
+      <Name>kernel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\sln\COPYING">
+      <Link>COPYING</Link>
+    </None>
+    <None Include="..\..\sln\COPYING.LESSER">
+      <Link>COPYING.LESSER</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

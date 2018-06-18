@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="f86e9026-905b-4e5d-901e-7dcac6cc74b1" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>This is the Assembly kernel API documentation. Showing all usable classes and interfaces. </para>
+		</introduction>
+
+		<section>
+			<title>Getting Started</title>
+			<content>
+				<para>To use the Assembly kernel five interfaces are defined: </para>
+          <list class="nobullet">
+            <listItem>
+              <para>
+                <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Interfaces.ICategoryLimitsCalculator</codeEntityReference>
+              </para>
+            </listItem>
+            <listItem>
+              <para>
+                <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Interfaces.IAssessmentResultsTranslator</codeEntityReference>
+              </para>
+            </listItem>
+            <listItem>
+              <para>
+                <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Interfaces.IFailureMechanismResultAssembler</codeEntityReference>
+              </para>
+            </listItem>
+            <listItem>
+              <para>
+                <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Interfaces.IAssessmentGradeAssembler</codeEntityReference>
+              </para>
+            </listItem>
+            <listItem>
+              <para>
+                <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Interfaces.ICommonFailureMechanismSectionAssembler</codeEntityReference>
+              </para>
+            </listItem>
+          </list>
+        <para>Each interface has its own factory class to create an implementation of the interface.</para>
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="02392af1-c4cd-4008-9060-9f888910cf39" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

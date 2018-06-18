@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="2b9c61ea-0384-4047-b3d3-fda4ee7e0f4f" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Version 1.0.x
+      </para>
+    </introduction>
+
+    <section>
+      <title>Changes in This Release</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>
+              Category limits are now capped at 1. All categories will be returned
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Nullable doubles replaced with double and null checks replaced with double.IsNaN checks.
+            </para>
+          </listItem>
+        </list>
+
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="02392af1-c4cd-4008-9060-9f888910cf39" />
+    </relatedTopics>
+
+  </developerConceptualDocument>
+</topic>

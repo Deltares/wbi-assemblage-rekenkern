@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="4482d82f-cc42-452d-920a-19fe5ccf4ff7" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Version 1.0.x
+      </para>
+    </introduction>
+
+    <section>
+      <title>Changes in This Release</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>
+              Category limits are now maximized to 1. Categories with limits greater than 1 will not be returned.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Failure probability results greater than 1 will be maximized to 1.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Assembly step 3 input changed slightly: 
+              <codeEntityReference autoUpgrade="true">T:Assembly.Kernel.Model.FailureMechanismSectionList</codeEntityReference> 
+              now contains a string for identifying failure mechanisms instead of an failure mechanism class.
+            </para>
+          </listItem>
+        </list>
+
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="02392af1-c4cd-4008-9060-9f888910cf39" />
+    </relatedTopics>
+
+  </developerConceptualDocument>
+</topic>

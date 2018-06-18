@@ -1,0 +1,86 @@
+
+pipeline {
+    agent { label 'WSA16002Build'}
+    options { 
+        buildDiscarder(logRotator(numToKeepStr: '5')) 
+    }
+
+    environment {
+        SOURCES_FILE_PREFIX = "assembly.kernel.sources-"
+        SERVICE_SOURCES_FILE_PREFIX = "assembly.service.sources-"
+        DELIVERY_FILE_PREFIX = "assembly.kernel v"
+        SERVICE_DELIVERY_FILE_PREFIX = "assembly.service v"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                script {
+                    currentBuild.description = "<a href=\"http://sonar/dashboard?id=Assembly.Kernel\">Sonar</a>"
+                }
+                deleteDir()
+    		    checkout scm
+            }
+        }
+
+        stage('ZipSourceCode') {
+            steps {
+                script {
+                    def gitHash = bat(script: '@git rev-parse HEAD"', returnStdout: true).trim()
+                    def srcFile ="${SOURCES_FILE_PREFIX}${gitHash}.zip"
+                    def serviceSrcFile = "${SERVICE_SOURCES_FILE_PREFIX}${gitHash}.zip"
+                    bat "C:/tools/7-Zip/7z a \"${srcFile}\" ./src/ ./doc/ ./sln/ ./tst/ -xr!*assembly.service -xr!*Assembly.Complete.sln"
+                    bat "C:/tools/7-Zip/7z a \"${serviceSrcFile}\" ./src/ ./doc/ ./sln/ ./tst/"
+                }
+            }
+        }
+
+        stage('Pre-Build') {
+            steps{
+                script {
+                    def gitHash = bat(script: '@git rev-parse HEAD"', returnStdout: true).trim()
+                    bat 'C:/tools/nuget.exe restore sln/Assembly.Complete.sln'
+                    bat "C:/jenkins/tools/sonar-scanner-msbuild-4.0.0.821/MSBuild.SonarQube.Runner.exe begin /k:Assembly.Kernel \"/n:IHW assembly kernel\" /v:${gitHash} /d:sonar.host.url=http://sonar /d:sonar.verbose=false /d:sonar.cs.opencover.reportsPaths=Coverage.xml"
+                }
+            }
+        }
+        stage('Build') {
+            steps{
+                script {
+                    def gitHash = bat(script: '@git rev-parse HEAD"', returnStdout: true).trim()
+                    def msbuild = "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/MSBuild/15.0/Bin/MSBuild.exe"
+                    bat "\"${msbuild}\" sln/Assembly.Complete.sln /t:Clean,Build /p:Configuration=Release /p:gitHash=${gitHash}"
+                } 
+                bat "C:/Tools/OpenCover/OpenCover.Console.exe -register -target:\"C:/Program Files (x86)/NUnit.org/nunit-console/nunit3-console.exe\" -targetargs:\"/result:TestResult.xml %WORKSPACE%/tst/assembly.kernel.tests/bin/Release/assembly.kernel.tests.dll\" -output:Coverage.xml"
+            }
+        }
+        stage('Post-Build') {
+            steps{
+                bat "C:/jenkins/tools/sonar-scanner-msbuild-4.0.0.821/MSBuild.SonarQube.Runner.exe end"
+            }
+        }
+
+        stage('Archive') {
+            steps{
+                script {
+                    def dllVersion = bat(script: '@powershell -command "(Get-Item ./src/assembly.kernel/bin/Release/Assembly.Kernel.dll).VersionInfo.ProductVersion"', returnStdout: true).trim()                  
+                    def serviceVersion = bat(script: '@powershell -command "(Get-Item ./src/assembly.service/bin/Release/Assembly.Service.exe).VersionInfo.ProductVersion"', returnStdout: true).trim()                  
+                    def dllDeliveryFile = "${DELIVERY_FILE_PREFIX}${dllVersion}.zip"
+                    def serviceDeliveryFile = "${SERVICE_DELIVERY_FILE_PREFIX}${serviceVersion}.zip"
+                                        
+                    bat "C:/tools/7-Zip/7z a \"${dllDeliveryFile}\" ./src/assembly.kernel/bin/Release/Assembly.Kernel.dll ./doc/kernel_doc/Help/"
+                    bat "C:/tools/7-Zip/7z a \"${serviceDeliveryFile}\" ./src/assembly.service/bin/Release/Assembly.Service.exe ./src/assembly.service/bin/Release/Assembly.Kernel.dll ./src/assembly.service/bin/Release/Assembly.Service.properties ./doc/kernel_doc/Help/"
+                }
+                archiveArtifacts "assembly.kernel*.zip"
+                archiveArtifacts "assembly.service*.zip"
+            }
+        }
+
+        stage('PublishTestReport') {
+            steps{
+                nunit testResultsPattern: "TestResult.xml"
+            }
+        }
+    }
+}
