@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,31 +20,24 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// The assembly result class of a direct failure mechanism.
     /// </summary>
-    public class FailureMechanismAssemblyResult {
-        /// <summary>
-        /// The failure mechanism category.
-        /// </summary>
-        public EFailureMechanismCategory Category { get; }
-        /// <summary>
-        /// The failure probability of the failure mechanism. 
-        /// If no failure probability is present this value is null.
-        /// </summary>
-        public double FailureProbability { get; }
-
+    public class FailureMechanismAssemblyResult
+    {
         /// <summary>
         /// Failure mechanism assembly direct result constructor, without failure probability. 
         /// The failure probability will be null when using this constructor.
         /// </summary>
         /// <param name="category">The resulting category of the failure mechanism assembly step</param>
-        public FailureMechanismAssemblyResult( 
-                EFailureMechanismCategory category) {
-
+        public FailureMechanismAssemblyResult(
+            EFailureMechanismCategory category)
+        {
             Category = category;
             FailureProbability = double.NaN;
         }
@@ -53,10 +47,21 @@ namespace Assembly.Kernel.Model {
         /// </summary>
         /// <param name="category">The resulting category of the failure mechanism assembly step</param>
         /// <param name="failureProbability">The assembled failure probability of the failure mechanism</param>
-        public FailureMechanismAssemblyResult(EFailureMechanismCategory category, double failureProbability) {
-
+        public FailureMechanismAssemblyResult(EFailureMechanismCategory category, double failureProbability)
+        {
             Category = category;
             FailureProbability = failureProbability;
         }
+
+        /// <summary>
+        /// The failure mechanism category.
+        /// </summary>
+        public EFailureMechanismCategory Category { get; }
+
+        /// <summary>
+        /// The failure probability of the failure mechanism. 
+        /// If no failure probability is present this value is null.
+        /// </summary>
+        public double FailureProbability { get; }
     }
 }

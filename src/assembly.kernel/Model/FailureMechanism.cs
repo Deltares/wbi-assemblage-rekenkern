@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,26 +20,19 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations.Validators;
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Failure Mechanism data object
     /// </summary>
-    public class FailureMechanism {
-        
-        /// <summary>
-        /// Factor to correct for length of the section.
-        /// </summary>
-        public double LengthEffectFactor { get; }
-        /// <summary>
-        /// Factor for the failure probability margin.
-        /// </summary>
-        public double FailureProbabilityMarginFactor { get; }
-
+    public class FailureMechanism
+    {
         /// <summary>
         /// FailureMechanism Constructor
         /// </summary>
@@ -47,20 +41,31 @@ namespace Assembly.Kernel.Model {
         /// <param name="failureProbabilityMarginFactor">Factor for the failure probability margin. 
         /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public FailureMechanism(double lengthEffectFactor, double failureProbabilityMarginFactor) {
-
-            FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor, 
+        public FailureMechanism(double lengthEffectFactor, double failureProbabilityMarginFactor)
+        {
+            FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
                 failureProbabilityMarginFactor);
 
             LengthEffectFactor = lengthEffectFactor;
             FailureProbabilityMarginFactor = failureProbabilityMarginFactor;
         }
 
+        /// <summary>
+        /// Factor to correct for length of the section.
+        /// </summary>
+        public double LengthEffectFactor { get; }
+
+        /// <summary>
+        /// Factor for the failure probability margin.
+        /// </summary>
+        public double FailureProbabilityMarginFactor { get; }
+
         /// /// <summary>
         /// Generates string from failure mechanism object.
         /// </summary>
         /// <returns>Text representation of the failure mechanism object</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return
                 $"Length effect factor: {LengthEffectFactor}, " +
                 $"Failure probability margin factor: {FailureProbabilityMarginFactor}";

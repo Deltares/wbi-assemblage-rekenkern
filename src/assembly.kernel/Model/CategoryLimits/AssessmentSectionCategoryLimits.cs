@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 namespace Assembly.Kernel.Model.CategoryLimits
@@ -27,16 +29,17 @@ namespace Assembly.Kernel.Model.CategoryLimits
     /// <summary>
     /// Category limits for an assesment section.
     /// </summary>
-    public class AssessmentSectionCategoryLimits : BaseCategoryLimits<EAssessmentGrade> {
-        
+    public class AssessmentSectionCategoryLimits : BaseCategoryLimits<EAssessmentGrade>
+    {
         /// <summary>
         /// AssessmentSectionCategoryLimits constructor
         /// </summary>
         /// <param name="category">category for which the limits are valid</param>
         /// <param name="lowerLimit">lower limit of the category</param>
         /// <param name="upperLimit">upper limit of the category</param>
-        public AssessmentSectionCategoryLimits(EAssessmentGrade category, double lowerLimit, double upperLimit) 
-            : base(category, lowerLimit, upperLimit) {
+        public AssessmentSectionCategoryLimits(EAssessmentGrade category, double lowerLimit, double upperLimit)
+            : base(category, lowerLimit, upperLimit)
+        {
             // Construct super class
         }
     }

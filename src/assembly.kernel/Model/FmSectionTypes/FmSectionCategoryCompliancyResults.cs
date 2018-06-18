@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,26 +20,29 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.FmSectionTypes {
+namespace Assembly.Kernel.Model.FmSectionTypes
+{
     /// <summary>
     /// Container for Failure mechanism compliancy results.
     /// Default all categories are set to the compliancy result: NoResult
     /// </summary>
-    public class FmSectionCategoryCompliancyResults {
-
-        private readonly Dictionary<EFmSectionCategory, ECategoryCompliancy> compliancyResultMap = 
-            new Dictionary<EFmSectionCategory, ECategoryCompliancy> {
-            {EFmSectionCategory.Iv, ECategoryCompliancy.NoResult},
-            {EFmSectionCategory.IIv, ECategoryCompliancy.NoResult},
-            {EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult},
-            {EFmSectionCategory.IVv, ECategoryCompliancy.NoResult},
-            {EFmSectionCategory.Vv, ECategoryCompliancy.NoResult},
-        };
+    public class FmSectionCategoryCompliancyResults
+    {
+        private readonly Dictionary<EFmSectionCategory, ECategoryCompliancy> compliancyResultMap =
+            new Dictionary<EFmSectionCategory, ECategoryCompliancy>
+            {
+                {EFmSectionCategory.Iv, ECategoryCompliancy.NoResult},
+                {EFmSectionCategory.IIv, ECategoryCompliancy.NoResult},
+                {EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult},
+                {EFmSectionCategory.IVv, ECategoryCompliancy.NoResult},
+                {EFmSectionCategory.Vv, ECategoryCompliancy.NoResult}
+            };
 
         /// <summary>
         /// Set the compliancy result for a Failure mechanism category.
@@ -47,14 +51,16 @@ namespace Assembly.Kernel.Model.FmSectionTypes {
         /// <param name="compliancyResult">The compliancy result to add to the category.</param>
         /// <returns>The updated FmSectionCategoryCompliancyResults object (self)</returns>
         /// <exception cref="AssemblyException">Thrown when a category is supplied which is not allowed</exception>
-        public FmSectionCategoryCompliancyResults Set(EFmSectionCategory category, 
-            ECategoryCompliancy compliancyResult) {
-            
-            if (!compliancyResultMap.ContainsKey(category)) {
+        public FmSectionCategoryCompliancyResults Set(EFmSectionCategory category,
+            ECategoryCompliancy compliancyResult)
+        {
+            if (!compliancyResultMap.ContainsKey(category))
+            {
                 throw new AssemblyException("CompliancyResults: " + category, EAssemblyErrors.CategoryNotAllowed);
             }
+
             compliancyResultMap[category] = compliancyResult;
-            
+
             return this;
         }
 
@@ -62,7 +68,8 @@ namespace Assembly.Kernel.Model.FmSectionTypes {
         /// Gets the compliancy result per failure mechanism section category.
         /// </summary>
         /// <returns>Dictonary containing the compliancy result per failure mechanism section category</returns>
-        public Dictionary<EFmSectionCategory, ECategoryCompliancy> GetCompliancyResults() {
+        public Dictionary<EFmSectionCategory, ECategoryCompliancy> GetCompliancyResults()
+        {
             return compliancyResultMap;
         }
     }

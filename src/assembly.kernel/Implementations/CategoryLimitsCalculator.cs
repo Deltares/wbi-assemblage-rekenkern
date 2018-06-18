@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -34,34 +36,36 @@ namespace Assembly.Kernel.Implementations
     /// <summary>
     /// Implementation of the category limits interface.
     /// </summary>
-    public class CategoryLimitsCalculator : ICategoryLimitsCalculator {
+    public class CategoryLimitsCalculator : ICategoryLimitsCalculator
+    {
         /// <inheritdoc />
         public IEnumerable<AssessmentSectionCategoryLimits> CalculateAssessmentSectionCategoryLimitsWbi21(
-                AssessmentSection section) {
-            
+            AssessmentSection section)
+        {
             var sigDiv30 = CapToOne(section.FailureProbabilitySignallingLimit / 30.0);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
-            var limits = new List<AssessmentSectionCategoryLimits> {
+            var limits = new List<AssessmentSectionCategoryLimits>
+            {
                 new AssessmentSectionCategoryLimits(
-                    EAssessmentGrade.APlus, 
-                    0, 
+                    EAssessmentGrade.APlus,
+                    0,
                     sigDiv30),
                 new AssessmentSectionCategoryLimits(
-                    EAssessmentGrade.A, 
+                    EAssessmentGrade.A,
                     sigDiv30,
                     section.FailureProbabilitySignallingLimit),
                 new AssessmentSectionCategoryLimits(
-                    EAssessmentGrade.B, 
+                    EAssessmentGrade.B,
                     section.FailureProbabilitySignallingLimit,
                     section.FailureProbabilityLowerLimit),
                 new AssessmentSectionCategoryLimits(
-                    EAssessmentGrade.C, 
+                    EAssessmentGrade.C,
                     section.FailureProbabilityLowerLimit,
                     lowTimes30),
                 new AssessmentSectionCategoryLimits(
-                    EAssessmentGrade.D, 
-                    lowTimes30, 
+                    EAssessmentGrade.D,
+                    lowTimes30,
                     1)
             };
 
@@ -70,22 +74,23 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public IEnumerable<FailureMechanismCategoryLimits> CalculateFailureMechanismCategoryLimitsWbi11(
-                AssessmentSection section, FailureMechanism failureMechanism) {
-           
+            AssessmentSection section, FailureMechanism failureMechanism)
+        {
             var signTimesMargin = CapToOne(section.FailureProbabilitySignallingLimit *
-                                  failureMechanism.FailureProbabilityMarginFactor);
+                                           failureMechanism.FailureProbabilityMarginFactor);
             var signTimesMarginDiv30 = CapToOne(signTimesMargin / 30.0);
-            var lowTimesMargin = CapToOne(section.FailureProbabilityLowerLimit * 
-                                 failureMechanism.FailureProbabilityMarginFactor);
+            var lowTimesMargin = CapToOne(section.FailureProbabilityLowerLimit *
+                                          failureMechanism.FailureProbabilityMarginFactor);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
-            var limits = new List<FailureMechanismCategoryLimits> {
+            var limits = new List<FailureMechanismCategoryLimits>
+            {
                 new FailureMechanismCategoryLimits(
-                    EFailureMechanismCategory.It, 
-                    0, 
+                    EFailureMechanismCategory.It,
+                    0,
                     signTimesMarginDiv30),
                 new FailureMechanismCategoryLimits(
-                    EFailureMechanismCategory.IIt, 
+                    EFailureMechanismCategory.IIt,
                     signTimesMarginDiv30,
                     signTimesMargin),
                 new FailureMechanismCategoryLimits(
@@ -97,12 +102,12 @@ namespace Assembly.Kernel.Implementations
                     lowTimesMargin,
                     section.FailureProbabilityLowerLimit),
                 new FailureMechanismCategoryLimits(
-                    EFailureMechanismCategory.Vt, 
+                    EFailureMechanismCategory.Vt,
                     section.FailureProbabilityLowerLimit,
                     lowTimes30),
                 new FailureMechanismCategoryLimits(
-                    EFailureMechanismCategory.VIt, 
-                    lowTimes30, 
+                    EFailureMechanismCategory.VIt,
+                    lowTimes30,
                     1)
             };
 
@@ -111,10 +116,10 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
-                FailureMechanism failureMechanism) {
-
+            FailureMechanism failureMechanism)
+        {
             var pSigDsn =
-                failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit / 
+                failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
                 failureMechanism.LengthEffectFactor;
             var pLowDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilityLowerLimit /
                           failureMechanism.LengthEffectFactor;
@@ -124,27 +129,30 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi02(AssessmentSection section,
-                FailureMechanism failureMechanism) {
-            
+            FailureMechanism failureMechanism)
+        {
             var pSigDsn =
-                CapToOne(failureMechanism.FailureProbabilityMarginFactor * (10 * section.FailureProbabilitySignallingLimit) /
-                failureMechanism.LengthEffectFactor);
+                CapToOne(failureMechanism.FailureProbabilityMarginFactor *
+                         (10 * section.FailureProbabilitySignallingLimit) /
+                         failureMechanism.LengthEffectFactor);
             var pLowDsn =
                 CapToOne(failureMechanism.FailureProbabilityMarginFactor * (10 * section.FailureProbabilityLowerLimit) /
-                failureMechanism.LengthEffectFactor);
+                         failureMechanism.LengthEffectFactor);
 
             return CalucalteLimitsPdsn(section, pSigDsn, pLowDsn);
         }
 
 
         private static IEnumerable<FmSectionCategoryLimits> CalucalteLimitsPdsn(AssessmentSection section,
-            double pSigDsn, double pLowDsn) {
+            double pSigDsn, double pLowDsn)
+        {
             CheckPdsnValues(section, pSigDsn, pLowDsn);
 
             var pSigDsnDiv30 = CapToOne(pSigDsn / 30.0);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
-            var limits = new List<FmSectionCategoryLimits> {
+            var limits = new List<FmSectionCategoryLimits>
+            {
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.Iv,
                     0,
@@ -166,8 +174,8 @@ namespace Assembly.Kernel.Implementations
                     section.FailureProbabilityLowerLimit,
                     lowTimes30),
                 new FmSectionCategoryLimits(
-                    EFmSectionCategory.VIv, 
-                    lowTimes30, 
+                    EFmSectionCategory.VIv,
+                    lowTimes30,
                     1)
             };
 
@@ -201,7 +209,8 @@ namespace Assembly.Kernel.Implementations
         /// </summary>
         /// <param name="d">The value to cap</param>
         /// <returns>The capped value</returns>
-        private static double CapToOne(double d) {
+        private static double CapToOne(double d)
+        {
             return d > 1.0 ? 1.0 : d;
         }
     }

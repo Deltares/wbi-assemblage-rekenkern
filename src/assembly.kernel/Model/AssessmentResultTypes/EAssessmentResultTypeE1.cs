@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,25 +20,31 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model.AssessmentResultTypes {
+namespace Assembly.Kernel.Model.AssessmentResultTypes
+{
     /// <summary>
     /// All possible assessment results for failure mechanisms with simple assessments.
     /// </summary>
-    public enum EAssessmentResultTypeE1 {
+    public enum EAssessmentResultTypeE1
+    {
         /// <summary>
         /// Does not apply
         /// </summary>
         Nvt,
+
         /// <summary>
         /// Failure probability negligible
         /// </summary>
         Fv,
+
         /// <summary>
         /// Further assessment needed
         /// </summary>
         Vb,
+
         /// <summary>
         /// No result
         /// </summary>

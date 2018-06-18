@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,20 +20,18 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Direct failure mechanism with assessment result category.
     /// </summary>
-    public class FmSectionWithDirectCategory : FmSectionWithCategory {
-        /// <summary>
-        /// The assessment result of the direct failure mechanism of this section.
-        /// </summary>
-        public EFmSectionCategory Category { get; set; }
-
+    public class FmSectionWithDirectCategory : FmSectionWithCategory
+    {
         /// <summary>
         /// Indirect failure mechanism with category
         /// </summary>
@@ -42,8 +41,14 @@ namespace Assembly.Kernel.Model {
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure mechanism section</param>
         public FmSectionWithDirectCategory(double sectionStart, double sectionEnd, EFmSectionCategory category) :
-            base(sectionStart, sectionEnd, EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability) {
+            base(sectionStart, sectionEnd, EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability)
+        {
             Category = category;
         }
+
+        /// <summary>
+        /// The assessment result of the direct failure mechanism of this section.
+        /// </summary>
+        public EFmSectionCategory Category { get; set; }
     }
 }

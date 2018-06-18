@@ -32,62 +32,72 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace Assembly.Kernel.Implementations {
+namespace Assembly.Kernel.Implementations
+{
     /// <inheritdoc />
-    public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler {
+    public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
+    {
         private readonly ICategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
 
         /// <inheritdoc />
         public EFailureMechanismCategory AssembleFailureMechanismWbi1A1(
-            IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults, bool partialAssembly) {
-            if (fmSectionAssemblyResults == null) {
+            IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults, bool partialAssembly)
+        {
+            if (fmSectionAssemblyResults == null)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             List<FmSectionAssemblyDirectResult> sectionResults = fmSectionAssemblyResults.ToList();
 
             // result list should not be empty
-            if (sectionResults.Count == 0) {
+            if (sectionResults.Count == 0)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult",
                     EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
             // check if all section results are of the AssessmentCategoryWithoutFailureProbability type
             if (sectionResults.Any(fmResult =>
-                fmResult.ResultType != EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability)) {
+                fmResult.ResultType != EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability))
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult",
                     EAssemblyErrors.InputNotTheSameType);
             }
 
             var returnValue = EFmSectionCategory.NotApplicable;
-            foreach (var sectionResult in sectionResults) {
-                switch (sectionResult.Result) {
-                case EFmSectionCategory.Iv:
-                case EFmSectionCategory.IIv:
-                case EFmSectionCategory.IIIv:
-                case EFmSectionCategory.IVv:
-                case EFmSectionCategory.Vv:
-                case EFmSectionCategory.VIv:
-                    if (sectionResult.Result.IsLowerCategoryThan(returnValue)) {
-                        returnValue = sectionResult.Result;
-                    }
+            foreach (var sectionResult in sectionResults)
+            {
+                switch (sectionResult.Result)
+                {
+                    case EFmSectionCategory.Iv:
+                    case EFmSectionCategory.IIv:
+                    case EFmSectionCategory.IIIv:
+                    case EFmSectionCategory.IVv:
+                    case EFmSectionCategory.Vv:
+                    case EFmSectionCategory.VIv:
+                        if (sectionResult.Result.IsLowerCategoryThan(returnValue))
+                        {
+                            returnValue = sectionResult.Result;
+                        }
 
-                    break;
-                case EFmSectionCategory.VIIv:
-                    if (!partialAssembly) {
-                        return EFailureMechanismCategory.VIIt;
-                    }
+                        break;
+                    case EFmSectionCategory.VIIv:
+                        if (!partialAssembly)
+                        {
+                            return EFailureMechanismCategory.VIIt;
+                        }
 
-                    break;
-                case EFmSectionCategory.Gr:
-                    return EFailureMechanismCategory.Gr;
-                case EFmSectionCategory.NotApplicable:
-                    // ignore not applicable category
-                    break;
-                default:
-                    throw new AssemblyException(
-                        "AssembleFailureMechanismResult: " + sectionResult.Result,
-                        EAssemblyErrors.CategoryNotAllowed);
+                        break;
+                    case EFmSectionCategory.Gr:
+                        return EFailureMechanismCategory.Gr;
+                    case EFmSectionCategory.NotApplicable:
+                        // ignore not applicable category
+                        break;
+                    default:
+                        throw new AssemblyException(
+                            "AssembleFailureMechanismResult: " + sectionResult.Result,
+                            EAssemblyErrors.CategoryNotAllowed);
                 }
             }
 
@@ -96,43 +106,50 @@ namespace Assembly.Kernel.Implementations {
 
         /// <inheritdoc />
         public EIndirectAssessmentResult AssembleFailureMechanismWbi1A2(
-            IEnumerable<FmSectionAssemblyIndirectResult> fmSectionAssemblyResults, bool partialAssembly) {
-            if (fmSectionAssemblyResults == null) {
+            IEnumerable<FmSectionAssemblyIndirectResult> fmSectionAssemblyResults, bool partialAssembly)
+        {
+            if (fmSectionAssemblyResults == null)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             List<FmSectionAssemblyIndirectResult> sectionResults = fmSectionAssemblyResults.ToList();
 
-            if (sectionResults.Count == 0) {
+            if (sectionResults.Count == 0)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult",
                     EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
             var returnValue = EIndirectAssessmentResult.Nvt;
-            foreach (var sectionResult in sectionResults) {
-                switch (sectionResult.Result) {
-                case EIndirectAssessmentResult.Ngo:
-                    if (!partialAssembly) {
-                        return EIndirectAssessmentResult.Ngo;
-                    }
+            foreach (var sectionResult in sectionResults)
+            {
+                switch (sectionResult.Result)
+                {
+                    case EIndirectAssessmentResult.Ngo:
+                        if (!partialAssembly)
+                        {
+                            return EIndirectAssessmentResult.Ngo;
+                        }
 
-                    break;
-                case EIndirectAssessmentResult.Nvt:
-                case EIndirectAssessmentResult.FvEt:
-                case EIndirectAssessmentResult.FvGt:
-                case EIndirectAssessmentResult.FvTom:
-                case EIndirectAssessmentResult.FactoredInOtherFailureMechanism:
-                    if (sectionResult.Result.IsLowerCategoryThan(returnValue)) {
-                        returnValue = sectionResult.Result;
-                    }
+                        break;
+                    case EIndirectAssessmentResult.Nvt:
+                    case EIndirectAssessmentResult.FvEt:
+                    case EIndirectAssessmentResult.FvGt:
+                    case EIndirectAssessmentResult.FvTom:
+                    case EIndirectAssessmentResult.FactoredInOtherFailureMechanism:
+                        if (sectionResult.Result.IsLowerCategoryThan(returnValue))
+                        {
+                            returnValue = sectionResult.Result;
+                        }
 
-                    break;
-                case EIndirectAssessmentResult.Gr:
-                    return EIndirectAssessmentResult.Gr;
-                default:
-                    throw new AssemblyException(
-                        "AssembleFailureMechanismResult: " + sectionResult.Result,
-                        EAssemblyErrors.CategoryNotAllowed);
+                        break;
+                    case EIndirectAssessmentResult.Gr:
+                        return EIndirectAssessmentResult.Gr;
+                    default:
+                        throw new AssemblyException(
+                            "AssembleFailureMechanismResult: " + sectionResult.Result,
+                            EAssemblyErrors.CategoryNotAllowed);
                 }
             }
 
@@ -142,57 +159,65 @@ namespace Assembly.Kernel.Implementations {
         /// <inheritdoc />
         public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
             FailureMechanism failureMechanism, IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults,
-            bool partialAssembly) {
+            bool partialAssembly)
+        {
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
             var failureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
             var failureProbFound = false;
-            foreach (var fmSectionResult in fmSectionAssemblyResults) {
-                switch (fmSectionResult.Result) {
-                case EFmSectionCategory.Iv:
-                case EFmSectionCategory.IIv:
-                case EFmSectionCategory.IIIv:
-                case EFmSectionCategory.IVv:
-                case EFmSectionCategory.Vv:
-                case EFmSectionCategory.VIv:
-                    if (double.IsNaN(fmSectionResult.FailureProbability)) {
-                        throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
-                    }
+            foreach (var fmSectionResult in fmSectionAssemblyResults)
+            {
+                switch (fmSectionResult.Result)
+                {
+                    case EFmSectionCategory.Iv:
+                    case EFmSectionCategory.IIv:
+                    case EFmSectionCategory.IIIv:
+                    case EFmSectionCategory.IVv:
+                    case EFmSectionCategory.Vv:
+                    case EFmSectionCategory.VIv:
+                        if (double.IsNaN(fmSectionResult.FailureProbability))
+                        {
+                            throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
+                        }
 
-                    // This failuremechanism section contains a failure probability 
-                    failureProbFound = true;
+                        // This failuremechanism section contains a failure probability 
+                        failureProbFound = true;
 
-                    var sectionFailureProb = fmSectionResult.FailureProbability;
-                    if (sectionFailureProb > highestFailureProbability) {
-                        highestFailureProbability = sectionFailureProb;
-                    }
+                        var sectionFailureProb = fmSectionResult.FailureProbability;
+                        if (sectionFailureProb > highestFailureProbability)
+                        {
+                            highestFailureProbability = sectionFailureProb;
+                        }
 
-                    failureProbProduct *= 1.0 - sectionFailureProb;
-                    break;
-                case EFmSectionCategory.VIIv:
-                    // If one of the results is VIIv and it isn't a partial result,
-                    // the resulting category will also be VIIt. See FO 6.2.1
-                    if (!partialAssembly) {
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt);
-                    }
+                        failureProbProduct *= 1.0 - sectionFailureProb;
+                        break;
+                    case EFmSectionCategory.VIIv:
+                        // If one of the results is VIIv and it isn't a partial result,
+                        // the resulting category will also be VIIt. See FO 6.2.1
+                        if (!partialAssembly)
+                        {
+                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt);
+                        }
 
-                    continue;
-                case EFmSectionCategory.Gr:
-                    // if one of the input categories is No result and it isn't a partial result, 
-                    // the resulting category will also be no result. See FO 6.2.1
-                    if (!partialAssembly) {
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr);
-                    }
+                        continue;
+                    case EFmSectionCategory.Gr:
+                        // if one of the input categories is No result and it isn't a partial result, 
+                        // the resulting category will also be no result. See FO 6.2.1
+                        if (!partialAssembly)
+                        {
+                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr);
+                        }
 
-                    continue;
-                case EFmSectionCategory.NotApplicable:
-                    // ignore not applicable category
-                    continue;
+                        continue;
+                    case EFmSectionCategory.NotApplicable:
+                        // ignore not applicable category
+                        continue;
                 }
             }
 
-            if (!failureProbFound) {
+            if (!failureProbFound)
+            {
                 return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt);
             }
 

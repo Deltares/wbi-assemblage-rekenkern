@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,26 +20,29 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model.FmSectionTypes {
-
+namespace Assembly.Kernel.Model.FmSectionTypes
+{
     /// <summary>
     /// Base class for the failure mechanism section assembly result.
     /// </summary>
-    public abstract class FmSectionAssemblyResult {
-        /// <summary>
-        /// The type of the FmSection assembly result.
-        /// </summary>
-        public EAssembledAssessmentResultType ResultType { get; }
-
+    public abstract class FmSectionAssemblyResult
+    {
         /// <summary>
         /// FmSectionAssemblyResult constructor.
         /// </summary>
         /// <param name="resultType">Result type of the assembly result</param>
-        protected FmSectionAssemblyResult(EAssembledAssessmentResultType resultType) {
+        protected FmSectionAssemblyResult(EAssembledAssessmentResultType resultType)
+        {
             ResultType = resultType;
         }
+
+        /// <summary>
+        /// The type of the FmSection assembly result.
+        /// </summary>
+        public EAssembledAssessmentResultType ResultType { get; }
 
         /// <summary>
         /// Does the assessment result have a result other than Gr.

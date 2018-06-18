@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,18 +20,16 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Indirect failure mechanism with assessment result category.
     /// </summary>
-    public class FmSectionWithIndirectCategory : FmSectionWithCategory {
-        /// <summary>
-        /// The assessment result of the indirect failure mechanism of this section.
-        /// </summary>
-        public EIndirectAssessmentResult Category { get; set; }
-
+    public class FmSectionWithIndirectCategory : FmSectionWithCategory
+    {
         /// <summary>
         /// Indirect failure mechanism with category
         /// </summary>
@@ -39,9 +38,16 @@ namespace Assembly.Kernel.Model {
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure mechanism section</param>
-        public FmSectionWithIndirectCategory(double sectionStart, double sectionEnd, EIndirectAssessmentResult category) : 
-            base(sectionStart, sectionEnd, EAssembledAssessmentResultType.IndirectAssessment) {
+        public FmSectionWithIndirectCategory(double sectionStart, double sectionEnd,
+            EIndirectAssessmentResult category) :
+            base(sectionStart, sectionEnd, EAssembledAssessmentResultType.IndirectAssessment)
+        {
             Category = category;
         }
+
+        /// <summary>
+        /// The assessment result of the indirect failure mechanism of this section.
+        /// </summary>
+        public EIndirectAssessmentResult Category { get; set; }
     }
 }

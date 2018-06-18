@@ -26,11 +26,13 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Implementations.Validators {
+namespace Assembly.Kernel.Implementations.Validators
+{
     /// <summary>
     /// Validator for an AssessmentSection object.
     /// </summary>
-    public class AssessmentSectionValidator {
+    public class AssessmentSectionValidator
+    {
         /// <summary>
         /// Check all input parameters of an assessment section object.
         /// </summary>
@@ -41,26 +43,32 @@ namespace Assembly.Kernel.Implementations.Validators {
         /// section. Must be &gt;= 0 &lt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid.</exception>
         public static void CheckAssessmentSectionInput(double length,
-            double failureProbabilitySignallingLimit, double failureProbabilityLowerLimit) {
+            double failureProbabilitySignallingLimit, double failureProbabilityLowerLimit)
+        {
             var errors = new List<AssemblyErrorMessage>();
-            if (length <= 0) {
+            if (length <= 0)
+            {
                 errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SectionLengthOutOfRange));
             }
 
-            if (failureProbabilityLowerLimit < 0 || failureProbabilityLowerLimit > 1) {
+            if (failureProbabilityLowerLimit < 0 || failureProbabilityLowerLimit > 1)
+            {
                 errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.LowerLimitOutOfRange));
             }
 
-            if (failureProbabilitySignallingLimit < 0 || failureProbabilitySignallingLimit > 1) {
+            if (failureProbabilitySignallingLimit < 0 || failureProbabilitySignallingLimit > 1)
+            {
                 errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SignallingLimitOutOfRange));
             }
 
-            if (failureProbabilitySignallingLimit > failureProbabilityLowerLimit) {
+            if (failureProbabilitySignallingLimit > failureProbabilityLowerLimit)
+            {
                 errors.Add(
                     new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SignallingLimitAboveLowerLimit));
             }
 
-            if (errors.Count > 0) {
+            if (errors.Count > 0)
+            {
                 throw new AssemblyException(errors);
             }
         }

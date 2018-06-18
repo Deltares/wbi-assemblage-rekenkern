@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,28 +20,22 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Assessment section assembly result.
     /// </summary>
-    public class AssessmentSectionAssemblyResult {
-        /// <summary>
-        /// The assessment grade.
-        /// </summary>
-        public EAssessmentGrade Category { get; }
-        /// <summary>
-        /// The failure probability belonging to the result.
-        /// If the failure mechanism is without failure probability this property will be null.
-        /// </summary>
-        public double FailureProbability { get; }
-
+    public class AssessmentSectionAssemblyResult
+    {
         /// <summary>
         /// AssessmentSectionAssemblyResult constructor without a failure probability.
         /// </summary>
         /// <param name="category">The assembly assessment grade</param>
-        public AssessmentSectionAssemblyResult(EAssessmentGrade category) {
+        public AssessmentSectionAssemblyResult(EAssessmentGrade category)
+        {
             Category = category;
             FailureProbability = double.NaN;
         }
@@ -50,19 +45,32 @@ namespace Assembly.Kernel.Model {
         /// </summary>
         /// <param name="category">The assembly assessment grade</param>
         /// <param name="failureProbability">The failure probability of the assessment</param>
-        public AssessmentSectionAssemblyResult(EAssessmentGrade category, double failureProbability) {
+        public AssessmentSectionAssemblyResult(EAssessmentGrade category, double failureProbability)
+        {
             Category = category;
             FailureProbability = failureProbability;
         }
 
         /// <summary>
+        /// The assessment grade.
+        /// </summary>
+        public EAssessmentGrade Category { get; }
+
+        /// <summary>
+        /// The failure probability belonging to the result.
+        /// If the failure mechanism is without failure probability this property will be null.
+        /// </summary>
+        public double FailureProbability { get; }
+
+        /// <summary>
         /// Creates a new Assessment section assembly result from the current result.
         /// </summary>
         /// <returns>The newly created assembly result</returns>
-        public AssessmentSectionAssemblyResult CreateNewFrom() {
-            return double.IsNaN(FailureProbability) ?
-                new AssessmentSectionAssemblyResult(Category) :
-                new AssessmentSectionAssemblyResult(Category, FailureProbability);
+        public AssessmentSectionAssemblyResult CreateNewFrom()
+        {
+            return double.IsNaN(FailureProbability)
+                ? new AssessmentSectionAssemblyResult(Category)
+                : new AssessmentSectionAssemblyResult(Category, FailureProbability);
         }
     }
 }

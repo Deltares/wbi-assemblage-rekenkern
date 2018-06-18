@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,29 +20,18 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Failure mechanism section with assessment category.
     /// </summary>
-    public abstract class FmSectionWithCategory {
-        /// <summary>
-        /// The start of the section in meters from the beginning of the assessment section.
-        /// </summary>
-        public double SectionStart { get; }
-        /// <summary>
-        /// The end of the section in meters from the beginning of the assessment section.
-        /// </summary>
-        public double SectionEnd { get; }
-       
-        /// <summary>
-        /// Whether this section contains direct or indirect results.
-        /// </summary>
-        public EAssembledAssessmentResultType Type { get; }
-
+    public abstract class FmSectionWithCategory
+    {
         /// <summary>
         /// Failure mechanism with category constructor.
         /// </summary>
@@ -52,13 +42,31 @@ namespace Assembly.Kernel.Model {
         /// <param name="type">The type of failure mechanism (direct or indirect)</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        protected FmSectionWithCategory(double sectionStart, double sectionEnd, EAssembledAssessmentResultType type) {
-            if (sectionStart < 0.0 || sectionEnd < 0.0 || sectionEnd <= sectionStart) {
+        protected FmSectionWithCategory(double sectionStart, double sectionEnd, EAssembledAssessmentResultType type)
+        {
+            if (sectionStart < 0.0 || sectionEnd < 0.0 || sectionEnd <= sectionStart)
+            {
                 throw new AssemblyException("FmSectionWithCategory", EAssemblyErrors.FmSectionSectionStartEndInvalid);
             }
+
             SectionStart = sectionStart;
             SectionEnd = sectionEnd;
             Type = type;
         }
+
+        /// <summary>
+        /// The start of the section in meters from the beginning of the assessment section.
+        /// </summary>
+        public double SectionStart { get; }
+
+        /// <summary>
+        /// The end of the section in meters from the beginning of the assessment section.
+        /// </summary>
+        public double SectionEnd { get; }
+
+        /// <summary>
+        /// Whether this section contains direct or indirect results.
+        /// </summary>
+        public EAssembledAssessmentResultType Type { get; }
     }
 }

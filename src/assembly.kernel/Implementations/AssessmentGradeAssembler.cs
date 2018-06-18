@@ -30,55 +30,64 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 
-namespace Assembly.Kernel.Implementations {
+namespace Assembly.Kernel.Implementations
+{
     /// <inheritdoc />
-    public class AssessmentGradeAssembler : IAssessmentGradeAssembler {
+    public class AssessmentGradeAssembler : IAssessmentGradeAssembler
+    {
         private readonly ICategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
 
         /// <inheritdoc />
         public EAssessmentGrade AssembleAssessmentSectionWbi2A1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            bool partialAssembly) {
-            if (failureMechanismAssemblyResults == null) {
+            bool partialAssembly)
+        {
+            if (failureMechanismAssemblyResults == null)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             List<FailureMechanismAssemblyResult> failureMechanismResults = failureMechanismAssemblyResults.ToList();
 
-            if (failureMechanismResults.Count == 0) {
+            if (failureMechanismResults.Count == 0)
+            {
                 throw new AssemblyException("AssembleFailureMechanismResult",
                     EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
             var resultCategory = EFailureMechanismCategory.Nvt;
-            foreach (var failureMechanismResult in failureMechanismResults) {
-                switch (failureMechanismResult.Category) {
-                case EFailureMechanismCategory.It:
-                case EFailureMechanismCategory.IIt:
-                case EFailureMechanismCategory.IIIt:
-                case EFailureMechanismCategory.IVt:
-                case EFailureMechanismCategory.Vt:
-                case EFailureMechanismCategory.VIt:
-                    if (failureMechanismResult.Category.IsLowerCategoryThan(resultCategory)) {
-                        resultCategory = failureMechanismResult.Category;
-                    }
+            foreach (var failureMechanismResult in failureMechanismResults)
+            {
+                switch (failureMechanismResult.Category)
+                {
+                    case EFailureMechanismCategory.It:
+                    case EFailureMechanismCategory.IIt:
+                    case EFailureMechanismCategory.IIIt:
+                    case EFailureMechanismCategory.IVt:
+                    case EFailureMechanismCategory.Vt:
+                    case EFailureMechanismCategory.VIt:
+                        if (failureMechanismResult.Category.IsLowerCategoryThan(resultCategory))
+                        {
+                            resultCategory = failureMechanismResult.Category;
+                        }
 
-                    break;
-                case EFailureMechanismCategory.VIIt:
-                    if (!partialAssembly) {
-                        return EAssessmentGrade.Ngo;
-                    }
+                        break;
+                    case EFailureMechanismCategory.VIIt:
+                        if (!partialAssembly)
+                        {
+                            return EAssessmentGrade.Ngo;
+                        }
 
-                    break;
-                case EFailureMechanismCategory.Nvt:
-                    // ignore does not apply category
-                    break;
-                case EFailureMechanismCategory.Gr:
-                    return EAssessmentGrade.Gr;
-                default:
-                    throw new AssemblyException(
-                        "AssembleFailureMechanismResult: " + failureMechanismResult.Category,
-                        EAssemblyErrors.CategoryNotAllowed);
+                        break;
+                    case EFailureMechanismCategory.Nvt:
+                        // ignore does not apply category
+                        break;
+                    case EFailureMechanismCategory.Gr:
+                        return EAssessmentGrade.Gr;
+                    default:
+                        throw new AssemblyException(
+                            "AssembleFailureMechanismResult: " + failureMechanismResult.Category,
+                            EAssemblyErrors.CategoryNotAllowed);
                 }
             }
 
@@ -88,52 +97,59 @@ namespace Assembly.Kernel.Implementations {
         /// <inheritdoc />
         public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(AssessmentSection section,
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            bool partialAssembly) {
+            bool partialAssembly)
+        {
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
             var failureProbProduct = 1.0;
             var failureProbFound = false;
 
-            foreach (var failureMechanismAssemblyResult in failureMechanismAssemblyResults) {
-                switch (failureMechanismAssemblyResult.Category) {
-                case EFailureMechanismCategory.It:
-                case EFailureMechanismCategory.IIt:
-                case EFailureMechanismCategory.IIIt:
-                case EFailureMechanismCategory.IVt:
-                case EFailureMechanismCategory.Vt:
-                case EFailureMechanismCategory.VIt:
-                    if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability)) {
-                        throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
-                    }
+            foreach (var failureMechanismAssemblyResult in failureMechanismAssemblyResults)
+            {
+                switch (failureMechanismAssemblyResult.Category)
+                {
+                    case EFailureMechanismCategory.It:
+                    case EFailureMechanismCategory.IIt:
+                    case EFailureMechanismCategory.IIIt:
+                    case EFailureMechanismCategory.IVt:
+                    case EFailureMechanismCategory.Vt:
+                    case EFailureMechanismCategory.VIt:
+                        if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability))
+                        {
+                            throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
+                        }
 
-                    // This failuremechanism section contains a failure probability 
-                    failureProbFound = true;
+                        // This failuremechanism section contains a failure probability 
+                        failureProbFound = true;
 
-                    var sectionFailureProb = failureMechanismAssemblyResult.FailureProbability;
-                    failureProbProduct *= 1.0 - sectionFailureProb;
-                    break;
-                case EFailureMechanismCategory.VIIt:
-                    // If one of the results is VIIv and it isn't a partial result,
-                    // the resulting category will also be VIIt. See FO 7.2.1
-                    if (!partialAssembly) {
-                        return new AssessmentSectionAssemblyResult(EAssessmentGrade.Ngo);
-                    }
+                        var sectionFailureProb = failureMechanismAssemblyResult.FailureProbability;
+                        failureProbProduct *= 1.0 - sectionFailureProb;
+                        break;
+                    case EFailureMechanismCategory.VIIt:
+                        // If one of the results is VIIv and it isn't a partial result,
+                        // the resulting category will also be VIIt. See FO 7.2.1
+                        if (!partialAssembly)
+                        {
+                            return new AssessmentSectionAssemblyResult(EAssessmentGrade.Ngo);
+                        }
 
-                    continue;
-                case EFailureMechanismCategory.Gr:
-                    // If one of the results is No result and it isn't a partial result,
-                    // the resulting category will also be VIIt. See FO 7.2.1
-                    if (!partialAssembly) {
-                        return new AssessmentSectionAssemblyResult(EAssessmentGrade.Gr);
-                    }
+                        continue;
+                    case EFailureMechanismCategory.Gr:
+                        // If one of the results is No result and it isn't a partial result,
+                        // the resulting category will also be VIIt. See FO 7.2.1
+                        if (!partialAssembly)
+                        {
+                            return new AssessmentSectionAssemblyResult(EAssessmentGrade.Gr);
+                        }
 
-                    continue;
-                case EFailureMechanismCategory.Nvt:
-                    // ignore "does not apply" category
-                    continue;
+                        continue;
+                    case EFailureMechanismCategory.Nvt:
+                        // ignore "does not apply" category
+                        continue;
                 }
             }
 
-            if (!failureProbFound) {
+            if (!failureProbFound)
+            {
                 return new AssessmentSectionAssemblyResult(EAssessmentGrade.Nvt);
             }
 
@@ -153,22 +169,27 @@ namespace Assembly.Kernel.Implementations {
         /// <inheritdoc />
         public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2C1(
             AssessmentSectionAssemblyResult assemblyResultNoFailureProbability,
-            AssessmentSectionAssemblyResult assemblyResultWithFailureProbability) {
-            if (assemblyResultNoFailureProbability == null || assemblyResultWithFailureProbability == null) {
+            AssessmentSectionAssemblyResult assemblyResultWithFailureProbability)
+        {
+            if (assemblyResultNoFailureProbability == null || assemblyResultWithFailureProbability == null)
+            {
                 throw new AssemblyException("AssessmentGradeAssembler", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             // Return the result with failure probability when the assembly result 
             // without failure probability does not apply
-            if (assemblyResultNoFailureProbability.Category == EAssessmentGrade.Nvt) {
+            if (assemblyResultNoFailureProbability.Category == EAssessmentGrade.Nvt)
+            {
                 return assemblyResultWithFailureProbability.CreateNewFrom();
             }
 
             if (assemblyResultNoFailureProbability.Category.IsLowerCategoryThan(assemblyResultWithFailureProbability
-                .Category)) {
+                .Category))
+            {
                 return assemblyResultNoFailureProbability.CreateNewFrom();
-            } 
-            return assemblyResultWithFailureProbability.CreateNewFrom();    
+            }
+
+            return assemblyResultWithFailureProbability.CreateNewFrom();
         }
     }
 }

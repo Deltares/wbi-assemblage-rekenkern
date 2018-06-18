@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,29 +20,19 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations.Validators;
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Assessment Section data object
     /// </summary>
-    public class AssessmentSection {
-        /// <summary>
-        /// Length of the assesment section in meters.
-        /// </summary>
-        public double Length { get; }
-        /// <summary>
-        /// signalling limit for failure probability of the section in 1/years.
-        /// </summary>
-        public double FailureProbabilitySignallingLimit { get; }
-        /// <summary>
-        /// lower limit for failure probability of the section in 1/years. 
-        /// </summary>
-        public double FailureProbabilityLowerLimit { get; }
-
+    public class AssessmentSection
+    {
         /// <summary>
         /// AssessmentSection Constructor
         /// </summary>
@@ -52,9 +43,9 @@ namespace Assembly.Kernel.Model {
         /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
         public AssessmentSection(double length, double failureProbabilitySignallingLimit,
-            double failureProbabilityLowerLimit) {
-
-            AssessmentSectionValidator.CheckAssessmentSectionInput(length, failureProbabilitySignallingLimit, 
+            double failureProbabilityLowerLimit)
+        {
+            AssessmentSectionValidator.CheckAssessmentSectionInput(length, failureProbabilitySignallingLimit,
                 failureProbabilityLowerLimit);
 
             Length = length;
@@ -63,10 +54,26 @@ namespace Assembly.Kernel.Model {
         }
 
         /// <summary>
+        /// Length of the assesment section in meters.
+        /// </summary>
+        public double Length { get; }
+
+        /// <summary>
+        /// signalling limit for failure probability of the section in 1/years.
+        /// </summary>
+        public double FailureProbabilitySignallingLimit { get; }
+
+        /// <summary>
+        /// lower limit for failure probability of the section in 1/years. 
+        /// </summary>
+        public double FailureProbabilityLowerLimit { get; }
+
+        /// <summary>
         /// Generates string from assessment section object.
         /// </summary>
         /// <returns>Text representation of the assessment section object</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return
                 $"Failure prob signalling limit: {FailureProbabilitySignallingLimit}, " +
                 $"Failure prob lower limit: {FailureProbabilityLowerLimit}";

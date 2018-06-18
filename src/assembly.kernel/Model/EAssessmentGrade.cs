@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 namespace Assembly.Kernel.Model
@@ -26,37 +28,45 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// The different kind of ratings for an assessment.
     /// </summary>
-    public enum EAssessmentGrade {
+    public enum EAssessmentGrade
+    {
         /// <summary>
         /// Highest rating
         /// Assessment section is well above standard
         /// </summary>
         APlus,
+
         /// <summary>
         /// Assessment section complies with standard
         /// </summary>
         A,
+
         /// <summary>
         /// Assessment section complies with lower limit but fails signalling limit
         /// </summary>
         B,
+
         /// <summary>
         /// Assessment section fails both signalling and lower limits
         /// </summary>
         C,
+
         /// <summary>
         /// Lowest rating
         /// Assessment section fails both limits well
         /// </summary>
         D,
+
         /// <summary>
         /// No verdict yet
         /// </summary>
         Ngo,
+
         /// <summary>
         /// Does not apply
         /// </summary>
         Nvt,
+
         /// <summary>
         /// No result 
         /// </summary>

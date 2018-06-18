@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,40 +20,49 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model {
+namespace Assembly.Kernel.Model
+{
     /// <summary>
     /// Assessment results for indirect failure mechanisms.
     /// </summary>
-    public enum EIndirectAssessmentResult {
+    public enum EIndirectAssessmentResult
+    {
         /// <summary>
         /// No judgement yet
         /// </summary>
         Ngo,
+
         /// <summary>
         /// Does not apply
         /// </summary>
         Nvt,
+
         /// <summary>
         /// Failure probability negligible for a simple assessment
         /// </summary>
         FvEt,
+
         /// <summary>
         /// Failure probability negligible for a detailed assessment
         /// </summary>
         FvGt,
+
         /// <summary>
         /// Failure probability negligible for a custom assessment
         /// </summary>
         FvTom,
+
         /// <summary>
         /// Discounted with relevant failure mechanisms
         /// </summary>
         FactoredInOtherFailureMechanism,
+
         /// <summary>
         /// No result
         /// </summary>
-        Gr,
+        Gr
     }
 }

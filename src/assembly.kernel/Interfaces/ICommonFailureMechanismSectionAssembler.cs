@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,19 +20,21 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 
-namespace Assembly.Kernel.Interfaces {
+namespace Assembly.Kernel.Interfaces
+{
     /// <summary>
     /// Assemble failure mechanism section results of multiple failure mechanisms to 
     /// a greatest denominator section result.
     /// </summary>
-    public interface ICommonFailureMechanismSectionAssembler {
-
+    public interface ICommonFailureMechanismSectionAssembler
+    {
         /// <summary>
         /// Assemble failure mechanism section results into a greatest common denominator assembly result.
         /// </summary>
@@ -45,7 +48,7 @@ namespace Assembly.Kernel.Interfaces {
         /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
         AssemblyResult AssembleCommonFailureMechanismSections(
-            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength, 
+            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly);
     }
 }

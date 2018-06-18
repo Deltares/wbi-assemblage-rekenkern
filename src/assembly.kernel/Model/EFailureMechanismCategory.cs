@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 // ReSharper disable InconsistentNaming
@@ -27,41 +29,49 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// Failure mechanism categories.
     /// </summary>
-    public enum EFailureMechanismCategory {
-        
+    public enum EFailureMechanismCategory
+    {
         /// <summary>
         /// Highest rating
         /// Well above signalling limit
         /// </summary>
         It,
+
         /// <summary>
         /// Complies with signalling limit
         /// </summary>
         IIt,
+
         /// <summary>
         /// Complies with lower limit and probably with signalling limit
         /// </summary>
         IIIt,
+
         /// <summary>
         /// Complies with lower limit
         /// </summary>
         IVt,
+
         /// <summary>
         /// Does not comply with lower limit
         /// </summary>
         Vt,
+
         /// <summary>
         /// Well below lower limit
         /// </summary>
         VIt,
+
         /// <summary>
         /// No verdict yet
         /// </summary>
         VIIt,
+
         /// <summary>
         /// Does not apply
         /// </summary>
         Nvt,
+
         /// <summary>
         /// No result
         /// </summary>

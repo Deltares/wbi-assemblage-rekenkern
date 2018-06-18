@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
@@ -26,11 +28,13 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace Assembly.Kernel.Interfaces {
+namespace Assembly.Kernel.Interfaces
+{
     /// <summary>
     /// Translate assessment results to an failure mechanism section assessment result.
     /// </summary>
-    public interface IAssessmentResultsTranslator {
+    public interface IAssessmentResultsTranslator
+    {
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0E-1
         /// </summary>
@@ -38,6 +42,7 @@ namespace Assembly.Kernel.Interfaces {
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment);
+
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0E-3
         /// </summary>
@@ -45,6 +50,7 @@ namespace Assembly.Kernel.Interfaces {
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment);
+
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0G-1
         /// </summary>
@@ -52,6 +58,7 @@ namespace Assembly.Kernel.Interfaces {
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G1(EAssessmentResultTypeG1 assessment);
+
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0T-1
         /// </summary>
@@ -175,7 +182,7 @@ namespace Assembly.Kernel.Interfaces {
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G5(AssessmentSection section,
-            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment, 
+            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment,
             double failureProbability);
 
         /// <summary>

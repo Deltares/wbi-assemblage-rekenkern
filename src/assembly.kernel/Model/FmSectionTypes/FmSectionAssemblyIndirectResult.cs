@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,31 +20,34 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Model.FmSectionTypes {
+namespace Assembly.Kernel.Model.FmSectionTypes
+{
     /// <summary>
     /// Failure mechanism assessment translation result for indirect failure mechanisms.
     /// </summary>
-    public class FmSectionAssemblyIndirectResult : FmSectionAssemblyResult {
+    public class FmSectionAssemblyIndirectResult : FmSectionAssemblyResult
+    {
+        /// <summary>
+        /// Constructor of the indirect failure mechanism assembly result.
+        /// </summary>
+        /// <param name="result">The translated category type of the result</param>
+        public FmSectionAssemblyIndirectResult(EIndirectAssessmentResult result) :
+            base(EAssembledAssessmentResultType.IndirectAssessment)
+        {
+            Result = result;
+        }
 
         /// <summary>
         /// The Failure mechanism section category as result of the assessment result translation.
         /// </summary>
         public EIndirectAssessmentResult Result { get; }
 
-        /// <summary>
-        /// Constructor of the indirect failure mechanism assembly result.
-        /// </summary>
-        /// <param name="result">The translated category type of the result</param>
-        public FmSectionAssemblyIndirectResult(EIndirectAssessmentResult result) :
-            base(EAssembledAssessmentResultType.IndirectAssessment) {
-
-            Result = result;
-        }
-
         /// <inheritdoc />
-        public override FmSectionAssemblyResult Clone() {
+        public override FmSectionAssemblyResult Clone()
+        {
             return new FmSectionAssemblyIndirectResult(Result);
         }
 
@@ -51,12 +55,14 @@ namespace Assembly.Kernel.Model.FmSectionTypes {
         /// Convert to string
         /// </summary>
         /// <returns>String of the object</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return "FmSectionAssemblyIndirectResult [" + Result + "]";
         }
 
         /// <inheritdoc />
-        public override bool HasResult() {
+        public override bool HasResult()
+        {
             return Result != EIndirectAssessmentResult.Gr;
         }
     }

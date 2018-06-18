@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,13 +20,27 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
-namespace Assembly.Kernel.Exceptions {
+namespace Assembly.Kernel.Exceptions
+{
     /// <summary>
     /// Error message containing detailed information of the origin of the error.
     /// </summary>
-    public class AssemblyErrorMessage {
+    public class AssemblyErrorMessage
+    {
+        /// <summary>
+        /// Error message.
+        /// </summary>
+        /// <param name="entityId">The id of the entity on which the error occurred</param>
+        /// <param name="errorCode">The code of the error which occurred</param>
+        public AssemblyErrorMessage(string entityId, EAssemblyErrors errorCode)
+        {
+            EntityId = entityId;
+            ErrorCode = errorCode;
+        }
+
         /// <summary>
         /// Id of the entity on which the error occurred.
         /// </summary>
@@ -35,16 +50,5 @@ namespace Assembly.Kernel.Exceptions {
         /// The code of the error which occurred
         /// </summary>
         public EAssemblyErrors ErrorCode { get; }
-
-        /// <summary>
-        /// Error message.
-        /// </summary>
-        /// <param name="entityId">The id of the entity on which the error occurred</param>
-        /// <param name="errorCode">The code of the error which occurred</param>
-        public AssemblyErrorMessage(string entityId, EAssemblyErrors errorCode) {
-            EntityId = entityId;
-            ErrorCode = errorCode;
-        }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -26,12 +28,13 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace Assembly.Kernel.Interfaces {
+namespace Assembly.Kernel.Interfaces
+{
     /// <summary>
     /// Assemble Failure mechanism section results into one result for the failure mechanism.
     /// </summary>
-    public interface IFailureMechanismResultAssembler {
-
+    public interface IFailureMechanismResultAssembler
+    {
         /// <summary>
         /// Assemble a list of failure mechanism section assembly direct results to a single failure 
         /// mechanism category. As specified in Wbi-1A-1

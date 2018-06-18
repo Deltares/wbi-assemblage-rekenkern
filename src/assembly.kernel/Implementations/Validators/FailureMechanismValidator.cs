@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,16 +20,19 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Implementations.Validators {
+namespace Assembly.Kernel.Implementations.Validators
+{
     /// <summary>
     /// Validator for failure mechanism objects.
     /// </summary>
-    public class FailureMechanismValidator {
+    public class FailureMechanismValidator
+    {
         /// <summary>
         /// Checks if failure mechanism data is valid.
         /// </summary>
@@ -37,8 +41,8 @@ namespace Assembly.Kernel.Implementations.Validators {
         ///     Must be &gt;= 0 &lt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
         public static void CheckFailureMechanismInput(double lengthEffectFactor,
-            double failureProbabilityMarginFactor) {
-
+            double failureProbabilityMarginFactor)
+        {
             var errors = new List<AssemblyErrorMessage>();
 
             if (failureProbabilityMarginFactor < 0 ||
@@ -53,7 +57,8 @@ namespace Assembly.Kernel.Implementations.Validators {
                 errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
-            if (errors.Count > 0) {
+            if (errors.Count > 0)
+            {
                 throw new AssemblyException(errors);
             }
         }

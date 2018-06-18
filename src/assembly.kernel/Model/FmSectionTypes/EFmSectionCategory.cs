@@ -1,4 +1,5 @@
 ﻿#region Copyright (c) 2018 Technolution BV. All Rights Reserved. 
+
 // // Copyright (C) Technolution BV. 2018. All rights reserved.
 // //
 // // This file is part of the Assembly kernel.
@@ -19,48 +20,59 @@
 // // All names, logos, and references to "Technolution BV" are registered trademarks of
 // // Technolution BV and remain full property of Technolution BV at all times.
 // // All rights reserved.
+
 #endregion
 
 // ReSharper disable InconsistentNaming
-namespace Assembly.Kernel.Model.FmSectionTypes {
+namespace Assembly.Kernel.Model.FmSectionTypes
+{
     /// <summary>
     /// Failure mechanism section categories
     /// </summary>
-    public enum EFmSectionCategory {
+    public enum EFmSectionCategory
+    {
         /// <summary>
         /// Highest rating
         /// Complies with the signalling limit well
         /// </summary>
         Iv,
+
         /// <summary>
         /// Complies with signalling limit
         /// </summary>
         IIv,
+
         /// <summary>
         /// Complies with lower limit, an probably complies with signalling limit
         /// </summary>
         IIIv,
+
         /// <summary>
         /// Probably complies with lower or signalling limit
         /// </summary>
         IVv,
+
         /// <summary>
         /// Complies with lower limit
         /// </summary>
         Vv,
+
         /// <summary>
         /// Lowest rating
         /// Does not comply with both lower and signalling limits
         /// </summary>
         VIv,
+
         /// <summary>
         /// No verdict yet
         /// </summary>
         VIIv,
+
         /// <summary>
         /// No result
         /// </summary>
         Gr,
+
         /// <summary>
         /// Result is not applicable.
         /// </summary>
