@@ -30,8 +30,6 @@ using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-// ReSharper disable UnusedMember.Local
-
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
@@ -133,8 +131,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(EAssessmentResultTypeT2.Vn).Returns(EIndirectAssessmentResult.Ngo);
                     yield return new TestCaseData(EAssessmentResultTypeT2.Ngo).Returns(EIndirectAssessmentResult.Ngo);
                     yield return new TestCaseData(EAssessmentResultTypeT2.Fv).Returns(EIndirectAssessmentResult.FvTom);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult
-                        .FactoredInOtherFailureMechanism);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
                 }
             }
         }

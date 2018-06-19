@@ -597,24 +597,24 @@ namespace Assembly.Kernel.Implementations
         /// <typeparam name="TResult">The resulting output type</typeparam>
         private sealed class ResultMapper<TInput, TResult> : Dictionary<TInput, TResult>
         {
-            private readonly string _translateMethodName;
+            private readonly string translateMethodName;
 
             public ResultMapper(string translateMethodName)
             {
-                _translateMethodName = translateMethodName;
+                this.translateMethodName = translateMethodName;
             }
 
             private void CheckInput(TInput input)
             {
                 if (input == null)
                 {
-                    throw new AssemblyException("TranslateAssessmentResult: " + _translateMethodName,
+                    throw new AssemblyException("TranslateAssessmentResult: " + translateMethodName,
                         EAssemblyErrors.ValueMayNotBeNull);
                 }
 
                 if (!(Keys as ICollection<TInput>).Contains(input))
                 {
-                    throw new AssemblyException(_translateMethodName + " input: " + input,
+                    throw new AssemblyException(translateMethodName + " input: " + input,
                         EAssemblyErrors.TranslateAssessmentInvalidInput);
                 }
             }

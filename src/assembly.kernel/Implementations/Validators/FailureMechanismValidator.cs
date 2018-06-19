@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Implementations.Validators
     /// <summary>
     /// Validator for failure mechanism objects.
     /// </summary>
-    public class FailureMechanismValidator
+    public static class FailureMechanismValidator
     {
         /// <summary>
         /// Checks if failure mechanism data is valid.

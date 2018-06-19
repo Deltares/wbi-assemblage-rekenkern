@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Implementations.Validators
     /// <summary>
     /// Validator for an AssessmentSection object.
     /// </summary>
-    public class AssessmentSectionValidator
+    public static class AssessmentSectionValidator
     {
         /// <summary>
         /// Check all input parameters of an assessment section object.
