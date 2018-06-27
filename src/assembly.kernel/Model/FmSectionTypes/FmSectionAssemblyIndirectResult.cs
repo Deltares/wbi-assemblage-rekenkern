@@ -28,7 +28,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     /// <summary>
     /// Failure mechanism assessment translation result for indirect failure mechanisms.
     /// </summary>
-    public class FmSectionAssemblyIndirectResult : FmSectionAssemblyResult
+    public class FmSectionAssemblyIndirectResult : IFmSectionAssemblyResult
     {
         /// <summary>
         /// Constructor of the indirect failure mechanism assembly result.
@@ -45,7 +45,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public EIndirectAssessmentResult Result { get; }
 
         /// <inheritdoc />
-        public override FmSectionAssemblyResult Clone()
+        public IFmSectionAssemblyResult Clone()
         {
             return new FmSectionAssemblyIndirectResult(Result);
         }
@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         }
 
         /// <inheritdoc />
-        public override bool HasResult()
+        public bool HasResult()
         {
             return Result != EIndirectAssessmentResult.Gr;
         }

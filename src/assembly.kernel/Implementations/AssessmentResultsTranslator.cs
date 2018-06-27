@@ -460,7 +460,7 @@ namespace Assembly.Kernel.Implementations
          */
 
         /// <inheritdoc />
-        public FmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        public IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult)
@@ -474,7 +474,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        public IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult)
@@ -486,10 +486,10 @@ namespace Assembly.Kernel.Implementations
             return result ?? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr);
         }
 
-        private static FmSectionAssemblyResult Wbi0A1(
-            FmSectionAssemblyResult simpleAssessmentResult,
-            FmSectionAssemblyResult detailedAssessmentResult,
-            FmSectionAssemblyResult customAssessmentResult)
+        private static IFmSectionAssemblyResult Wbi0A1(
+            IFmSectionAssemblyResult simpleAssessmentResult,
+            IFmSectionAssemblyResult detailedAssessmentResult,
+            IFmSectionAssemblyResult customAssessmentResult)
         {
             if (simpleAssessmentResult == null)
             {

@@ -30,7 +30,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     /// <summary>
     /// Failure mechanism assessment translation result for direct failure mechanisms.
     /// </summary>
-    public class FmSectionAssemblyDirectResult : FmSectionAssemblyResult
+    public class FmSectionAssemblyDirectResult : IFmSectionAssemblyResult
     {
         /// <summary>
         /// Constructor of the direct failure mechanism assembly result.
@@ -73,7 +73,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public double FailureProbability { get; }
 
         /// <inheritdoc />
-        public override FmSectionAssemblyResult Clone()
+        public IFmSectionAssemblyResult Clone()
         {
             return double.IsNaN(FailureProbability)
                 ? new FmSectionAssemblyDirectResult(Result)
@@ -90,7 +90,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         }
 
         /// <inheritdoc />
-        public override bool HasResult()
+        public bool HasResult()
         {
             return Result != EFmSectionCategory.Gr;
         }

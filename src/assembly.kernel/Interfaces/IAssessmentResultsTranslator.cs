@@ -241,7 +241,7 @@ namespace Assembly.Kernel.Interfaces
         /// May be null when not available</param>
         /// <returns>The normative result.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        FmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult);
@@ -257,7 +257,7 @@ namespace Assembly.Kernel.Interfaces
         /// May be null when not available</param>
         /// <returns>The normative result.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        FmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult);

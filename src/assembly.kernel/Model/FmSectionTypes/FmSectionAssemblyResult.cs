@@ -28,18 +28,18 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     /// <summary>
     /// Base class for the failure mechanism section assembly result.
     /// </summary>
-    public abstract class FmSectionAssemblyResult
+    public interface IFmSectionAssemblyResult
     {
         /// <summary>
         /// Does the assessment result have a result other than Gr.
         /// </summary>
         /// <returns>false if the assessment result is Gr</returns>
-        public abstract bool HasResult();
+        bool HasResult();
 
         /// <summary>
         /// Creates a copy of the current FmSectionAssemblyResult.
         /// </summary>
         /// <returns>The newly created FmSectionAssemblyResult</returns>
-        public abstract FmSectionAssemblyResult Clone();
+        IFmSectionAssemblyResult Clone();
     }
 }
