@@ -454,7 +454,7 @@ namespace Assembly.Kernel.Implementations
          */
 
         /// <inheritdoc />
-        public IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult)
@@ -464,11 +464,25 @@ namespace Assembly.Kernel.Implementations
                 detailedAssessmentResult,
                 customAssessmentResult);
 
-            return result ?? new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
+            return result == null ? new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr) : (FmSectionAssemblyDirectResult)result;
         }
 
         /// <inheritdoc />
-        public IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
+            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
+        {
+            var result = Wbi0A1(
+                simpleAssessmentResult,
+                detailedAssessmentResult,
+                customAssessmentResult);
+
+            return result == null ? new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN) : (FmSectionAssemblyDirectResultWithProbability)result;
+        }
+
+        /// <inheritdoc />
+        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult)
@@ -477,7 +491,7 @@ namespace Assembly.Kernel.Implementations
                 simpleAssessmentResult,
                 detailedAssessmentResult,
                 customAssessmentResult);
-            return result ?? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr);
+            return result == null ? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr) : (FmSectionAssemblyIndirectResult)result;
         }
 
         private static IFmSectionAssemblyResult Wbi0A1(

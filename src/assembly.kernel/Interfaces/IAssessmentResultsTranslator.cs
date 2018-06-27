@@ -241,10 +241,26 @@ namespace Assembly.Kernel.Interfaces
         /// May be null when not available</param>
         /// <returns>The normative result.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult);
+
+        /// <summary>
+        /// Translate the assessment result of direct failure mechanism section assessments including estimation 
+        /// of the failure probability to a single normative result. As specified in WBI-0A-1.
+        /// </summary>
+        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
+        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
+        /// May be null when not available</param>
+        /// <param name="customAssessmentResult">The test result of a custom assessment.
+        /// May be null when not available</param>
+        /// <returns>The normative result.</returns>
+        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
+            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability customAssessmentResult);
 
         /// <summary>
         /// Translate the assessment result of indirect failure mechanism section assessments to a 
@@ -257,7 +273,7 @@ namespace Assembly.Kernel.Interfaces
         /// May be null when not available</param>
         /// <returns>The normative result.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        IFmSectionAssemblyResult TranslateAssessmentResultWbi0A1(
+        FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult);

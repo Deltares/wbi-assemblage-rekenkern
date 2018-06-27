@@ -91,6 +91,67 @@ namespace Assembly.Kernel.Tests.Implementations
 
         [Test, TestCaseSource(
              typeof(Wbi0A1TestCases),
+             nameof(Wbi0A1TestCases.Wbi0A1Direct))]
+        public EFmSectionCategory Wbi0A1DirectWithProbabilityTest(
+            EFmSectionCategory? simpleAssessmentResultCategory,
+            EFmSectionCategory? detailedAssessmentResultCategory,
+            EFmSectionCategory? customAssessmentResultCategory)
+        {
+            var simpleAssessmentProbability = 0.4;
+            var detailedAssessmentProbability = 0.5;
+            var customAssessmentProbability = 0.6;
+            var simpleAssessmentResult = simpleAssessmentResultCategory == null ? null : new FmSectionAssemblyDirectResultWithProbability(simpleAssessmentResultCategory.Value, simpleAssessmentProbability);
+            var detailedAssessmentResult = detailedAssessmentResultCategory == null
+                ? null
+                : new FmSectionAssemblyDirectResultWithProbability(detailedAssessmentResultCategory.Value, detailedAssessmentProbability);
+            var customAssessmentResult = customAssessmentResultCategory == null
+                ? null
+                : new FmSectionAssemblyDirectResultWithProbability(customAssessmentResultCategory.Value, customAssessmentProbability);
+
+            var result = translator.TranslateAssessmentResultWbi0A1(simpleAssessmentResult,detailedAssessmentResult,customAssessmentResult);
+
+            Assert.IsNotNull(result);
+
+            if (ReferenceEquals(result, simpleAssessmentResult))
+            {
+                Assert.AreEqual(simpleAssessmentProbability,result.FailureProbability);
+            }
+            if (ReferenceEquals(result, detailedAssessmentResult))
+            {
+                Assert.AreEqual(detailedAssessmentProbability, result.FailureProbability);
+            }
+            if (ReferenceEquals(result, customAssessmentResult))
+            {
+                Assert.AreEqual(customAssessmentProbability, result.FailureProbability);
+            }
+
+            return result.Result;
+        }
+
+        [Test]
+        public void Wbi0A1DirectWithProbabilityNullTest()
+        {
+            try
+            {
+                translator.TranslateAssessmentResultWbi0A1(
+                    (FmSectionAssemblyDirectResultWithProbability)null,
+                    null,
+                    null);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        [Test, TestCaseSource(
+             typeof(Wbi0A1TestCases),
              nameof(Wbi0A1TestCases.Wbi0A1Indirect))]
         public EIndirectAssessmentResult Wbi0A1IndirectTest(
             EIndirectAssessmentResult? simpleAssessmentResult,
