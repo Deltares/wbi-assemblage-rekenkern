@@ -41,18 +41,6 @@ namespace Assembly.Kernel.Tests.Implementations
         private readonly ICommonFailureMechanismSectionAssembler assembler =
             new CommonFailureMechanismSectionAssembler();
 
-        private static FmSectionWithDirectCategory Direct(double sectionStart, double sectionEnd, string category)
-        {
-            Enum.TryParse(category, out EFmSectionCategory parsedCategory);
-            return new FmSectionWithDirectCategory(sectionStart, sectionEnd, parsedCategory);
-        }
-
-        private static FmSectionWithIndirectCategory Indirect(double sectionStart, double sectionEnd, string category)
-        {
-            Enum.TryParse(category, out EIndirectAssessmentResult parsedCategory);
-            return new FmSectionWithIndirectCategory(sectionStart, sectionEnd, parsedCategory);
-        }
-
         private void TestCombinedFailureMechanismSectionAssembler(
             IEnumerable<FailureMechanismSectionList> failureMechanismSections,
             IList<FailureMechanismSectionList> expectedFailureMechanismResults,
@@ -117,19 +105,19 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(20, 30, "Vv"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "IIIv"),
-                    Direct(10, 40, "IVv"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 })
             };
 
@@ -137,35 +125,35 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "Iv"),
-                    Direct(20.0, 30.0, "Vv"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "Iv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 10.0, "IIIv"),
-                    Direct(10.0, 20.0, "IVv"),
-                    Direct(20.0, 30.0, "IVv"),
-                    Direct(30.0, 40.0, "IVv"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 10.0, "IIIv"),
-                Direct(10.0, 20.0, "IVv"),
-                Direct(20.0, 30.0, "Vv"),
-                Direct(30.0, 40.0, "IVv"),
-                Direct(40.0, 45.0, "Vv"),
-                Direct(45.0, 50.0, "Iv")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -182,27 +170,27 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "VIIv"),
-                    Direct(20, 30, "Vv"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "IIIv"),
-                    Direct(10, 40, "IVv"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 }),
 
                 new FailureMechanismSectionList("TEST2", new[]
                 {
-                    Indirect(0, 7, "FvGt"),
-                    Indirect(7, 8, "Ngo"),
-                    Indirect(8, 10, "FvGt"),
-                    Indirect(10, 50, "FvTom")
+                    new FmSectionWithIndirectCategory(0, 7, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(7, 8, EIndirectAssessmentResult.Ngo),
+                    new FmSectionWithIndirectCategory(8, 10, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(10, 50, EIndirectAssessmentResult.FvTom)
                 })
             };
 
@@ -210,53 +198,53 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 7.0, "Iv"),
-                    Direct(7.0, 8.0, "Iv"),
-                    Direct(8.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "VIIv"),
-                    Direct(20.0, 30.0, "Vv"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "Iv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 7.0, "IIIv"),
-                    Direct(7.0, 8.0, "IIIv"),
-                    Direct(8.0, 10.0, "IIIv"),
-                    Direct(10.0, 20.0, "IVv"),
-                    Direct(20.0, 30.0, "IVv"),
-                    Direct(30.0, 40.0, "IVv"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST2", new[]
                 {
-                    Indirect(0.0, 5.0, "FvGt"),
-                    Indirect(5.0, 7.0, "FvGt"),
-                    Indirect(7.0, 8.0, "Ngo"),
-                    Indirect(8.0, 10.0, "FvGt"),
-                    Indirect(10.0, 20.0, "FvTom"),
-                    Indirect(20.0, 30.0, "FvTom"),
-                    Indirect(30.0, 40.0, "FvTom"),
-                    Indirect(40.0, 45.0, "FvTom"),
-                    Indirect(45.0, 50.0, "FvTom")
+                    new FmSectionWithIndirectCategory(0.0, 5.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(5.0, 7.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(7.0, 8.0, EIndirectAssessmentResult.Ngo),
+                    new FmSectionWithIndirectCategory(8.0, 10.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(10.0, 20.0, EIndirectAssessmentResult.FvTom),
+                    new FmSectionWithIndirectCategory(20.0, 30.0, EIndirectAssessmentResult.FvTom),
+                    new FmSectionWithIndirectCategory(30.0, 40.0, EIndirectAssessmentResult.FvTom),
+                    new FmSectionWithIndirectCategory(40.0, 45.0, EIndirectAssessmentResult.FvTom),
+                    new FmSectionWithIndirectCategory(45.0, 50.0, EIndirectAssessmentResult.FvTom)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 7.0, "IIIv"),
-                Direct(7.0, 8.0, "IIIv"),
-                Direct(8.0, 10.0, "IIIv"),
-                Direct(10.0, 20.0, "VIIv"),
-                Direct(20.0, 30.0, "Vv"),
-                Direct(30.0, 40.0, "IVv"),
-                Direct(40.0, 45.0, "Vv"),
-                Direct(45.0, 50.0, "Iv")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.VIIv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -273,24 +261,24 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(20, 30, "VIIv"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "Gr")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Gr)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "IIIv"),
-                    Direct(10, 40, "IVv"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 }),
                 new FailureMechanismSectionList("TEST2", new[]
                 {
-                    Indirect(0, 20, "Gr"),
-                    Indirect(20, 50, "FvGt")
+                    new FmSectionWithIndirectCategory(0, 20, EIndirectAssessmentResult.Gr),
+                    new FmSectionWithIndirectCategory(20, 50, EIndirectAssessmentResult.FvGt)
                 })
             };
 
@@ -298,46 +286,46 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "Iv"),
-                    Direct(20.0, 30.0, "VIIv"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "Gr"),
-                    Direct(45.0, 50.0, "Gr")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Gr),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Gr)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 10.0, "IIIv"),
-                    Direct(10.0, 20.0, "IVv"),
-                    Direct(20.0, 30.0, "IVv"),
-                    Direct(30.0, 40.0, "IVv"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 }),
 
                 new FailureMechanismSectionList("TEST2", new[]
                 {
-                    Indirect(0.0, 5.0, "Gr"),
-                    Indirect(5.0, 10.0, "Gr"),
-                    Indirect(10.0, 20.0, "Gr"),
-                    Indirect(20.0, 30.0, "FvGt"),
-                    Indirect(30.0, 40.0, "FvGt"),
-                    Indirect(40.0, 45.0, "FvGt"),
-                    Indirect(45.0, 50.0, "FvGt")
+                    new FmSectionWithIndirectCategory(0.0, 5.0, EIndirectAssessmentResult.Gr),
+                    new FmSectionWithIndirectCategory(5.0, 10.0, EIndirectAssessmentResult.Gr),
+                    new FmSectionWithIndirectCategory(10.0, 20.0, EIndirectAssessmentResult.Gr),
+                    new FmSectionWithIndirectCategory(20.0, 30.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(30.0, 40.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(40.0, 45.0, EIndirectAssessmentResult.FvGt),
+                    new FmSectionWithIndirectCategory(45.0, 50.0, EIndirectAssessmentResult.FvGt)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 10.0, "IIIv"),
-                Direct(10.0, 20.0, "IVv"),
-                Direct(20.0, 30.0, "VIIv"),
-                Direct(30.0, 40.0, "IVv"),
-                Direct(40.0, 45.0, "Gr"),
-                Direct(45.0, 50.0, "Gr")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Gr),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Gr)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -354,11 +342,11 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(30, 40, "Iv"),
-                    Direct(20, 30, "IIv"),
-                    Direct(40, 45, "IIv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.IIv)
                     // section starting at 45 to 50 is missing.
                 })
             };
@@ -386,19 +374,19 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(20, 30, "NotApplicable"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "IIv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "NotApplicable"),
-                    Direct(10, 40, "NotApplicable"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 })
             };
 
@@ -406,35 +394,35 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "Iv"),
-                    Direct(20.0, 30.0, "NotApplicable"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "IIv"),
-                    Direct(45.0, 50.0, "IIv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 10.0, "NotApplicable"),
-                    Direct(10.0, 20.0, "NotApplicable"),
-                    Direct(20.0, 30.0, "NotApplicable"),
-                    Direct(30.0, 40.0, "NotApplicable"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 10.0, "Iv"),
-                Direct(10.0, 20.0, "Iv"),
-                Direct(20.0, 30.0, "NotApplicable"),
-                Direct(30.0, 40.0, "Iv"),
-                Direct(40.0, 45.0, "Vv"),
-                Direct(45.0, 50.0, "IIv")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -451,19 +439,19 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(20, 30, "NotApplicable"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "IIv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "IIIv"),
-                    Direct(10, 40, "NotApplicable"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 })
             };
 
@@ -471,35 +459,35 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "Iv"),
-                    Direct(20.0, 30.0, "NotApplicable"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "IIv"),
-                    Direct(45.0, 50.0, "IIv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 10.0, "IIIv"),
-                    Direct(10.0, 20.0, "NotApplicable"),
-                    Direct(20.0, 30.0, "NotApplicable"),
-                    Direct(30.0, 40.0, "NotApplicable"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.NotApplicable),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 10.0, "IIIv"),
-                Direct(10.0, 20.0, "Iv"),
-                Direct(20.0, 30.0, "NotApplicable"),
-                Direct(30.0, 40.0, "Iv"),
-                Direct(40.0, 45.0, "Vv"),
-                Direct(45.0, 50.0, "IIv")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -516,19 +504,19 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0, 10, "Iv"),
-                    Direct(10, 20, "Iv"),
-                    Direct(20, 30, "VIIv"),
-                    Direct(30, 40, "Iv"),
-                    Direct(40, 50, "IIv")
+                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0, 5, "IIv"),
-                    Direct(5, 10, "IIIv"),
-                    Direct(10, 40, "IVv"),
-                    Direct(40, 45, "Vv"),
-                    Direct(45, 50, "Iv")
+                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
                 })
             };
 
@@ -536,35 +524,35 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FailureMechanismSectionList("TEST", new[]
                 {
-                    Direct(0.0, 5.0, "Iv"),
-                    Direct(5.0, 10.0, "Iv"),
-                    Direct(10.0, 20.0, "Iv"),
-                    Direct(20.0, 30.0, "VIIv"),
-                    Direct(30.0, 40.0, "Iv"),
-                    Direct(40.0, 45.0, "IIv"),
-                    Direct(45.0, 50.0, "IIv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
                 }),
                 new FailureMechanismSectionList("TEST1", new[]
                 {
-                    Direct(0.0, 5.0, "IIv"),
-                    Direct(5.0, 10.0, "IIIv"),
-                    Direct(10.0, 20.0, "IVv"),
-                    Direct(20.0, 30.0, "IVv"),
-                    Direct(30.0, 40.0, "IVv"),
-                    Direct(40.0, 45.0, "Vv"),
-                    Direct(45.0, 50.0, "Iv")
+                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
                 })
             };
 
             var expectedCombinedResult = new List<FmSectionWithDirectCategory>
             {
-                Direct(0.0, 5.0, "IIv"),
-                Direct(5.0, 10.0, "IIIv"),
-                Direct(10.0, 20.0, "IVv"),
-                Direct(20.0, 30.0, "IVv"),
-                Direct(30.0, 40.0, "IVv"),
-                Direct(40.0, 45.0, "Vv"),
-                Direct(45.0, 50.0, "IIv")
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
+                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
+                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
             };
 
             TestCombinedFailureMechanismSectionAssembler(

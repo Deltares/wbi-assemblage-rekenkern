@@ -141,10 +141,9 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0E1))]
         public EFmSectionCategory Wbi0E1Test(EAssessmentResultTypeE1 assessmentResult)
         {
-            var result = translator.TranslateAssessmentResultWbi0E1(assessmentResult);
+            FmSectionAssemblyDirectResult result = translator.TranslateAssessmentResultWbi0E1(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -155,10 +154,9 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0E2))]
         public EIndirectAssessmentResult Wbi0E2Test(EAssessmentResultTypeE1 assessmentResult)
         {
-            var result = translator.TranslateAssessmentResultWbi0E2(assessmentResult);
+            FmSectionAssemblyIndirectResult result = translator.TranslateAssessmentResultWbi0E2(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.IndirectAssessment,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
 
             return result.Result;
         }
@@ -168,10 +166,9 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0E3))]
         public EFmSectionCategory Wbi0E3Test(EAssessmentResultTypeE2 assessmentResult)
         {
-            var result = translator.TranslateAssessmentResultWbi0E3(assessmentResult);
+            FmSectionAssemblyDirectResult result = translator.TranslateAssessmentResultWbi0E3(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -184,8 +181,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0E4(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.IndirectAssessment,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
 
             return result.Result;
         }
@@ -197,8 +193,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0G1(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -211,8 +206,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0G2(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.IndirectAssessment,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
 
             return result.Result;
         }
@@ -222,10 +216,9 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0T1))]
         public EFmSectionCategory Wbi0T1Test(EAssessmentResultTypeT1 assessmentResult)
         {
-            var result = translator.TranslateAssessmentResultWbi0T1(assessmentResult);
+            FmSectionAssemblyDirectResult result = translator.TranslateAssessmentResultWbi0T1(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -238,8 +231,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0T2(assessmentResult);
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.IndirectAssessment,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
 
             return result.Result;
         }

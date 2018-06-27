@@ -65,7 +65,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 failureProbability);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(failureProbability, result.FailureProbability);
 
             return result.Result;
@@ -83,8 +83,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 double.NaN);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -124,7 +123,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 failureProbability);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(failureProbability * FailureMechanismSectionLengthEffectFactor, result.FailureProbability);
 
             return result.Result;
@@ -143,8 +142,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 double.NaN);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
@@ -180,7 +178,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 FailureMechanismSectionLengthEffectFactor,
                 EAssessmentResultTypeG2.ResultSpecified,
                 0.6);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(1.0, result.FailureProbability);
         }
 
@@ -196,7 +194,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 failureProbability);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(failureProbability, result.FailureProbability);
 
             return result.Result;
@@ -216,14 +214,12 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.NotNull(result);
             if (assessmentResult == EAssessmentResultTypeT3.Fv)
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.AreEqual(0.0, result.FailureProbability);
             }
             else
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.IsNaN(result.FailureProbability);
             }
 
@@ -264,7 +260,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 failureProbability);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(failureProbability * FailureMechanismSectionLengthEffectFactor, result.FailureProbability);
 
             return result.Result;
@@ -285,14 +281,12 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.NotNull(result);
             if (assessmentResult == EAssessmentResultTypeT3.Fv)
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.AreEqual(0.0, result.FailureProbability);
             }
             else
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.IsNaN(result.FailureProbability);
             }
 
@@ -329,7 +323,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 FailureMechanismSectionLengthEffectFactor,
                 EAssessmentResultTypeT3.ResultSpecified,
                 0.6);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(1.0, result.FailureProbability);
         }
 
@@ -345,7 +339,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 failureProbability);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability, result.ResultType);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
             Assert.AreEqual(failureProbability, result.FailureProbability);
 
             return result.Result;
@@ -365,14 +359,12 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.NotNull(result);
             if (assessmentResult == EAssessmentResultTypeT4.Fv)
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.AreEqual(0.0, result.FailureProbability);
             }
             else
             {
-                Assert.AreEqual(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability,
-                    result.ResultType);
+                Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
                 Assert.IsNaN(result.FailureProbability);
             }
 

@@ -37,8 +37,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// The failure probability will be null when this constructor is used.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>
-        public FmSectionAssemblyDirectResult(EFmSectionCategory result) :
-            base(EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability)
+        public FmSectionAssemblyDirectResult(EFmSectionCategory result)
         {
             Result = result;
             FailureProbability = double.NaN;
@@ -50,8 +49,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <param name="result">The translated category type of the result</param>
         /// <param name="failureProbability">The failure probability of the failure mechanism section</param>
         /// <exception cref="AssemblyException">Thrown when failure probability is &lt;0 or &gt;1</exception>
-        public FmSectionAssemblyDirectResult(EFmSectionCategory result, double failureProbability) :
-            base(EAssembledAssessmentResultType.AssessmentCategoryWithFailureProbability)
+        public FmSectionAssemblyDirectResult(EFmSectionCategory result, double failureProbability)
         {
             if (failureProbability < 0.0 || failureProbability > 1.0)
             {

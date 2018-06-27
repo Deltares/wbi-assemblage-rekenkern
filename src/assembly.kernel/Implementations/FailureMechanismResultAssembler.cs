@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Implementations
 
             // check if all section results are of the AssessmentCategoryWithoutFailureProbability type
             if (sectionResults.Any(fmResult =>
-                fmResult.ResultType != EAssembledAssessmentResultType.AssessmentCategoryWithoutFailureProbability))
+                !double.IsNaN(fmResult.FailureProbability)))
             {
                 throw new AssemblyException("AssembleFailureMechanismResult",
                     EAssemblyErrors.InputNotTheSameType);

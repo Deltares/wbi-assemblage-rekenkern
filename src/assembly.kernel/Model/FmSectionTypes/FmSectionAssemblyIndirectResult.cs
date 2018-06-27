@@ -34,8 +34,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// Constructor of the indirect failure mechanism assembly result.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>
-        public FmSectionAssemblyIndirectResult(EIndirectAssessmentResult result) :
-            base(EAssembledAssessmentResultType.IndirectAssessment)
+        public FmSectionAssemblyIndirectResult(EIndirectAssessmentResult result)
         {
             Result = result;
         }

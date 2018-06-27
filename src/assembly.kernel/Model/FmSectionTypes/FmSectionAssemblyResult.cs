@@ -31,20 +31,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public abstract class FmSectionAssemblyResult
     {
         /// <summary>
-        /// FmSectionAssemblyResult constructor.
-        /// </summary>
-        /// <param name="resultType">Result type of the assembly result</param>
-        protected FmSectionAssemblyResult(EAssembledAssessmentResultType resultType)
-        {
-            ResultType = resultType;
-        }
-
-        /// <summary>
-        /// The type of the FmSection assembly result.
-        /// </summary>
-        public EAssembledAssessmentResultType ResultType { get; }
-
-        /// <summary>
         /// Does the assessment result have a result other than Gr.
         /// </summary>
         /// <returns>false if the assessment result is Gr</returns>
