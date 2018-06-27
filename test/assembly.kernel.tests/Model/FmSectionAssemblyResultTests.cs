@@ -46,11 +46,11 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void DirectFailureProbAboveZero()
+        public void DirectFailureProbAboveOne()
         {
             try
             {
-                new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, -1.0);
+                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 1.5);
             }
             catch (AssemblyException e)
             {
@@ -65,7 +65,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, -1.0);
+                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, -1.0);
             }
             catch (AssemblyException e)
             {
@@ -78,10 +78,18 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void DirectToStringTest()
         {
-            const double FailureProb = 0.2;
-            var result = new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, FailureProb);
+            var result = new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv);
 
-            Assert.AreEqual($"FmSectionAssemblyDirectResult [Iv P: {FailureProb}]", result.ToString());
+            Assert.AreEqual($"FmSectionAssemblyDirectResult [Iv]", result.ToString());
+        }
+
+        [Test]
+        public void DirectWithProbabilityToStringTest()
+        {
+            const double FailureProb = 0.2;
+            var result = new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, FailureProb);
+
+            Assert.AreEqual($"FmSectionAssemblyDirectResultWithProbability [Iv P: {FailureProb}]", result.ToString());
         }
 
         [Test]

@@ -54,7 +54,6 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2.ResultSpecified, category);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
         }
@@ -67,7 +66,6 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0G4(assessmentResult, null);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
         }
@@ -100,7 +98,6 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3.ResultSpecified, category);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
         }
@@ -113,7 +110,6 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = translator.TranslateAssessmentResultWbi0T4(assessmentResult, null);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            Assert.IsNaN(result.FailureProbability);
 
             return result.Result;
         }

@@ -57,14 +57,6 @@ namespace Assembly.Kernel.Implementations
                     EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
-            // check if all section results are of the AssessmentCategoryWithoutFailureProbability type
-            if (sectionResults.Any(fmResult =>
-                !double.IsNaN(fmResult.FailureProbability)))
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult",
-                    EAssemblyErrors.InputNotTheSameType);
-            }
-
             var returnValue = EFmSectionCategory.NotApplicable;
             foreach (var sectionResult in sectionResults)
             {
@@ -158,7 +150,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
-            FailureMechanism failureMechanism, IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults,
+            FailureMechanism failureMechanism, IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
             bool partialAssembly)
         {
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.

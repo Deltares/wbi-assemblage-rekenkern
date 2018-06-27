@@ -23,7 +23,7 @@
 
 #endregion
 
-using Assembly.Kernel.Exceptions;
+using System;
 
 namespace Assembly.Kernel.Model.FmSectionTypes
 {
@@ -40,25 +40,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public FmSectionAssemblyDirectResult(EFmSectionCategory result)
         {
             Result = result;
-            FailureProbability = double.NaN;
-        }
-
-        /// <summary>
-        /// Constructor of the direct failure mechanism assembly result with failure probability.
-        /// </summary>
-        /// <param name="result">The translated category type of the result</param>
-        /// <param name="failureProbability">The failure probability of the failure mechanism section</param>
-        /// <exception cref="AssemblyException">Thrown when failure probability is &lt;0 or &gt;1</exception>
-        public FmSectionAssemblyDirectResult(EFmSectionCategory result, double failureProbability)
-        {
-            if (failureProbability < 0.0 || failureProbability > 1.0)
-            {
-                throw new AssemblyException("FmSectionAssemblyDirectResult",
-                    EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
-
-            Result = result;
-            FailureProbability = failureProbability;
         }
 
         /// <summary>
@@ -67,30 +48,16 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public EFmSectionCategory Result { get; }
 
         /// <summary>
-        /// Optional failure probability originating from the failure mechanism section assessment result.
-        /// This field can be null!
-        /// </summary>
-        public double FailureProbability { get; }
-
-        /// <inheritdoc />
-        public IFmSectionAssemblyResult Clone()
-        {
-            return double.IsNaN(FailureProbability)
-                ? new FmSectionAssemblyDirectResult(Result)
-                : new FmSectionAssemblyDirectResult(Result, FailureProbability);
-        }
-
-        /// <summary>
         /// Convert to string
         /// </summary>
         /// <returns>String of the object</returns>
         public override string ToString()
         {
-            return "FmSectionAssemblyDirectResult [" + Result + " P: " + FailureProbability + "]";
+            return "FmSectionAssemblyDirectResult [" + Result + "]";
         }
 
         /// <inheritdoc />
-        public bool HasResult()
+        public virtual bool HasResult()
         {
             return Result != EFmSectionCategory.Gr;
         }

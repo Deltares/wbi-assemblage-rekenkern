@@ -44,12 +44,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         public EIndirectAssessmentResult Result { get; }
 
-        /// <inheritdoc />
-        public IFmSectionAssemblyResult Clone()
-        {
-            return new FmSectionAssemblyIndirectResult(Result);
-        }
-
         /// <summary>
         /// Convert to string
         /// </summary>

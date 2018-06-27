@@ -342,30 +342,6 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1A1ExceptionDifferentTypesTest()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1A1(
-                    new[]
-                    {
-                        new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv),
-                        new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, 0.5)
-                    }, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.InputNotTheSameType, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
         public void Wbi1A1ExceptionEmptyListTest()
         {
             try
@@ -469,41 +445,14 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.0001),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.00026)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.0001), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
                 },
                 false);
 
             Assert.IsFalse(double.IsNaN(result.FailureProbability));
             Assert.AreEqual(3.6E-4, RoundedDouble(result.FailureProbability, 5));
             Assert.AreEqual(EFailureMechanismCategory.IVt, result.Category);
-        }
-
-        [Test]
-        public void Wbi1B1ExceptionNoFailureProb()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1B1(
-                    assessmentSectionAmeland,
-                    testFailureMechanism1,
-                    new[]
-                    {
-                        new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv)
-                    },
-                    false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
         }
 
         [Test, TestCaseSource(
@@ -514,7 +463,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionAmeland, testFailureMechanism1,
                 failureProbabilities.Select(failureProbability =>
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, failureProbability)),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, failureProbability)),
                 assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
@@ -527,12 +476,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.VIv, 0.9),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000026),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000010),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.0000011),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000015),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000009)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009), 
                 },
                 false);
 
@@ -547,9 +496,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.00026),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.00026)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
                 },
                 false);
 
@@ -563,9 +512,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.00026),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv, 0.00026)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
                 },
                 false);
 
@@ -579,9 +528,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.NotApplicable),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.NotApplicable),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.NotApplicable)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
                 },
                 false);
 
@@ -595,15 +544,15 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.VIv, 0.9),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000026),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000010),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.0000011),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000015),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.IIv, 0.000009),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr),
-                    new FmSectionAssemblyDirectResult(EFmSectionCategory.NotApplicable)
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
                 },
                 true);
 

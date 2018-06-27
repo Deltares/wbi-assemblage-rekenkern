@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="assessment">The assessement result to translate</param>
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment);
 
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0E-3
@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="assessment">The assessement result to translate</param>
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment);
 
         /// <summary>
         /// Translate an assessment result to an Failure mecahnism category as specified by WBI-0G-1
@@ -165,7 +165,7 @@ namespace Assembly.Kernel.Interfaces
         /// This field may be Double.NaN when it is in the state of "No result yet" </param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G3(AssessmentSection section,
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(AssessmentSection section,
             FailureMechanism failureMechanism, EAssessmentResultTypeG2 assessment, double failureProbability);
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Assembly.Kernel.Interfaces
         /// is greater than 1.0 it will be maximized to 1.0 </param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G5(AssessmentSection section,
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(AssessmentSection section,
             FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment,
             double failureProbability);
 
@@ -196,7 +196,7 @@ namespace Assembly.Kernel.Interfaces
         /// This field may be Double.NaN when it is in the state of "No result yet" </param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T3(AssessmentSection section,
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(AssessmentSection section,
             FailureMechanism failureMechanism, EAssessmentResultTypeT3 assessment, double failureProbability);
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Assembly.Kernel.Interfaces
         /// is greater than 1.0 it will be maximized to 1.0 </param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T5(AssessmentSection section,
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(AssessmentSection section,
             FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeT3 assessment,
             double failureProbability);
 

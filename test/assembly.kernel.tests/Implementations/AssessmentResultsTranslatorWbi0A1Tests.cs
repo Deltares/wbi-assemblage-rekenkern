@@ -64,7 +64,6 @@ namespace Assembly.Kernel.Tests.Implementations
                     : new FmSectionAssemblyDirectResult(customAssessmentResult.Value));
 
             Assert.IsNotNull(result);
-            Assert.IsNaN(result.FailureProbability);
             return result.Result;
         }
 

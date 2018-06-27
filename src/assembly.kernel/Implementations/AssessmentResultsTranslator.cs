@@ -139,15 +139,17 @@ namespace Assembly.Kernel.Implementations
          *direct failure mechnism methods.
          */
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment)
         {
-            return new FmSectionAssemblyDirectResult(wbi0E1ResultMap.GetResult(assessment));
+            var fmSectionCategory = wbi0E1ResultMap.GetResult(assessment);
+            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment)
         {
-            return new FmSectionAssemblyDirectResult(wbi0E3ResultMap.GetResult(assessment));
+            var fmSectionCategory = wbi0E3ResultMap.GetResult(assessment);
+            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory, ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
@@ -282,15 +284,15 @@ namespace Assembly.Kernel.Implementations
          * Methods with supplied failure probability
          */
         /// <inheritdoc/>
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G3(AssessmentSection section,
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(AssessmentSection section,
             FailureMechanism failureMechanism, EAssessmentResultTypeG2 assessment, double failureProbability)
         {
             switch (assessment)
             {
                 case EAssessmentResultTypeG2.Ngo:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
                 case EAssessmentResultTypeG2.Gr:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
                 case EAssessmentResultTypeG2.ResultSpecified:
                     if (double.IsNaN(failureProbability))
                     {
@@ -301,7 +303,7 @@ namespace Assembly.Kernel.Implementations
 
                     var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
 
-                    return new FmSectionAssemblyDirectResult(category, failureProbability);
+                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -310,16 +312,16 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G5(AssessmentSection section,
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(AssessmentSection section,
             FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment,
             double failureProbability)
         {
             switch (assessment)
             {
                 case EAssessmentResultTypeG2.Ngo:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
                 case EAssessmentResultTypeG2.Gr:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
                 case EAssessmentResultTypeG2.ResultSpecified:
                     if (double.IsNaN(failureProbability))
                     {
@@ -335,9 +337,7 @@ namespace Assembly.Kernel.Implementations
                         failureProbValue = 1.0;
                     }
 
-                    return new FmSectionAssemblyDirectResult(
-                        category,
-                        failureProbValue);
+                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbValue);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -346,17 +346,17 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T3(AssessmentSection section,
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(AssessmentSection section,
             FailureMechanism failureMechanism, EAssessmentResultTypeT3 assessment, double failureProbability)
         {
             switch (assessment)
             {
                 case EAssessmentResultTypeT3.Ngo:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
                 case EAssessmentResultTypeT3.Fv:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, 0.0);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 0.0);
                 case EAssessmentResultTypeT3.Gr:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
                 case EAssessmentResultTypeT3.ResultSpecified:
                     if (double.IsNaN(failureProbability))
                     {
@@ -366,9 +366,7 @@ namespace Assembly.Kernel.Implementations
 
                     var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
 
-                    return new FmSectionAssemblyDirectResult(
-                        category,
-                        failureProbability);
+                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -377,18 +375,18 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T5(AssessmentSection section,
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(AssessmentSection section,
             FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeT3 assessment,
             double failureProbability)
         {
             switch (assessment)
             {
                 case EAssessmentResultTypeT3.Ngo:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
                 case EAssessmentResultTypeT3.Fv:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, 0.0);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 0.0);
                 case EAssessmentResultTypeT3.Gr:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
+                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
                 case EAssessmentResultTypeT3.ResultSpecified:
                     if (double.IsNaN(failureProbability))
                     {
@@ -404,9 +402,7 @@ namespace Assembly.Kernel.Implementations
                         failureProbValue = 1.0;
                     }
 
-                    return new FmSectionAssemblyDirectResult(
-                        category,
-                        failureProbValue);
+                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbValue);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -427,7 +423,7 @@ namespace Assembly.Kernel.Implementations
                 case EAssessmentResultTypeT4.Ngo:
                     return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
                 case EAssessmentResultTypeT4.Fv:
-                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv, 0.0);
+                    return new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv);
                 case EAssessmentResultTypeT4.Gr:
                     return new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr);
                 case EAssessmentResultTypeT4.ResultSpecified:
@@ -445,9 +441,7 @@ namespace Assembly.Kernel.Implementations
 
                     var category = GetCategoryForFailureProbability(failureProbability, categoryLimits);
 
-                    return new FmSectionAssemblyDirectResult(
-                        category,
-                        failureProbability);
+                    return new FmSectionAssemblyDirectResult(category);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -538,6 +532,16 @@ namespace Assembly.Kernel.Implementations
                 .First(limits => failureProbability <= limits.UpperLimit)
                 .Category;
             return category;
+        }
+
+        /// <summary>
+        /// Translates a section result category to the associated estimated probability of failure
+        /// </summary>
+        /// <param name="fmSectionCategory">The section result category that needs to be translated</param>
+        /// <returns>Either 0.0 in case the category equals EFmSectionCategory.Iv or EFmSectionCategory.NotApplicable</returns>
+        private static double ResultCategoryToProbabilityEstimation(EFmSectionCategory fmSectionCategory)
+        {
+            return fmSectionCategory == EFmSectionCategory.Iv || fmSectionCategory == EFmSectionCategory.NotApplicable ? 0.0 : double.NaN;
         }
 
         /// <summary>
