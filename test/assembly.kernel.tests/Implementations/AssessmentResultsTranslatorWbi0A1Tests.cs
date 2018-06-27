@@ -89,6 +89,19 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.Fail("No expected exception not thrown");
         }
 
+        [Test]
+        public void Wbi0A1DirectResultMixedProbabilitiesTest()
+        {
+            var simpleAssessmentResult = new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 0.0);
+            var detailedAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
+            var customAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv);
+            var result = translator.TranslateAssessmentResultWbi0A1(simpleAssessmentResult, detailedAssessmentResult,customAssessmentResult);
+
+            Assert.IsNotNull(result);
+            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
+            Assert.AreEqual(customAssessmentResult,result);
+        }
+
         [Test, TestCaseSource(
              typeof(Wbi0A1TestCases),
              nameof(Wbi0A1TestCases.Wbi0A1Direct))]
