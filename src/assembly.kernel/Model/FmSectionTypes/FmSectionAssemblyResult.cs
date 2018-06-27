@@ -35,11 +35,5 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         /// <returns>false if the assessment result is Gr</returns>
         bool HasResult();
-
-        /// <summary>
-        /// Creates a copy of the current FmSectionAssemblyResult.
-        /// </summary>
-        /// <returns>The newly created FmSectionAssemblyResult</returns>
-        IFmSectionAssemblyResult Clone();
     }
 }

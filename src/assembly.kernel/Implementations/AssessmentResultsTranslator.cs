@@ -500,15 +500,15 @@ namespace Assembly.Kernel.Implementations
 
             if (customAssessmentResult != null && customAssessmentResult.HasResult())
             {
-                return customAssessmentResult.Clone();
+                return customAssessmentResult;
             }
 
             if (detailedAssessmentResult != null && detailedAssessmentResult.HasResult())
             {
-                return detailedAssessmentResult.Clone();
+                return detailedAssessmentResult;
             }
 
-            return simpleAssessmentResult.HasResult() ? simpleAssessmentResult.Clone() : null;
+            return simpleAssessmentResult.HasResult() ? simpleAssessmentResult : null;
         }
 
         /*
