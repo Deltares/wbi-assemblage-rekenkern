@@ -189,7 +189,7 @@ namespace Assembly.Kernel.Implementations
                         // the resulting category will also be VIIt. See FO 6.2.1
                         if (!partialAssembly)
                         {
-                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt);
+                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
                         }
 
                         continue;
@@ -198,7 +198,7 @@ namespace Assembly.Kernel.Implementations
                         // the resulting category will also be no result. See FO 6.2.1
                         if (!partialAssembly)
                         {
-                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr);
+                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
                         }
 
                         continue;
@@ -210,7 +210,7 @@ namespace Assembly.Kernel.Implementations
 
             if (!failureProbFound)
             {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt);
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, 0.0);
             }
 
             var failureMechanismFailureProbability = 1 - failureProbProduct;

@@ -145,7 +145,7 @@ namespace Assembly.Kernel.Tests
                 var result = fmAssembler.AssembleFailureMechanismWbi1A1(
                     fmSectionResults.Value.Select(fmSection => (FmSectionAssemblyDirectResult)fmSection.Result),
                     false);
-                failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result));
+                failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result, double.NaN));
 
                 failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
             }

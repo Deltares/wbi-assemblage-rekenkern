@@ -192,7 +192,7 @@ namespace Assembly.Kernel.Tests.Implementations
             EAssemblyType assemblyType)
         {
             return assembler.AssembleAssessmentSectionWbi2A1(
-                failureMechanismCategories.Select(category => new FailureMechanismAssemblyResult(category)),
+                failureMechanismCategories.Select(category => new FailureMechanismAssemblyResult(category, double.NaN)),
                 assemblyType == EAssemblyType.Partial);
         }
 
@@ -251,7 +251,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
                     new[]
                     {
-                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It),
+                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, double.NaN),
                         new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                     },
                     false);
@@ -274,7 +274,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                 },
@@ -290,7 +290,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                 },
@@ -306,8 +306,8 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt),
-                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt)
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, double.NaN),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, double.NaN)
                 },
                 false);
 

@@ -31,18 +31,6 @@ namespace Assembly.Kernel.Model
     public class FailureMechanismAssemblyResult
     {
         /// <summary>
-        /// Failure mechanism assembly direct result constructor, without failure probability. 
-        /// The failure probability will be null when using this constructor.
-        /// </summary>
-        /// <param name="category">The resulting category of the failure mechanism assembly step</param>
-        public FailureMechanismAssemblyResult(
-            EFailureMechanismCategory category)
-        {
-            Category = category;
-            FailureProbability = double.NaN;
-        }
-
-        /// <summary>
         /// Failure mechanism assembly direct result constructor, with failure probability.
         /// </summary>
         /// <param name="category">The resulting category of the failure mechanism assembly step</param>

@@ -534,7 +534,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 false);
 
-            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(0.0,result.FailureProbability);
             Assert.AreEqual(EFailureMechanismCategory.Nvt, result.Category);
         }
 
