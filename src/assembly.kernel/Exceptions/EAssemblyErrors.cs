@@ -139,9 +139,7 @@ namespace Assembly.Kernel.Exceptions
         InputNotTheSameType,
 
         /// <summary>
-        /// Input for the assemble failure mechanism method are invalid. This can mean one of the following things:<br/>
-        /// - The list of FmSection assembly results is empty
-        /// - The input failure mechanism section results do not contain failure probability<br/>
+        /// Input for the assemble failure mechanism method are invalid. This means the list of FmSection assembly results is empty.
         /// </summary>
         FailureMechanismAssemblerInputInvalid,
 

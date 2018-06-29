@@ -43,19 +43,7 @@ namespace Assembly.Kernel.Implementations
         public EFailureMechanismCategory AssembleFailureMechanismWbi1A1(
             IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults, bool partialAssembly)
         {
-            if (fmSectionAssemblyResults == null)
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            List<FmSectionAssemblyDirectResult> sectionResults = fmSectionAssemblyResults.ToList();
-
-            // result list should not be empty
-            if (sectionResults.Count == 0)
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult",
-                    EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
-            }
+            FmSectionAssemblyDirectResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             var returnValue = EFmSectionCategory.NotApplicable;
             foreach (var sectionResult in sectionResults)
@@ -100,18 +88,7 @@ namespace Assembly.Kernel.Implementations
         public EIndirectAssessmentResult AssembleFailureMechanismWbi1A2(
             IEnumerable<FmSectionAssemblyIndirectResult> fmSectionAssemblyResults, bool partialAssembly)
         {
-            if (fmSectionAssemblyResults == null)
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            List<FmSectionAssemblyIndirectResult> sectionResults = fmSectionAssemblyResults.ToList();
-
-            if (sectionResults.Count == 0)
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult",
-                    EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
-            }
+            FmSectionAssemblyIndirectResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             var returnValue = EIndirectAssessmentResult.Nvt;
             foreach (var sectionResult in sectionResults)
@@ -150,15 +127,18 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
-            FailureMechanism failureMechanism, IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            FailureMechanism failureMechanism,
+            IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
             bool partialAssembly)
         {
+            FmSectionAssemblyDirectResultWithProbability[] sectionResults = CheckInput(fmSectionAssemblyResults);
+
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
             var failureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
             var failureProbFound = false;
-            foreach (var fmSectionResult in fmSectionAssemblyResults)
+            foreach (var fmSectionResult in sectionResults)
             {
                 switch (fmSectionResult.Result)
                 {
@@ -227,6 +207,25 @@ namespace Assembly.Kernel.Implementations
                 .First(limits => resultFailureProb <= limits.UpperLimit)
                 .Category;
             return new FailureMechanismAssemblyResult(resultCategory, resultFailureProb);
+        }
+
+        private static T[] CheckInput<T>(IEnumerable<T> results) where T : IFmSectionAssemblyResult
+        {
+            if (results == null)
+            {
+                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var sectionResults = results.ToArray();
+
+            // result list should not be empty
+            if (sectionResults.Length == 0)
+            {
+                throw new AssemblyException("AssembleFailureMechanismResult",
+                    EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+            }
+
+            return sectionResults;
         }
     }
 }
