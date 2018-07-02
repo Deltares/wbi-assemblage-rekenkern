@@ -31,45 +31,45 @@ namespace Assembly.Kernel.Model
     public enum EAssessmentGrade
     {
         /// <summary>
+        /// Does not apply
+        /// </summary>
+        Nvt = -1,
+
+        /// <summary>
         /// Highest rating
         /// Assessment section is well above standard
         /// </summary>
-        APlus,
+        APlus = 1,
 
         /// <summary>
         /// Assessment section complies with standard
         /// </summary>
-        A,
+        A = 2,
 
         /// <summary>
         /// Assessment section complies with lower limit but fails signalling limit
         /// </summary>
-        B,
+        B = 3,
 
         /// <summary>
         /// Assessment section fails both signalling and lower limits
         /// </summary>
-        C,
+        C = 4,
 
         /// <summary>
         /// Lowest rating
         /// Assessment section fails both limits well
         /// </summary>
-        D,
+        D = 5,
 
         /// <summary>
         /// No verdict yet
         /// </summary>
-        Ngo,
-
-        /// <summary>
-        /// Does not apply
-        /// </summary>
-        Nvt,
+        Ngo = 6,
 
         /// <summary>
         /// No result 
         /// </summary>
-        Gr
+        Gr = 7
     }
 }

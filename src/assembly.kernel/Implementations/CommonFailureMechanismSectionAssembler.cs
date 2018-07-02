@@ -146,7 +146,7 @@ namespace Assembly.Kernel.Implementations
                 case EFmSectionCategory.IVv:
                 case EFmSectionCategory.Vv:
                 case EFmSectionCategory.VIv:
-                    if (currentCategory.IsLowerCategoryThan(combinedCategory))
+                    if (currentCategory > combinedCategory)
                     {
                         combinedCategory = currentCategory;
                     }
@@ -155,7 +155,7 @@ namespace Assembly.Kernel.Implementations
                 case EFmSectionCategory.VIIv:
                     if (!partialAssembly)
                     {
-                        if (currentCategory.IsLowerCategoryThan(combinedCategory))
+                        if (currentCategory > combinedCategory)
                         {
                             combinedCategory = currentCategory;
                         }

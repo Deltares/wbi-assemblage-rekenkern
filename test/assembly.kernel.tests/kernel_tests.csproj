@@ -49,10 +49,14 @@
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssemblyResultTests.cs" />
     <Compile Include="Model\CategoryLimits\CategoryLimitsTests.cs" />
+    <Compile Include="Model\EAssessmentGradeTest.cs" />
+    <Compile Include="Model\EFailureMEchanismCategoryTest.cs" />
+    <Compile Include="Model\EIndirectAssessmentResultTest.cs" />
     <Compile Include="Model\FailureMechanismSectionListTests.cs" />
     <Compile Include="Model\FailureMechanismTests.cs" />
     <Compile Include="Model\FmSectionAssemblyResultTests.cs" />
     <Compile Include="Model\FmSEctionCategoryCompliancyResultsTests.cs" />
+    <Compile Include="Model\FmSectionTypes\EFmSectionCategoryTest.cs" />
     <Compile Include="TranslateAssessmentResultPerformanceTests.cs" />
   </ItemGroup>
   <ItemGroup>

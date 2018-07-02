@@ -31,38 +31,38 @@ namespace Assembly.Kernel.Model
     public enum EIndirectAssessmentResult
     {
         /// <summary>
-        /// No judgement yet
-        /// </summary>
-        Ngo,
-
-        /// <summary>
         /// Does not apply
         /// </summary>
-        Nvt,
+        Nvt = 1,
 
         /// <summary>
         /// Failure probability negligible for a simple assessment
         /// </summary>
-        FvEt,
+        FvEt = 2,
 
         /// <summary>
         /// Failure probability negligible for a detailed assessment
         /// </summary>
-        FvGt,
+        FvGt = 3,
 
         /// <summary>
         /// Failure probability negligible for a custom assessment
         /// </summary>
-        FvTom,
+        FvTom = 4,
 
         /// <summary>
         /// Discounted with relevant failure mechanisms
         /// </summary>
-        FactoredInOtherFailureMechanism,
+        FactoredInOtherFailureMechanism = 5,
+
+        /// <summary>
+        /// No judgement yet
+        /// </summary>
+        Ngo = 6,
 
         /// <summary>
         /// No result
         /// </summary>
-        Gr
+        Gr = 7
     }
 }

@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Implementations
                     case EFailureMechanismCategory.IVt:
                     case EFailureMechanismCategory.Vt:
                     case EFailureMechanismCategory.VIt:
-                        if (failureMechanismResult.Category.IsLowerCategoryThan(resultCategory))
+                        if (failureMechanismResult.Category > resultCategory)
                         {
                             resultCategory = failureMechanismResult.Category;
                         }
@@ -183,8 +183,7 @@ namespace Assembly.Kernel.Implementations
                 return assemblyResultWithFailureProbability.CreateNewFrom();
             }
 
-            if (assemblyResultNoFailureProbability.Category.IsLowerCategoryThan(assemblyResultWithFailureProbability
-                .Category))
+            if (assemblyResultNoFailureProbability.Category > assemblyResultWithFailureProbability.Category)
             {
                 return assemblyResultNoFailureProbability.CreateNewFrom();
             }

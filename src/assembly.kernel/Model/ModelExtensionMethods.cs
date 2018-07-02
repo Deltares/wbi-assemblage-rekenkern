@@ -23,7 +23,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.FmSectionTypes;
 
@@ -34,106 +33,6 @@ namespace Assembly.Kernel.Model
     /// </summary>
     public static class ModelExtensionMethods
     {
-        private static readonly Dictionary<EFmSectionCategory, int> FmSectionDirectCategoryOrderMap =
-            new Dictionary<EFmSectionCategory, int>
-            {
-                {EFmSectionCategory.NotApplicable, 1},
-                {EFmSectionCategory.Iv, 2},
-                {EFmSectionCategory.IIv, 3},
-                {EFmSectionCategory.IIIv, 4},
-                {EFmSectionCategory.IVv, 5},
-                {EFmSectionCategory.Vv, 6},
-                {EFmSectionCategory.VIv, 7},
-                {EFmSectionCategory.VIIv, 8},
-                {EFmSectionCategory.Gr, 9}
-            };
-
-        private static readonly Dictionary<EIndirectAssessmentResult, int> IndirectCategoryOrderMap =
-            new Dictionary<EIndirectAssessmentResult, int>
-            {
-                {EIndirectAssessmentResult.Nvt, 1},
-                {EIndirectAssessmentResult.FvEt, 2},
-                {EIndirectAssessmentResult.FvGt, 3},
-                {EIndirectAssessmentResult.FvTom, 4},
-                {EIndirectAssessmentResult.FactoredInOtherFailureMechanism, 5},
-                {EIndirectAssessmentResult.Ngo, 6},
-                {EIndirectAssessmentResult.Gr, 7}
-            };
-
-        private static readonly Dictionary<EFailureMechanismCategory, int> FailureMechanismCategoryOrderMap =
-            new Dictionary<EFailureMechanismCategory, int>
-            {
-                {EFailureMechanismCategory.Nvt, 1},
-                {EFailureMechanismCategory.It, 2},
-                {EFailureMechanismCategory.IIt, 3},
-                {EFailureMechanismCategory.IIIt, 4},
-                {EFailureMechanismCategory.IVt, 5},
-                {EFailureMechanismCategory.Vt, 6},
-                {EFailureMechanismCategory.VIt, 7},
-                {EFailureMechanismCategory.VIIt, 8},
-                {EFailureMechanismCategory.Gr, 9}
-            };
-
-        private static readonly Dictionary<EAssessmentGrade, int> AssessmentGradeOrderMap =
-            new Dictionary<EAssessmentGrade, int>
-            {
-                {EAssessmentGrade.Nvt, 1},
-                {EAssessmentGrade.APlus, 2},
-                {EAssessmentGrade.A, 3},
-                {EAssessmentGrade.B, 4},
-                {EAssessmentGrade.C, 5},
-                {EAssessmentGrade.D, 6},
-                {EAssessmentGrade.Ngo, 7},
-                {EAssessmentGrade.Gr, 8}
-            };
-
-        /// <summary>
-        /// Determines if the current category is lower in rank than the supplied category.
-        /// </summary>
-        /// <param name="thisCategory">The category on which this method is called</param>
-        /// <param name="category">The category to compare to</param>
-        /// <returns>True if this category is lower in rank than \"category\"</returns>
-        public static bool IsLowerCategoryThan(this EFmSectionCategory thisCategory, EFmSectionCategory category)
-        {
-            return FmSectionDirectCategoryOrderMap[thisCategory] > FmSectionDirectCategoryOrderMap[category];
-        }
-
-        /// <summary>
-        /// Determines if the current category is lower in rank than the supplied category.
-        /// </summary>
-        /// <param name="thisCategory">The category on which this method is called</param>
-        /// <param name="category">The category to compare to</param>
-        /// <returns>True if the category is lower in rank than \"category\"</returns>
-        public static bool IsLowerCategoryThan(this EIndirectAssessmentResult thisCategory,
-            EIndirectAssessmentResult category)
-        {
-            return IndirectCategoryOrderMap[thisCategory] > IndirectCategoryOrderMap[category];
-        }
-
-        /// <summary>
-        /// Determines if the current category is lower in rank than the supplied category.
-        /// </summary>
-        /// <param name="thisCategory">The category on which this method is called</param>
-        /// <param name="category">The category to compare to</param>
-        /// <returns>True if the category is lower in rank than \"category\"</returns>
-        public static bool IsLowerCategoryThan(this EAssessmentGrade thisCategory,
-            EAssessmentGrade category)
-        {
-            return AssessmentGradeOrderMap[thisCategory] > AssessmentGradeOrderMap[category];
-        }
-
-        /// <summary>
-        /// Determines if the current category is lower in rank than the supplied category.
-        /// </summary>
-        /// <param name="thisCategory">The category on which this method is called</param>
-        /// <param name="category">The category to compare to</param>
-        /// <returns>True if the category is lower in rank than \"category\"</returns>
-        public static bool IsLowerCategoryThan(this EFailureMechanismCategory thisCategory,
-            EFailureMechanismCategory category)
-        {
-            return FailureMechanismCategoryOrderMap[thisCategory] > FailureMechanismCategoryOrderMap[category];
-        }
-
         /// <summary>
         /// Translates an EFmSectionCategory to an EFailureMechanismCategory, as specified in WBI-1A-1
         /// </summary>

@@ -32,49 +32,49 @@ namespace Assembly.Kernel.Model
     public enum EFailureMechanismCategory
     {
         /// <summary>
+        /// Does not apply
+        /// </summary>
+        Nvt = -1,
+
+        /// <summary>
         /// Highest rating
         /// Well above signalling limit
         /// </summary>
-        It,
+        It = 1,
 
         /// <summary>
         /// Complies with signalling limit
         /// </summary>
-        IIt,
+        IIt = 2,
 
         /// <summary>
         /// Complies with lower limit and probably with signalling limit
         /// </summary>
-        IIIt,
+        IIIt = 3,
 
         /// <summary>
         /// Complies with lower limit
         /// </summary>
-        IVt,
+        IVt = 4,
 
         /// <summary>
         /// Does not comply with lower limit
         /// </summary>
-        Vt,
+        Vt = 5,
 
         /// <summary>
         /// Well below lower limit
         /// </summary>
-        VIt,
+        VIt = 6,
 
         /// <summary>
         /// No verdict yet
         /// </summary>
-        VIIt,
-
-        /// <summary>
-        /// Does not apply
-        /// </summary>
-        Nvt,
-
+        VIIt = 7,
+        
         /// <summary>
         /// No result
         /// </summary>
-        Gr
+        Gr = 8
     }
 }

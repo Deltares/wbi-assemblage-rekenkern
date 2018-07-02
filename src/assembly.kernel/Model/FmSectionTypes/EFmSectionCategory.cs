@@ -32,50 +32,50 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public enum EFmSectionCategory
     {
         /// <summary>
+        /// Result is not applicable.
+        /// </summary>
+        NotApplicable = -1,
+
+        /// <summary>
         /// Highest rating
         /// Complies with the signalling limit well
         /// </summary>
-        Iv,
+        Iv = 1,
 
         /// <summary>
         /// Complies with signalling limit
         /// </summary>
-        IIv,
+        IIv = 2,
 
         /// <summary>
         /// Complies with lower limit, an probably complies with signalling limit
         /// </summary>
-        IIIv,
+        IIIv = 3,
 
         /// <summary>
         /// Probably complies with lower or signalling limit
         /// </summary>
-        IVv,
+        IVv = 4,
 
         /// <summary>
         /// Complies with lower limit
         /// </summary>
-        Vv,
+        Vv = 5,
 
         /// <summary>
         /// Lowest rating
         /// Does not comply with both lower and signalling limits
         /// </summary>
-        VIv,
+        VIv = 6,
 
         /// <summary>
         /// No verdict yet
         /// </summary>
-        VIIv,
+        VIIv = 7,
 
         /// <summary>
         /// No result
         /// </summary>
-        Gr,
-
-        /// <summary>
-        /// Result is not applicable.
-        /// </summary>
-        NotApplicable
+        Gr = 8
     }
 }

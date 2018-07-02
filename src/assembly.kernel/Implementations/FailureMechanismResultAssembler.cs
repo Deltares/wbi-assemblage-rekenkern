@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Implementations
                     case EFmSectionCategory.IVv:
                     case EFmSectionCategory.Vv:
                     case EFmSectionCategory.VIv:
-                        if (sectionResult.Result.IsLowerCategoryThan(returnValue))
+                        if (sectionResult.Result > returnValue)
                         {
                             returnValue = sectionResult.Result;
                         }
@@ -105,7 +105,7 @@ namespace Assembly.Kernel.Implementations
                     case EIndirectAssessmentResult.FvGt:
                     case EIndirectAssessmentResult.FvTom:
                     case EIndirectAssessmentResult.FactoredInOtherFailureMechanism:
-                        if (sectionResult.Result.IsLowerCategoryThan(returnValue))
+                        if (sectionResult.Result > returnValue)
                         {
                             returnValue = sectionResult.Result;
                         }
