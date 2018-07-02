@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         {
             try
             {
-                new AssessmentSectionCategoryLimits(assessmentGrade, lowerLimit, upperLimit);
+                new AssessmentSectionCategory(assessmentGrade, lowerLimit, upperLimit);
             }
             catch (AssemblyException e)
             {
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         {
             try
             {
-                new FailureMechanismCategoryLimits(category, lowerLimit, upperLimit);
+                new FailureMechanismCategory(category, lowerLimit, upperLimit);
             }
             catch (AssemblyException e)
             {
@@ -102,7 +102,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         {
             try
             {
-                new FmSectionCategoryLimits(category, lowerLimit, upperLimit);
+                new FmSectionCategory(category, lowerLimit, upperLimit);
             }
             catch (AssemblyException e)
             {

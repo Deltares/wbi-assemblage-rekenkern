@@ -32,7 +32,7 @@ namespace Assembly.Kernel.Model.CategoryLimits
     /// /// Base category limits class.
     /// </summary>
     /// <typeparam name="T">The category type of the limits</typeparam>
-    public abstract class BaseCategoryLimits<T>
+    public abstract class CategoryBase<T> : ICategoryLimits
     {
         /// <summary>
         /// Category limits constructor
@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Model.CategoryLimits
         /// <param name="lowerLimit"> the lower limit of the category</param>
         /// <param name="upperLimit"> the upper limit of the category</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
-        protected BaseCategoryLimits(T category, double lowerLimit, double upperLimit)
+        protected CategoryBase(T category, double lowerLimit, double upperLimit)
         {
             CheckInput(category, lowerLimit, upperLimit);
 

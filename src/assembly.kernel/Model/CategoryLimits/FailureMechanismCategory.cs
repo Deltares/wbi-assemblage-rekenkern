@@ -23,24 +23,22 @@
 
 #endregion
 
-using Assembly.Kernel.Model.FmSectionTypes;
-
 namespace Assembly.Kernel.Model.CategoryLimits
 {
     /// <inheritdoc />
     /// <summary>
-    /// Category limits for an failure mechanism section
+    /// Category limits for a failure mechanism.
     /// </summary>
-    public class FmSectionCategoryLimits : BaseCategoryLimits<EFmSectionCategory>
+    public class FailureMechanismCategory : CategoryBase<EFailureMechanismCategory>
     {
         /// <summary>
-        /// FmSectionCategoryLimits constructor
+        /// FailureMechanismCategory constructor
         /// </summary>
         /// <param name="category">category for which the limits are valid</param>
         /// <param name="lowerLimit">lower limit of the category</param>
         /// <param name="upperLimit">upper limit of the category</param>
-        public FmSectionCategoryLimits(EFmSectionCategory category, double lowerLimit, double upperLimit) :
-            base(category, lowerLimit, upperLimit)
+        public FailureMechanismCategory(EFailureMechanismCategory category, double lowerLimit, double upperLimit)
+            : base(category, lowerLimit, upperLimit)
         {
             // Construct super class
         }

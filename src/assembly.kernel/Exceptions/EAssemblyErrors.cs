@@ -162,6 +162,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// Multiple Failure mechanism sections with same start and end are found in failure mechanism sections
         /// </summary>
-        FailureMechanismDuplicateSection
+        FailureMechanismDuplicateSection,
+
+        /// <summary>
+        /// The categories passed to the categories list do not cover the full range of probabilities between 0 and 1.
+        /// </summary>
+        InvalidCategoryLimits
     }
 }

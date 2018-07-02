@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\CategoryLimits\CategoriesList.cs" />
+    <Compile Include="Model\CategoryLimits\ICategoryLimits.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResultWithProbability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\EAssemblyErrors.cs" />
@@ -91,8 +93,8 @@
     <Compile Include="Model\AssessmentSectionAssemblyResult.cs" />
     <Compile Include="Model\EAssembledAssessmentResultType.cs" />
     <Compile Include="Model\EAssessmentGrade.cs" />
-    <Compile Include="Model\CategoryLimits\BaseCategoryLimits.cs" />
-    <Compile Include="Model\CategoryLimits\AssessmentSectionCategoryLimits.cs" />
+    <Compile Include="Model\CategoryLimits\CategoryBase.cs" />
+    <Compile Include="Model\CategoryLimits\AssessmentSectionCategory.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
     <Compile Include="Model\ECategoryCompliancy.cs" />
     <Compile Include="Model\EIndirectAssessmentResult.cs" />
@@ -101,8 +103,8 @@
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResult.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyIndirectResult.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyResult.cs" />
-    <Compile Include="Model\CategoryLimits\FailureMechanismCategoryLimits.cs" />
-    <Compile Include="Model\CategoryLimits\FmSectionCategoryLimits.cs" />
+    <Compile Include="Model\CategoryLimits\FailureMechanismCategory.cs" />
+    <Compile Include="Model\CategoryLimits\FmSectionCategory.cs" />
     <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
     <Compile Include="Exceptions\AssemblyException.cs" />

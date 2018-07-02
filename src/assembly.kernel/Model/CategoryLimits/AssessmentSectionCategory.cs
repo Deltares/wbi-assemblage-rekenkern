@@ -27,17 +27,17 @@ namespace Assembly.Kernel.Model.CategoryLimits
 {
     /// <inheritdoc />
     /// <summary>
-    /// Category limits for a failure mechanism.
+    /// Category limits for an assesment section.
     /// </summary>
-    public class FailureMechanismCategoryLimits : BaseCategoryLimits<EFailureMechanismCategory>
+    public class AssessmentSectionCategory : CategoryBase<EAssessmentGrade>
     {
         /// <summary>
-        /// FailureMechanismCategoryLimits constructor
+        /// AssessmentSectionCategory constructor
         /// </summary>
         /// <param name="category">category for which the limits are valid</param>
         /// <param name="lowerLimit">lower limit of the category</param>
         /// <param name="upperLimit">upper limit of the category</param>
-        public FailureMechanismCategoryLimits(EFailureMechanismCategory category, double lowerLimit, double upperLimit)
+        public AssessmentSectionCategory(EAssessmentGrade category, double lowerLimit, double upperLimit)
             : base(category, lowerLimit, upperLimit)
         {
             // Construct super class

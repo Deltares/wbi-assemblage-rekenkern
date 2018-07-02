@@ -48,7 +48,9 @@
     <Compile Include="Implementations\Validators\AssessmentSectionValidatorTests.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssemblyResultTests.cs" />
+    <Compile Include="Model\CategoryLimits\CategoriesListTest.cs" />
     <Compile Include="Model\CategoryLimits\CategoryLimitsTests.cs" />
+    <Compile Include="Model\CategoryLimits\TestCategory.cs" />
     <Compile Include="Model\EAssessmentGradeTest.cs" />
     <Compile Include="Model\EFailureMEchanismCategoryTest.cs" />
     <Compile Include="Model\EIndirectAssessmentResultTest.cs" />

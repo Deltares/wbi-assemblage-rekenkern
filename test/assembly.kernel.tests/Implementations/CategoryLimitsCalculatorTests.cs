@@ -91,10 +91,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(LengthEffectFactor,
                 FailurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategoryLimits> results =
+            IEnumerable<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi01(section, failureMechanism);
 
-            List<FmSectionCategoryLimits> calculationResult = results.ToList();
+            List<FmSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(6, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
@@ -147,10 +147,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(LengthEffectFactor,
                 FailurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategoryLimits> results =
+            IEnumerable<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi01(section, failureMechanism);
 
-            List<FmSectionCategoryLimits> calculationResult = results.ToList();
+            List<FmSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(6, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
@@ -198,10 +198,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(lengthEffectFactor,
                 failurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategoryLimits> results =
+            IEnumerable<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            List<FmSectionCategoryLimits> calculationResult = results.ToList();
+            List<FmSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(2, calculationResult.Count);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
@@ -234,10 +234,10 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var failureMechanism = new FailureMechanism(lengthEffectFactor,failurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategoryLimits> results =
+            IEnumerable<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            List<FmSectionCategoryLimits> calculationResult = results.ToList();
+            List<FmSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(2, calculationResult.Count);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
@@ -273,10 +273,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(LengthEffectFactor,
                 FailurePobabilityMarginFactor);
 
-            IEnumerable<FailureMechanismCategoryLimits> results =
+            IEnumerable<FailureMechanismCategory> results =
                 categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, failureMechanism);
 
-            List<FailureMechanismCategoryLimits> calculationResult = results.ToList();
+            List<FailureMechanismCategory> calculationResult = results.ToList();
             Assert.AreEqual(6, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
@@ -326,10 +326,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(LengthEffectFactor,
                 FailurePobabilityMarginFactor);
 
-            IEnumerable<FailureMechanismCategoryLimits> results =
+            IEnumerable<FailureMechanismCategory> results =
                 categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, failureMechanism);
 
-            List<FailureMechanismCategoryLimits> calculationResult = results.ToList();
+            List<FailureMechanismCategory> calculationResult = results.ToList();
             Assert.AreEqual(6, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
@@ -375,10 +375,10 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
 
-            IEnumerable<AssessmentSectionCategoryLimits> results =
+            IEnumerable<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
 
-            List<AssessmentSectionCategoryLimits> calculationResult = results.ToList();
+            List<AssessmentSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(5, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
@@ -420,10 +420,10 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
 
-            IEnumerable<AssessmentSectionCategoryLimits> results =
+            IEnumerable<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
 
-            List<AssessmentSectionCategoryLimits> calculationResult = results.ToList();
+            List<AssessmentSectionCategory> calculationResult = results.ToList();
             Assert.AreEqual(5, calculationResult.Count);
 
             foreach (var limitResults in calculationResult)
