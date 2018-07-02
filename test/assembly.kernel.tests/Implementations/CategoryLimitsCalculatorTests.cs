@@ -46,11 +46,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private CategoryLimitsCalculator categoryLimitsCalculator;
 
-        private delegate double RoundDouble(double input, int decimals);
-
-        private readonly RoundDouble roundDouble =
-            (input, decimals) => Math.Round(input, decimals, MidpointRounding.AwayFromZero);
-
         [Test]
         public void CalculateWbi01Exceptions()
         {
@@ -107,28 +102,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFmSectionCategory.Iv:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(9.26E-8, roundDouble(limitResults.UpperLimit, 10));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(9.26E-8, limitResults.UpperLimit, 1e-10);
                         break;
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(9.26E-8, roundDouble(limitResults.LowerLimit, 10));
-                        Assert.AreEqual(2.78E-6, roundDouble(limitResults.UpperLimit, 8));
+                        Assert.AreEqual(9.26E-8, limitResults.LowerLimit, 1e-10);
+                        Assert.AreEqual(2.78E-6, limitResults.UpperLimit, 1e-8);
                         break;
                     case EFmSectionCategory.IIIv:
-                        Assert.AreEqual(2.78E-6, roundDouble(limitResults.LowerLimit, 8));
-                        Assert.AreEqual(9.26E-5, roundDouble(limitResults.UpperLimit, 7));
+                        Assert.AreEqual(2.78E-6, limitResults.LowerLimit, 1e-8);
+                        Assert.AreEqual(9.26E-5, limitResults.UpperLimit, 1e-7);
                         break;
                     case EFmSectionCategory.IVv:
-                        Assert.AreEqual(9.26E-5, roundDouble(limitResults.LowerLimit, 7));
-                        Assert.AreEqual(3.33E-2, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(9.26E-5, limitResults.LowerLimit, 1e-7);
+                        Assert.AreEqual(3.33E-2, limitResults.UpperLimit, 1e-4);
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(3.33E-2, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(3.33E-2, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     case EFmSectionCategory.VIv:
-                        Assert.AreEqual(1.0, roundDouble(limitResults.LowerLimit, 1));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -163,28 +158,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFmSectionCategory.Iv:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(9.26E-8, roundDouble(limitResults.UpperLimit, 10));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(9.26E-8, limitResults.UpperLimit, 1e-10);
                         break;
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(9.26E-8, roundDouble(limitResults.LowerLimit, 10));
-                        Assert.AreEqual(2.78E-6, roundDouble(limitResults.UpperLimit, 8));
+                        Assert.AreEqual(9.26E-8, limitResults.LowerLimit, 1e-10);
+                        Assert.AreEqual(2.78E-6, limitResults.UpperLimit, 1e-8);
                         break;
                     case EFmSectionCategory.IIIv:
-                        Assert.AreEqual(2.78E-6, roundDouble(limitResults.LowerLimit, 8));
-                        Assert.AreEqual(9.26E-6, roundDouble(limitResults.UpperLimit, 8));
+                        Assert.AreEqual(2.78E-6, limitResults.LowerLimit, 1e-8);
+                        Assert.AreEqual(9.26E-6, limitResults.UpperLimit, 1e-8);
                         break;
                     case EFmSectionCategory.IVv:
-                        Assert.AreEqual(9.26E-6, roundDouble(limitResults.LowerLimit, 8));
-                        Assert.AreEqual(3.33E-3, roundDouble(limitResults.UpperLimit, 5));
+                        Assert.AreEqual(9.26E-6, limitResults.LowerLimit, 1e-8);
+                        Assert.AreEqual(3.33E-3, limitResults.UpperLimit, 1e-5);
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(3.33E-3, roundDouble(limitResults.LowerLimit, 5));
-                        Assert.AreEqual(0.1, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(3.33E-3, limitResults.LowerLimit, 1e-5);
+                        Assert.AreEqual(0.1, limitResults.UpperLimit, 1e-1);
                         break;
                     case EFmSectionCategory.VIv:
-                        Assert.AreEqual(0.1, roundDouble(limitResults.LowerLimit, 1));
-                        Assert.AreEqual(1, roundDouble(limitResults.UpperLimit, 0));
+                        Assert.AreEqual(0.1, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1, limitResults.UpperLimit);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -216,12 +211,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(0.0, roundDouble(limitResults.LowerLimit, 7));
-                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.UpperLimit, 6));
+                        Assert.AreEqual(0.0, limitResults.LowerLimit, 1e-7);
+                        Assert.AreEqual(expectedCategoryBoundary, limitResults.UpperLimit, 1e-6);
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.LowerLimit, 6));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(expectedCategoryBoundary, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -252,12 +247,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(0.0, roundDouble(limitResults.LowerLimit, 7));
-                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.UpperLimit, 8));
+                        Assert.AreEqual(0.0, limitResults.LowerLimit, 1e-7);
+                        Assert.AreEqual(expectedCategoryBoundary, limitResults.UpperLimit, 1e-8);
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.LowerLimit, 8));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(expectedCategoryBoundary, limitResults.LowerLimit, 1e-8);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-3);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -289,28 +284,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFailureMechanismCategory.It:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.000001, roundDouble(limitResults.UpperLimit, 6));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.000001, limitResults.UpperLimit, 1e-6);
                         break;
                     case EFailureMechanismCategory.IIt:
-                        Assert.AreEqual(0.000001, roundDouble(limitResults.LowerLimit, 6));
-                        Assert.AreEqual(0.00003, roundDouble(limitResults.UpperLimit, 5));
+                        Assert.AreEqual(0.000001, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(0.00003, limitResults.UpperLimit, 1e-5);
                         break;
                     case EFailureMechanismCategory.IIIt:
-                        Assert.AreEqual(0.00003, roundDouble(limitResults.LowerLimit, 5));
-                        Assert.AreEqual(0.0034, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0.00003, limitResults.LowerLimit, 1e-5);
+                        Assert.AreEqual(0.0034, limitResults.UpperLimit, 1e-4);
                         break;
                     case EFailureMechanismCategory.IVt:
-                        Assert.AreEqual(0.0034, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(0.034, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.0034, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(0.034, limitResults.UpperLimit, 1e-3);
                         break;
                     case EFailureMechanismCategory.Vt:
-                        Assert.AreEqual(0.034, roundDouble(limitResults.LowerLimit, 3));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(0.034, limitResults.LowerLimit, 1e-3);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     case EFailureMechanismCategory.VIt:
-                        Assert.AreEqual(1.0, roundDouble(limitResults.LowerLimit, 1));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -342,28 +337,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EFailureMechanismCategory.It:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.000001, roundDouble(limitResults.UpperLimit, 6));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.000001, limitResults.UpperLimit, 1e-6);
                         break;
                     case EFailureMechanismCategory.IIt:
-                        Assert.AreEqual(0.000001, roundDouble(limitResults.LowerLimit, 6));
-                        Assert.AreEqual(0.00003, roundDouble(limitResults.UpperLimit, 5));
+                        Assert.AreEqual(0.000001, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(0.00003, limitResults.UpperLimit, 1e-5);
                         break;
                     case EFailureMechanismCategory.IIIt:
-                        Assert.AreEqual(0.00003, roundDouble(limitResults.LowerLimit, 5));
-                        Assert.AreEqual(0.0003, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0.00003, limitResults.LowerLimit, 1e-5);
+                        Assert.AreEqual(0.0003, limitResults.UpperLimit, 1e-4);
                         break;
                     case EFailureMechanismCategory.IVt:
-                        Assert.AreEqual(0.0003, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(0.003, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.0003, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
                         break;
                     case EFailureMechanismCategory.Vt:
-                        Assert.AreEqual(0.003, roundDouble(limitResults.LowerLimit, 3));
-                        Assert.AreEqual(0.09, roundDouble(limitResults.UpperLimit, 2));
+                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
+                        Assert.AreEqual(0.09, limitResults.UpperLimit, 1e-2);
                         break;
                     case EFailureMechanismCategory.VIt:
-                        Assert.AreEqual(0.09, roundDouble(limitResults.LowerLimit, 2));
-                        Assert.AreEqual(1, roundDouble(limitResults.UpperLimit, 0));
+                        Assert.AreEqual(0.09, limitResults.LowerLimit, 1e-2);
+                        Assert.AreEqual(1, limitResults.UpperLimit);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -391,24 +386,24 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.0001, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
                         break;
                     case EAssessmentGrade.A:
-                        Assert.AreEqual(0.0001, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(0.003, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
                         break;
                     case EAssessmentGrade.B:
-                        Assert.AreEqual(0.003, roundDouble(limitResults.LowerLimit, 3));
-                        Assert.AreEqual(0.034, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
+                        Assert.AreEqual(0.034, limitResults.UpperLimit, 1e-4);
                         break;
                     case EAssessmentGrade.C:
-                        Assert.AreEqual(0.034, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(0.034, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     case EAssessmentGrade.D:
-                        Assert.AreEqual(1.0, roundDouble(limitResults.LowerLimit, 1));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
+                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
@@ -436,24 +431,24 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.0001, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
                         break;
                     case EAssessmentGrade.A:
-                        Assert.AreEqual(0.0001, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(0.003, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
                         break;
                     case EAssessmentGrade.B:
-                        Assert.AreEqual(0.003, roundDouble(limitResults.LowerLimit, 3));
-                        Assert.AreEqual(0.03, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
+                        Assert.AreEqual(0.03, limitResults.UpperLimit, 1e-3);
                         break;
                     case EAssessmentGrade.C:
-                        Assert.AreEqual(0.03, roundDouble(limitResults.LowerLimit, 2));
-                        Assert.AreEqual(0.9, roundDouble(limitResults.UpperLimit, 3));
+                        Assert.AreEqual(0.03, limitResults.LowerLimit, 1e-2);
+                        Assert.AreEqual(0.9, limitResults.UpperLimit, 1e-3);
                         break;
                     case EAssessmentGrade.D:
-                        Assert.AreEqual(0.9, roundDouble(limitResults.LowerLimit, 1));
-                        Assert.AreEqual(1, roundDouble(limitResults.UpperLimit, 0));
+                        Assert.AreEqual(0.9, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1, limitResults.UpperLimit);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");
