@@ -40,6 +40,16 @@ namespace Assembly.Kernel.Tests
     {
         private readonly IAssessmentResultsTranslator translator = new AssessmentResultsTranslator();
 
+        private static readonly CategoriesList<FmSectionCategory> AssessmentSectionAmelandDefaultCategories =
+            new CategoriesList<FmSectionCategory>(new[]
+            {
+                new FmSectionCategory(EFmSectionCategory.Iv, 0, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4),
+                new FmSectionCategory(EFmSectionCategory.IIv, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4, 1 / 1000.0 * 0.04 / 14.4),
+                new FmSectionCategory(EFmSectionCategory.IIIv, 1 / 1000.0 * 0.04 / 14.4, 1 / 300.0 * 0.04 / 14.4),
+                new FmSectionCategory(EFmSectionCategory.IVv, 1 / 300.0 * 0.04 / 14.4, 1 / 300.0),
+                new FmSectionCategory(EFmSectionCategory.Vv, 1 / 300.0, 30.0 * 1 / 300.0),
+                new FmSectionCategory(EFmSectionCategory.VIv, 30.0 * 1 / 300.0, 1.0)
+            });
 
         public void Wbi0E1(EAssessmentResultTypeE1 input)
         {
@@ -97,10 +107,8 @@ namespace Assembly.Kernel.Tests
 
         public void Wbi0G3(EAssessmentResultTypeG2 input, double failureProb)
         {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G3(section, failureMechanism, input, failureProb);
+            translator.TranslateAssessmentResultWbi0G3(input, failureProb, AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0G3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
@@ -117,10 +125,8 @@ namespace Assembly.Kernel.Tests
 
         public void Wbi0G5(EAssessmentResultTypeG2 input, double failureProb)
         {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G5(section, failureMechanism, 0.5, input, failureProb);
+            translator.TranslateAssessmentResultWbi0G5(0.5, input, failureProb, AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0G5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
@@ -162,10 +168,8 @@ namespace Assembly.Kernel.Tests
 
         public void Wbi0T3(EAssessmentResultTypeT3 input, double failureProb)
         {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T3(section, failureMechanism, input, failureProb);
+            translator.TranslateAssessmentResultWbi0T3(input, failureProb, AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0T3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
@@ -182,10 +186,8 @@ namespace Assembly.Kernel.Tests
 
         public void Wbi0T5(EAssessmentResultTypeT3 input, double failureProb)
         {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T5(section, failureMechanism, 0.003, input, failureProb);
+            translator.TranslateAssessmentResultWbi0T5(0.003, input, failureProb, AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0T5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");

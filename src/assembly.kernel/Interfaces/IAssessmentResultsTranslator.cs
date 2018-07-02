@@ -24,7 +24,6 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -159,63 +158,60 @@ namespace Assembly.Kernel.Interfaces
         /// Translate an assessment result with failure probability to an failure mechanism result
         ///  including failure probability as specified in WBI-0G-3.
         /// </summary>
-        /// <param name="section">The assessment section of the assessment</param>
-        /// <param name="failureMechanism">The failure mechanism of the assessment</param>
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
         /// This field may be Double.NaN when it is in the state of "No result yet" </param>
+        /// <param name="categories">Categories list that should be used when determining the category based on the enterede failureProbability</param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeG2 assessment, double failureProbability);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(EAssessmentResultTypeG2 assessment, double failureProbability, CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
         ///  including failure probability as specified in WBI-0G-5.
         /// </summary>
-        /// <param name="section">The assessment section of the assessment</param>
-        /// <param name="failureMechanism">The failure mechanism of the assessment</param>
         /// <param name="fmSectionLengthEffectFactor">The length effect factor of the failure mechanism section</param>
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
-        /// This field may be Double.NaN when it is in the state of "No result yet", if the resulting failure probability 
-        /// is greater than 1.0 it will be maximized to 1.0 </param>
+        ///     This field may be Double.NaN when it is in the state of "No result yet", if the resulting failure probability 
+        ///     is greater than 1.0 it will be maximized to 1.0 </param>
+        /// <param name="categories"></param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(AssessmentSection section,
-            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment,
-            double failureProbability);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(double fmSectionLengthEffectFactor,
+            EAssessmentResultTypeG2 assessment,
+            double failureProbability,
+            CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
         ///  including failure probability as specified in WBI-0T-3.
         /// </summary>
-        /// <param name="section">The assessment section of the assessment</param>
-        /// <param name="failureMechanism">The failure mechanism of the assessment</param>
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
-        /// This field may be Double.NaN when it is in the state of "No result yet" </param>
+        ///     This field may be Double.NaN when it is in the state of "No result yet" </param>
+        /// <param name="categories"></param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeT3 assessment, double failureProbability);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3 assessment,
+            double failureProbability,
+            CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
         ///  including failure probability as specified in WBI-0T-5.
         /// </summary>
-        /// <param name="section">The assessment section of the assessment</param>
-        /// <param name="failureMechanism">The failure mechanism of the assessment</param>
         /// <param name="fmSectionLengthEffectFactor">The length effect factor of the failure mechanism section</param>
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
-        /// This field may be Double.NaN when it is in the state of "No result yet", if the resulting failure probability 
-        /// is greater than 1.0 it will be maximized to 1.0 </param>
+        ///     This field may be Double.NaN when it is in the state of "No result yet", if the resulting failure probability 
+        ///     is greater than 1.0 it will be maximized to 1.0 </param>
+        /// <param name="categories"></param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(AssessmentSection section,
-            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeT3 assessment,
-            double failureProbability);
+        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(double fmSectionLengthEffectFactor,
+            EAssessmentResultTypeT3 assessment,
+            double failureProbability, CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result

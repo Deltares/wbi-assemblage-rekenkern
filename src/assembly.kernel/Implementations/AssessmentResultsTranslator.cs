@@ -37,8 +37,6 @@ namespace Assembly.Kernel.Implementations
     /// <inheritdoc />
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
-        private readonly ICategoryLimitsCalculator categoryLimitCalculatorCalculator;
-
         private readonly ResultMapper<EAssessmentResultTypeE1, EFmSectionCategory> wbi0E1ResultMap =
             new ResultMapper<EAssessmentResultTypeE1, EFmSectionCategory>("Wbi0E1")
             {
@@ -126,14 +124,6 @@ namespace Assembly.Kernel.Implementations
                 {EAssessmentResultTypeT1.Fv, EFmSectionCategory.Iv},
                 {EAssessmentResultTypeT1.Gr, EFmSectionCategory.Gr}
             };
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public AssessmentResultsTranslator()
-        {
-            categoryLimitCalculatorCalculator = new CategoryLimitsCalculator();
-        }
 
         /*
          *direct failure mechnism methods.
@@ -284,8 +274,7 @@ namespace Assembly.Kernel.Implementations
          * Methods with supplied failure probability
          */
         /// <inheritdoc/>
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeG2 assessment, double failureProbability)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(EAssessmentResultTypeG2 assessment, double failureProbability, CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -301,7 +290,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
+                    var category = GetCategoryForFailureProbability(failureProbability, categories);
 
                     return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
 
@@ -312,9 +301,10 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(AssessmentSection section,
-            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeG2 assessment,
-            double failureProbability)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(double fmSectionLengthEffectFactor, 
+            EAssessmentResultTypeG2 assessment,
+            double failureProbability, 
+            CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -329,7 +319,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
+                    var category = GetCategoryForFailureProbability(failureProbability, categories);
 
                     var failureProbValue = failureProbability * fmSectionLengthEffectFactor;
                     if (failureProbValue > 1)
@@ -346,8 +336,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeT3 assessment, double failureProbability)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3 assessment, 
+            double failureProbability, 
+            CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -364,7 +355,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
+                    var category = GetCategoryForFailureProbability(failureProbability, categories);
 
                     return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
 
@@ -375,9 +366,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(AssessmentSection section,
-            FailureMechanism failureMechanism, double fmSectionLengthEffectFactor, EAssessmentResultTypeT3 assessment,
-            double failureProbability)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(double fmSectionLengthEffectFactor,
+            EAssessmentResultTypeT3 assessment,
+            double failureProbability, CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -394,7 +385,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(section, failureMechanism, failureProbability);
+                    var category = GetCategoryForFailureProbability(failureProbability, categories);
 
                     var failureProbValue = failureProbability * fmSectionLengthEffectFactor;
                     if (failureProbValue > 1)
@@ -515,19 +506,6 @@ namespace Assembly.Kernel.Implementations
         /*
          * Private methods and classes.
          */
-
-        /*  Gets the category for a failure probability. 
-            This function gets the category limits using assessment section and failure mechanism.
-        */
-        private EFmSectionCategory GetCategoryForFailureProbability(AssessmentSection section,
-            FailureMechanism failureMechanism, double failureProbability)
-        {
-            // TODO: Remove this call and add to interface
-            IEnumerable<FmSectionCategory> categoryLimits =
-                categoryLimitCalculatorCalculator.CalculateFmSectionCategoryLimitsWbi01(section, failureMechanism);
-
-            return GetCategoryForFailureProbability(failureProbability, new CategoriesList<FmSectionCategory>(categoryLimits.ToArray()));
-        }
 
         /*  Gets the category for a failure probability. 
             This function requires a list of category limits to test against.

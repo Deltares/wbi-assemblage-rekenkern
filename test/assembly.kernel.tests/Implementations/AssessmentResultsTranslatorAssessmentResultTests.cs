@@ -25,6 +25,7 @@
 
 using System.Collections;
 using Assembly.Kernel.Implementations;
+using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -41,7 +42,7 @@ namespace Assembly.Kernel.Tests.Implementations
             translator = new AssessmentResultsTranslator();
         }
 
-        private AssessmentResultsTranslator translator;
+        private IAssessmentResultsTranslator translator;
 
         private sealed class AssessmentResultTestCases
         {
