@@ -60,9 +60,10 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Calculate the category limits for a section of failure mechanism STBU as specified in WBI-0-2
         /// </summary>
-        /// <param name="section">The assessmen section information</param>
+        /// <param name="assessmentSectionNorm"></param>
         /// <param name="failureMechanism">The failure mechanism information</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
-        IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi02(AssessmentSection section, FailureMechanism failureMechanism);
+        IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
+            FailureMechanism failureMechanism);
     }
 }

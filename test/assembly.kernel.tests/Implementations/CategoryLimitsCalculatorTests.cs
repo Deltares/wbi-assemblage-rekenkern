@@ -194,82 +194,33 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateWbi02Exceptions()
-        {
-            const double SignallingLimit = 1.0 / 1000.0;
-            const double LowerLimit = 1.0 / 300.0;
-            const double FailurePobabilityMarginFactor = 1;
-            const double LengthEffectFactor = 1;
-
-            var section = new AssessmentSection(20306, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
-                FailurePobabilityMarginFactor);
-
-            try
-            {
-                categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(section, failureMechanism);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-
-                Assert.AreEqual(2, e.Errors.Count());
-                List<AssemblyErrorMessage> messages = e.Errors.ToList();
-                Assert.NotNull(messages[0]);
-                Assert.NotNull(messages[1]);
-
-                Assert.AreEqual(EAssemblyErrors.PsigDsnAbovePsig, messages[0].ErrorCode);
-                Assert.AreEqual(EAssemblyErrors.PlowDsnAbovePlow, messages[1].ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected Exception not thrown");
-        }
-
-        [Test]
         public void CalculateWbi02MaximizeTest()
         {
-            const double SignallingLimit = 0.00003;
-            const double LowerLimit = 0.068;
-            const double FailurePobabilityMarginFactor = 0.1;
-            const double LengthEffectFactor = 2;
+            const double norm = 0.00003;
+            const double failurePobabilityMarginFactor = 0.1;
+            const double lengthEffectFactor = 2;
 
-            var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
-                FailurePobabilityMarginFactor);
+            var failureMechanism = new FailureMechanism(lengthEffectFactor,
+                failurePobabilityMarginFactor);
 
             IEnumerable<FmSectionCategoryLimits> results =
-                categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(section, failureMechanism);
+                categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
             List<FmSectionCategoryLimits> calculationResult = results.ToList();
-            Assert.AreEqual(6, calculationResult.Count);
+            Assert.AreEqual(2, calculationResult.Count);
+
+            var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
 
             foreach (var limitResults in calculationResult)
             {
                 switch (limitResults.Category)
                 {
-                    case EFmSectionCategory.Iv:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.0000005, roundDouble(limitResults.UpperLimit, 7));
-                        break;
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(0.0000005, roundDouble(limitResults.LowerLimit, 7));
-                        Assert.AreEqual(0.000015, roundDouble(limitResults.UpperLimit, 6));
-                        break;
-                    case EFmSectionCategory.IIIv:
-                        Assert.AreEqual(0.000015, roundDouble(limitResults.LowerLimit, 6));
-                        Assert.AreEqual(0.034, roundDouble(limitResults.UpperLimit, 5));
-                        break;
-                    case EFmSectionCategory.IVv:
-                        Assert.AreEqual(0.034, roundDouble(limitResults.LowerLimit, 5));
-                        Assert.AreEqual(0.068, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0.0, roundDouble(limitResults.LowerLimit, 7));
+                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.UpperLimit, 6));
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(0.068, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
-                        break;
-                    case EFmSectionCategory.VIv:
-                        Assert.AreEqual(1.0, roundDouble(limitResults.LowerLimit, 1));
+                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.LowerLimit, 6));
                         Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 1));
                         break;
                     default:
@@ -282,48 +233,31 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi02Test()
         {
-            const double SignallingLimit = 0.00003;
-            const double LowerLimit = 0.0003;
-            const double FailurePobabilityMarginFactor = 0.1;
-            const double LengthEffectFactor = 2;
+            const double norm = 0.00003;
+            const double failurePobabilityMarginFactor = 0.1;
+            const double lengthEffectFactor = 2;
 
-            var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
-                FailurePobabilityMarginFactor);
+            var failureMechanism = new FailureMechanism(lengthEffectFactor,failurePobabilityMarginFactor);
 
             IEnumerable<FmSectionCategoryLimits> results =
-                categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(section, failureMechanism);
+                categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
             List<FmSectionCategoryLimits> calculationResult = results.ToList();
-            Assert.AreEqual(6, calculationResult.Count);
+            Assert.AreEqual(2, calculationResult.Count);
+
+            var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
 
             foreach (var limitResults in calculationResult)
             {
                 switch (limitResults.Category)
                 {
-                    case EFmSectionCategory.Iv:
-                        Assert.AreEqual(0, roundDouble(limitResults.LowerLimit, 0));
-                        Assert.AreEqual(0.0000005, roundDouble(limitResults.UpperLimit, 7));
-                        break;
                     case EFmSectionCategory.IIv:
-                        Assert.AreEqual(0.0000005, roundDouble(limitResults.LowerLimit, 7));
-                        Assert.AreEqual(0.000015, roundDouble(limitResults.UpperLimit, 6));
-                        break;
-                    case EFmSectionCategory.IIIv:
-                        Assert.AreEqual(0.000015, roundDouble(limitResults.LowerLimit, 6));
-                        Assert.AreEqual(0.00015, roundDouble(limitResults.UpperLimit, 5));
-                        break;
-                    case EFmSectionCategory.IVv:
-                        Assert.AreEqual(0.00015, roundDouble(limitResults.LowerLimit, 5));
-                        Assert.AreEqual(0.0003, roundDouble(limitResults.UpperLimit, 4));
+                        Assert.AreEqual(0.0, roundDouble(limitResults.LowerLimit, 7));
+                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.UpperLimit, 8));
                         break;
                     case EFmSectionCategory.Vv:
-                        Assert.AreEqual(0.0003, roundDouble(limitResults.LowerLimit, 4));
-                        Assert.AreEqual(0.009, roundDouble(limitResults.UpperLimit, 3));
-                        break;
-                    case EFmSectionCategory.VIv:
-                        Assert.AreEqual(0.009, roundDouble(limitResults.LowerLimit, 3));
-                        Assert.AreEqual(1, roundDouble(limitResults.UpperLimit, 0));
+                        Assert.AreEqual(expectedCategoryBoundary, roundDouble(limitResults.LowerLimit, 8));
+                        Assert.AreEqual(1.0, roundDouble(limitResults.UpperLimit, 3));
                         break;
                     default:
                         Assert.Fail("Unexpected category received");

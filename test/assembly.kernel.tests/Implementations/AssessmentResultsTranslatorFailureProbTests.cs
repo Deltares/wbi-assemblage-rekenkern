@@ -434,12 +434,12 @@ namespace Assembly.Kernel.Tests.Implementations
                     /*
                     * input data used is from assessment section 2-1 Ameland (2) and failure mechanism STBI
                     */
-                    yield return new TestCaseData(0.0).Returns(EFmSectionCategory.Iv);
+                    yield return new TestCaseData(0.0).Returns(EFmSectionCategory.IIv);
                     yield return new TestCaseData(1.5E-6).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(9.259E-5).Returns(EFmSectionCategory.IIIv);
-                    yield return new TestCaseData(1.5E-4).Returns(EFmSectionCategory.IVv);
+                    yield return new TestCaseData(9.259E-5).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(1.5E-4).Returns(EFmSectionCategory.Vv);
                     yield return new TestCaseData(5.0E-3).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(0.6).Returns(EFmSectionCategory.VIv);
+                    yield return new TestCaseData(0.6).Returns(EFmSectionCategory.Vv);
                 }
             }
 

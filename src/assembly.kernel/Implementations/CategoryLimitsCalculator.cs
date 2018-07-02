@@ -118,48 +118,22 @@ namespace Assembly.Kernel.Implementations
         public IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
             FailureMechanism failureMechanism)
         {
-            var pSigDsn =
-                failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
-                failureMechanism.LengthEffectFactor;
+            var pSigDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
+                          failureMechanism.LengthEffectFactor;
             var pLowDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilityLowerLimit /
                           failureMechanism.LengthEffectFactor;
 
-            return CalucalteLimitsPdsn(section, pSigDsn, pLowDsn);
-        }
-
-        /// <inheritdoc />
-        public IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi02(AssessmentSection section,
-            FailureMechanism failureMechanism)
-        {
-            var pSigDsn =
-                CapToOne(failureMechanism.FailureProbabilityMarginFactor *
-                         (10 * section.FailureProbabilitySignallingLimit) /
-                         failureMechanism.LengthEffectFactor);
-            var pLowDsn =
-                CapToOne(failureMechanism.FailureProbabilityMarginFactor * (10 * section.FailureProbabilityLowerLimit) /
-                         failureMechanism.LengthEffectFactor);
-
-            return CalucalteLimitsPdsn(section, pSigDsn, pLowDsn);
-        }
-
-
-        private static IEnumerable<FmSectionCategoryLimits> CalucalteLimitsPdsn(AssessmentSection section,
-            double pSigDsn, double pLowDsn)
-        {
             CheckPdsnValues(section, pSigDsn, pLowDsn);
 
-            var pSigDsnDiv30 = CapToOne(pSigDsn / 30.0);
-            var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
-
-            var limits = new List<FmSectionCategoryLimits>
+            return new List<FmSectionCategoryLimits>
             {
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.Iv,
                     0,
-                    pSigDsnDiv30),
+                    CapToOne(pSigDsn / 30.0)),
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.IIv,
-                    pSigDsnDiv30,
+                    CapToOne(pSigDsn / 30.0),
                     pSigDsn),
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.IIIv,
@@ -172,15 +146,35 @@ namespace Assembly.Kernel.Implementations
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.Vv,
                     section.FailureProbabilityLowerLimit,
-                    lowTimes30),
+                    CapToOne(section.FailureProbabilityLowerLimit * 30.0)),
                 new FmSectionCategoryLimits(
                     EFmSectionCategory.VIv,
-                    lowTimes30,
+                    CapToOne(section.FailureProbabilityLowerLimit * 30.0),
                     1)
             };
-
-            return limits;
         }
+
+        /// <inheritdoc />
+        public IEnumerable<FmSectionCategoryLimits> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
+            FailureMechanism failureMechanism)
+        {
+            var pDsn = CapToOne(failureMechanism.FailureProbabilityMarginFactor *
+                                (10 * assessmentSectionNorm) /
+                                failureMechanism.LengthEffectFactor);
+
+            return new List<FmSectionCategoryLimits>
+            {
+                new FmSectionCategoryLimits(
+                    EFmSectionCategory.IIv,
+                    0,
+                    pDsn),
+                new FmSectionCategoryLimits(
+                    EFmSectionCategory.Vv,
+                    pDsn,
+                    1),
+            };
+        }
+
 
         private static void CheckPdsnValues(AssessmentSection section, double pSigDsn,
             double pLowDsn)

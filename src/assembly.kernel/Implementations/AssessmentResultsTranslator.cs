@@ -435,8 +435,9 @@ namespace Assembly.Kernel.Implementations
 
                     // NOTE: WBI-0T-7 is for failure mechanism STBU, 
                     // so the category limit calucation for STBU is needed (WBI-0-2).
+                    // TODO: This is not OK. This method should be used outside WBI-0T-7. Presentation logic should be able to assign lower boundary or siganlling limit.
                     IEnumerable<FmSectionCategoryLimits> categoryLimits =
-                        categoryLimitCalculatorCalculator.CalculateFmSectionCategoryLimitsWbi02(section,
+                        categoryLimitCalculatorCalculator.CalculateFmSectionCategoryLimitsWbi02(section.FailureProbabilitySignallingLimit,
                             failureMechanism);
 
                     var category = GetCategoryForFailureProbability(failureProbability, categoryLimits);
