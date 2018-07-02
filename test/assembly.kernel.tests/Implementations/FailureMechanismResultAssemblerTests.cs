@@ -45,11 +45,6 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new FailureMechanismResultAssembler();
         }
 
-        private delegate double RoundDouble(double input, int decimals);
-
-        private static readonly RoundDouble RoundedDouble =
-            (input, decimals) => Math.Round(input, decimals, MidpointRounding.AwayFromZero);
-
         private readonly AssessmentSection assessmentSectionAmeland =
             new AssessmentSection(20306, 1.0 / 1000.0, 1.0 / 300.0);
 
@@ -79,16 +74,16 @@ namespace Assembly.Kernel.Tests.Implementations
                                 0.0,
                                 0.1
                             },
-                            EAssemblyType.Full)
-                        .Returns(0.1);
+                            EAssemblyType.Full,
+                            0.1);
 
                     yield return new TestCaseData(new[]
                             {
                                 0.0005,
                                 0.00005
                             },
-                            EAssemblyType.Full)
-                        .Returns(RoundedDouble(0.000549975, 10));
+                            EAssemblyType.Full,
+                            0.000549975);
                 }
             }
 
@@ -151,6 +146,20 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EFmSectionCategory.IIv,
                                 EFmSectionCategory.IIIv,
                                 EFmSectionCategory.IVv,
+                                EFmSectionCategory.Vv,
+                                EFmSectionCategory.VIv,
+                                EFmSectionCategory.Gr
+                            },
+                            EAssemblyType.Full)
+                        .Returns(EFailureMechanismCategory.Gr);
+
+                    yield return new TestCaseData(
+                            new[]
+                            {
+                                EFmSectionCategory.Iv,
+                                EFmSectionCategory.IIv,
+                                EFmSectionCategory.IIIv,
+                                EFmSectionCategory.VIIv,
                                 EFmSectionCategory.Vv,
                                 EFmSectionCategory.VIv,
                                 EFmSectionCategory.Gr
@@ -293,15 +302,27 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                             new[]
                             {
-                                EIndirectAssessmentResult.Ngo,
                                 EIndirectAssessmentResult.Nvt,
                                 EIndirectAssessmentResult.FvEt,
+                                EIndirectAssessmentResult.Gr,
+                                EIndirectAssessmentResult.FvTom,
+                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
+                            },
+                            EAssemblyType.Full)
+                        .Returns(EIndirectAssessmentResult.Gr);
+
+                    yield return new TestCaseData(
+                            new[]
+                            {
+                                EIndirectAssessmentResult.Ngo,
+                                EIndirectAssessmentResult.Nvt,
+                                EIndirectAssessmentResult.Gr,
                                 EIndirectAssessmentResult.FvGt,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
                             },
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Ngo);
+                        .Returns(EIndirectAssessmentResult.Gr);
 
                     yield return new TestCaseData(
                             new[]
@@ -451,15 +472,15 @@ namespace Assembly.Kernel.Tests.Implementations
                 false);
 
             Assert.IsFalse(double.IsNaN(result.FailureProbability));
-            Assert.AreEqual(3.6E-4, RoundedDouble(result.FailureProbability, 5));
+            Assert.AreEqual(3.5997E-4, result.FailureProbability, 1e-8);
             Assert.AreEqual(EFailureMechanismCategory.IVt, result.Category);
         }
 
         [Test, TestCaseSource(
              typeof(AssembleFailureMechanismTestData),
              nameof(AssembleFailureMechanismTestData.Wbi1B1))]
-        public double Wbi1B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
-            EAssemblyType assemblyType)
+        public void Wbi1B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
+            EAssemblyType assemblyType, double expectedResult)
         {
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionAmeland, testFailureMechanism1,
                 failureProbabilities.Select(failureProbability =>
@@ -467,7 +488,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
-            return RoundedDouble(result.FailureProbability, 10);
+            Assert.AreEqual(expectedResult, result.FailureProbability,1e-10);
         }
 
         [Test]
@@ -486,7 +507,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 false);
 
             Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, RoundedDouble(result.FailureProbability, 1));
+            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
             Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
         }
 
@@ -551,14 +572,36 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
+                },
+                true);
+
+            Assert.NotNull(result.FailureProbability);
+            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
+            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
+        }
+
+        [Test]
+        public void Wbi1B1PartialNoResult()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
+                new[]
+                {
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
                 },
                 true);
 
             Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, RoundedDouble(result.FailureProbability, 1));
-            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
+            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(EFailureMechanismCategory.Gr, result.Category);
         }
     }
 }

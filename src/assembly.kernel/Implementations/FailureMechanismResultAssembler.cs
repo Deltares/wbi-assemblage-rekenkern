@@ -50,6 +50,9 @@ namespace Assembly.Kernel.Implementations
             {
                 switch (sectionResult.Result)
                 {
+                    case EFmSectionCategory.NotApplicable:
+                        // ignore not applicable category
+                        break;
                     case EFmSectionCategory.Iv:
                     case EFmSectionCategory.IIv:
                     case EFmSectionCategory.IIIv:
@@ -65,15 +68,11 @@ namespace Assembly.Kernel.Implementations
                     case EFmSectionCategory.VIIv:
                         if (!partialAssembly)
                         {
-                            return EFailureMechanismCategory.VIIt;
+                            returnValue = EFmSectionCategory.VIIv;
                         }
-
                         break;
                     case EFmSectionCategory.Gr:
                         return EFailureMechanismCategory.Gr;
-                    case EFmSectionCategory.NotApplicable:
-                        // ignore not applicable category
-                        break;
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + sectionResult.Result,
@@ -98,9 +97,8 @@ namespace Assembly.Kernel.Implementations
                     case EIndirectAssessmentResult.Ngo:
                         if (!partialAssembly)
                         {
-                            return EIndirectAssessmentResult.Ngo;
+                            returnValue = EIndirectAssessmentResult.Ngo;
                         }
-
                         break;
                     case EIndirectAssessmentResult.Nvt:
                     case EIndirectAssessmentResult.FvEt:
@@ -137,11 +135,15 @@ namespace Assembly.Kernel.Implementations
             var failureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
+            var ngoFound = false;
             var failureProbFound = false;
             foreach (var fmSectionResult in sectionResults)
             {
                 switch (fmSectionResult.Result)
                 {
+                    case EFmSectionCategory.NotApplicable:
+                        // ignore not applicable category
+                        continue;
                     case EFmSectionCategory.Iv:
                     case EFmSectionCategory.IIv:
                     case EFmSectionCategory.IIIv:
@@ -169,23 +171,18 @@ namespace Assembly.Kernel.Implementations
                         // the resulting category will also be VIIt. See FO 6.2.1
                         if (!partialAssembly)
                         {
-                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
+                            ngoFound = true;
                         }
 
                         continue;
                     case EFmSectionCategory.Gr:
-                        // if one of the input categories is No result and it isn't a partial result, 
-                        // the resulting category will also be no result. See FO 6.2.1
-                        if (!partialAssembly)
-                        {
-                            return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
-                        }
-
-                        continue;
-                    case EFmSectionCategory.NotApplicable:
-                        // ignore not applicable category
-                        continue;
+                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
                 }
+            }
+
+            if (ngoFound)
+            {
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
 
             if (!failureProbFound)
