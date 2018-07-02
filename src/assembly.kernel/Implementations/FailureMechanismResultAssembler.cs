@@ -199,10 +199,10 @@ namespace Assembly.Kernel.Implementations
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failureMechanismFailureProbability);
             // step 4: Get category limits for failure mechanism and return the category + failure probability
-            IEnumerable<FailureMechanismCategory> categoryLimits =
+            CategoriesList<FailureMechanismCategory> categoryLimits =
                 categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, failureMechanism);
 
-            var resultCategory = categoryLimits
+            var resultCategory = categoryLimits.Categories
                 .First(limits => resultFailureProb <= limits.UpperLimit)
                 .Category;
             return new FailureMechanismAssemblyResult(resultCategory, resultFailureProb);

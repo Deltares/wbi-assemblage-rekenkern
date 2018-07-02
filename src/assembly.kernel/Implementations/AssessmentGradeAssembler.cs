@@ -156,10 +156,10 @@ namespace Assembly.Kernel.Implementations
             var assessmentSectionFailureProb = 1 - failureProbProduct;
 
             // step 2: Get category limits for the assessment section and return the category + failure probability
-            IEnumerable<AssessmentSectionCategory> categoryLimits =
+            CategoriesList<AssessmentSectionCategory> categoryLimits =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
 
-            var resultCategory = categoryLimits
+            var resultCategory = categoryLimits.Categories
                 .First(limits => assessmentSectionFailureProb <= limits.UpperLimit)
                 .Category;
 

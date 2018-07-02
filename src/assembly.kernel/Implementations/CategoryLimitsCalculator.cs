@@ -39,13 +39,13 @@ namespace Assembly.Kernel.Implementations
     public class CategoryLimitsCalculator : ICategoryLimitsCalculator
     {
         /// <inheritdoc />
-        public IEnumerable<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(
+        public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(
             AssessmentSection section)
         {
             var sigDiv30 = CapToOne(section.FailureProbabilitySignallingLimit / 30.0);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
-            var limits = new List<AssessmentSectionCategory>
+            return new CategoriesList<AssessmentSectionCategory>(new[]
             {
                 new AssessmentSectionCategory(
                     EAssessmentGrade.APlus,
@@ -67,13 +67,11 @@ namespace Assembly.Kernel.Implementations
                     EAssessmentGrade.D,
                     lowTimes30,
                     1)
-            };
-
-            return limits;
+            });
         }
 
         /// <inheritdoc />
-        public IEnumerable<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(
+        public CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(
             AssessmentSection section, FailureMechanism failureMechanism)
         {
             var signTimesMargin = CapToOne(section.FailureProbabilitySignallingLimit *
@@ -83,7 +81,7 @@ namespace Assembly.Kernel.Implementations
                                           failureMechanism.FailureProbabilityMarginFactor);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
-            var limits = new List<FailureMechanismCategory>
+            return new CategoriesList<FailureMechanismCategory>(new[]
             {
                 new FailureMechanismCategory(
                     EFailureMechanismCategory.It,
@@ -109,13 +107,11 @@ namespace Assembly.Kernel.Implementations
                     EFailureMechanismCategory.VIt,
                     lowTimes30,
                     1)
-            };
-
-            return limits;
+            });
         }
 
         /// <inheritdoc />
-        public IEnumerable<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
+        public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
             FailureMechanism failureMechanism)
         {
             var pSigDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
@@ -125,7 +121,7 @@ namespace Assembly.Kernel.Implementations
 
             CheckPdsnValues(section, pSigDsn, pLowDsn);
 
-            return new List<FmSectionCategory>
+            return new CategoriesList<FmSectionCategory>(new[]
             {
                 new FmSectionCategory(
                     EFmSectionCategory.Iv,
@@ -151,7 +147,7 @@ namespace Assembly.Kernel.Implementations
                     EFmSectionCategory.VIv,
                     CapToOne(section.FailureProbabilityLowerLimit * 30.0),
                     1)
-            };
+            });
         }
 
         /// <inheritdoc />

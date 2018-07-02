@@ -23,7 +23,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 
@@ -39,7 +38,8 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
-        IEnumerable<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(AssessmentSection section);
+        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(
+            AssessmentSection section);
 
         /// <summary>
         /// Calculate the category limits for a failure mechanism as specified in WBI-1-1
@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="section">The assessment section information</param>
         /// <param name="failureMechanism">The failure mechanism to calculate the category limits for</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
-        IEnumerable<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(AssessmentSection section,
+        CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(AssessmentSection section,
             FailureMechanism failureMechanism);
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="section">The assessment section information</param>
         /// <param name="failureMechanism">The failure mechanism information</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
-        IEnumerable<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
+        CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
             FailureMechanism failureMechanism);
 
         /// <summary>
