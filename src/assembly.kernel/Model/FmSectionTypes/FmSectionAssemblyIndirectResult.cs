@@ -44,6 +44,12 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         public EIndirectAssessmentResult Result { get; }
 
+        /// <inheritdoc />
+        public bool HasResult()
+        {
+            return Result != EIndirectAssessmentResult.Gr;
+        }
+
         /// <summary>
         /// Convert to string
         /// </summary>
@@ -51,12 +57,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public override string ToString()
         {
             return "FmSectionAssemblyIndirectResult [" + Result + "]";
-        }
-
-        /// <inheritdoc />
-        public bool HasResult()
-        {
-            return Result != EIndirectAssessmentResult.Gr;
         }
     }
 }

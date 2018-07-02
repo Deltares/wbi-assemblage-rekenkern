@@ -23,8 +23,6 @@
 
 #endregion
 
-using System;
-
 namespace Assembly.Kernel.Model.FmSectionTypes
 {
     /// <summary>
@@ -47,6 +45,12 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         public EFmSectionCategory Result { get; }
 
+        /// <inheritdoc />
+        public virtual bool HasResult()
+        {
+            return Result != EFmSectionCategory.Gr;
+        }
+
         /// <summary>
         /// Convert to string
         /// </summary>
@@ -54,12 +58,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public override string ToString()
         {
             return "FmSectionAssemblyDirectResult [" + Result + "]";
-        }
-
-        /// <inheritdoc />
-        public virtual bool HasResult()
-        {
-            return Result != EFmSectionCategory.Gr;
         }
     }
 }

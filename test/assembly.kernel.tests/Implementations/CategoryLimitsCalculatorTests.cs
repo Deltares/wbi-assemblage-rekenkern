@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -233,7 +232,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double failurePobabilityMarginFactor = 0.1;
             const double lengthEffectFactor = 2;
 
-            var failureMechanism = new FailureMechanism(lengthEffectFactor,failurePobabilityMarginFactor);
+            var failureMechanism = new FailureMechanism(lengthEffectFactor, failurePobabilityMarginFactor);
 
             CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);

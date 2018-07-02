@@ -71,7 +71,7 @@ namespace Assembly.Kernel.Model
         /// No verdict yet
         /// </summary>
         VIIt = 7,
-        
+
         /// <summary>
         /// No result
         /// </summary>

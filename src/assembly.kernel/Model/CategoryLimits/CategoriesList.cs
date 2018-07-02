@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.CategoryLimits
@@ -32,12 +30,14 @@ namespace Assembly.Kernel.Model.CategoryLimits
         private TCategory[] CheckCategories(TCategory[] categoryLimits)
         {
             var expectedCategoryBoundary = 0.0;
-            
+
             foreach (var category in categoryLimits)
             {
                 if (CompareProbabilities(category.LowerLimit, expectedCategoryBoundary))
                 {
-                    throw new AssemblyException("Categories are not subsequent and do not fully cover the probability range",EAssemblyErrors.InvalidCategoryLimits);
+                    throw new AssemblyException(
+                        "Categories are not subsequent and do not fully cover the probability range",
+                        EAssemblyErrors.InvalidCategoryLimits);
                 }
 
                 expectedCategoryBoundary = category.UpperLimit;
@@ -45,7 +45,9 @@ namespace Assembly.Kernel.Model.CategoryLimits
 
             if (Math.Abs(expectedCategoryBoundary - 1.0) > EpsilonPercentage)
             {
-                throw new AssemblyException("Categories are not subsequent and do not fully cover the probability range", EAssemblyErrors.InvalidCategoryLimits);
+                throw new AssemblyException(
+                    "Categories are not subsequent and do not fully cover the probability range",
+                    EAssemblyErrors.InvalidCategoryLimits);
             }
 
             return categoryLimits;

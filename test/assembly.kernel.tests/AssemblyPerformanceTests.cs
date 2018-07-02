@@ -71,7 +71,7 @@ namespace Assembly.Kernel.Tests
                     {
                         failureMechanismSections.Add(
                             new FmSection(
-                                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.002), 
+                                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.002),
                                 $"TEST{i}F",
                                 sectionStart,
                                 sectionEnd));
@@ -143,7 +143,7 @@ namespace Assembly.Kernel.Tests
             foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb)
             {
                 var result = fmAssembler.AssembleFailureMechanismWbi1A1(
-                    fmSectionResults.Value.Select(fmSection => (FmSectionAssemblyDirectResult)fmSection.Result),
+                    fmSectionResults.Value.Select(fmSection => fmSection.Result),
                     false);
                 failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result, double.NaN));
 
@@ -155,7 +155,8 @@ namespace Assembly.Kernel.Tests
                 var result = fmAssembler.AssembleFailureMechanismWbi1B1(
                     section,
                     fmSectionResults.Key,
-                    fmSectionResults.Value.Select(fmSection => (FmSectionAssemblyDirectResultWithProbability)fmSection.Result),
+                    fmSectionResults.Value.Select(fmSection =>
+                        (FmSectionAssemblyDirectResultWithProbability) fmSection.Result),
                     false);
                 failureMechanismResultsWithFailureProb.Add(result);
 

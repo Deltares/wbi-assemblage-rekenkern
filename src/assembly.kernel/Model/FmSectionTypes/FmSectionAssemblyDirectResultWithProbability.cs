@@ -13,7 +13,8 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <param name="result">The translated category type of the result</param>
         /// <param name="failureProbability">The failure probability of the failure mechanism section</param>
         /// <exception cref="AssemblyException">Thrown when failure probability is &lt;0 or &gt;1</exception>
-        public FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory result, double failureProbability) : base(result)
+        public FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory result, double failureProbability) :
+            base(result)
         {
             if (failureProbability < 0.0 || failureProbability > 1.0)
             {

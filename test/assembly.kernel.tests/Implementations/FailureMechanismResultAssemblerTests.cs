@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,20 +69,20 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(new[]
-                            {
-                                0.0,
-                                0.1
-                            },
-                            EAssemblyType.Full,
-                            0.1);
+                        {
+                            0.0,
+                            0.1
+                        },
+                        EAssemblyType.Full,
+                        0.1);
 
                     yield return new TestCaseData(new[]
-                            {
-                                0.0005,
-                                0.00005
-                            },
-                            EAssemblyType.Full,
-                            0.000549975);
+                        {
+                            0.0005,
+                            0.00005
+                        },
+                        EAssemblyType.Full,
+                        0.000549975);
                 }
             }
 
@@ -466,8 +465,8 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.0001), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.0001),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026)
                 },
                 false);
 
@@ -488,7 +487,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(expectedResult, result.FailureProbability,1e-10);
+            Assert.AreEqual(expectedResult, result.FailureProbability, 1e-10);
         }
 
         [Test]
@@ -497,12 +496,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009)
                 },
                 false);
 
@@ -517,9 +516,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026)
                 },
                 false);
 
@@ -533,9 +532,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026)
                 },
                 false);
 
@@ -549,13 +548,13 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(assessmentSectionTest, testFailureMechanism2,
                 new[]
                 {
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
-                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0), 
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
                 },
                 false);
 
-            Assert.AreEqual(0.0,result.FailureProbability);
+            Assert.AreEqual(0.0, result.FailureProbability);
             Assert.AreEqual(EFailureMechanismCategory.Nvt, result.Category);
         }
 

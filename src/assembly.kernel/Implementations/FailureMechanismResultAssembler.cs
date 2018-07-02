@@ -70,6 +70,7 @@ namespace Assembly.Kernel.Implementations
                         {
                             returnValue = EFmSectionCategory.VIIv;
                         }
+
                         break;
                     case EFmSectionCategory.Gr:
                         return EFailureMechanismCategory.Gr;
@@ -99,6 +100,7 @@ namespace Assembly.Kernel.Implementations
                         {
                             returnValue = EIndirectAssessmentResult.Ngo;
                         }
+
                         break;
                     case EIndirectAssessmentResult.Nvt:
                     case EIndirectAssessmentResult.FvEt:

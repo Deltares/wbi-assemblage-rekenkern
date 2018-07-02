@@ -79,7 +79,8 @@ namespace Assembly.Kernel.Interfaces
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
         FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
-            FailureMechanism failureMechanism, IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            FailureMechanism failureMechanism,
+            IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
             bool partialAssembly);
     }
 }

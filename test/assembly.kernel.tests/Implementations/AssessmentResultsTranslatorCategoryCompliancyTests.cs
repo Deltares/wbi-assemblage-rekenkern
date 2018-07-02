@@ -53,7 +53,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0G6ResultSpecifiedTest(
             FmSectionCategoryCompliancyResults compliancyResults)
         {
-            FmSectionAssemblyDirectResult translateResult = translator.TranslateAssessmentResultWbi0G6(compliancyResults);
+            FmSectionAssemblyDirectResult translateResult =
+                translator.TranslateAssessmentResultWbi0G6(compliancyResults);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(translateResult);
 
 

@@ -132,7 +132,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(EAssessmentResultTypeT2.Vn).Returns(EIndirectAssessmentResult.Ngo);
                     yield return new TestCaseData(EAssessmentResultTypeT2.Ngo).Returns(EIndirectAssessmentResult.Ngo);
                     yield return new TestCaseData(EAssessmentResultTypeT2.Fv).Returns(EIndirectAssessmentResult.FvTom);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult
+                        .FactoredInOtherFailureMechanism);
                 }
             }
         }
@@ -142,7 +143,8 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0E1))]
         public EFmSectionCategory Wbi0E1Test(EAssessmentResultTypeE1 assessmentResult)
         {
-            FmSectionAssemblyDirectResultWithProbability result = translator.TranslateAssessmentResultWbi0E1(assessmentResult);
+            FmSectionAssemblyDirectResultWithProbability result =
+                translator.TranslateAssessmentResultWbi0E1(assessmentResult);
             Assert.NotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResultWithProbability>(result);
 
@@ -175,7 +177,8 @@ namespace Assembly.Kernel.Tests.Implementations
              nameof(AssessmentResultTestCases.Wbi0E3))]
         public EFmSectionCategory Wbi0E3Test(EAssessmentResultTypeE2 assessmentResult)
         {
-            FmSectionAssemblyDirectResultWithProbability result = translator.TranslateAssessmentResultWbi0E3(assessmentResult);
+            FmSectionAssemblyDirectResultWithProbability result =
+                translator.TranslateAssessmentResultWbi0E3(assessmentResult);
             Assert.NotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResultWithProbability>(result);
             if (result.Result == EFmSectionCategory.Iv || result.Result == EFmSectionCategory.NotApplicable)
@@ -210,7 +213,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = translator.TranslateAssessmentResultWbi0G1(assessmentResult);
             Assert.NotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            
+
             return result.Result;
         }
 

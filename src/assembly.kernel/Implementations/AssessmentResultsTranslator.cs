@@ -129,17 +129,21 @@ namespace Assembly.Kernel.Implementations
          *direct failure mechnism methods.
          */
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(
+            EAssessmentResultTypeE1 assessment)
         {
             var fmSectionCategory = wbi0E1ResultMap.GetResult(assessment);
-            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,ResultCategoryToProbabilityEstimation(fmSectionCategory));
+            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
+                ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(
+            EAssessmentResultTypeE2 assessment)
         {
             var fmSectionCategory = wbi0E3ResultMap.GetResult(assessment);
-            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory, ResultCategoryToProbabilityEstimation(fmSectionCategory));
+            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
+                ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
@@ -274,7 +278,8 @@ namespace Assembly.Kernel.Implementations
          * Methods with supplied failure probability
          */
         /// <inheritdoc/>
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(EAssessmentResultTypeG2 assessment, double failureProbability, CategoriesList<FmSectionCategory> categories)
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(
+            EAssessmentResultTypeG2 assessment, double failureProbability, CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -301,9 +306,10 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(double fmSectionLengthEffectFactor, 
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(
+            double fmSectionLengthEffectFactor,
             EAssessmentResultTypeG2 assessment,
-            double failureProbability, 
+            double failureProbability,
             CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
@@ -336,8 +342,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3 assessment, 
-            double failureProbability, 
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(
+            EAssessmentResultTypeT3 assessment,
+            double failureProbability,
             CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
@@ -366,7 +373,8 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(double fmSectionLengthEffectFactor,
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(
+            double fmSectionLengthEffectFactor,
             EAssessmentResultTypeT3 assessment,
             double failureProbability, CategoriesList<FmSectionCategory> categories)
         {
@@ -402,7 +410,8 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment, double failureProbability, CategoriesList<FmSectionCategory> categoriesList)
+        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment,
+            double failureProbability, CategoriesList<FmSectionCategory> categoriesList)
         {
             switch (assessment)
             {
@@ -448,7 +457,9 @@ namespace Assembly.Kernel.Implementations
                 detailedAssessmentResult,
                 customAssessmentResult);
 
-            return result == null ? new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr) : (FmSectionAssemblyDirectResult)result;
+            return result == null
+                ? new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr)
+                : (FmSectionAssemblyDirectResult) result;
         }
 
         /// <inheritdoc />
@@ -462,7 +473,9 @@ namespace Assembly.Kernel.Implementations
                 detailedAssessmentResult,
                 customAssessmentResult);
 
-            return result == null ? new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN) : (FmSectionAssemblyDirectResultWithProbability)result;
+            return result == null
+                ? new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN)
+                : (FmSectionAssemblyDirectResultWithProbability) result;
         }
 
         /// <inheritdoc />
@@ -475,7 +488,9 @@ namespace Assembly.Kernel.Implementations
                 simpleAssessmentResult,
                 detailedAssessmentResult,
                 customAssessmentResult);
-            return result == null ? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr) : (FmSectionAssemblyIndirectResult)result;
+            return result == null
+                ? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr)
+                : (FmSectionAssemblyIndirectResult) result;
         }
 
         private static IFmSectionAssemblyResult Wbi0A1(
@@ -526,7 +541,9 @@ namespace Assembly.Kernel.Implementations
         /// <returns>Either 0.0 in case the category equals EFmSectionCategory.Iv or EFmSectionCategory.NotApplicable</returns>
         private static double ResultCategoryToProbabilityEstimation(EFmSectionCategory fmSectionCategory)
         {
-            return fmSectionCategory == EFmSectionCategory.Iv || fmSectionCategory == EFmSectionCategory.NotApplicable ? 0.0 : double.NaN;
+            return fmSectionCategory == EFmSectionCategory.Iv || fmSectionCategory == EFmSectionCategory.NotApplicable
+                ? 0.0
+                : double.NaN;
         }
 
         /// <summary>

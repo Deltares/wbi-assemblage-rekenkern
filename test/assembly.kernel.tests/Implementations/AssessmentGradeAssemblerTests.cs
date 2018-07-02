@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,20 +161,20 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(new[]
-                            {
-                                0.0,
-                                0.1
-                            },
-                            EAssemblyType.Full,
-                            0.1);
+                        {
+                            0.0,
+                            0.1
+                        },
+                        EAssemblyType.Full,
+                        0.1);
 
                     yield return new TestCaseData(new[]
-                            {
-                                0.0005,
-                                0.00005
-                            },
-                            EAssemblyType.Full,
-                            0.000549975);
+                        {
+                            0.0005,
+                            0.00005
+                        },
+                        EAssemblyType.Full,
+                        0.000549975);
                 }
             }
         }

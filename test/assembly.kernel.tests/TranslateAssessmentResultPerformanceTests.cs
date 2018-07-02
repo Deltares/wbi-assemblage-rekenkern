@@ -44,7 +44,8 @@ namespace Assembly.Kernel.Tests
             new CategoriesList<FmSectionCategory>(new[]
             {
                 new FmSectionCategory(EFmSectionCategory.Iv, 0, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4),
-                new FmSectionCategory(EFmSectionCategory.IIv, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4, 1 / 1000.0 * 0.04 / 14.4),
+                new FmSectionCategory(EFmSectionCategory.IIv, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4,
+                    1 / 1000.0 * 0.04 / 14.4),
                 new FmSectionCategory(EFmSectionCategory.IIIv, 1 / 1000.0 * 0.04 / 14.4, 1 / 300.0 * 0.04 / 14.4),
                 new FmSectionCategory(EFmSectionCategory.IVv, 1 / 300.0 * 0.04 / 14.4, 1 / 300.0),
                 new FmSectionCategory(EFmSectionCategory.Vv, 1 / 300.0, 30.0 * 1 / 300.0),
@@ -126,7 +127,8 @@ namespace Assembly.Kernel.Tests
         public void Wbi0G5(EAssessmentResultTypeG2 input, double failureProb)
         {
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G5(0.5, input, failureProb, AssessmentSectionAmelandDefaultCategories);
+            translator.TranslateAssessmentResultWbi0G5(0.5, input, failureProb,
+                AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0G5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
@@ -187,7 +189,8 @@ namespace Assembly.Kernel.Tests
         public void Wbi0T5(EAssessmentResultTypeT3 input, double failureProb)
         {
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T5(0.003, input, failureProb, AssessmentSectionAmelandDefaultCategories);
+            translator.TranslateAssessmentResultWbi0T5(0.003, input, failureProb,
+                AssessmentSectionAmelandDefaultCategories);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0T5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
@@ -219,10 +222,11 @@ namespace Assembly.Kernel.Tests
             var lengthEffectFactor = 3.0;
             var failureProbabilityMarginFactor = 0.2;
             var watch = Stopwatch.StartNew();
-            var categoryBoundary = failureProbabilitySignallingLimit*failureProbabilityMarginFactor*10.0/ lengthEffectFactor;
+            var categoryBoundary = failureProbabilitySignallingLimit * failureProbabilityMarginFactor * 10.0 /
+                                   lengthEffectFactor;
             CategoriesList<FmSectionCategory> categoriesList = new CategoriesList<FmSectionCategory>(new[]
             {
-                new FmSectionCategory(EFmSectionCategory.IIv,0.0, categoryBoundary),
+                new FmSectionCategory(EFmSectionCategory.IIv, 0.0, categoryBoundary),
                 new FmSectionCategory(EFmSectionCategory.Vv, categoryBoundary, 1.0)
             });
             translator.TranslateAssessmentResultWbi0T7(input, failureProb, categoriesList);
