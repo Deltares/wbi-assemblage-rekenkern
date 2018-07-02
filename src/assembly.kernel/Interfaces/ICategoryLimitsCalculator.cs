@@ -63,7 +63,6 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="assessmentSectionNorm"></param>
         /// <param name="failureMechanism">The failure mechanism information</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
-        IEnumerable<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
-            FailureMechanism failureMechanism);
+        CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,FailureMechanism failureMechanism);
     }
 }

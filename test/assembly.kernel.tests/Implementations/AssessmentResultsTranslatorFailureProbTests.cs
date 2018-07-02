@@ -30,6 +30,7 @@ using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
@@ -333,13 +334,16 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test, TestCaseSource(
              typeof(FailureProbabilityTestCases),
              nameof(FailureProbabilityTestCases.Wbi0T7FailureProbability))]
-        public EFmSectionCategory Wbi0T7FailureProbabilityTest(double failureProbability)
+        public EFmSectionCategory Wbi0T7FailureProbabilityTest(double failureProbability, double categoryBoundary)
         {
             var result = translator.TranslateAssessmentResultWbi0T7(
-                AssessmentSectionAmeland,
-                TestFailureMechanism,
                 EAssessmentResultTypeT4.ResultSpecified,
-                failureProbability);
+                failureProbability,
+                new CategoriesList<FmSectionCategory>(new[]
+                    {
+                        new FmSectionCategory(EFmSectionCategory.IIv, 0.0,categoryBoundary),
+                        new FmSectionCategory(EFmSectionCategory.Vv,categoryBoundary,1.0)
+                    }));
 
             Assert.NotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
@@ -353,10 +357,13 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0T7AssessmentResultTest(EAssessmentResultTypeT4 assessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0T7(
-                AssessmentSectionAmeland,
-                TestFailureMechanism,
                 assessmentResult,
-                double.NaN);
+                double.NaN,
+                new CategoriesList<FmSectionCategory>(new[]
+                {
+                    new FmSectionCategory(EFmSectionCategory.IIv, 0.0, 0.5),
+                    new FmSectionCategory(EFmSectionCategory.Vv, 0.5, 1.0)
+                }));
 
             Assert.NotNull(result);
 
@@ -368,10 +375,14 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                translator.TranslateAssessmentResultWbi0T7(AssessmentSectionAmeland,
-                    TestFailureMechanism,
+                translator.TranslateAssessmentResultWbi0T7(
                     EAssessmentResultTypeT4.ResultSpecified,
-                    double.NaN);
+                    double.NaN,
+                    new CategoriesList<FmSectionCategory>(new[]
+                    {
+                        new FmSectionCategory(EFmSectionCategory.IIv, 0.0, 0.5),
+                        new FmSectionCategory(EFmSectionCategory.Vv, 0.5, 1.0)
+                    }));
             }
             catch (AssemblyException e)
             {
@@ -434,12 +445,12 @@ namespace Assembly.Kernel.Tests.Implementations
                     /*
                     * input data used is from assessment section 2-1 Ameland (2) and failure mechanism STBI
                     */
-                    yield return new TestCaseData(0.0).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(1.5E-6).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(9.259E-5).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(1.5E-4).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(5.0E-3).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(0.6).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(0.0, 0.5).Returns(EFmSectionCategory.IIv);
+                    yield return new TestCaseData(1.5E-6, 2.0e-4).Returns(EFmSectionCategory.IIv);
+                    yield return new TestCaseData(9.259E-5, 9.259E-5).Returns(EFmSectionCategory.IIv);
+                    yield return new TestCaseData(1.5E-4,1.0e-6).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(5.0E-3,1.0e-14).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(0.6,0.1).Returns(EFmSectionCategory.Vv);
                 }
             }
 

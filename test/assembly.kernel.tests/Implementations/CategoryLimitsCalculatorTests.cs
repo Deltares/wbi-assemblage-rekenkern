@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
+using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -44,7 +45,7 @@ namespace Assembly.Kernel.Tests.Implementations
             categoryLimitsCalculator = new CategoryLimitsCalculator();
         }
 
-        private CategoryLimitsCalculator categoryLimitsCalculator;
+        private ICategoryLimitsCalculator categoryLimitsCalculator;
 
         [Test]
         public void CalculateWbi01Exceptions()
@@ -198,11 +199,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanism = new FailureMechanism(lengthEffectFactor,
                 failurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategory> results =
+            CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            List<FmSectionCategory> calculationResult = results.ToList();
-            Assert.AreEqual(2, calculationResult.Count);
+            FmSectionCategory[] calculationResult = results.Categories;
+            Assert.AreEqual(2, calculationResult.Length);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
 
@@ -234,11 +235,11 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var failureMechanism = new FailureMechanism(lengthEffectFactor,failurePobabilityMarginFactor);
 
-            IEnumerable<FmSectionCategory> results =
+            CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            List<FmSectionCategory> calculationResult = results.ToList();
-            Assert.AreEqual(2, calculationResult.Count);
+            FmSectionCategory[] calculationResult = results.Categories;
+            Assert.AreEqual(2, calculationResult.Length);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
 

@@ -29,6 +29,7 @@ using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
@@ -212,10 +213,17 @@ namespace Assembly.Kernel.Tests
 
         public void Wbi0T7(EAssessmentResultTypeT4 input, double failureProb)
         {
-            var section = new AssessmentSection(1000, 0.0001, 0.001);
-            var failureMechanism = new FailureMechanism(3, 0.2);
+            var failureProbabilitySignallingLimit = 0.0001;
+            var lengthEffectFactor = 3.0;
+            var failureProbabilityMarginFactor = 0.2;
             var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0T7(section, failureMechanism, input, failureProb);
+            var categoryBoundary = failureProbabilitySignallingLimit*failureProbabilityMarginFactor*10.0/ lengthEffectFactor;
+            CategoriesList<FmSectionCategory> categoriesList = new CategoriesList<FmSectionCategory>(new[]
+            {
+                new FmSectionCategory(EFmSectionCategory.IIv,0.0, categoryBoundary),
+                new FmSectionCategory(EFmSectionCategory.Vv, categoryBoundary, 1.0)
+            });
+            translator.TranslateAssessmentResultWbi0T7(input, failureProb, categoriesList);
             watch.Stop();
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Wbi0T7({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");

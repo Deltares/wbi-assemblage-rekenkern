@@ -411,8 +411,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeT4 assessment, double failureProbability)
+        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment, double failureProbability, CategoriesList<FmSectionCategory> categoriesList)
         {
             switch (assessment)
             {
@@ -433,14 +432,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    // NOTE: WBI-0T-7 is for failure mechanism STBU, 
-                    // so the category limit calucation for STBU is needed (WBI-0-2).
-                    // TODO: This is not OK. This method should be used outside WBI-0T-7. Presentation logic should be able to assign lower boundary or siganlling limit.
-                    IEnumerable<FmSectionCategory> categoryLimits =
-                        categoryLimitCalculatorCalculator.CalculateFmSectionCategoryLimitsWbi02(section.FailureProbabilitySignallingLimit,
-                            failureMechanism);
-
-                    var category = GetCategoryForFailureProbability(failureProbability, categoryLimits);
+                    var category = GetCategoryForFailureProbability(failureProbability, categoriesList);
 
                     return new FmSectionAssemblyDirectResult(category);
 
@@ -530,20 +522,20 @@ namespace Assembly.Kernel.Implementations
         private EFmSectionCategory GetCategoryForFailureProbability(AssessmentSection section,
             FailureMechanism failureMechanism, double failureProbability)
         {
+            // TODO: Remove this call and add to interface
             IEnumerable<FmSectionCategory> categoryLimits =
                 categoryLimitCalculatorCalculator.CalculateFmSectionCategoryLimitsWbi01(section, failureMechanism);
 
-            var category = GetCategoryForFailureProbability(failureProbability, categoryLimits);
-            return category;
+            return GetCategoryForFailureProbability(failureProbability, new CategoriesList<FmSectionCategory>(categoryLimits.ToArray()));
         }
 
         /*  Gets the category for a failure probability. 
             This function requires a list of category limits to test against.
         */
         private static EFmSectionCategory GetCategoryForFailureProbability(double failureProbability,
-            IEnumerable<FmSectionCategory> categoryLimits)
+            CategoriesList<FmSectionCategory> categoryList)
         {
-            var category = categoryLimits
+            var category = categoryList.Categories
                 .First(limits => failureProbability <= limits.UpperLimit)
                 .Category;
             return category;

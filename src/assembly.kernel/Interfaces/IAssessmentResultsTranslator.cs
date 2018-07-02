@@ -26,6 +26,7 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace Assembly.Kernel.Interfaces
@@ -220,15 +221,13 @@ namespace Assembly.Kernel.Interfaces
         /// Translate an assessment result with failure probability to an failure mechanism result
         ///  including failure probability as specified in WBI-0T-7.
         /// </summary>
-        /// <param name="section">The assessment section of the assessment</param>
-        /// <param name="failureMechanism">The failure mechanism of the assessment</param>
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
         /// This field may be Double.NaN when it is in the state of "No result yet" </param>
+        /// <param name="categoriesList">The list with categories that should be used when translating a probability to a category.</param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(AssessmentSection section,
-            FailureMechanism failureMechanism, EAssessmentResultTypeT4 assessment, double failureProbability);
+        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment, double failureProbability, CategoriesList<FmSectionCategory> categoriesList);
 
         /// <summary>
         /// Translate the assessment result of direct failure mechanism section assessments to a 

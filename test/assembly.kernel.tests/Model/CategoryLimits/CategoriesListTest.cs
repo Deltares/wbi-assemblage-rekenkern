@@ -57,6 +57,15 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
                     new List<TestCategory>
                     {
                         new TestCategory(0.0, 0.1),
+                        new TestCategory(0.1, 0.2),
+                        new TestCategory(0.2, 0.5),
+                        new TestCategory(0.5+1e-16, 1.0)
+                    });
+
+                yield return new TestCaseData(
+                    new List<TestCategory>
+                    {
+                        new TestCategory(0.0, 0.1),
                         new TestCategory(0.2, 0.5),
                         new TestCategory(0.5, 1.0)
                     });
@@ -82,6 +91,19 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             }
             
             Assert.Fail("Expected exception, but did not recieve one.");
+        }
+
+        [Test]
+        public void CtorAcceptsCorrectListOfCategories()
+        {
+            var list = new CategoriesList<TestCategory>(new[]
+            {
+                new TestCategory(0.0, 0.5),
+                new TestCategory(0.5, 1.0),
+            });
+
+            Assert.IsNotNull(list);
+            Assert.AreEqual(2, list.Categories.Length);
         }
     }
 }

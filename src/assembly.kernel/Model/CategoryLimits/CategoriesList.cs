@@ -11,9 +11,9 @@ namespace Assembly.Kernel.Model.CategoryLimits
     public class CategoriesList<TCategory> where TCategory : ICategoryLimits
     {
         /// <summary>
-        /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
+        /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than EpsilonPercentage will not be taken into account.
         /// </summary>
-        public static readonly double Epsilon = 1e-60;
+        public static readonly double EpsilonPercentage = 1e-40;
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
@@ -27,16 +27,15 @@ namespace Assembly.Kernel.Model.CategoryLimits
         /// <summary>
         /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1.
         /// </summary>
-        public IEnumerable<TCategory> Categories { get; }
+        public TCategory[] Categories { get; }
 
         private TCategory[] CheckCategories(TCategory[] categoryLimits)
         {
-            var categories = categoryLimits.OrderBy(c => c.LowerLimit).ToArray();
             var expectedCategoryBoundary = 0.0;
             
-            foreach (var category in categories)
+            foreach (var category in categoryLimits)
             {
-                if (Math.Abs(category.LowerLimit - expectedCategoryBoundary) > Epsilon)
+                if (CompareProbabilities(category.LowerLimit, expectedCategoryBoundary))
                 {
                     throw new AssemblyException("Categories are not subsequent and do not fully cover the probability range",EAssemblyErrors.InvalidCategoryLimits);
                 }
@@ -44,12 +43,18 @@ namespace Assembly.Kernel.Model.CategoryLimits
                 expectedCategoryBoundary = category.UpperLimit;
             }
 
-            if (Math.Abs(expectedCategoryBoundary - 1.0) > Epsilon)
+            if (Math.Abs(expectedCategoryBoundary - 1.0) > EpsilonPercentage)
             {
                 throw new AssemblyException("Categories are not subsequent and do not fully cover the probability range", EAssemblyErrors.InvalidCategoryLimits);
             }
 
-            return categories;
+            return categoryLimits;
+        }
+
+        private static bool CompareProbabilities(double firstProbability, double secondprobability)
+        {
+            var epsilon = Math.Max(firstProbability, secondprobability) * EpsilonPercentage;
+            return Math.Abs(firstProbability - secondprobability) > epsilon;
         }
     }
 }

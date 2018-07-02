@@ -155,14 +155,14 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public IEnumerable<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
+        public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
             FailureMechanism failureMechanism)
         {
             var pDsn = CapToOne(failureMechanism.FailureProbabilityMarginFactor *
                                 (10 * assessmentSectionNorm) /
                                 failureMechanism.LengthEffectFactor);
 
-            return new List<FmSectionCategory>
+            return new CategoriesList<FmSectionCategory>(new[]
             {
                 new FmSectionCategory(
                     EFmSectionCategory.IIv,
@@ -171,8 +171,8 @@ namespace Assembly.Kernel.Implementations
                 new FmSectionCategory(
                     EFmSectionCategory.Vv,
                     pDsn,
-                    1),
-            };
+                    1)
+            });
         }
 
 
