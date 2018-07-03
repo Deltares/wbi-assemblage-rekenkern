@@ -177,7 +177,8 @@ namespace Assembly.Kernel.Tests
                     categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section), false);
 
             assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(
-                new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb), assessmentGradeWithFailureProb);
+                new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb.ToAssessmentGrade()),
+                assessmentGradeWithFailureProb);
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,

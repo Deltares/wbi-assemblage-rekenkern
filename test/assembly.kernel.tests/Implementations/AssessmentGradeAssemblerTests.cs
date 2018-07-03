@@ -31,7 +31,6 @@ using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Tests.Model.CategoryLimits;
 using NUnit.Framework;
 
 // ReSharper disable UnusedMember.Local
@@ -73,7 +72,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.VIt,
                             EFailureMechanismCategory.VIIt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.Ngo);
+                        .Returns(EFailureMechanismCategory.VIIt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -84,7 +83,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.Vt,
                             EFailureMechanismCategory.VIt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.D);
+                        .Returns(EFailureMechanismCategory.VIt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -94,7 +93,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IVt,
                             EFailureMechanismCategory.Vt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.C);
+                        .Returns(EFailureMechanismCategory.Vt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -103,7 +102,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IIIt,
                             EFailureMechanismCategory.IVt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.C);
+                        .Returns(EFailureMechanismCategory.IVt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -111,20 +110,20 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IIt,
                             EFailureMechanismCategory.IIIt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.B);
+                        .Returns(EFailureMechanismCategory.IIIt);
 
                     yield return new TestCaseData(new[]
                         {
                             EFailureMechanismCategory.It,
                             EFailureMechanismCategory.IIt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.A);
+                        .Returns(EFailureMechanismCategory.IIt);
 
                     yield return new TestCaseData(new[]
                         {
                             EFailureMechanismCategory.It
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.APlus);
+                        .Returns(EFailureMechanismCategory.It);
 
                     yield return new TestCaseData(new[]
                         {
@@ -136,7 +135,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IVt,
                             EFailureMechanismCategory.Vt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.Gr);
+                        .Returns(EFailureMechanismCategory.Gr);
 
                     yield return new TestCaseData(new[]
                         {
@@ -147,7 +146,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IVt,
                             EFailureMechanismCategory.Vt
                         }, EAssemblyType.Full)
-                        .Returns(EAssessmentGrade.Ngo);
+                        .Returns(EFailureMechanismCategory.VIIt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -156,7 +155,16 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.Nvt,
                             EFailureMechanismCategory.VIIt
                         }, EAssemblyType.Partial)
-                        .Returns(EAssessmentGrade.Nvt);
+                        .Returns(EFailureMechanismCategory.Nvt);
+
+                    yield return new TestCaseData(new[]
+                        {
+                            EFailureMechanismCategory.Nvt,
+                            EFailureMechanismCategory.Nvt,
+                            EFailureMechanismCategory.Nvt,
+                            EFailureMechanismCategory.VIIt
+                        }, EAssemblyType.Full)
+                        .Returns(EFailureMechanismCategory.VIIt);
                 }
             }
 
@@ -186,7 +194,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test, TestCaseSource(
              typeof(AssessMentGradeAssemblerTestData),
              nameof(AssessMentGradeAssemblerTestData.Wbi2A1Categories))]
-        public EAssessmentGrade Wbi2A1(IEnumerable<EFailureMechanismCategory> failureMechanismCategories,
+        public EFailureMechanismCategory Wbi2A1(IEnumerable<EFailureMechanismCategory> failureMechanismCategories,
             EAssemblyType assemblyType)
         {
             return assembler.AssembleAssessmentSectionWbi2A1(
@@ -224,47 +232,6 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(message);
                 Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
             }
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessMentGradeAssemblerTestData),
-             nameof(AssessMentGradeAssemblerTestData.Wbi2B1))]
-        public void Wbi2B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
-            EAssemblyType assemblyType, double expectedResult)
-        {
-            var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
-                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, failureProbability)),
-                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
-                assemblyType == EAssemblyType.Partial);
-
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(result.FailureProbability, expectedResult, 10);
-        }
-
-        [Test]
-        public void Wbi2B1FailureProbNull()
-        {
-            try
-            {
-                var result = assembler.AssembleAssessmentSectionWbi2B1(
-                    new[]
-                    {
-                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, double.NaN),
-                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
-                    },
-                    categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
-                    false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
@@ -311,12 +278,34 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
+        [Test, TestCaseSource(
+             typeof(AssessMentGradeAssemblerTestData),
+             nameof(AssessMentGradeAssemblerTestData.Wbi2B1))]
+        public void Wbi2B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
+            EAssemblyType assemblyType, double expectedResult)
+        {
+            var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, failureProbability)),
+                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
+                assemblyType == EAssemblyType.Partial);
+
+            Assert.NotNull(result.FailureProbability);
+            Assert.AreEqual(result.FailureProbability, expectedResult, 10);
+        }
+
         [Test]
-        public void Wbi2B1NullTest()
+        public void Wbi2B1FailureProbNull()
         {
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(null,null, false);
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                    new[]
+                    {
+                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, double.NaN),
+                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
+                    },
+                    categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
+                    false);
             }
             catch (AssemblyException e)
             {
@@ -324,7 +313,10 @@ namespace Assembly.Kernel.Tests.Implementations
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
                 Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
             }
+
+            Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
@@ -360,6 +352,22 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNaN(result.FailureProbability);
             Assert.AreEqual(EAssessmentGrade.Ngo, result.Category);
+        }
+
+        [Test]
+        public void Wbi2B1NullTest()
+        {
+            try
+            {
+                assembler.AssembleAssessmentSectionWbi2B1(null, null, false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+            }
         }
 
         [Test]

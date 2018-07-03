@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The assembled assessment grade of the assessment section</returns>
         /// <exception cref="AssemblyException">Thrown when input list is null or empty, 
         /// or when a input category is not known</exception>
-        EAssessmentGrade AssembleAssessmentSectionWbi2A1(
+        EFailureMechanismCategory AssembleAssessmentSectionWbi2A1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults, bool partialAssembly);
 
         /// <summary>

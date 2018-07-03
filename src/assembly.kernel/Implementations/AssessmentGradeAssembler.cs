@@ -36,7 +36,7 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
         /// <inheritdoc />
-        public EAssessmentGrade AssembleAssessmentSectionWbi2A1(
+        public EFailureMechanismCategory AssembleAssessmentSectionWbi2A1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
             bool partialAssembly)
         {
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Implementations
 
                         break;
                     case EFailureMechanismCategory.Gr:
-                        return EAssessmentGrade.Gr;
+                        return EFailureMechanismCategory.Gr;
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + failureMechanismResult.Category,
@@ -80,7 +80,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            return ngoFound ? EAssessmentGrade.Ngo : resultCategory.ToAssessmentGrade();
+            return ngoFound ? EFailureMechanismCategory.VIIt : resultCategory;
         }
 
         /// <inheritdoc />
@@ -181,7 +181,8 @@ namespace Assembly.Kernel.Implementations
             return assemblyResultWithFailureProbability.CreateNewFrom();
         }
 
-        private static List<FailureMechanismAssemblyResult> CheckFailureMechanismAssemblyResults(IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults)
+        private static List<FailureMechanismAssemblyResult> CheckFailureMechanismAssemblyResults(
+            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults)
         {
             if (failureMechanismAssemblyResults == null)
             {
