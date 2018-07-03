@@ -99,7 +99,7 @@ namespace Assembly.Kernel.Implementations
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
             var failureProbProduct = 1.0;
             var failureProbFound = false;
-            var ngoFound = false;
+            var noAssessmentResultPresent = false;
 
             foreach (var failureMechanismAssemblyResult in failureMechanismResults)
             {
@@ -119,18 +119,16 @@ namespace Assembly.Kernel.Implementations
                             throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
                         }
 
-                        // This failuremechanism section contains a failure probability 
                         failureProbFound = true;
 
-                        var sectionFailureProb = failureMechanismAssemblyResult.FailureProbability;
-                        failureProbProduct *= 1.0 - sectionFailureProb;
+                        failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
                         break;
                     case EFailureMechanismCategory.VIIt:
-                        // If one of the results is VIIv and it isn't a partial result,
-                        // the resulting category will also be VIIt. See FO 7.2.1
+                        // If one of the results is VIIv and it isn't a partial assembly, register this. The result should 
+                        // always be VIIt if there is no other result of type GR. See FO 7.2.1
                         if (!partialAssembly)
                         {
-                            ngoFound = true;
+                            noAssessmentResultPresent = true;
                         }
 
                         continue;
@@ -139,7 +137,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            if (ngoFound)
+            if (noAssessmentResultPresent)
             {
                 return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
