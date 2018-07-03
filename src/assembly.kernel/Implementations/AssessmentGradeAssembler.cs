@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Implementations
         {
             var failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
 
-            var ngoFound = false;
+            var categoryViiFound = false;
             var resultCategory = EFailureMechanismCategory.Nvt;
             foreach (var failureMechanismResult in failureMechanismResults)
             {
@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Implementations
                     case EFailureMechanismCategory.VIIt:
                         if (!partialAssembly)
                         {
-                            ngoFound = true;
+                            categoryViiFound = true;
                         }
 
                         break;
@@ -80,7 +80,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            return ngoFound ? EFailureMechanismCategory.VIIt : resultCategory;
+            return categoryViiFound ? EFailureMechanismCategory.VIIt : resultCategory;
         }
 
         /// <inheritdoc />
@@ -99,7 +99,7 @@ namespace Assembly.Kernel.Implementations
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
             var failureProbProduct = 1.0;
             var failureProbFound = false;
-            var noAssessmentResultPresent = false;
+            var categoryViiFound = false;
 
             foreach (var failureMechanismAssemblyResult in failureMechanismResults)
             {
@@ -128,16 +128,20 @@ namespace Assembly.Kernel.Implementations
                         // always be VIIt if there is no other result of type GR. See FO 7.2.1
                         if (!partialAssembly)
                         {
-                            noAssessmentResultPresent = true;
+                            categoryViiFound = true;
                         }
 
                         continue;
                     case EFailureMechanismCategory.Gr:
                         return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+                    default:
+                        throw new AssemblyException(
+                            "AssembleFailureMechanismResult: " + failureMechanismAssemblyResult.Category,
+                            EAssemblyErrors.CategoryNotAllowed);
                 }
             }
 
-            if (noAssessmentResultPresent)
+            if (categoryViiFound)
             {
                 return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
