@@ -173,8 +173,8 @@ namespace Assembly.Kernel.Tests
                 assessmentSectionAssembler.AssembleAssessmentSectionWbi2A1(failureMechanismResultsWithoutFailureProb,
                     false);
             var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(section,
-                    failureMechanismResultsWithFailureProb, false);
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb,
+                    categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section), false);
 
             assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(
                 new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb), assessmentGradeWithFailureProb);

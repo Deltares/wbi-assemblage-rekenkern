@@ -47,6 +47,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private IAssessmentGradeAssembler assembler;
         private readonly AssessmentSection assessmentSection = new AssessmentSection(10000, 1.0 / 1000.0, 1.0 / 300.0);
+        private readonly CategoryLimitsCalculator categoriesCalculator = new CategoryLimitsCalculator();
 
         public enum EAssemblyType
         {
@@ -228,9 +229,9 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi2B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
             EAssemblyType assemblyType, double expectedResult)
         {
-            var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
-                failureProbabilities.Select(failureProbability =>
+            var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, failureProbability)),
+                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
                 assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
@@ -242,12 +243,13 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
                     new[]
                     {
                         new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, double.NaN),
                         new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                     },
+                    categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
                     false);
             }
             catch (AssemblyException e)
@@ -265,13 +267,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi2B1NoResult()
         {
-            var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                 },
+                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
                 false);
 
             Assert.IsNaN(result.FailureProbability);
@@ -281,13 +284,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi2B1NoResultYet()
         {
-            var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
                 },
+                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
                 false);
 
             Assert.IsNaN(result.FailureProbability);
@@ -297,12 +301,13 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi2B1Nvt()
         {
-            var result = assembler.AssembleAssessmentSectionWbi2B1(assessmentSection,
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, double.NaN)
                 },
+                categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection),
                 false);
 
             Assert.IsNaN(result.FailureProbability);

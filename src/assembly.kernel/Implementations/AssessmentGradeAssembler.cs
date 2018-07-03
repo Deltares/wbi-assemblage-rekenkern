@@ -95,8 +95,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(AssessmentSection section,
+        public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
+            CategoriesList<AssessmentSectionCategory> categoryLimits,
             bool partialAssembly)
         {
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
@@ -156,9 +157,6 @@ namespace Assembly.Kernel.Implementations
             var assessmentSectionFailureProb = 1 - failureProbProduct;
 
             // step 2: Get category limits for the assessment section and return the category + failure probability
-            CategoriesList<AssessmentSectionCategory> categoryLimits =
-                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
-
             var resultCategory = categoryLimits.Categories
                 .First(limits => assessmentSectionFailureProb <= limits.UpperLimit)
                 .Category;

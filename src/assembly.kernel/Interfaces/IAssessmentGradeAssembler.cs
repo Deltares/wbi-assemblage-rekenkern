@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
 
 namespace Assembly.Kernel.Interfaces
 {
@@ -48,14 +49,16 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Assembles Failure mechanism results with failure probability into one assembly section result.
         /// </summary>
-        /// <param name="section">The assessment section to assemble the results for</param>
         /// <param name="failureMechanismAssemblyResults">failure mechanism assembly result with failure probability</param>
+        /// <param name="categoryLimits">Categories list that should be used to translate the combined probability of failure to the correct category</param>
         /// <param name="partialAssembly">true if this assembly call is for a partial assembly call</param>
         /// <returns>An assembled assessment section result</returns>
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
-        AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(AssessmentSection section,
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults, bool partialAssembly);
+        AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(
+            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
+            CategoriesList<AssessmentSectionCategory> categoryLimits,
+            bool partialAssembly);
 
         /// <summary>
         /// Assemble and assessment section assembly result with and without a failiure probability into 
