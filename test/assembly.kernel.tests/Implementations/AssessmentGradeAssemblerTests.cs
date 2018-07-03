@@ -30,6 +30,8 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Tests.Model.CategoryLimits;
 using NUnit.Framework;
 
 // ReSharper disable UnusedMember.Local
@@ -126,6 +128,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
                     yield return new TestCaseData(new[]
                         {
+                            EFailureMechanismCategory.VIIt,
                             EFailureMechanismCategory.Gr,
                             EFailureMechanismCategory.It,
                             EFailureMechanismCategory.IIt,
@@ -265,11 +268,72 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        public void Wbi2B1CategoriesNull()
+        {
+            try
+            {
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                    new[]
+                    {
+                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, double.NaN),
+                        new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
+                    },
+                    null,
+                    false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception was not thrown");
+        }
+
+        [Test]
+        public void Wbi2B1EmptyList()
+        {
+            try
+            {
+                assembler.AssembleAssessmentSectionWbi2B1(new List<FailureMechanismAssemblyResult>(),
+                    new CategoriesList<AssessmentSectionCategory>(new[]
+                        {new AssessmentSectionCategory(EAssessmentGrade.A, 0.0, 1.0)}), false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.FailureMechanismAssemblerInputInvalid, message.ErrorCode);
+            }
+        }
+
+        [Test]
+        public void Wbi2B1NullTest()
+        {
+            try
+            {
+                assembler.AssembleAssessmentSectionWbi2B1(null,null, false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+            }
+        }
+
+        [Test]
         public void Wbi2B1NoResult()
         {
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)

@@ -50,14 +50,14 @@ namespace Assembly.Kernel.Interfaces
         /// Assembles Failure mechanism results with failure probability into one assembly section result.
         /// </summary>
         /// <param name="failureMechanismAssemblyResults">failure mechanism assembly result with failure probability</param>
-        /// <param name="categoryLimits">Categories list that should be used to translate the combined probability of failure to the correct category</param>
+        /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category</param>
         /// <param name="partialAssembly">true if this assembly call is for a partial assembly call</param>
         /// <returns>An assembled assessment section result</returns>
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
         AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            CategoriesList<AssessmentSectionCategory> categoryLimits,
+            CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
 
         /// <summary>
