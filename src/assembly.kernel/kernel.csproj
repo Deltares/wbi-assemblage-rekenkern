@@ -90,7 +90,6 @@
     <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeE2.cs" />
     <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeE1.cs" />
     <Compile Include="Model\AssessmentSection.cs" />
-    <Compile Include="Model\EAssembledAssessmentResultType.cs" />
     <Compile Include="Model\EAssessmentGrade.cs" />
     <Compile Include="Model\CategoryLimits\CategoryBase.cs" />
     <Compile Include="Model\CategoryLimits\AssessmentSectionCategory.cs" />

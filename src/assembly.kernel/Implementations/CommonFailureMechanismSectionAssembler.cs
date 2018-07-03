@@ -62,15 +62,11 @@ namespace Assembly.Kernel.Implementations
 
                     var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSectionEnd);
 
-                    if (section.Type == EAssembledAssessmentResultType.IndirectAssessment)
-                    {
-                        fmSectionResultList.Add(new FmSectionWithIndirectCategory(commonSectionStart, commonSectionEnd,
-                            ((FmSectionWithIndirectCategory) section).Category));
-                    }
-                    else
+                    var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
+                    if (sectionWithDirectCategory != null)
                     {
                         // first determine the assessment result for the failure mechanism section
-                        var currentCategory = ((FmSectionWithDirectCategory) section).Category;
+                        var currentCategory = sectionWithDirectCategory.Category;
                         fmSectionResultList.Add(new FmSectionWithDirectCategory(commonSectionStart, commonSectionEnd,
                             currentCategory));
 
@@ -90,6 +86,11 @@ namespace Assembly.Kernel.Implementations
                         }
 
                         DetermineCombinedCategory(partialAssembly, combinedSectionResult, currentCategory);
+                    }
+                    else
+                    {
+                        fmSectionResultList.Add(new FmSectionWithIndirectCategory(commonSectionStart, commonSectionEnd,
+                            ((FmSectionWithIndirectCategory) section).Category));
                     }
                 }
 

@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     Assert.AreEqual(expectedResult.SectionStart, sectionResult.SectionStart);
                     Assert.AreEqual(expectedResult.SectionEnd, sectionResult.SectionEnd);
 
-                    if (sectionResult.Type == EAssembledAssessmentResultType.IndirectAssessment)
+                    if (sectionResult is FmSectionWithIndirectCategory)
                     {
                         Assert.AreEqual(
                             ((FmSectionWithIndirectCategory) expectedResult).Category,

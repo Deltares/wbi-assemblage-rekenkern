@@ -93,14 +93,13 @@ namespace Assembly.Kernel.Model
             }
 
             // Check if all entries are either direct or indirect, not a combination.
-            if (Results.GroupBy(fmResult => fmResult.Type).Count() > 1)
+            var fmSectionsWithDirectCategory = Results.OfType<FmSectionWithDirectCategory>();
+            var fmSectionsWithIndirectCategory = Results.OfType<FmSectionWithIndirectCategory>();
+            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
             {
                 throw new AssemblyException("FailureMechanismSectionList",
                     EAssemblyErrors.InputNotTheSameType);
             }
-
-            // Are the results of an indirect failure mechanism.
-            IsIndirectFailureMechanism = Results[0].Type == EAssembledAssessmentResultType.IndirectAssessment;
 
             FailureMechanismId = failureMechanismId;
         }
@@ -114,11 +113,6 @@ namespace Assembly.Kernel.Model
         /// The failure mechanism to which the section results belong.
         /// </summary>
         public string FailureMechanismId { get; }
-
-        /// <summary>
-        /// True if assessment results in this object are of an indirect failure mechanism.
-        /// </summary>
-        public bool IsIndirectFailureMechanism { get; }
 
         /// <summary>
         /// Get the section with category which belongs to the point in the assessment section.

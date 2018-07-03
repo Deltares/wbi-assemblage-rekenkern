@@ -167,20 +167,6 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void IndirectFmTest()
-        {
-            var fmSectionlist = new FailureMechanismSectionList(
-                "TEST",
-                new List<FmSectionWithCategory>
-                {
-                    new FmSectionWithIndirectCategory(0, 10, EIndirectAssessmentResult.Gr),
-                    new FmSectionWithIndirectCategory(10, 20, EIndirectAssessmentResult.Gr)
-                });
-
-            Assert.IsTrue(fmSectionlist.IsIndirectFailureMechanism);
-        }
-
-        [Test]
         public void NotTheSameTypeInputTest()
         {
             try

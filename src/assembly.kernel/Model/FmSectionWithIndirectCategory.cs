@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Model
         /// <param name="category">The assessment result of the failure mechanism section</param>
         public FmSectionWithIndirectCategory(double sectionStart, double sectionEnd,
             EIndirectAssessmentResult category) :
-            base(sectionStart, sectionEnd, EAssembledAssessmentResultType.IndirectAssessment)
+            base(sectionStart, sectionEnd)
         {
             Category = category;
         }

@@ -39,19 +39,17 @@ namespace Assembly.Kernel.Model
         ///  Must be greater than 0</param>
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
-        /// <param name="type">The type of failure mechanism (direct or indirect)</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        protected FmSectionWithCategory(double sectionStart, double sectionEnd, EAssembledAssessmentResultType type)
+        protected FmSectionWithCategory(double sectionStart, double sectionEnd)
         {
-            if (sectionStart < 0.0 || sectionEnd < 0.0 || sectionEnd <= sectionStart)
+            if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {
                 throw new AssemblyException("FmSectionWithCategory", EAssemblyErrors.FmSectionSectionStartEndInvalid);
             }
 
             SectionStart = sectionStart;
             SectionEnd = sectionEnd;
-            Type = type;
         }
 
         /// <summary>
@@ -63,10 +61,5 @@ namespace Assembly.Kernel.Model
         /// The end of the section in meters from the beginning of the assessment section.
         /// </summary>
         public double SectionEnd { get; }
-
-        /// <summary>
-        /// Whether this section contains direct or indirect results.
-        /// </summary>
-        public EAssembledAssessmentResultType Type { get; }
     }
 }
