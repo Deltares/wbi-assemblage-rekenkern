@@ -394,44 +394,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi2C1NullException()
         {
-            var withFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.C, 0.000056);
             try
             {
-                assembler.AssembleAssessmentSectionWbi2C1(null, withFailureProb);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-            }
-        }
-
-        [Test]
-        public void Wbi2C1NullException2()
-        {
-            var noFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.A);
-
-            try
-            {
-                assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-            }
-        }
-
-        [Test]
-        public void Wbi2C1NullException3()
-        {
-            try
-            {
-                assembler.AssembleAssessmentSectionWbi2C1(null, null);
+                assembler.AssembleAssessmentSectionWbi2C1(EFailureMechanismCategory.It, null);
             }
             catch (AssemblyException e)
             {
@@ -445,41 +410,38 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi2C1ResultNvt()
         {
-            var noFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.Nvt);
-            var withFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.A, 0.00002);
+            var noFailureProb = EFailureMechanismCategory.Nvt;
+            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IIt, 0.00002);
 
             var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.A, result.Category);
-            Assert.IsNotNull(result.FailureProbability);
+            Assert.AreEqual(EAssessmentGrade.A, result);
         }
 
         [Test]
         public void Wbi2C1ResultWithFailureProb()
         {
             const double FailureProb = 0.00002;
-            var noFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.A);
-            var withFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.C, FailureProb);
+            var noFailureProb = EFailureMechanismCategory.IIt;
+            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IVt, FailureProb);
 
             var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.C, result.Category);
-            Assert.AreEqual(FailureProb, result.FailureProbability);
+            Assert.AreEqual(EAssessmentGrade.C, result);
         }
 
         [Test]
         public void Wbi2C1ResultWithoutFailureProb()
         {
-            var noFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.D);
-            var withFailureProb = new AssessmentSectionAssemblyResult(EAssessmentGrade.A, 0.00002);
+            var noFailureProb = EFailureMechanismCategory.VIt;
+            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IIt, 0.00002);
 
             var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.D, result.Category);
-            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(EAssessmentGrade.D, result);
         }
     }
 }

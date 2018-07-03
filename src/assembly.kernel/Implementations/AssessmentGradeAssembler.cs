@@ -157,28 +157,28 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2C1(
-            AssessmentSectionAssemblyResult assemblyResultNoFailureProbability,
-            AssessmentSectionAssemblyResult assemblyResultWithFailureProbability)
+        public EAssessmentGrade AssembleAssessmentSectionWbi2C1(
+            EFailureMechanismCategory assemblyResultNoFailureProbability,
+            FailureMechanismAssemblyResult assemblyResultWithFailureProbability)
         {
-            if (assemblyResultNoFailureProbability == null || assemblyResultWithFailureProbability == null)
+            if (assemblyResultWithFailureProbability == null)
             {
                 throw new AssemblyException("AssessmentGradeAssembler", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             // Return the result with failure probability when the assembly result 
             // without failure probability does not apply
-            if (assemblyResultNoFailureProbability.Category == EAssessmentGrade.Nvt)
+            if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Nvt)
             {
-                return assemblyResultWithFailureProbability.CreateNewFrom();
+                return assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
             }
 
-            if (assemblyResultNoFailureProbability.Category > assemblyResultWithFailureProbability.Category)
+            if (assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category)
             {
-                return assemblyResultNoFailureProbability.CreateNewFrom();
+                return assemblyResultNoFailureProbability.ToAssessmentGrade();
             }
 
-            return assemblyResultWithFailureProbability.CreateNewFrom();
+            return assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
         }
 
         private static List<FailureMechanismAssemblyResult> CheckFailureMechanismAssemblyResults(

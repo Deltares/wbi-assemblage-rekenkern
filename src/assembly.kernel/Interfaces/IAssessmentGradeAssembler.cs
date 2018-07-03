@@ -70,8 +70,8 @@ namespace Assembly.Kernel.Interfaces
         /// with failure probability. May not be null.</param>
         /// <returns>A copy of the input result with the lowest assessment grade</returns>
         /// <exception cref="AssemblyException">Thrown when one of the inputs are null</exception>
-        AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2C1(
-            AssessmentSectionAssemblyResult assemblyResultNoFailureProbability,
-            AssessmentSectionAssemblyResult assemblyResultWithFailureProbability);
+        EAssessmentGrade AssembleAssessmentSectionWbi2C1(
+            EFailureMechanismCategory assemblyResultNoFailureProbability,
+            FailureMechanismAssemblyResult assemblyResultWithFailureProbability);
     }
 }

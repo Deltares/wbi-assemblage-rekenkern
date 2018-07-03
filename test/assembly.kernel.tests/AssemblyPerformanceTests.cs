@@ -177,10 +177,8 @@ namespace Assembly.Kernel.Tests
                     categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section,
                         new FailureMechanism(1.0, 0.7)), false);
 
-            assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(
-                new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb.ToAssessmentGrade()),
-                new AssessmentSectionAssemblyResult(assessmentGradeWithFailureProb.Category.ToAssessmentGrade(),
-                    assessmentGradeWithFailureProb.FailureProbability));
+            assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(assessmentGradeWithoutFailureProb,
+                assessmentGradeWithFailureProb);
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,
