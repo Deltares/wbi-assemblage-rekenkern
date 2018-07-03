@@ -84,9 +84,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public AssessmentSectionAssemblyResult AssembleAssessmentSectionWbi2B1(
+        public FailureMechanismAssemblyResult AssembleAssessmentSectionWbi2B1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            CategoriesList<AssessmentSectionCategory> categories,
+            CategoriesList<FailureMechanismCategory> categories,
             bool partialAssembly)
         {
             var failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
@@ -135,25 +135,25 @@ namespace Assembly.Kernel.Implementations
 
                         continue;
                     case EFailureMechanismCategory.Gr:
-                        return new AssessmentSectionAssemblyResult(EAssessmentGrade.Gr);
+                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
                 }
             }
 
             if (ngoFound)
             {
-                return new AssessmentSectionAssemblyResult(EAssessmentGrade.Ngo);
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
 
             if (!failureProbFound)
             {
-                return new AssessmentSectionAssemblyResult(EAssessmentGrade.Nvt);
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, 0.0);
             }
 
             var assessmentSectionFailureProb = 1 - failureProbProduct;
 
             // step 2: Get category limits for the assessment section and return the category + failure probability
             var resultCategory = categories.GetCategoryForFailureProbability(assessmentSectionFailureProb);
-            return new AssessmentSectionAssemblyResult(resultCategory.Category, assessmentSectionFailureProb);
+            return new FailureMechanismAssemblyResult(resultCategory.Category, assessmentSectionFailureProb);
         }
 
         /// <inheritdoc />

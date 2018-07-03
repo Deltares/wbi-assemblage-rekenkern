@@ -174,11 +174,13 @@ namespace Assembly.Kernel.Tests
                     false);
             var assessmentGradeWithFailureProb =
                 assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb,
-                    categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section), false);
+                    categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section,
+                        new FailureMechanism(1.0, 0.7)), false);
 
             assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(
                 new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb.ToAssessmentGrade()),
-                assessmentGradeWithFailureProb);
+                new AssessmentSectionAssemblyResult(assessmentGradeWithFailureProb.Category.ToAssessmentGrade(),
+                    assessmentGradeWithFailureProb.FailureProbability));
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,
