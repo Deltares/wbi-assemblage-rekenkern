@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace Assembly.Kernel.Interfaces
@@ -68,19 +69,19 @@ namespace Assembly.Kernel.Interfaces
         /// Assemble a list of failure mechanism section assembly results with failure probability to
         /// a single failure mechanism assembly result.
         /// </summary>
-        /// <param name="section">The assessment section to which the failure mechanism belongs</param>
         /// <param name="failureMechanism">The failure mechanism to assemble the result for</param>
         /// <param name="fmSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
+        /// <param name="categoryLimits">Category limits that should be used when translating a probability of failure to an assessment category</param>
         /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
         /// <returns>An assambled Failure mechanism result</returns>
         /// /// <exception cref="AssemblyException">Thrown when:<br/>
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
-            FailureMechanism failureMechanism,
+        FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(FailureMechanism failureMechanism,
             IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly);
     }
 }

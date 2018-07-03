@@ -124,14 +124,14 @@ namespace Assembly.Kernel.Tests
         [Test]
         public void FullAssembly()
         {
-            const int SectionLength = 3750;
-            var section = new AssessmentSection(SectionLength, 1.0E-3, 1.0 / 300.0);
+            const int sectionLength = 3750;
+            var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
             var withoutFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
             var withFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
             // create section results for 15 failure mechanisms with 250 sections each
-            CreateTestInput(SectionLength, withoutFailureProb, withFailureProb);
+            CreateTestInput(sectionLength, withoutFailureProb, withFailureProb);
 
             // start timer
             var watch = Stopwatch.StartNew();
@@ -150,13 +150,17 @@ namespace Assembly.Kernel.Tests
                 failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
             }
 
+            var categoriesCalculator = new CategoryLimitsCalculator();
             foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb)
             {
+                var categoriesList =
+                    categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, fmSectionResults.Key);
+
                 var result = fmAssembler.AssembleFailureMechanismWbi1B1(
-                    section,
                     fmSectionResults.Key,
                     fmSectionResults.Value.Select(fmSection =>
                         (FmSectionAssemblyDirectResultWithProbability) fmSection.Result),
+                    categoriesList,
                     false);
                 failureMechanismResultsWithFailureProb.Add(result);
 
@@ -176,7 +180,7 @@ namespace Assembly.Kernel.Tests
                 new AssessmentSectionAssemblyResult(assessmentGradeWithoutFailureProb), assessmentGradeWithFailureProb);
 
             // assembly step 3
-            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, SectionLength,
+            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,
                 false);
             watch.Stop();
 

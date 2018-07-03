@@ -126,9 +126,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(AssessmentSection section,
-            FailureMechanism failureMechanism,
+        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(FailureMechanism failureMechanism,
             IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly)
         {
             FmSectionAssemblyDirectResultWithProbability[] sectionResults = CheckInput(fmSectionAssemblyResults);
@@ -198,10 +198,7 @@ namespace Assembly.Kernel.Implementations
             highestFailureProbability *= failureMechanism.LengthEffectFactor;
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failureMechanismFailureProbability);
-            // step 4: Get category limits for failure mechanism and return the category + failure probability
-            CategoriesList<FailureMechanismCategory> categoryLimits =
-                categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, failureMechanism);
-
+            // step 4: Return the category + failure probability
             var resultCategory = categoryLimits.Categories
                 .First(limits => resultFailureProb <= limits.UpperLimit)
                 .Category;
