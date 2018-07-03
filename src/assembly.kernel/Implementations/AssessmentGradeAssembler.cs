@@ -166,19 +166,9 @@ namespace Assembly.Kernel.Implementations
                 throw new AssemblyException("AssessmentGradeAssembler", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            // Return the result with failure probability when the assembly result 
-            // without failure probability does not apply
-            if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Nvt)
-            {
-                return assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
-            }
-
-            if (assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category)
-            {
-                return assemblyResultNoFailureProbability.ToAssessmentGrade();
-            }
-
-            return assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
+            return assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category
+                ? assemblyResultNoFailureProbability.ToAssessmentGrade()
+                : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
         }
 
         private static List<FailureMechanismAssemblyResult> CheckFailureMechanismAssemblyResults(
