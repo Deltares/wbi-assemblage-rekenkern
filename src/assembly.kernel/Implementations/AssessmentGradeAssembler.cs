@@ -35,8 +35,6 @@ namespace Assembly.Kernel.Implementations
     /// <inheritdoc />
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
-        private readonly ICategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
-
         /// <inheritdoc />
         public EAssessmentGrade AssembleAssessmentSectionWbi2A1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
@@ -157,11 +155,8 @@ namespace Assembly.Kernel.Implementations
             var assessmentSectionFailureProb = 1 - failureProbProduct;
 
             // step 2: Get category limits for the assessment section and return the category + failure probability
-            var resultCategory = categoryLimits.Categories
-                .First(limits => assessmentSectionFailureProb <= limits.UpperLimit)
-                .Category;
-
-            return new AssessmentSectionAssemblyResult(resultCategory, assessmentSectionFailureProb);
+            var resultCategory = categoryLimits.GetCategoryForFailureProbability(assessmentSectionFailureProb);
+            return new AssessmentSectionAssemblyResult(resultCategory.Category, assessmentSectionFailureProb);
         }
 
         /// <inheritdoc />

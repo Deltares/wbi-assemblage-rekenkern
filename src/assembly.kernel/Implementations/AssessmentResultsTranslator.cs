@@ -24,7 +24,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -295,9 +294,9 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(failureProbability, categories);
+                    var category = categories.GetCategoryForFailureProbability(failureProbability);
 
-                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
+                    return new FmSectionAssemblyDirectResultWithProbability(category.Category, failureProbability);
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
@@ -325,7 +324,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(failureProbability, categories);
+                    var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
 
                     var failureProbValue = failureProbability * fmSectionLengthEffectFactor;
                     if (failureProbValue > 1)
@@ -362,7 +361,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(failureProbability, categories);
+                    var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
 
                     return new FmSectionAssemblyDirectResultWithProbability(category, failureProbability);
 
@@ -393,7 +392,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(failureProbability, categories);
+                    var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
 
                     var failureProbValue = failureProbability * fmSectionLengthEffectFactor;
                     if (failureProbValue > 1)
@@ -411,7 +410,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categoriesList)
+            double failureProbability, CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -432,7 +431,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.ValueMayNotBeNull);
                     }
 
-                    var category = GetCategoryForFailureProbability(failureProbability, categoriesList);
+                    var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
 
                     return new FmSectionAssemblyDirectResult(category);
 
@@ -521,18 +520,6 @@ namespace Assembly.Kernel.Implementations
         /*
          * Private methods and classes.
          */
-
-        /*  Gets the category for a failure probability. 
-            This function requires a list of category limits to test against.
-        */
-        private static EFmSectionCategory GetCategoryForFailureProbability(double failureProbability,
-            CategoriesList<FmSectionCategory> categoryList)
-        {
-            var category = categoryList.Categories
-                .First(limits => failureProbability <= limits.UpperLimit)
-                .Category;
-            return category;
-        }
 
         /// <summary>
         /// Translates a section result category to the associated estimated probability of failure

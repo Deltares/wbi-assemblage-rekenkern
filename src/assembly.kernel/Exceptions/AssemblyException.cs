@@ -33,8 +33,6 @@ namespace Assembly.Kernel.Exceptions
     /// </summary>
     public class AssemblyException : Exception
     {
-        private readonly List<AssemblyErrorMessage> errors;
-
         /// <summary>
         /// Assembly exception constructor for a single error message
         /// </summary>
@@ -42,7 +40,7 @@ namespace Assembly.Kernel.Exceptions
         /// <param name="error">The code of the error which occurred</param>
         public AssemblyException(string entityId, EAssemblyErrors error)
         {
-            errors = new List<AssemblyErrorMessage> {new AssemblyErrorMessage(entityId, error)};
+            Errors = new List<AssemblyErrorMessage> {new AssemblyErrorMessage(entityId, error)};
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace Assembly.Kernel.Exceptions
         /// <param name="errorMessages">A list of error messages</param>
         public AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
         {
-            errors = errorMessages as List<AssemblyErrorMessage>;
+            Errors = errorMessages;
         }
 
         /// <summary>
@@ -63,6 +61,6 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// This property contains one or more error messages containing more detail of the occured error(s).
         /// </summary>
-        public IEnumerable<AssemblyErrorMessage> Errors => errors;
+        public IEnumerable<AssemblyErrorMessage> Errors { get; }
     }
 }

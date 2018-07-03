@@ -37,8 +37,6 @@ namespace Assembly.Kernel.Implementations
     /// <inheritdoc />
     public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
-        private readonly ICategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
-
         /// <inheritdoc />
         public EFailureMechanismCategory AssembleFailureMechanismWbi1A1(
             IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults, bool partialAssembly)
@@ -199,10 +197,8 @@ namespace Assembly.Kernel.Implementations
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failureMechanismFailureProbability);
             // step 4: Return the category + failure probability
-            var resultCategory = categoryLimits.Categories
-                .First(limits => resultFailureProb <= limits.UpperLimit)
-                .Category;
-            return new FailureMechanismAssemblyResult(resultCategory, resultFailureProb);
+            var resultCategory = categoryLimits.GetCategoryForFailureProbability(resultFailureProb);
+            return new FailureMechanismAssemblyResult(resultCategory.Category, resultFailureProb);
         }
 
         private static T[] CheckInput<T>(IEnumerable<T> results) where T : IFmSectionAssemblyResult

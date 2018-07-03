@@ -223,11 +223,11 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="assessment">The assessment result to check</param>
         /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
         /// This field may be Double.NaN when it is in the state of "No result yet" </param>
-        /// <param name="categoriesList">The list with categories that should be used when translating a probability to a category.</param>
+        /// <param name="categories">The list with categories that should be used when translating a probability to a category.</param>
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categoriesList);
+            double failureProbability, CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate the assessment result of direct failure mechanism section assessments to a 

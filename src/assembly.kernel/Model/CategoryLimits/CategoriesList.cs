@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.CategoryLimits
@@ -9,29 +11,50 @@ namespace Assembly.Kernel.Model.CategoryLimits
     public class CategoriesList<TCategory> where TCategory : ICategoryLimits
     {
         /// <summary>
-        /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than EpsilonPercentage will not be taken into account.
+        /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than EpsilonFactor will not be taken into account.
         /// </summary>
-        public static readonly double EpsilonPercentage = 1e-40;
+        public static readonly double EpsilonFactor = 1e-40;
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
         /// </summary>
-        /// <param name="categoryLimits"></param>
-        public CategoriesList(TCategory[] categoryLimits)
+        /// <param name="categoryLimits">An IEnumerable with categories. This list assumes the categories are already sorted from bad (low) to good (high)</param>
+        public CategoriesList(IEnumerable<TCategory> categoryLimits)
         {
             Categories = CheckCategories(categoryLimits);
         }
 
         /// <summary>
-        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1.
+        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1. The categories in this list are ordered from worst (low) to best (high).
         /// </summary>
-        public TCategory[] Categories { get; }
+        public IEnumerable<TCategory> Categories { get; }
 
-        private TCategory[] CheckCategories(TCategory[] categoryLimits)
+        /// <summary>
+        /// Returns the first category where the upper limit equals or is less then the specified failure probability 
+        /// </summary>
+        /// <param name="failureProbability">The failure probability that should be translated</param>
+        /// <returns></returns>
+        public TCategory GetCategoryForFailureProbability(double failureProbability)
+        {
+            if (double.IsNaN(failureProbability))
+            {
+                throw new AssemblyException("FailureProbability", EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (failureProbability < 0 || failureProbability > 1)
+            {
+                throw new AssemblyException("FailureProbability", EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+
+            return Categories.First(limits => failureProbability <= limits.UpperLimit);
+        }
+
+        private IEnumerable<TCategory> CheckCategories(IEnumerable<TCategory> categoryLimits)
         {
             var expectedCategoryBoundary = 0.0;
 
-            foreach (var category in categoryLimits)
+            var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
+            foreach (var category in categories)
             {
                 if (CompareProbabilities(category.LowerLimit, expectedCategoryBoundary))
                 {
@@ -43,19 +66,19 @@ namespace Assembly.Kernel.Model.CategoryLimits
                 expectedCategoryBoundary = category.UpperLimit;
             }
 
-            if (Math.Abs(expectedCategoryBoundary - 1.0) > EpsilonPercentage)
+            if (Math.Abs(expectedCategoryBoundary - 1.0) > EpsilonFactor)
             {
                 throw new AssemblyException(
                     "Categories are not subsequent and do not fully cover the probability range",
                     EAssemblyErrors.InvalidCategoryLimits);
             }
 
-            return categoryLimits;
+            return categories;
         }
 
         private static bool CompareProbabilities(double firstProbability, double secondprobability)
         {
-            var epsilon = Math.Max(firstProbability, secondprobability) * EpsilonPercentage;
+            var epsilon = Math.Max(firstProbability, secondprobability) * EpsilonFactor;
             return Math.Abs(firstProbability - secondprobability) > epsilon;
         }
     }

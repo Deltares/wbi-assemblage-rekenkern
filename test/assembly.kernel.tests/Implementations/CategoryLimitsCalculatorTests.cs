@@ -201,7 +201,7 @@ namespace Assembly.Kernel.Tests.Implementations
             CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            FmSectionCategory[] calculationResult = results.Categories;
+            FmSectionCategory[] calculationResult = results.Categories.ToArray();
             Assert.AreEqual(2, calculationResult.Length);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
@@ -237,7 +237,7 @@ namespace Assembly.Kernel.Tests.Implementations
             CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
 
-            FmSectionCategory[] calculationResult = results.Categories;
+            FmSectionCategory[] calculationResult = results.Categories.ToArray();
             Assert.AreEqual(2, calculationResult.Length);
 
             var expectedCategoryBoundary = failurePobabilityMarginFactor * norm * 10 / lengthEffectFactor;
