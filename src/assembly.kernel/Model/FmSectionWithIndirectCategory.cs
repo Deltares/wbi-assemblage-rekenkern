@@ -28,7 +28,7 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// Indirect failure mechanism with assessment result category.
     /// </summary>
-    public class FmSectionWithIndirectCategory : FmSectionWithCategory
+    public class FmSectionWithIndirectCategory : FailureMechanismSection
     {
         /// <summary>
         /// Indirect failure mechanism with category

@@ -30,7 +30,7 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// Failure mechanism section with assessment category.
     /// </summary>
-    public abstract class FmSectionWithCategory
+    public class FailureMechanismSection
     {
         /// <summary>
         /// Failure mechanism with category constructor.
@@ -41,11 +41,11 @@ namespace Assembly.Kernel.Model
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        protected FmSectionWithCategory(double sectionStart, double sectionEnd)
+        protected FailureMechanismSection(double sectionStart, double sectionEnd)
         {
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {
-                throw new AssemblyException("FmSectionWithCategory", EAssemblyErrors.FmSectionSectionStartEndInvalid);
+                throw new AssemblyException("FailureMechanismSection", EAssemblyErrors.FmSectionSectionStartEndInvalid);
             }
 
             SectionStart = sectionStart;

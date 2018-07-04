@@ -44,20 +44,37 @@ namespace Assembly.Kernel.Model
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
         public FailureMechanismSectionList(string failureMechanismId,
-            IEnumerable<FmSectionWithCategory> sectionResults)
+            IEnumerable<FailureMechanismSection> sectionResults)
         {
             if (failureMechanismId == null || sectionResults == null)
             {
                 throw new AssemblyException("FailureMechanismSectionList", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            // order the section results by start of the section.
-            Results = sectionResults.OrderBy(sectionResult => sectionResult.SectionStart).ToList();
+            var sectionResultsArray = sectionResults.ToArray();
 
-            FmSectionWithCategory previousSection = null;
-            foreach (var section in Results)
+            if (sectionResultsArray.Length == 0)
             {
-                if (previousSection == null)
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+
+            // Check if all entries are either direct or indirect, not a combination.
+            var fmSectionsWithDirectCategory = sectionResultsArray.OfType<FmSectionWithDirectCategory>();
+            var fmSectionsWithIndirectCategory = sectionResultsArray.OfType<FmSectionWithIndirectCategory>();
+            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.InputNotTheSameType);
+            }
+
+            // order the section results by start of the section.
+            var orderedResults = sectionResultsArray.OrderBy(sectionResult => sectionResult.SectionStart).ToArray();
+            
+            FailureMechanismSection previousFailureMechanismSection = null;
+            foreach (var section in orderedResults)
+            {
+                if (previousFailureMechanismSection == null)
                 {
                     // The current section start should be 0 when no previous section is present.
                     if (section.SectionStart > 0.0)
@@ -69,45 +86,31 @@ namespace Assembly.Kernel.Model
                 else
                 {
                     // Check for duplicate section starts
-                    if (Math.Abs(section.SectionStart - previousSection.SectionStart) < 0.01)
+                    if (Math.Abs(section.SectionStart - previousFailureMechanismSection.SectionStart) < 0.01)
                     {
                         throw new AssemblyException("FailuremechanismSectionList",
                             EAssemblyErrors.FailureMechanismDuplicateSection);
                     }
 
                     // check if sections are consecutive with a margin of 1 cm
-                    if (Math.Abs(previousSection.SectionEnd - section.SectionStart) > 0.01)
+                    if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
                     {
                         throw new AssemblyException("FailuremechanismSectionList",
                             EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                     }
                 }
 
-                previousSection = section;
+                previousFailureMechanismSection = section;
             }
 
-            if (Results.Count == 0)
-            {
-                throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            }
-
-            // Check if all entries are either direct or indirect, not a combination.
-            var fmSectionsWithDirectCategory = Results.OfType<FmSectionWithDirectCategory>();
-            var fmSectionsWithIndirectCategory = Results.OfType<FmSectionWithIndirectCategory>();
-            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
-            {
-                throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.InputNotTheSameType);
-            }
-
+            Results = orderedResults;
             FailureMechanismId = failureMechanismId;
         }
 
         /// <summary>
         /// The list of failure mechanism section asesssment results grouped.
         /// </summary>
-        public List<FmSectionWithCategory> Results { get; }
+        public IEnumerable<FailureMechanismSection> Results { get; }
 
         /// <summary>
         /// The failure mechanism to which the section results belong.
@@ -120,7 +123,7 @@ namespace Assembly.Kernel.Model
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
         /// from the beginning of the assessment section</param>
         /// <returns>The section with category belonging to the point in the assessment section</returns>
-        public FmSectionWithCategory GetSectionCategoryForPoint(double pointInAssessmentSection)
+        public FailureMechanismSection GetSectionCategoryForPoint(double pointInAssessmentSection)
         {
             foreach (var section in Results)
             {

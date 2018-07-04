@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Implementations
             // step 2: determine assessment results for each section.
             foreach (var failureMechanismSectionList in failureMechanismSections)
             {
-                var fmSectionResultList = new List<FmSectionWithCategory>();
+                var fmSectionResultList = new List<FailureMechanismSection>();
 
                 for (var i = 0; i < sectionLimits.Count; i++)
                 {
@@ -72,20 +72,20 @@ namespace Assembly.Kernel.Implementations
 
                         // step 3: determin combined result for the section using 
                         // the current failure mechanism section result.
-                        FmSectionWithDirectCategory combinedSectionResult;
+                        FmSectionWithDirectCategory combinedFailureMechanismSectionResult;
 
                         if (i < combinedAssessmentResult.Count)
                         {
-                            combinedSectionResult = combinedAssessmentResult[i];
+                            combinedFailureMechanismSectionResult = combinedAssessmentResult[i];
                         }
                         else
                         {
-                            combinedSectionResult = new FmSectionWithDirectCategory(commonSectionStart,
+                            combinedFailureMechanismSectionResult = new FmSectionWithDirectCategory(commonSectionStart,
                                 commonSectionEnd, EFmSectionCategory.NotApplicable);
-                            combinedAssessmentResult.Add(combinedSectionResult);
+                            combinedAssessmentResult.Add(combinedFailureMechanismSectionResult);
                         }
 
-                        DetermineCombinedCategory(partialAssembly, combinedSectionResult, currentCategory);
+                        DetermineCombinedCategory(partialAssembly, combinedFailureMechanismSectionResult, currentCategory);
                     }
                     else
                     {
@@ -135,10 +135,10 @@ namespace Assembly.Kernel.Implementations
         }
 
         private static void DetermineCombinedCategory(bool partialAssembly,
-            FmSectionWithDirectCategory combinedSectionResult,
+            FmSectionWithDirectCategory combinedFailureMechanismSectionResult,
             EFmSectionCategory currentCategory)
         {
-            var combinedCategory = combinedSectionResult.Category;
+            var combinedCategory = combinedFailureMechanismSectionResult.Category;
             switch (currentCategory)
             {
                 case EFmSectionCategory.Iv:
@@ -171,7 +171,7 @@ namespace Assembly.Kernel.Implementations
                     break;
             }
 
-            combinedSectionResult.Category = combinedCategory;
+            combinedFailureMechanismSectionResult.Category = combinedCategory;
         }
     }
 }

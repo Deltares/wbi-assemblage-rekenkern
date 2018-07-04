@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv)
@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>());
+                    new List<FailureMechanismSection>());
             }
             catch (AssemblyException e)
             {
@@ -109,7 +109,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(1, 5, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(10, 15, EFmSectionCategory.Iv)
@@ -130,7 +130,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(10, 15, EFmSectionCategory.Iv)
@@ -151,7 +151,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 var fmSectionList = new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv)
@@ -173,7 +173,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
                         new FmSectionWithIndirectCategory(10, 20, EIndirectAssessmentResult.Gr)
@@ -194,7 +194,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(5, 15, EFmSectionCategory.Iv)
@@ -245,7 +245,7 @@ namespace Assembly.Kernel.Tests.Model
             {
                 new FailureMechanismSectionList(
                     "TEST",
-                    new List<FmSectionWithCategory>
+                    new List<FailureMechanismSection>
                     {
                         new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
                         new FmSectionWithDirectCategory(10, 10, EFmSectionCategory.Iv)

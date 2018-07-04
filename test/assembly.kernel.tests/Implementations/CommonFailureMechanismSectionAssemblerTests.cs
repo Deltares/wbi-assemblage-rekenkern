@@ -58,14 +58,14 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 Assert.AreEqual(expectedFailureMechanismResults[i].FailureMechanismId, fmResult.FailureMechanismId);
 
-                List<FmSectionWithCategory> sectionResults = fmResult.Results;
-                List<FmSectionWithCategory> expectedSectionResults = expectedFailureMechanismResults[i].Results;
+                IEnumerable<FailureMechanismSection> sectionResults = fmResult.Results;
+                IEnumerable<FailureMechanismSection> expectedSectionResults = expectedFailureMechanismResults[i].Results;
 
-                Assert.AreEqual(expectedSectionResults.Count, sectionResults.Count);
-                for (var k = 0; k < expectedSectionResults.Count; k++)
+                Assert.AreEqual(expectedSectionResults.Count(), sectionResults.Count());
+                for (var k = 0; k < expectedSectionResults.Count(); k++)
                 {
-                    var expectedResult = expectedSectionResults[k];
-                    var sectionResult = sectionResults[k];
+                    var expectedResult = expectedSectionResults.ElementAt(k);
+                    var sectionResult = sectionResults.ElementAt(k);
                     Assert.NotNull(expectedResult);
                     Assert.NotNull(sectionResult);
 
