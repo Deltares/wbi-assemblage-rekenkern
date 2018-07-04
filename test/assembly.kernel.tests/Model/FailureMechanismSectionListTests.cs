@@ -47,27 +47,6 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void DuplicateSectionInputTest()
-        {
-            try
-            {
-                new FailureMechanismSectionList(
-                    "TEST",
-                    new List<FailureMechanismSection>
-                    {
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv)
-                    });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.FailureMechanismDuplicateSection);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
         public void EmptyListInputTest()
         {
             try
@@ -87,19 +66,12 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void FailureMechanismNullInputTest()
         {
-            try
-            {
-                new FailureMechanismSectionList(
-                    null,
-                    new[] {new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr)}
-                );
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.ValueMayNotBeNull);
-            }
+            var list = new FailureMechanismSectionList(
+                null,
+                new[] { new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr) }
+            );
 
-            Assert.Fail("Expected exception was not thrown");
+            Assert.AreEqual("",list.FailureMechanismId);
         }
 
         [Test]

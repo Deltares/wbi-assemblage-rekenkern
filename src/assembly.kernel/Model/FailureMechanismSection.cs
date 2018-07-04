@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Model
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        protected FailureMechanismSection(double sectionStart, double sectionEnd)
+        public FailureMechanismSection(double sectionStart, double sectionEnd)
         {
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {

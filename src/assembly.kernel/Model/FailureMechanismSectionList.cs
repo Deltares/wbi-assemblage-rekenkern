@@ -43,68 +43,10 @@ namespace Assembly.Kernel.Model
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
-        public FailureMechanismSectionList(string failureMechanismId,
-            IEnumerable<FailureMechanismSection> sectionResults)
+        public FailureMechanismSectionList(string failureMechanismId, IEnumerable<FailureMechanismSection> sectionResults)
         {
-            if (failureMechanismId == null || sectionResults == null)
-            {
-                throw new AssemblyException("FailureMechanismSectionList", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            var sectionResultsArray = sectionResults.ToArray();
-
-            if (sectionResultsArray.Length == 0)
-            {
-                throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            }
-
-            // Check if all entries are either direct or indirect, not a combination.
-            var fmSectionsWithDirectCategory = sectionResultsArray.OfType<FmSectionWithDirectCategory>();
-            var fmSectionsWithIndirectCategory = sectionResultsArray.OfType<FmSectionWithIndirectCategory>();
-            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
-            {
-                throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.InputNotTheSameType);
-            }
-
-            // order the section results by start of the section.
-            var orderedResults = sectionResultsArray.OrderBy(sectionResult => sectionResult.SectionStart).ToArray();
-            
-            FailureMechanismSection previousFailureMechanismSection = null;
-            foreach (var section in orderedResults)
-            {
-                if (previousFailureMechanismSection == null)
-                {
-                    // The current section start should be 0 when no previous section is present.
-                    if (section.SectionStart > 0.0)
-                    {
-                        throw new AssemblyException("FailureMechanismSectionList",
-                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-                    }
-                }
-                else
-                {
-                    // Check for duplicate section starts
-                    if (Math.Abs(section.SectionStart - previousFailureMechanismSection.SectionStart) < 0.01)
-                    {
-                        throw new AssemblyException("FailuremechanismSectionList",
-                            EAssemblyErrors.FailureMechanismDuplicateSection);
-                    }
-
-                    // check if sections are consecutive with a margin of 1 cm
-                    if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
-                    {
-                        throw new AssemblyException("FailuremechanismSectionList",
-                            EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-                    }
-                }
-
-                previousFailureMechanismSection = section;
-            }
-
-            Results = orderedResults;
-            FailureMechanismId = failureMechanismId;
+            Results = CheckSectionResults(sectionResults);
+            FailureMechanismId = failureMechanismId ?? "";
         }
 
         /// <summary>
@@ -134,6 +76,62 @@ namespace Assembly.Kernel.Model
             }
 
             throw new AssemblyException("GetSectionCategoryForPoint", EAssemblyErrors.RequestedPointOutOfRange);
+        }
+
+        private static IEnumerable<FailureMechanismSection> CheckSectionResults(IEnumerable<FailureMechanismSection> sectionResults)
+        {
+            if (sectionResults == null)
+            {
+                throw new AssemblyException("FailureMechanismSectionList", EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var sectionResultsArray = sectionResults.ToArray();
+
+            if (sectionResultsArray.Length == 0)
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+
+            // Check if all entries are either direct or indirect, not a combination.
+            var fmSectionsWithDirectCategory = sectionResultsArray.OfType<FmSectionWithDirectCategory>();
+            var fmSectionsWithIndirectCategory = sectionResultsArray.OfType<FmSectionWithIndirectCategory>();
+            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.InputNotTheSameType);
+            }
+
+            var orderedResults = sectionResultsArray
+                .OrderBy(sectionResult => sectionResult.SectionStart)
+                .ToArray();
+
+            FailureMechanismSection previousFailureMechanismSection = null;
+            foreach (var section in orderedResults)
+            {
+                if (previousFailureMechanismSection == null)
+                {
+                    // The current section start should be 0 when no previous section is present.
+                    if (section.SectionStart > 0.0)
+                    {
+                        throw new AssemblyException("FailureMechanismSectionList",
+                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                    }
+                }
+                else
+                {
+                    // check if sections are consecutive with a margin of 1 cm
+                    if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
+                    {
+                        throw new AssemblyException("FailuremechanismSectionList",
+                            EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                    }
+                }
+
+                previousFailureMechanismSection = section;
+            }
+
+            return orderedResults;
         }
     }
 }
