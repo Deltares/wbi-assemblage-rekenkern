@@ -69,10 +69,24 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the results per section of a failure mechanism to results per common greatest denominator section
         /// </summary>
         /// <param name="commonSections"></param>
-        /// <param name="failureMechanismSectionList">This list needs to have also categories. Results are restricted to either FmSectionWithDirectCategory of FmSectionWithIndirectCategory.</param>
+        /// <param name="failureMechanismSectionList">This list needs to have also categories. Sections are restricted to either 
+        /// FmSectionWithDirectCategory of FmSectionWithIndirectCategory.</param>
         /// <returns></returns>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections);
+
+        /// <summary>
+        /// This method determines the combined result per common greatest denominator section based on a list of results for those
+        /// sections per failure mechanism.
+        /// </summary>
+        /// <param name="failureMechanismResults">The list of results per failure mechanism translated to the greatest denominator
+        /// sections across all failure mechanisms. All lists should have equal sections (start and end).</param>
+        /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
+        /// <returns>The greatest common denominator assembly result</returns>
+        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections, or 
+        /// when there are only results for indirect failure mechanisms.</exception>
+        IEnumerable<FmSectionWithDirectCategory> DeterminCombinedResultPerCommonSectionWbi3C1(
+            IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly);
     }
 }

@@ -68,10 +68,10 @@ namespace Assembly.Kernel.Tests.Model
         {
             var list = new FailureMechanismSectionList(
                 null,
-                new[] { new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr) }
+                new[] {new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr)}
             );
 
-            Assert.AreEqual("",list.FailureMechanismId);
+            Assert.AreEqual("", list.FailureMechanismId);
         }
 
         [Test]

@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly)
         {
-            List<FailureMechanismSectionList> failureMechanismSections = failureMechanismSectionLists.ToList();
+            FailureMechanismSectionList[] failureMechanismSections = failureMechanismSectionLists.ToArray();
 
             // step 1: create greatest common denominator list of the failure mechanism sections in the list.
             FailureMechanismSectionList commonSections =
@@ -49,49 +49,18 @@ namespace Assembly.Kernel.Implementations
 
             // step 2: determine assessment results per section for each failure mechanism.
             var failureMechanismResults = new List<FailureMechanismSectionList>();
-
             foreach (FailureMechanismSectionList failureMechanismSectionList in failureMechanismSections)
             {
-                failureMechanismResults.Add(TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failureMechanismSectionList, commonSections));
+                failureMechanismResults.Add(
+                    TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failureMechanismSectionList,
+                        commonSections));
             }
 
             // step 3: determine combined result per common section
-            var combinedAssessmentResult = new List<FmSectionWithDirectCategory>();
+            var combinedSectionResult =
+                DeterminCombinedResultPerCommonSectionWbi3C1(failureMechanismResults, partialAssembly);
 
-            var commonSectionsArray = commonSections.Results.ToArray();
-            foreach (var failureMechanismSectionList in failureMechanismResults)
-            {
-                for (var i = 0; i < commonSectionsArray.Length; i++)
-                {
-                    var commonSectionEnd = commonSectionsArray[i].SectionEnd;
-                    var commonSectionStart = commonSectionsArray[i].SectionStart;
-                    var commonSectionLength = commonSectionEnd - commonSectionStart;
-
-                    var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSectionEnd - commonSectionLength/2.0);
-
-                    var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
-                    if (sectionWithDirectCategory != null)
-                    {
-                        // step 3: determin combined result for the section using 
-                        // the current failure mechanism section result.
-                        FmSectionWithDirectCategory combinedFailureMechanismSectionResult;
-
-                        if (i < combinedAssessmentResult.Count)
-                        {
-                            combinedFailureMechanismSectionResult = combinedAssessmentResult[i];
-                        }
-                        else
-                        {
-                            combinedFailureMechanismSectionResult = new FmSectionWithDirectCategory(commonSectionStart,
-                                commonSectionEnd, EFmSectionCategory.NotApplicable);
-                            combinedAssessmentResult.Add(combinedFailureMechanismSectionResult);
-                        }
-
-                        DetermineCombinedCategory(partialAssembly, combinedFailureMechanismSectionResult, sectionWithDirectCategory.Category);
-                    }
-                }
-            }
-            return new AssemblyResult(failureMechanismResults, combinedAssessmentResult);
+            return new AssemblyResult(failureMechanismResults, combinedSectionResult);
         }
 
         /// <inheritdoc />
@@ -99,14 +68,15 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
-            var mechanismSectionLists = CheckGreatestCommonDenominatorInput(failureMechanismSectionLists, assessmentSectionLength);
+            var mechanismSectionLists =
+                CheckGreatestCommonDenominatorInput(failureMechanismSectionLists, assessmentSectionLength);
 
             var sectionLimits = new List<double>();
 
             foreach (var failureMechanismSectionList in mechanismSectionLists)
             {
                 var totalFailureMechanismSectionLength = 0.0;
-                foreach (var fmSection in failureMechanismSectionList.Results)
+                foreach (var fmSection in failureMechanismSectionList.Sections)
                 {
                     var sectionEnd = fmSection.SectionEnd;
                     if (!sectionLimits.Contains(sectionEnd))
@@ -130,7 +100,7 @@ namespace Assembly.Kernel.Implementations
             var commonSections = new List<FailureMechanismSection>();
             foreach (var sectionLimit in sectionLimits)
             {
-                commonSections.Add(new FailureMechanismSection(previousSectionEnd,sectionLimit));
+                commonSections.Add(new FailureMechanismSection(previousSectionEnd, sectionLimit));
                 previousSectionEnd = sectionLimit;
             }
 
@@ -138,12 +108,14 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(FailureMechanismSectionList failureMechanismSectionList,
+        public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+            FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections)
         {
             CheckResultsToCommonSectionsInput(commonSections, failureMechanismSectionList);
 
-            var commonSectionsArray = commonSections.Results as FailureMechanismSection[] ?? commonSections.Results.ToArray();
+            var commonSectionsArray = commonSections.Sections as FailureMechanismSection[] ??
+                                      commonSections.Sections.ToArray();
 
             var resultsToCommonSections = new List<FailureMechanismSection>();
             foreach (var commonSection in commonSectionsArray)
@@ -153,17 +125,89 @@ namespace Assembly.Kernel.Implementations
                 var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
                 if (sectionWithDirectCategory != null)
                 {
-                    resultsToCommonSections.Add(new FmSectionWithDirectCategory(commonSection.SectionStart, commonSection.SectionEnd,
+                    resultsToCommonSections.Add(new FmSectionWithDirectCategory(commonSection.SectionStart,
+                        commonSection.SectionEnd,
                         sectionWithDirectCategory.Category));
                 }
                 else
                 {
-                    resultsToCommonSections.Add(new FmSectionWithIndirectCategory(commonSection.SectionStart, commonSection.SectionEnd,
+                    resultsToCommonSections.Add(new FmSectionWithIndirectCategory(commonSection.SectionStart,
+                        commonSection.SectionEnd,
                         ((FmSectionWithIndirectCategory) section).Category));
                 }
             }
 
-            return new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId, resultsToCommonSections);
+            return new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId,
+                resultsToCommonSections);
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<FmSectionWithDirectCategory> DeterminCombinedResultPerCommonSectionWbi3C1(
+            IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly)
+        {
+            if (failureMechanismResults == null)
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var directFailureMechanismSectionLists = failureMechanismResults
+                .Where(fmrl => fmrl.Sections.First().GetType() == typeof(FmSectionWithDirectCategory))
+                .Select(fmrl => fmrl.Sections.OfType<FmSectionWithDirectCategory>().ToArray())
+                .ToArray();
+
+            if (!directFailureMechanismSectionLists.Any())
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (directFailureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+
+            FmSectionWithDirectCategory[] firstSectionsList = directFailureMechanismSectionLists.First();
+            var combinedSectionResults = new List<FmSectionWithDirectCategory>();
+
+            for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
+            {
+                var newCombinedSection = new FmSectionWithDirectCategory(firstSectionsList[iSection].SectionStart,
+                    firstSectionsList[iSection].SectionEnd, EFmSectionCategory.NotApplicable);
+
+                if (newCombinedSection.Category == EFmSectionCategory.Gr)
+                {
+                    continue;
+                }
+
+                foreach (var failureMechanismSectionList in directFailureMechanismSectionLists)
+                {
+                    var section = failureMechanismSectionList[iSection];
+                    if (!AreEqualSections(section, newCombinedSection))
+                    {
+                        throw new AssemblyException("FailureMechanismSectionList",
+                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                    }
+
+                    DetermineCombinedCategory(partialAssembly, newCombinedSection, section.Category);
+
+                    if (newCombinedSection.Category == EFmSectionCategory.Gr)
+                    {
+                        break;
+                    }
+                }
+
+                combinedSectionResults.Add(newCombinedSection);
+            }
+
+            return combinedSectionResults;
+        }
+
+        private static bool AreEqualSections(FmSectionWithDirectCategory section1, FmSectionWithDirectCategory section2)
+        {
+            return Math.Abs(section1.SectionStart - section2.SectionStart) < 1e-8 &&
+                   Math.Abs(section1.SectionEnd - section2.SectionEnd) < 1e-8;
         }
 
         private static void CheckResultsToCommonSectionsInput(FailureMechanismSectionList commonSections,
@@ -175,13 +219,14 @@ namespace Assembly.Kernel.Implementations
                     EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            if (Math.Abs(commonSections.Results.Last().SectionEnd - failureMechanismSectionList.Results.Last().SectionEnd) > 1e-8)
+            if (Math.Abs(commonSections.Sections.Last().SectionEnd -
+                         failureMechanismSectionList.Sections.Last().SectionEnd) > 1e-8)
             {
                 throw new AssemblyException("FailureMEchanismSectionList",
                     EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
-            var firstResult = failureMechanismSectionList.Results.First();
+            var firstResult = failureMechanismSectionList.Sections.First();
             if (!(firstResult is FmSectionWithIndirectCategory) && !(firstResult is FmSectionWithDirectCategory))
             {
                 throw new AssemblyException("FailureMEchanismSectionList",
@@ -189,7 +234,8 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static FailureMechanismSectionList[] CheckGreatestCommonDenominatorInput(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
+        private static FailureMechanismSectionList[] CheckGreatestCommonDenominatorInput(
+            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
             if (double.IsNaN(assessmentSectionLength))
@@ -228,6 +274,9 @@ namespace Assembly.Kernel.Implementations
             var combinedCategory = combinedFailureMechanismSectionResult.Category;
             switch (currentCategory)
             {
+                case EFmSectionCategory.NotApplicable:
+                    // ignore not applicable, will not be greater than combinedCategory ever.
+                    break;
                 case EFmSectionCategory.Iv:
                 case EFmSectionCategory.IIv:
                 case EFmSectionCategory.IIIv:
@@ -243,18 +292,12 @@ namespace Assembly.Kernel.Implementations
                 case EFmSectionCategory.VIIv:
                     if (!partialAssembly)
                     {
-                        if (currentCategory > combinedCategory)
-                        {
-                            combinedCategory = currentCategory;
-                        }
+                        combinedCategory = currentCategory;
                     }
 
                     break;
                 case EFmSectionCategory.Gr:
                     combinedCategory = EFmSectionCategory.Gr;
-                    break;
-                case EFmSectionCategory.NotApplicable:
-                    // ignore not applicable
                     break;
             }
 

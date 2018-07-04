@@ -43,16 +43,17 @@ namespace Assembly.Kernel.Model
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
-        public FailureMechanismSectionList(string failureMechanismId, IEnumerable<FailureMechanismSection> sectionResults)
+        public FailureMechanismSectionList(string failureMechanismId,
+            IEnumerable<FailureMechanismSection> sectionResults)
         {
-            Results = CheckSectionResults(sectionResults);
+            Sections = CheckSectionResults(sectionResults);
             FailureMechanismId = failureMechanismId ?? "";
         }
 
         /// <summary>
         /// The list of failure mechanism section asesssment results grouped.
         /// </summary>
-        public IEnumerable<FailureMechanismSection> Results { get; }
+        public IEnumerable<FailureMechanismSection> Sections { get; }
 
         /// <summary>
         /// The failure mechanism to which the section results belong.
@@ -67,7 +68,7 @@ namespace Assembly.Kernel.Model
         /// <returns>The section with category belonging to the point in the assessment section</returns>
         public FailureMechanismSection GetSectionCategoryForPoint(double pointInAssessmentSection)
         {
-            foreach (var section in Results)
+            foreach (var section in Sections)
             {
                 if (section.SectionEnd >= pointInAssessmentSection)
                 {
@@ -78,7 +79,8 @@ namespace Assembly.Kernel.Model
             throw new AssemblyException("GetSectionCategoryForPoint", EAssemblyErrors.RequestedPointOutOfRange);
         }
 
-        private static IEnumerable<FailureMechanismSection> CheckSectionResults(IEnumerable<FailureMechanismSection> sectionResults)
+        private static IEnumerable<FailureMechanismSection> CheckSectionResults(
+            IEnumerable<FailureMechanismSection> sectionResults)
         {
             if (sectionResults == null)
             {
