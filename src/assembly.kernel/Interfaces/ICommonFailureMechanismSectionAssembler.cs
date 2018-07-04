@@ -50,5 +50,19 @@ namespace Assembly.Kernel.Interfaces
         AssemblyResult AssembleCommonFailureMechanismSections(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly);
+
+        /// <summary>
+        /// Find the greatest common denominator sections based on a list of all sections for various failure mechanisms.
+        /// </summary>
+        /// <param name="failureMechanismSectionLists">A list of all failure mechanism sections for all relevant failure mechanisms</param>
+        /// <param name="assessmentSectionLength">The total length of the assessment section. 
+        /// The sum of the section lengths must be equal to this length.</param>
+        /// <returns>The greatest common denominator sections spanning the complete assessment section length</returns>
+        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
+        /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
+        /// length.</exception>
+        FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi1C1(
+            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
+            double assessmentSectionLength);
     }
 }

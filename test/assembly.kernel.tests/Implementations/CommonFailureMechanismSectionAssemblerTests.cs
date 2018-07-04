@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -559,6 +560,188 @@ namespace Assembly.Kernel.Tests.Implementations
                 expectedFailureMechanismResults,
                 expectedCombinedResult,
                 true);
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1ReturnsCorrectSections()
+        {
+            var assessmentSectionLength = 30.0;
+            var list1 = new FailureMechanismSectionList("FM1",new []
+            {
+                new FailureMechanismSection(0.0,10.0),
+                new FailureMechanismSection(10.0,20.0),
+                new FailureMechanismSection(20.0,assessmentSectionLength)
+            });
+            var list2 = new FailureMechanismSectionList("FM2", new[]
+            {
+                new FailureMechanismSection(0.0,5.0),
+                new FailureMechanismSection(5.0,25.0),
+                new FailureMechanismSection(25.0,assessmentSectionLength)
+            });
+            var list3 = new FailureMechanismSectionList("FM3", new[]
+            {
+                new FailureMechanismSection(0.0,15.0),
+                new FailureMechanismSection(15.0,28.0),
+                new FailureMechanismSection(28.0,assessmentSectionLength)
+            });
+
+            var commonSections =
+                assembler.FindGreatestCommonDenominatorSectionsWbi1C1(new[] {list1, list2, list3},
+                    assessmentSectionLength);
+
+            var expectedSectionLimits = new[] {0.0}
+                .Concat(list1.Results.Select(r => r.SectionEnd).ToArray())
+                .Concat(list2.Results.Select(r => r.SectionEnd).ToArray())
+                .Concat(list3.Results.Select(r => r.SectionEnd).ToArray())
+                .Distinct().OrderBy(v => v).ToArray();
+
+            var calculatedCommonSecions = commonSections.Results.ToArray();
+            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSecions.Length);
+            for (int i = 0; i < calculatedCommonSecions.Length; i++)
+            {
+                Assert.AreEqual(expectedSectionLimits[i],calculatedCommonSecions[i].SectionStart);
+                Assert.AreEqual(expectedSectionLimits[i+1], calculatedCommonSecions[i].SectionEnd);
+            }
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1IgnoresSmallScetionBoundaryDifferences()
+        {
+            var assessmentSectionLength = 30.0;
+            var list1 = new FailureMechanismSectionList("FM1", new[]
+            {
+                new FailureMechanismSection(0.0,10.0),
+                new FailureMechanismSection(10.001,20.0),
+                new FailureMechanismSection(20.0,assessmentSectionLength)
+            });
+            var list2 = new FailureMechanismSectionList("FM2", new[]
+            {
+                new FailureMechanismSection(0.0,5.0),
+                new FailureMechanismSection(5.0,25.0),
+                new FailureMechanismSection(25.0,assessmentSectionLength)
+            });
+            var list3 = new FailureMechanismSectionList("FM3", new[]
+            {
+                new FailureMechanismSection(0.0,15.0),
+                new FailureMechanismSection(15.0,28.0),
+                new FailureMechanismSection(28.0,assessmentSectionLength)
+            });
+
+            var commonSections =
+                assembler.FindGreatestCommonDenominatorSectionsWbi1C1(new[] { list1, list2, list3 },
+                    assessmentSectionLength);
+
+            var expectedSectionLimits = new[] { 0.0 }
+                .Concat(list1.Results.Select(r => r.SectionEnd).ToArray())
+                .Concat(list2.Results.Select(r => r.SectionEnd).ToArray())
+                .Concat(list3.Results.Select(r => r.SectionEnd).ToArray())
+                .Distinct().OrderBy(v => v).ToArray();
+
+            var calculatedCommonSecions = commonSections.Results.ToArray();
+            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSecions.Length);
+            for (int i = 0; i < calculatedCommonSecions.Length; i++)
+            {
+                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSecions[i].SectionStart);
+                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSecions[i].SectionEnd);
+            }
+        }
+
+        [Test]
+        [TestCase(-2.3, EAssemblyErrors.SectionLengthOutOfRange)]
+        [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1ThrowsOnInvalidAssessmentLength(double assessmentLength, EAssemblyErrors expectedError)
+        {
+            var list1 = new FailureMechanismSectionList("FM1", new[]
+            {
+                new FailureMechanismSection(0.0,10.0),
+                new FailureMechanismSection(10.0,20.0),
+                new FailureMechanismSection(20.0,30.0)
+            });
+            try
+            {
+                var commonSections =
+                    assembler.FindGreatestCommonDenominatorSectionsWbi1C1(new[] { list1, },
+                        assessmentLength);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(expectedError, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1ThrowsOnInvalidSectionLists()
+        {
+            try
+            {
+                var commonSections = assembler.FindGreatestCommonDenominatorSectionsWbi1C1(null,10.0);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1ThrowsOnEmptySectionLists()
+        {
+            try
+            {
+                var commonSections = assembler.FindGreatestCommonDenominatorSectionsWbi1C1(new FailureMechanismSectionList[]{}, 10.0);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsWbi1C1ThrowsOnInvalidSectionList()
+        {
+            var assessmentSectionLength = 30.0;
+            var list1 = new FailureMechanismSectionList("FM1", new[]
+            {
+                new FailureMechanismSection(0.0,10.0),
+                new FailureMechanismSection(10.001,20.0),
+                new FailureMechanismSection(20.0,assessmentSectionLength)
+            });
+            var list2 = new FailureMechanismSectionList("FM2", new[]
+            {
+                new FailureMechanismSection(0.0,5.0),
+                new FailureMechanismSection(5.0,25.0),
+                new FailureMechanismSection(25.0,assessmentSectionLength - 1.0)
+            });
+
+            try
+            {
+                var commonSections =
+                    assembler.FindGreatestCommonDenominatorSectionsWbi1C1(new[] { list1, list2, },
+                        assessmentSectionLength);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.FmSectionLengthInvalid, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
         }
     }
 }

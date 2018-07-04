@@ -44,21 +44,22 @@ namespace Assembly.Kernel.Implementations
             List<FailureMechanismSectionList> failureMechanismSections = failureMechanismSectionLists.ToList();
 
             // step 1: create greatest common denominator list of the failure mechanism sections in the list.
-            List<double> sectionLimits =
-                FindGreatestCommonDenominatorSections(failureMechanismSections, assessmentSectionLength);
+            FailureMechanismSectionList sectionLimits =
+                FindGreatestCommonDenominatorSectionsWbi1C1(failureMechanismSections, assessmentSectionLength);
 
             var failureMechanismResults = new List<FailureMechanismSectionList>();
             var combinedAssessmentResult = new List<FmSectionWithDirectCategory>();
 
             // step 2: determine assessment results for each section.
+            var commonSections = sectionLimits.Results.ToArray();
             foreach (var failureMechanismSectionList in failureMechanismSections)
             {
                 var fmSectionResultList = new List<FailureMechanismSection>();
 
-                for (var i = 0; i < sectionLimits.Count; i++)
+                for (var i = 0; i < commonSections.Length; i++)
                 {
-                    var commonSectionEnd = sectionLimits[i];
-                    var commonSectionStart = i == 0 ? 0.0 : sectionLimits[i - 1];
+                    var commonSectionEnd = commonSections[i].SectionEnd;
+                    var commonSectionStart = commonSections[i].SectionStart;
 
                     var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSectionEnd);
 
@@ -102,13 +103,16 @@ namespace Assembly.Kernel.Implementations
             return new AssemblyResult(failureMechanismResults, combinedAssessmentResult);
         }
 
-        private static List<double> FindGreatestCommonDenominatorSections(
+        /// <inheritdoc />
+        public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi1C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
+            var mechanismSectionLists = CheckGreatestCommonDenominatorInput(failureMechanismSectionLists, assessmentSectionLength);
+
             var sectionLimits = new List<double>();
 
-            foreach (var failureMechanismSectionList in failureMechanismSectionLists)
+            foreach (var failureMechanismSectionList in mechanismSectionLists)
             {
                 var totalFailureMechanismSectionLength = 0.0;
                 foreach (var fmSection in failureMechanismSectionList.Results)
@@ -131,7 +135,47 @@ namespace Assembly.Kernel.Implementations
             }
 
             sectionLimits.Sort();
-            return sectionLimits;
+            var previousSectionEnd = 0.0;
+            var commonSections = new List<FailureMechanismSection>();
+            foreach (var sectionLimit in sectionLimits)
+            {
+                commonSections.Add(new FailureMechanismSection(previousSectionEnd,sectionLimit));
+                previousSectionEnd = sectionLimit;
+            }
+
+            return new FailureMechanismSectionList("Common", commonSections);
+        }
+
+        private static FailureMechanismSectionList[] CheckGreatestCommonDenominatorInput(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
+            double assessmentSectionLength)
+        {
+            if (double.IsNaN(assessmentSectionLength))
+            {
+                throw new AssemblyException("AssessmentSectionLength",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (assessmentSectionLength <= 0.0)
+            {
+                throw new AssemblyException("AssessmentSectionLength",
+                    EAssemblyErrors.SectionLengthOutOfRange);
+            }
+
+            if (failureMechanismSectionLists == null)
+            {
+                throw new AssemblyException("FailureMEchanismSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var mechanismSectionLists = failureMechanismSectionLists as FailureMechanismSectionList[] ??
+                                        failureMechanismSectionLists.ToArray();
+            if (!mechanismSectionLists.Any())
+            {
+                throw new AssemblyException("FailureMEchanismSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            return mechanismSectionLists;
         }
 
         private static void DetermineCombinedCategory(bool partialAssembly,
