@@ -162,6 +162,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The categories passed to the categories list do not cover the full range of probabilities between 0 and 1.
         /// </summary>
-        InvalidCategoryLimits
+        InvalidCategoryLimits,
+
+        /// <summary>
+        /// The supplied sections need to have a category result, otherwise the result cannot be translated to other sections.
+        /// </summary>
+        SectionsWithoutCategory
     }
 }

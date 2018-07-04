@@ -44,33 +44,34 @@ namespace Assembly.Kernel.Implementations
             List<FailureMechanismSectionList> failureMechanismSections = failureMechanismSectionLists.ToList();
 
             // step 1: create greatest common denominator list of the failure mechanism sections in the list.
-            FailureMechanismSectionList sectionLimits =
-                FindGreatestCommonDenominatorSectionsWbi1C1(failureMechanismSections, assessmentSectionLength);
+            FailureMechanismSectionList commonSections =
+                FindGreatestCommonDenominatorSectionsWbi3A1(failureMechanismSections, assessmentSectionLength);
 
+            // step 2: determine assessment results per section for each failure mechanism.
             var failureMechanismResults = new List<FailureMechanismSectionList>();
+
+            foreach (FailureMechanismSectionList failureMechanismSectionList in failureMechanismSections)
+            {
+                failureMechanismResults.Add(TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failureMechanismSectionList, commonSections));
+            }
+
+            // step 3: determine combined result per common section
             var combinedAssessmentResult = new List<FmSectionWithDirectCategory>();
 
-            // step 2: determine assessment results for each section.
-            var commonSections = sectionLimits.Results.ToArray();
-            foreach (var failureMechanismSectionList in failureMechanismSections)
+            var commonSectionsArray = commonSections.Results.ToArray();
+            foreach (var failureMechanismSectionList in failureMechanismResults)
             {
-                var fmSectionResultList = new List<FailureMechanismSection>();
-
-                for (var i = 0; i < commonSections.Length; i++)
+                for (var i = 0; i < commonSectionsArray.Length; i++)
                 {
-                    var commonSectionEnd = commonSections[i].SectionEnd;
-                    var commonSectionStart = commonSections[i].SectionStart;
+                    var commonSectionEnd = commonSectionsArray[i].SectionEnd;
+                    var commonSectionStart = commonSectionsArray[i].SectionStart;
+                    var commonSectionLength = commonSectionEnd - commonSectionStart;
 
-                    var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSectionEnd);
+                    var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSectionEnd - commonSectionLength/2.0);
 
                     var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
                     if (sectionWithDirectCategory != null)
                     {
-                        // first determine the assessment result for the failure mechanism section
-                        var currentCategory = sectionWithDirectCategory.Category;
-                        fmSectionResultList.Add(new FmSectionWithDirectCategory(commonSectionStart, commonSectionEnd,
-                            currentCategory));
-
                         // step 3: determin combined result for the section using 
                         // the current failure mechanism section result.
                         FmSectionWithDirectCategory combinedFailureMechanismSectionResult;
@@ -86,25 +87,15 @@ namespace Assembly.Kernel.Implementations
                             combinedAssessmentResult.Add(combinedFailureMechanismSectionResult);
                         }
 
-                        DetermineCombinedCategory(partialAssembly, combinedFailureMechanismSectionResult, currentCategory);
-                    }
-                    else
-                    {
-                        fmSectionResultList.Add(new FmSectionWithIndirectCategory(commonSectionStart, commonSectionEnd,
-                            ((FmSectionWithIndirectCategory) section).Category));
+                        DetermineCombinedCategory(partialAssembly, combinedFailureMechanismSectionResult, sectionWithDirectCategory.Category);
                     }
                 }
-
-                failureMechanismResults.Add(
-                    new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId,
-                        fmSectionResultList));
             }
-
             return new AssemblyResult(failureMechanismResults, combinedAssessmentResult);
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi1C1(
+        public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
@@ -144,6 +135,58 @@ namespace Assembly.Kernel.Implementations
             }
 
             return new FailureMechanismSectionList("Common", commonSections);
+        }
+
+        /// <inheritdoc />
+        public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(FailureMechanismSectionList failureMechanismSectionList,
+            FailureMechanismSectionList commonSections)
+        {
+            CheckResultsToCommonSectionsInput(commonSections, failureMechanismSectionList);
+
+            var commonSectionsArray = commonSections.Results as FailureMechanismSection[] ?? commonSections.Results.ToArray();
+
+            var resultsToCommonSections = new List<FailureMechanismSection>();
+            foreach (var commonSection in commonSectionsArray)
+            {
+                var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSection.SectionEnd);
+
+                var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
+                if (sectionWithDirectCategory != null)
+                {
+                    resultsToCommonSections.Add(new FmSectionWithDirectCategory(commonSection.SectionStart, commonSection.SectionEnd,
+                        sectionWithDirectCategory.Category));
+                }
+                else
+                {
+                    resultsToCommonSections.Add(new FmSectionWithIndirectCategory(commonSection.SectionStart, commonSection.SectionEnd,
+                        ((FmSectionWithIndirectCategory) section).Category));
+                }
+            }
+
+            return new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId, resultsToCommonSections);
+        }
+
+        private static void CheckResultsToCommonSectionsInput(FailureMechanismSectionList commonSections,
+            FailureMechanismSectionList failureMechanismSectionList)
+        {
+            if (commonSections == null || failureMechanismSectionList == null)
+            {
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (Math.Abs(commonSections.Results.Last().SectionEnd - failureMechanismSectionList.Results.Last().SectionEnd) > 1e-8)
+            {
+                throw new AssemblyException("FailureMEchanismSectionList",
+                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+
+            var firstResult = failureMechanismSectionList.Results.First();
+            if (!(firstResult is FmSectionWithIndirectCategory) && !(firstResult is FmSectionWithDirectCategory))
+            {
+                throw new AssemblyException("FailureMEchanismSectionList",
+                    EAssemblyErrors.SectionsWithoutCategory);
+            }
         }
 
         private static FailureMechanismSectionList[] CheckGreatestCommonDenominatorInput(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,

@@ -94,9 +94,7 @@ namespace Assembly.Kernel.Model
             }
 
             // Check if all entries are either direct or indirect, not a combination.
-            var fmSectionsWithDirectCategory = sectionResultsArray.OfType<FmSectionWithDirectCategory>();
-            var fmSectionsWithIndirectCategory = sectionResultsArray.OfType<FmSectionWithIndirectCategory>();
-            if (fmSectionsWithDirectCategory.Any() && fmSectionsWithIndirectCategory.Any())
+            if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
                     EAssemblyErrors.InputNotTheSameType);

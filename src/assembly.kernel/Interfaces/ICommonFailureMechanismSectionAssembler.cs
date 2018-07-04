@@ -61,8 +61,18 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
         /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
-        FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi1C1(
+        FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength);
+
+        /// <summary>
+        /// Translate the results per section of a failure mechanism to results per common greatest denominator section
+        /// </summary>
+        /// <param name="commonSections"></param>
+        /// <param name="failureMechanismSectionList">This list needs to have also categories. Results are restricted to either FmSectionWithDirectCategory of FmSectionWithIndirectCategory.</param>
+        /// <returns></returns>
+        FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+            FailureMechanismSectionList failureMechanismSectionList,
+            FailureMechanismSectionList commonSections);
     }
 }
