@@ -44,11 +44,5 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         {
             return "FmSectionAssemblyDirectResultWithProbability [" + Result + " P: " + FailureProbability + "]";
         }
-
-        /// <inheritdoc />
-        public override bool HasResult()
-        {
-            return base.HasResult() && !double.IsNaN(FailureProbability);
-        }
     }
 }

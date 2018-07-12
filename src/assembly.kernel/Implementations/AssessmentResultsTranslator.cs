@@ -445,53 +445,6 @@ namespace Assembly.Kernel.Implementations
          * Methods for translation to a normative result result.
          */
 
-/*        /// <inheritdoc />
-        public TResy TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResult simpleAssessmentResult,
-            FmSectionAssemblyDirectResult detailedAssessmentResult,
-            FmSectionAssemblyDirectResult customAssessmentResult)
-        {
-            var result = Wbi0A1(
-                simpleAssessmentResult,
-                detailedAssessmentResult,
-                customAssessmentResult);
-
-            return result == null
-                ? new FmSectionAssemblyDirectResult(EFmSectionCategory.Gr)
-                : (FmSectionAssemblyDirectResult) result;
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
-            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
-            FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
-        {
-            var result = Wbi0A1(
-                simpleAssessmentResult,
-                detailedAssessmentResult,
-                customAssessmentResult);
-
-            return result == null
-                ? new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN)
-                : (FmSectionAssemblyDirectResultWithProbability) result;
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyIndirectResult simpleAssessmentResult,
-            FmSectionAssemblyIndirectResult detailedAssessmentResult,
-            FmSectionAssemblyIndirectResult customAssessmentResult)
-        {
-            var result = Wbi0A1(
-                simpleAssessmentResult,
-                detailedAssessmentResult,
-                customAssessmentResult);
-            return result == null
-                ? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr)
-                : (FmSectionAssemblyIndirectResult) result;
-        }*/
-
         /// <inheritdoc />
         public TResult TranslateAssessmentResultWbi0A1<TResult>(
             TResult simpleAssessmentResult,

@@ -132,7 +132,7 @@ namespace Assembly.Kernel.Implementations
             FmSectionAssemblyDirectResultWithProbability[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
-            var failureProbProduct = 1.0;
+            var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
             var ngoFound = false;
@@ -164,7 +164,7 @@ namespace Assembly.Kernel.Implementations
                             highestFailureProbability = sectionFailureProb;
                         }
 
-                        failureProbProduct *= 1.0 - sectionFailureProb;
+                        noFailureProbProduct *= 1.0 - sectionFailureProb;
                         break;
                     case EFmSectionCategory.VIIv:
                         // If one of the results is VIIv and it isn't a partial result,
@@ -190,7 +190,7 @@ namespace Assembly.Kernel.Implementations
                 return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, 0.0);
             }
 
-            var failureMechanismFailureProbability = 1 - failureProbProduct;
+            var failureMechanismFailureProbability = 1 - noFailureProbProduct;
 
             // step 2: Get section with largest failure probability and multiply with Assessment section length effect factor.
             highestFailureProbability *= failureMechanism.LengthEffectFactor;
