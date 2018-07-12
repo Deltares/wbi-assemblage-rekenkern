@@ -31,6 +31,11 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public class FmSectionAssemblyIndirectResult : IFmSectionAssemblyResult
     {
         /// <summary>
+        /// Constructor of the indirect failure mechanism assembly result. This initializes a Gr result
+        /// </summary>
+        public FmSectionAssemblyIndirectResult() : this(EIndirectAssessmentResult.Gr) { }
+
+        /// <summary>
         /// Constructor of the indirect failure mechanism assembly result.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>

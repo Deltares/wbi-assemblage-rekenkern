@@ -46,6 +46,23 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
+        public void DefaultCtorWithProbabilityReturnsGr()
+        {
+            var result = new FmSectionAssemblyDirectResultWithProbability();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EFmSectionCategory.Gr, result.Result);
+            Assert.IsNaN(result.FailureProbability);
+        }
+
+        [Test]
+        public void DefaultCtorNoProbabilityReturnsGr()
+        {
+            var result = new FmSectionAssemblyDirectResult();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EFmSectionCategory.Gr, result.Result);
+        }
+
+        [Test]
         public void DirectFailureProbAboveOne()
         {
             try
@@ -98,6 +115,14 @@ namespace Assembly.Kernel.Tests.Model
             var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvEt);
 
             Assert.AreEqual("FmSectionAssemblyIndirectResult [FvEt]", result.ToString());
+        }
+
+        [Test]
+        public void DefaultIndirectResultCtorReturnsGr()
+        {
+            var result = new FmSectionAssemblyIndirectResult();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EIndirectAssessmentResult.Gr, result.Result);
         }
     }
 }

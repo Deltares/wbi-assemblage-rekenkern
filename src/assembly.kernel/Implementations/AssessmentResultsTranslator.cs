@@ -445,8 +445,8 @@ namespace Assembly.Kernel.Implementations
          * Methods for translation to a normative result result.
          */
 
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
+/*        /// <inheritdoc />
+        public TResy TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult)
@@ -490,12 +490,13 @@ namespace Assembly.Kernel.Implementations
             return result == null
                 ? new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.Gr)
                 : (FmSectionAssemblyIndirectResult) result;
-        }
+        }*/
 
-        private static IFmSectionAssemblyResult Wbi0A1(
-            IFmSectionAssemblyResult simpleAssessmentResult,
-            IFmSectionAssemblyResult detailedAssessmentResult,
-            IFmSectionAssemblyResult customAssessmentResult)
+        /// <inheritdoc />
+        public TResult TranslateAssessmentResultWbi0A1<TResult>(
+            TResult simpleAssessmentResult,
+            TResult detailedAssessmentResult,
+            TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult, new()
         {
             if (simpleAssessmentResult == null)
             {
@@ -514,7 +515,7 @@ namespace Assembly.Kernel.Implementations
                 return detailedAssessmentResult;
             }
 
-            return simpleAssessmentResult.HasResult() ? simpleAssessmentResult : null;
+            return simpleAssessmentResult.HasResult() ? simpleAssessmentResult : new TResult();
         }
 
         /*

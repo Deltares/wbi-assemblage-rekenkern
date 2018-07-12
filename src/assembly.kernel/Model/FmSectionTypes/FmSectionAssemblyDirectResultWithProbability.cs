@@ -8,6 +8,11 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public class FmSectionAssemblyDirectResultWithProbability : FmSectionAssemblyDirectResult
     {
         /// <summary>
+        /// Constructor of the direct failure mechanism assembly result with failure probability. This initializes a Gr result.
+        /// </summary>
+        public FmSectionAssemblyDirectResultWithProbability() : this(EFmSectionCategory.Gr, double.NaN) { }
+
+        /// <summary>
         /// Constructor of the direct failure mechanism assembly result with failure probability.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>
