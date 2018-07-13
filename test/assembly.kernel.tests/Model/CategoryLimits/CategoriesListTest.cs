@@ -107,16 +107,17 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         }
 
         [Test]
-        [TestCase(0.0)]
-        [TestCase(0.2)]
-        [TestCase(0.4)]
-        [TestCase(1.0)]
-        public void GetCategoryForFailureProbabilityTest(double probability)
+        [TestCase(0.0, "C")]
+        [TestCase(0.2, "C")]
+        [TestCase(0.3, "B")]
+        [TestCase(0.4, "B")]
+        [TestCase(1.0, "B")]
+        public void GetCategoryForFailureProbabilityTest(double probability, string expectedCategory)
         {
             var list = new CategoriesList<TestCategory>(new[]
             {
-                new TestCategory(0.0, 0.3),
-                new TestCategory(0.3, 1.0)
+                new TestCategory(0.0, 0.3, "C"),
+                new TestCategory(0.3, 1.0, "B")
             });
 
             var category = list.GetCategoryForFailureProbability(probability);
