@@ -25,9 +25,9 @@ namespace Assembly.Kernel.Model.CategoryLimits
         }
 
         /// <summary>
-        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1. The categories in this list are ordered from worst (low) to best (high).
+        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1. The categories in this list are ordered from best (low probabilities) to worst (high probabilities).
         /// </summary>
-        public IEnumerable<TCategory> Categories { get; }
+        public TCategory[] Categories { get; }
 
         /// <summary>
         /// Returns the first category where the upper limit equals or is less then the specified failure probability 
@@ -46,10 +46,19 @@ namespace Assembly.Kernel.Model.CategoryLimits
                 throw new AssemblyException("FailureProbability", EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
-            return Categories.First(limits => failureProbability <= limits.UpperLimit);
+            foreach (var category in Categories)
+            {
+                if (failureProbability <= category.UpperLimit)
+                {
+                    return category;
+                }
+            }
+
+            // Probability was exactly equal to 1.0
+            return Categories[0];
         }
 
-        private IEnumerable<TCategory> CheckCategories(IEnumerable<TCategory> categoryLimits)
+        private TCategory[] CheckCategories(IEnumerable<TCategory> categoryLimits)
         {
             var expectedCategoryBoundary = 0.0;
 

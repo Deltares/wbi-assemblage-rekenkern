@@ -103,28 +103,27 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             });
 
             Assert.IsNotNull(list);
-            Assert.AreEqual(2, list.Categories.Count());
+            Assert.AreEqual(2, list.Categories.Length);
         }
 
         [Test]
-        [TestCase(0.0, "C")]
-        [TestCase(0.2, "C")]
-        [TestCase(0.3, "B")]
+        [TestCase(0.0, "A")]
+        [TestCase(0.2, "A")]
+        [TestCase(0.3, "A")]
         [TestCase(0.4, "B")]
         [TestCase(1.0, "B")]
         public void GetCategoryForFailureProbabilityTest(double probability, string expectedCategory)
         {
             var list = new CategoriesList<TestCategory>(new[]
             {
-                new TestCategory(0.0, 0.3, "C"),
+                new TestCategory(0.0, 0.3, "A"),
                 new TestCategory(0.3, 1.0, "B")
             });
 
             var category = list.GetCategoryForFailureProbability(probability);
 
             Assert.IsNotNull(category);
-            Assert.GreaterOrEqual(probability, category.LowerLimit);
-            Assert.IsTrue(probability <= category.UpperLimit);
+            Assert.AreEqual(expectedCategory,category.CategoryIDentifyer);
         }
 
         [Test]
