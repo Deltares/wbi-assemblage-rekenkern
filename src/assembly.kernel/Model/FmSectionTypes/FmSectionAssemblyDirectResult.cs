@@ -31,11 +31,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public class FmSectionAssemblyDirectResult : IFmSectionAssemblyResult
     {
         /// <summary>
-        /// Constructor of the direct failure mechanism assembly result. This initializes a Gr result.
-        /// </summary>
-        public FmSectionAssemblyDirectResult() : this(EFmSectionCategory.Gr) { }
-
-        /// <summary>
         /// Constructor of the direct failure mechanism assembly result.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>

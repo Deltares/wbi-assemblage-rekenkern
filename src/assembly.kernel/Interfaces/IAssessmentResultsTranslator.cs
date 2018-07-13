@@ -243,6 +243,6 @@ namespace Assembly.Kernel.Interfaces
         TResult TranslateAssessmentResultWbi0A1<TResult>(
             TResult simpleAssessmentResult,
             TResult detailedAssessmentResult,
-            TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult, new();
+            TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult;
     }
 }
