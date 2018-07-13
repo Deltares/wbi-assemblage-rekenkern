@@ -46,16 +46,7 @@ namespace Assembly.Kernel.Model.CategoryLimits
                 throw new AssemblyException("FailureProbability", EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
-            foreach (var category in Categories)
-            {
-                if (failureProbability <= category.UpperLimit)
-                {
-                    return category;
-                }
-            }
-
-            // Probability was exactly equal to 1.0
-            return Categories[0];
+            return Categories.First(category => failureProbability <= category.UpperLimit);
         }
 
         private TCategory[] CheckCategories(IEnumerable<TCategory> categoryLimits)
