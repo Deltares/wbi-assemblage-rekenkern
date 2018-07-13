@@ -164,7 +164,7 @@ namespace Assembly.Kernel.Implementations
                             EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
 
-                    newCombinedSection.Category = DetermineCombinedCategory(partialAssembly, newCombinedSection, section.Category);
+                    newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category, section.Category, partialAssembly);
 
                     if (newCombinedSection.Category == EFmSectionCategory.Gr)
                     {
@@ -269,11 +269,10 @@ namespace Assembly.Kernel.Implementations
             return mechanismSectionLists;
         }
 
-        private static EFmSectionCategory DetermineCombinedCategory(bool partialAssembly,
-            FmSectionWithDirectCategory combinedFailureMechanismSectionResult,
-            EFmSectionCategory currentCategory)
+        private static EFmSectionCategory DetermineCombinedCategory(EFmSectionCategory combinedCategory,
+            EFmSectionCategory currentCategory,
+            bool partialAssembly)
         {
-            EFmSectionCategory combinedCategory = combinedFailureMechanismSectionResult.Category;
             switch (currentCategory)
             {
                 case EFmSectionCategory.NotApplicable:
