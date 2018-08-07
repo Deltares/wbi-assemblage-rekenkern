@@ -50,6 +50,12 @@ namespace Assembly.Kernel.Model.FmSectionTypes
             return Result != EIndirectAssessmentResult.Gr;
         }
 
+        /// <inheritdoc />
+        public bool NotApplicableOrNeglectable()
+        {
+            return Result == EIndirectAssessmentResult.Nvt || Result == EIndirectAssessmentResult.FvEt;
+        }
+
         /// <summary>
         /// Convert to string
         /// </summary>

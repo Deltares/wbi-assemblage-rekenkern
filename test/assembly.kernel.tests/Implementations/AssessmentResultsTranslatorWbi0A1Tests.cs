@@ -55,7 +55,9 @@ namespace Assembly.Kernel.Tests.Implementations
             EFmSectionCategory? customAssessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0A1(
-                simpleAssessmentResult == null ? null : new FmSectionAssemblyDirectResult(simpleAssessmentResult.Value),
+                simpleAssessmentResult == null 
+                    ? null 
+                    : new FmSectionAssemblyDirectResult(simpleAssessmentResult.Value),
                 detailedAssessmentResult == null
                     ? null
                     : new FmSectionAssemblyDirectResult(detailedAssessmentResult.Value),
@@ -92,7 +94,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi0A1DirectResultMixedProbabilitiesTest()
         {
-            var simpleAssessmentResult = new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 0.0);
+            var simpleAssessmentResult = new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0);
             var detailedAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
             var customAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv);
             var result = translator.TranslateAssessmentResultWbi0A1(simpleAssessmentResult, detailedAssessmentResult,
@@ -258,6 +260,18 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFmSectionCategory.Gr,
                             EFmSectionCategory.Gr)
                         .Returns(EFmSectionCategory.Gr);
+
+                    yield return new TestCaseData(
+                            EFmSectionCategory.NotApplicable,
+                            EFmSectionCategory.IIIv,
+                            EFmSectionCategory.Gr)
+                        .Returns(EFmSectionCategory.NotApplicable);
+
+                    yield return new TestCaseData(
+                            EFmSectionCategory.Iv,
+                            EFmSectionCategory.Gr,
+                            EFmSectionCategory.IIIv)
+                        .Returns(EFmSectionCategory.Iv);
                 }
             }
 
@@ -266,22 +280,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(
-                            EIndirectAssessmentResult.FvEt,
+                            EIndirectAssessmentResult.Gr,
                             EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
-                            EIndirectAssessmentResult.FvGt)
-                        .Returns(EIndirectAssessmentResult.FvGt);
+                            EIndirectAssessmentResult.FvTom)
+                        .Returns(EIndirectAssessmentResult.FvTom);
 
                     yield return new TestCaseData(
-                            EIndirectAssessmentResult.FvEt,
+                            EIndirectAssessmentResult.Gr,
                             EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
                             null)
                         .Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
 
                     yield return new TestCaseData(
-                            EIndirectAssessmentResult.FvEt,
+                            EIndirectAssessmentResult.Gr,
+                            EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
+                            EIndirectAssessmentResult.Gr)
+                        .Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
+
+                    yield return new TestCaseData(
+                            EIndirectAssessmentResult.Gr,
                             null,
-                            EIndirectAssessmentResult.FvGt)
-                        .Returns(EIndirectAssessmentResult.FvGt);
+                            EIndirectAssessmentResult.FvTom)
+                        .Returns(EIndirectAssessmentResult.FvTom);
 
                     yield return new TestCaseData(
                             EIndirectAssessmentResult.FvEt,
@@ -300,6 +320,12 @@ namespace Assembly.Kernel.Tests.Implementations
                             EIndirectAssessmentResult.Gr,
                             EIndirectAssessmentResult.Gr)
                         .Returns(EIndirectAssessmentResult.Gr);
+
+                    yield return new TestCaseData(
+                            EIndirectAssessmentResult.Nvt,
+                            EIndirectAssessmentResult.FvGt,
+                            EIndirectAssessmentResult.FvTom)
+                        .Returns(EIndirectAssessmentResult.Nvt);
                 }
             }
         }

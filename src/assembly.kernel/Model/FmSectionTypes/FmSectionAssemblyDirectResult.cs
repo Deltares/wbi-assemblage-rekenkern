@@ -50,6 +50,12 @@ namespace Assembly.Kernel.Model.FmSectionTypes
             return Result != EFmSectionCategory.Gr;
         }
 
+        /// <inheritdoc />
+        public bool NotApplicableOrNeglectable()
+        {
+            return Result == EFmSectionCategory.NotApplicable || Result == EFmSectionCategory.Iv;
+        }
+
         /// <summary>
         /// Convert to string
         /// </summary>

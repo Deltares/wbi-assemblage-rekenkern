@@ -35,5 +35,11 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         /// <returns>false if the assessment result is Gr</returns>
         bool HasResult();
+
+        /// <summary>
+        /// Returns whether the specified result is not applicable of has a neglectable probability of failure.
+        /// </summary>
+        /// <returns></returns>
+        bool NotApplicableOrNeglectable();
     }
 }

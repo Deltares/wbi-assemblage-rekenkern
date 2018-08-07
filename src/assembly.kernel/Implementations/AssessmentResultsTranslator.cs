@@ -458,6 +458,11 @@ namespace Assembly.Kernel.Implementations
                     EAssemblyErrors.ValueMayNotBeNull);
             }
 
+            if (simpleAssessmentResult.NotApplicableOrNeglectable())
+            {
+                return simpleAssessmentResult;
+            }
+
             if (customAssessmentResult != null && customAssessmentResult.HasResult())
             {
                 return customAssessmentResult;
