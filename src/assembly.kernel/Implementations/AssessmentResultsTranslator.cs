@@ -446,7 +446,52 @@ namespace Assembly.Kernel.Implementations
          */
 
         /// <inheritdoc />
-        public TResult TranslateAssessmentResultWbi0A1<TResult>(
+        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
+            FmSectionAssemblyDirectResult simpleAssessmentResult,
+            FmSectionAssemblyDirectResult detailedAssessmentResult,
+            FmSectionAssemblyDirectResult customAssessmentResult)
+        {
+            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
+                customAssessmentResult);
+            return new FmSectionAssemblyDirectResult(result.Result);
+        }
+
+        /// <inheritdoc />
+        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
+        FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
+        {
+            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
+                customAssessmentResult);
+            return new FmSectionAssemblyDirectResultWithProbability(result.Result, result.FailureProbability);
+        }
+
+        /// <inheritdoc />
+        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
+            FmSectionAssemblyIndirectResult simpleAssessmentResult,
+            FmSectionAssemblyIndirectResult detailedAssessmentResult,
+            FmSectionAssemblyIndirectResult customAssessmentResult)
+        {
+            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult, customAssessmentResult);
+            return new FmSectionAssemblyIndirectResult(result.Result);
+        }
+
+        /*
+        * Private methods and classes.
+        */
+        /// <summary>
+        /// Internal method to calculate WBI-0A-1 (normative results based on a simple assessment, detailed assessment and custom assessment result).
+        /// </summary>
+        /// <typeparam name="TResult">Generic assessment result.</typeparam>
+        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
+        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
+        /// May be null when not available</param>
+        /// <param name="customAssessmentResult">The test result of a custom assessment.
+        /// May be null when not available</param>
+        /// <returns>The normative result.</returns>
+        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
+        private TResult TranslateAssessmentResultWbi0A1Internal<TResult>(
             TResult simpleAssessmentResult,
             TResult detailedAssessmentResult,
             TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult
@@ -475,10 +520,6 @@ namespace Assembly.Kernel.Implementations
 
             return simpleAssessmentResult;
         }
-
-        /*
-         * Private methods and classes.
-         */
 
         /// <summary>
         /// Translates a section result category to the associated estimated probability of failure

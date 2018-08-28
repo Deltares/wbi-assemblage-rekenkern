@@ -102,7 +102,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-            Assert.AreEqual(customAssessmentResult, result);
+            Assert.AreEqual(customAssessmentResult.Result, result.Result);
         }
 
         [Test, TestCaseSource(
