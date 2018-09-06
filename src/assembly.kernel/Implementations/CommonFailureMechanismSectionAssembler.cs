@@ -120,7 +120,7 @@ namespace Assembly.Kernel.Implementations
             var resultsToCommonSections = new List<FailureMechanismSection>();
             foreach (var commonSection in commonSectionsArray)
             {
-                var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSection.SectionEnd);
+                var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
 
                 var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
                 if (sectionWithDirectCategory != null)

@@ -1030,5 +1030,36 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EFmSectionCategory.IVv,
                 ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
+
+        [Test]
+        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
+        {
+            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            {
+                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIIv),
+                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IVv)
+            });
+            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            {
+                new FailureMechanismSection(0.0, 2.5),
+                new FailureMechanismSection(2.5, 5.0),
+                new FailureMechanismSection(5.0, 7.5),
+                new FailureMechanismSection(7.5, 10.000000001)
+            });
+            var commonSectionsWithResults =
+                assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                    commonSectionsList);
+
+            Assert.IsNotNull(commonSectionsWithResults.Sections);
+            Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
+            Assert.AreEqual(EFmSectionCategory.IIIv,
+                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(0)).Category);
+            Assert.AreEqual(EFmSectionCategory.IIIv,
+                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(1)).Category);
+            Assert.AreEqual(EFmSectionCategory.IVv,
+                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(2)).Category);
+            Assert.AreEqual(EFmSectionCategory.IVv,
+                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(3)).Category);
+        }
     }
 }
