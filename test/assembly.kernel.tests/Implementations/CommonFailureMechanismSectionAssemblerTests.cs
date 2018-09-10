@@ -308,12 +308,13 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void FindGreatestCommonDenominatorSectionsWbi3A1IgnoresSmallScetionBoundaryDifferences()
         {
+            var delta = 1e-6;
             var assessmentSectionLength = 30.0;
             var list1 = new FailureMechanismSectionList("FM1", new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
                 new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
+                new FailureMechanismSection(20.0, assessmentSectionLength + delta)
             });
             var list2 = new FailureMechanismSectionList("FM2", new[]
             {
@@ -323,7 +324,8 @@ namespace Assembly.Kernel.Tests.Implementations
             });
             var list3 = new FailureMechanismSectionList("FM3", new[]
             {
-                new FailureMechanismSection(0.0, 15.0),
+                new FailureMechanismSection(0.0, 5.001),
+                new FailureMechanismSection(5.001, 15.0),
                 new FailureMechanismSection(15.0, 28.0),
                 new FailureMechanismSection(28.0, assessmentSectionLength)
             });
@@ -332,11 +334,10 @@ namespace Assembly.Kernel.Tests.Implementations
                 assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[] {list1, list2, list3},
                     assessmentSectionLength);
 
-            var expectedSectionLimits = new[] {0.0}
-                .Concat(list1.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list2.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list3.Sections.Select(r => r.SectionEnd).ToArray())
-                .Distinct().OrderBy(v => v).ToArray();
+            var expectedSectionLimits = new[]
+            {
+                0.0, 5.0, 5.001, 10.0, 15.0, 20.0, 25.0, 28.0, assessmentSectionLength
+            };
 
             var calculatedCommonSecions = commonSections.Sections.ToArray();
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSecions.Length);

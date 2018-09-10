@@ -73,9 +73,9 @@ namespace Assembly.Kernel.Implementations
 
             var sectionLimits = new List<double>();
 
+            var minimumAssessmentSectionLength = double.PositiveInfinity;
             foreach (var failureMechanismSectionList in mechanismSectionLists)
             {
-                var totalFailureMechanismSectionLength = 0.0;
                 foreach (var fmSection in failureMechanismSectionList.Sections)
                 {
                     var sectionEnd = fmSection.SectionEnd;
@@ -83,12 +83,15 @@ namespace Assembly.Kernel.Implementations
                     {
                         sectionLimits.Add(sectionEnd);
                     }
+                }
 
-                    totalFailureMechanismSectionLength += sectionEnd - fmSection.SectionStart;
+                if (failureMechanismSectionList.Sections.Last().SectionEnd < minimumAssessmentSectionLength)
+                {
+                    minimumAssessmentSectionLength = failureMechanismSectionList.Sections.Last().SectionEnd;
                 }
 
                 // compare calculated assessment section length with the provided length with a margin of 1 cm.
-                if (Math.Abs(totalFailureMechanismSectionLength - assessmentSectionLength) > 0.01)
+                if (Math.Abs(minimumAssessmentSectionLength - assessmentSectionLength) > 0.01)
                 {
                     throw new AssemblyException("AssembleCommonFailureMechanismSection",
                         EAssemblyErrors.FmSectionLengthInvalid);
@@ -100,6 +103,15 @@ namespace Assembly.Kernel.Implementations
             var commonSections = new List<FailureMechanismSection>();
             foreach (var sectionLimit in sectionLimits)
             {
+                if (sectionLimit > minimumAssessmentSectionLength)
+                {
+                    break;
+                }
+
+                if (Math.Abs(sectionLimit - previousSectionEnd) < 1e-4)
+                {
+                    continue;
+                }
                 commonSections.Add(new FailureMechanismSection(previousSectionEnd, sectionLimit));
                 previousSectionEnd = sectionLimit;
             }
