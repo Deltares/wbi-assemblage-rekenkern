@@ -45,7 +45,7 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv).ToArray();
+                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv && r.Result != EFmSectionCategory.Gr).ToArray();
             }
 
             if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
@@ -92,18 +92,21 @@ namespace Assembly.Kernel.Implementations
         {
             FmSectionAssemblyIndirectResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
+            if (partialAssembly)
+            {
+                sectionResults = sectionResults.Where(r => r.Result != EIndirectAssessmentResult.Ngo && r.Result != EIndirectAssessmentResult.Gr).ToArray();
+            }
+
+            if (sectionResults.All(r => r.Result == EIndirectAssessmentResult.Gr) || sectionResults.Length == 0)
+            {
+                return EIndirectAssessmentResult.Gr;
+            }
+
             var returnValue = EIndirectAssessmentResult.Nvt;
             foreach (var sectionResult in sectionResults)
             {
                 switch (sectionResult.Result)
                 {
-                    case EIndirectAssessmentResult.Ngo:
-                        if (!partialAssembly)
-                        {
-                            returnValue = EIndirectAssessmentResult.Ngo;
-                        }
-
-                        break;
                     case EIndirectAssessmentResult.Nvt:
                     case EIndirectAssessmentResult.FvEt:
                     case EIndirectAssessmentResult.FvGt:
@@ -115,8 +118,9 @@ namespace Assembly.Kernel.Implementations
                         }
 
                         break;
+                    case EIndirectAssessmentResult.Ngo:
                     case EIndirectAssessmentResult.Gr:
-                        return EIndirectAssessmentResult.Gr;
+                        return EIndirectAssessmentResult.Ngo;
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + sectionResult.Result,
@@ -135,11 +139,20 @@ namespace Assembly.Kernel.Implementations
         {
             FmSectionAssemblyDirectResultWithProbability[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
+            if (partialAssembly)
+            {
+                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv && r.Result != EFmSectionCategory.Gr).ToArray();
+            }
+
+            if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
+            {
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+            }
+
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
             var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
-            var ngoFound = false;
             var failureProbFound = false;
             foreach (var fmSectionResult in sectionResults)
             {
@@ -171,22 +184,9 @@ namespace Assembly.Kernel.Implementations
                         noFailureProbProduct *= 1.0 - sectionFailureProb;
                         break;
                     case EFmSectionCategory.VIIv:
-                        // If one of the results is VIIv and it isn't a partial result,
-                        // the resulting category will also be VIIt. See FO 6.2.1
-                        if (!partialAssembly)
-                        {
-                            ngoFound = true;
-                        }
-
-                        continue;
                     case EFmSectionCategory.Gr:
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
                 }
-            }
-
-            if (ngoFound)
-            {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
 
             if (!failureProbFound)

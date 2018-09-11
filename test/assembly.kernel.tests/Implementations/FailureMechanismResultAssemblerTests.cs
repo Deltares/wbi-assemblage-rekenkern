@@ -220,7 +220,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EFmSectionCategory.NotApplicable
                             },
                             EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.VIIt);
+                        .Returns(EFailureMechanismCategory.IIIt);
 
                     yield return new TestCaseData(
                             new[]
@@ -327,7 +327,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
                             },
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Gr);
+                        .Returns(EIndirectAssessmentResult.Ngo);
 
                     yield return new TestCaseData(
                             new[]
@@ -339,7 +339,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
                             },
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Gr);
+                        .Returns(EIndirectAssessmentResult.Ngo);
 
                     yield return new TestCaseData(
                             new[]
@@ -352,7 +352,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
                             },
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Gr);
+                        .Returns(EIndirectAssessmentResult.Ngo);
 
                     yield return new TestCaseData(
                             new[]
@@ -566,7 +566,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1NoResult()
+        public void Wbi1B1NoResultPartly()
         {
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                 new[]
@@ -574,6 +574,24 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.00026)
+                },
+                categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
+                    assessmentSectionTest, testFailureMechanism2),
+                false);
+
+            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(EFailureMechanismCategory.VIIt, result.Category);
+        }
+
+        [Test]
+        public void Wbi1B1NoResult()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+                new[]
+                {
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN)
                 },
                 categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
                     assessmentSectionTest, testFailureMechanism2),
@@ -626,7 +644,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1PartialNoResult()
+        public void Wbi1B1PartialNoResultPartly()
         {
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                 new[]
@@ -640,6 +658,48 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
                     new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
+                },
+                categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
+                    assessmentSectionTest, testFailureMechanism2),
+                true);
+
+            Assert.NotNull(result.FailureProbability);
+            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
+            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
+        }
+
+        [Test]
+        public void Wbi1B1PartialNoResultWithoutCatVii()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+                new[]
+                {
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIv, 0.9),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000026),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000010),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.0000011),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000015),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIv, 0.000009),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.NotApplicable, 0.0)
+                },
+                categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
+                    assessmentSectionTest, testFailureMechanism2),
+                true);
+
+            Assert.NotNull(result.FailureProbability);
+            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
+            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
+        }
+
+        [Test]
+        public void Wbi1B1PartialNoResultAtAll()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+                new[]
+                {
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN),
+                    new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN)
                 },
                 categoryLimitsCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
                     assessmentSectionTest, testFailureMechanism2),
