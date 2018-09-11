@@ -152,7 +152,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EFmSectionCategory.Gr
                             },
                             EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.Gr);
+                        .Returns(EFailureMechanismCategory.VIIt);
 
                     yield return new TestCaseData(
                             new[]
@@ -166,7 +166,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EFmSectionCategory.Gr
                             },
                             EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.Gr);
+                        .Returns(EFailureMechanismCategory.VIIt);
 
                     yield return new TestCaseData(
                             new[]
@@ -189,6 +189,15 @@ namespace Assembly.Kernel.Tests.Implementations
                         .Returns(EFailureMechanismCategory.Nvt);
 
                     yield return new TestCaseData(
+                            new[]
+                            {
+                                EFmSectionCategory.Gr,
+                                EFmSectionCategory.Gr
+                            },
+                            EAssemblyType.Full)
+                        .Returns(EFailureMechanismCategory.Gr);
+
+                    yield return new TestCaseData(
                             Generate250DirectCategories(),
                             EAssemblyType.Full)
                         .Returns(EFailureMechanismCategory.IIt);
@@ -209,6 +218,26 @@ namespace Assembly.Kernel.Tests.Implementations
                                 EFmSectionCategory.IIIv,
                                 EFmSectionCategory.Gr,
                                 EFmSectionCategory.NotApplicable
+                            },
+                            EAssemblyType.Partial)
+                        .Returns(EFailureMechanismCategory.VIIt);
+
+                    yield return new TestCaseData(
+                            new[]
+                            {
+                                EFmSectionCategory.VIIv,
+                                EFmSectionCategory.Gr,
+                                EFmSectionCategory.VIIv
+                            },
+                            EAssemblyType.Partial)
+                        .Returns(EFailureMechanismCategory.Gr);
+
+                    yield return new TestCaseData(
+                            new[]
+                            {
+                                EFmSectionCategory.VIIv,
+                                EFmSectionCategory.VIIv,
+                                EFmSectionCategory.VIIv
                             },
                             EAssemblyType.Partial)
                         .Returns(EFailureMechanismCategory.Gr);

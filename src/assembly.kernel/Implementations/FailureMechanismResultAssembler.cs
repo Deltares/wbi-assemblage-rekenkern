@@ -43,6 +43,16 @@ namespace Assembly.Kernel.Implementations
         {
             FmSectionAssemblyDirectResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
+            if (partialAssembly)
+            {
+                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv).ToArray();
+            }
+
+            if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
+            {
+                return EFailureMechanismCategory.Gr;
+            }
+
             var returnValue = EFmSectionCategory.NotApplicable;
             foreach (var sectionResult in sectionResults)
             {
@@ -64,14 +74,8 @@ namespace Assembly.Kernel.Implementations
 
                         break;
                     case EFmSectionCategory.VIIv:
-                        if (!partialAssembly)
-                        {
-                            returnValue = EFmSectionCategory.VIIv;
-                        }
-
-                        break;
                     case EFmSectionCategory.Gr:
-                        return EFailureMechanismCategory.Gr;
+                        return EFailureMechanismCategory.VIIt;
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + sectionResult.Result,
