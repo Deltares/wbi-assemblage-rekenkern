@@ -40,7 +40,19 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
             bool partialAssembly)
         {
-            var failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+            FailureMechanismAssemblyResult[] failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+
+            if (partialAssembly)
+            {
+                failureMechanismResults = failureMechanismResults.Where(fmr =>
+                        fmr.Category != EFailureMechanismCategory.Gr && fmr.Category != EFailureMechanismCategory.VIIt)
+                    .ToArray();
+            }
+
+            if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
+            {
+                return EFailureMechanismCategory.Gr;
+            }
 
             var categoryViiFound = false;
             var resultCategory = EFailureMechanismCategory.Nvt;
@@ -65,14 +77,8 @@ namespace Assembly.Kernel.Implementations
 
                         break;
                     case EFailureMechanismCategory.VIIt:
-                        if (!partialAssembly)
-                        {
-                            categoryViiFound = true;
-                        }
-
-                        break;
                     case EFailureMechanismCategory.Gr:
-                        return EFailureMechanismCategory.Gr;
+                        return EFailureMechanismCategory.VIIt;
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + failureMechanismResult.Category,

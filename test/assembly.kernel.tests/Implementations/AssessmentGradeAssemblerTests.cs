@@ -136,7 +136,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IVt,
                             EFailureMechanismCategory.Vt
                         }, EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.Gr);
+                        .Returns(EFailureMechanismCategory.VIIt);
 
                     yield return new TestCaseData(new[]
                         {
@@ -146,6 +146,20 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.IIIt,
                             EFailureMechanismCategory.IVt,
                             EFailureMechanismCategory.Vt
+                        }, EAssemblyType.Full)
+                        .Returns(EFailureMechanismCategory.VIIt);
+
+                    yield return new TestCaseData(new[]
+                        {
+                            EFailureMechanismCategory.Gr,
+                            EFailureMechanismCategory.Gr
+                        }, EAssemblyType.Full)
+                        .Returns(EFailureMechanismCategory.Gr);
+
+                    yield return new TestCaseData(new[]
+                        {
+                            EFailureMechanismCategory.Gr,
+                            EFailureMechanismCategory.VIIt
                         }, EAssemblyType.Full)
                         .Returns(EFailureMechanismCategory.VIIt);
 
@@ -166,6 +180,15 @@ namespace Assembly.Kernel.Tests.Implementations
                             EFailureMechanismCategory.VIIt
                         }, EAssemblyType.Full)
                         .Returns(EFailureMechanismCategory.VIIt);
+
+                    yield return new TestCaseData(new[]
+                        {
+                            EFailureMechanismCategory.Nvt,
+                            EFailureMechanismCategory.Nvt,
+                            EFailureMechanismCategory.Gr,
+                            EFailureMechanismCategory.VIIt
+                        }, EAssemblyType.Partial)
+                        .Returns(EFailureMechanismCategory.Nvt);
                 }
             }
 
