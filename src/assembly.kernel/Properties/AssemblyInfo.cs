@@ -12,7 +12,7 @@
 [assembly: System.Reflection.AssemblyProduct("Assembly Kernel")]
 [assembly: System.Reflection.AssemblyCompany("Informatiehuis Water")]
 [assembly: System.Reflection.AssemblyCopyright("Copyright © 2018, All rights reserved")]
-[assembly: System.Reflection.AssemblyVersion("1.2.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersion("1.2.0.0")]
+[assembly: System.Reflection.AssemblyVersion("1.2.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersion("1.2.1.0 - snapshot")]
 
 
