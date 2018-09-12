@@ -89,17 +89,28 @@ namespace Assembly.Kernel.Implementations
             CategoriesList<FailureMechanismCategory> categories,
             bool partialAssembly)
         {
-            var failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+            FailureMechanismAssemblyResult[] failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
 
             if (categories == null)
             {
                 throw new AssemblyException("Categories", EAssemblyErrors.ValueMayNotBeNull);
             }
 
+            if (partialAssembly)
+            {
+                failureMechanismResults = failureMechanismResults.Where(fmr =>
+                        fmr.Category != EFailureMechanismCategory.Gr && fmr.Category != EFailureMechanismCategory.VIIt)
+                    .ToArray();
+            }
+
+            if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
+            {
+                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+            }
+
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
             var failureProbProduct = 1.0;
             var failureProbFound = false;
-            var categoryViiFound = false;
 
             foreach (var failureMechanismAssemblyResult in failureMechanismResults)
             {
@@ -124,26 +135,13 @@ namespace Assembly.Kernel.Implementations
                         failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
                         break;
                     case EFailureMechanismCategory.VIIt:
-                        // If one of the results is VIIv and it isn't a partial assembly, register this. The result should 
-                        // always be VIIt if there is no other result of type GR. See FO 7.2.1
-                        if (!partialAssembly)
-                        {
-                            categoryViiFound = true;
-                        }
-
-                        continue;
                     case EFailureMechanismCategory.Gr:
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
                     default:
                         throw new AssemblyException(
                             "AssembleFailureMechanismResult: " + failureMechanismAssemblyResult.Category,
                             EAssemblyErrors.CategoryNotAllowed);
                 }
-            }
-
-            if (categoryViiFound)
-            {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
             }
 
             if (!failureProbFound)
@@ -173,7 +171,7 @@ namespace Assembly.Kernel.Implementations
                 : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
         }
 
-        private static List<FailureMechanismAssemblyResult> CheckFailureMechanismAssemblyResults(
+        private static FailureMechanismAssemblyResult[] CheckFailureMechanismAssemblyResults(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults)
         {
             if (failureMechanismAssemblyResults == null)
@@ -189,7 +187,7 @@ namespace Assembly.Kernel.Implementations
                     EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
-            return failureMechanismResults;
+            return failureMechanismResults.ToArray();
         }
     }
 }

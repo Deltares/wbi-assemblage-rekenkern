@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -322,7 +323,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1NoResult()
+        public void Wbi2B1NoResultOneFailureMechanism()
         {
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
@@ -331,6 +332,23 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003),
                     new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, 0.00003)
+                },
+                categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(assessmentSection,
+                    new FailureMechanism(1.0, 0.7)),
+                false);
+
+            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(EFailureMechanismCategory.VIIt, result.Category);
+        }
+
+        [Test]
+        public void Wbi2B1NoResultAtAll()
+        {
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
+                new[]
+                {
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN)
                 },
                 categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(assessmentSection,
                     new FailureMechanism(1.0, 0.7)),
@@ -389,6 +407,27 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.AreEqual(0.0, result.FailureProbability);
             Assert.AreEqual(EFailureMechanismCategory.Nvt, result.Category);
+        }
+
+        [Test]
+        public void Wbi2B1PartialAssembly()
+        {
+            var sectionFailureProbability = 0.00003;
+            var categoryLimits = categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(assessmentSection,
+                new FailureMechanism(1.0, 0.7));
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
+                new[]
+                {
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, sectionFailureProbability),
+                    new FailureMechanismAssemblyResult(EFailureMechanismCategory.It, sectionFailureProbability)
+                },
+                categoryLimits,
+                true);
+
+            var expectedProbability = 1-Math.Pow(1-sectionFailureProbability,2);
+            Assert.AreEqual(expectedProbability, result.FailureProbability);
+            Assert.AreEqual(categoryLimits.Categories.First(c => expectedProbability <= c.UpperLimit).Category, result.Category);
         }
 
         [Test]
