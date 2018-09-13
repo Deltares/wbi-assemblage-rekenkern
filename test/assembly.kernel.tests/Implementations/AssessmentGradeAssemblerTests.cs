@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,33 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private sealed class AssessMentGradeAssemblerTestData
         {
+            public static IEnumerable Wbi2C1
+            {
+                get
+                {
+                    yield return new TestCaseData(EFailureMechanismCategory.Nvt, EFailureMechanismCategory.Nvt).Returns(EAssessmentGrade.Nvt);
+                    yield return new TestCaseData(EFailureMechanismCategory.It, EFailureMechanismCategory.It).Returns(EAssessmentGrade.APlus);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.A);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIIt, EFailureMechanismCategory.IIIt).Returns(EAssessmentGrade.B);
+                    yield return new TestCaseData(EFailureMechanismCategory.IVt, EFailureMechanismCategory.IVt).Returns(EAssessmentGrade.C);
+                    yield return new TestCaseData(EFailureMechanismCategory.Vt, EFailureMechanismCategory.Vt).Returns(EAssessmentGrade.C);
+                    yield return new TestCaseData(EFailureMechanismCategory.VIt, EFailureMechanismCategory.VIt).Returns(EAssessmentGrade.D);
+                    yield return new TestCaseData(EFailureMechanismCategory.VIIt, EFailureMechanismCategory.VIIt).Returns(EAssessmentGrade.Ngo);
+                    yield return new TestCaseData(EFailureMechanismCategory.Gr, EFailureMechanismCategory.Gr).Returns(EAssessmentGrade.Gr);
+                    yield return new TestCaseData(EFailureMechanismCategory.It, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.A);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIt, EFailureMechanismCategory.It).Returns(EAssessmentGrade.A);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIt, EFailureMechanismCategory.Gr).Returns(EAssessmentGrade.Ngo);
+                    yield return new TestCaseData(EFailureMechanismCategory.Gr, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.Ngo);
+                    yield return new TestCaseData(EFailureMechanismCategory.Nvt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.A);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIIt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.B);
+                    yield return new TestCaseData(EFailureMechanismCategory.IVt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.C);
+                    yield return new TestCaseData(EFailureMechanismCategory.IIt, EFailureMechanismCategory.IVt).Returns(EAssessmentGrade.C);
+                    yield return new TestCaseData(EFailureMechanismCategory.Vt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.C);
+                    yield return new TestCaseData(EFailureMechanismCategory.VIt, EFailureMechanismCategory.IIt).Returns(EAssessmentGrade.D);
+                    yield return new TestCaseData(EFailureMechanismCategory.VIIt, EFailureMechanismCategory.Gr).Returns(EAssessmentGrade.Ngo);
+                }
+            }
+
             public static IEnumerable Wbi2A1Categories
             {
                 get
@@ -469,41 +497,18 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
-        [Test]
-        public void Wbi2C1ResultNvt()
+        [Test, TestCaseSource(
+             typeof(AssessMentGradeAssemblerTestData),
+             nameof(AssessMentGradeAssemblerTestData.Wbi2C1))]
+        public EAssessmentGrade Wbi2C1Tests(EFailureMechanismCategory noFailureProb, EFailureMechanismCategory withFailureProbabilityCategory)
         {
-            var noFailureProb = EFailureMechanismCategory.Nvt;
-            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IIt, 0.00002);
+            var withFailureProb = new FailureMechanismAssemblyResult(withFailureProbabilityCategory,double.NaN);
 
             var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.A, result);
-        }
 
-        [Test]
-        public void Wbi2C1ResultWithFailureProb()
-        {
-            const double FailureProb = 0.00002;
-            var noFailureProb = EFailureMechanismCategory.IIt;
-            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IVt, FailureProb);
-
-            var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
-
-            Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.C, result);
-        }
-
-        [Test]
-        public void Wbi2C1ResultWithoutFailureProb()
-        {
-            var noFailureProb = EFailureMechanismCategory.VIt;
-            var withFailureProb = new FailureMechanismAssemblyResult(EFailureMechanismCategory.IIt, 0.00002);
-
-            var result = assembler.AssembleAssessmentSectionWbi2C1(noFailureProb, withFailureProb);
-
-            Assert.NotNull(result);
-            Assert.AreEqual(EAssessmentGrade.D, result);
+            return result;
         }
     }
 }
