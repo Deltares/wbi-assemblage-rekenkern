@@ -172,6 +172,18 @@ namespace Assembly.Kernel.Implementations
                 throw new AssemblyException("AssessmentGradeAssembler", EAssemblyErrors.ValueMayNotBeNull);
             }
 
+            if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Gr ||
+                assemblyResultWithFailureProbability.Category == EFailureMechanismCategory.Gr)
+            {
+                if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Gr &&
+                    assemblyResultWithFailureProbability.Category == EFailureMechanismCategory.Gr)
+                {
+                    return EAssessmentGrade.Gr;
+                }
+
+                return EAssessmentGrade.Ngo;
+            }
+
             return assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category
                 ? assemblyResultNoFailureProbability.ToAssessmentGrade()
                 : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
