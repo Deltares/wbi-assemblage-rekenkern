@@ -102,6 +102,7 @@
     <None Include="..\..\sln\COPYING.LESSER">
       <Link>COPYING.LESSER</Link>
     </None>
+    <None Include="assembly.kernel.licenseheader" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
