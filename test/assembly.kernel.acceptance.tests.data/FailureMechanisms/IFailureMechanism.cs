@@ -16,7 +16,7 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 
         TResult GetResult<TResult>();
 
-        IEnumerable<IFailureMechanismSection> Sections { get; }
+        IEnumerable<IFailureMechanismSection> Sections { get; set; }
 
         // TODO: Add properties and generic methods as Assamble() and CheckInput() or WriteTestResult(), HasSimpleAssessment()? etc.methods
     }

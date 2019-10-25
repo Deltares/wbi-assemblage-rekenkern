@@ -6,6 +6,11 @@ namespace assembly.kernel.acceptance.tests.data
 {
     public class AssessmentSection
     {
+        public AssessmentSection()
+        {
+            SafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
+        }
+
         public string Name { get; set; }
 
         public double Length { get; set; }
@@ -16,8 +21,8 @@ namespace assembly.kernel.acceptance.tests.data
 
         public List<IFailureMechanism> FailureMechanisms { get; set; }
 
-        public SafetyAssessmentAssemblyResult SafetyAssessmentAssemblyResult { get; set; }
+        public SafetyAssessmentAssemblyResult SafetyAssessmentAssemblyResult { get; }
 
-        public AssemblyResult CombinedAssessmentSectionsResults { get; set; }
+        public AssemblyResult ExpectedCommonSectionsResults { get; set; }
     }
 }

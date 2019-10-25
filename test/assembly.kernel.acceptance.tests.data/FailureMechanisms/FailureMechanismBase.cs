@@ -25,6 +25,6 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
             return (TResult) ExpectedAssessmentResult;
         }
 
-        public IEnumerable<IFailureMechanismSection> Sections { get; }
+        public IEnumerable<IFailureMechanismSection> Sections { get; set; }
     }
 }
