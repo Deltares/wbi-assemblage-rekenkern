@@ -2,7 +2,8 @@
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 {
-    public class Group1FailureMechanism : FailureMechanismBase
+    // TODO: Same class as Group2 mechanisms -> merge
+    public class Group1FailureMechanism : FailureMechanismBase, IGroup1Or2FailureMechanism
     {
         public Group1FailureMechanism(string name, MechanismType type) : base(name)
         {
@@ -16,6 +17,8 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
         public double FailureMechanismProbabilitySpace { get; set; }
 
         public double ExpectedAssessmentResultProbability { get; set; }
+
+        public double ExpectedTemporalAssessmentResultProbability { get; set; }
 
         public double LengthEffectFactor { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 {
-    public class Group3FailureMechanism : FailureMechanismBase
+    public class Group3FailureMechanism : FailureMechanismBase, IGroup3FailureMechanism
     {
         public Group3FailureMechanism(string name, MechanismType type) : base(name)
         {

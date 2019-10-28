@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,32 +9,32 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
     public static class FailureMechanismFactory
     {
         public static FailureMechanismInfo[] Infos = {
-            new FailureMechanismInfo("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2),               // Done
-            new FailureMechanismInfo("Macrostabiliteit buitenwaarts", MechanismType. STBU, 4),              // Done
-            new FailureMechanismInfo("Piping", MechanismType.STPH, 2),                                      // Done
-            new FailureMechanismInfo("Microstabiliteit", MechanismType.STMI, 4),                            // Done
-            new FailureMechanismInfo("Golfklappen op asfaltbekleding", MechanismType.AGK, 3),               // Done
-            new FailureMechanismInfo("Wateroverdruk bij asfaltbekleding", MechanismType.AWO, 4),            // Done
-            new FailureMechanismInfo("Grasbekleding erosie buitentalud", MechanismType.GEBU, 3),            // Done
-            new FailureMechanismInfo("Grasbekleding afschuiven buitentalud", MechanismType.GABU, 4),        // Done
-            new FailureMechanismInfo("Grasbekleding erosie kruin en binnentalud", MechanismType.GEKB, 1),   // Done
-            new FailureMechanismInfo("Grasbekleding afschuiven binnentalud", MechanismType.GABI, 4),        // Done
-            new FailureMechanismInfo("Stabiliteit steenzetting", MechanismType.ZST, 3),                     // Done
-            new FailureMechanismInfo("Duinafslag", MechanismType.DA, 3),                                    // Done
-            new FailureMechanismInfo("Hoogte kunstwerk", MechanismType.HTKW, 1),                            // Done
-            new FailureMechanismInfo("Betrouwbaarheid sluiting kunstwerk", MechanismType.BSKW, 1),          // Done
-            new FailureMechanismInfo("Piping bij kunstwerk", MechanismType.PKW, 4),                         // Done
-            new FailureMechanismInfo("Sterkte en stabiliteit puntconstructies", MechanismType.STKWp, 1),    // Done
-            new FailureMechanismInfo("Sterkte en stabiliteit langsconstructies", MechanismType.STKWl, 4),   // Done
-            new FailureMechanismInfo("Golfafslag voorland", MechanismType.VLGA, 5),                         // Done
-            new FailureMechanismInfo("Afschuiving voorland", MechanismType.VLAF, 5),                        // Done
-            new FailureMechanismInfo("Zettingsvloeiing voorland", MechanismType.VLZV, 5),                   // Done
-            new FailureMechanismInfo("Bebouwing", MechanismType.NWObe, 5),                                  // Done
-            new FailureMechanismInfo("Begroeiing", MechanismType.NWObo, 5),                                 // Done
-            new FailureMechanismInfo("Kabels en leidingen", MechanismType.NWOkl, 5),                        // Done
-            new FailureMechanismInfo("Overige constructies", MechanismType.NWOoc, 5),                       // Done
-            new FailureMechanismInfo("Havendammen", MechanismType.HAV, 5),                                  // Done
-            new FailureMechanismInfo("Technische innovatie", MechanismType.INN, 4)                          // Done
+            new FailureMechanismInfo("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2, () => CreateSTBIFailureMechanism()),               // Done
+            new FailureMechanismInfo("Macrostabiliteit buitenwaarts", MechanismType. STBU, 4, () => CreateSTBUFailureMechanism()),              // Done
+            new FailureMechanismInfo("Piping", MechanismType.STPH, 2, () => CreateSTPHFailureMechanism()),                                      // Done
+            new FailureMechanismInfo("Microstabiliteit", MechanismType.STMI, 4, () => CreateSTMIFailureMechanism()),                            // Done
+            new FailureMechanismInfo("Golfklappen op asfaltbekleding", MechanismType.AGK, 3, () => CreateAGKFailureMechanism()),                // Done
+            new FailureMechanismInfo("Wateroverdruk bij asfaltbekleding", MechanismType.AWO, 4, () => CreateAWOFailureMechanism()),             // Done
+            new FailureMechanismInfo("Grasbekleding erosie buitentalud", MechanismType.GEBU, 3, () => CreateGEBUFailureMechanism()),            // Done
+            new FailureMechanismInfo("Grasbekleding afschuiven buitentalud", MechanismType.GABU, 4, () => CreateGABUFailureMechanism()),        // Done
+            new FailureMechanismInfo("Grasbekleding erosie kruin en binnentalud", MechanismType.GEKB, 1, () => CreateGEKBFailureMechanism()),   // Done
+            new FailureMechanismInfo("Grasbekleding afschuiven binnentalud", MechanismType.GABI, 4, () => CreateGABIFailureMechanism()),        // Done
+            new FailureMechanismInfo("Stabiliteit steenzetting", MechanismType.ZST, 3, () => CreateZSTFailureMechanism()),                      // Done
+            new FailureMechanismInfo("Duinafslag", MechanismType.DA, 3, () => CreateDAFailureMechanism()),                                      // Done
+            new FailureMechanismInfo("Hoogte kunstwerk", MechanismType.HTKW, 1, () => CreateHTKWFailureMechanism()),                            // Done
+            new FailureMechanismInfo("Betrouwbaarheid sluiting kunstwerk", MechanismType.BSKW, 1, () => CreateBSKWFailureMechanism()),          // Done
+            new FailureMechanismInfo("Piping bij kunstwerk", MechanismType.PKW, 4, () => CreatePKWFailureMechanism()),                          // Done
+            new FailureMechanismInfo("Sterkte en stabiliteit puntconstructies", MechanismType.STKWp, 1, () => CreateSTKWpFailureMechanism()),   // Done
+            new FailureMechanismInfo("Sterkte en stabiliteit langsconstructies", MechanismType.STKWl, 4, () => CreateSTKWlFailureMechanism()),  // Done
+            new FailureMechanismInfo("Golfafslag voorland", MechanismType.VLGA, 5, () => CreateVLGAFailureMechanism()),                         // Done
+            new FailureMechanismInfo("Afschuiving voorland", MechanismType.VLAF, 5, () => CreateVLAFFailureMechanism()),                        // Done
+            new FailureMechanismInfo("Zettingsvloeiing voorland", MechanismType.VLZV, 5, () => CreateVLZVFailureMechanism()),                   // Done
+            new FailureMechanismInfo("Bebouwing", MechanismType.NWObe, 5, () => CreateNWObeFailureMechanism()),                                 // Done
+            new FailureMechanismInfo("Begroeiing", MechanismType.NWObo, 5, () => CreateNWOboFailureMechanism()),                                // Done
+            new FailureMechanismInfo("Kabels en leidingen", MechanismType.NWOkl, 5, () => CreateNWOklFailureMechanism()),                       // Done
+            new FailureMechanismInfo("Overige constructies", MechanismType.NWOoc, 5, () => CreateNWOocFailureMechanism()),                      // Done
+            new FailureMechanismInfo("Havendammen", MechanismType.HAV, 5, () => CreateHAVFailureMechanism()),                                   // Done
+            new FailureMechanismInfo("Technische innovatie", MechanismType.INN, 4, () => CreateINNFailureMechanism())                           // Done
         };
 
         #region Group 1
@@ -179,5 +180,16 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
             return new Group4Or5FailureMechanism("Havendammen", MechanismType.HAV);
         }
         #endregion
+
+        public static IFailureMechanism CreateFailureMechanism(MechanismType type)
+        {
+            var info = Infos.FirstOrDefault(i => i.Type == type);
+            if (info == null)
+            {
+                throw new InvalidEnumArgumentException();
+            }
+
+            return info.CreationFunc();
+        }
     }
 }

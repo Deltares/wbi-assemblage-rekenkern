@@ -2,7 +2,7 @@
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 {
-    public class Group2FailureMechanism : FailureMechanismBase
+    public class Group2FailureMechanism : FailureMechanismBase, IGroup1Or2FailureMechanism
     {
         public Group2FailureMechanism(string name, MechanismType type) : base(name)
         {
@@ -17,11 +17,9 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 
         public double ExpectedAssessmentResultProbability { get; set; }
 
+        public double ExpectedTemporalAssessmentResultProbability { get; set; }
+
         public double LengthEffectFactor { get; set; }
-
-        public double AFactor { get; set; }
-
-        public double BFactor { get; set; }
 
         public CategoriesList<FailureMechanismCategory> ExpectedFailureMechanismCategories { get; set; }
 

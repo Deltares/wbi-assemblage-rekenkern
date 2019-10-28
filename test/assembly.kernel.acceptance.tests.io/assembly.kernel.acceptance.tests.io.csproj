@@ -55,6 +55,7 @@
     <Compile Include="Readers\ExcelReaderHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\ExcelSheetReaderBase.cs" />
+    <Compile Include="Readers\FailureMechanismsReader.cs" />
     <Compile Include="Readers\GeneralInformationReader.cs" />
     <Compile Include="Readers\CommonAssessmentSectionResultsReader.cs" />
     <Compile Include="Readers\SafetyAssessmentFinalResultReader.cs" />

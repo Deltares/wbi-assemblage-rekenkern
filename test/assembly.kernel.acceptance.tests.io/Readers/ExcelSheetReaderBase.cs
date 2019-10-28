@@ -46,5 +46,14 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             return ExcelReaderHelper.GetCellValueAsDouble(Worksheet, columnReference + rowId, WorkbookPart);
         }
 
+        protected int GetCellValueAsInt(string columnReference, string keyword)
+        {
+            return GetCellValueAsInt(columnReference, GetRowId(keyword));
+        }
+
+        protected int GetCellValueAsInt(string columnReference, int rowId)
+        {
+            return ExcelReaderHelper.GetCellValueAsInt(Worksheet, columnReference + rowId, WorkbookPart);
+        }
     }
 }
