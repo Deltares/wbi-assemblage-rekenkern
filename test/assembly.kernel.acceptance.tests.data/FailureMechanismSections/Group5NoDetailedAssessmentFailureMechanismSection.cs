@@ -1,8 +1,9 @@
-﻿using Assembly.Kernel.Model.AssessmentResultTypes;
+﻿using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.AssessmentResultTypes;
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
 {
-    public class Group5NoDetailedAssessmentFailureMechanismSection : FailureMechanismSectionBase
+    public class Group5NoDetailedAssessmentFailureMechanismSection : FailureMechanismSectionBase<EIndirectAssessmentResult>
     {
         public EAssessmentResultTypeE1 SimpleAssessmentResult { get; set; }
 

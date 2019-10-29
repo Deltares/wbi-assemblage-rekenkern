@@ -11,12 +11,10 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 
         string SectionName { get; set; }
 
-        EFmSectionCategory ExpectedCombinedResult { get; set; }
-
         IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; set; }
 
         IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; set; }
 
-        IFmSectionAssemblyResult ExpectedCustomAssessmentAssemblyResult { get; set; }
+        IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; set; }
     }
 }

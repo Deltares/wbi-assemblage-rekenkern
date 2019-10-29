@@ -6,7 +6,7 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
     /// <summary>
     /// ZST or DA
     /// </summary>
-    public class Group3NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase
+    public class Group3NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
     {
         public EAssessmentResultTypeE2 SimpleAssessmentResult { get; set; }
 
@@ -16,6 +16,6 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
         // 0T4
         public EAssessmentResultTypeT3 TailorMadeAssessmentResult { get; set; }
 
-        public EFmSectionCategory? TailorMadeAssessmentResultCategory { get; set; }
+        public EFmSectionCategory TailorMadeAssessmentResultCategory { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace assembly.kernel.acceptance.tests.io
+namespace assembly.kernel.acceptance.tests.io.Readers
 {
     public static class ExcelReaderHelper
     {

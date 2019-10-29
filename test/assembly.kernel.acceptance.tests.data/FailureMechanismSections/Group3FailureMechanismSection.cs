@@ -3,7 +3,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
 {
-    public class Group3FailureMechanismSection : FailureMechanismSectionBase
+    public class Group3FailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
     {
         public EAssessmentResultTypeE1 SimpleAssessmentResult { get; set; }
 
@@ -13,6 +13,6 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
         // 0T4
         public EAssessmentResultTypeT3 TailorMadeAssessmentResult { get; set; }
 
-        public EFmSectionCategory? TailorMadeAssessmentResultCategory { get; set; }
+        public EFmSectionCategory TailorMadeAssessmentResultCategory { get; set; }
     }
 }

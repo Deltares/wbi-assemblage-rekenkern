@@ -23,32 +23,32 @@ namespace assembly.kernel.acceptance.tests.io
 
                 ReadGeneralAssessmentSectionInformation(workSheetParts["Trajectgegevens"], workbookPart, assessmentSection);
 
-                ReadFailureMechanismTab(workSheetParts["STBI"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["STBU"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["STPH"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["STMI"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["AGK"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["AWO"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["GEBU"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["GABU"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["GEKB"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["GABI"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["ZST"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["DA"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["HTKW"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["BSKW"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["PKW"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["STKWp"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["STKWl"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["VLGA"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["VLAF"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["VLZV"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["NWObe"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["NWObo"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["NWOkl"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["NWOoc"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["HAV"], workbookPart, assessmentSection);
-                ReadFailureMechanismTab(workSheetParts["INN"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STBI"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STBU"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STPH"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STMI"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["AGK"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["AWO"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["GEBU"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["GABU"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["GEKB"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["GABI"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["ZST"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["DA"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["HTKW"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["BSKW"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["PKW"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STKWp"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["STKWl"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["VLGA"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["VLAF"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["VLZV"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["NWObe"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["NWObo"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["NWOkl"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["NWOoc"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["HAV"], workbookPart, assessmentSection);
+                ReadFailureMechanism(workSheetParts["INN"], workbookPart, assessmentSection);
 
                 ReadSafetyAssessmentFinalResult(workSheetParts["Gecombineerd veiligheidsoordeel"], workbookPart, assessmentSection);
 
@@ -76,7 +76,7 @@ namespace assembly.kernel.acceptance.tests.io
             new CommonAssessmentSectionResultsReader(worksheetPart, workbookPart).Read(assessmentSection);
         }
 
-        private static void ReadFailureMechanismTab(WorksheetPart worksheetPart,
+        private static void ReadFailureMechanism(WorksheetPart worksheetPart,
             WorkbookPart workbookPart, AssessmentSection assessmentSection)
         {
             new FailureMechanismsReader(worksheetPart, workbookPart).Read(assessmentSection);

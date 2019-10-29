@@ -1,8 +1,9 @@
 ﻿using Assembly.Kernel.Model.AssessmentResultTypes;
+using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
 {
-    public class Group4NoDetailedAssessmentFailureMechanismSection : FailureMechanismSectionBase
+    public class Group4NoDetailedAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
     {
         public EAssessmentResultTypeE1 SimpleAssessmentResult { get; set; }
 

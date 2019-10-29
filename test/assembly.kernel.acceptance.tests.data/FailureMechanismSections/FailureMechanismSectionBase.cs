@@ -3,7 +3,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
 {
-    public class FailureMechanismSectionBase : IFailureMechanismSection
+    public class FailureMechanismSectionBase<TCombinedResult> : IFailureMechanismSection
     {
         public double Start { get; set; }
 
@@ -11,12 +11,12 @@ namespace assembly.kernel.acceptance.tests.data.FailureMechanismSections
 
         public string SectionName { get; set; }
 
-        public EFmSectionCategory ExpectedCombinedResult { get; set; }
+        public TCombinedResult ExpectedCombinedResult { get; set; }
 
         public IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; set; }
 
         public IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; set; }
 
-        public IFmSectionAssemblyResult ExpectedCustomAssessmentAssemblyResult { get; set; }
+        public IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; set; }
     }
 }

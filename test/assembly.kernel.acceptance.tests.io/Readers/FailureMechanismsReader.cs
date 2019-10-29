@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.FailureMechanisms;
+using assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
@@ -9,8 +10,11 @@ namespace assembly.kernel.acceptance.tests.io.Readers
 {
     public class FailureMechanismsReader : ExcelSheetReaderBase
     {
+        public SectionReaderFactory SectionReaderFactory { get; }
+
         public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
         {
+            SectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
         }
 
         public void Read(AssessmentSection assessmentSection)
@@ -43,8 +47,6 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                 failureMechanism.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
                 failureMechanism.ExpectedTemporalAssessmentResult = temporalAssessmentResultString.ToFailureMechanismCategory();
             }
-
-            
         }
 
         private void ReadSTBUFailureMechanismSpecificProperties(IFailureMechanism failureMechanism)
@@ -142,10 +144,12 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         #region Read Sections
         private void ReadFailureMechanismSections(IFailureMechanism failureMechanism)
         {
-            // TODO: Split to determine type of section and way to read (move to separate class?).
             var sections = new List<IFailureMechanismSection>();
-            var iRow = GetRowId("Vakindeling") + 3;
+            var startRow = GetRowId("Vakindeling") + 3;
 
+            var sectionReader = SectionReaderFactory.CreateReader(failureMechanism.Type);
+
+            var iRow = startRow;
             while (iRow <= MaxRow)
             {
                 var startMeters = GetCellValueAsDouble("A", iRow) * 1000.0;
@@ -156,53 +160,8 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     break;
                 }
 
-                // TODO: Read section details and initialize section
-                /*var failureMechanismSection = new FailureMechanismSection
-                {
-                    Name = ExcelReaderHelper.GetCellValueAsString(worksheetPart.Worksheet, "E" + iRow, workbookPart),
-                    StartMeters = startMeters,
-                    EndMeters = endMeters,
-                    AssessmentResult = ExcelReaderHelper
-                        .GetCellValueAsString(worksheetPart.Worksheet, "M" + iRow, workbookPart)
-                        .ToFailureMechanismSectionAssemblyCategoryGroup(),
-                    SimpleAssessmentResult = ExcelReaderHelper
-                        .GetCellValueAsString(worksheetPart.Worksheet, "J" + iRow, workbookPart)
-                        .ToFailureMechanismSectionAssemblyCategoryGroup(),
-                    DetailedAssessmentResult = ExcelReaderHelper
-                        .GetCellValueAsString(worksheetPart.Worksheet, "K" + iRow, workbookPart)
-                        .ToFailureMechanismSectionAssemblyCategoryGroup(),
-                    TailorMadeAssessmentResult = ExcelReaderHelper
-                        .GetCellValueAsString(worksheetPart.Worksheet, "L" + iRow, workbookPart)
-                        .ToFailureMechanismSectionAssemblyCategoryGroup(),
-                    HasProbabilities = isProbabilisticMechanism,
-                };*/
+                sections.Add(sectionReader.ReadSection(iRow, startMeters, endMeters));
 
-                /*if (isProbabilisticMechanism)
-                {
-                    var fColumnValueAsString =
-                        ExcelReaderHelper.GetCellValueAsString(worksheetPart.Worksheet, "F" + iRow, workbookPart);
-                    failureMechanismSection.SimpleAssessmentResultProbability =
-                        fColumnValueAsString == "FV" || fColumnValueAsString == "NVT" ? 0.0 : double.NaN;
-
-                    failureMechanismSection.DetailedAssessmentResultProbability =
-                        ExcelReaderHelper.GetCellValueAsString(worksheetPart.Worksheet, "G" + iRow, workbookPart) == "NGO"
-                            ? double.NaN
-                            : ExcelReaderHelper.GetCellValueAsDouble(worksheetPart.Worksheet, "G" + iRow, workbookPart);
-
-                    var hColumnValueAsString =
-                        ExcelReaderHelper.GetCellValueAsString(worksheetPart.Worksheet, "H" + iRow, workbookPart);
-                    failureMechanismSection.TailorMadeAssessmentResultProbability =
-                        hColumnValueAsString == "NGO"
-                            ? double.NaN
-                            : hColumnValueAsString == "FV"
-                                ? 0.0
-                                : ExcelReaderHelper.GetCellValueAsDouble(worksheetPart.Worksheet, "H" + iRow, workbookPart);
-
-                    failureMechanismSection.CombinedAssessmentResultProbability =
-                        ExcelReaderHelper.GetCellValueAsDouble(worksheetPart.Worksheet, "P" + iRow, workbookPart);
-                }*/
-
-                //sections.Add(failureMechanismSection);
                 iRow++;
             }
 
