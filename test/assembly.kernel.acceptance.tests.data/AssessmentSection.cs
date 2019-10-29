@@ -9,6 +9,7 @@ namespace assembly.kernel.acceptance.tests.data
         public AssessmentSection()
         {
             SafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
+            FailureMechanisms = new List<IFailureMechanism>();
         }
 
         public string Name { get; set; }
@@ -19,10 +20,10 @@ namespace assembly.kernel.acceptance.tests.data
 
         public double LowerBoundaryNorm { get; set; }
 
-        public List<IFailureMechanism> FailureMechanisms { get; set; }
+        public AssemblyResult ExpectedCommonSectionsResults { get; set; }
+
+        public List<IFailureMechanism> FailureMechanisms { get; }
 
         public SafetyAssessmentAssemblyResult SafetyAssessmentAssemblyResult { get; }
-
-        public AssemblyResult ExpectedCommonSectionsResults { get; set; }
     }
 }

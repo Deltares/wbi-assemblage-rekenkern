@@ -2,13 +2,14 @@
 {
     public class Group4Or5FailureMechanism : FailureMechanismBase
     {
-        public Group4Or5FailureMechanism(string name, MechanismType type) : base(name)
+        public Group4Or5FailureMechanism(string name, MechanismType type, int group) : base(name)
         {
             Type = type;
+            Group = group;
         }
 
         public override MechanismType Type { get; }
 
-        public override int Group => 5;
+        public override int Group { get; }
     }
 }

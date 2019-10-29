@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Readers\FailureMechanismsReaderTest.cs" />
     <Compile Include="Readers\GeneralInformationReaderTest.cs" />
     <Compile Include="Readers\CommonAssessmentSectionResultsReaderTest.cs" />
     <Compile Include="Readers\SafetyAssessmentResultReaderTest.cs" />

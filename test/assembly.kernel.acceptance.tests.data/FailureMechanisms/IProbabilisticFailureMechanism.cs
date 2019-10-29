@@ -2,7 +2,7 @@
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 {
-    public interface IGroup1Or2FailureMechanism : IGroup3FailureMechanism
+    public interface IProbabilisticFailureMechanism : IGroup3FailureMechanism
     {
         double ExpectedAssessmentResultProbability { get; set; }
 

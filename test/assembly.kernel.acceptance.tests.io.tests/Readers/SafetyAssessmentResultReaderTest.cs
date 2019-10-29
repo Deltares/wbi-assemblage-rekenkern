@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 using AssessmentSection = assembly.kernel.acceptance.tests.data.AssessmentSection;
@@ -51,48 +48,6 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
             }
         }
 
-        private void AssertAreEqualCategories(EFailureMechanismCategory expectedCategory, double expectedLowerLimit,
-            double expectedUpperLimit, FailureMechanismCategory assessmentSectionCategory)
-        {
-            Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
-            AssertAreEqualProbabilities(expectedLowerLimit, assessmentSectionCategory.LowerLimit);
-            AssertAreEqualProbabilities(expectedUpperLimit, assessmentSectionCategory.UpperLimit);
-        }
-
-        private void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
-        {
-            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability),1e-3);
-        }
-
-        /// <summary>
-        /// Calculates the reliability from a probability.
-        /// </summary>
-        /// <param name="probability">The probability to convert.</param>
-        /// <returns>The reliability.</returns>
-        private static double ProbabilityToReliability(double probability)
-        {
-            return Normal.InvCDF(0, 1, 1 - probability);
-        }
-
-        private static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
-        {
-            var workSheetParts = new Dictionary<string, WorksheetPart>();
-
-            foreach (var worksheetPart in workbookPart.WorksheetParts)
-            {
-                var sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
-                workSheetParts[sheet.Name] = worksheetPart;
-            }
-
-            return workSheetParts;
-        }
-
-        private static Sheet GetSheetFromWorkSheet
-            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
-        {
-            string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
-            IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
-            return sheets.FirstOrDefault(s => s.Id.HasValue && s.Id.Value == relationshipId);
-        }
+        
     }
 }

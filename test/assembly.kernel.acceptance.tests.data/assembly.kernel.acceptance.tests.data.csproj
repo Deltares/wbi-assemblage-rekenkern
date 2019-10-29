@@ -57,12 +57,11 @@
     <Compile Include="FailureMechanisms\FailureMechanismBase.cs" />
     <Compile Include="FailureMechanisms\FailureMechanismFactory.cs" />
     <Compile Include="FailureMechanisms\FailureMechanismInfo.cs" />
-    <Compile Include="FailureMechanisms\Group1FailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\IGroup1Or2FailureMechanism.cs" />
+    <Compile Include="FailureMechanisms\ProbabilisticFailureMechanism.cs" />
+    <Compile Include="FailureMechanisms\IProbabilisticFailureMechanism.cs" />
     <Compile Include="FailureMechanisms\IGroup3FailureMechanism.cs" />
     <Compile Include="FailureMechanisms\STBUFailureMechanism.cs" />
     <Compile Include="FailureMechanisms\Group3FailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\Group2FailureMechanism.cs" />
     <Compile Include="FailureMechanisms\Group4Or5FailureMechanism.cs" />
     <Compile Include="FailureMechanisms\IFailureMechanism.cs" />
     <Compile Include="FailureMechanisms\IFailureMechanismSection.cs" />

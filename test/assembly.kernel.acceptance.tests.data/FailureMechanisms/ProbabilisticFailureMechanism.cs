@@ -2,17 +2,17 @@
 
 namespace assembly.kernel.acceptance.tests.data.FailureMechanisms
 {
-    // TODO: Same class as Group2 mechanisms -> merge
-    public class Group1FailureMechanism : FailureMechanismBase, IGroup1Or2FailureMechanism
+    public class ProbabilisticFailureMechanism : FailureMechanismBase, IProbabilisticFailureMechanism
     {
-        public Group1FailureMechanism(string name, MechanismType type) : base(name)
+        public ProbabilisticFailureMechanism(string name, MechanismType type, int group) : base(name)
         {
             Type = type;
+            Group = group;
         }
 
         public override MechanismType Type { get; }
 
-        public override int Group => 1;
+        public override int Group { get; }
 
         public double FailureMechanismProbabilitySpace { get; set; }
 
