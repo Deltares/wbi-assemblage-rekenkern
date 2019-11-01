@@ -1,11 +1,12 @@
 ﻿using System.IO;
+using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
-using AssessmentSection = assembly.kernel.acceptance.tests.data.AssessmentSection;
 
 namespace assembly.kernel.acceptance.tests.io.tests.Readers
 {
@@ -26,11 +27,11 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new SafetyAssessmentFinalResultReader(workSheetPart, workbookPart);
 
-                var result = new AssessmentSection();
+                var result = new AcceptanceTestInput();
 
                 reader.Read(result);
 
-                var assemblyResult = result.SafetyAssessmentAssemblyResult;
+                var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
                 Assert.AreEqual(0.58, assemblyResult.CombinedFailureMechanismProbabilitySpace, 0.001);
                 Assert.AreEqual(EFailureMechanismCategory.IIIt, assemblyResult.ExpectedAssemblyResultGroups1and2);
                 Assert.AreEqual(4.26e-4, assemblyResult.ExpectedAssemblyResultGroups1and2Probability, 1e-6);

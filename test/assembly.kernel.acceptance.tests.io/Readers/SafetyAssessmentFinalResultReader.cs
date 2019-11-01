@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -11,18 +12,18 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         {
         }
 
-        public void Read(AssessmentSection assessmentSection)
+        public void Read(AcceptanceTestInput acceptanceTestInput)
         {
-            assessmentSection.SafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
                 GetCellValueAsString("F", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
-            assessmentSection.SafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
                 GetCellValueAsDouble("G", "Toetssporen in groep 1 en 2");
-            assessmentSection.SafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4 =
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4 =
                 GetCellValueAsString("F", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
-            assessmentSection.SafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult =
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult =
                 GetCellValueAsString("F", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();
 
-            assessmentSection.SafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
                 GetCellValueAsDouble("M", 10);
 
             var list = new List<FailureMechanismCategory>();
@@ -35,7 +36,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     GetCellValueAsDouble("F", iRow)));
             }
 
-            assessmentSection.SafetyAssessmentAssemblyResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(list);
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(list);
         }
     }
 }

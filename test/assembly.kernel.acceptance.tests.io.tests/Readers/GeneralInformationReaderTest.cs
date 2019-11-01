@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
+using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
-using AssessmentSection = assembly.kernel.acceptance.tests.data.AssessmentSection;
 
 namespace assembly.kernel.acceptance.tests.io.tests.Readers
 {
@@ -25,7 +26,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new GeneralInformationReader(workSheetPart,workbookPart);
 
-                var result = new AssessmentSection();
+                var result = new AcceptanceTestInput();
 
                 reader.Read(result);
 
@@ -34,7 +35,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(1 / 3000.0, result.SignallingNorm, 1e-8);
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
 
-                var categories = result.SafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories.Categories;
+                var categories = result.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, categories.Length);
                 AssertAreEqualCategories(EAssessmentGrade.APlus, 0.0, result.SignallingNorm / 30.0, categories[0]);
                 AssertAreEqualCategories(EAssessmentGrade.A, result.SignallingNorm / 30.0, result.SignallingNorm, categories[1]);

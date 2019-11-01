@@ -34,40 +34,37 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssessmentSection.cs" />
-    <Compile Include="FailureMechanismSections\CommonAssemblyResultSection.cs" />
-    <Compile Include="FailureMechanismSections\FailureMechanismSectionBase.cs" />
-    <Compile Include="FailureMechanismSections\Group5NoDetailedAssessmentFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group5FailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group4NoDetailedAssessmentFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group3NoSimpleAssessmentFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group3FailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group4FailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\Group1NoSimpleAssessmentFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\STBUFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanisms\FailureMechanismBase.cs" />
-    <Compile Include="FailureMechanisms\FailureMechanismFactory.cs" />
-    <Compile Include="FailureMechanisms\FailureMechanismInfo.cs" />
-    <Compile Include="FailureMechanisms\ProbabilisticFailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\IProbabilisticFailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\IGroup3FailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\STBUFailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\Group3FailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\Group4Or5FailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\IFailureMechanism.cs" />
-    <Compile Include="FailureMechanisms\IFailureMechanismSection.cs" />
-    <Compile Include="FailureMechanisms\MechanismType.cs" />
+    <Compile Include="Result\AcceptanceTestFailureMechanismResult.cs" />
+    <Compile Include="Input\AcceptanceTestInput.cs" />
+    <Compile Include="Result\AcceptanceTestResult.cs" />
+    <Compile Include="Input\FailureMechanismSections\CommonAssemblyResultSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\FailureMechanismSectionBase.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group5NoDetailedAssessmentFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group5FailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group4NoDetailedAssessmentFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group3NoSimpleAssessmentFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group3FailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group4FailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\Group1NoSimpleAssessmentFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\STBUFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismResultBase.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismFactory.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismInfo.cs" />
+    <Compile Include="Input\FailureMechanisms\ProbabilisticFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IProbabilisticFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IGroup3FailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\StbuFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\Group3FailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\Group4Or5FailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IFailureMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanisms\MechanismType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SafetyAssessmentAssemblyResult.cs" />
+    <Compile Include="Input\SafetyAssessmentAssemblyResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\assembly.kernel\kernel.csproj">

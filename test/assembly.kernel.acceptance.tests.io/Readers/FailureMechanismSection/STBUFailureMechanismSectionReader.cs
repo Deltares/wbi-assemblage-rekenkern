@@ -1,5 +1,5 @@
-﻿using assembly.kernel.acceptance.tests.data.FailureMechanisms;
-using assembly.kernel.acceptance.tests.data.FailureMechanismSections;
+﻿using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 

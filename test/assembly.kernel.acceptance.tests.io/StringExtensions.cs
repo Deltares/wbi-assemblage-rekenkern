@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection

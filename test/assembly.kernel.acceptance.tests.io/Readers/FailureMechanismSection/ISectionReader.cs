@@ -1,4 +1,4 @@
-﻿using assembly.kernel.acceptance.tests.data.FailureMechanisms;
+﻿using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 
 namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
 {

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
-using AssessmentSection = assembly.kernel.acceptance.tests.data.AssessmentSection;
 
 namespace assembly.kernel.acceptance.tests.io.tests.Readers
 {
@@ -58,7 +59,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new CommonAssessmentSectionResultsReader(workSheetPart, workbookPart);
 
-                var result = new AssessmentSection();
+                var result = new AcceptanceTestInput();
 
                 reader.Read(result);
 

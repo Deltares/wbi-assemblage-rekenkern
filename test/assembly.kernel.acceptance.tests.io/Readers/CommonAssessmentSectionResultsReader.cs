@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.acceptance.tests.data;
+using assembly.kernel.acceptance.tests.data.Input;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
 using DocumentFormat.OpenXml.Packaging;
-using AssessmentSection = assembly.kernel.acceptance.tests.data.AssessmentSection;
 
 namespace assembly.kernel.acceptance.tests.io.Readers
 {
@@ -50,7 +51,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         {
         }
 
-        public void Read(AssessmentSection assessmentSection)
+        public void Read(AcceptanceTestInput acceptanceTestInput)
         {
             var commonSections = new List<FmSectionWithDirectCategory>();
 
@@ -99,7 +100,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     .Concat(failureMechanismSpecificCommonSectionsWithIndirectResults.Select(kv =>
                         new FailureMechanismSectionList(kv.Key.ToString("D"), kv.Value)));
 
-            assessmentSection.ExpectedCommonSectionsResults = new AssemblyResult(resultsPerFailureMechanism,commonSections);
+            acceptanceTestInput.ExpectedCommonSectionsResults = new AssemblyResult(resultsPerFailureMechanism,commonSections);
         }
 
         private void AddSectionToList(List<FmSectionWithIndirectCategory> list, string columnReference, int iRow, double startMeters, double endMeters)
