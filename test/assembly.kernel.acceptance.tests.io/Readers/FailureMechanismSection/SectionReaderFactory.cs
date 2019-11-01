@@ -24,7 +24,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismSectionReader(worksheetPart, workbookPart);
+                    return new ProbabilisticFailureMechanismSectionReader(worksheetPart, workbookPart, mechanismType == MechanismType.STBI || mechanismType == MechanismType.STPH);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
                     return new Group1NoSimpleAssessmentFailureMechanismSectionReader(worksheetPart, workbookPart);
@@ -46,11 +46,12 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 case MechanismType.STBU:
                     return new STBUFailureMechanismSectionReader(worksheetPart, workbookPart);
                 case MechanismType.HAV:
-                case MechanismType.NWOoc:
                 case MechanismType.NWOkl:
                 case MechanismType.VLZV:
                 case MechanismType.VLAF:
                     return new Group5FailureMechanismSectionReader(worksheetPart, workbookPart);
+                case MechanismType.NWOoc:
+                    return new NWOocFailureMechanismSectionReader(worksheetPart, workbookPart);
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:

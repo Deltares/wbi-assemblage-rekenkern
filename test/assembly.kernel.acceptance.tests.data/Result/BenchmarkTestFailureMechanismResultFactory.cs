@@ -38,7 +38,7 @@ namespace assembly.kernel.acceptance.tests.data.Result
                 {MechanismType.INN, new Tuple<string, int>("Technische innovaties", 4)}
             };
 
-        public static BenchmarkTestFailureMechanismResult CreateFailureMechanismResult(MechanismType type)
+        public static BenchmarkFailureMechanismTestResult CreateFailureMechanismTestResult(MechanismType type)
         {
             if (!Infos.ContainsKey(type))
             {
@@ -46,7 +46,7 @@ namespace assembly.kernel.acceptance.tests.data.Result
             }
 
             var mechanismInformation = Infos[type];
-            return new BenchmarkTestFailureMechanismResult(mechanismInformation.Item1, type, mechanismInformation.Item2);
+            return new BenchmarkFailureMechanismTestResult(mechanismInformation.Item1, type, mechanismInformation.Item2);
         }
 
     }

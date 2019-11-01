@@ -1,71 +1,154 @@
 ﻿using System;
+using System.Linq;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
+using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
+using Assembly.Kernel.Implementations;
+using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.FmSectionTypes;
+using NUnit.Framework;
 
 namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
+    // TODO: Lot of duplication with ProbabilisticFailureMechanismResultTestHelper  
     public class Group1NoSimpleAssessmentFailureMechanismResultTestHelper : IFailureMechanismResultTestHelper
     {
-        public Group1NoSimpleAssessmentFailureMechanismResultTestHelper(IFailureMechanismResult failureMechanismResult)
+        private readonly ProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult;
+
+        public Group1NoSimpleAssessmentFailureMechanismResultTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            throw new NotImplementedException();
+            this.expectedFailureMechanismResult = expectedFailureMechanismResult as ProbabilisticExpectedFailureMechanismResult;
+            if (this.expectedFailureMechanismResult == null)
+            {
+                throw new ArgumentException();
+            }
         }
 
         public void TestSimpleAssessment()
         {
-            throw new NotImplementedException();
-            // TODO: Group1 implementation
-            /*                else
-                            {
-                                var group1Section = section as Group1NoSimpleAssessmentFailureMechanismSection;
-                                if (group1Section == null)
-                                {
-                                    throw new ArgumentException();
-                                }
+            var assembler = new AssessmentResultsTranslator();
 
-                                var result = assembler.TranslateAssessmentResultWbi0E3(group1Section.SimpleAssessmentResult);
-                                var expectedResult = group1Section.ExpectedSimpleAssessmentAssemblyResult as
-                                        FmSectionAssemblyDirectResultWithProbability;
-                                Assert.AreEqual(expectedResult.Result, result.Result);
-                                Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
-                            }*/
+            foreach (var section in expectedFailureMechanismResult.Sections)
+            {
+                var probabilisticSection = section as Group1NoSimpleAssessmentFailureMechanismSection;
+                if (probabilisticSection != null)
+                {
+                    // WBI-0E-3
+                    FmSectionAssemblyDirectResultWithProbability result = assembler.TranslateAssessmentResultWbi0E3(probabilisticSection.SimpleAssessmentResult);
+                    var expectedResult = probabilisticSection.ExpectedSimpleAssessmentAssemblyResult as
+                        FmSectionAssemblyDirectResultWithProbability;
+                    Assert.AreEqual(expectedResult.Result, result.Result);
+                    Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
+                }
+            }
         }
 
         public void TestDetailedAssessment()
         {
-            throw new NotImplementedException();
-            // TODO: Group1 implementation
-            /*else
-            {
-                var group1Section = section as Group1NoSimpleAssessmentFailureMechanismSection;
-                if (group1Section == null)
-                {
-                    throw new ArgumentException();
-                }
+            var assembler = new AssessmentResultsTranslator();
 
-                var result = assembler.TranslateAssessmentResultWbi0G3(group1Section.DetailedAssessmentResult, group1Section.DetailedAssessmentResultProbability, failureMechanismResult.ExpectedFailureMechanismSectionCategories);
-                // TODO:
-                Assert.AreEqual(group1Section.ExpectedSimpleAssessmentAssemblyResult, result);
-            }*/
+            foreach (var section in expectedFailureMechanismResult.Sections)
+            {
+                var probabilisticSection = section as Group1NoSimpleAssessmentFailureMechanismSection;
+                if (probabilisticSection != null)
+                {
+                    // WBI-0G-3
+                    var result = assembler.TranslateAssessmentResultWbi0G3(
+                        probabilisticSection.DetailedAssessmentResult,
+                        probabilisticSection.DetailedAssessmentResultProbability,
+                        expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
+
+                    var expectedResult =
+                        probabilisticSection.ExpectedDetailedAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResultWithProbability;
+                    Assert.AreEqual(expectedResult.Result, result.Result);
+                    Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
+                }
+            }
         }
 
         public void TestTailorMadeAssessment()
         {
-            throw new NotImplementedException();
+            var assembler = new AssessmentResultsTranslator();
+
+            foreach (var section in expectedFailureMechanismResult.Sections)
+            {
+                var probabilisticSection = section as Group1NoSimpleAssessmentFailureMechanismSection;
+                if (probabilisticSection != null)
+                {
+                    // WBI-0T-3
+                    var result = assembler.TranslateAssessmentResultWbi0T3(
+                        probabilisticSection.TailorMadeAssessmentResult,
+                        probabilisticSection.TailorMadeAssessmentResultProbability,
+                        expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
+
+                    var expectedResult =
+                        probabilisticSection.ExpectedTailorMadeAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResultWithProbability;
+                    Assert.AreEqual(expectedResult.Result, result.Result);
+                    Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
+                }
+            }
         }
 
         public void TestCombinedAssessment()
         {
-            throw new NotImplementedException();
+            var assembler = new AssessmentResultsTranslator();
+
+            if (expectedFailureMechanismResult != null)
+            {
+                foreach (var section in expectedFailureMechanismResult.Sections.OfType<IProbabilisticMechanismSection>())
+                {
+                    // WBI-0A-1 (direct with probability)
+                    var result = assembler.TranslateAssessmentResultWbi0A1(
+                            section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
+                            section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
+                            section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability);
+
+                    Assert.IsInstanceOf<FmSectionAssemblyDirectResultWithProbability>(result);
+                    Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
+                    Assert.AreEqual(section.ExpectedCombinedResultProbability, result.FailureProbability);
+                }
+            }
         }
 
         public void TestAssessmentSectionResult()
         {
-            throw new NotImplementedException();
+            var assembler = new FailureMechanismResultAssembler();
+
+            // WBI-1B-1
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(expectedFailureMechanismResult.LengthEffectFactor,
+                    expectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                expectedFailureMechanismResult.ExpectedFailureMechanismCategories,
+                false
+            );
+
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResult, result.Category);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultProbability, result.FailureProbability);
         }
 
         public void TestAssessmentSectionResultTemporal()
         {
-            throw new NotImplementedException();
+            var assembler = new FailureMechanismResultAssembler();
+
+            // WBI-1B-1
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(expectedFailureMechanismResult.LengthEffectFactor,
+                    expectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                expectedFailureMechanismResult.ExpectedFailureMechanismCategories,
+                true
+            );
+
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal, result.FailureProbability);
+        }
+
+        private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)
+        {
+            var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
+            var probabilisticMechanismSection = section as IProbabilisticMechanismSection;
+            return new FmSectionAssemblyDirectResultWithProbability(directMechanismSection.ExpectedCombinedResult,
+                probabilisticMechanismSection.ExpectedCombinedResultProbability);
         }
     }
 }

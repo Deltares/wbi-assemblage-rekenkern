@@ -9,7 +9,7 @@ namespace assembly.kernel.acceptance.tests.data.Input
         public BenchmarkTestInput()
         {
             ExpectedSafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
-            ExpectedFailureMechanismsResults = new List<IFailureMechanismResult>();
+            ExpectedFailureMechanismsResults = new List<IExpectedFailureMechanismResult>();
         }
 
         public string Name { get; set; }
@@ -35,7 +35,7 @@ namespace assembly.kernel.acceptance.tests.data.Input
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResultTemporal { get; set; }
 
-        public List<IFailureMechanismResult> ExpectedFailureMechanismsResults { get; }
+        public List<IExpectedFailureMechanismResult> ExpectedFailureMechanismsResults { get; }
 
         public SafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
     }

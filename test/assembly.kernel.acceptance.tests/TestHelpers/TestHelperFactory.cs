@@ -5,53 +5,46 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
     public static class TestHelperFactory
     {
-        public static IFailureMechanismResultTestHelper CreateFailureMechanismTestHelper(IFailureMechanismResult failureMechanismResult)
+        public static IFailureMechanismResultTestHelper CreateFailureMechanismTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            switch (failureMechanismResult.Type)
+            switch (expectedFailureMechanismResult.Type)
             {
                 case MechanismType.STBI:
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismResultTestHelper(failureMechanismResult);
+                    return new ProbabilisticFailureMechanismResultTestHelper(expectedFailureMechanismResult);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    // TODO: Implement
-                    return new Group1NoSimpleAssessmentFailureMechanismResultTestHelper(failureMechanismResult);
+                    return new Group1NoSimpleAssessmentFailureMechanismResultTestHelper(expectedFailureMechanismResult);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
-                    // TODO: Implement
-                    return new Group3FailureMechanismResultTestHelper(failureMechanismResult);
+                    return new Group3FailureMechanismResultTestHelper(expectedFailureMechanismResult);
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    // TODO: Implement
-                    return new Group3NoSimpleAssessmentFailureMechanismTestHelper(failureMechanismResult);
+                    return new Group3NoSimpleAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
                 case MechanismType.GABI:
                 case MechanismType.GABU:
                 case MechanismType.STMI:
                 case MechanismType.PKW:
-                    // TODO: Implement
-                    return new Group4FailureMechanismTestHelper(failureMechanismResult);
+                    return new Group4FailureMechanismTestHelper(expectedFailureMechanismResult);
                 case MechanismType.AWO:
                 case MechanismType.STKWl:
                 case MechanismType.INN:
-                    // TODO: Implement
-                    return new Group4NoDetailedAssessmentFailureMechanismTestHelper(failureMechanismResult);
+                    return new Group4NoDetailedAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
                 case MechanismType.STBU:
-                    // TODO: Implement
-                    return new STBUFailureMechanismTestHelper(failureMechanismResult);
+                    return new STBUFailureMechanismTestHelper(expectedFailureMechanismResult);
                 case MechanismType.HAV:
-                case MechanismType.NWOoc:
                 case MechanismType.NWOkl:
                 case MechanismType.VLZV:
                 case MechanismType.VLAF:
-                    // TODO: Implement
-                    return new Group5FailureMechanismTestHelper(failureMechanismResult);
+                    return new Group5FailureMechanismTestHelper(expectedFailureMechanismResult);
+                case MechanismType.NWOoc:
+                    return new NWOocFailureMechanismTestHelper(expectedFailureMechanismResult);
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:
-                    // TODO: Implement
-                    return new Group5NoDetailedAssessmentFailureMechanismTestHelper(failureMechanismResult);
+                    return new Group5NoDetailedAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
                 default:
                     throw new InvalidEnumArgumentException();
             }

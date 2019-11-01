@@ -6,8 +6,8 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
 {
     public static class FailureMechanismFactory
     {
-        private static readonly Dictionary<MechanismType, Func<IFailureMechanismResult>> Infos =
-            new Dictionary<MechanismType, Func<IFailureMechanismResult>>
+        private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> Infos =
+            new Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>>
             {
                 {MechanismType.STBI, CreateSTBIFailureMechanism},
                 {MechanismType.STBU, CreateSTBUFailureMechanism},
@@ -37,7 +37,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
                 {MechanismType.INN, CreateINNFailureMechanism}
             };
 
-        public static IFailureMechanismResult CreateFailureMechanism(MechanismType type)
+        public static IExpectedFailureMechanismResult CreateFailureMechanism(MechanismType type)
         {
             if (!Infos.ContainsKey(type))
             {
@@ -49,148 +49,148 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
 
         #region Group 1
 
-        private static ProbabilisticFailureMechanismResult CreateGEKBFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateGEKBFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Grasbekleding erosie kruin en binnentalud", MechanismType.GEKB, 1);
+            return new ProbabilisticExpectedFailureMechanismResult("Grasbekleding erosie kruin en binnentalud", MechanismType.GEKB, 1);
         }
 
-        private static ProbabilisticFailureMechanismResult CreateHTKWFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateHTKWFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Hoogte kunstwerk", MechanismType.HTKW, 1);
+            return new ProbabilisticExpectedFailureMechanismResult("Hoogte kunstwerk", MechanismType.HTKW, 1);
         }
 
-        private static ProbabilisticFailureMechanismResult CreateBSKWFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateBSKWFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", MechanismType.BSKW, 1);
+            return new ProbabilisticExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", MechanismType.BSKW, 1);
         }
 
-        private static ProbabilisticFailureMechanismResult CreateSTKWpFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateSTKWpFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Sterkte en stabiliteit punconstructies", MechanismType.STKWp, 1);
+            return new ProbabilisticExpectedFailureMechanismResult("Sterkte en stabiliteit punconstructies", MechanismType.STKWp, 1);
         }
 
         #endregion
 
         #region Group 2
 
-        private static ProbabilisticFailureMechanismResult CreateSTBIFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateSTBIFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2);
+            return new ProbabilisticExpectedFailureMechanismResult("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2);
         }
 
-        private static ProbabilisticFailureMechanismResult CreateSTPHFailureMechanism()
+        private static ProbabilisticExpectedFailureMechanismResult CreateSTPHFailureMechanism()
         {
-            return new ProbabilisticFailureMechanismResult("Piping", MechanismType.STPH, 2);
+            return new ProbabilisticExpectedFailureMechanismResult("Piping", MechanismType.STPH, 2);
         }
         #endregion
 
         #region Group 3
 
-        private static Group3FailureMechanismResult CreateAGKFailureMechanism()
+        private static Group3ExpectedFailureMechanismResult CreateAGKFailureMechanism()
         {
-            return new Group3FailureMechanismResult("Golfklappen op asfaltbekleding", MechanismType.AGK);
+            return new Group3ExpectedFailureMechanismResult("Golfklappen op asfaltbekleding", MechanismType.AGK);
         }
 
-        private static Group3FailureMechanismResult CreateGEBUFailureMechanism()
+        private static Group3ExpectedFailureMechanismResult CreateGEBUFailureMechanism()
         {
-            return new Group3FailureMechanismResult("Grasbekleding erosie buitentalud", MechanismType.GEBU);
+            return new Group3ExpectedFailureMechanismResult("Grasbekleding erosie buitentalud", MechanismType.GEBU);
         }
 
-        private static Group3FailureMechanismResult CreateZSTFailureMechanism()
+        private static Group3ExpectedFailureMechanismResult CreateZSTFailureMechanism()
         {
-            return new Group3FailureMechanismResult("Stabiliteit steenzetting", MechanismType.ZST);
+            return new Group3ExpectedFailureMechanismResult("Stabiliteit steenzetting", MechanismType.ZST);
         }
 
-        private static Group3FailureMechanismResult CreateDAFailureMechanism()
+        private static Group3ExpectedFailureMechanismResult CreateDAFailureMechanism()
         {
-            return new Group3FailureMechanismResult("Duinafslag", MechanismType.DA);
+            return new Group3ExpectedFailureMechanismResult("Duinafslag", MechanismType.DA);
         }
 
         #endregion
 
         #region Group 4
 
-        private static StbuFailureMechanismResult CreateSTBUFailureMechanism()
+        private static StbuExpectedFailureMechanismResult CreateSTBUFailureMechanism()
         {
-            return new StbuFailureMechanismResult();
+            return new StbuExpectedFailureMechanismResult();
         }
 
-        private static Group4Or5FailureMechanismResult CreateSTMIFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateSTMIFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Microstabiliteit", MechanismType.STMI, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Microstabiliteit", MechanismType.STMI, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreateAWOFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateAWOFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Wateroverdruk bij asfaltbekleding", MechanismType.AWO, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Wateroverdruk bij asfaltbekleding", MechanismType.AWO, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreateGABUFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateGABUFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Grasbekleding afschuiven buitentalud", MechanismType.GABU, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Grasbekleding afschuiven buitentalud", MechanismType.GABU, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreateGABIFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateGABIFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Grasbekleding afschuiven binnentalud", MechanismType.GABI, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Grasbekleding afschuiven binnentalud", MechanismType.GABI, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreatePKWFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreatePKWFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Piping bij kunstwerk", MechanismType.PKW, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Piping bij kunstwerk", MechanismType.PKW, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreateSTKWlFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateSTKWlFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Sterkte en stabiliteit langsconstructies", MechanismType.STKWl, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Sterkte en stabiliteit langsconstructies", MechanismType.STKWl, 4);
         }
 
-        private static Group4Or5FailureMechanismResult CreateINNFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateINNFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Technische innovaties", MechanismType.INN, 4);
+            return new Group4Or5ExpectedFailureMechanismResult("Technische innovaties", MechanismType.INN, 4);
         }
         #endregion
 
         #region Group 5
 
-        private static Group4Or5FailureMechanismResult CreateVLGAFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateVLGAFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Golfafslag voorland", MechanismType.VLGA, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Golfafslag voorland", MechanismType.VLGA, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateVLAFFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateVLAFFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Afschuiving voorland", MechanismType.VLAF, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Afschuiving voorland", MechanismType.VLAF, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateVLZVFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateVLZVFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Zettingsvloeiing voorland", MechanismType.VLZV, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Zettingsvloeiing voorland", MechanismType.VLZV, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateNWObeFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateNWObeFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Bebouwing", MechanismType.NWObe, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Bebouwing", MechanismType.NWObe, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateNWOboFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateNWOboFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Begroeiing", MechanismType.NWObo, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Begroeiing", MechanismType.NWObo, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateNWOklFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateNWOklFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Kabels en leidingen", MechanismType.NWOkl, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Kabels en leidingen", MechanismType.NWOkl, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateNWOocFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateNWOocFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Overige constructies", MechanismType.NWOoc, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Overige constructies", MechanismType.NWOoc, 5);
         }
 
-        private static Group4Or5FailureMechanismResult CreateHAVFailureMechanism()
+        private static Group4Or5ExpectedFailureMechanismResult CreateHAVFailureMechanism()
         {
-            return new Group4Or5FailureMechanismResult("Havendammen", MechanismType.HAV, 5);
+            return new Group4Or5ExpectedFailureMechanismResult("Havendammen", MechanismType.HAV, 5);
         }
         #endregion
 

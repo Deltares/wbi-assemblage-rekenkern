@@ -7,18 +7,23 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
 {
     public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
     {
-        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+        private readonly bool lengthEffectPresent;
+
+        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart, bool lengthEffectPresent)
             : base(worksheetPart, workbookPart)
         {
+            this.lengthEffectPresent = lengthEffectPresent;
         }
 
         public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
-            var cellJValueAsString = GetCellValueAsString("J", iRow);
-            var simpleProbability = cellJValueAsString.ToLower() == "fv" || cellJValueAsString.ToLower() == "nvt"
+            var cellFValueAsString = GetCellValueAsString("F", iRow);
+            var simpleProbability = cellFValueAsString.ToLower() == "fv" || cellFValueAsString.ToLower() == "nvt"
                 ? 0.0
                 : double.NaN;
+            var lengthEffectFactor = lengthEffectPresent ? GetCellValueAsDouble("P", iRow) : 1.0;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
+            var expectedDetailedAssessmentResultProbability = detailedAssessmentResultProbability * lengthEffectFactor;
             var cellHValueAsString = GetCellValueAsString("H", iRow);
             var tailorMadeAssessmentResultProbability = cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
 
@@ -27,17 +32,17 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
-                LengthEffectFactor = GetCellValueAsDouble("P", iRow),
-                SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
+                LengthEffectFactor = lengthEffectFactor,
+                SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE1(),
                 SimpleAssessmentResultProbability = simpleProbability,
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
-                    cellJValueAsString.ToFailureMechanismSectionCategory(),
+                    GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
                     simpleProbability),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory(),
-                    detailedAssessmentResultProbability),
+                    expectedDetailedAssessmentResultProbability),
                 TailorMadeAssessmentResult = cellHValueAsString.ToEAssessmentResultTypeT3(true),
                 TailorMadeAssessmentResultProbability = tailorMadeAssessmentResultProbability,
                 ExpectedTailorMadeAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(

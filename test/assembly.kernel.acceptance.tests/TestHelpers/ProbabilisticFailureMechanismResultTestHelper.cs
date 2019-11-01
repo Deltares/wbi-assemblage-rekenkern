@@ -11,12 +11,12 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
     public class ProbabilisticFailureMechanismResultTestHelper : IFailureMechanismResultTestHelper
     {
-        private readonly ProbabilisticFailureMechanismResult failureMechanismResult;
+        private readonly ProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult;
 
-        public ProbabilisticFailureMechanismResultTestHelper(IFailureMechanismResult failureMechanismResult)
+        public ProbabilisticFailureMechanismResultTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            this.failureMechanismResult = failureMechanismResult as ProbabilisticFailureMechanismResult;
-            if (this.failureMechanismResult == null)
+            this.expectedFailureMechanismResult = expectedFailureMechanismResult as ProbabilisticExpectedFailureMechanismResult;
+            if (this.expectedFailureMechanismResult == null)
             {
                 throw new ArgumentException();
             }
@@ -26,11 +26,12 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in failureMechanismResult.Sections)
+            foreach (var section in expectedFailureMechanismResult.Sections)
             {
                 var probabilisticSection = section as ProbabilisticFailureMechanismSection;
                 if (probabilisticSection != null)
                 {
+                    // WBI-0E-1
                     FmSectionAssemblyDirectResultWithProbability result = assembler.TranslateAssessmentResultWbi0E1(probabilisticSection.SimpleAssessmentResult);
                     var expectedResult = probabilisticSection.ExpectedSimpleAssessmentAssemblyResult as
                         FmSectionAssemblyDirectResultWithProbability;
@@ -44,26 +45,28 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in failureMechanismResult.Sections)
+            foreach (var section in expectedFailureMechanismResult.Sections)
             {
                 var probabilisticSection = section as ProbabilisticFailureMechanismSection;
                 if (probabilisticSection != null)
                 {
                     FmSectionAssemblyDirectResultWithProbability result;
-                    if (failureMechanismResult.Type == MechanismType.STBI ||
-                        failureMechanismResult.Type == MechanismType.STPH)
+                    if (expectedFailureMechanismResult.Type == MechanismType.STBI ||
+                        expectedFailureMechanismResult.Type == MechanismType.STPH)
                     {
+                        // WBI-0G-5
                         result = assembler.TranslateAssessmentResultWbi0G5(probabilisticSection.LengthEffectFactor,
                             probabilisticSection.DetailedAssessmentResult,
                             probabilisticSection.DetailedAssessmentResultProbability,
-                            failureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
                     }
                     else
                     {
+                        // WBI-0G-3
                         result = assembler.TranslateAssessmentResultWbi0G3(
                             probabilisticSection.DetailedAssessmentResult,
                             probabilisticSection.DetailedAssessmentResultProbability,
-                            failureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
                     }
 
                     var expectedResult =
@@ -79,26 +82,28 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in failureMechanismResult.Sections)
+            foreach (var section in expectedFailureMechanismResult.Sections)
             {
                 var probabilisticSection = section as ProbabilisticFailureMechanismSection;
                 if (probabilisticSection != null)
                 {
                     FmSectionAssemblyDirectResultWithProbability result;
-                    if (failureMechanismResult.Type == MechanismType.STBI ||
-                        failureMechanismResult.Type == MechanismType.STPH)
+                    if (expectedFailureMechanismResult.Type == MechanismType.STBI ||
+                        expectedFailureMechanismResult.Type == MechanismType.STPH)
                     {
+                        // WBI-0T-5
                         result = assembler.TranslateAssessmentResultWbi0T5(probabilisticSection.LengthEffectFactor,
                             probabilisticSection.TailorMadeAssessmentResult,
                             probabilisticSection.TailorMadeAssessmentResultProbability,
-                            failureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
                     }
                     else
                     {
+                        // WBI-0T-3
                         result = assembler.TranslateAssessmentResultWbi0T3(
                             probabilisticSection.TailorMadeAssessmentResult,
                             probabilisticSection.TailorMadeAssessmentResultProbability,
-                            failureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
                     }
 
                     var expectedResult =
@@ -112,26 +117,22 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 
         public void TestCombinedAssessment()
         {
-            var assembler = new FailureMechanismResultAssembler();
+            var assembler = new AssessmentResultsTranslator();
 
-            if (failureMechanismResult != null)
+            if (expectedFailureMechanismResult != null)
             {
-                foreach (var section in failureMechanismResult.Sections.OfType<IProbabilisticMechanismSection>())
+                foreach (var section in expectedFailureMechanismResult.Sections.OfType<IProbabilisticMechanismSection>())
                 {
-                    // WBI-1B-1
-                    var result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(failureMechanismResult.LengthEffectFactor,
-                            failureMechanismResult.FailureMechanismProbabilitySpace),
-                        new[]
-                        {
-                            section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
-                            section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
-                            section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
-                        },
-                        failureMechanismResult.ExpectedFailureMechanismCategories,
-                        false
-                    );
+                    // WBI-0A-1 (direct with probability)
+                    var result = assembler.TranslateAssessmentResultWbi0A1(
+                        section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
+                        section.ExpectedDetailedAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResultWithProbability,
+                        section.ExpectedTailorMadeAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResultWithProbability);
 
-                    Assert.AreEqual(section.ExpectedCombinedResult, result.Category);
+                    Assert.IsInstanceOf<FmSectionAssemblyDirectResultWithProbability>(result);
+                    Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
                     Assert.AreEqual(section.ExpectedCombinedResultProbability, result.FailureProbability);
                 }
             }
@@ -142,15 +143,15 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             var assembler = new FailureMechanismResultAssembler();
 
             // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(failureMechanismResult.LengthEffectFactor,
-                    failureMechanismResult.FailureMechanismProbabilitySpace),
-                failureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
-                failureMechanismResult.ExpectedFailureMechanismCategories,
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(expectedFailureMechanismResult.LengthEffectFactor,
+                    expectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                expectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 false
             );
 
-            Assert.AreEqual(failureMechanismResult.ExpectedAssessmentResult, result.Category);
-            Assert.AreEqual(failureMechanismResult.ExpectedAssessmentResultProbability, result.FailureProbability);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResult, result.Category);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultProbability, result.FailureProbability);
         }
 
         public void TestAssessmentSectionResultTemporal()
@@ -158,15 +159,15 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             var assembler = new FailureMechanismResultAssembler();
 
             // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(failureMechanismResult.LengthEffectFactor,
-                    failureMechanismResult.FailureMechanismProbabilitySpace),
-                failureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
-                failureMechanismResult.ExpectedFailureMechanismCategories,
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new FailureMechanism(expectedFailureMechanismResult.LengthEffectFactor,
+                    expectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                expectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 true
             );
 
-            Assert.AreEqual(failureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
-            Assert.AreEqual(failureMechanismResult.ExpectedAssessmentResultProbabilityTemporal, result.FailureProbability);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
+            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal, result.FailureProbability);
         }
 
         private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)
@@ -176,6 +177,5 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             return new FmSectionAssemblyDirectResultWithProbability(directMechanismSection.ExpectedCombinedResult,
                 probabilisticMechanismSection.ExpectedCombinedResultProbability);
         }
-
     }
 }

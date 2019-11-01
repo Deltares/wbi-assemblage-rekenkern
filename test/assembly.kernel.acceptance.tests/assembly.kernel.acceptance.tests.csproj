@@ -58,6 +58,7 @@
     <Compile Include="TestHelpers\Group3NoSimpleAssessmentFailureMechanismTestHelper.cs" />
     <Compile Include="TestHelpers\Group4FailureMechanismTestHelper.cs" />
     <Compile Include="TestHelpers\Group4NoDetailedAssessmentFailureMechanismTestHelper.cs" />
+    <Compile Include="TestHelpers\NWOocFailureMechanismTestHelper.cs" />
     <Compile Include="TestHelpers\Group5FailureMechanismTestHelper.cs" />
     <Compile Include="TestHelpers\Group5NoDetailedAssessmentFailureMechanismTestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

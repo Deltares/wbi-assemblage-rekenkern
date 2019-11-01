@@ -37,14 +37,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(3, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.AGK, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IVt, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(3, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.AGK, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IVt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
 
-                var group3FailureMechanism = failureMechanismResult as IGroup3FailureMechanismResult;
+                var group3FailureMechanism = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
                 Assert.IsNotNull(group3FailureMechanism);
                 Assert.AreEqual(0.05, group3FailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(17.5, group3FailureMechanism.LengthEffectFactor, 9e-2);
@@ -77,14 +77,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(2, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.STPH, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(2, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.STPH, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
 
-                var probabilisticFailureMechanism = failureMechanismResult as IProbabilisticFailureMechanismResult;
+                var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
                 Assert.IsNotNull(probabilisticFailureMechanism);
                 Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(24.4, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
@@ -128,14 +128,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(1, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.GEKB, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(1, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.GEKB, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
 
-                var probabilisticFailureMechanism = failureMechanismResult as IProbabilisticFailureMechanismResult;
+                var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
                 Assert.IsNotNull(probabilisticFailureMechanism);
                 Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(2.0, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
@@ -178,12 +178,12 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(4, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.STKWl, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(4, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.STKWl, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
             }
         }
 
@@ -203,14 +203,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(4, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.STBU, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.Vt, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(4, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.STBU, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.Vt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
 
-                var stbuFailureMechanism = failureMechanismResult as StbuFailureMechanismResult;
+                var stbuFailureMechanism = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
                 Assert.IsNotNull(stbuFailureMechanism);
                 Assert.AreEqual(0.04, stbuFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(12.6, stbuFailureMechanism.LengthEffectFactor, 9e-2);
@@ -234,12 +234,12 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IFailureMechanismResult failureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(5, failureMechanismResult.Group);
-                Assert.AreEqual(MechanismType.VLGA, failureMechanismResult.Type);
-                Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EIndirectAssessmentResult.Ngo, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EIndirectAssessmentResult.FactoredInOtherFailureMechanism, failureMechanismResult.ExpectedAssessmentResultTemporal);
+                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                Assert.AreEqual(5, expectedFailureMechanismResult.Group);
+                Assert.AreEqual(MechanismType.VLGA, expectedFailureMechanismResult.Type);
+                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
+                Assert.AreEqual(EIndirectAssessmentResult.Ngo, expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EIndirectAssessmentResult.FactoredInOtherFailureMechanism, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
             }
         }
     }

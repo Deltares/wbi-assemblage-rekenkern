@@ -5,10 +5,10 @@ namespace assemblage.kernel.acceptance.tests
 {
     public class TestMethodInfo
     {
-        public TestMethodInfo(Action<IFailureMechanismSection, IFailureMechanismResult> testMethodSimpleAssessment, 
-            Action<IFailureMechanismSection, IFailureMechanismResult> testMethodDetailedAssessment, 
-            Action<IFailureMechanismSection, IFailureMechanismResult> testMethodTailorMadeAssessment, 
-            Action<IFailureMechanismSection, IFailureMechanismResult> testMethodCombinedAssessment)
+        public TestMethodInfo(Action<IFailureMechanismSection, IExpectedFailureMechanismResult> testMethodSimpleAssessment, 
+            Action<IFailureMechanismSection, IExpectedFailureMechanismResult> testMethodDetailedAssessment, 
+            Action<IFailureMechanismSection, IExpectedFailureMechanismResult> testMethodTailorMadeAssessment, 
+            Action<IFailureMechanismSection, IExpectedFailureMechanismResult> testMethodCombinedAssessment)
         {
             TestMethodSimpleAssessment = testMethodSimpleAssessment;
             TestMethodDetailedAssessment = testMethodDetailedAssessment;
@@ -16,12 +16,12 @@ namespace assemblage.kernel.acceptance.tests
             TestMethodCombinedAssessment = testMethodCombinedAssessment;
         }
 
-        public Action<IFailureMechanismSection, IFailureMechanismResult> TestMethodSimpleAssessment { get; set; }
+        public Action<IFailureMechanismSection, IExpectedFailureMechanismResult> TestMethodSimpleAssessment { get; set; }
 
-        public Action<IFailureMechanismSection, IFailureMechanismResult> TestMethodDetailedAssessment { get; set; }
+        public Action<IFailureMechanismSection, IExpectedFailureMechanismResult> TestMethodDetailedAssessment { get; set; }
 
-        public Action<IFailureMechanismSection, IFailureMechanismResult> TestMethodTailorMadeAssessment { get; set; }
+        public Action<IFailureMechanismSection, IExpectedFailureMechanismResult> TestMethodTailorMadeAssessment { get; set; }
 
-        public Action<IFailureMechanismSection, IFailureMechanismResult> TestMethodCombinedAssessment { get; set; }
+        public Action<IFailureMechanismSection, IExpectedFailureMechanismResult> TestMethodCombinedAssessment { get; set; }
     }
 }

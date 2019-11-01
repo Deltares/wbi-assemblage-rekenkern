@@ -37,8 +37,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input\FailureMechanismSections\NWOocFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\IProbabilisticMechanismSection.cs" />
-    <Compile Include="Result\BenchmarkTestFailureMechanismResult.cs" />
+    <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />
     <Compile Include="Input\FailureMechanismSections\CommonAssemblyResultSection.cs" />
@@ -52,15 +53,15 @@
     <Compile Include="Input\FailureMechanismSections\Group1NoSimpleAssessmentFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\STBUFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanisms\FailureMechanismResultBase.cs" />
+    <Compile Include="Input\FailureMechanisms\ExpectedFailureMechanismResultBase.cs" />
     <Compile Include="Input\FailureMechanisms\FailureMechanismFactory.cs" />
-    <Compile Include="Input\FailureMechanisms\ProbabilisticFailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\IProbabilisticFailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\IGroup3FailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\StbuFailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\Group3FailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\Group4Or5FailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\IFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\ProbabilisticExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IProbabilisticExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IGroup3ExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\StbuExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\Group3ExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\Group4Or5ExpectedFailureMechanismResult.cs" />
+    <Compile Include="Input\FailureMechanisms\IExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanisms\MechanismType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

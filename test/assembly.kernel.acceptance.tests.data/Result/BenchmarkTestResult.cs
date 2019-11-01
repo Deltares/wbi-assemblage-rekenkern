@@ -6,12 +6,12 @@ namespace assembly.kernel.acceptance.tests.data.Result
     {
         public BenchmarkTestResult()
         {
-            FailureMechanismResults = new List<BenchmarkTestFailureMechanismResult>();
+            FailureMechanismResults = new List<BenchmarkFailureMechanismTestResult>();
         }
 
         public bool AreEqualCategoriesListAssessmentSection { get; set; }
 
-        public IList<BenchmarkTestFailureMechanismResult> FailureMechanismResults { get; }
+        public IList<BenchmarkFailureMechanismTestResult> FailureMechanismResults { get; }
 
         public bool AreEqualCategoriesListGroup1and2 { get; set; }
 

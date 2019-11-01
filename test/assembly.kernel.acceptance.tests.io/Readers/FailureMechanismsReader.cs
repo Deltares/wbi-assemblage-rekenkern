@@ -19,39 +19,39 @@ namespace assembly.kernel.acceptance.tests.io.Readers
 
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            IFailureMechanismResult failureMechanismResult =
+            IExpectedFailureMechanismResult expectedFailureMechanismResult =
                 FailureMechanismFactory.CreateFailureMechanism(
                     GetCellValueAsString("B", "Toetsspoor").ToMechanismType());
 
-            ReadGeneralInformation(failureMechanismResult);
-            ReadGroup3FailureMechanismProperties(failureMechanismResult);
-            ReadProbabilisticFailureMechanismProperties(failureMechanismResult);
-            ReadSTBUFailureMechanismSpecificProperties(failureMechanismResult);
-            ReadFailureMechanismSections(failureMechanismResult);
+            ReadGeneralInformation(expectedFailureMechanismResult);
+            ReadGroup3FailureMechanismProperties(expectedFailureMechanismResult);
+            ReadProbabilisticFailureMechanismProperties(expectedFailureMechanismResult);
+            ReadSTBUFailureMechanismSpecificProperties(expectedFailureMechanismResult);
+            ReadFailureMechanismSections(expectedFailureMechanismResult);
 
-            benchmarkTestInput.ExpectedFailureMechanismsResults.Add(failureMechanismResult);
+            benchmarkTestInput.ExpectedFailureMechanismsResults.Add(expectedFailureMechanismResult);
         }
 
-        private void ReadGeneralInformation(IFailureMechanismResult failureMechanismResult)
+        private void ReadGeneralInformation(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            failureMechanismResult.AccountForDuringAssembly = GetCellValueAsString("D", 1) == "Ja";
+            expectedFailureMechanismResult.AccountForDuringAssembly = GetCellValueAsString("D", 1) == "Ja";
             var assessmentResultString = GetCellValueAsString("D", "Toetsoordeel per toetsspoor per traject");
             var temporalAssessmentResultString = GetCellValueAsString("D", "Tijdelijk Toetsoordeel per toetsspoor per traject");
-            if (failureMechanismResult.Group > 4)
+            if (expectedFailureMechanismResult.Group > 4)
             {
-                failureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
-                failureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();
             }
             else
             {
-                failureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
-                failureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();
             }
         }
 
-        private void ReadSTBUFailureMechanismSpecificProperties(IFailureMechanismResult failureMechanismResult)
+        private void ReadSTBUFailureMechanismSpecificProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var stbuFailureMechanism = failureMechanismResult as StbuFailureMechanismResult;
+            var stbuFailureMechanism = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
             if (stbuFailureMechanism != null)
             {
                 stbuFailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
@@ -60,9 +60,9 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             }
         }
 
-        private void ReadProbabilisticFailureMechanismProperties(IFailureMechanismResult failureMechanismResult)
+        private void ReadProbabilisticFailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var probabilisticFailureMechanism = failureMechanismResult as IProbabilisticFailureMechanismResult;
+            var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
             if (probabilisticFailureMechanism != null)
             {
                 probabilisticFailureMechanism.ExpectedAssessmentResultProbability =
@@ -74,9 +74,9 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             }
         }
 
-        private void ReadGroup3FailureMechanismProperties(IFailureMechanismResult failureMechanismResult)
+        private void ReadGroup3FailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var group3FailureMechanism = failureMechanismResult as IGroup3FailureMechanismResult;
+            var group3FailureMechanism = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
             if (group3FailureMechanism != null)
             {
                 group3FailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
@@ -89,7 +89,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         }
 
         #region Read Categories
-        private void ReadSectionCategories(IProbabilisticFailureMechanismResult failureMechanismResult)
+        private void ReadSectionCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var headerRowId = GetRowId("Categorie");
 
@@ -102,10 +102,10 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                 categories.Add(new FmSectionCategory(category, lowerLimit, upperLimit));
             }
 
-            failureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
+            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
         }
 
-        private void ReadFailureMechanismCategories(IProbabilisticFailureMechanismResult failureMechanismResult)
+        private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var headerRowId = GetRowId("Categorie");
 
@@ -118,10 +118,10 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                 categories.Add(new FailureMechanismCategory(category, lowerLimit, upperLimit));
             }
 
-            failureMechanismResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(categories);
+            expectedFailureMechanismResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(categories);
         }
 
-        private void ReadGroup3SectionCategoryBoundaries(IGroup3FailureMechanismResult failureMechanismResult)
+        private void ReadGroup3SectionCategoryBoundaries(IGroup3ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var headerRowId = GetRowId("Categorie");
 
@@ -136,18 +136,19 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             }
             categories.Add(new FmSectionCategory(EFmSectionCategory.VIv, lastCategoryBoundary, 1.0));
 
-            failureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
+            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
         }
 
         #endregion
 
         #region Read Sections
-        private void ReadFailureMechanismSections(IFailureMechanismResult failureMechanismResult)
+        private void ReadFailureMechanismSections(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var sections = new List<IFailureMechanismSection>();
             var startRow = GetRowId("Vakindeling") + 3;
-
-            var sectionReader = SectionReaderFactory.CreateReader(failureMechanismResult.Type);
+            var lengthEffectPresent = expectedFailureMechanismResult.Type == MechanismType.STBI ||
+                                      expectedFailureMechanismResult.Type == MechanismType.STPH;
+            var sectionReader = SectionReaderFactory.CreateReader(expectedFailureMechanismResult.Type);
 
             var iRow = startRow;
             while (iRow <= MaxRow)
@@ -165,7 +166,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                 iRow++;
             }
 
-            failureMechanismResult.Sections = sections;
+            expectedFailureMechanismResult.Sections = sections;
         }
         #endregion
     }

@@ -34,18 +34,18 @@ namespace assemblage.kernel.acceptance.tests
         private static void RunBenchmarkTest(string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
-            BenchmarkTestResult result = new BenchmarkTestResult();
+            BenchmarkTestResult testResult = new BenchmarkTestResult();
 
-            TestEqualNormCategories(input, result);
+            TestEqualNormCategories(input, testResult);
 
-            foreach (IFailureMechanismResult failureMechanism in input.ExpectedFailureMechanismsResults)
+            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
             {
-                TestFailureMechanismAssembly(input, failureMechanism, result);
+                TestFailureMechanismAssembly(expectedFailureMechanismResult, testResult);
             }
 
-            TestFinalVerdictAssembly(input, result);
+            TestFinalVerdictAssembly(input, testResult);
 
-            TestAssemblyOfCombinedSections(input, result);
+            TestAssemblyOfCombinedSections(input, testResult);
         }
 
         #region Test Combined sections
@@ -304,7 +304,7 @@ namespace assemblage.kernel.acceptance.tests
         {
             var assembler = new AssessmentGradeAssembler();
             var probabilisticFailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
-                .OfType<ProbabilisticFailureMechanismResult>()
+                .OfType<ProbabilisticExpectedFailureMechanismResult>()
                 .Select(fm =>
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResultTemporal),
@@ -333,7 +333,7 @@ namespace assemblage.kernel.acceptance.tests
         {
             IEnumerable<FailureMechanismAssemblyResult> probabilisticFailureMechanismResults = input
                 .ExpectedFailureMechanismsResults
-                .OfType<ProbabilisticFailureMechanismResult>()
+                .OfType<ProbabilisticExpectedFailureMechanismResult>()
                 .Select(fm =>
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResult),
@@ -383,114 +383,86 @@ namespace assemblage.kernel.acceptance.tests
 
         #endregion
 
-        private static void TestFailureMechanismAssembly(BenchmarkTestInput input, IFailureMechanismResult failureMechanismResult, BenchmarkTestResult result)
+        private static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult, BenchmarkTestResult testResult)
         {
-            var group3OrHigherFailureMechanismResult = failureMechanismResult as IGroup3FailureMechanismResult;
-            if (group3OrHigherFailureMechanismResult != null)
+            var group3ExpectedFailureMechanismResult = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
+            if (group3ExpectedFailureMechanismResult != null)
             {
                 // TODO: test categories (section and fm level)
             }
+            // TODO: Test STBU categories (group 4).
 
-            var fmResult = GetBenchmarkTestFailureMechanismResult(result, failureMechanismResult.Type);
-            var testHelper = TestHelperFactory.CreateFailureMechanismTestHelper(failureMechanismResult);
+            var failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
+            var testHelper = TestHelperFactory.CreateFailureMechanismTestHelper(expectedFailureMechanismResult);
 
-            // TODO: What about results that are neither positive nor negative (no detailed assessmnet for example)
+            // TODO: What about results that are neither positive nor negative (no detailed assessmnet for example) => Use base class and move try/catch to testhelpers
             try
             {
                 testHelper.TestSimpleAssessment();
-                fmResult.AreEqualSimpleAssessmentResults = true;
+                failureMechanismTestResult.AreEqualSimpleAssessmentResults = true;
             }
-            catch (Exception )
+            catch (Exception e)
             {
-                fmResult.AreEqualSimpleAssessmentResults = false;
+                Console.WriteLine("{0}: Eenvoudige toets - {1}",failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualSimpleAssessmentResults = false;
             }
 
             try
             {
                 testHelper.TestDetailedAssessment();
-                fmResult.AreEqualDetailedAssessmentResults = true;
+                failureMechanismTestResult.AreEqualDetailedAssessmentResults = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                fmResult.AreEqualDetailedAssessmentResults = false;
+                Console.WriteLine("{0}: Gedetailleerde toets - {1}", failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualDetailedAssessmentResults = false;
             }
 
             try
             {
                 testHelper.TestTailorMadeAssessment();
-                fmResult.AreEqualTailorMadeAssessmentResults = true;
+                failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                fmResult.AreEqualTailorMadeAssessmentResults = false;
+                Console.WriteLine("{0}: Toets op maat - {1}", failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = false;
             }
 
             try
             {
                 testHelper.TestCombinedAssessment();
-                fmResult.AreEqualCombinedAssessmentResultsPerSection = true;
+                failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                fmResult.AreEqualCombinedAssessmentResultsPerSection = false;
+                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = false;
             }
 
             try
             {
                 testHelper.TestAssessmentSectionResult();
-                fmResult.AreEqualAssessmentResultPerAssessmentSection = true;
+                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = true;
             }
-            catch (Exception )
+            catch (Exception e)
             {
-                fmResult.AreEqualAssessmentResultPerAssessmentSection = false;
+                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = false;
             }
 
             try
             {
                 testHelper.TestAssessmentSectionResultTemporal();
-                fmResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = true;
+                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                fmResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = false;
+                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", failureMechanismTestResult.Name, e.Message);
+                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = false;
             }
         }
 
-        /*private static void TestCombinedSectionAssessment(IFailureMechanismResult failureMechanism)
-        {
-            var assembler = new FailureMechanismResultAssembler();
-
-            if (failureMechanism.Group < 5)
-            {
-                // WBI-1A-1
-                var result = assembler.AssembleFailureMechanismWbi1A1(
-                    new[]
-                    {
-                        section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
-                        section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
-                        section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
-                    },
-                    false
-                );
-
-                Assert.AreEqual((section as FailureMechanismSectionBase<EFmSectionCategory>).ExpectedCombinedResult, result);
-            }
-            else
-            {
-                // WBI-1A-2
-                var result = assembler.AssembleFailureMechanismWbi1A2(
-                    new[]
-                    {
-                        section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
-                        section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
-                        section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
-                    },
-                    false
-                );
-
-                Assert.AreEqual((section as FailureMechanismSectionBase<EFmSectionCategory>).ExpectedCombinedResult, result);
-            }
-        }*/
         #region Norm categories on assessment section level
 
         private static void TestEqualNormCategories(BenchmarkTestInput input, BenchmarkTestResult result)
@@ -516,17 +488,17 @@ namespace assemblage.kernel.acceptance.tests
 
         #endregion
 
-        private static BenchmarkTestFailureMechanismResult GetBenchmarkTestFailureMechanismResult(BenchmarkTestResult result,
+        private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(BenchmarkTestResult result,
             MechanismType type)
         {
-            var fmResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.Type == type);
-            if (fmResult == null)
+            var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.Type == type);
+            if (failureMechanismTestResult == null)
             {
-                fmResult = BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismResult(type);
-                result.FailureMechanismResults.Add(fmResult);
+                failureMechanismTestResult = BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(type);
+                result.FailureMechanismResults.Add(failureMechanismTestResult);
             }
 
-            return fmResult;
+            return failureMechanismTestResult;
         }
 
         private IEnumerable<string> AcquireAllBenchmarkTests()

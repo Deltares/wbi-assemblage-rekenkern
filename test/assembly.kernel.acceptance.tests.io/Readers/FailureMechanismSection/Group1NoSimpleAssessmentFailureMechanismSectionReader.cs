@@ -14,8 +14,8 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
 
         public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
-            var cellJValueAsString = GetCellValueAsString("J", iRow);
-            var simpleProbability = cellJValueAsString.ToLower() == "fv" || cellJValueAsString.ToLower() == "nvt"
+            var cellFValueAsString = GetCellValueAsString("F", iRow);
+            var simpleProbability = cellFValueAsString.ToLower() == "nvt"
                 ? 0.0
                 : double.NaN;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
@@ -27,9 +27,10 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
-                SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE2(),
+                SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE2(),
+                SimpleAssessmentResultProbability = simpleProbability,
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
-                    cellJValueAsString.ToFailureMechanismSectionCategory(),
+                    GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
                     simpleProbability),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
@@ -42,7 +43,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                     GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory(),
                     tailorMadeAssessmentResultProbability),
                 ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
-                ExpectedCombinedResultProbability = GetCellValueAsDouble("N", iRow)
+                ExpectedCombinedResultProbability = GetCellValueAsDouble("O", iRow)
             };
         }
     }
