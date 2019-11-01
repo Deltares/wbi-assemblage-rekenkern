@@ -6,7 +6,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
     {
         double ExpectedAssessmentResultProbability { get; set; }
 
-        double ExpectedTemporalAssessmentResultProbability { get; set; }
+        double ExpectedAssessmentResultProbabilityTemporal { get; set; }
 
         CategoriesList<FailureMechanismCategory> ExpectedFailureMechanismCategories { get; set; }
     }

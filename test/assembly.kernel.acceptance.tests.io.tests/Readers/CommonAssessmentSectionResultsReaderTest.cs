@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.io.Readers;
@@ -59,16 +58,21 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new CommonAssessmentSectionResultsReader(workSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
-                Assert.AreEqual(40, result.ExpectedCommonSectionsResults.CombinedSectionResult.Count());
-                AssertResultsIsAsExpected(6700, 7100, EFmSectionCategory.IIIv, result.ExpectedCommonSectionsResults.CombinedSectionResult.ElementAt(9));
-                AssertResultsIsAsExpected(11800,  12100, EFmSectionCategory.Vv, result.ExpectedCommonSectionsResults.CombinedSectionResult.ElementAt(18));
+                Assert.AreEqual(40, result.ExpectedCombinedSectionResult.Count());
+                AssertResultsIsAsExpected(6700, 7100, EFmSectionCategory.IIIv, result.ExpectedCombinedSectionResult.ElementAt(9));
+                AssertResultsIsAsExpected(11800,  12100, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResult.ElementAt(18));
+                AssertResultsIsAsExpected(12100, 12700, EFmSectionCategory.VIIv, result.ExpectedCombinedSectionResult.ElementAt(19));
 
-                Assert.AreEqual(26, result.ExpectedCommonSectionsResults.ResultPerFailureMechanism.Count());
-                foreach (var failureMechanismSectionList in result.ExpectedCommonSectionsResults.ResultPerFailureMechanism)
+                AssertResultsIsAsExpected(6700, 7100, EFmSectionCategory.IIIv, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
+                AssertResultsIsAsExpected(11800, 12100, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
+                AssertResultsIsAsExpected(12100, 12700, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
+
+                Assert.AreEqual(26, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
+                foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
                     FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);

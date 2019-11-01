@@ -11,18 +11,27 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         {
         }
 
-        public void Read(AcceptanceTestInput acceptanceTestInput)
+        public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
+                GetCellValueAsString("D", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
+                GetCellValueAsDouble("E", "Toetssporen in groep 1 en 2");
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4 =
+                GetCellValueAsString("D", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult =
+                GetCellValueAsString("D", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();
+
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Temporal =
                 GetCellValueAsString("F", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal =
                 GetCellValueAsDouble("G", "Toetssporen in groep 1 en 2");
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4 =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal =
                 GetCellValueAsString("F", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal =
                 GetCellValueAsString("F", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();
 
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
                 GetCellValueAsDouble("M", 10);
 
             var list = new List<FailureMechanismCategory>();
@@ -35,7 +44,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     GetCellValueAsDouble("F", iRow)));
             }
 
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2 = new CategoriesList<FailureMechanismCategory>(list);
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2 = new CategoriesList<FailureMechanismCategory>(list);
         }
     }
 }

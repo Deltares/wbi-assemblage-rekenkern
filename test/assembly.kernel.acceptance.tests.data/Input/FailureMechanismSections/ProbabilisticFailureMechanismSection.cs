@@ -3,9 +3,11 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections
 {
-    public class ProbabilisticFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
+    public class ProbabilisticFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticMechanismSection
     {
         public EAssessmentResultTypeE1 SimpleAssessmentResult { get; set; }
+
+        public double SimpleAssessmentResultProbability { get; set; }
 
         public EAssessmentResultTypeG2 DetailedAssessmentResult { get; set; }
 
@@ -16,5 +18,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections
         public double TailorMadeAssessmentResultProbability { get; set; }
 
         public double ExpectedCombinedResultProbability { get; set; }
+
+        public double LengthEffectFactor { get; set; }
     }
 }

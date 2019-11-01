@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
@@ -51,9 +50,10 @@ namespace assembly.kernel.acceptance.tests.io.Readers
         {
         }
 
-        public void Read(AcceptanceTestInput acceptanceTestInput)
+        public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FmSectionWithDirectCategory>();
+            var commonSectionsTemporal = new List<FmSectionWithDirectCategory>();
 
             var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FmSectionWithDirectCategory>>();
             var failureMechanismSpecificCommonSectionsWithIndirectResults = new Dictionary<MechanismType, List<FmSectionWithIndirectCategory>>();
@@ -82,6 +82,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                 }
 
                 AddSectionToList(commonSections, "C", iRow, startMeters, endMeters);
+                AddSectionToList(commonSectionsTemporal, "D", iRow, startMeters, endMeters);
                 foreach (var directResultPair in failureMechanismSpecificCommonSectionsWithDirectResults)
                 {
                     AddSectionToList(directResultPair.Value, columnKeys[directResultPair.Key], iRow, startMeters, endMeters);
@@ -93,6 +94,8 @@ namespace assembly.kernel.acceptance.tests.io.Readers
 
                 iRow++;
             }
+            benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
+            benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
             var resultsPerFailureMechanism =
                 failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv =>
@@ -100,7 +103,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     .Concat(failureMechanismSpecificCommonSectionsWithIndirectResults.Select(kv =>
                         new FailureMechanismSectionList(kv.Key.ToString("D"), kv.Value)));
 
-            acceptanceTestInput.ExpectedCommonSectionsResults = new AssemblyResult(resultsPerFailureMechanism,commonSections);
+            benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
 
         private void AddSectionToList(List<FmSectionWithIndirectCategory> list, string columnReference, int iRow, double startMeters, double endMeters)
@@ -127,7 +130,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     dict[type] = columnString;
                 }
                 catch (Exception e)
-            {
+                {
                     // Skip column. Not important
                 }
             }

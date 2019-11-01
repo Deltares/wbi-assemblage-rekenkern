@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection;
@@ -18,7 +17,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             SectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
         }
 
-        public void Read(AcceptanceTestInput acceptanceTestInput)
+        public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             IFailureMechanismResult failureMechanismResult =
                 FailureMechanismFactory.CreateFailureMechanism(
@@ -30,7 +29,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             ReadSTBUFailureMechanismSpecificProperties(failureMechanismResult);
             ReadFailureMechanismSections(failureMechanismResult);
 
-            acceptanceTestInput.ExpectedFailureMechanismsResults.Add(failureMechanismResult);
+            benchmarkTestInput.ExpectedFailureMechanismsResults.Add(failureMechanismResult);
         }
 
         private void ReadGeneralInformation(IFailureMechanismResult failureMechanismResult)
@@ -41,12 +40,12 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             if (failureMechanismResult.Group > 4)
             {
                 failureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
-                failureMechanismResult.ExpectedTemporalAssessmentResult = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();
+                failureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();
             }
             else
             {
                 failureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
-                failureMechanismResult.ExpectedTemporalAssessmentResult = temporalAssessmentResultString.ToFailureMechanismCategory();
+                failureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();
             }
         }
 
@@ -68,7 +67,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             {
                 probabilisticFailureMechanism.ExpectedAssessmentResultProbability =
                     GetCellValueAsDouble("F", "Toetsoordeel per toetsspoor per traject");
-                probabilisticFailureMechanism.ExpectedTemporalAssessmentResultProbability =
+                probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal =
                     GetCellValueAsDouble("F", "Tijdelijk Toetsoordeel per toetsspoor per traject");
                 ReadFailureMechanismCategories(probabilisticFailureMechanism);
                 ReadSectionCategories(probabilisticFailureMechanism);

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.io.Readers;
@@ -33,7 +32,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(aGKWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -43,7 +42,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.AGK, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IVt, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IVt, failureMechanismResult.ExpectedAssessmentResultTemporal);
 
                 var group3FailureMechanism = failureMechanismResult as IGroup3FailureMechanismResult;
                 Assert.IsNotNull(group3FailureMechanism);
@@ -73,7 +72,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(sTPHWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -83,14 +82,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.STPH, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
 
                 var probabilisticFailureMechanism = failureMechanismResult as IProbabilisticFailureMechanismResult;
                 Assert.IsNotNull(probabilisticFailureMechanism);
                 Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(24.4, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
                 AssertAreEqualProbabilities(double.NaN, probabilisticFailureMechanism.ExpectedAssessmentResultProbability);
-                AssertAreEqualProbabilities(4.04e-5, probabilisticFailureMechanism.ExpectedTemporalAssessmentResultProbability);
+                AssertAreEqualProbabilities(4.04e-5, probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal);
 
                 var categories = probabilisticFailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
                 Assert.AreEqual(6, categories.Length);
@@ -124,7 +123,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(gEKBWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -134,14 +133,14 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.GEKB, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
 
                 var probabilisticFailureMechanism = failureMechanismResult as IProbabilisticFailureMechanismResult;
                 Assert.IsNotNull(probabilisticFailureMechanism);
                 Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(2.0, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
                 AssertAreEqualProbabilities(double.NaN, probabilisticFailureMechanism.ExpectedAssessmentResultProbability);
-                AssertAreEqualProbabilities(4.88e-5, probabilisticFailureMechanism.ExpectedTemporalAssessmentResultProbability);
+                AssertAreEqualProbabilities(4.88e-5, probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal);
 
                 var categories = probabilisticFailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
                 Assert.AreEqual(6, categories.Length);
@@ -174,7 +173,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(sTKWlWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -184,7 +183,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.STKWl, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, failureMechanismResult.ExpectedAssessmentResultTemporal);
             }
         }
 
@@ -199,7 +198,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(sTBUWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -209,7 +208,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.STBU, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.Vt, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.Vt, failureMechanismResult.ExpectedAssessmentResultTemporal);
 
                 var stbuFailureMechanism = failureMechanismResult as StbuFailureMechanismResult;
                 Assert.IsNotNull(stbuFailureMechanism);
@@ -230,7 +229,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new FailureMechanismsReader(vLGAWorkSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
@@ -240,7 +239,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(MechanismType.VLGA, failureMechanismResult.Type);
                 Assert.AreEqual(true, failureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EIndirectAssessmentResult.Ngo, failureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EIndirectAssessmentResult.FactoredInOtherFailureMechanism, failureMechanismResult.ExpectedTemporalAssessmentResult);
+                Assert.AreEqual(EIndirectAssessmentResult.FactoredInOtherFailureMechanism, failureMechanismResult.ExpectedAssessmentResultTemporal);
             }
         }
     }

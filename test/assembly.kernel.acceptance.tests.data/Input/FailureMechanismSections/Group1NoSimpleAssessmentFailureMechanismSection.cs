@@ -6,9 +6,11 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections
     /// <summary>
     /// GEKB or STKWp
     /// </summary>
-    public class Group1NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
+    public class Group1NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticMechanismSection
     {
         public EAssessmentResultTypeE2 SimpleAssessmentResult { get; set; }
+
+        public double SimpleAssessmentResultProbability { get; set; }
 
         public EAssessmentResultTypeG2 DetailedAssessmentResult { get; set; }
 

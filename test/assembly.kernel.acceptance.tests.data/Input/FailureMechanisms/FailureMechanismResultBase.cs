@@ -20,12 +20,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
 
         public object ExpectedAssessmentResult { get; set; }
 
-        public object ExpectedTemporalAssessmentResult { get; set; }
-
-        public TResult GetResult<TResult>(bool temporal)
-        {
-            return temporal ? (TResult)ExpectedTemporalAssessmentResult : (TResult)ExpectedAssessmentResult;
-        }
+        public object ExpectedAssessmentResultTemporal { get; set; }
 
         public IEnumerable<IFailureMechanismSection> Sections { get; set; }
     }

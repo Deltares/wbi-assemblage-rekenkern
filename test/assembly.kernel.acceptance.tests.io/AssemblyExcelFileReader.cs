@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.io.Readers;
 using DocumentFormat.OpenXml.Packaging;
@@ -8,14 +7,14 @@ namespace assembly.kernel.acceptance.tests.io
 {
     public static class AssemblyExcelFileReader
     {
-        public static AcceptanceTestInput Read(string excelFileName)
+        public static BenchmarkTestInput Read(string excelFileName)
         {
             if (!File.Exists(excelFileName))
             {
                 return null;
             }
 
-            var assessmentSection = new AcceptanceTestInput();
+            var assessmentSection = new BenchmarkTestInput();
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(excelFileName, false))
             {
@@ -60,27 +59,27 @@ namespace assembly.kernel.acceptance.tests.io
         }
 
         private static void ReadGeneralAssessmentSectionInformation(WorksheetPart workSheetPart,
-            WorkbookPart workbookPart, AcceptanceTestInput acceptanceTestInput)
+            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
-            new GeneralInformationReader(workSheetPart, workbookPart).Read(acceptanceTestInput);
+            new GeneralInformationReader(workSheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadSafetyAssessmentFinalResult(WorksheetPart worksheetPart, WorkbookPart workbookPart,
-            AcceptanceTestInput acceptanceTestInput)
+            BenchmarkTestInput benchmarkTestInput)
         {
-            new SafetyAssessmentFinalResultReader(worksheetPart, workbookPart).Read(acceptanceTestInput);
+            new SafetyAssessmentFinalResultReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadCombinedAssessmentSectionResults(WorksheetPart worksheetPart,
-            WorkbookPart workbookPart, AcceptanceTestInput acceptanceTestInput)
+            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
-            new CommonAssessmentSectionResultsReader(worksheetPart, workbookPart).Read(acceptanceTestInput);
+            new CommonAssessmentSectionResultsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadFailureMechanism(WorksheetPart worksheetPart,
-            WorkbookPart workbookPart, AcceptanceTestInput acceptanceTestInput)
+            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
-            new FailureMechanismsReader(worksheetPart, workbookPart).Read(acceptanceTestInput);
+            new FailureMechanismsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
     }
 }

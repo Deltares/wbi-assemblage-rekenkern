@@ -14,7 +14,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
 
         object ExpectedAssessmentResult { get; set; }
 
-        object ExpectedTemporalAssessmentResult { get; set; }
+        object ExpectedAssessmentResultTemporal { get; set; }
 
         IEnumerable<IFailureMechanismSection> Sections { get; set; }
     }

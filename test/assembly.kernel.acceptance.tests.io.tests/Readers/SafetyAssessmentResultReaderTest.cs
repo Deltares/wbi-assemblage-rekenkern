@@ -1,11 +1,8 @@
 ﻿using System.IO;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
-using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
 namespace assembly.kernel.acceptance.tests.io.tests.Readers
@@ -27,16 +24,20 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new SafetyAssessmentFinalResultReader(workSheetPart, workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
                 var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
                 Assert.AreEqual(0.58, assemblyResult.CombinedFailureMechanismProbabilitySpace, 0.001);
-                Assert.AreEqual(EFailureMechanismCategory.IIIt, assemblyResult.ExpectedAssemblyResultGroups1and2);
-                Assert.AreEqual(4.26e-4, assemblyResult.ExpectedAssemblyResultGroups1and2Probability, 1e-6);
-                Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4);
-                Assert.AreEqual(EAssessmentGrade.C, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups1and2);
+                Assert.AreEqual(double.NaN, assemblyResult.ExpectedAssemblyResultGroups1and2Probability, 1e-6);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups3and4);
+                Assert.AreEqual(EAssessmentGrade.Ngo, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIIt, assemblyResult.ExpectedAssemblyResultGroups1and2Temporal);
+                Assert.AreEqual(4.24e-4, assemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal, 1e-6);
+                Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4Temporal);
+                Assert.AreEqual(EAssessmentGrade.C, assemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal);
 
                 var categories = assemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2.Categories;
                 Assert.AreEqual(6, categories.Length);

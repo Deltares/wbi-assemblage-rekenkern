@@ -26,12 +26,12 @@ namespace assembly.kernel.acceptance.tests.io
             EFailureMechanismCategory category;
             if (!Enum.TryParse(str, true, out category))
             {
-                switch (str)
+                switch (str.ToLower())
                 {
-                    case "NIET MEEGENOMEN":
+                    case "niet meegenomen":
                         category = EFailureMechanismCategory.Nvt;
                         break;
-                    case "NOG GEEN OORDEEL":
+                    case "nog geen oordeel":
                         category = EFailureMechanismCategory.VIIt;
                         break;
                     default:
@@ -118,15 +118,15 @@ namespace assembly.kernel.acceptance.tests.io
             EAssessmentGrade sectionCategory;
             if (!Enum.TryParse(str, true, out sectionCategory))
             {
-                switch (str)
+                switch (str.ToLower())
                 {
-                    case "A+":
+                    case "a+":
                         sectionCategory = EAssessmentGrade.APlus;
                         break;
-                    case "NIET MEEGENOMEN":
+                    case "niet meegenomen":
                         sectionCategory = EAssessmentGrade.Nvt;
                         break;
-                    case "NOG GEEN OORDEEL":
+                    case "nog geen oordeel":
                         sectionCategory = EAssessmentGrade.Ngo;
                         break;
                     default:

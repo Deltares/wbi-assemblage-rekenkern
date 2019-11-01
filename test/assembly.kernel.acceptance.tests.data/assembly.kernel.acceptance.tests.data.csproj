@@ -37,9 +37,10 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Result\AcceptanceTestFailureMechanismResult.cs" />
-    <Compile Include="Input\AcceptanceTestInput.cs" />
-    <Compile Include="Result\AcceptanceTestResult.cs" />
+    <Compile Include="Input\FailureMechanismSections\IProbabilisticMechanismSection.cs" />
+    <Compile Include="Result\BenchmarkTestFailureMechanismResult.cs" />
+    <Compile Include="Input\BenchmarkTestInput.cs" />
+    <Compile Include="Result\BenchmarkTestResult.cs" />
     <Compile Include="Input\FailureMechanismSections\CommonAssemblyResultSection.cs" />
     <Compile Include="Input\FailureMechanismSections\FailureMechanismSectionBase.cs" />
     <Compile Include="Input\FailureMechanismSections\Group5NoDetailedAssessmentFailureMechanismSection.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Input\FailureMechanisms\MechanismType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\SafetyAssessmentAssemblyResult.cs" />
+    <Compile Include="Result\BenchmarkTestFailureMechanismResultFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\assembly.kernel\kernel.csproj">

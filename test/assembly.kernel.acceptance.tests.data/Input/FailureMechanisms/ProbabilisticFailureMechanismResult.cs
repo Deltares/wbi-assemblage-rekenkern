@@ -18,7 +18,7 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanisms
 
         public double ExpectedAssessmentResultProbability { get; set; }
 
-        public double ExpectedTemporalAssessmentResultProbability { get; set; }
+        public double ExpectedAssessmentResultProbabilityTemporal { get; set; }
 
         public double LengthEffectFactor { get; set; }
 

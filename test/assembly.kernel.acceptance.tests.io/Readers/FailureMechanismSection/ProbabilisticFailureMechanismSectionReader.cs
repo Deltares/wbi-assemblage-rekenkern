@@ -27,7 +27,9 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
+                LengthEffectFactor = GetCellValueAsDouble("P", iRow),
                 SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
+                SimpleAssessmentResultProbability = simpleProbability,
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     cellJValueAsString.ToFailureMechanismSectionCategory(),
                     simpleProbability),

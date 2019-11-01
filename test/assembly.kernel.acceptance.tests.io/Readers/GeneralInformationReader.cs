@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
@@ -10,12 +9,12 @@ namespace assembly.kernel.acceptance.tests.io.Readers
     {
         public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart) { }
 
-        public void Read(AcceptanceTestInput acceptanceTestInput)
+        public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            acceptanceTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");
-            acceptanceTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D","Ondergrens [terugkeertijd]");
-            acceptanceTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte [m]");
-            acceptanceTestInput.Name = GetCellValueAsString("B", "Dijktraject");
+            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");
+            benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D","Ondergrens [terugkeertijd]");
+            benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte [m]");
+            benchmarkTestInput.Name = GetCellValueAsString("B", "Dijktraject");
 
             var list = new List<AssessmentSectionCategory>();
             var startRowCategories = GetRowId("Categorie") + 1;
@@ -27,7 +26,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     GetCellValueAsDouble("C", iRow)));
             }
 
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories = new CategoriesList<AssessmentSectionCategory>(list);
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories = new CategoriesList<AssessmentSectionCategory>(list);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using assembly.kernel.acceptance.tests.io.Readers;
 using Assembly.Kernel.Model;
@@ -26,7 +25,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var reader = new GeneralInformationReader(workSheetPart,workbookPart);
 
-                var result = new AcceptanceTestInput();
+                var result = new BenchmarkTestInput();
 
                 reader.Read(result);
 
