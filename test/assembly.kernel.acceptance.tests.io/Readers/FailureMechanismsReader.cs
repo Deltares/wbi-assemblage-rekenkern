@@ -57,7 +57,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
             {
                 stbuFailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
                 stbuFailureMechanism.LengthEffectFactor = GetCellValueAsDouble("B", "Ndsn (lengte effectfactor)");
-                stbuFailureMechanism.ExpectedSctionsCategoryDivisionProbability = GetCellValueAsDouble("B", "Peis;dsn ≤");
+                stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability = GetCellValueAsDouble("B", "Peis;dsn ≤");
             }
         }
 

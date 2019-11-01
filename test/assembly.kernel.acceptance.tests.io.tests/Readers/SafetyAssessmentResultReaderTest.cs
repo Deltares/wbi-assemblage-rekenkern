@@ -38,7 +38,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4);
                 Assert.AreEqual(EAssessmentGrade.C, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
 
-                var categories = assemblyResult.ExpectedFailureMechanismCategories.Categories;
+                var categories = assemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2.Categories;
                 Assert.AreEqual(6, categories.Length);
                 AssertAreEqualCategories(EFailureMechanismCategory.It, 0.0, 6.44e-6, categories[0]);
                 AssertAreEqualCategories(EFailureMechanismCategory.IIt, 6.44e-6, 1.93e-4, categories[1]);

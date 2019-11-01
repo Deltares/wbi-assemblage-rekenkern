@@ -215,7 +215,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.IsNotNull(stbuFailureMechanism);
                 Assert.AreEqual(0.04, stbuFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(12.6, stbuFailureMechanism.LengthEffectFactor, 9e-2);
-                AssertAreEqualProbabilities(1.06e-5, stbuFailureMechanism.ExpectedSctionsCategoryDivisionProbability);
+                AssertAreEqualProbabilities(1.06e-5, stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using assembly.kernel.acceptance.tests.data;
 using assembly.kernel.acceptance.tests.data.Input;
 using Assembly.Kernel.Model.CategoryLimits;
 using DocumentFormat.OpenXml.Packaging;
@@ -36,7 +35,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers
                     GetCellValueAsDouble("F", iRow)));
             }
 
-            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(list);
+            acceptanceTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2 = new CategoriesList<FailureMechanismCategory>(list);
         }
     }
 }

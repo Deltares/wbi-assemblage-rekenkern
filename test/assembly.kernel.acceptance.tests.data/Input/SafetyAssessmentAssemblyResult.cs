@@ -5,18 +5,45 @@ namespace assembly.kernel.acceptance.tests.data.Input
 {
     public class SafetyAssessmentAssemblyResult
     {
-        public CategoriesList<AssessmentSectionCategory> ExpectedAssessmentSectionCategories { get; set; }
-
+        /// <summary>
+        /// The combined probability space (faalkansruimte) for all relevant failure mechanisms
+        /// in groups 1 and 2 (the probabilistic mechanisms).
+        /// </summary>
         public double CombinedFailureMechanismProbabilitySpace { get; set; }
 
-        public CategoriesList<FailureMechanismCategory> ExpectedFailureMechanismCategories { get; set; }
+        /// <summary>
+        /// The expected section categories (A+ to D) on the highest (assessment section) level.
+        /// </summary>
+        public CategoriesList<AssessmentSectionCategory> ExpectedAssessmentSectionCategories { get; set; }
 
+        /// <summary>
+        /// The expected categories (It to VIt) for the combined failure mechanisms in
+        /// groups 1 and 2 (the probabilistic mechanisms).
+        /// </summary>
+        public CategoriesList<FailureMechanismCategory> ExpectedCombinedFailureMechanismCategoriesGroup1and2 { get; set; }
+
+        /// <summary>
+        /// The expected result (toetsoordeel) for the combined failure mechanisms
+        /// in group 1 and 2 (the probabilistic mechanisms).
+        /// </summary>
         public EFailureMechanismCategory ExpectedAssemblyResultGroups1and2 { get; set; }
 
+        /// <summary>
+        /// The expected estimated probability of flooding for the combined
+        /// failure mechanisms in group 1 and 2 (the probabilistic mechanisms).
+        /// </summary>
         public double ExpectedAssemblyResultGroups1and2Probability { get; set; }
 
+        /// <summary>
+        /// The expected result (toetsoordeel) for the combined failure mechanisms
+        /// in group 3 and 4 (the non-probabilistic direct failure mechanisms)
+        /// </summary>
         public EFailureMechanismCategory ExpectedAssemblyResultGroups3and4 { get; set; }
 
+        /// <summary>
+        /// The expected safety assessment verdict (A+ to D) for the assessment
+        /// section (final result).
+        /// </summary>
         public EAssessmentGrade ExpectedSafetyAssessmentAssemblyResult { get; set; }
     }
 }
