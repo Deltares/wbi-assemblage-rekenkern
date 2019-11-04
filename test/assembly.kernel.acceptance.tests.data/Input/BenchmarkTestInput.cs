@@ -12,6 +12,8 @@ namespace assembly.kernel.acceptance.tests.data.Input
             ExpectedFailureMechanismsResults = new List<IExpectedFailureMechanismResult>();
         }
 
+        public string FileName { get; set; }
+
         public string Name { get; set; }
 
         public double Length { get; set; }

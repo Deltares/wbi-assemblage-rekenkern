@@ -14,7 +14,7 @@ namespace assembly.kernel.acceptance.tests.io
                 return null;
             }
 
-            var assessmentSection = new BenchmarkTestInput();
+            var assessmentSection = new BenchmarkTestInput {FileName = excelFileName};
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(excelFileName, false))
             {

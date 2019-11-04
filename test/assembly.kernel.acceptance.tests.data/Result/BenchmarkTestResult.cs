@@ -4,10 +4,13 @@ namespace assembly.kernel.acceptance.tests.data.Result
 {
     public class BenchmarkTestResult
     {
-        public BenchmarkTestResult()
+        public BenchmarkTestResult(string fileName)
         {
+            FileName = fileName;
             FailureMechanismResults = new List<BenchmarkFailureMechanismTestResult>();
         }
+
+        public string FileName { get; }
 
         public bool AreEqualCategoriesListAssessmentSection { get; set; }
 

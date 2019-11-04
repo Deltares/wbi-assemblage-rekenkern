@@ -21,18 +21,21 @@ namespace assemblage.kernel.acceptance.tests
         [Test]
         public void RunAllBenchmarkTests()
         {
-            IEnumerable<string> tests = AcquireAllBenchmarkTests();
+            string[] tests = AcquireAllBenchmarkTests().ToArray();
+            var reportDirectory = PrepareReportDirectory();
 
-            foreach (var test in tests)
+            for (int i = 0; i < tests.Length; i++)
             {
-                RunBenchmarkTest(test);
+                var test = tests[i];
+                var result = RunBenchmarkTest(test);
+                BenchmarkTestReportWriter.WriteReport(i, result, reportDirectory);
             }
         }
 
-        private static void RunBenchmarkTest(string fileName)
+        private static BenchmarkTestResult RunBenchmarkTest(string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult();
+            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName);
 
             TestEqualNormCategories(input, testResult);
 
@@ -44,6 +47,8 @@ namespace assemblage.kernel.acceptance.tests
             TestFinalVerdictAssembly(input, testResult);
 
             TestAssemblyOfCombinedSections(input, testResult);
+
+            return testResult;
         }
 
         #region Norm categories on assessment section level
@@ -434,19 +439,38 @@ namespace assemblage.kernel.acceptance.tests
             return failureMechanismTestResult;
         }
 
+        private static string PrepareReportDirectory()
+        {
+            var reportDirectory = Path.Combine(GetProjectFileDirectory(), "testresults");
+            if (Directory.Exists(reportDirectory))
+            {
+                Directory.Delete(reportDirectory, true);
+            }
+
+            Directory.CreateDirectory(reportDirectory);
+            return reportDirectory;
+        }
+
         private IEnumerable<string> AcquireAllBenchmarkTests()
         {
-            var projectFileDirectory =
+            var testDirectory = Path.Combine(GetProjectFileDirectory(),"testdefinitions");
+            return Directory.GetFiles(testDirectory, "*.xlsm");
+        }
+
+        private static string GetProjectFileDirectory()
+        {
+            var runDirectory =
                 Path.GetDirectoryName(
                     Uri.UnescapeDataString(new UriBuilder(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
                         .Path));
-            if (projectFileDirectory == null)
+            if (runDirectory == null)
             {
                 throw new ArgumentException();
             }
-            var testDirectory = Path.Combine(projectFileDirectory.Replace(@"\bin\Debug", ""),"testdefinitions");
 
-            return Directory.GetFiles(testDirectory, "*.xlsm");
+            var projectFileDirectory = runDirectory.Replace(@"\bin\Debug", "");
+            return projectFileDirectory;
         }
+
     }
 }
