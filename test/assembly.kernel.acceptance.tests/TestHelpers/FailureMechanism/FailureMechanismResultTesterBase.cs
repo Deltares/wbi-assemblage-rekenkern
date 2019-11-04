@@ -1,18 +1,22 @@
 ﻿using System;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 
-namespace assemblage.kernel.acceptance.tests.TestHelpers
+namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
-    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester where TFailureMechanismResult : IExpectedFailureMechanismResult
+    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester where TFailureMechanismResult : class, IExpectedFailureMechanismResult
     {
-        protected readonly TFailureMechanismResult expectedFailureMechanismResult;
+        protected readonly TFailureMechanismResult ExpectedFailureMechanismResult;
 
-        public FailureMechanismResultTesterBase(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        protected FailureMechanismResultTesterBase(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            this.expectedFailureMechanismResult = (TFailureMechanismResult)expectedFailureMechanismResult;
+            ExpectedFailureMechanismResult = expectedFailureMechanismResult as TFailureMechanismResult;
+            if (ExpectedFailureMechanismResult == null)
+            {
+                throw new ArgumentException();
+            }
         }
 
-        public virtual bool? TestSimpleAssessment()
+        public bool TestSimpleAssessment()
         {
             try
             {
@@ -21,7 +25,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Eenvoudige toets - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Eenvoudige toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }
@@ -37,7 +41,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Gedetailleerde toets - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Gedetailleerde toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }
@@ -52,7 +56,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Toets op maat - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Toets op maat - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }
@@ -67,7 +71,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }
@@ -82,7 +86,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }
@@ -97,7 +101,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", expectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 return false;
             }
         }

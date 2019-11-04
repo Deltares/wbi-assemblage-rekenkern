@@ -1,8 +1,8 @@
-﻿namespace assemblage.kernel.acceptance.tests.TestHelpers
+﻿namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
     public interface IFailureMechanismResultTester
     {
-        bool? TestSimpleAssessment();
+        bool TestSimpleAssessment();
 
         bool? TestDetailedAssessment();
 

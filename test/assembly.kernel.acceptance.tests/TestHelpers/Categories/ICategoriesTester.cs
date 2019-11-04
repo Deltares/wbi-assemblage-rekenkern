@@ -1,4 +1,4 @@
-﻿namespace assemblage.kernel.acceptance.tests.TestHelpers
+﻿namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
 {
     public interface ICategoriesTester
     {

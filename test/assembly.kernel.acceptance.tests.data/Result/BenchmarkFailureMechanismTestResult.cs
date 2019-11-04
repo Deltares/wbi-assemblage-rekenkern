@@ -19,7 +19,7 @@ namespace assembly.kernel.acceptance.tests.data.Result
 
         public bool? AreEqualCategoryBoundaries { get; set; }
 
-        public bool? AreEqualSimpleAssessmentResults { get; set; }
+        public bool AreEqualSimpleAssessmentResults { get; set; }
 
         public bool? AreEqualDetailedAssessmentResults { get; set; }
 

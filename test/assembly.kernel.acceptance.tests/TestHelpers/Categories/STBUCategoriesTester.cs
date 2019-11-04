@@ -1,11 +1,10 @@
 ﻿using System;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Implementations;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace assemblage.kernel.acceptance.tests.TestHelpers
+namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
 {
     public class STBUCategoriesTester : BenchmarkTestsBase, ICategoriesTester
     {
@@ -26,7 +25,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var calculator = new CategoryLimitsCalculator();
             var categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(signallingNorm,
-                new FailureMechanism(failureMechanismResult.LengthEffectFactor,
+                new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
             return AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);

@@ -6,11 +6,11 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-namespace assemblage.kernel.acceptance.tests.TestHelpers
+namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
-    public class Group4FailureMechanismTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
+    public class Group4NoDetailedAssessmentFailureMechanismTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
     {
-        public Group4FailureMechanismTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
+        public Group4NoDetailedAssessmentFailureMechanismTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
         {
         }
 
@@ -18,44 +18,29 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in expectedFailureMechanismResult.Sections)
+            foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group4FailureMechanismSection = section as Group4FailureMechanismSection;
-                if (group4FailureMechanismSection != null)
+                var group4NoDetailedAssessmentFailureMechanismSection = section as Group4NoDetailedAssessmentFailureMechanismSection;
+                if (group4NoDetailedAssessmentFailureMechanismSection != null)
                 {
                     // WBI-0E-1
-                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(group4FailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group4FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult = group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
         }
 
-        protected override void TestDetailedAssessmentInternal()
+        public override bool? TestDetailedAssessment()
         {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in expectedFailureMechanismResult.Sections)
-            {
-                var group4FailureMechanismSection = section as Group4FailureMechanismSection;
-                if (group4FailureMechanismSection != null)
-                {
-                    // WBI-0G-1
-                        FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0G1(group4FailureMechanismSection.DetailedAssessmentResult);
-
-                    var expectedResult =
-                        group4FailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as
-                            FmSectionAssemblyDirectResult;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                }
-            }
+            return null;
         }
 
         protected override void TestTailorMadeAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in expectedFailureMechanismResult.Sections)
+            foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
                 var group4FailureMechanismSection = section as Group4FailureMechanismSection;
                 if (group4FailureMechanismSection != null)
@@ -74,9 +59,9 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
         {
             var assembler = new AssessmentResultsTranslator();
 
-            if (expectedFailureMechanismResult != null)
+            if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in expectedFailureMechanismResult.Sections.OfType<Group4FailureMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<Group4FailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
@@ -96,11 +81,11 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 
             // WBI-1A-1
             EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
                 false
             );
 
-            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResult, result);
+            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResult, result);
         }
 
         protected override void TestAssessmentSectionResultTemporalInternal()
@@ -109,11 +94,11 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 
             // WBI-1A-1
             EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
                 true
             );
 
-            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
+            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
         }
 
         private FmSectionAssemblyDirectResult CreateFmSectionAssemblyDirectResult(IFailureMechanismSection section)

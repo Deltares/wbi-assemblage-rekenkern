@@ -3,7 +3,7 @@ using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 
-namespace assemblage.kernel.acceptance.tests.TestHelpers
+namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
 {
     public class Group3FailureMechanismCategoriesTester : BenchmarkTestsBase, ICategoriesTester
     {
@@ -29,7 +29,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             // test section categories
             var categoriesListFailureMechanismSection = calculator.CalculateFmSectionCategoryLimitsWbi01(
                 new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
-                new FailureMechanism(failureMechanismResult.LengthEffectFactor,
+                new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 

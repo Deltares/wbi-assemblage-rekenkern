@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using assemblage.kernel.acceptance.tests.TestHelpers;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Implementations;
@@ -8,7 +7,7 @@ using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-namespace assemblage.kernel.acceptance.tests
+namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
     public class StbuFailureMechanismTester : FailureMechanismResultTesterBase<StbuExpectedFailureMechanismResult>
     {
@@ -20,7 +19,7 @@ namespace assemblage.kernel.acceptance.tests
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in expectedFailureMechanismResult.Sections)
+            foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
                 var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
                 if (stbuFailureMechanismSection != null)
@@ -37,7 +36,7 @@ namespace assemblage.kernel.acceptance.tests
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in expectedFailureMechanismResult.Sections)
+            foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
                 var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
                 if (stbuFailureMechanismSection != null)
@@ -60,7 +59,7 @@ namespace assemblage.kernel.acceptance.tests
         {
             var assembler = new AssessmentResultsTranslator();
 
-            foreach (var section in expectedFailureMechanismResult.Sections)
+            foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
                 var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
                 if (stbuFailureMechanismSection != null)
@@ -81,9 +80,9 @@ namespace assemblage.kernel.acceptance.tests
         {
             var assembler = new AssessmentResultsTranslator();
 
-            if (expectedFailureMechanismResult != null)
+            if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in expectedFailureMechanismResult.Sections.OfType<STBUFailureMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<STBUFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
@@ -103,11 +102,11 @@ namespace assemblage.kernel.acceptance.tests
 
             // WBI-1A-1
             EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
                 false
             );
 
-            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResult, result);
+            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResult, result);
         }
 
         protected override void TestAssessmentSectionResultTemporalInternal()
@@ -116,11 +115,11 @@ namespace assemblage.kernel.acceptance.tests
 
             // WBI-1A-1
             EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                expectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
                 true
             );
 
-            Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
+            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
         }
 
         private FmSectionAssemblyDirectResult CreateFmSectionAssemblyDirectResult(IFailureMechanismSection section)
@@ -133,8 +132,8 @@ namespace assemblage.kernel.acceptance.tests
         {
             return new CategoriesList<FmSectionCategory>(new[]
             {
-                new FmSectionCategory(EFmSectionCategory.IIv, 0.0, expectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
-                new FmSectionCategory(EFmSectionCategory.Vv, expectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
+                new FmSectionCategory(EFmSectionCategory.IIv, 0.0, ExpectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
+                new FmSectionCategory(EFmSectionCategory.Vv, ExpectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
             });
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
+using assemblage.kernel.acceptance.tests.TestHelpers.Categories;
+using assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 
 namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
-    public static class TestHelperFactory
+    public static class TesterFactory
     {
-        public static IFailureMechanismResultTester CreateFailureMechanismTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        public static IFailureMechanismResultTester CreateFailureMechanismTester(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             switch (expectedFailureMechanismResult.Type)
             {
