@@ -7,34 +7,70 @@ namespace assemblage.kernel.acceptance.tests
 {
     public class BenchmarkTestsBase
     {
-        // TODO: Merge these two methods somehow?
-        protected static void AssertEqualCategoriesList(CategoriesList<AssessmentSectionCategory> expectedCategories,
-        CategoriesList<AssessmentSectionCategory> categories, Action positiveResultAction)
+        // TODO: Merge these three methods somehow?
+        protected static bool AssertEqualCategoriesList(CategoriesList<AssessmentSectionCategory> expectedCategories, CategoriesList<AssessmentSectionCategory> categories)
         {
-            Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
-            for (int i = 0; i < categories.Categories.Length; i++)
+            try
             {
-                AssertAreEqualCategories(
-                    expectedCategories.Categories[i],
-                    categories.Categories[i]);
-            }
+                Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
+                for (int i = 0; i < categories.Categories.Length; i++)
+                {
+                    AssertAreEqualCategories(
+                        expectedCategories.Categories[i],
+                        categories.Categories[i]);
+                }
 
-            positiveResultAction();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
 
-        // TODO: Merge these two methods somehow?
-        protected static void AssertEqualCategoriesList(CategoriesList<FailureMechanismCategory> expectedCategories,
-            CategoriesList<FailureMechanismCategory> categories, Action positiveResultAction)
+        // TODO: Merge these three methods somehow?
+        protected static bool AssertEqualCategoriesList(CategoriesList<FailureMechanismCategory> expectedCategories, CategoriesList<FailureMechanismCategory> categories)
         {
-            Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
-            for (int i = 0; i < categories.Categories.Length; i++)
+            try
             {
-                AssertAreEqualCategories(
-                    expectedCategories.Categories[i],
-                    categories.Categories[i]);
-            }
+                Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
+                for (int i = 0; i < categories.Categories.Length; i++)
+                {
+                    AssertAreEqualCategories(
+                        expectedCategories.Categories[i],
+                        categories.Categories[i]);
+                }
 
-            positiveResultAction();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        // TODO: Merge these three methods somehow?
+        protected static bool AssertEqualCategoriesList(CategoriesList<FmSectionCategory> expectedCategories, CategoriesList<FmSectionCategory> categories)
+        {
+            try
+            {
+                Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
+                for (int i = 0; i < categories.Categories.Length; i++)
+                {
+                    AssertAreEqualCategories(
+                        expectedCategories.Categories[i],
+                        categories.Categories[i]);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
 
         private static void AssertAreEqualCategories<TCategory>(CategoryBase<TCategory> expectedCategory, CategoryBase<TCategory> calculatedCategory)

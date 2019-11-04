@@ -7,6 +7,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace assembly.kernel.acceptance.tests.io.Readers
 {
+    // TODO: Convert this to IExcelWorksheetReader and stop passing actual Workbook and Worksheet parts etc.
     public static class ExcelReaderHelper
     {
         public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart, int maxRow)

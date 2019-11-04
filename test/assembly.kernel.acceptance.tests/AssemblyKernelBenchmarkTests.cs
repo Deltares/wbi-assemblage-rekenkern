@@ -40,7 +40,7 @@ namespace assemblage.kernel.acceptance.tests
 
             foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
             {
-                TestFailureMechanismAssembly(expectedFailureMechanismResult, testResult);
+                TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm, input.SignallingNorm, testResult);
             }
 
             TestFinalVerdictAssembly(input, testResult);
@@ -203,9 +203,9 @@ namespace assemblage.kernel.acceptance.tests
         private static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             // WBI-1-1
-            var probabilisticFailureMechanismsCategories = TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
-            TestProbabilisticFailureMechanismsResults(input, result, probabilisticFailureMechanismsCategories);
-            TestProbabilisticFailureMechanismsResultsTemporal(input, result, probabilisticFailureMechanismsCategories);
+            TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
+            TestProbabilisticFailureMechanismsResults(input, result);
+            TestProbabilisticFailureMechanismsResultsTemporal(input, result);
             TestGroup3And4FailureMechanismsResults(input, result);
             TestGroup3And4FailureMechanismsResultsTemporal(input, result);
             TestFinalAssessmentGrade(input, result);
@@ -300,7 +300,7 @@ namespace assemblage.kernel.acceptance.tests
         }
 
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
-            BenchmarkTestResult result, CategoriesList<FailureMechanismCategory> categories)
+            BenchmarkTestResult result)
         {
             var assembler = new AssessmentGradeAssembler();
             var probabilisticFailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
@@ -309,6 +309,8 @@ namespace assemblage.kernel.acceptance.tests
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResultTemporal),
                         fm.ExpectedAssessmentResultProbabilityTemporal));
+            var categories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2;
+
             var resultGroup1and2Temporal = assembler.AssembleAssessmentSectionWbi2B1(
                 probabilisticFailureMechanismResultsTemporal,
                 categories,
@@ -329,7 +331,7 @@ namespace assemblage.kernel.acceptance.tests
         }
 
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
-            BenchmarkTestResult result, CategoriesList<FailureMechanismCategory> categories)
+            BenchmarkTestResult result)
         {
             IEnumerable<FailureMechanismAssemblyResult> probabilisticFailureMechanismResults = input
                 .ExpectedFailureMechanismsResults
@@ -338,6 +340,7 @@ namespace assemblage.kernel.acceptance.tests
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResult),
                         fm.ExpectedAssessmentResultProbability));
+            var categories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2;
 
             // Test correct result for groups 1/2 and 3.4, WBI-2B-1
             var assembler = new AssessmentGradeAssembler();
@@ -359,7 +362,7 @@ namespace assemblage.kernel.acceptance.tests
             }
         }
 
-        private static CategoriesList<FailureMechanismCategory> TestCombinedProbabilisticFailureMechanismsCategoriesList(BenchmarkTestInput input, BenchmarkTestResult result)
+        private static void TestCombinedProbabilisticFailureMechanismsCategoriesList(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             var categoriesCalculator = new CategoryLimitsCalculator();
 
@@ -367,12 +370,9 @@ namespace assemblage.kernel.acceptance.tests
                 new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
                 new FailureMechanism(1, input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
 
-            AssertEqualCategoriesList(
+            result.AreEqualCategoriesListGroup1and2  = AssertEqualCategoriesList(
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2,
-                categories,
-                () => { result.AreEqualCategoriesListGroup1and2 = true; });
-
-            return categories;
+                categories);
         }
 
         private static T CastToEnum<T>(object o)
@@ -383,16 +383,14 @@ namespace assemblage.kernel.acceptance.tests
 
         #endregion
 
-        private static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult, BenchmarkTestResult testResult)
+        private static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
+            double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)
         {
-            var group3ExpectedFailureMechanismResult = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
-            if (group3ExpectedFailureMechanismResult != null)
-            {
-                // TODO: test categories (section and fm level)
-            }
-            // TODO: Test STBU categories (group 4).
-
             var failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
+
+            failureMechanismTestResult.AreEqualCategoryBoundaries = TestHelperFactory
+                .CreateCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)?.TestCategories();
+
             var testHelper = TestHelperFactory.CreateFailureMechanismTestHelper(expectedFailureMechanismResult);
 
             // TODO: What about results that are neither positive nor negative (no detailed assessmnet for example) => Use base class and move try/catch to testhelpers
@@ -469,21 +467,13 @@ namespace assemblage.kernel.acceptance.tests
         {
             var calculator = new CategoryLimitsCalculator();
 
-            try
-            {
-                // WBI-2-1
-                var categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(new AssessmentSection(
-                    input.Length,
-                    input.SignallingNorm, input.LowerBoundaryNorm));
-                var expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
+            // WBI-2-1
+            var categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(new AssessmentSection(
+                input.Length,
+                input.SignallingNorm, input.LowerBoundaryNorm));
+            var expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
 
-                AssertEqualCategoriesList(expectedCategories, categories, () => { result.AreEqualCategoriesListAssessmentSection = true; });
-            }
-            catch (Exception)
-            {
-                result.AreEqualCategoriesListAssessmentSection = false;
-                // TODO: Administer result per assembly method (WBI-2-1)
-            }
+            result.AreEqualCategoriesListAssessmentSection = AssertEqualCategoriesList(expectedCategories, categories);
         }
 
         #endregion

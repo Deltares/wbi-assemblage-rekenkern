@@ -61,7 +61,6 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
         }
 
         [Test]
-        // TODO: Write test
         public void ReaderReadsGroup2InformationCorrectly()
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
@@ -112,7 +111,6 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
         }
 
         [Test]
-        // TODO: Write test
         public void ReaderReadsGroup1InformationCorrectly()
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))

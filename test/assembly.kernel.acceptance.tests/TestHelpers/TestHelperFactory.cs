@@ -49,5 +49,28 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
                     throw new InvalidEnumArgumentException();
             }
         }
+
+        public static ICategoriesTester CreateCategoriesTester(IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
+        {
+            switch (expectedFailureMechanismResult.Type)
+            {
+                case MechanismType.STBI:
+                case MechanismType.STPH:
+                case MechanismType.HTKW:
+                case MechanismType.BSKW:
+                case MechanismType.STKWp:
+                case MechanismType.GEKB:
+                    return new ProbabilisticFailureMechanismCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                case MechanismType.AGK:
+                case MechanismType.GEBU:
+                case MechanismType.ZST:
+                case MechanismType.DA:
+                    return new Group3FailureMechanismCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                case MechanismType.STBU:
+                    return new STBUCategoriesTester(expectedFailureMechanismResult, signallingNorm);
+                default:
+                    return null;
+            }
+        }
     }
 }
