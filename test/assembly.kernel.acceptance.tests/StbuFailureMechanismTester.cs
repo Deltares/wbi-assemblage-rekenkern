@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using assemblage.kernel.acceptance.tests.TestHelpers;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
@@ -11,20 +10,13 @@ using NUnit.Framework;
 
 namespace assemblage.kernel.acceptance.tests
 {
-    public class STBUFailureMechanismTestHelper : IFailureMechanismResultTestHelper
+    public class StbuFailureMechanismTester : FailureMechanismResultTesterBase<StbuExpectedFailureMechanismResult>
     {
-        private readonly StbuExpectedFailureMechanismResult expectedFailureMechanismResult;
-
-        public STBUFailureMechanismTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        public StbuFailureMechanismTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
         {
-            this.expectedFailureMechanismResult = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
-            if (this.expectedFailureMechanismResult == null)
-            {
-                throw new ArgumentException();
-            }
         }
 
-        public void TestSimpleAssessment()
+        protected override void TestSimpleAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -41,7 +33,7 @@ namespace assemblage.kernel.acceptance.tests
             }
         }
 
-        public void TestDetailedAssessment()
+        protected override void TestDetailedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -64,7 +56,7 @@ namespace assemblage.kernel.acceptance.tests
             }
         }
 
-        public void TestTailorMadeAssessment()
+        protected override void TestTailorMadeAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -85,7 +77,7 @@ namespace assemblage.kernel.acceptance.tests
             }
         }
 
-        public void TestCombinedAssessment()
+        protected override void TestCombinedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -105,7 +97,7 @@ namespace assemblage.kernel.acceptance.tests
             }
         }
 
-        public void TestAssessmentSectionResult()
+        protected override void TestAssessmentSectionResultInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 
@@ -118,7 +110,7 @@ namespace assemblage.kernel.acceptance.tests
             Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResult, result);
         }
 
-        public void TestAssessmentSectionResultTemporal()
+        protected override void TestAssessmentSectionResultTemporalInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using assemblage.kernel.acceptance.tests.TestHelpers;
@@ -11,7 +10,6 @@ using assembly.kernel.acceptance.tests.data.Result;
 using assembly.kernel.acceptance.tests.io;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
@@ -388,77 +386,18 @@ namespace assemblage.kernel.acceptance.tests
         {
             var failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
 
-            failureMechanismTestResult.AreEqualCategoryBoundaries = TestHelperFactory
-                .CreateCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)?.TestCategories();
+            failureMechanismTestResult.AreEqualCategoryBoundaries =
+                TestHelperFactory
+                    .CreateCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)
+                    ?.TestCategories();
 
-            var testHelper = TestHelperFactory.CreateFailureMechanismTestHelper(expectedFailureMechanismResult);
-
-            // TODO: What about results that are neither positive nor negative (no detailed assessmnet for example) => Use base class and move try/catch to testhelpers
-            try
-            {
-                testHelper.TestSimpleAssessment();
-                failureMechanismTestResult.AreEqualSimpleAssessmentResults = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Eenvoudige toets - {1}",failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualSimpleAssessmentResults = false;
-            }
-
-            try
-            {
-                testHelper.TestDetailedAssessment();
-                failureMechanismTestResult.AreEqualDetailedAssessmentResults = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Gedetailleerde toets - {1}", failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualDetailedAssessmentResults = false;
-            }
-
-            try
-            {
-                testHelper.TestTailorMadeAssessment();
-                failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Toets op maat - {1}", failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = false;
-            }
-
-            try
-            {
-                testHelper.TestCombinedAssessment();
-                failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = false;
-            }
-
-            try
-            {
-                testHelper.TestAssessmentSectionResult();
-                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = false;
-            }
-
-            try
-            {
-                testHelper.TestAssessmentSectionResultTemporal();
-                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", failureMechanismTestResult.Name, e.Message);
-                failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = false;
-            }
+            var failureMechanismTestHelper = TestHelperFactory.CreateFailureMechanismTestHelper(expectedFailureMechanismResult);
+            failureMechanismTestResult.AreEqualSimpleAssessmentResults = failureMechanismTestHelper.TestSimpleAssessment();
+            failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
+            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = failureMechanismTestHelper.TestTailorMadeAssessment();
+            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = failureMechanismTestHelper.TestCombinedAssessment();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = failureMechanismTestHelper.TestAssessmentSectionResult();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
         }
 
         #region Norm categories on assessment section level

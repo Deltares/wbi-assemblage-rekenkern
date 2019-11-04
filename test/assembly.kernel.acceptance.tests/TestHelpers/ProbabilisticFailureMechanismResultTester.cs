@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Implementations;
@@ -9,20 +8,13 @@ using NUnit.Framework;
 
 namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
-    public class ProbabilisticFailureMechanismResultTestHelper : IFailureMechanismResultTestHelper
+    public class ProbabilisticFailureMechanismResultTester : FailureMechanismResultTesterBase<ProbabilisticExpectedFailureMechanismResult>
     {
-        private readonly ProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult;
-
-        public ProbabilisticFailureMechanismResultTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        public ProbabilisticFailureMechanismResultTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
         {
-            this.expectedFailureMechanismResult = expectedFailureMechanismResult as ProbabilisticExpectedFailureMechanismResult;
-            if (this.expectedFailureMechanismResult == null)
-            {
-                throw new ArgumentException();
-            }
         }
 
-        public void TestSimpleAssessment()
+        protected override void TestSimpleAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -41,7 +33,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
         }
 
-        public void TestDetailedAssessment()
+        protected override void TestDetailedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -78,7 +70,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
         }
 
-        public void TestTailorMadeAssessment()
+        protected override void TestTailorMadeAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -115,7 +107,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
         }
 
-        public void TestCombinedAssessment()
+        protected override void TestCombinedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
 
@@ -138,7 +130,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             }
         }
 
-        public void TestAssessmentSectionResult()
+        protected override void TestAssessmentSectionResultInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 
@@ -154,7 +146,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
             Assert.AreEqual(expectedFailureMechanismResult.ExpectedAssessmentResultProbability, result.FailureProbability);
         }
 
-        public void TestAssessmentSectionResultTemporal()
+        protected override void TestAssessmentSectionResultTemporalInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 

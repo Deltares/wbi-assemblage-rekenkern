@@ -5,7 +5,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
 {
     public static class TestHelperFactory
     {
-        public static IFailureMechanismResultTestHelper CreateFailureMechanismTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        public static IFailureMechanismResultTester CreateFailureMechanismTestHelper(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             switch (expectedFailureMechanismResult.Type)
             {
@@ -13,38 +13,38 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismResultTestHelper(expectedFailureMechanismResult);
+                    return new ProbabilisticFailureMechanismResultTester(expectedFailureMechanismResult);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new Group1NoSimpleAssessmentFailureMechanismResultTestHelper(expectedFailureMechanismResult);
+                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(expectedFailureMechanismResult);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
-                    return new Group3FailureMechanismResultTestHelper(expectedFailureMechanismResult);
+                    return new Group3FailureMechanismResultTester(expectedFailureMechanismResult);
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3NoSimpleAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new Group3NoSimpleAssessmentFailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.GABI:
                 case MechanismType.GABU:
                 case MechanismType.STMI:
                 case MechanismType.PKW:
-                    return new Group4FailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new Group4FailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.AWO:
                 case MechanismType.STKWl:
                 case MechanismType.INN:
-                    return new Group4NoDetailedAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new Group4NoDetailedAssessmentFailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.STBU:
-                    return new STBUFailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new StbuFailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.HAV:
                 case MechanismType.NWOkl:
                 case MechanismType.VLZV:
                 case MechanismType.VLAF:
-                    return new Group5FailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new Group5FailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.NWOoc:
-                    return new NWOocFailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new NwOocFailureMechanismTester(expectedFailureMechanismResult);
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:
-                    return new Group5NoDetailedAssessmentFailureMechanismTestHelper(expectedFailureMechanismResult);
+                    return new Group5NoDetailedAssessmentFailureMechanismTester(expectedFailureMechanismResult);
                 default:
                     throw new InvalidEnumArgumentException();
             }
