@@ -1,0 +1,43 @@
+\documentclass[dutch,signature]{deltares_memo}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\usepackage{lscape}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{pifont}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{pdfpages}
+
+%%% Extra needed usepackages
+%\usepackage{graphicx}
+%\usepackage{tikz}
+%\usepackage{hhline}
+%\usepackage{pifont}
+%\usepackage{xcolor}
+%\usepackage{hyperref}
+%%%
+
+\memoDate{\date{\today}}
+\memoVersion{0.5}
+
+\newcommand{\hr}{Hydra-Ring\xspace} 
+\newcommand{\probLib}{Probabilistic Library\xspace} 
+\newcommand{\OET}{Open Earth Tools\xspace} 
+\newcommand{\hrreq}{\textcolor{Gray}{Hydra-RingReq}\xspace} 
+%\newcommand{\cmark}{\ding{51}}
+%\newcommand{\xmark}{\ding{55}}
+
+%%% Extra needed commands
+\newcommand{\T}{\rule{0pt}{2.6ex}}       % Top T
+\newcommand{\B}{\rule[-1.2ex]{0pt}{0pt}} % Bottom T
+\newcommand{\nmark}{\textbf{\textcolor{gray}{\textasciitilde}}} % -- is also an option
+%
+\newcommand{\cmark}{\textcolor{green!80!black}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}
+%%%
+
+
+\begin{document}
+	\input{testreports/benchmarktest.tex}
+\end{document}
