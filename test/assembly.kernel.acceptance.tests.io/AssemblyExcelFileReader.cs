@@ -7,14 +7,18 @@ namespace assembly.kernel.acceptance.tests.io
 {
     public static class AssemblyExcelFileReader
     {
-        public static BenchmarkTestInput Read(string excelFileName)
+        public static BenchmarkTestInput Read(string excelFileName, string testName)
         {
             if (!File.Exists(excelFileName))
             {
                 return null;
             }
 
-            var assessmentSection = new BenchmarkTestInput {FileName = excelFileName};
+            var assessmentSection = new BenchmarkTestInput
+            {
+                FileName = excelFileName,
+                TestName = testName
+            };
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(excelFileName, false))
             {

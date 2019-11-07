@@ -190,20 +190,40 @@ namespace assembly.kernel.acceptance.tests.io
             return assessmentResultType;
         }
 
-        public static EAssessmentResultTypeG2 ToEAssessmentResultTypeG2(this string str)
+        public static EAssessmentResultTypeG2 ToEAssessmentResultTypeG2(this string str, bool probabilistic)
         {
-            if (str.ToLower() == "ngo")
+            EAssessmentResultTypeG2 assessmentResultType;
+            if (!Enum.TryParse(str, true, out assessmentResultType))
             {
-                return EAssessmentResultTypeG2.Ngo;
+                if (probabilistic)
+                {
+                    double value;
+                    if (double.TryParse(str, out value))
+                    {
+                        return EAssessmentResultTypeG2.ResultSpecified;
+                    }
+                }
+
+                if (!probabilistic)
+                {
+                    try
+                    {
+                        var result = str.ToFailureMechanismSectionCategory();
+                        if (result > 0 && (int)result < 8)
+                        {
+                            return EAssessmentResultTypeG2.ResultSpecified;
+                        }
+                    }
+                    catch (InvalidEnumArgumentException)
+                    {
+                        // Do nothing, return Gr.
+                    }
+                }
+
+                return EAssessmentResultTypeG2.Gr;
             }
 
-            double value;
-            if (double.TryParse(str, out value))
-            {
-                return EAssessmentResultTypeG2.ResultSpecified;
-            }
-
-            return EAssessmentResultTypeG2.Gr;
+            return assessmentResultType;
         }
 
         public static EAssessmentResultTypeT1 ToEAssessmentResultTypeT1(this string str)

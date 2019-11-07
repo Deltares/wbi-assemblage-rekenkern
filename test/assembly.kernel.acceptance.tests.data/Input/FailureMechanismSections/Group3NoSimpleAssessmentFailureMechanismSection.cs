@@ -10,8 +10,10 @@ namespace assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections
     {
         public EAssessmentResultTypeE2 SimpleAssessmentResult { get; set; }
 
-        // 0G6
-        public EFmSectionCategory DetailedAssessmentResult { get; set; }
+        // 0G4
+        public EAssessmentResultTypeG2 DetailedAssessmentResult { get; set; }
+
+        public EFmSectionCategory DetailedAssessmentResultValue { get; set; }
 
         // 0T4
         public EAssessmentResultTypeT3 TailorMadeAssessmentResult { get; set; }

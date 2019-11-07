@@ -1,5 +1,6 @@
 ﻿using System;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
+using assembly.kernel.acceptance.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 
@@ -10,12 +11,14 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
         private readonly Group3ExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
         private readonly double signallingNorm;
+        private readonly MethodResultsListing methodResult;
 
-        public Group3FailureMechanismCategoriesTester(IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
+        public Group3FailureMechanismCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult as Group3ExpectedFailureMechanismResult;
             this.lowerBoundaryNorm = lowerBoundaryNorm;
             this.signallingNorm = signallingNorm;
+            this.methodResult = methodResult;
             if (failureMechanismResult == null || double.IsNaN(lowerBoundaryNorm) || double.IsNaN(signallingNorm))
             {
                 throw new ArgumentException();
@@ -33,7 +36,10 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
                     failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
-            return AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
+            var assertEqualCategoriesList = AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
+            methodResult.Wbi01 = GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
+
+            return assertEqualCategoriesList;
         }
     }
 }

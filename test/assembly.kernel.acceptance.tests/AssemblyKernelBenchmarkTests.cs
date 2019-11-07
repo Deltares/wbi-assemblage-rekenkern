@@ -24,18 +24,38 @@ namespace assemblage.kernel.acceptance.tests
             string[] tests = AcquireAllBenchmarkTests().ToArray();
             var reportDirectory = PrepareReportDirectory();
 
+            var testResults = new Dictionary<string, BenchmarkTestResult>();
             for (int i = 0; i < tests.Length; i++)
             {
-                var test = tests[i];
-                var result = RunBenchmarkTest(test);
+                var fileName = tests[i];
+                var testName = GetTestName(fileName);
+                var result = RunBenchmarkTest(fileName, testName);
                 BenchmarkTestReportWriter.WriteReport(i, result, reportDirectory);
+                testResults[testName] = result;
             }
+
+            BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"),testResults);
         }
 
-        private static BenchmarkTestResult RunBenchmarkTest(string fileName)
+        private string GetTestName(string testFileName)
         {
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName);
+            var fileName = Path.GetFileNameWithoutExtension(testFileName);
+            var testNameNoPrefix = fileName
+                .Replace("Benchmark_", "")
+                .Replace("Benchmarktool Excel ", "");
+            var ind = testNameNoPrefix.IndexOf("_(v");
+            if (ind == -1)
+            {
+                ind = testNameNoPrefix.IndexOf(" (v");
+            }
+            var testName = testNameNoPrefix.Substring(0, ind);
+            return testName;
+        }
+
+        private static BenchmarkTestResult RunBenchmarkTest(string fileName, string testName)
+        {
+            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
+            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
 
             TestEqualNormCategories(input, testResult);
 
@@ -64,6 +84,7 @@ namespace assemblage.kernel.acceptance.tests
             var expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
 
             result.AreEqualCategoriesListAssessmentSection = AssertEqualCategoriesList(expectedCategories, categories);
+            result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 
         #endregion
@@ -71,16 +92,17 @@ namespace assemblage.kernel.acceptance.tests
         #region FailureMechanism specific results
 
         private static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
-            double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)
+            double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)    
         {
             var failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
 
             failureMechanismTestResult.AreEqualCategoryBoundaries =
                 TesterFactory
-                    .CreateCategoriesTester(expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)
+                    .CreateCategoriesTester(testResult.MethodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)
                     ?.TestCategories();
 
-            var failureMechanismTestHelper = TesterFactory.CreateFailureMechanismTester(expectedFailureMechanismResult);
+            var failureMechanismTestHelper = TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
+
             failureMechanismTestResult.AreEqualSimpleAssessmentResults = failureMechanismTestHelper.TestSimpleAssessment();
             failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
             failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = failureMechanismTestHelper.TestTailorMadeAssessment();
@@ -94,7 +116,6 @@ namespace assemblage.kernel.acceptance.tests
         #region Test Assembly on assessment section level
         private static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
         {
-            // WBI-1-1
             TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
             TestProbabilisticFailureMechanismsResults(input, result);
             TestProbabilisticFailureMechanismsResultsTemporal(input, result);
@@ -117,10 +138,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal,
                     resultFinalVerdictTemporal);
                 result.AreEqualAssemblyResultFinalVerdictTemporal = true;
+                result.MethodResults.Wbi2C1T = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultFinalVerdictTemporal = false;
+                result.MethodResults.Wbi2C1T = false;
             }
         }
 
@@ -137,10 +160,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult,
                     resultFinalVerdict);
                 result.AreEqualAssemblyResultFinalVerdict = true;
+                result.MethodResults.Wbi2C1 = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultFinalVerdict = false;
+                result.MethodResults.Wbi2C1 = false;
             }
         }
 
@@ -161,10 +186,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(resultGroup3And4Temporal,
                     input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal);
                 result.AreEqualAssemblyResultGroup3and4Temporal = true;
+                result.MethodResults.Wbi2A1T = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultGroup3and4Temporal = false;
+                result.MethodResults.Wbi2A1T = false;
             }
         }
 
@@ -184,10 +211,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(resultGroup3And4,
                     input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4);
                 result.AreEqualAssemblyResultGroup3and4 = true;
+                result.MethodResults.Wbi2A1 = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultGroup3and4 = false;
+                result.MethodResults.Wbi2A1 = false;
             }
         }
 
@@ -215,10 +244,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(resultGroup1And2Temporal.FailureProbability,
                     input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal);
                 result.AreEqualAssemblyResultGroup1and2Temporal = true;
+                result.MethodResults.Wbi2B1T = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultGroup1and2Temporal = false;
+                result.MethodResults.Wbi2B1T = false;
             }
         }
 
@@ -247,10 +278,12 @@ namespace assemblage.kernel.acceptance.tests
                 Assert.AreEqual(resultGroup1And2.FailureProbability,
                     input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability);
                 result.AreEqualAssemblyResultGroup1and2 = true;
+                result.MethodResults.Wbi2B1 = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultGroup1and2 = false;
+                result.MethodResults.Wbi2B1 = false;
             }
         }
 
@@ -262,9 +295,11 @@ namespace assemblage.kernel.acceptance.tests
                 new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
                 new FailureMechanism(1, input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
 
-            result.AreEqualCategoriesListGroup1and2  = AssertEqualCategoriesList(
+            var areEqualCategories = AssertEqualCategoriesList(
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2,
                 categories);
+            result.MethodResults.Wbi11 = areEqualCategories;
+            result.AreEqualCategoriesListGroup1and2  = areEqualCategories;
         }
 
         private static T CastToEnum<T>(object o)
@@ -313,10 +348,12 @@ namespace assemblage.kernel.acceptance.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSections = true;
+                result.MethodResults.Wbi3A1 = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultCombinedSections = false;
+                result.MethodResults.Wbi3A1 = false;
             }
         }
 
@@ -337,10 +374,12 @@ namespace assemblage.kernel.acceptance.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSectionsResults = true;
+                result.MethodResults.Wbi3C1 = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResults = false;
+                result.MethodResults.Wbi3C1 = false;
             }
         }
 
@@ -361,10 +400,12 @@ namespace assemblage.kernel.acceptance.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = true;
+                result.MethodResults.Wbi3C1T = true;
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = false;
+                result.MethodResults.Wbi3C1T = false;
             }
         }
 
@@ -407,10 +448,12 @@ namespace assemblage.kernel.acceptance.tests
                 }
 
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
+                result.MethodResults.Wbi3B1 = GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
             }
             catch (Exception)
             {
                 fmResult.AreEqualCombinedResultsCombinedSections = false;
+                result.MethodResults.Wbi3B1 = false;
             }
         }
 

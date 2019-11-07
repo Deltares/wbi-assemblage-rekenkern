@@ -32,7 +32,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
                     simpleProbability),
-                DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(),
+                DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(true),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory(),

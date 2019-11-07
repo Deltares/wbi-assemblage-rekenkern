@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
+using assembly.kernel.acceptance.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -8,10 +9,9 @@ using NUnit.Framework;
 
 namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
-    // TODO: Lot of duplication with ProbabilisticFailureMechanismResultTester  
     public class Group1NoSimpleAssessmentFailureMechanismResultTester : FailureMechanismResultTesterBase<ProbabilisticExpectedFailureMechanismResult>
     {
-        public Group1NoSimpleAssessmentFailureMechanismResultTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
+        public Group1NoSimpleAssessmentFailureMechanismResultTester(MethodResultsListing testResult, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(testResult, expectedFailureMechanismResult)
         {
         }
 
@@ -133,6 +133,36 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal, result.FailureProbability);
+        }
+
+        protected override void SetSimpleAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0E3 = GetUpdatedMethodResult(MethodResults.Wbi0E3, result);
+        }
+
+        protected override void SetDetailedAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0G3 = GetUpdatedMethodResult(MethodResults.Wbi0G3, result);
+        }
+
+        protected override void SetTailorMadeAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0T3 = GetUpdatedMethodResult(MethodResults.Wbi0T3, result);
+        }
+
+        protected override void SetCombinedAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0A1 = GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
+        }
+
+        protected override void SetAssessmentSectionMethodResult(bool result)
+        {
+            MethodResults.Wbi1B1 = GetUpdatedMethodResult(MethodResults.Wbi1B1, result);
+        }
+
+        protected override void SetAssessmentSectionMethodResultTemporal(bool result)
+        {
+            MethodResults.Wbi1B1T = GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
         }
 
         private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)

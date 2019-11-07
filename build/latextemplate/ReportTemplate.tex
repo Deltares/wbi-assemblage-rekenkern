@@ -14,7 +14,7 @@
 %\usepackage{tikz}
 %\usepackage{hhline}
 %\usepackage{pifont}
-%\usepackage{xcolor}
+\usepackage{xcolor}
 %\usepackage{hyperref}
 %%%
 
@@ -35,10 +35,17 @@
 %
 \newcommand{\cmark}{\textcolor{green!80!black}{\ding{51}}}
 \newcommand{\xmark}{\textcolor{red}{\ding{55}}}
+\newcommand{\grayhline}{
+	\arrayrulecolor{lightgray} 
+	\hline 
+	\arrayrulecolor{black} 
+	\T 
+}
+\definecolor{lightbluegray}{rgb}{0.92,0.92,1}
 %%%
 
 
 \begin{document}
-	\input{testreports/benchmarktest.tex}
     \input{testreports/Benchmarktool_Excel_assemblagetool_(v1_0_1_0)_0_03}
+    \input{testreports/Summary.tex}
 \end{document}

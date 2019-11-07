@@ -4,13 +4,17 @@ namespace assembly.kernel.acceptance.tests.data.Result
 {
     public class BenchmarkTestResult
     {
-        public BenchmarkTestResult(string fileName)
+        public BenchmarkTestResult(string fileName, string testName)
         {
             FileName = fileName;
+            TestName = testName;
             FailureMechanismResults = new List<BenchmarkFailureMechanismTestResult>();
+            MethodResults = new MethodResultsListing();
         }
 
         public string FileName { get; }
+
+        public string TestName { get; }
 
         public bool AreEqualCategoriesListAssessmentSection { get; set; }
 
@@ -36,6 +40,6 @@ namespace assembly.kernel.acceptance.tests.data.Result
 
         public bool AreEqualAssemblyResultCombinedSectionsResultsTemporal { get; set; }
 
-        // TODO: List result per method
+        public MethodResultsListing MethodResults { get; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanismSections;
+using assembly.kernel.acceptance.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -10,7 +11,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
 {
     public class Group5NoDetailedAssessmentFailureMechanismTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
     {
-        public Group5NoDetailedAssessmentFailureMechanismTester(IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(expectedFailureMechanismResult)
+        public Group5NoDetailedAssessmentFailureMechanismTester(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(methodResults, expectedFailureMechanismResult)
         {
         }
 
@@ -45,7 +46,7 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
                 var group5NoDetailedAssessmentFailureMechanismSection = section as Group5NoDetailedAssessmentFailureMechanismSection;
                 if (group5NoDetailedAssessmentFailureMechanismSection != null)
                 {
-                    // WBI-0T-1
+                    // WBI-0T-2
                     FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0T2(group5NoDetailedAssessmentFailureMechanismSection.TailorMadeAssessmentResult);
 
                     var expectedResult = group5NoDetailedAssessmentFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
@@ -98,6 +99,31 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.FailureMechanism
             );
 
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
+        }
+
+        protected override void SetSimpleAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0E2 = GetUpdatedMethodResult(MethodResults.Wbi0E2, result);
+        }
+
+        protected override void SetTailorMadeAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0T2 = GetUpdatedMethodResult(MethodResults.Wbi0T2, result);
+        }
+
+        protected override void SetCombinedAssessmentMethodResult(bool result)
+        {
+            MethodResults.Wbi0A1 = GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
+        }
+
+        protected override void SetAssessmentSectionMethodResult(bool result)
+        {
+            MethodResults.Wbi1A2 = GetUpdatedMethodResult(MethodResults.Wbi1A2, result);
+        }
+
+        protected override void SetAssessmentSectionMethodResultTemporal(bool result)
+        {
+            MethodResults.Wbi1A2T = GetUpdatedMethodResult(MethodResults.Wbi1A2T, result);
         }
 
         private FmSectionAssemblyIndirectResult CreateFmSectionAssemblyIndirectResult(IFailureMechanismSection section)

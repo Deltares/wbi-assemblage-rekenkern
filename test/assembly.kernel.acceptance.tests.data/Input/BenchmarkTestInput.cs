@@ -14,7 +14,9 @@ namespace assembly.kernel.acceptance.tests.data.Input
 
         public string FileName { get; set; }
 
-        public string Name { get; set; }
+        public string TestName { get; set; }
+
+        public string AssessmentSectionId { get; set; }
 
         public double Length { get; set; }
 

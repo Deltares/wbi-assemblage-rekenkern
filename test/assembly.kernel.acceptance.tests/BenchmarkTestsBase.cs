@@ -7,6 +7,13 @@ namespace assemblage.kernel.acceptance.tests
 {
     public class BenchmarkTestsBase
     {
+        protected static bool GetUpdatedMethodResult(bool? currentResult, bool newResult)
+        {
+            return currentResult == null
+                ? newResult
+                : (bool)currentResult && newResult;
+        }
+
         // TODO: Merge these three methods somehow?
         protected static bool AssertEqualCategoriesList(CategoriesList<AssessmentSectionCategory> expectedCategories, CategoriesList<AssessmentSectionCategory> categories)
         {

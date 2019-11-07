@@ -47,7 +47,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 var group3FailureMechanism = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
                 Assert.IsNotNull(group3FailureMechanism);
                 Assert.AreEqual(0.05, group3FailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(17.5, group3FailureMechanism.LengthEffectFactor, 9e-2);
+                Assert.AreEqual(19.3, group3FailureMechanism.LengthEffectFactor, 9e-2);
 
                 var categories = group3FailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
                 Assert.AreEqual(6, categories.Length);
@@ -86,7 +86,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
                 Assert.IsNotNull(probabilisticFailureMechanism);
                 Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(24.4, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
+                Assert.AreEqual(26.7, probabilisticFailureMechanism.LengthEffectFactor, 1e-1);
                 AssertAreEqualProbabilities(double.NaN, probabilisticFailureMechanism.ExpectedAssessmentResultProbability);
                 AssertAreEqualProbabilities(4.04e-5, probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal);
 
@@ -211,7 +211,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 var stbuFailureMechanism = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
                 Assert.IsNotNull(stbuFailureMechanism);
                 Assert.AreEqual(0.04, stbuFailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(12.6, stbuFailureMechanism.LengthEffectFactor, 9e-2);
+                Assert.AreEqual(13.7, stbuFailureMechanism.LengthEffectFactor, 9e-2);
                 AssertAreEqualProbabilities(1.06e-5, stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability);
             }
         }

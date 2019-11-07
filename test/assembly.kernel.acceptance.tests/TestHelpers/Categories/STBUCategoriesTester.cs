@@ -1,5 +1,6 @@
 ﻿using System;
 using assembly.kernel.acceptance.tests.data.Input.FailureMechanisms;
+using assembly.kernel.acceptance.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
@@ -10,11 +11,13 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
     {
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
         private readonly double signallingNorm;
+        private readonly MethodResultsListing methodResult;
 
-        public STBUCategoriesTester(IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm)
+        public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
             this.signallingNorm = signallingNorm;
+            this.methodResult = methodResult;
             if (failureMechanismResult == null || double.IsNaN(signallingNorm))
             {
                 throw new ArgumentException();
@@ -28,7 +31,10 @@ namespace assemblage.kernel.acceptance.tests.TestHelpers.Categories
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
-            return AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
+            var assertEqualCategoriesList = AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
+            methodResult.Wbi02 = GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
+
+            return assertEqualCategoriesList;
         }
 
         private CategoriesList<FmSectionCategory> GetExpectedCategories()

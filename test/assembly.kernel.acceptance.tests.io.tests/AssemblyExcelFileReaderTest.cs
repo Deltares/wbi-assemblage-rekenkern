@@ -11,7 +11,7 @@ namespace assembly.kernel.acceptance.tests.io.tests
         public void ReaderReads()
         {
             var fileName = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool (v1_0_1_0) 0_03.xlsm");
-            var result = AssemblyExcelFileReader.Read(fileName);
+            var result = AssemblyExcelFileReader.Read(fileName, "Test");
             Assert.IsNotNull(result);
         }
     }
