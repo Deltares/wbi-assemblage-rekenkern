@@ -169,7 +169,7 @@ namespace assemblage.kernel.acceptance.tests
             str += "De tekens die in deze tabel zijn opgenomen hebben de volgende betekenis:" + "\n";
             str += @"\begin{itemize}" + "\n";
             str += @"   \item[\cmark] Alle tests van deze methode zijn succesvol uitgevoerd" + "\n";
-            str += @"   \item[\xmark] E\'en of meerdere tests van deze methode is niet succesvol uitgevoerd" + "\n";
+            str += @"   \item[\xmark] E\'en of meerdere tests van deze methode is/zijn niet succesvol uitgevoerd" + "\n";
             str += @"   \item[\nmark] Deze methode is niet getest als onderdeel van de betreffende benchmarktest" + "\n";
             str += @"\end{itemize}" + "\n";
 
