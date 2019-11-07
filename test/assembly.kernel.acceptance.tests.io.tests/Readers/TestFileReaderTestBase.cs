@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace assembly.kernel.acceptance.tests.io.tests.Readers
 {
@@ -15,11 +16,25 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
     {
         protected string GetTestDir()
         {
-            return Path.Combine(
-                Path.GetDirectoryName(
-                        Uri.UnescapeDataString(new UriBuilder(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Path))
-                    .Replace(@"\bin\Debug", ""),
-                "test-data");
+            return Path.Combine(GetSolutionRoot(),"test", "assembly.kernel.acceptance.tests.io.tests", "test-data");
+        }
+
+        private static string GetSolutionRoot()
+        {
+            const string solutionName = "Assembly.sln";
+            var testContext = new TestContext(new TestExecutionContext.AdhocContext());
+            string curDir = testContext.TestDirectory;
+            while (Directory.Exists(curDir) && !File.Exists(curDir + @"\" + solutionName))
+            {
+                curDir += "/../";
+            }
+
+            if (!File.Exists(Path.Combine(curDir, solutionName)))
+            {
+                throw new InvalidOperationException($"Solution file '{solutionName}' not found in any folder of '{Directory.GetCurrentDirectory()}'.");
+            }
+
+            return Path.GetFullPath(curDir);
         }
 
         protected static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
