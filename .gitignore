@@ -55,5 +55,6 @@ $RECYCLE.BIN/
 *.log
 *.out
 *.gz
+
 build/latextemplate/ReportTemplate.pdf
 test/assembly.kernel.acceptance.tests/testresults/
