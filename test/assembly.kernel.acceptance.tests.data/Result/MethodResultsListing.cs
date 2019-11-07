@@ -29,7 +29,7 @@
 
         public bool? Wbi0G5 { get; set; }
 
-        // public bool? Wbi0G6 { get; set; } Not implemented in these tests
+        public bool? Wbi0G6 { get; set; } // Not implemented in these tests
 
         public bool? Wbi0T1 { get; set; }
                    
@@ -41,7 +41,7 @@
 
         public bool? Wbi0T5 { get; set; }
 
-        // public bool? Wbi0T6 { get; set; } Not implemented in these tests
+        public bool? Wbi0T6 { get; set; } // Not implemented in these tests
 
         public bool? Wbi0T7 { get; set; }
 

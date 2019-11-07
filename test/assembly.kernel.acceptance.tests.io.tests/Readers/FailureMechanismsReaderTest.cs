@@ -51,10 +51,10 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var categories = group3FailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
                 Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 3.17e-8, categories[0]);
-                AssertAreEqualCategories(EFmSectionCategory.IIv, 3.17e-8, 9.51e-7, categories[1]);
-                AssertAreEqualCategories(EFmSectionCategory.IIIv, 9.51e-7, 2.85e-6, categories[2]);
-                AssertAreEqualCategories(EFmSectionCategory.IVv, 2.85e-6, 1.00e-3, categories[3]);
+                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 2.88e-8, categories[0]);
+                AssertAreEqualCategories(EFmSectionCategory.IIv, 2.88e-8, 8.64e-7, categories[1]);
+                AssertAreEqualCategories(EFmSectionCategory.IIIv, 8.64e-7, 2.59e-6, categories[2]);
+                AssertAreEqualCategories(EFmSectionCategory.IVv, 2.59e-6, 1.00e-3, categories[3]);
                 AssertAreEqualCategories(EFmSectionCategory.Vv, 1.00e-3, 3.00e-2, categories[4]);
                 AssertAreEqualCategories(EFmSectionCategory.VIv, 3.00e-2, 1.0, categories[5]);
             }
@@ -92,10 +92,10 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
 
                 var categories = probabilisticFailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
                 Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 1.09e-7, categories[0]);
-                AssertAreEqualCategories(EFmSectionCategory.IIv, 1.09e-7, 3.28e-6, categories[1]);
-                AssertAreEqualCategories(EFmSectionCategory.IIIv, 3.28e-6, 9.85e-6, categories[2]);
-                AssertAreEqualCategories(EFmSectionCategory.IVv, 9.85e-6, 1.00e-3, categories[3]);
+                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 9.98E-08, categories[0]);
+                AssertAreEqualCategories(EFmSectionCategory.IIv, 9.98E-08, 2.99e-6, categories[1]);
+                AssertAreEqualCategories(EFmSectionCategory.IIIv, 2.99e-6, 8.98e-6, categories[2]);
+                AssertAreEqualCategories(EFmSectionCategory.IVv, 8.98e-6, 1.00e-3, categories[3]);
                 AssertAreEqualCategories(EFmSectionCategory.Vv, 1.00e-3, 3.00e-2, categories[4]);
                 AssertAreEqualCategories(EFmSectionCategory.VIv, 3.00e-2, 1.0, categories[5]);
 
@@ -212,7 +212,7 @@ namespace assembly.kernel.acceptance.tests.io.tests.Readers
                 Assert.IsNotNull(stbuFailureMechanism);
                 Assert.AreEqual(0.04, stbuFailureMechanism.FailureMechanismProbabilitySpace);
                 Assert.AreEqual(13.7, stbuFailureMechanism.LengthEffectFactor, 9e-2);
-                AssertAreEqualProbabilities(1.06e-5, stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability);
+                AssertAreEqualProbabilities(9.71e-6, stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability);
             }
         }
 

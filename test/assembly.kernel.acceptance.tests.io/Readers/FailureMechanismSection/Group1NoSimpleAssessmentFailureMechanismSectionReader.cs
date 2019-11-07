@@ -43,7 +43,7 @@ namespace assembly.kernel.acceptance.tests.io.Readers.FailureMechanismSection
                     GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory(),
                     tailorMadeAssessmentResultProbability),
                 ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
-                ExpectedCombinedResultProbability = GetCellValueAsDouble("O", iRow)
+                ExpectedCombinedResultProbability = GetCellValueAsDouble("N", iRow)
             };
         }
     }
