@@ -1,0 +1,32 @@
+﻿namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
+{
+    public enum MechanismType
+    {
+        STBI,
+        STBU,
+        STPH,
+        STMI,
+        AGK,
+        AWO,
+        GEBU,
+        GABU,
+        GEKB,
+        GABI,
+        ZST,
+        DA,
+        HTKW,
+        BSKW,
+        PKW,
+        STKWp,
+        STKWl,
+        VLGA,
+        VLAF,
+        VLZV,
+        NWObe,
+        NWObo,
+        NWOkl,
+        NWOoc,
+        HAV,
+        INN
+    }
+}

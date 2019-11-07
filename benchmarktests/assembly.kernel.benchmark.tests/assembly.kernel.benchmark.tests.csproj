@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>assembly.kernel.benchmark.tests</RootNamespace>
+    <AssemblyName>assembly.kernel.benchmark.tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MathNet.Numerics.4.9.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.12.0\lib\net40\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyKernelBenchmarkTests.cs" />
+    <Compile Include="BenchmarkTestReportWriter.cs" />
+    <Compile Include="BenchmarkTestsBase.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TestHelpers\FailureMechanism\FailureMechanismResultTesterBase.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group1NoSimpleAssessmentFailureMechanismResultTester.cs" />
+    <Compile Include="TestHelpers\Categories\Group3FailureMechanismCategoriesTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group3FailureMechanismResultTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group3NoSimpleAssessmentFailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group4FailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group4NoDetailedAssessmentFailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\Categories\ICategoriesTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\NwOocFailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group5FailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\Group5NoDetailedAssessmentFailureMechanismTester.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\StbuFailureMechanismTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\IFailureMechanismResultTester.cs" />
+    <Compile Include="TestHelpers\Categories\ProbabilisticFailureMechanismCategoriesTester.cs" />
+    <Compile Include="TestHelpers\FailureMechanism\ProbabilisticFailureMechanismResultTester.cs" />
+    <Compile Include="TestHelpers\Categories\STBUCategoriesTester.cs" />
+    <Compile Include="TestHelpers\TesterFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\assembly.kernel\kernel.csproj">
+      <Project>{2925251D-96CC-4A66-8AC6-2B4D39DFD399}</Project>
+      <Name>kernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\assembly.kernel.benchmark.tests.data\assembly.kernel.benchmark.tests.data.csproj">
+      <Project>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</Project>
+      <Name>assembly.kernel.benchmark.tests.data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\assembly.kernel.benchmark.tests.io\assembly.kernel.benchmark.tests.io.csproj">
+      <Project>{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}</Project>
+      <Name>assembly.kernel.benchmark.tests.io</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\reporttemplate.tex" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.12.0\build\NUnit.props'))" />
+  </Target>
+</Project>

@@ -25,7 +25,7 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests
+namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
     public class ModelExtensionMethodTests
