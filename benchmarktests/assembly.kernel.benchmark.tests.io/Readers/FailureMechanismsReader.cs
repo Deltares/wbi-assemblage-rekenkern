@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;

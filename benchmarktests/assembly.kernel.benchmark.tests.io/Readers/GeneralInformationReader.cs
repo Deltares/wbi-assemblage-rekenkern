@@ -14,7 +14,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");
             benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D","Ondergrens [terugkeertijd]");
             benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte [m]");
-            benchmarkTestInput.AssessmentSectionId = GetCellValueAsString("B", "Dijktraject");
 
             var list = new List<AssessmentSectionCategory>();
             var startRowCategories = GetRowId("Categorie") + 1;

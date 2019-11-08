@@ -1,4 +1,5 @@
 ﻿using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {

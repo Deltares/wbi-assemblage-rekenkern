@@ -12,16 +12,29 @@ namespace assembly.kernel.benchmark.tests.data.Input
             ExpectedFailureMechanismsResults = new List<IExpectedFailureMechanismResult>();
         }
 
+        /// <summary>
+        /// The file name that contains the benchmark testdefinition and expected results
+        /// </summary>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Name of the benchmark test
+        /// </summary>
         public string TestName { get; set; }
 
-        public string AssessmentSectionId { get; set; }
-
+        /// <summary>
+        /// Total length of the assessment section. Make sure this length equals the combined length of all sections per failure mechanism
+        /// </summary>
         public double Length { get; set; }
 
+        /// <summary>
+        /// The signalling norm for this assessment section
+        /// </summary>
         public double SignallingNorm { get; set; }
 
+        /// <summary>
+        /// The lower boundary norm for this assessment section
+        /// </summary>
         public double LowerBoundaryNorm { get; set; }
 
         /// <summary>
@@ -39,8 +52,14 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResultTemporal { get; set; }
 
+        /// <summary>
+        /// Expected input and results per failure mechanism.
+        /// </summary>
         public List<IExpectedFailureMechanismResult> ExpectedFailureMechanismsResults { get; }
 
+        /// <summary>
+        /// The expected safety assessment result on assessment section level.
+        /// </summary>
         public SafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
     }
 }

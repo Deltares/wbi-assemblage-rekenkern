@@ -38,6 +38,11 @@ namespace assembly.kernel.benchmark.tests.data.Result
                 {MechanismType.INN, new Tuple<string, int>("Technische innovaties", 4)}
             };
 
+        /// <summary>
+        /// Creates a default benchmark test result for the specified failure mechanism type.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static BenchmarkFailureMechanismTestResult CreateFailureMechanismTestResult(MechanismType type)
         {
             if (!Infos.ContainsKey(type))

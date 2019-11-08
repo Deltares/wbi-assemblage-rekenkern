@@ -30,7 +30,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(17527, result.Length, 0.5);
-                Assert.AreEqual("22-1", result.AssessmentSectionId);
                 Assert.AreEqual(1 / 3000.0, result.SignallingNorm, 1e-8);
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
 

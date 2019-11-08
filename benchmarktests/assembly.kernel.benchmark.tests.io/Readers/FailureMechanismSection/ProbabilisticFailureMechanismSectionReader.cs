@@ -34,7 +34,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 End = endMeters,
                 LengthEffectFactor = lengthEffectFactor,
                 SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE1(),
-                SimpleAssessmentResultProbability = simpleProbability,
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
                     simpleProbability),

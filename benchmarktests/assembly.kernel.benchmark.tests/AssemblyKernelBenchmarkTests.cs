@@ -488,7 +488,16 @@ namespace assembly.kernel.benchmark.tests
             var reportDirectory = Path.Combine(GetBenchmarkTestsDirectory(), "testresults");
             if (Directory.Exists(reportDirectory))
             {
-                Directory.Delete(reportDirectory, true);
+                var di = new DirectoryInfo(reportDirectory);
+
+                foreach (FileInfo file in di.GetFiles().Where(name => !name.Name.EndsWith(".gitignore")))
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
             }
 
             Directory.CreateDirectory(reportDirectory);
