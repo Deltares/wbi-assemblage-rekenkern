@@ -7,6 +7,12 @@ namespace assembly.kernel.benchmark.tests.io
 {
     public static class AssemblyExcelFileReader
     {
+        /// <summary>
+        /// Creates an instance of the BenchmarkTestInput.
+        /// </summary>
+        /// <param name="excelFileName"></param>
+        /// <param name="testName"></param>
+        /// <returns></returns>
         public static BenchmarkTestInput Read(string excelFileName, string testName)
         {
             if (!File.Exists(excelFileName))

@@ -9,12 +9,22 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         private readonly WorksheetPart worksheetPart;
         private readonly WorkbookPart workbookPart;
 
+        /// <summary>
+        /// Creates an instance of the SectionReaderFactory for a specific worksheet.
+        /// </summary>
+        /// <param name="worksheetPart"></param>
+        /// <param name="workbookPart"></param>
         public SectionReaderFactory(WorksheetPart worksheetPart, WorkbookPart workbookPart)
         {
             this.worksheetPart = worksheetPart;
             this.workbookPart = workbookPart;
         }
 
+        /// <summary>
+        /// Creates a reader for the specified mechanism type.
+        /// </summary>
+        /// <param name="mechanismType"></param>
+        /// <returns></returns>
         public ISectionReader CreateReader(MechanismType mechanismType)
         {
             switch (mechanismType)

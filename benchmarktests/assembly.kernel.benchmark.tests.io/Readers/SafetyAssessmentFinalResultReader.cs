@@ -7,10 +7,19 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 {
     public class SafetyAssessmentFinalResultReader : ExcelSheetReaderBase
     {
+        /// <summary>
+        /// Creates an instance of the SafetyAssessmentFinalResultReader.
+        /// </summary>
+        /// <param name="worksheetPart"></param>
+        /// <param name="workbookPart"></param>
         public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
         {
         }
 
+        /// <summary>
+        /// Reads the final verdict worksheet of a benchmark test definition.
+        /// </summary>
+        /// <param name="benchmarkTestInput"></param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =

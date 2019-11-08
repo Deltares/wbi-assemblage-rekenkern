@@ -11,13 +11,22 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 {
     public class FailureMechanismsReader : ExcelSheetReaderBase
     {
-        public SectionReaderFactory SectionReaderFactory { get; }
+        private readonly SectionReaderFactory sectionReaderFactory;
 
+        /// <summary>
+        /// Creates an instance of the FailureMechanismReader
+        /// </summary>
+        /// <param name="worksheetPart"></param>
+        /// <param name="workbookPart"></param>
         public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
         {
-            SectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
+            sectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
         }
 
+        /// <summary>
+        /// Reads all relevant input and expected output for a specific failure mechanism.
+        /// </summary>
+        /// <param name="benchmarkTestInput"></param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             IExpectedFailureMechanismResult expectedFailureMechanismResult =
@@ -149,7 +158,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var startRow = GetRowId("Vakindeling") + 3;
             var lengthEffectPresent = expectedFailureMechanismResult.Type == MechanismType.STBI ||
                                       expectedFailureMechanismResult.Type == MechanismType.STPH;
-            var sectionReader = SectionReaderFactory.CreateReader(expectedFailureMechanismResult.Type);
+            var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.Type);
 
             var iRow = startRow;
             while (iRow <= MaxRow)

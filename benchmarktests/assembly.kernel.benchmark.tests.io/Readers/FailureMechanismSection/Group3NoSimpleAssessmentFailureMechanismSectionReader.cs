@@ -1,5 +1,4 @@
 ﻿using System;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
@@ -8,6 +7,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
     public class Group3NoSimpleAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
     {
+        /// <summary>
+        /// Creates an instance of the Group3NoSimpleAssessmentFailureMechanismSectionReader.
+        /// </summary>
+        /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
+        /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public Group3NoSimpleAssessmentFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
             : base(worksheetPart, workbookPart)
         {

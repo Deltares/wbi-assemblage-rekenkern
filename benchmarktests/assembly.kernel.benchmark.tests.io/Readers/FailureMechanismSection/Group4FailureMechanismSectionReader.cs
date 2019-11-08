@@ -7,6 +7,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
     public class Group4FailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
     {
+        /// <summary>
+        /// Creates an instance of the Group4FailureMechanismSectionReader.
+        /// </summary>
+        /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
+        /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public Group4FailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
             : base(worksheetPart, workbookPart)
         {

@@ -1,5 +1,4 @@
-﻿using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
+﻿using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -9,6 +8,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
     {
         private readonly bool lengthEffectPresent;
 
+        /// <summary>
+        /// Creates an instance of the ProbabilisticFailureMechanismSectionReader.
+        /// </summary>
+        /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
+        /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart, bool lengthEffectPresent)
             : base(worksheetPart, workbookPart)
         {

@@ -9,6 +9,11 @@ namespace assembly.kernel.benchmark.tests.io
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Translate a string value to a specific MechanismType
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static MechanismType ToMechanismType(this string str)
         {
             MechanismType mechanismType;
@@ -20,6 +25,11 @@ namespace assembly.kernel.benchmark.tests.io
             return mechanismType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EFailureMechanismCategory
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EFailureMechanismCategory ToFailureMechanismCategory(this string str)
         {
             EFailureMechanismCategory category;
@@ -52,6 +62,11 @@ namespace assembly.kernel.benchmark.tests.io
             return category;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EIndirectAssessmentResult
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EIndirectAssessmentResult ToIndirectFailureMechanismSectionCategory(this string str)
         {
             switch (str)
@@ -79,6 +94,11 @@ namespace assembly.kernel.benchmark.tests.io
             }
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EFmSectionCategory
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EFmSectionCategory ToFailureMechanismSectionCategory(this string str)
         {
             EFmSectionCategory sectionCategory;
@@ -112,6 +132,11 @@ namespace assembly.kernel.benchmark.tests.io
             return sectionCategory;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentGrade
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentGrade ToAssessmentGrade(this string str)
         {
             EAssessmentGrade sectionCategory;
@@ -147,6 +172,11 @@ namespace assembly.kernel.benchmark.tests.io
             return sectionCategory;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeE1
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeE1 ToEAssessmentResultTypeE1(this string str)
         {
             EAssessmentResultTypeE1 assessmentResultType;
@@ -161,6 +191,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeE2
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeE2 ToEAssessmentResultTypeE2(this string str)
         {
             EAssessmentResultTypeE2 assessmentResultType;
@@ -175,6 +210,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeG1
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeG1 ToEAssessmentResultTypeG1(this string str)
         {
             EAssessmentResultTypeG1 assessmentResultType;
@@ -189,6 +229,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeG2
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeG2 ToEAssessmentResultTypeG2(this string str, bool probabilistic)
         {
             EAssessmentResultTypeG2 assessmentResultType;
@@ -225,6 +270,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeT1
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeT1 ToEAssessmentResultTypeT1(this string str)
         {
             EAssessmentResultTypeT1 assessmentResultType;
@@ -239,6 +289,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeT2
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeT2 ToEAssessmentResultTypeT2(this string str)
         {
             EAssessmentResultTypeT2 assessmentResultType;
@@ -253,6 +308,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeT3
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeT3 ToEAssessmentResultTypeT3(this string str, bool probabilistic)
         {
             EAssessmentResultTypeT3 assessmentResultType;
@@ -289,6 +349,11 @@ namespace assembly.kernel.benchmark.tests.io
             return assessmentResultType;
         }
 
+        /// <summary>
+        /// Translate a string value to a specific EAssessmentResultTypeT4
+        /// </summary>
+        /// <param name="str">string value to be translated</param>
+        /// <returns></returns>
         public static EAssessmentResultTypeT4 ToEAssessmentResultTypeT4(this string str)
         {
             EAssessmentResultTypeT4 assessmentResultType;

@@ -46,10 +46,19 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE"
         };
 
+        /// <summary>
+        /// Creates an instance of the CommonAssessmentSectionResultsReader
+        /// </summary>
+        /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections</param>
+        /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
         {
         }
 
+        /// <summary>
+        /// Reads the input and expected output of assembly of the combined section results.
+        /// </summary>
+        /// <param name="benchmarkTestInput"></param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FmSectionWithDirectCategory>();

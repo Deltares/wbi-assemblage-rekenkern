@@ -7,8 +7,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 {
     public class GeneralInformationReader : ExcelSheetReaderBase
     {
+        /// <summary>
+        /// Creates an instance of the GeneralInformationReader, used to read general information of an assessment section.
+        /// </summary>
+        /// <param name="worksheetPart"></param>
+        /// <param name="workbookPart"></param>
         public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart) { }
 
+        /// <summary>
+        /// Reads the general information of an assessment section.
+        /// </summary>
+        /// <param name="benchmarkTestInput"></param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");
