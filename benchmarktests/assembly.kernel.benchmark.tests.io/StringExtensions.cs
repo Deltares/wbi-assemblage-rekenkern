@@ -38,13 +38,14 @@ namespace assembly.kernel.benchmark.tests.io
                 switch (str.ToLower())
                 {
                     case "niet meegenomen":
+                    case "-":
                         category = EFailureMechanismCategory.Nvt;
                         break;
                     case "nog geen oordeel":
                         category = EFailureMechanismCategory.VIIt;
                         break;
                     default:
-                        category = (EFailureMechanismCategory) (-1);
+                        category = (EFailureMechanismCategory) (-2);
                         break;
                 }
             }
@@ -54,7 +55,7 @@ namespace assembly.kernel.benchmark.tests.io
                 return EFailureMechanismCategory.Gr;
             }
 
-            if (category < 0)
+            if ((int)category < -1)
             {
                 throw new InvalidEnumArgumentException(str);
             }
@@ -104,13 +105,14 @@ namespace assembly.kernel.benchmark.tests.io
             EFmSectionCategory sectionCategory;
             if (!Enum.TryParse(str, true, out sectionCategory))
             {
-                switch (str)
+                switch (str.ToLower())
                 {
-                    case "NIET MEEGENOMEN":
+                    case "niet meegenomen":
                     case "-":
                         sectionCategory = EFmSectionCategory.NotApplicable;
                         break;
-                    case "NOG GEEN OORDEEL":
+                    case "nog geen oordeel":
+                    case "ngo":
                         sectionCategory = EFmSectionCategory.VIIv;
                         break;
                     default:
