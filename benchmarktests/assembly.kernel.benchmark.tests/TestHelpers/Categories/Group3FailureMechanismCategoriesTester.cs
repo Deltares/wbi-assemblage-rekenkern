@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
@@ -12,6 +15,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         private readonly double lowerBoundaryNorm;
         private readonly double signallingNorm;
         private readonly MethodResultsListing methodResult;
+        private readonly bool mechanismNotApplicable;
 
         public Group3FailureMechanismCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
         {
@@ -23,10 +27,19 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             {
                 throw new ArgumentException();
             }
+            mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
+                                     expectedFailureMechanismResult.Sections
+                                         .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
+                                         .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
         }
 
-        public bool TestCategories()
+        public bool? TestCategories()
         {
+            if (mechanismNotApplicable)
+            {
+                return null;
+            }
+
             var calculator = new CategoryLimitsCalculator();
 
             // test section categories

@@ -234,14 +234,14 @@ namespace Assembly.Kernel.Implementations
             if (Math.Abs(commonSections.Sections.Last().SectionEnd -
                          failureMechanismSectionList.Sections.Last().SectionEnd) > 1e-8)
             {
-                throw new AssemblyException("FailureMEchanismSectionList",
+                throw new AssemblyException("FailureMechanismSectionList",
                     EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             var firstResult = failureMechanismSectionList.Sections.First();
             if (!(firstResult is FmSectionWithIndirectCategory) && !(firstResult is FmSectionWithDirectCategory))
             {
-                throw new AssemblyException("FailureMEchanismSectionList",
+                throw new AssemblyException("FailureMechanismSectionList",
                     EAssemblyErrors.SectionsWithoutCategory);
             }
         }

@@ -22,12 +22,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellFValueAsString = GetCellValueAsString("F", iRow);
-            var simpleProbability = cellFValueAsString.ToLower() == "fv" || cellFValueAsString.ToLower() == "nvt"
-                ? 0.0
-                : double.NaN;
             var lengthEffectFactor = lengthEffectPresent ? GetCellValueAsDouble("P", iRow) : 1.0;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
-            var expectedDetailedAssessmentResultProbability = detailedAssessmentResultProbability * lengthEffectFactor;
             var cellHValueAsString = GetCellValueAsString("H", iRow);
             var tailorMadeAssessmentResultProbability = cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
 
@@ -40,17 +36,19 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE1(),
                 ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
-                    simpleProbability),
+                    cellFValueAsString.ToLower() == "fv" || cellFValueAsString.ToLower() == "nvt"
+                        ? 0.0
+                        : double.NaN),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(true),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory(),
-                    expectedDetailedAssessmentResultProbability),
+                    detailedAssessmentResultProbability * lengthEffectFactor),
                 TailorMadeAssessmentResult = cellHValueAsString.ToEAssessmentResultTypeT3(true),
                 TailorMadeAssessmentResultProbability = tailorMadeAssessmentResultProbability,
                 ExpectedTailorMadeAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory(),
-                    tailorMadeAssessmentResultProbability),
+                    tailorMadeAssessmentResultProbability * lengthEffectFactor),
                 ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
                 ExpectedCombinedResultProbability = GetCellValueAsDouble("N", iRow)
             };

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model.CategoryLimits;
@@ -12,6 +14,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
         private readonly double signallingNorm;
         private readonly MethodResultsListing methodResult;
+        private readonly bool mechanismNotApplicable;
 
         public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm)
         {
@@ -22,10 +25,19 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             {
                 throw new ArgumentException();
             }
+            mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
+                                     expectedFailureMechanismResult.Sections
+                                         .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
+                                         .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
         }
 
-        public bool TestCategories()
+        public bool? TestCategories()
         {
+            if (mechanismNotApplicable)
+            {
+                return null;
+            }
+
             var calculator = new CategoryLimitsCalculator();
             var categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(signallingNorm,
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,

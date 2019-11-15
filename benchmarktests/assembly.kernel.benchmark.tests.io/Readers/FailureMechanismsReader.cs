@@ -156,8 +156,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             var sections = new List<IFailureMechanismSection>();
             var startRow = GetRowId("Vakindeling") + 3;
-            var lengthEffectPresent = expectedFailureMechanismResult.Type == MechanismType.STBI ||
-                                      expectedFailureMechanismResult.Type == MechanismType.STPH;
             var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.Type);
 
             var iRow = startRow;
