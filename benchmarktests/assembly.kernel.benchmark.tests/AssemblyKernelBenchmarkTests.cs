@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -19,41 +20,54 @@ namespace assembly.kernel.benchmark.tests
     [TestFixture]
     public class AssemblyKernelBenchmarkTests : BenchmarkTestsBase
     {
-        [Test]
-        public void RunAllBenchmarkTests()
+        private string reportDirectory;
+        private Dictionary<string, BenchmarkTestResult> testResults;
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
         {
-            string[] tests = AcquireAllBenchmarkTests().ToArray();
-            var reportDirectory = PrepareReportDirectory();
+            // Clear results directory
+            reportDirectory = PrepareReportDirectory();
 
-            var testResults = new Dictionary<string, BenchmarkTestResult>();
-            for (int i = 0; i < tests.Length; i++)
-            {
-                var fileName = tests[i];
-                var testName = GetTestName(fileName);
-                var result = RunBenchmarkTest(fileName, testName);
-                BenchmarkTestReportWriter.WriteReport(i, result, reportDirectory);
-                testResults[testName] = result;
-            }
-
-            BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"),testResults);
+            // initialize testresults
+            testResults = new Dictionary<string, BenchmarkTestResult>();
         }
 
-        private string GetTestName(string testFileName)
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
-            var fileName = Path.GetFileNameWithoutExtension(testFileName);
-            var testNameNoPrefix = fileName
-                .Replace("Benchmark_", "")
-                .Replace("Benchmarktool Excel ", "");
-            var ind = testNameNoPrefix.IndexOf("_(v");
-            if (ind == -1)
+            // Report all testresults into a LaTeX file
+            for (int i = 0; i < testResults.Count; i++)
             {
-                ind = testNameNoPrefix.IndexOf(" (v");
+                BenchmarkTestReportWriter.WriteReport(i, testResults.ElementAt(i).Value, reportDirectory);
             }
-            var testName = testNameNoPrefix.Substring(0, ind);
-            return testName;
+            BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"), testResults);
         }
 
-        private static BenchmarkTestResult RunBenchmarkTest(string fileName, string testName)
+        public class BenchmarkTestCaseFactory
+        {
+            public static IEnumerable<TestCaseData> GatherBenchmarkTestCases => AcquireAllBenchmarkTests().ToArray()
+                .Select(t => new TestCaseData(GetTestName(t), t){TestName = GetTestName(t)});
+
+            private static string GetTestName(string testFileName)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(testFileName);
+                if (fileName == null)
+                {
+                    Assert.Fail(testFileName);
+                }
+                var testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
+                var ind = testNameNoPrefix.IndexOf("_(v");
+                if (ind > -1)
+                {
+                    return testNameNoPrefix.Substring(0, ind);
+                }
+                return testNameNoPrefix;
+            }
+        }
+
+        [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.GatherBenchmarkTestCases))]
+        public void RunBenchmarkTest(string testName, string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
@@ -69,7 +83,7 @@ namespace assembly.kernel.benchmark.tests
 
             TestAssemblyOfCombinedSections(input, testResult);
 
-            return testResult;
+            testResults[testName] = testResult;
         }
 
         #region Norm categories on assessment section level
@@ -470,6 +484,7 @@ namespace assembly.kernel.benchmark.tests
 
         #endregion
 
+        #region OneTimeSetup
         private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(BenchmarkTestResult result,
             MechanismType type)
         {
@@ -504,7 +519,7 @@ namespace assembly.kernel.benchmark.tests
             return reportDirectory;
         }
 
-        private IEnumerable<string> AcquireAllBenchmarkTests()
+        private static IEnumerable<string> AcquireAllBenchmarkTests()
         {
             var testDirectory = Path.Combine(GetBenchmarkTestsDirectory(),"testdefinitions");
             return Directory.GetFiles(testDirectory, "*.xlsm");
@@ -532,5 +547,7 @@ namespace assembly.kernel.benchmark.tests
 
             return Path.GetFullPath(curDir);
         }
+
+        #endregion
     }
 }
