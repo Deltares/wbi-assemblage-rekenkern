@@ -17,7 +17,7 @@ De volgende tabel presenteert per toetsspoor her resultaat van de hierboven besc
 \begin{longtable}[]{@{}l l l | c c c c c c c c@{}}
 	\caption{Resultaat benchmarktest per toetsspoor	\label{tab:DocumentatieBijAssemblageRekenkern}}\\
 	\hline \T
-	Toetsspoor & Code & Groep & \rotatebox{90}{Categoriegrenzen} & \rotatebox{90}{Eenvoudige toets} & \rotatebox{90}{Gedetailleerde toets} & \rotatebox{90}{Toets op maat} & \rotatebox{90}{Toetsoordeel per vak} & \rotatebox{90}{Toetsoordeel per traject} & \rotatebox{90}{Toetsoordeel per traject (tijdelijk)} & \rotatebox{90}{Toetsoordeel per deelvak}\B \\
+		Toetsspoor & Code & Groep & \rotatebox{90}{Eenvoudige toets} & \rotatebox{90}{Gedetailleerde toets} & \rotatebox{90}{Toets op maat} & \rotatebox{90}{Toetsoordeel per vak} & \rotatebox{90}{Toetsoordeel per traject} & \rotatebox{90}{Toetsoordeel per traject} \rotatebox{90}{(tijdelijk)} & \rotatebox{90}{Toetsoordeel per deelvak} \rotatebox{90}{(vak met grootst gemene deler) } & \rotatebox{90}{Bepaling} \rotatebox{90}{categoriegrenzen}\B \\
 	\endhead
 	\hline\T
 $FailureMechanismResultsTable$
@@ -31,22 +31,12 @@ De tekens die in deze tabel zijn opgenomen hebben de volgende betekenis:
 	\item [\nmark] Testonderdeel is niet relevant voor dit toetsspoor
 \end{itemize}
 
-\subsection{Bepaling van categoriegrenzen}
+\subsection{Bepaling resultaten per traject}
 \label{sec:$Order$:pertraject}
-Tijdens het assembleren worden ook per traject stappen uitgevoerd. Hieronder is het resultaat van de benchmarktest voor deze verschillende stappen weergegeven.
-
-Bepaling categoriegrenzen:
-\setlength\LTleft{0pt}
-\setlength\LTright{0pt}
-\begin{longtable}[]{p{0.5cm} l}
-	\endhead
-	\T
-	$AreEqualCategoriesListAssessmentSection$ & Bepaling van categoriegrenzen bij de norm van het dijktraject. \B \\ \T
-	$AreEqualCategoriesListGroup1and2$ & Bepaling van categoriegrenzen voor de gecombineerde toetssporen in de groepen 1 en 2. \B \\ \T
-\end{longtable}
+Tijdens het assembleren worden ook per traject stappen uitgevoerd om tot een veiligheidsoordeel te komen. Hieronder is het resultaat van de benchmarktest voor deze verschillende stappen weergegeven.
 
 Bepaling van het veiligheidsoordeel (laag 2):
-\begin{longtable}[]{p{0.5cm} l}
+\begin{longtable}[l]{p{0.5cm} l}
 	\endhead
 	\T
 	$AreEqualAssemblyResultGroup1and2$ & Bepaling toetsoordeel voor de gecombineerde toetssporen in de groepen 1 en 2. \B \\ \T
@@ -57,11 +47,19 @@ Bepaling van het veiligheidsoordeel (laag 2):
 	$AreEqualAssemblyResultFinalVerdictTemporal$ & Bepaling van het veiligheidsoordeel (tijdelijk). \B \\ \T
 \end{longtable}
 
-Bepaling van het toetsoordeel per deelvak:
-\begin{longtable}[]{p{0.5cm} l}
+Bepaling van het toetsoordeel per deelvak (laag 3):
+\begin{longtable}[l]{p{0.5cm} l}
 	\endhead
 	\T
 	$AreEqualAssemblyResultCombinedSections$ & Bepaling van de gecombineerde deelvakken. \B \\ \T
 	$AreEqualAssemblyResultCombinedSectionsResults$ & Bepaling van het gecombineerde toetsoordeel per deelvak. \B \\ \T
 	$AreEqualAssemblyResultCombinedSectionsResultsTemporal$ & Bepaling van het gecombineerde toetsoordeel per deelvak (tijdelijk). \B \\ \T
+\end{longtable}
+
+Bepaling categoriegrenzen:
+\begin{longtable}[l]{p{0.5cm} l}
+	\endhead
+	\T
+	$AreEqualCategoriesListAssessmentSection$ & Bepaling van categoriegrenzen bij de norm van het dijktraject. \B \\ \T
+	$AreEqualCategoriesListGroup1and2$ & Bepaling van categoriegrenzen voor de gecombineerde toetssporen in de groepen 1 en 2. \B \\ \T
 \end{longtable}

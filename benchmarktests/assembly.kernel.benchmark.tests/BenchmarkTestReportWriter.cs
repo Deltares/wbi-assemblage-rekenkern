@@ -31,14 +31,14 @@ namespace assembly.kernel.benchmark.tests
             {
                 var m = result.FailureMechanismResults[index];
                 str += "   " + m.Name + " & " + m.Type.ToString("G") + " & " + m.Group + " & " +
-                       ToResultText(m.AreEqualCategoryBoundaries) + " & " +
                        ToResultText(m.AreEqualSimpleAssessmentResults) + " & " +
                        ToResultText(m.AreEqualDetailedAssessmentResults) + " & " +
                        ToResultText(m.AreEqualTailorMadeAssessmentResults) + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionTemporal) + " & " +
-                       ToResultText(m.AreEqualCombinedResultsCombinedSections);
+                       ToResultText(m.AreEqualCombinedResultsCombinedSections) + " & " +
+                       ToResultText(m.AreEqualCategoryBoundaries);
                 if (index != result.FailureMechanismResults.Count - 1)
                 {
                     str += @" \B \\ \T" + "\n";
