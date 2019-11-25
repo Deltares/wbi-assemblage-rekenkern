@@ -1,4 +1,5 @@
-﻿using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
+﻿using System;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -43,12 +44,12 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory(),
-                    detailedAssessmentResultProbability * lengthEffectFactor),
+                    Math.Min(1, detailedAssessmentResultProbability * lengthEffectFactor)),
                 TailorMadeAssessmentResult = cellHValueAsString.ToEAssessmentResultTypeT3(true),
                 TailorMadeAssessmentResultProbability = tailorMadeAssessmentResultProbability,
                 ExpectedTailorMadeAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
                     GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory(),
-                    tailorMadeAssessmentResultProbability * lengthEffectFactor),
+                    Math.Min(1, tailorMadeAssessmentResultProbability * lengthEffectFactor)),
                 ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
                 ExpectedCombinedResultProbability = GetCellValueAsDouble("N", iRow)
             };

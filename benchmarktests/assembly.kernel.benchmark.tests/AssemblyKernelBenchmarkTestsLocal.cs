@@ -18,80 +18,17 @@ using NUnit.Framework.Internal;
 namespace assembly.kernel.benchmark.tests
 {
     [TestFixture]
-    public class AssemblyKernelBenchmarkTests : BenchmarkTestsBase
+    public class AssemblyKernelBenchmarkTestsLocal : BenchmarkTestsBase
     {
         private string reportDirectory;
         private Dictionary<string, BenchmarkTestResult> testResults;
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
-        {
-            // Clear results directory
-            reportDirectory = PrepareReportDirectory();
-
-            // initialize testresults
-            testResults = new Dictionary<string, BenchmarkTestResult>();
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            // Report all testresults into a LaTeX file
-            for (int i = 0; i < testResults.Count; i++)
-            {
-                BenchmarkTestReportWriter.WriteReport(i, testResults.ElementAt(i).Value, reportDirectory);
-            }
-            BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"), testResults);
-        }
-
-        public class BenchmarkTestCaseFactory
-        {
-            public static IEnumerable<TestCaseData> BenchmarkTestCases => AcquireAllBenchmarkTests().ToArray()
-                .Select(t => new TestCaseData(GetTestName(t), t){TestName = GetTestName(t)});
-
-            private static string GetTestName(string testFileName)
-            {
-                var fileName = Path.GetFileNameWithoutExtension(testFileName);
-                if (fileName == null)
-                {
-                    Assert.Fail(testFileName);
-                }
-                var testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
-                var ind = testNameNoPrefix.IndexOf("_(v");
-                if (ind > -1)
-                {
-                    return testNameNoPrefix.Substring(0, ind);
-                }
-                return testNameNoPrefix;
-            }
-        }
-
-        [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
-        public void RunBenchmarkTest(string testName, string fileName)
-        {
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
-
-            TestEqualNormCategories(input, testResult);
-
-            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
-            {
-                TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm, input.SignallingNorm, testResult);
-            }
-
-            TestFinalVerdictAssembly(input, testResult);
-
-            TestAssemblyOfCombinedSections(input, testResult);
-
-            testResults[testName] = testResult;
-        }
-
-        [Test, Ignore("Run only local")]
+        [Test, Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            var testcase = BenchmarkTestCaseFactory.BenchmarkTestCases.FirstOrDefault(tc => tc.TestName == "traject 83-1");
-            var fileName = (string)testcase.Arguments[0];
-            var testName = (string)testcase.Arguments[1];
+            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 83-1");
+            var fileName = testcase.Item2;
+            var testName = testcase.Item1;
 
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
@@ -216,7 +153,7 @@ namespace assembly.kernel.benchmark.tests
                 .Select(fm =>
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResultTemporal),
-                        double.NaN));
+                        Double.NaN));
             var resultGroup3And4Temporal =
                 assembler.AssembleAssessmentSectionWbi2A1(group3Or4FailureMechanismResultsTemporal, true);
             try
@@ -242,7 +179,7 @@ namespace assembly.kernel.benchmark.tests
                 .Select(fm =>
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResult),
-                        double.NaN));
+                        Double.NaN));
             var resultGroup3And4 = assembler.AssembleAssessmentSectionWbi2A1(group3Or4FailureMechanismResults, false);
             try
             {
@@ -522,25 +459,23 @@ namespace assembly.kernel.benchmark.tests
             return failureMechanismTestResult;
         }
 
-        private static string PrepareReportDirectory()
+        public static IEnumerable<Tuple<string, string>> BenchmarkTestCases => AcquireAllBenchmarkTests().ToArray()
+            .Select(t => new Tuple<string, string>(GetTestName(t), t));
+
+        private static string GetTestName(string testFileName)
         {
-            var reportDirectory = Path.Combine(GetBenchmarkTestsDirectory(), "testresults");
-            if (Directory.Exists(reportDirectory))
+            var fileName = Path.GetFileNameWithoutExtension(testFileName);
+            if (fileName == null)
             {
-                var di = new DirectoryInfo(reportDirectory);
-
-                foreach (FileInfo file in di.GetFiles().Where(name => !name.Name.EndsWith(".gitignore")))
-                {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }
+                Assert.Fail(testFileName);
             }
-
-            Directory.CreateDirectory(reportDirectory);
-            return reportDirectory;
+            var testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
+            var ind = testNameNoPrefix.IndexOf("_(v");
+            if (ind > -1)
+            {
+                return testNameNoPrefix.Substring(0, ind);
+            }
+            return testNameNoPrefix;
         }
 
         private static IEnumerable<string> AcquireAllBenchmarkTests()

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyKernelBenchmarkTestsLocal.cs" />
     <Compile Include="AssemblyKernelBenchmarkTests.cs" />
     <Compile Include="BenchmarkTestReportWriter.cs" />
     <Compile Include="BenchmarkTestsBase.cs" />

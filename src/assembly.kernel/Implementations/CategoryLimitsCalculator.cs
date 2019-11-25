@@ -174,13 +174,13 @@ namespace Assembly.Kernel.Implementations
             double pLowDsn)
         {
             var errors = new List<AssemblyErrorMessage>();
-            if (pSigDsn >= section.FailureProbabilitySignallingLimit)
+            if (pSigDsn > section.FailureProbabilitySignallingLimit)
             {
                 errors.Add(new AssemblyErrorMessage("CalculateCategoryLimits",
                     EAssemblyErrors.PsigDsnAbovePsig));
             }
 
-            if (pLowDsn >= section.FailureProbabilityLowerLimit)
+            if (pLowDsn > section.FailureProbabilityLowerLimit)
             {
                 errors.Add(new AssemblyErrorMessage("CalculateCategoryLimits",
                     EAssemblyErrors.PlowDsnAbovePlow));
