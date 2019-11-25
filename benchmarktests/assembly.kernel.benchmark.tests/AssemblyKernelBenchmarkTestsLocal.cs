@@ -20,9 +20,6 @@ namespace assembly.kernel.benchmark.tests
     [TestFixture]
     public class AssemblyKernelBenchmarkTestsLocal : BenchmarkTestsBase
     {
-        private string reportDirectory;
-        private Dictionary<string, BenchmarkTestResult> testResults;
-
         [Test, Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
@@ -43,8 +40,6 @@ namespace assembly.kernel.benchmark.tests
             TestFinalVerdictAssembly(input, testResult);
 
             TestAssemblyOfCombinedSections(input, testResult);
-
-            testResults[testName] = testResult;
         }
 
         #region Norm categories on assessment section level
