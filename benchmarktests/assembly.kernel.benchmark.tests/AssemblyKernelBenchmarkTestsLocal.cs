@@ -23,7 +23,7 @@ namespace assembly.kernel.benchmark.tests
         [Test, Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 83-1");
+            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 16-5");
             var fileName = testcase.Item2;
             var testName = testcase.Item1;
 

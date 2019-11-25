@@ -25,5 +25,7 @@
         /// The expected probability (0 - 1) of the limit between category IIv and Vv.
         /// </summary>
         public double ExpectedSectionsCategoryDivisionProbability { get; set; }
+
+        public bool UseSignallingNorm { get; set; }
     }
 }

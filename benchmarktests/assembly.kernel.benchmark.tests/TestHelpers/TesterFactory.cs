@@ -70,7 +70,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.DA:
                     return new Group3FailureMechanismCategoriesTester(result, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
                 case MechanismType.STBU:
-                    return new STBUCategoriesTester(result, expectedFailureMechanismResult, signallingNorm);
+                    return new STBUCategoriesTester(result, expectedFailureMechanismResult, signallingNorm, lowerBoundaryNorm);
                 default:
                     return null;
             }

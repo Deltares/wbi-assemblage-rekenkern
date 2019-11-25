@@ -12,16 +12,20 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
     public class STBUCategoriesTester : BenchmarkTestsBase, ICategoriesTester
     {
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
-        private readonly double signallingNorm;
+        private readonly double norm;
         private readonly MethodResultsListing methodResult;
         private readonly bool mechanismNotApplicable;
 
-        public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm)
+        public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm, double lowerBoundaryNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
-            this.signallingNorm = signallingNorm;
             this.methodResult = methodResult;
-            if (failureMechanismResult == null || double.IsNaN(signallingNorm))
+            if (failureMechanismResult == null)
+            {
+                throw new ArgumentException();
+            }
+            this.norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
+            if (double.IsNaN(norm))
             {
                 throw new ArgumentException();
             }
@@ -39,7 +43,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
 
             var calculator = new CategoryLimitsCalculator();
-            var categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(signallingNorm,
+            var categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(norm,
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 

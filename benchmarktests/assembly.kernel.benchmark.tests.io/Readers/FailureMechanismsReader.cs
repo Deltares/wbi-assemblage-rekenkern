@@ -66,6 +66,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 stbuFailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
                 stbuFailureMechanism.LengthEffectFactor = GetCellValueAsDouble("B", "Ndsn (lengte effectfactor)");
+                stbuFailureMechanism.UseSignallingNorm = GetCellValueAsString("A", 14) == "Signaleringswaarde";
                 stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability = GetCellValueAsDouble("B", "Peis;dsn ≤");
             }
         }
