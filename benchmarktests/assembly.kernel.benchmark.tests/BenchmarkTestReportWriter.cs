@@ -30,7 +30,7 @@ namespace assembly.kernel.benchmark.tests
             for (var index = 0; index < result.FailureMechanismResults.Count; index++)
             {
                 var m = result.FailureMechanismResults[index];
-                str += "   " + m.Name + " & " + m.Type.ToString("G") + " & " + m.Group + " & " +
+                str += m.Name + " & " + m.Type.ToString("G") + " & " + m.Group + " & " +
                        ToResultText(m.AreEqualSimpleAssessmentResults) + " & " +
                        ToResultText(m.AreEqualDetailedAssessmentResults) + " & " +
                        ToResultText(m.AreEqualTailorMadeAssessmentResults) + " & " +
@@ -129,37 +129,43 @@ namespace assembly.kernel.benchmark.tests
             str += @"   \endhead" + "\n";
             str += @"   \T" + "\n";
 
-            str += "   " + @"Wbi01 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi01) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi02 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi02) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi11 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi11) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi21 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi21) + @" & \cellcolor{lightbluegray}" )) + @" \\ \grayhline" + "\n";
-            str += "   " + @"Wbi0E1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0E2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0E3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0E4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E4) + @" & \cellcolor{lightbluegray}" )) + @" \\ \grayhline" + "\n";
-            str += "   " + @"Wbi0G1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0G2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0G3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0G4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G4) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0G5 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G5) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0G6 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G6) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"Wbi0T1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0T2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0T3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0T4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T4) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0T5 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T5) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi0T6 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T6) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"Wbi0T7 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T7) + @" & \cellcolor{lightbluegray}" )) + @" \\ \grayhline" + "\n";
-            str += "   " + @"Wbi0A1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A1) + @" & \cellcolor{lightbluegray}" )) + @" \\ \grayhline" + "\n";
-            str += "   " + @"Wbi1A1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A1) + " & " + ToResultText(t.Value.MethodResults.Wbi1A1T))) + @" \\" + "\n";
-            str += "   " + @"Wbi1A2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A2) + " & " + ToResultText(t.Value.MethodResults.Wbi1A2T))) + @" \\" + "\n";
-            str += "   " + @"Wbi1B1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1B1) + " & " + ToResultText(t.Value.MethodResults.Wbi1B1T))) + @" \\ \grayhline " + "\n";
-            str += "   " + @"Wbi2A1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2A1) + " & " + ToResultText(t.Value.MethodResults.Wbi2A1T))) + @" \\" + "\n";
-            str += "   " + @"Wbi2B1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2B1) + " & " + ToResultText(t.Value.MethodResults.Wbi2B1T))) + @" \\" + "\n";
-            str += "   " + @"Wbi2C1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2C1) + " & " + ToResultText(t.Value.MethodResults.Wbi2C1T))) + @" \\ \grayhline" + "\n";
-            str += "   " + @"Wbi3A1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3A1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi3B1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3B1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
-            str += "   " + @"Wbi3C1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3C1) + " & " + ToResultText(t.Value.MethodResults.Wbi3C1T))) + @" \\" + "\n";
+            str += "   " + @"WBI-0-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi01) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi02) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-1-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi11) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-2-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi21) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"\grayhline" + "\n";
+            str += "   " + @"WBI-0E-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0E-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0E-3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0E-4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E4) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"\grayhline" + "\n";
+            str += "   " + @"WBI-0G-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0G-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0G-3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0G-4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G4) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0G-5 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G5) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0G-6 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G6) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T2) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T3) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T4) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-5 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T5) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-6 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T6) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"WBI-0T-7 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T7) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"\grayhline" + "\n";
+            str += "   " + @"WBI-0A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A1) + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"\grayhline" + "\n"; 
+            str += "   " + @"WBI-1A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A1) + " & " + ToResultText(t.Value.MethodResults.Wbi1A1T))) + @" \\" + "\n";
+            str += "   " + @"WBI-1A-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A2) + " & " + ToResultText(t.Value.MethodResults.Wbi1A2T))) + @" \\" + "\n";
+            str += "   " + @"WBI-1B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1B1) + " & " + ToResultText(t.Value.MethodResults.Wbi1B1T))) + @" \\" + "\n";
+            str += "   " + @"\grayhline " + "\n";
+            str += "   " + @"WBI-2A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2A1) + " & " + ToResultText(t.Value.MethodResults.Wbi2A1T))) + @" \\" + "\n";
+            str += "   " + @"WBI-2B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2B1) + " & " + ToResultText(t.Value.MethodResults.Wbi2B1T))) + @" \\" + "\n";
+            str += "   " + @"WBI-2C-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2C1) + " & " + ToResultText(t.Value.MethodResults.Wbi2C1T))) + @" \\" + "\n";
+            str += "   " + @"\grayhline " + "\n";
+            str += "   " + @"WBI-3A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3A1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-3B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3B1) + @" & \cellcolor{lightbluegray}" )) + @" \\" + "\n";
+            str += "   " + @"WBI-3C-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3C1) + " & " + ToResultText(t.Value.MethodResults.Wbi3C1T))) + @" \\" + "\n";
 
             str += @"   \hline" + "\n";
             str += @"\end{longtable}" + "\n";

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
+using static System.Double;
 
 namespace assembly.kernel.benchmark.tests.io
 {
@@ -238,34 +240,34 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns></returns>
         public static EAssessmentResultTypeG2 ToEAssessmentResultTypeG2(this string str, bool probabilistic)
         {
-            EAssessmentResultTypeG2 assessmentResultType;
-            if (!Enum.TryParse(str, true, out assessmentResultType))
+            if (probabilistic)
             {
-                if (probabilistic)
+                var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
+                double cellValueAsDouble;
+                if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
                 {
-                    double value;
-                    if (double.TryParse(str, out value))
+                    return EAssessmentResultTypeG2.ResultSpecified;
+                }
+            }
+            else
+            {
+                try
+                {
+                    var result = str.ToFailureMechanismSectionCategory();
+                    if (result > 0 && (int)result < 8)
                     {
                         return EAssessmentResultTypeG2.ResultSpecified;
                     }
                 }
-
-                if (!probabilistic)
+                catch (InvalidEnumArgumentException)
                 {
-                    try
-                    {
-                        var result = str.ToFailureMechanismSectionCategory();
-                        if (result > 0 && (int)result < 8)
-                        {
-                            return EAssessmentResultTypeG2.ResultSpecified;
-                        }
-                    }
-                    catch (InvalidEnumArgumentException)
-                    {
-                        // Do nothing, return Gr.
-                    }
+                    // Do nothing, return direct parsing result.
                 }
+            }
 
+            EAssessmentResultTypeG2 assessmentResultType;
+            if (!Enum.TryParse(str, true, out assessmentResultType))
+            {
                 return EAssessmentResultTypeG2.Gr;
             }
 
@@ -317,34 +319,34 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns></returns>
         public static EAssessmentResultTypeT3 ToEAssessmentResultTypeT3(this string str, bool probabilistic)
         {
-            EAssessmentResultTypeT3 assessmentResultType;
-            if (!Enum.TryParse(str, true, out assessmentResultType))
+            if (probabilistic)
             {
-                if (probabilistic)
+                var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
+                double cellValueAsDouble;
+                if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
                 {
-                    double value;
-                    if (double.TryParse(str, out value))
+                    return EAssessmentResultTypeT3.ResultSpecified;
+                }
+            }
+            else
+            {
+                try
+                {
+                    var result = str.ToFailureMechanismSectionCategory();
+                    if (result > 0 && (int)result < 8)
                     {
                         return EAssessmentResultTypeT3.ResultSpecified;
                     }
                 }
-
-                if (!probabilistic)
+                catch (InvalidEnumArgumentException)
                 {
-                    try
-                    {
-                        var result = str.ToFailureMechanismSectionCategory();
-                        if (result > 0 && (int)result < 8)
-                        {
-                            return EAssessmentResultTypeT3.ResultSpecified;
-                        }
-                    }
-                    catch (InvalidEnumArgumentException)
-                    {
-                        // Do nothing, return Gr.
-                    }
+                    // Do nothing, return direct parsing result.
                 }
+            }
 
+            EAssessmentResultTypeT3 assessmentResultType;
+            if (!Enum.TryParse(str, true, out assessmentResultType))
+            {
                 return EAssessmentResultTypeT3.Gr;
             }
 
@@ -358,15 +360,16 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns></returns>
         public static EAssessmentResultTypeT4 ToEAssessmentResultTypeT4(this string str)
         {
+            var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
+            double cellValueAsDouble;
+            if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
+            {
+                return EAssessmentResultTypeT4.ResultSpecified;
+            }
+
             EAssessmentResultTypeT4 assessmentResultType;
             if (!Enum.TryParse(str, true, out assessmentResultType))
             {
-                double value;
-                if (double.TryParse(str, out value))
-                {
-                    return EAssessmentResultTypeT4.ResultSpecified;
-                }
-
                 return EAssessmentResultTypeT4.Gr;
             }
 

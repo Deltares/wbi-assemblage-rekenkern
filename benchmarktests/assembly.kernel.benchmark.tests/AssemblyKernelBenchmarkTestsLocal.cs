@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -23,7 +22,7 @@ namespace assembly.kernel.benchmark.tests
         [Test, Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 16-5");
+            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 30-4");
             var fileName = testcase.Item2;
             var testName = testcase.Item1;
 
