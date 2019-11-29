@@ -117,8 +117,6 @@ namespace Assembly.Kernel.Implementations
             var pLowDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilityLowerLimit /
                           failureMechanism.LengthEffectFactor;
 
-            CheckPdsnValues(section, pSigDsn, pLowDsn);
-
             return new CategoriesList<FmSectionCategory>(new[]
             {
                 new FmSectionCategory(
@@ -167,29 +165,6 @@ namespace Assembly.Kernel.Implementations
                     pDsn,
                     1)
             });
-        }
-
-
-        private static void CheckPdsnValues(AssessmentSection section, double pSigDsn,
-            double pLowDsn)
-        {
-            var errors = new List<AssemblyErrorMessage>();
-            if (pSigDsn > section.FailureProbabilitySignallingLimit)
-            {
-                errors.Add(new AssemblyErrorMessage("CalculateCategoryLimits",
-                    EAssemblyErrors.PsigDsnAbovePsig));
-            }
-
-            if (pLowDsn > section.FailureProbabilityLowerLimit)
-            {
-                errors.Add(new AssemblyErrorMessage("CalculateCategoryLimits",
-                    EAssemblyErrors.PlowDsnAbovePlow));
-            }
-
-            if (errors.Count > 0)
-            {
-                throw new AssemblyException(errors);
-            }
         }
 
         /// <summary>
