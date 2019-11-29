@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
@@ -8,42 +7,17 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.io;
 using assembly.kernel.benchmark.tests.TestHelpers;
+using Categories = assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace assembly.kernel.benchmark.tests
 {
-    [TestFixture]
-    public class AssemblyKernelBenchmarkTestsLocal : BenchmarkTestsBase
+    public static class BenchmarkTestRunner
     {
-        [Test, Explicit("Run only local")]
-        public void RunBenchmarkTest()
-        {
-            var testcase = BenchmarkTestCases.FirstOrDefault(tc => tc.Item1 == "traject 30-4");
-            var fileName = testcase.Item2;
-            var testName = testcase.Item1;
-
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
-
-            TestEqualNormCategories(input, testResult);
-
-            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
-            {
-                TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm, input.SignallingNorm, testResult);
-            }
-
-            TestFinalVerdictAssembly(input, testResult);
-
-            TestAssemblyOfCombinedSections(input, testResult);
-        }
-
-        #region Norm categories on assessment section level
-
-        private static void TestEqualNormCategories(BenchmarkTestInput input, BenchmarkTestResult result)
+        public static void TestEqualNormCategories(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             var calculator = new CategoryLimitsCalculator();
 
@@ -53,38 +27,40 @@ namespace assembly.kernel.benchmark.tests
                 input.SignallingNorm, input.LowerBoundaryNorm));
             var expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
 
-            result.AreEqualCategoriesListAssessmentSection = AssertEqualCategoriesList(expectedCategories, categories);
+            result.AreEqualCategoriesListAssessmentSection = Categories.Assert.AssertEqualCategoriesList(expectedCategories, categories);
             result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 
-        #endregion
-
-        #region FailureMechanism specific results
-
-        private static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
-            double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)    
+        public static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
+            double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)
         {
-            var failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
+            var failureMechanismTestResult =
+                GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
 
             failureMechanismTestResult.AreEqualCategoryBoundaries =
                 TesterFactory
-                    .CreateCategoriesTester(testResult.MethodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm)
+                    .CreateCategoriesTester(testResult.MethodResults, expectedFailureMechanismResult, lowerBoundaryNorm,
+                        signallingNorm)
                     ?.TestCategories();
 
-            var failureMechanismTestHelper = TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
+            var failureMechanismTestHelper =
+                TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
 
-            failureMechanismTestResult.AreEqualSimpleAssessmentResults = failureMechanismTestHelper.TestSimpleAssessment();
-            failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
-            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = failureMechanismTestHelper.TestTailorMadeAssessment();
-            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = failureMechanismTestHelper.TestCombinedAssessment();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = failureMechanismTestHelper.TestAssessmentSectionResult();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
+            failureMechanismTestResult.AreEqualSimpleAssessmentResults =
+                failureMechanismTestHelper.TestSimpleAssessment();
+            failureMechanismTestResult.AreEqualDetailedAssessmentResults =
+                failureMechanismTestHelper.TestDetailedAssessment();
+            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults =
+                failureMechanismTestHelper.TestTailorMadeAssessment();
+            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
+                failureMechanismTestHelper.TestCombinedAssessment();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection =
+                failureMechanismTestHelper.TestAssessmentSectionResult();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal =
+                failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
         }
 
-        #endregion
-
-        #region Test Assembly on assessment section level
-        private static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
+        public static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
             TestProbabilisticFailureMechanismsResults(input, result);
@@ -93,6 +69,20 @@ namespace assembly.kernel.benchmark.tests
             TestGroup3And4FailureMechanismsResultsTemporal(input, result);
             TestFinalAssessmentGrade(input, result);
             TestFinalAssessmentGradeTemporal(input, result);
+        }
+
+        public static void TestAssemblyOfCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
+        {
+            TestGeneratedCombinedSections(input, result);
+            TestCombinedSectionsFinalResults(input, result);
+            TestCombinedSectionsFinalResultsTemporal(input, result);
+
+            foreach (FailureMechanismSectionList failureMechanismsCombinedResult in input
+                .ExpectedCombinedSectionResultPerFailureMechanism)
+            {
+                TestCombinedSectionsFailureMechanismResults(input, result,
+                    failureMechanismsCombinedResult.FailureMechanismId.ToMechanismType());
+            }
         }
 
         private static void TestFinalAssessmentGradeTemporal(BenchmarkTestInput input, BenchmarkTestResult result)
@@ -105,7 +95,8 @@ namespace assembly.kernel.benchmark.tests
                     input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal));
             try
             {
-                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal,
+                Assert.AreEqual(
+                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal,
                     resultFinalVerdictTemporal);
                 result.AreEqualAssemblyResultFinalVerdictTemporal = true;
                 result.MethodResults.Wbi2C1T = true;
@@ -139,7 +130,8 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestGroup3And4FailureMechanismsResultsTemporal(BenchmarkTestInput input, BenchmarkTestResult result)
+        private static void TestGroup3And4FailureMechanismsResultsTemporal(BenchmarkTestInput input,
+            BenchmarkTestResult result)
         {
             var assembler = new AssessmentGradeAssembler();
             var group3Or4FailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
@@ -200,7 +192,8 @@ namespace assembly.kernel.benchmark.tests
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResultTemporal),
                         fm.ExpectedAssessmentResultProbabilityTemporal));
-            var categories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2;
+            var categories = input.ExpectedSafetyAssessmentAssemblyResult
+                .ExpectedCombinedFailureMechanismCategoriesGroup1and2;
 
             var resultGroup1And2Temporal = assembler.AssembleAssessmentSectionWbi2B1(
                 probabilisticFailureMechanismResultsTemporal,
@@ -233,7 +226,8 @@ namespace assembly.kernel.benchmark.tests
                     new FailureMechanismAssemblyResult(
                         CastToEnum<EFailureMechanismCategory>(fm.ExpectedAssessmentResult),
                         fm.ExpectedAssessmentResultProbability));
-            var categories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2;
+            var categories = input.ExpectedSafetyAssessmentAssemblyResult
+                .ExpectedCombinedFailureMechanismCategoriesGroup1and2;
 
             // Test correct result for groups 1/2 and 3.4, WBI-2B-1
             var assembler = new AssessmentGradeAssembler();
@@ -257,42 +251,27 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCombinedProbabilisticFailureMechanismsCategoriesList(BenchmarkTestInput input, BenchmarkTestResult result)
+        private static void TestCombinedProbabilisticFailureMechanismsCategoriesList(BenchmarkTestInput input,
+            BenchmarkTestResult result)
         {
             var categoriesCalculator = new CategoryLimitsCalculator();
 
             var categories = categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
                 new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
-                new FailureMechanism(1, input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
+                new FailureMechanism(1,
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
 
-            var areEqualCategories = AssertEqualCategoriesList(
+            var areEqualCategories = Categories.Assert.AssertEqualCategoriesList(
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2,
                 categories);
             result.MethodResults.Wbi11 = areEqualCategories;
-            result.AreEqualCategoriesListGroup1and2  = areEqualCategories;
+            result.AreEqualCategoriesListGroup1and2 = areEqualCategories;
         }
 
         private static T CastToEnum<T>(object o)
         {
             T enumVal = (T)Enum.ToObject(typeof(T), o);
             return enumVal;
-        }
-
-        #endregion
-
-        #region Test Combined sections
-
-        private static void TestAssemblyOfCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
-        {
-            TestGeneratedCombinedSections(input, result);
-            TestCombinedSectionsFinalResults(input, result);
-            TestCombinedSectionsFinalResultsTemporal(input, result);
-
-            foreach (FailureMechanismSectionList failureMechanismsCombinedResult in input.ExpectedCombinedSectionResultPerFailureMechanism)
-            {
-                TestCombinedSectionsFailureMechanismResults(input, result,
-                    failureMechanismsCombinedResult.FailureMechanismId.ToMechanismType());
-            }
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
@@ -331,7 +310,9 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var calculatedResults = assembler.DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism, false).ToArray();
+            var calculatedResults = assembler
+                .DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
+                    false).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResult.ToArray();
             try
             {
@@ -353,11 +334,14 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCombinedSectionsFinalResultsTemporal(BenchmarkTestInput input, BenchmarkTestResult result)
+        private static void TestCombinedSectionsFinalResultsTemporal(BenchmarkTestInput input,
+            BenchmarkTestResult result)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var calculatedResults = assembler.DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism, true).ToArray();
+            var calculatedResults = assembler
+                .DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
+                    true).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResultTemporal.ToArray();
             try
             {
@@ -379,7 +363,8 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input, BenchmarkTestResult result, MechanismType type)
+        private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input,
+            BenchmarkTestResult result, MechanismType type)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
@@ -388,7 +373,7 @@ namespace assembly.kernel.benchmark.tests
                 new FailureMechanismSectionList(
                     type.ToString("D"),
                     input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Sections
-                        .Select(CreateFailureMechanismSectionWithResult)),
+                        .Select(CreateExpectedFailureMechanismSectionWithResult)),
                 combinedSections);
 
             var isDirectMechanism = input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Group < 5;
@@ -418,7 +403,7 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
-                result.MethodResults.Wbi3B1 = GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
+                result.MethodResults.Wbi3B1 = BenchmarkTestsBase.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
             }
             catch (Exception)
             {
@@ -427,7 +412,7 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static FailureMechanismSection CreateFailureMechanismSectionWithResult(IFailureMechanismSection section)
+        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
         {
             var directMechanism = section as FailureMechanismSectionBase<EFmSectionCategory>;
             return directMechanism != null
@@ -437,70 +422,19 @@ namespace assembly.kernel.benchmark.tests
                     ((FailureMechanismSectionBase<EIndirectAssessmentResult>)section).ExpectedCombinedResult);
         }
 
-        #endregion
-
-        #region OneTimeSetup
-        private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(BenchmarkTestResult result,
+        private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(
+            BenchmarkTestResult result,
             MechanismType type)
         {
             var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.Type == type);
             if (failureMechanismTestResult == null)
             {
-                failureMechanismTestResult = BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(type);
+                failureMechanismTestResult =
+                    BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(type);
                 result.FailureMechanismResults.Add(failureMechanismTestResult);
             }
 
             return failureMechanismTestResult;
         }
-
-        public static IEnumerable<Tuple<string, string>> BenchmarkTestCases => AcquireAllBenchmarkTests().ToArray()
-            .Select(t => new Tuple<string, string>(GetTestName(t), t));
-
-        private static string GetTestName(string testFileName)
-        {
-            var fileName = Path.GetFileNameWithoutExtension(testFileName);
-            if (fileName == null)
-            {
-                Assert.Fail(testFileName);
-            }
-            var testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
-            var ind = testNameNoPrefix.IndexOf("_(v");
-            if (ind > -1)
-            {
-                return testNameNoPrefix.Substring(0, ind);
-            }
-            return testNameNoPrefix;
-        }
-
-        private static IEnumerable<string> AcquireAllBenchmarkTests()
-        {
-            var testDirectory = Path.Combine(GetBenchmarkTestsDirectory(),"testdefinitions");
-            return Directory.GetFiles(testDirectory, "*.xlsm");
-        }
-
-        private static string GetBenchmarkTestsDirectory()
-        {
-            return Path.Combine(GetSolutionRoot(), "benchmarktests");
-        }
-
-        private static string GetSolutionRoot()
-        {
-            const string solutionName = "Assembly.sln";
-            var testContext = new TestContext(new TestExecutionContext.AdhocContext());
-            string curDir = testContext.TestDirectory;
-            while (Directory.Exists(curDir) && !File.Exists(curDir + @"\" + solutionName))
-            {
-                curDir += "/../";
-            }
-
-            if (!File.Exists(Path.Combine(curDir, solutionName)))
-            {
-                throw new InvalidOperationException($"Solution file '{solutionName}' not found in any folder of '{Directory.GetCurrentDirectory()}'.");
-            }
-
-            return Path.GetFullPath(curDir);
-        }
-
-        #endregion
     }
 }

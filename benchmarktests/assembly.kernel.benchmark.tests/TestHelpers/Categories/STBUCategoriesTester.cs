@@ -12,9 +12,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
     public class STBUCategoriesTester : BenchmarkTestsBase, ICategoriesTester
     {
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
-        private readonly double norm;
-        private readonly MethodResultsListing methodResult;
         private readonly bool mechanismNotApplicable;
+        private readonly MethodResultsListing methodResult;
+        private readonly double norm;
 
         public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm, double lowerBoundaryNorm)
         {
@@ -24,11 +24,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             {
                 throw new ArgumentException();
             }
-            this.norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
+
+            norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
             if (double.IsNaN(norm))
             {
                 throw new ArgumentException();
             }
+
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
                                          .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
@@ -47,7 +49,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
-            var assertEqualCategoriesList = AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
+            var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
             methodResult.Wbi02 = GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
@@ -57,8 +59,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         {
             return new CategoriesList<FmSectionCategory>(new[]
             {
-                new FmSectionCategory(EFmSectionCategory.IIv, 0.0, failureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
-                new FmSectionCategory(EFmSectionCategory.Vv, failureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
+                new FmSectionCategory(EFmSectionCategory.IIv, 0.0,
+                    failureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
+                new FmSectionCategory(EFmSectionCategory.Vv,
+                    failureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
             });
         }
     }

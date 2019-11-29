@@ -1,14 +1,9 @@
-﻿using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using Assembly.Kernel.Model.FmSectionTypes;
+﻿using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
     public class FailureMechanismSectionBase<TCombinedResult> : IFailureMechanismSection
     {
-        public double Start { get; set; }
-
-        public double End { get; set; }
-
         /// <summary>
         /// The name of the section.
         /// </summary>
@@ -19,6 +14,10 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// The expected combined result for the specific section as a result of method WBI-0A-1.
         /// </summary>
         public TCombinedResult ExpectedCombinedResult { get; set; }
+
+        public double Start { get; set; }
+
+        public double End { get; set; }
 
         public IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; set; }
 

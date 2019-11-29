@@ -12,7 +12,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             ExpectedFailureMechanismResult = expectedFailureMechanismResult as TFailureMechanismResult;
-            this.MethodResults = methodResults;
+            MethodResults = methodResults;
             if (ExpectedFailureMechanismResult == null)
             {
                 throw new ArgumentException();
@@ -35,10 +35,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected abstract void SetSimpleAssessmentMethodResult(bool result);
-
-        protected abstract void TestSimpleAssessmentInternal();
-
         public virtual bool? TestDetailedAssessment()
         {
             try
@@ -54,9 +50,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 return false;
             }
         }
-        protected virtual void SetDetailedAssessmentMethodResult(bool result) { }
-
-        protected virtual void TestDetailedAssessmentInternal() { }
 
         public virtual bool TestTailorMadeAssessment()
         {
@@ -74,10 +67,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
-
-        protected abstract void TestTailorMadeAssessmentInternal();
-
         public virtual bool TestCombinedAssessment()
         {
             try
@@ -88,15 +77,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name,
+                    e.Message);
                 SetCombinedAssessmentMethodResult(false);
                 return false;
             }
         }
-
-        protected abstract void SetCombinedAssessmentMethodResult(bool result);
-
-        protected abstract void TestCombinedAssessmentInternal();
 
         public virtual bool TestAssessmentSectionResult()
         {
@@ -108,15 +94,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
+                    e.Message);
                 SetAssessmentSectionMethodResult(false);
                 return false;
             }
         }
-
-        protected abstract void SetAssessmentSectionMethodResult(bool result);
-
-        protected abstract void TestAssessmentSectionResultInternal();
 
         public virtual bool TestAssessmentSectionResultTemporal()
         {
@@ -128,11 +111,36 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name, e.Message);
+                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
+                    e.Message);
                 SetAssessmentSectionMethodResultTemporal(false);
                 return false;
             }
         }
+
+        protected abstract void SetSimpleAssessmentMethodResult(bool result);
+
+        protected abstract void TestSimpleAssessmentInternal();
+
+        protected virtual void SetDetailedAssessmentMethodResult(bool result)
+        {
+        }
+
+        protected virtual void TestDetailedAssessmentInternal()
+        {
+        }
+
+        protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
+
+        protected abstract void TestTailorMadeAssessmentInternal();
+
+        protected abstract void SetCombinedAssessmentMethodResult(bool result);
+
+        protected abstract void TestCombinedAssessmentInternal();
+
+        protected abstract void SetAssessmentSectionMethodResult(bool result);
+
+        protected abstract void TestAssessmentSectionResultInternal();
 
         protected abstract void SetAssessmentSectionMethodResultTemporal(bool result);
 

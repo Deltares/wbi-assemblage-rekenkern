@@ -7,7 +7,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
 {
     public static class BenchmarkTestFailureMechanismResultFactory
     {
-        private static readonly Dictionary<MechanismType, Tuple<string,int>> Infos =
+        private static readonly Dictionary<MechanismType, Tuple<string, int>> Infos =
             new Dictionary<MechanismType, Tuple<string, int>>
             {
                 {MechanismType.STBI, new Tuple<string, int>("Macrostabiliteit binnenwaarts", 2)},
@@ -53,6 +53,5 @@ namespace assembly.kernel.benchmark.tests.data.Result
             var mechanismInformation = Infos[type];
             return new BenchmarkFailureMechanismTestResult(mechanismInformation.Item1, type, mechanismInformation.Item2);
         }
-
     }
 }

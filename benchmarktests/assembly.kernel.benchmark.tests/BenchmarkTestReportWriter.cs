@@ -12,7 +12,7 @@ namespace assembly.kernel.benchmark.tests
         {
             var template = GetReportTemplate();
 
-            template = template.Replace("$BenchmarkTestName$", result.TestName.Replace("_",@"\_"));
+            template = template.Replace("$BenchmarkTestName$", result.TestName.Replace("_", @"\_"));
             template = template.Replace("$Order$", order.ToString());
 
             template = ReplaceFailureMechanismsTableWithResult(template, result);
@@ -25,7 +25,6 @@ namespace assembly.kernel.benchmark.tests
 
         private static string ReplaceFailureMechanismsTableWithResult(string template, BenchmarkTestResult result)
         {
-
             var str = "";
             for (var index = 0; index < result.FailureMechanismResults.Count; index++)
             {
@@ -76,7 +75,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static void WriteReportToDestination(string template, string reportDirectory, string fileName)
         {
-            var destinationFileName = Path.Combine(reportDirectory, fileName.Replace(" ","_"));
+            var destinationFileName = Path.Combine(reportDirectory, fileName.Replace(" ", "_"));
             if (File.Exists(destinationFileName))
             {
                 throw new ArgumentException();

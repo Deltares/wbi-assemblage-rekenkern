@@ -6,10 +6,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 {
     public class ExcelSheetReaderBase
     {
-        private readonly Worksheet worksheet;
         private readonly Dictionary<string, int> keywordsDictionary;
-        private readonly WorkbookPart workbookPart;
         protected readonly int MaxRow;
+        private readonly WorkbookPart workbookPart;
+        private readonly Worksheet worksheet;
 
         protected ExcelSheetReaderBase(WorksheetPart worksheetPart, WorkbookPart workbookPart)
         {

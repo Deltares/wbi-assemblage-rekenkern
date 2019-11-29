@@ -52,15 +52,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyKernelBenchmarkTestsLocal.cs" />
+    <Compile Include="AssemblyKernelBenchmarkTestsExplicit.cs" />
     <Compile Include="AssemblyKernelBenchmarkTests.cs" />
     <Compile Include="BenchmarkTestReportWriter.cs" />
+    <Compile Include="BenchmarkTestRunner.cs" />
     <Compile Include="BenchmarkTestsBase.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TestHelpers\Categories\Assert.cs" />
     <Compile Include="TestHelpers\FailureMechanism\FailureMechanismResultTesterBase.cs" />
     <Compile Include="TestHelpers\FailureMechanism\Group1NoSimpleAssessmentFailureMechanismResultTester.cs" />
     <Compile Include="TestHelpers\Categories\Group3FailureMechanismCategoriesTester.cs" />

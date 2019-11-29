@@ -13,9 +13,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
     {
         private readonly Group3ExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
-        private readonly double signallingNorm;
-        private readonly MethodResultsListing methodResult;
         private readonly bool mechanismNotApplicable;
+        private readonly MethodResultsListing methodResult;
+        private readonly double signallingNorm;
 
         public Group3FailureMechanismCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
         {
@@ -27,6 +27,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             {
                 throw new ArgumentException();
             }
+
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
                                          .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
@@ -49,7 +50,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                     failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
-            var assertEqualCategoriesList = AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
+            var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
             methodResult.Wbi01 = GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;

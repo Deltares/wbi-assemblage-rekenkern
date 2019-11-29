@@ -13,9 +13,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
     {
         private readonly ProbabilisticExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
-        private readonly double signallingNorm;
-        private readonly MethodResultsListing methodResult;
         private readonly bool mechanismNotApplicable;
+        private readonly MethodResultsListing methodResult;
+        private readonly double signallingNorm;
 
         public ProbabilisticFailureMechanismCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
         {
@@ -27,6 +27,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             {
                 throw new ArgumentException();
             }
+
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
                                          .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
@@ -43,7 +44,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                     failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismCategories = failureMechanismResult.ExpectedFailureMechanismCategories;
 
-            var areEqualCategoryLimitsFailureMechanism = AssertEqualCategoriesList(expectedFailureMechanismCategories, categoriesListFailureMechanism);
+            var areEqualCategoryLimitsFailureMechanism = Assert.AssertEqualCategoriesList(expectedFailureMechanismCategories, categoriesListFailureMechanism);
             methodResult.Wbi11 = GetUpdatedMethodResult(methodResult.Wbi11, areEqualCategoryLimitsFailureMechanism);
 
             var areEqualCategoryLimitsFailureMechanismSections = true;
@@ -56,7 +57,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                         failureMechanismResult.FailureMechanismProbabilitySpace));
                 var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
-                areEqualCategoryLimitsFailureMechanismSections = AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
+                areEqualCategoryLimitsFailureMechanismSections = Assert.AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
                 methodResult.Wbi01 = GetUpdatedMethodResult(methodResult.Wbi01, areEqualCategoryLimitsFailureMechanismSections);
             }
 

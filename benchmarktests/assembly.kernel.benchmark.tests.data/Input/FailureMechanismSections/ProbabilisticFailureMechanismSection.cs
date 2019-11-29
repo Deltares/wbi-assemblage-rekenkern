@@ -30,11 +30,11 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         public double TailorMadeAssessmentResultProbability { get; set; }
 
-        public double ExpectedCombinedResultProbability { get; set; }
-
         /// <summary>
         /// The length-effect factor for this failure mechanism section specific (>= 1).
         /// </summary>
         public double LengthEffectFactor { get; set; }
+
+        public double ExpectedCombinedResultProbability { get; set; }
     }
 }

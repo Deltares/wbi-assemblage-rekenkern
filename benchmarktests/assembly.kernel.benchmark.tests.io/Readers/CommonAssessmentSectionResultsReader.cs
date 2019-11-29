@@ -10,6 +10,12 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 {
     public class CommonAssessmentSectionResultsReader : ExcelSheetReaderBase
     {
+        private readonly string[] columnStrings =
+        {
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+            "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE"
+        };
+
         private readonly Dictionary<MechanismType, bool> failureMechanisms = new Dictionary<MechanismType, bool>
         {
             {MechanismType.STBI, true},
@@ -38,12 +44,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {MechanismType.NWOoc, false},
             {MechanismType.HAV, false},
             {MechanismType.INN, true}
-        };
-
-        private readonly string[] columnStrings =
-        {
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-            "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE"
         };
 
         /// <summary>

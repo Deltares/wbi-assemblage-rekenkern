@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
@@ -8,7 +7,6 @@ using assembly.kernel.benchmark.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.io.tests.Readers
@@ -16,7 +14,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     [TestFixture]
     public class CommonAssessmentSectionResultsReaderTest : TestFileReaderTestBase
     {
-        private MechanismType[] DirectMechanismTypes =
+        private readonly MechanismType[] directMechanismTypes =
         {
             MechanismType.STBI, MechanismType.STBU, MechanismType.STPH, MechanismType.STMI, MechanismType.AGK,
             MechanismType.AWO, MechanismType.GEBU, MechanismType.GABU, MechanismType.GEKB, MechanismType.GABI,
@@ -24,7 +22,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             MechanismType.STKWp, MechanismType.STKWl, MechanismType.INN, 
         };
 
-        private EFmSectionCategory[] ExpectedDirectResults =
+        private readonly EFmSectionCategory[] expectedDirectResults =
         {
             EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.IIv, EFmSectionCategory.Iv,
             EFmSectionCategory.IIv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv,
@@ -32,13 +30,13 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv
         };
 
-        private MechanismType[] IndirectMechanismTypes =
+        private readonly MechanismType[] indirectMechanismTypes =
         {
             MechanismType.VLGA, MechanismType.VLAF, MechanismType.VLZV, MechanismType.NWObe, MechanismType.NWObo,
             MechanismType.NWOkl, MechanismType.NWOoc, MechanismType.HAV
         };
 
-        private EIndirectAssessmentResult[] ExpectedIndirectResults =
+        private readonly EIndirectAssessmentResult[] expectedIndirectResults =
         {
             EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt,
             EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FactoredInOtherFailureMechanism, EIndirectAssessmentResult.FvEt
@@ -80,12 +78,12 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                     if (ninethSection is FmSectionWithDirectCategory)
                     {
                         var sectionWithDirectCategory = (FmSectionWithDirectCategory) ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, ExpectedDirectResults[Array.IndexOf(DirectMechanismTypes,type)], sectionWithDirectCategory);
+                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes,type)], sectionWithDirectCategory);
                     }
                     if (ninethSection is FmSectionWithIndirectCategory)
                     {
                         var sectionWithIndirectCategory = (FmSectionWithIndirectCategory)ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, ExpectedIndirectResults[Array.IndexOf(IndirectMechanismTypes, type)], sectionWithIndirectCategory);
+                        AssertResultsIsAsExpected(6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)], sectionWithIndirectCategory);
                     }
                 }
             }
@@ -103,27 +101,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);
             Assert.AreEqual(category, section.Category);
-        }
-
-        private static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
-        {
-            var workSheetParts = new Dictionary<string, WorksheetPart>();
-
-            foreach (var worksheetPart in workbookPart.WorksheetParts)
-            {
-                var sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
-                workSheetParts[sheet.Name] = worksheetPart;
-            }
-
-            return workSheetParts;
-        }
-
-        private static Sheet GetSheetFromWorkSheet
-            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
-        {
-            string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
-            IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
-            return sheets.FirstOrDefault(s => s.Id.HasValue && s.Id.Value == relationshipId);
         }
     }
 }

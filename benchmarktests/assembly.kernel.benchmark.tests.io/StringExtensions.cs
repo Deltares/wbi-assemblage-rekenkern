@@ -57,7 +57,7 @@ namespace assembly.kernel.benchmark.tests.io
                 return EFailureMechanismCategory.Gr;
             }
 
-            if ((int)category < -1)
+            if ((int) category < -1)
             {
                 throw new InvalidEnumArgumentException(str);
             }
@@ -93,6 +93,7 @@ namespace assembly.kernel.benchmark.tests.io
                     {
                         return EIndirectAssessmentResult.Gr;
                     }
+
                     throw new InvalidEnumArgumentException(str);
             }
         }
@@ -118,7 +119,7 @@ namespace assembly.kernel.benchmark.tests.io
                         sectionCategory = EFmSectionCategory.VIIv;
                         break;
                     default:
-                        sectionCategory = (EFmSectionCategory)(-2);
+                        sectionCategory = (EFmSectionCategory) (-2);
                         break;
                 }
             }
@@ -128,7 +129,7 @@ namespace assembly.kernel.benchmark.tests.io
                 return EFmSectionCategory.Gr;
             }
 
-            if ((int)sectionCategory < -1)
+            if ((int) sectionCategory < -1)
             {
                 throw new InvalidEnumArgumentException(str);
             }
@@ -158,7 +159,7 @@ namespace assembly.kernel.benchmark.tests.io
                         sectionCategory = EAssessmentGrade.Ngo;
                         break;
                     default:
-                        sectionCategory = (EAssessmentGrade)(-1);
+                        sectionCategory = (EAssessmentGrade) (-1);
                         break;
                 }
             }
@@ -254,7 +255,7 @@ namespace assembly.kernel.benchmark.tests.io
                 try
                 {
                     var result = str.ToFailureMechanismSectionCategory();
-                    if (result > 0 && (int)result < 8)
+                    if (result > 0 && (int) result < 8)
                     {
                         return EAssessmentResultTypeG2.ResultSpecified;
                     }
@@ -333,7 +334,7 @@ namespace assembly.kernel.benchmark.tests.io
                 try
                 {
                     var result = str.ToFailureMechanismSectionCategory();
-                    if (result > 0 && (int)result < 8)
+                    if (result > 0 && (int) result < 8)
                     {
                         return EAssessmentResultTypeT3.ResultSpecified;
                     }
