@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The greatest common denominator assembly result</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections, or 
         /// when there are only results for indirect failure mechanisms.</exception>
-        IEnumerable<FmSectionWithDirectCategory> DeterminCombinedResultPerCommonSectionWbi3C1(
+        IEnumerable<FmSectionWithDirectCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly);
     }
 }

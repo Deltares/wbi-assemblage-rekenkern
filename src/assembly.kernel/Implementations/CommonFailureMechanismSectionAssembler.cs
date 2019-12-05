@@ -56,7 +56,7 @@ namespace Assembly.Kernel.Implementations
 
             // step 3: determine combined result per common section
             var combinedSectionResult =
-                DeterminCombinedResultPerCommonSectionWbi3C1(failureMechanismResults, partialAssembly);
+                DetermineCombinedResultPerCommonSectionWbi3C1(failureMechanismResults, partialAssembly);
 
             return new AssemblyResult(failureMechanismResults, combinedSectionResult);
         }
@@ -152,7 +152,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public IEnumerable<FmSectionWithDirectCategory> DeterminCombinedResultPerCommonSectionWbi3C1(
+        public IEnumerable<FmSectionWithDirectCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly)
         {
             FmSectionWithDirectCategory[][] directFailureMechanismSectionLists = CheckInputWbi3C1(failureMechanismResults);

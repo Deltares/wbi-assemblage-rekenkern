@@ -311,7 +311,7 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var calculatedResults = assembler
-                .DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
+                .DetermineCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
                     false).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResult.ToArray();
             try
@@ -340,7 +340,7 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var calculatedResults = assembler
-                .DeterminCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
+                .DetermineCombinedResultPerCommonSectionWbi3C1(input.ExpectedCombinedSectionResultPerFailureMechanism,
                     true).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResultTemporal.ToArray();
             try

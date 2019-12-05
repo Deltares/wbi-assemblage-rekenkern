@@ -180,7 +180,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DeterminCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
                         false);
             }
             catch (AssemblyException exception)
@@ -206,7 +206,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DeterminCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
                         false);
             }
             catch (AssemblyException exception)
@@ -237,7 +237,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DeterminCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
             }
             catch (AssemblyException exception)
             {
@@ -271,7 +271,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DeterminCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
             }
             catch (AssemblyException exception)
             {
@@ -290,7 +290,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var commonSectionsWithResults = assembler.DeterminCombinedResultPerCommonSectionWbi3C1(null, false);
+                var commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionWbi3C1(null, false);
             }
             catch (AssemblyException exception)
             {
