@@ -46,18 +46,12 @@ namespace assembly.kernel.benchmark.tests
             var failureMechanismTestHelper =
                 TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
 
-            failureMechanismTestResult.AreEqualSimpleAssessmentResults =
-                failureMechanismTestHelper.TestSimpleAssessment();
-            failureMechanismTestResult.AreEqualDetailedAssessmentResults =
-                failureMechanismTestHelper.TestDetailedAssessment();
-            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults =
-                failureMechanismTestHelper.TestTailorMadeAssessment();
-            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
-                failureMechanismTestHelper.TestCombinedAssessment();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection =
-                failureMechanismTestHelper.TestAssessmentSectionResult();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal =
-                failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
+            failureMechanismTestResult.AreEqualSimpleAssessmentResults = failureMechanismTestHelper.TestSimpleAssessment();
+            failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
+            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults = failureMechanismTestHelper.TestTailorMadeAssessment();
+            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = failureMechanismTestHelper.TestCombinedAssessment();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = failureMechanismTestHelper.TestAssessmentSectionResult();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
         }
 
         public static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
