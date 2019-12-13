@@ -420,7 +420,7 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
-                result.MethodResults.Wbi3B1 = BenchmarkTestsBase.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
+                result.MethodResults.Wbi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
             }
             catch (Exception)
             {

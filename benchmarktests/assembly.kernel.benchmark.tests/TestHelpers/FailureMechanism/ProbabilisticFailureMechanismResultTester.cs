@@ -188,7 +188,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetSimpleAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0E1 = GetUpdatedMethodResult(MethodResults.Wbi0E1, result);
+            MethodResults.Wbi0E1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0E1, result);
         }
 
         protected override void SetDetailedAssessmentMethodResult(bool result)
@@ -197,10 +197,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             {
                 case MechanismType.STBI:
                 case MechanismType.STPH:
-                    MethodResults.Wbi0G5 = GetUpdatedMethodResult(MethodResults.Wbi0G5, result);
+                    MethodResults.Wbi0G5 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G5, result);
                     break;
                 default:
-                    MethodResults.Wbi0G3 = GetUpdatedMethodResult(MethodResults.Wbi0G3, result);
+                    MethodResults.Wbi0G3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G3, result);
                     break;
             }
         }
@@ -211,27 +211,27 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             {
                 case MechanismType.STBI:
                 case MechanismType.STPH:
-                    MethodResults.Wbi0T5 = GetUpdatedMethodResult(MethodResults.Wbi0T5, result);
+                    MethodResults.Wbi0T5 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T5, result);
                     break;
                 default:
-                    MethodResults.Wbi0T3 = GetUpdatedMethodResult(MethodResults.Wbi0T3, result);
+                    MethodResults.Wbi0T3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T3, result);
                     break;
             }
         }
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0A1 = GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
+            MethodResults.Wbi0A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
         }
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Wbi1B1 = GetUpdatedMethodResult(MethodResults.Wbi1B1, result);
+            MethodResults.Wbi1B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1, result);
         }
 
         protected override void SetAssessmentSectionMethodResultTemporal(bool result)
         {
-            MethodResults.Wbi1B1T = GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
+            MethodResults.Wbi1B1T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
         }
 
         private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)

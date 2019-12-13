@@ -22,40 +22,53 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
-namespace assembly.kernel.benchmark.tests
+namespace assembly.kernel.benchmark.tests.TestHelpers
 {
-    public class BenchmarkTestsBase
+    /// <summary>
+    /// Helper methods for benchmark tests.
+    /// </summary>
+    public static class BenchmarkTestHelper
     {
-        protected static string GetTestName(string testFileName)
+        /// <summary>
+        /// Gets the updated method result.
+        /// </summary>
+        /// <param name="currentResult">The current result.</param>
+        /// <param name="newResult">The new result.</param>
+        /// <returns>The updated result.</returns>
+        public static bool GetUpdatedMethodResult(bool? currentResult, bool newResult)
         {
-            var fileName = Path.GetFileNameWithoutExtension(testFileName);
+            return currentResult.HasValue
+                       ? currentResult.Value && newResult
+                       : newResult;
+        }
+
+        /// <summary>
+        /// Gets the test name for the file name.
+        /// </summary>
+        /// <param name="testFileName">The file name.</param>
+        /// <returns>The test name.</returns>
+        public static string GetTestName(string testFileName)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(testFileName);
             if (fileName == null)
             {
                 Assert.Fail(testFileName);
             }
 
-            var testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
-            var ind = testNameNoPrefix.IndexOf("_(v");
-            if (ind > -1)
-            {
-                return testNameNoPrefix.Substring(0, ind);
-            }
-
-            return testNameNoPrefix;
+            string testNameNoPrefix = fileName.Replace("Benchmarktest_", "");
+            int ind = testNameNoPrefix.IndexOf("_(v");
+            return ind > -1 ? testNameNoPrefix.Substring(0, ind) : testNameNoPrefix;
         }
 
-        protected static IEnumerable<string> AcquireAllBenchmarkTests()
-        {
-            var testDirectory = Path.Combine(GetBenchmarkTestsDirectory(), "testdefinitions");
-            return Directory.GetFiles(testDirectory, "*.xlsm");
-        }
-
-        protected static string GetBenchmarkTestsDirectory()
+        /// <summary>
+        /// Gets the benchmark test directory.
+        /// </summary>
+        /// <returns>The benchmark test directory.</returns>
+        public static string GetBenchmarkTestsDirectory()
         {
             return Path.Combine(GetSolutionRoot(), "benchmarktests");
         }
@@ -78,14 +91,5 @@ namespace assembly.kernel.benchmark.tests
 
             return Path.GetFullPath(curDir);
         }
-
-        public static bool GetUpdatedMethodResult(bool? currentResult, bool newResult)
-        {
-            return currentResult == null
-                ? newResult
-                : (bool) currentResult && newResult;
-        }
-
-        
     }
 }

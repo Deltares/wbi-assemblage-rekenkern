@@ -27,7 +27,7 @@ using assembly.kernel.benchmark.tests.data.Result;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
-    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : BenchmarkTestsBase, IFailureMechanismResultTester where TFailureMechanismResult : class, IExpectedFailureMechanismResult
+    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester where TFailureMechanismResult : class, IExpectedFailureMechanismResult
     {
         protected readonly TFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;

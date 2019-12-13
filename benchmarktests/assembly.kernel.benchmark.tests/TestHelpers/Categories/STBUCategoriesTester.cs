@@ -32,7 +32,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
-    public class STBUCategoriesTester : BenchmarkTestsBase, ICategoriesTester
+    public class STBUCategoriesTester : ICategoriesTester
     {
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
         private readonly bool mechanismNotApplicable;
@@ -73,7 +73,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
             var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
-            methodResult.Wbi02 = GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
+            methodResult.Wbi02 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
         }

@@ -141,32 +141,32 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetSimpleAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0E4 = GetUpdatedMethodResult(MethodResults.Wbi0E4, result);
+            MethodResults.Wbi0E4 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0E4, result);
         }
 
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0G2 = GetUpdatedMethodResult(MethodResults.Wbi0G2, result);
+            MethodResults.Wbi0G2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G2, result);
         }
 
         protected override void SetTailorMadeAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0T2 = GetUpdatedMethodResult(MethodResults.Wbi0T2, result);
+            MethodResults.Wbi0T2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T2, result);
         }
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0A1 = GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
+            MethodResults.Wbi0A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
         }
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Wbi1A2 = GetUpdatedMethodResult(MethodResults.Wbi1A2, result);
+            MethodResults.Wbi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1A2, result);
         }
 
         protected override void SetAssessmentSectionMethodResultTemporal(bool result)
         {
-            MethodResults.Wbi1A2T = GetUpdatedMethodResult(MethodResults.Wbi1A2T, result);
+            MethodResults.Wbi1A2T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1A2T, result);
         }
 
         private FmSectionAssemblyIndirectResult CreateFmSectionAssemblyIndirectResult(IFailureMechanismSection section)

@@ -28,12 +28,13 @@ using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.io;
+using assembly.kernel.benchmark.tests.TestHelpers;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests
 {
     [TestFixture]
-    public class AssemblyKernelBenchmarkTests : BenchmarkTestsBase
+    public class AssemblyKernelBenchmarkTests
     {
         private string reportDirectory;
         private Dictionary<string, BenchmarkTestResult> testResults;
@@ -58,12 +59,6 @@ namespace assembly.kernel.benchmark.tests
             }
 
             BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"), testResults);
-        }
-
-        public class BenchmarkTestCaseFactory
-        {
-            public static IEnumerable<TestCaseData> BenchmarkTestCases => AcquireAllBenchmarkTests().ToArray()
-                .Select(t => new TestCaseData(GetTestName(t), t) {TestName = GetTestName(t)});
         }
 
         [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
@@ -91,7 +86,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static string PrepareReportDirectory()
         {
-            var reportDirectory = Path.Combine(GetBenchmarkTestsDirectory(), "testresults");
+            var reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
             if (Directory.Exists(reportDirectory))
             {
                 var di = new DirectoryInfo(reportDirectory);

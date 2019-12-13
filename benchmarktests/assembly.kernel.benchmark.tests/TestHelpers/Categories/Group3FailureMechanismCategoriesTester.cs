@@ -32,7 +32,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
-    public class Group3FailureMechanismCategoriesTester : BenchmarkTestsBase, ICategoriesTester
+    public class Group3FailureMechanismCategoriesTester : ICategoriesTester
     {
         private readonly Group3ExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
@@ -74,7 +74,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
             var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
-            methodResult.Wbi01 = GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
+            methodResult.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
         }

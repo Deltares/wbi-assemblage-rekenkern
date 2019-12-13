@@ -32,7 +32,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
-    public class ProbabilisticFailureMechanismCategoriesTester : BenchmarkTestsBase, ICategoriesTester
+    public class ProbabilisticFailureMechanismCategoriesTester : ICategoriesTester
     {
         private readonly ProbabilisticExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
@@ -68,7 +68,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             var expectedFailureMechanismCategories = failureMechanismResult.ExpectedFailureMechanismCategories;
 
             var areEqualCategoryLimitsFailureMechanism = Assert.AssertEqualCategoriesList(expectedFailureMechanismCategories, categoriesListFailureMechanism);
-            methodResult.Wbi11 = GetUpdatedMethodResult(methodResult.Wbi11, areEqualCategoryLimitsFailureMechanism);
+            methodResult.Wbi11 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi11, areEqualCategoryLimitsFailureMechanism);
 
             var areEqualCategoryLimitsFailureMechanismSections = true;
             if (!mechanismNotApplicable)
@@ -81,7 +81,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                 var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
                 areEqualCategoryLimitsFailureMechanismSections = Assert.AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
-                methodResult.Wbi01 = GetUpdatedMethodResult(methodResult.Wbi01, areEqualCategoryLimitsFailureMechanismSections);
+                methodResult.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi01, areEqualCategoryLimitsFailureMechanismSections);
             }
 
             return areEqualCategoryLimitsFailureMechanism && areEqualCategoryLimitsFailureMechanismSections;

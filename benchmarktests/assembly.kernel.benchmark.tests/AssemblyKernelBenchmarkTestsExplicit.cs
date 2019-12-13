@@ -27,19 +27,20 @@ using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.io;
+using assembly.kernel.benchmark.tests.TestHelpers;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests
 {
     [TestFixture]
-    public class AssemblyKernelBenchmarkTestsExplicit : BenchmarkTestsBase
+    public class AssemblyKernelBenchmarkTestsExplicit
     {
         [Test, Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            var testDirectory = Path.Combine(GetBenchmarkTestsDirectory(), "testdefinitions");
+            var testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
             var fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsm").First();
-            var testName = GetTestName(fileName);
+            var testName = BenchmarkTestHelper.GetTestName(fileName);
 
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
