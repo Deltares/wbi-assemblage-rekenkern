@@ -11,8 +11,6 @@
     <AssemblyName>Assembly.Kernel.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -22,8 +20,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -75,13 +71,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\sln\COPYING">
-      <Link>COPYING</Link>
+    <None Include="..\..\build\Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
     </None>
-    <None Include="..\..\sln\COPYING.LESSER">
-      <Link>COPYING.LESSER</Link>
-    </None>
-    <None Include="assembly.kernel.tests.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
