@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -24,10 +24,12 @@
 using System;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
+using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
-    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester where TFailureMechanismResult : class, IExpectedFailureMechanismResult
+    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester
+        where TFailureMechanismResult : class, IExpectedFailureMechanismResult
     {
         protected readonly TFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;
@@ -50,7 +52,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetSimpleAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Eenvoudige toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetSimpleAssessmentMethodResult(false);
@@ -66,7 +68,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetDetailedAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Gedetailleerde toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetDetailedAssessmentMethodResult(false);
@@ -82,7 +84,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetTailorMadeAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Toets op maat - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetTailorMadeAssessmentMethodResult(false);
@@ -98,10 +100,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetCombinedAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetCombinedAssessmentMethodResult(false);
                 return false;
             }
@@ -115,10 +117,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetAssessmentSectionMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetAssessmentSectionMethodResult(false);
                 return false;
             }
@@ -132,10 +134,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetAssessmentSectionMethodResultTemporal(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetAssessmentSectionMethodResultTemporal(false);
                 return false;
             }
@@ -145,13 +147,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void TestSimpleAssessmentInternal();
 
-        protected virtual void SetDetailedAssessmentMethodResult(bool result)
-        {
-        }
+        protected virtual void SetDetailedAssessmentMethodResult(bool result) {}
 
-        protected virtual void TestDetailedAssessmentInternal()
-        {
-        }
+        protected virtual void TestDetailedAssessmentInternal() {}
 
         protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
 

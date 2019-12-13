@@ -1,4 +1,4 @@
-#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -119,7 +119,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultFinalVerdictTemporal = true;
                 result.MethodResults.Wbi2C1T = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictTemporal = false;
                 result.MethodResults.Wbi2C1T = false;
@@ -141,7 +141,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultFinalVerdict = true;
                 result.MethodResults.Wbi2C1 = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdict = false;
                 result.MethodResults.Wbi2C1 = false;
@@ -168,7 +168,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultGroup3and4Temporal = true;
                 result.MethodResults.Wbi2A1T = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultGroup3and4Temporal = false;
                 result.MethodResults.Wbi2A1T = false;
@@ -193,7 +193,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultGroup3and4 = true;
                 result.MethodResults.Wbi2A1 = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultGroup3and4 = false;
                 result.MethodResults.Wbi2A1 = false;
@@ -227,7 +227,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultGroup1and2Temporal = true;
                 result.MethodResults.Wbi2B1T = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultGroup1and2Temporal = false;
                 result.MethodResults.Wbi2B1T = false;
@@ -262,7 +262,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultGroup1and2 = true;
                 result.MethodResults.Wbi2B1 = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultGroup1and2 = false;
                 result.MethodResults.Wbi2B1 = false;
@@ -317,7 +317,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultCombinedSections = true;
                 result.MethodResults.Wbi3A1 = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSections = false;
                 result.MethodResults.Wbi3A1 = false;
@@ -345,7 +345,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultCombinedSectionsResults = true;
                 result.MethodResults.Wbi3C1 = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResults = false;
                 result.MethodResults.Wbi3C1 = false;
@@ -374,7 +374,7 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = true;
                 result.MethodResults.Wbi3C1T = true;
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = false;
                 result.MethodResults.Wbi3C1T = false;
@@ -423,7 +423,7 @@ namespace assembly.kernel.benchmark.tests
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
                 result.MethodResults.Wbi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
             }
-            catch (Exception)
+            catch (AssertionException)
             {
                 fmResult.AreEqualCombinedResultsCombinedSections = false;
                 result.MethodResults.Wbi3B1 = false;

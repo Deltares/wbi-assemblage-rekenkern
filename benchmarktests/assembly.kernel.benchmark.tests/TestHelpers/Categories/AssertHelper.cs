@@ -45,7 +45,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine(e);
                 return false;
