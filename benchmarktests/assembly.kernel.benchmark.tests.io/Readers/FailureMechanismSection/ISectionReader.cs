@@ -25,7 +25,11 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public interface ISectionReader
+    /// <summary>
+    /// Interface for a section reader.
+    /// </summary>
+    /// <typeparam name="TFailureMechanismSection">The type of failure mechanism section.</typeparam>
+    public interface ISectionReader<out TFailureMechanismSection> where TFailureMechanismSection : IFailureMechanismSection
     {
         /// <summary>
         /// Reads the specified section.
@@ -33,7 +37,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <param name="iRow">Rownumber in the excel sheet of the section that needs to be read</param>
         /// <param name="startMeters">Start position of the section (already read)</param>
         /// <param name="endMeters">End position of the section (already read)</param>
-        /// <returns></returns>
-        IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters);
+        /// <returns>The read <see cref="TFailureMechanismSection"/>.</returns>
+        TFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters);
     }
 }

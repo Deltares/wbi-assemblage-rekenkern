@@ -27,7 +27,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class Group1NoSimpleAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class Group1NoSimpleAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group1NoSimpleAssessmentFailureMechanismSection>
     {
         /// <summary>
         /// Creates an instance of the Group1NoSimpleAssessmentFailureMechanismSectionReader.
@@ -39,7 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public Group1NoSimpleAssessmentFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellFValueAsString = GetCellValueAsString("F", iRow);
             var simpleProbability = cellFValueAsString.ToLower() == "nvt"

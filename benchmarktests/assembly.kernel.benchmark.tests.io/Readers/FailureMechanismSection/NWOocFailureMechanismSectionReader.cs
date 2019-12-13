@@ -27,7 +27,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class NWOocFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class NWOocFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<NWOocFailureMechanismSection>
     {
         // TODO: Test
         /// <summary>
@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public NWOocFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             return new NWOocFailureMechanismSection
             {

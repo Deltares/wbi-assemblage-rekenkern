@@ -23,6 +23,7 @@
 
 using System.ComponentModel;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
@@ -48,7 +49,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="mechanismType"></param>
         /// <returns></returns>
-        public ISectionReader CreateReader(MechanismType mechanismType)
+        public ISectionReader<IFailureMechanismSection> CreateReader(MechanismType mechanismType)
         {
             switch (mechanismType)
             {

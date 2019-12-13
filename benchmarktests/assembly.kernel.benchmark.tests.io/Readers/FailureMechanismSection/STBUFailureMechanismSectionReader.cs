@@ -27,7 +27,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class STBUFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class STBUFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<STBUFailureMechanismSection>
     {
         /// <summary>
         /// Creates an instance of the STBUFailureMechanismSectionReader.
@@ -39,7 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public STBUFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellJValueAsString = GetCellValueAsString("J", iRow);
             var simpleProbability = cellJValueAsString.ToLower() == "fv" || cellJValueAsString.ToLower() == "nvt"

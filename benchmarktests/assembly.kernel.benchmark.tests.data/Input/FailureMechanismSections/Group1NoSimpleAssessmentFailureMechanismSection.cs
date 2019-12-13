@@ -29,7 +29,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
     /// <summary>
     /// GEKB or STKWp
     /// </summary>
-    public class Group1NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticMechanismSection
+    public class Group1NoSimpleAssessmentFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticFailureMechanismSection
     {
         /// <summary>
         /// The result of simple assessment as input for assembly.

@@ -28,7 +28,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<ProbabilisticFailureMechanismSection>
     {
         private readonly bool lengthEffectPresent;
 
@@ -43,7 +43,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
             this.lengthEffectPresent = lengthEffectPresent;
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public ProbabilisticFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellFValueAsString = GetCellValueAsString("F", iRow);
             var lengthEffectFactor = lengthEffectPresent ? GetCellValueAsDouble("P", iRow) : 1.0;

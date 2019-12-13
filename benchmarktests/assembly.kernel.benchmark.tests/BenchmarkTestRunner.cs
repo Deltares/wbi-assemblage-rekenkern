@@ -431,12 +431,21 @@ namespace assembly.kernel.benchmark.tests
 
         private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
         {
-            var directMechanism = section as FailureMechanismSectionBase<EFmSectionCategory>;
-            return directMechanism != null
-                ? new FmSectionWithDirectCategory(directMechanism.Start, directMechanism.End,
-                    directMechanism.ExpectedCombinedResult)
-                : (FailureMechanismSection)new FmSectionWithIndirectCategory(section.Start, section.End,
-                    ((FailureMechanismSectionBase<EIndirectAssessmentResult>)section).ExpectedCombinedResult);
+            var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
+            if (directMechanism != null)
+            {
+                return new FmSectionWithDirectCategory(directMechanism.Start, directMechanism.End,
+                                                       directMechanism.ExpectedCombinedResult);
+            }
+
+            var indirectMechanism = section as IFailureMechanismSection<EIndirectAssessmentResult>;
+            if (indirectMechanism != null)
+            {
+                return new FmSectionWithIndirectCategory(indirectMechanism.Start, indirectMechanism.End,
+                                                         indirectMechanism.ExpectedCombinedResult);
+            }
+
+            throw new InvalidOperationException();
         }
 
         private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(

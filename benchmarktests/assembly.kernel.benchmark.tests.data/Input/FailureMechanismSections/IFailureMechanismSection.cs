@@ -25,31 +25,46 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
+    /// <summary>
+    /// Interface for a failure mechanism section.
+    /// </summary>
     public interface IFailureMechanismSection
     {
         /// <summary>
         /// The start position of the section as a length along the assessment section in meters.
         /// </summary>
-        double Start { get; set; }
+        double Start { get; }
 
         /// <summary>
         /// The end position of the section as a length along the assessment section in meters.
         /// </summary>
-        double End { get; set; }
+        double End { get; }
 
         /// <summary>
         /// The expected result of the simple assessment
         /// </summary>
-        IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; set; }
+        IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; }
 
         /// <summary>
         /// The expected result of the detailed assessment
         /// </summary>
-        IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; set; }
+        IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; }
 
         /// <summary>
         /// The expected result of the tailor made assessment
         /// </summary>
-        IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; set; }
+        IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; }
+    }
+
+    /// <summary>
+    /// Interface for a failure mechanism section.
+    /// </summary>
+    /// <typeparam name="TCombinedResult">The type of the combined result.</typeparam>
+    public interface IFailureMechanismSection<out TCombinedResult> : IFailureMechanismSection
+    {
+        /// <summary>
+        /// The expected combined result for the specific section as a result of method WBI-0A-1.
+        /// </summary>
+        TCombinedResult ExpectedCombinedResult { get; }
     }
 }

@@ -28,7 +28,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class Group4FailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class Group4FailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group4FailureMechanismSection>
     {
         /// <summary>
         /// Creates an instance of the Group4FailureMechanismSectionReader.
@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public Group4FailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             return new Group4FailureMechanismSection
             {

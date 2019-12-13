@@ -28,7 +28,7 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class Group3NoSimpleAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    public class Group3NoSimpleAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group3NoSimpleAssessmentFailureMechanismSection>
     {
         /// <summary>
         /// Creates an instance of the Group3NoSimpleAssessmentFailureMechanismSectionReader.
@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public Group3NoSimpleAssessmentFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellHValueAsString = GetCellValueAsString("H", iRow);
 

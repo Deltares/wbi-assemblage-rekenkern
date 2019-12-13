@@ -137,7 +137,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<IProbabilisticMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<IProbabilisticFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
@@ -237,7 +237,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)
         {
             var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
-            var probabilisticMechanismSection = section as IProbabilisticMechanismSection;
+            var probabilisticMechanismSection = section as IProbabilisticFailureMechanismSection;
             return new FmSectionAssemblyDirectResultWithProbability(directMechanismSection.ExpectedCombinedResult,
                 probabilisticMechanismSection.ExpectedCombinedResultProbability);
         }

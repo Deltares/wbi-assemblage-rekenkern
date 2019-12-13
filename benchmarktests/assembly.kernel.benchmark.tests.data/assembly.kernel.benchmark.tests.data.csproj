@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\FailureMechanismSections\NWOocFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\IProbabilisticMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\IProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />

@@ -25,7 +25,11 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
-    public class FailureMechanismSectionBase<TCombinedResult> : IFailureMechanismSection
+    /// <summary>
+    /// Base class for a failure mechanism section.
+    /// </summary>
+    /// <typeparam name="TCombinedResult">The type of the combined result.</typeparam>
+    public class FailureMechanismSectionBase<TCombinedResult> : IFailureMechanismSection<TCombinedResult>
     {
         /// <summary>
         /// The name of the section.
@@ -33,9 +37,6 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// TODO: Use this in messages in case of an assertion error of failing test
         public string SectionName { get; set; }
 
-        /// <summary>
-        /// The expected combined result for the specific section as a result of method WBI-0A-1.
-        /// </summary>
         public TCombinedResult ExpectedCombinedResult { get; set; }
 
         public double Start { get; set; }
