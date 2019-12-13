@@ -28,61 +28,14 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
-    public static class Assert
+    public static class AssertHelper
     {
-        // TODO: Merge these three methods somehow?
-        public static bool AssertEqualCategoriesList(CategoriesList<AssessmentSectionCategory> expectedCategories,
-            CategoriesList<AssessmentSectionCategory> categories)
+        public static bool AssertEqualCategoriesList<TCategory, TCategoryBase>(CategoriesList<TCategory> expectedCategories,
+            CategoriesList<TCategory> categories) where TCategory : CategoryBase<TCategoryBase>, ICategoryLimits
         {
             try
             {
-                NUnit.Framework.Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
-                for (int i = 0; i < categories.Categories.Length; i++)
-                {
-                    AssertAreEqualCategories(
-                        expectedCategories.Categories[i],
-                        categories.Categories[i]);
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
-        }
-
-        // TODO: Merge these three methods somehow?
-        public static bool AssertEqualCategoriesList(CategoriesList<FailureMechanismCategory> expectedCategories,
-            CategoriesList<FailureMechanismCategory> categories)
-        {
-            try
-            {
-                NUnit.Framework.Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
-                for (int i = 0; i < categories.Categories.Length; i++)
-                {
-                    AssertAreEqualCategories(
-                        expectedCategories.Categories[i],
-                        categories.Categories[i]);
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
-        }
-
-        // TODO: Merge these three methods somehow?
-        public static bool AssertEqualCategoriesList(CategoriesList<FmSectionCategory> expectedCategories,
-            CategoriesList<FmSectionCategory> categories)
-        {
-            try
-            {
-                NUnit.Framework.Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
+                Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
                 for (int i = 0; i < categories.Categories.Length; i++)
                 {
                     AssertAreEqualCategories(
@@ -102,14 +55,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         private static void AssertAreEqualCategories<TCategory>(CategoryBase<TCategory> expectedCategory,
             CategoryBase<TCategory> calculatedCategory)
         {
-            NUnit.Framework.Assert.AreEqual(expectedCategory.Category, calculatedCategory.Category);
+            Assert.AreEqual(expectedCategory.Category, calculatedCategory.Category);
             AssertAreEqualProbabilities(expectedCategory.LowerLimit, calculatedCategory.LowerLimit);
             AssertAreEqualProbabilities(expectedCategory.UpperLimit, calculatedCategory.UpperLimit);
         }
 
         private static void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
         {
-            NUnit.Framework.Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability),
+            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability),
                 1e-3);
         }
 

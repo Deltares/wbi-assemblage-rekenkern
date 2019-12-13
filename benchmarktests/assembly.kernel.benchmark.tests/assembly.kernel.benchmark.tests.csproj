@@ -56,7 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TestHelpers\Categories\Assert.cs" />
+    <Compile Include="TestHelpers\Categories\AssertHelper.cs" />
     <Compile Include="TestHelpers\FailureMechanism\FailureMechanismResultTesterBase.cs" />
     <Compile Include="TestHelpers\FailureMechanism\Group1NoSimpleAssessmentFailureMechanismResultTester.cs" />
     <Compile Include="TestHelpers\Categories\Group3FailureMechanismCategoriesTester.cs" />

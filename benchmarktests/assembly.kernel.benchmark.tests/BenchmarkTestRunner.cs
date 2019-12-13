@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -33,6 +33,7 @@ using assembly.kernel.benchmark.tests.TestHelpers;
 using Categories = assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
@@ -45,12 +46,12 @@ namespace assembly.kernel.benchmark.tests
             var calculator = new CategoryLimitsCalculator();
 
             // WBI-2-1
-            var categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(new AssessmentSection(
+            CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(new AssessmentSection(
                 input.Length,
                 input.SignallingNorm, input.LowerBoundaryNorm));
-            var expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
+            CategoriesList<AssessmentSectionCategory> expectedCategories = input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
 
-            result.AreEqualCategoriesListAssessmentSection = Categories.Assert.AssertEqualCategoriesList(expectedCategories, categories);
+            result.AreEqualCategoriesListAssessmentSection = Categories.AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(expectedCategories, categories);
             result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 
@@ -273,12 +274,12 @@ namespace assembly.kernel.benchmark.tests
         {
             var categoriesCalculator = new CategoryLimitsCalculator();
 
-            var categories = categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
+            CategoriesList<FailureMechanismCategory> categories = categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
                 new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
                 new FailureMechanism(1,
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
 
-            var areEqualCategories = Categories.Assert.AssertEqualCategoriesList(
+            bool areEqualCategories = Categories.AssertHelper.AssertEqualCategoriesList<FailureMechanismCategory, EFailureMechanismCategory>(
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2,
                 categories);
             result.MethodResults.Wbi11 = areEqualCategories;

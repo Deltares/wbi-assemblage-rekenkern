@@ -28,6 +28,7 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
@@ -67,13 +68,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             var calculator = new CategoryLimitsCalculator();
 
             // test section categories
-            var categoriesListFailureMechanismSection = calculator.CalculateFmSectionCategoryLimitsWbi01(
+            CategoriesList<FmSectionCategory> categoriesListFailureMechanismSection = calculator.CalculateFmSectionCategoryLimitsWbi01(
                 new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
-            var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
+            var assertEqualCategoriesList = AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
             methodResult.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;

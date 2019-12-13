@@ -68,11 +68,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
 
             var calculator = new CategoryLimitsCalculator();
-            var categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(norm,
+            CategoriesList<FmSectionCategory> categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(norm,
                 new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
-            var assertEqualCategoriesList = Assert.AssertEqualCategoriesList(GetExpectedCategories(), categoriesList);
+            bool assertEqualCategoriesList = AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(GetExpectedCategories(), categoriesList);
             methodResult.Wbi02 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
