@@ -27,8 +27,14 @@ using Assembly.Kernel.Model;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {
+    /// <summary>
+    /// Benchmark test input.
+    /// </summary>
     public class BenchmarkTestInput
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="BenchmarkTestInput"/>.
+        /// </summary>
         public BenchmarkTestInput()
         {
             ExpectedSafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();

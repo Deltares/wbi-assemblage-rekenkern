@@ -54,7 +54,7 @@
     <Compile Include="Input\FailureMechanismSections\STBUFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanisms\ExpectedFailureMechanismResultBase.cs" />
-    <Compile Include="Input\FailureMechanisms\FailureMechanismFactory.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismResultFactory.cs" />
     <Compile Include="Input\FailureMechanisms\ProbabilisticExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IProbabilisticExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IGroup3ExpectedFailureMechanismResult.cs" />

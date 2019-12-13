@@ -25,8 +25,16 @@ using Assembly.Kernel.Model.CategoryLimits;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Expected failure mechanism result for group 3.
+    /// </summary>
     public class Group3ExpectedFailureMechanismResult : ExpectedFailureMechanismResultBase, IGroup3ExpectedFailureMechanismResult
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="Group3ExpectedFailureMechanismResult"/>.
+        /// </summary>
+        /// <param name="name">The name of the failure mechanism.</param>
+        /// <param name="type">The type of the failure mechanism.</param>
         public Group3ExpectedFailureMechanismResult(string name, MechanismType type) : base(name)
         {
             Type = type;

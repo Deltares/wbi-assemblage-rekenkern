@@ -25,8 +25,17 @@ using Assembly.Kernel.Model.CategoryLimits;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Expected probabilistic failure mechanism result.
+    /// </summary>
     public class ProbabilisticExpectedFailureMechanismResult : ExpectedFailureMechanismResultBase, IProbabilisticExpectedFailureMechanismResult
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="ProbabilisticExpectedFailureMechanismResult"/>.
+        /// </summary>
+        /// <param name="name">The name of the failure mechanism.</param>
+        /// <param name="type">The type of the failure mechanism.</param>
+        /// <param name="group">The group the failure mechanism belongs to.</param>
         public ProbabilisticExpectedFailureMechanismResult(string name, MechanismType type, int group) : base(name)
         {
             Type = type;

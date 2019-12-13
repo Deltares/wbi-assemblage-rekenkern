@@ -28,9 +28,12 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 
 namespace assembly.kernel.benchmark.tests.data.Result
 {
+    /// <summary>
+    /// Factory for creating instances of <see cref="BenchmarkFailureMechanismTestResult"/>.
+    /// </summary>
     public static class BenchmarkTestFailureMechanismResultFactory
     {
-        private static readonly Dictionary<MechanismType, Tuple<string, int>> Infos =
+        private static readonly Dictionary<MechanismType, Tuple<string, int>> infos =
             new Dictionary<MechanismType, Tuple<string, int>>
             {
                 {MechanismType.STBI, new Tuple<string, int>("Macrostabiliteit binnenwaarts", 2)},
@@ -65,15 +68,15 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// Creates a default benchmark test result for the specified failure mechanism type.
         /// </summary>
         /// <param name="type"></param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="BenchmarkFailureMechanismTestResult"/>.</returns>
         public static BenchmarkFailureMechanismTestResult CreateFailureMechanismTestResult(MechanismType type)
         {
-            if (!Infos.ContainsKey(type))
+            if (!infos.ContainsKey(type))
             {
                 throw new InvalidEnumArgumentException();
             }
 
-            var mechanismInformation = Infos[type];
+            Tuple<string, int> mechanismInformation = infos[type];
             return new BenchmarkFailureMechanismTestResult(mechanismInformation.Item1, type, mechanismInformation.Item2);
         }
     }

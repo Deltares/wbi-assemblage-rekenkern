@@ -23,8 +23,16 @@
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Expected failure mechanism result for group 4 or 5.
+    /// </summary>
     public class Group4Or5ExpectedFailureMechanismResult : ExpectedFailureMechanismResultBase
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="Group4Or5ExpectedFailureMechanismResult"/>.
+        /// </summary>
+        /// <param name="name">The name of the failure mechanism.</param>
+        /// <param name="type">The type of the failure mechanism.</param>
         public Group4Or5ExpectedFailureMechanismResult(string name, MechanismType type, int group) : base(name)
         {
             Type = type;

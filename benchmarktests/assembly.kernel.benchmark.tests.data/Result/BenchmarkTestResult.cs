@@ -25,8 +25,16 @@ using System.Collections.Generic;
 
 namespace assembly.kernel.benchmark.tests.data.Result
 {
+    /// <summary>
+    /// The benchmark test result.
+    /// </summary>
     public class BenchmarkTestResult
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="BenchmarkTestResult"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="testName">The name of the test.</param>
         public BenchmarkTestResult(string fileName, string testName)
         {
             FileName = fileName;
@@ -36,22 +44,22 @@ namespace assembly.kernel.benchmark.tests.data.Result
         }
 
         /// <summary>
-        /// Name of the file that contains the definition of the benchmark test
+        /// Name of the file that contains the definition of the benchmark test.
         /// </summary>
         public string FileName { get; }
 
         /// <summary>
-        /// Name of the benchmark test
+        /// Name of the benchmark test.
         /// </summary>
         public string TestName { get; }
 
         /// <summary>
-        /// Indicates whether category boundaries where calculated correctly
+        /// Indicates whether category boundaries where calculated correctly.
         /// </summary>
         public bool AreEqualCategoriesListAssessmentSection { get; set; }
 
         /// <summary>
-        /// Provides a list of benchmark test results per failure mechanism
+        /// Provides a list of benchmark test results per failure mechanism.
         /// </summary>
         public IList<BenchmarkFailureMechanismTestResult> FailureMechanismResults { get; }
 
@@ -106,7 +114,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool AreEqualAssemblyResultCombinedSectionsResultsTemporal { get; set; }
 
         /// <summary>
-        /// Provides a list of benchmark test results per assembly method
+        /// Provides a list of benchmark test results per assembly method.
         /// </summary>
         public MethodResultsListing MethodResults { get; }
     }

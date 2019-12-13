@@ -25,6 +25,9 @@ using Assembly.Kernel.Model.CategoryLimits;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Interface for expected failure mechanism result for group 3.
+    /// </summary>
     public interface IGroup3ExpectedFailureMechanismResult : IExpectedFailureMechanismResult
     {
         /// <summary>

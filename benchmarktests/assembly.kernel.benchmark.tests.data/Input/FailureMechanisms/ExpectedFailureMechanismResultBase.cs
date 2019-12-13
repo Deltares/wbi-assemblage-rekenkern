@@ -26,8 +26,15 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Base class for an expected failure mechanism result.
+    /// </summary>
     public abstract class ExpectedFailureMechanismResultBase : IExpectedFailureMechanismResult
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="ExpectedFailureMechanismResultBase"/>.
+        /// </summary>
+        /// <param name="name">The name of the failure mechanism result.</param>
         protected ExpectedFailureMechanismResultBase(string name)
         {
             Name = name;

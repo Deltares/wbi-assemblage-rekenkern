@@ -27,9 +27,12 @@ using System.ComponentModel;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
-    public static class FailureMechanismFactory
+    /// <summary>
+    /// Factory for creating instances of <see cref="IExpectedFailureMechanismResult"/>.
+    /// </summary>
+    public static class FailureMechanismResultFactory
     {
-        private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> Infos =
+        private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> infos =
             new Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>>
             {
                 {MechanismType.STBI, CreateSTBIFailureMechanism},
@@ -67,12 +70,12 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// <returns></returns>
         public static IExpectedFailureMechanismResult CreateFailureMechanism(MechanismType type)
         {
-            if (!Infos.ContainsKey(type))
+            if (!infos.ContainsKey(type))
             {
                 throw new InvalidEnumArgumentException();
             }
 
-            return Infos[type]();
+            return infos[type]();
         }
 
         #region Group 1

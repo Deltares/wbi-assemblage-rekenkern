@@ -26,6 +26,9 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
+    /// <summary>
+    /// Probabilistic failure mechanism section.
+    /// </summary>
     public class ProbabilisticFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticFailureMechanismSection
     {
         /// <summary>

@@ -26,6 +26,9 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Interface for expected failure mechanism result.
+    /// </summary>
     public interface IExpectedFailureMechanismResult
     {
         /// <summary>

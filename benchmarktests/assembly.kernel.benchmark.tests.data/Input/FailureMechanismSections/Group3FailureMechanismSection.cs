@@ -26,6 +26,9 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
+    /// <summary>
+    /// Group 3 failure mechanism section.
+    /// </summary>
     public class Group3FailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
     {
         /// <summary>

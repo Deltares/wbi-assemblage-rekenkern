@@ -25,8 +25,17 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 
 namespace assembly.kernel.benchmark.tests.data.Result
 {
+    /// <summary>
+    /// The benchmark failure mechanism test result.
+    /// </summary>
     public class BenchmarkFailureMechanismTestResult
     {
+        /// <summary>
+        /// Create a new instance of <see cref="BenchmarkFailureMechanismTestResult"/>.
+        /// </summary>
+        /// <param name="name">The name of the failure mechanism.</param>
+        /// <param name="type">The type of the failure mechanism.</param>
+        /// <param name="group">The assembly group of the failure mechanism.</param>
         public BenchmarkFailureMechanismTestResult(string name, MechanismType type, int group)
         {
             Name = name;
@@ -35,12 +44,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         }
 
         /// <summary>
-        /// Name of the failure mechanism
+        /// Name of the failure mechanism.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Type / code of the failure mechanism
+        /// Type / code of the failure mechanism.
         /// </summary>
         public MechanismType Type { get; }
 
@@ -50,22 +59,22 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public int Group { get; }
 
         /// <summary>
-        /// Indicates whether category boundaries where calculated correctly
+        /// Indicates whether category boundaries where calculated correctly.
         /// </summary>
         public bool? AreEqualCategoryBoundaries { get; set; }
 
         /// <summary>
-        /// Indicates whether all simple assessment results where translated correctly during assembly
+        /// Indicates whether all simple assessment results where translated correctly during assembly.
         /// </summary>
         public bool AreEqualSimpleAssessmentResults { get; set; }
 
         /// <summary>
-        /// Indicates whether all detailed assessment results where translated correctly during assembly
+        /// Indicates whether all detailed assessment results where translated correctly during assembly.
         /// </summary>
         public bool? AreEqualDetailedAssessmentResults { get; set; }
 
         /// <summary>
-        /// Indicates whether all tailor made assessment results where translated correctly during assembly
+        /// Indicates whether all tailor made assessment results where translated correctly during assembly.
         /// </summary>
         public bool AreEqualTailorMadeAssessmentResults { get; set; }
 
@@ -84,6 +93,9 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// </summary>
         public bool AreEqualAssessmentResultPerAssessmentSectionTemporal { get; set; }
 
+        /// <summary>
+        /// Indicates whether all combined results for the combined sections where translated correctly during assembly.
+        /// </summary>
         public bool AreEqualCombinedResultsCombinedSections { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             IExpectedFailureMechanismResult expectedFailureMechanismResult =
-                FailureMechanismFactory.CreateFailureMechanism(
+                FailureMechanismResultFactory.CreateFailureMechanism(
                     GetCellValueAsString("B", "Toetsspoor").ToMechanismType());
 
             ReadGeneralInformation(expectedFailureMechanismResult);

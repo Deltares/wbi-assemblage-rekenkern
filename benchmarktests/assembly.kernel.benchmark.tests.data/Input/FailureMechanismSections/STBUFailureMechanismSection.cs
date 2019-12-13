@@ -26,6 +26,9 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
+    /// <summary>
+    /// STBU failure mechanism section.
+    /// </summary>
     public class STBUFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>
     {
         /// <summary>

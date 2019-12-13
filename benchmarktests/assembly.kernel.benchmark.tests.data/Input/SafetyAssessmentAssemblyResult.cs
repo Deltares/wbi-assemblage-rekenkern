@@ -26,6 +26,9 @@ using Assembly.Kernel.Model.CategoryLimits;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {
+    /// <summary>
+    /// The safety assessment assembly result.
+    /// </summary>
     public class SafetyAssessmentAssemblyResult
     {
         /// <summary>

@@ -26,6 +26,9 @@ using Assembly.Kernel.Model.AssessmentResultTypes;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
+    /// <summary>
+    /// Group 5 failure mechanism section without detailed assessment.
+    /// </summary>
     public class Group5NoDetailedAssessmentFailureMechanismSection : FailureMechanismSectionBase<EIndirectAssessmentResult>
     {
         /// <summary>

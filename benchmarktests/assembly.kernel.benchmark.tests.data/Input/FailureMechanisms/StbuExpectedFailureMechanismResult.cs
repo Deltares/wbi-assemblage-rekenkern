@@ -23,6 +23,9 @@
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
+    /// <summary>
+    /// Expected failure mechanism result for STBU.
+    /// </summary>
     public class StbuExpectedFailureMechanismResult : ExpectedFailureMechanismResultBase
     {
         /// <summary>

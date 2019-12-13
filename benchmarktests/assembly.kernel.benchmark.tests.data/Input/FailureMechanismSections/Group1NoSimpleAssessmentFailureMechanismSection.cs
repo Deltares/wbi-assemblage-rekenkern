@@ -36,6 +36,9 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         public EAssessmentResultTypeE2 SimpleAssessmentResult { get; set; }
 
+        /// <summary>
+        /// The simple assessment result probability.
+        /// </summary>
         public double SimpleAssessmentResultProbability { get; set; }
 
         /// <summary>
@@ -43,6 +46,9 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         public EAssessmentResultTypeG2 DetailedAssessmentResult { get; set; }
 
+        /// <summary>
+        /// The detailed assessment result probability.
+        /// </summary>
         public double DetailedAssessmentResultProbability { get; set; }
 
         /// <summary>
@@ -50,6 +56,9 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         public EAssessmentResultTypeT3 TailorMadeAssessmentResult { get; set; }
 
+        /// <summary>
+        /// The tailor made assessment result probability.
+        /// </summary>
         public double TailorMadeAssessmentResultProbability { get; set; }
 
         public double ExpectedCombinedResultProbability { get; set; }
