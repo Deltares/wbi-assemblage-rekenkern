@@ -12,6 +12,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Hh]elp/
 
 .vs/
 *.VisualState.xml
