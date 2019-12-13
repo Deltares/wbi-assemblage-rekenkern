@@ -28,8 +28,20 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
+    /// <summary>
+    /// Helper class to assert categories.
+    /// </summary>
     public static class AssertHelper
     {
+        /// <summary>
+        /// Assert whether <paramref name="expectedCategories"/> and <paramref name="categories"/>
+        /// are the same.
+        /// </summary>
+        /// <typeparam name="TCategory">The type of category.</typeparam>
+        /// <typeparam name="TCategoryBase">The type of category base.</typeparam>
+        /// <param name="expectedCategories">The expected categories.</param>
+        /// <param name="categories">The actual categories.</param>
+        /// <returns><c>tru</c> when the categories are equal; <c>false</c> otherwise.</returns>
         public static bool AssertEqualCategoriesList<TCategory, TCategoryBase>(CategoriesList<TCategory> expectedCategories,
             CategoriesList<TCategory> categories) where TCategory : CategoryBase<TCategoryBase>, ICategoryLimits
         {

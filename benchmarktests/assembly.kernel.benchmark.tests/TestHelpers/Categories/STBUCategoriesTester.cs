@@ -32,17 +32,30 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
+    /// <summary>
+    /// Categories tester for STBU failure mechanism.
+    /// </summary>
     public class STBUCategoriesTester : ICategoriesTester
     {
         private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
         private readonly bool mechanismNotApplicable;
-        private readonly MethodResultsListing methodResult;
+        private readonly MethodResultsListing methodResults;
         private readonly double norm;
 
-        public STBUCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double signallingNorm, double lowerBoundaryNorm)
+        /// <summary>
+        /// Creates a new instance of <see cref="STBUCategoriesTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
+        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
+        /// <param name="signallingNorm">The signalling norm.</param>
+        public STBUCategoriesTester(MethodResultsListing methodResults,
+                                    IExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                    double signallingNorm,
+                                    double lowerBoundaryNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
-            this.methodResult = methodResult;
+            this.methodResults = methodResults;
             if (failureMechanismResult == null)
             {
                 throw new ArgumentException();
@@ -73,7 +86,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
             bool assertEqualCategoriesList = AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(GetExpectedCategories(), categoriesList);
-            methodResult.Wbi02 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi02, assertEqualCategoriesList);
+            methodResults.Wbi02 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi02, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
         }

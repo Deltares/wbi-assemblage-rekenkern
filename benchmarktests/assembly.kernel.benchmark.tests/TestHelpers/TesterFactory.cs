@@ -29,9 +29,19 @@ using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers
 {
+    /// <summary>
+    /// Factory to create instances of testers.
+    /// </summary>
     public static class TesterFactory
     {
-        public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing testResult, IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        /// <summary>
+        /// Creates instances of failure mechanism testers.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        /// <returns>An instance of <see cref="IFailureMechanismResultTester"/>.</returns>
+        public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing methodResults,
+                                                                                 IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             switch (expectedFailureMechanismResult.Type)
             {
@@ -39,44 +49,53 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismResultTester(testResult, expectedFailureMechanismResult);
+                    return new ProbabilisticFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(testResult, expectedFailureMechanismResult);
+                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
-                    return new Group3FailureMechanismResultTester(testResult, expectedFailureMechanismResult);
+                    return new Group3FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3NoSimpleAssessmentFailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new Group3NoSimpleAssessmentFailureMechanismTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.GABI:
                 case MechanismType.GABU:
                 case MechanismType.STMI:
                 case MechanismType.PKW:
-                    return new Group4FailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new Group4FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.AWO:
                 case MechanismType.STKWl:
                 case MechanismType.INN:
-                    return new Group4NoDetailedAssessmentFailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new Group4NoDetailedAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.STBU:
-                    return new StbuFailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.HAV:
                 case MechanismType.NWOkl:
                 case MechanismType.VLZV:
                 case MechanismType.VLAF:
-                    return new Group5FailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new Group5FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.NWOoc:
-                    return new NwOocFailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new NwOocFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:
-                    return new Group5NoDetailedAssessmentFailureMechanismTester(testResult, expectedFailureMechanismResult);
+                    return new Group5NoDetailedAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 default:
                     throw new InvalidEnumArgumentException();
             }
         }
 
-        public static ICategoriesTester CreateCategoriesTester(MethodResultsListing result, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
+        /// <summary>
+        /// Creates instances of <see cref="ICategoriesTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
+        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
+        /// <param name="signallingNorm">The signalling norm.</param>
+        public static ICategoriesTester CreateCategoriesTester(MethodResultsListing methodResults,
+                                                               IExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                               double lowerBoundaryNorm, double signallingNorm)
         {
             switch (expectedFailureMechanismResult.Type)
             {
@@ -86,14 +105,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.BSKW:
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new ProbabilisticFailureMechanismCategoriesTester(result, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                    return new ProbabilisticFailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3FailureMechanismCategoriesTester(result, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                    return new Group3FailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
                 case MechanismType.STBU:
-                    return new STBUCategoriesTester(result, expectedFailureMechanismResult, signallingNorm, lowerBoundaryNorm);
+                    return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm, lowerBoundaryNorm);
                 default:
                     return null;
             }

@@ -23,16 +23,45 @@
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
+    /// <summary>
+    /// Interface describing the failure mechanism result tester.
+    /// </summary>
     public interface IFailureMechanismResultTester
     {
+        /// <summary>
+        /// Tests the simple assessment.
+        /// </summary>
+        /// <returns><c>true</c> when the simple assessment is valid;
+        /// <c>false</c> otherwise.</returns>
         bool TestSimpleAssessment();
 
+        /// <summary>
+        /// Tests the detailed assessment.
+        /// </summary>
+        /// <returns><c>true</c> when the simple assessment is valid;
+        /// <c>false</c> otherwise or <c>null</c> when there is no
+        /// detailed assessment.</returns>
         bool? TestDetailedAssessment();
 
+        /// <summary>
+        /// Tests the tailor made assessment.
+        /// </summary>
+        /// <returns><c>true</c> when the tailor made assessment is valid;
+        /// <c>false</c> otherwise.</returns>
         bool TestTailorMadeAssessment();
 
+        /// <summary>
+        /// Tests the combined assessment.
+        /// </summary>
+        /// <returns><c>true</c> when the combined assessment is valid;
+        /// <c>false</c> otherwise.</returns>
         bool TestCombinedAssessment();
 
+        /// <summary>
+        /// Tests the assessment section result.
+        /// </summary>
+        /// <returns><c>true</c> when the assessment section result is valid;
+        /// <c>false</c> otherwise.</returns>
         bool TestAssessmentSectionResult();
 
         bool TestAssessmentSectionResultTemporal();

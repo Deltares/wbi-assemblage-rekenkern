@@ -33,20 +33,32 @@ using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
+    /// <summary>
+    /// Categories tester for failure mechanisms in group 3.
+    /// </summary>
     public class Group3FailureMechanismCategoriesTester : ICategoriesTester
     {
         private readonly Group3ExpectedFailureMechanismResult failureMechanismResult;
         private readonly double lowerBoundaryNorm;
         private readonly bool mechanismNotApplicable;
-        private readonly MethodResultsListing methodResult;
+        private readonly MethodResultsListing methodResults;
         private readonly double signallingNorm;
 
-        public Group3FailureMechanismCategoriesTester(MethodResultsListing methodResult, IExpectedFailureMechanismResult expectedFailureMechanismResult, double lowerBoundaryNorm, double signallingNorm)
+        /// <summary>
+        /// Creates a new instance of <see cref="Group3FailureMechanismCategoriesTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
+        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
+        /// <param name="signallingNorm">The signalling norm.</param>
+        public Group3FailureMechanismCategoriesTester(MethodResultsListing methodResults,
+                                                      IExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                      double lowerBoundaryNorm, double signallingNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult as Group3ExpectedFailureMechanismResult;
             this.lowerBoundaryNorm = lowerBoundaryNorm;
             this.signallingNorm = signallingNorm;
-            this.methodResult = methodResult;
+            this.methodResults = methodResults;
             if (failureMechanismResult == null || double.IsNaN(lowerBoundaryNorm) || double.IsNaN(signallingNorm))
             {
                 throw new ArgumentException();
@@ -75,7 +87,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 
             var assertEqualCategoriesList = AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
-            methodResult.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResult.Wbi01, assertEqualCategoriesList);
+            methodResults.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi01, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
         }

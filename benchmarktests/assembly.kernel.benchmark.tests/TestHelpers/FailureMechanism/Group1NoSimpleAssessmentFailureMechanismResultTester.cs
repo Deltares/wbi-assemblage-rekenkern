@@ -32,9 +32,19 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
+    /// <summary>
+    /// Result tester for failure mechanisms in group 1 without simple assessment.
+    /// </summary>
     public class Group1NoSimpleAssessmentFailureMechanismResultTester : FailureMechanismResultTesterBase<ProbabilisticExpectedFailureMechanismResult>
     {
-        public Group1NoSimpleAssessmentFailureMechanismResultTester(MethodResultsListing testResult, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(testResult, expectedFailureMechanismResult)
+        /// <summary>
+        /// Creates a new instance of <see cref="Group1NoSimpleAssessmentFailureMechanismResultTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        public Group1NoSimpleAssessmentFailureMechanismResultTester(MethodResultsListing methodResults,
+                                                                    IExpectedFailureMechanismResult expectedFailureMechanismResult) 
+            : base(methodResults, expectedFailureMechanismResult)
         {
         }
 

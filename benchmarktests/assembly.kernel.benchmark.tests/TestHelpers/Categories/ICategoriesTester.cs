@@ -23,8 +23,15 @@
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {
+    /// <summary>
+    /// Interface for categories tester.
+    /// </summary>
     public interface ICategoriesTester
     {
+        /// <summary>
+        /// Tests the categories.
+        /// </summary>
+        /// <returns>Indicator whether the categories are equal.</returns>
         bool? TestCategories();
     }
 }

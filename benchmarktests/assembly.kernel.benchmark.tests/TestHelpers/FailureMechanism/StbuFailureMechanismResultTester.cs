@@ -27,14 +27,25 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
-    public class Group4FailureMechanismTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
+    /// <summary>
+    /// Result tester for the STBU failure mechanisms.
+    /// </summary>
+    public class StbuFailureMechanismResultTester : FailureMechanismResultTesterBase<StbuExpectedFailureMechanismResult>
     {
-        public Group4FailureMechanismTester(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(methodResults, expectedFailureMechanismResult)
+        /// <summary>
+        /// Creates a new instance of <see cref="StbuFailureMechanismResultTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        public StbuFailureMechanismResultTester(MethodResultsListing methodResults,
+                                                IExpectedFailureMechanismResult expectedFailureMechanismResult)
+            : base(methodResults, expectedFailureMechanismResult)
         {
         }
 
@@ -44,12 +55,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group4FailureMechanismSection = section as Group4FailureMechanismSection;
-                if (group4FailureMechanismSection != null)
+                var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
+                if (stbuFailureMechanismSection != null)
                 {
                     // WBI-0E-1
-                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(group4FailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group4FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(stbuFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult = stbuFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -61,14 +72,17 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group4FailureMechanismSection = section as Group4FailureMechanismSection;
-                if (group4FailureMechanismSection != null)
+                var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
+                if (stbuFailureMechanismSection != null)
                 {
-                    // WBI-0G-1
-                        FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0G1(group4FailureMechanismSection.DetailedAssessmentResult);
+                    // WBI-0G-3
+                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0G3(
+                        stbuFailureMechanismSection.DetailedAssessmentResult,
+                        stbuFailureMechanismSection.DetailedAssessmentResultProbability,
+                        GetSTBUCategories());
 
                     var expectedResult =
-                        group4FailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as
+                        stbuFailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as
                             FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
@@ -81,14 +95,16 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group4FailureMechanismSection = section as Group4FailureMechanismSection;
-                if (group4FailureMechanismSection != null)
+                var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
+                if (stbuFailureMechanismSection != null)
                 {
-                    // WBI-0T-1
-                    var result = assembler.TranslateAssessmentResultWbi0T1(
-                        group4FailureMechanismSection.TailorMadeAssessmentResult);
+                    // WBI-0T-7
+                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0T7(
+                        stbuFailureMechanismSection.TailorMadeAssessmentResult,
+                        stbuFailureMechanismSection.TailorMadeAssessmentResultProbability,
+                        GetSTBUCategories());
 
-                    var expectedResult = group4FailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    var expectedResult = stbuFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -100,7 +116,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<Group4FailureMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<STBUFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
@@ -147,12 +163,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0G1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G1, result);
+            MethodResults.Wbi0G3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G3, result);
         }
 
         protected override void SetTailorMadeAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0T1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T1, result);
+            MethodResults.Wbi0T7 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T7, result);
         }
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
@@ -174,6 +190,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         {
             var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
             return new FmSectionAssemblyDirectResult(directMechanismSection.ExpectedCombinedResult);
+        }
+
+        private CategoriesList<FmSectionCategory> GetSTBUCategories()
+        {
+            return new CategoriesList<FmSectionCategory>(new[]
+            {
+                new FmSectionCategory(EFmSectionCategory.IIv, 0.0, ExpectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
+                new FmSectionCategory(EFmSectionCategory.Vv, ExpectedFailureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
+            });
         }
     }
 }

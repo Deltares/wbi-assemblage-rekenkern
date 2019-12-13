@@ -39,8 +39,16 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests
 {
+    /// <summary>
+    /// The benchmark test runner.
+    /// </summary>
     public static class BenchmarkTestRunner
     {
+        /// <summary>
+        /// Tests the norm categories.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="result">The result.</param>
         public static void TestEqualNormCategories(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             var calculator = new CategoryLimitsCalculator();
@@ -55,6 +63,13 @@ namespace assembly.kernel.benchmark.tests
             result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 
+        /// <summary>
+        /// Test the failure mechanism assembly.
+        /// </summary>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
+        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
+        /// <param name="signallingNorm">The signalling norm.</param>
+        /// <param name="testResult">The test result.</param>
         public static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
             double lowerBoundaryNorm, double signallingNorm, BenchmarkTestResult testResult)
         {
@@ -78,6 +93,11 @@ namespace assembly.kernel.benchmark.tests
             failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal = failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
         }
 
+        /// <summary>
+        /// Test the final verdict assembly.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="result">The result.</param>
         public static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
@@ -89,6 +109,11 @@ namespace assembly.kernel.benchmark.tests
             TestFinalAssessmentGradeTemporal(input, result);
         }
 
+        /// <summary>
+        /// Test the assembly of combined sections.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="result">The result.</param>
         public static void TestAssemblyOfCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             TestGeneratedCombinedSections(input, result);
