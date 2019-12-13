@@ -27,10 +27,13 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Reader for failure mechanism sections in group 4 without detailed assessment.
+    /// </summary>
     public class Group4NoDetailedAssessmentFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group4NoDetailedAssessmentFailureMechanismSection>
     {
         /// <summary>
-        /// Creates an instance of the Group4NoDetailedAssessmentFailureMechanismSectionReader.
+        /// Creates a new instance of <see cref="Group4NoDetailedAssessmentFailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

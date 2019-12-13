@@ -28,19 +28,22 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Reader to read general information.
+    /// </summary>
     public class GeneralInformationReader : ExcelSheetReaderBase
     {
         /// <summary>
-        /// Creates an instance of the GeneralInformationReader, used to read general information of an assessment section.
+        /// Creates a new instance of <see cref="GeneralInformationReader"/>.
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <param name="workbookPart"></param>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart) { }
 
         /// <summary>
         /// Reads the general information of an assessment section.
         /// </summary>
-        /// <param name="benchmarkTestInput"></param>
+        /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");

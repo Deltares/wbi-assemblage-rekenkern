@@ -21,17 +21,19 @@
 // All rights reserved.
 #endregion
 
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Reader for failure mechanism sections in group 4.
+    /// </summary>
     public class Group4FailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group4FailureMechanismSection>
     {
         /// <summary>
-        /// Creates an instance of the Group4FailureMechanismSectionReader.
+        /// Creates a new instance of <see cref="Group4FailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

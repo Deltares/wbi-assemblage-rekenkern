@@ -31,6 +31,9 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Reader to read common assessment section results.
+    /// </summary>
     public class CommonAssessmentSectionResultsReader : ExcelSheetReaderBase
     {
         private readonly string[] columnStrings =
@@ -70,7 +73,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         };
 
         /// <summary>
-        /// Creates an instance of the CommonAssessmentSectionResultsReader
+        /// Creates a new instance of <see cref="CommonAssessmentSectionResultsReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

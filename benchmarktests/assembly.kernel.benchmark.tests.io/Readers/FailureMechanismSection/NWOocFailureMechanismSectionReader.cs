@@ -27,11 +27,14 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Reader for NwOoc failure mechanism sections.
+    /// </summary>
     public class NWOocFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<NWOocFailureMechanismSection>
     {
         // TODO: Test
         /// <summary>
-        /// Creates an instance of the NWOocFailureMechanismSectionReader.
+        /// Creates a new instance of <see cref="NWOocFailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

@@ -27,6 +27,9 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Base class to read excel sheets.
+    /// </summary>
     public class ExcelSheetReaderBase
     {
         private readonly Dictionary<string, int> keywordsDictionary;
@@ -34,6 +37,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         private readonly WorkbookPart workbookPart;
         private readonly Worksheet worksheet;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="ExcelSheetReaderBase"/>.
+        /// </summary>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         protected ExcelSheetReaderBase(WorksheetPart worksheetPart, WorkbookPart workbookPart)
         {
             this.workbookPart = workbookPart;

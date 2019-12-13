@@ -28,10 +28,12 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.FmSectionTypes;
-using static System.Double;
 
 namespace assembly.kernel.benchmark.tests.io
 {
+    /// <summary>
+    /// Extension methods for <see cref="string"/>.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
@@ -268,7 +270,7 @@ namespace assembly.kernel.benchmark.tests.io
             {
                 var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
                 double cellValueAsDouble;
-                if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
+                if (double.TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
                 {
                     return EAssessmentResultTypeG2.ResultSpecified;
                 }
@@ -347,7 +349,7 @@ namespace assembly.kernel.benchmark.tests.io
             {
                 var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
                 double cellValueAsDouble;
-                if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
+                if (double.TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
                 {
                     return EAssessmentResultTypeT3.ResultSpecified;
                 }
@@ -386,7 +388,7 @@ namespace assembly.kernel.benchmark.tests.io
         {
             var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
             double cellValueAsDouble;
-            if (TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
+            if (double.TryParse(str, NumberStyles.Any, culture, out cellValueAsDouble))
             {
                 return EAssessmentResultTypeT4.ResultSpecified;
             }

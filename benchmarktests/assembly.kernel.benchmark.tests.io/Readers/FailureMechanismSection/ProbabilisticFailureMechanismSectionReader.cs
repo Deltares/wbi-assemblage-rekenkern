@@ -28,12 +28,15 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Reader for probabilistic failure mechanism sections.
+    /// </summary>
     public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<ProbabilisticFailureMechanismSection>
     {
         private readonly bool lengthEffectPresent;
 
         /// <summary>
-        /// Creates an instance of the ProbabilisticFailureMechanismSectionReader.
+        /// Creates a new instance of <see cref="ProbabilisticFailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

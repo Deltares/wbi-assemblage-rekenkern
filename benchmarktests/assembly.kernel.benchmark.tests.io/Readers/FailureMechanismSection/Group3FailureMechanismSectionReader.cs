@@ -28,10 +28,13 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Reader for failure mechanism sections in group 3.
+    /// </summary>
     public class Group3FailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<Group3FailureMechanismSection>
     {
         /// <summary>
-        /// Creates an instance of the Group3FailureMechanismSectionReader.
+        /// Creates a new instance <see cref="Group3FailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>

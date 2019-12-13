@@ -28,16 +28,19 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
+    /// <summary>
+    /// Factory to create instances of <see cref="ISectionReader{TFailureMechanismSection}"/>.
+    /// </summary>
     public class SectionReaderFactory
     {
         private readonly WorksheetPart worksheetPart;
         private readonly WorkbookPart workbookPart;
 
         /// <summary>
-        /// Creates an instance of the SectionReaderFactory for a specific worksheet.
+        /// Creates a new instance of <see cref="SectionReaderFactory"/>.
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <param name="workbookPart"></param>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public SectionReaderFactory(WorksheetPart worksheetPart, WorkbookPart workbookPart)
         {
             this.worksheetPart = worksheetPart;

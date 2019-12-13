@@ -32,15 +32,18 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Reader to read failure mechanism.
+    /// </summary>
     public class FailureMechanismsReader : ExcelSheetReaderBase
     {
         private readonly SectionReaderFactory sectionReaderFactory;
 
         /// <summary>
-        /// Creates an instance of the FailureMechanismReader
+        /// Creates a new instance of <see cref="FailureMechanismsReader"/>.
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <param name="workbookPart"></param>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
         {
             sectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
@@ -49,7 +52,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Reads all relevant input and expected output for a specific failure mechanism.
         /// </summary>
-        /// <param name="benchmarkTestInput"></param>
+        /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             IExpectedFailureMechanismResult expectedFailureMechanismResult =

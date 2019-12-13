@@ -28,14 +28,17 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io
 {
+    /// <summary>
+    /// Reader to read the assembly excel file.
+    /// </summary>
     public static class AssemblyExcelFileReader
     {
         /// <summary>
-        /// Creates an instance of the BenchmarkTestInput.
+        /// Creates a new instance of <see cref="BenchmarkTestInput"/>.
         /// </summary>
-        /// <param name="excelFileName"></param>
-        /// <param name="testName"></param>
-        /// <returns></returns>
+        /// <param name="excelFileName">The name of the excel file.</param>
+        /// <param name="testName">The test name.</param>
+        /// <returns>A <see cref="BenchmarkTestInput"/>.</returns>
         public static BenchmarkTestInput Read(string excelFileName, string testName)
         {
             if (!File.Exists(excelFileName))

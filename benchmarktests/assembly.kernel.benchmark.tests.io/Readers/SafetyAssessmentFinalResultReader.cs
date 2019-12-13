@@ -28,21 +28,25 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Reader to read the final result of a safety assessment.
+    /// </summary>
     public class SafetyAssessmentFinalResultReader : ExcelSheetReaderBase
     {
         /// <summary>
-        /// Creates an instance of the SafetyAssessmentFinalResultReader.
+        /// Creates a new instance of <see cref="SafetyAssessmentFinalResultReader"/>.
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <param name="workbookPart"></param>
-        public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
+        public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+            : base(worksheetPart, workbookPart)
         {
         }
 
         /// <summary>
         /// Reads the final verdict worksheet of a benchmark test definition.
         /// </summary>
-        /// <param name="benchmarkTestInput"></param>
+        /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
