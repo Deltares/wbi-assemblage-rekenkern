@@ -69,7 +69,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionList">This list needs to have also categories. Sections are restricted to either 
         /// FmSectionWithDirectCategory of FmSectionWithIndirectCategory.</param>
         /// <param name="commonSections">The of all common failure mechanism sections.</param>
-        /// <returns></returns>
+        /// <returns>The assembly result per common denominator section for the specified failure mechanism.</returns>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections);
