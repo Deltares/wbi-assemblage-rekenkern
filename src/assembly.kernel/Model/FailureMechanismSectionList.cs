@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Model
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
         public FailureMechanismSectionList(string failureMechanismId,
-            IEnumerable<FailureMechanismSection> sectionResults)
+                                           IEnumerable<FailureMechanismSection> sectionResults)
         {
             Sections = CheckSectionResults(sectionResults);
             FailureMechanismId = failureMechanismId ?? "";
@@ -90,19 +90,19 @@ namespace Assembly.Kernel.Model
             if (sectionResultsArray.Length == 0)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             // Check if all entries are either direct or indirect, not a combination.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.InputNotTheSameType);
+                                            EAssemblyErrors.InputNotTheSameType);
             }
 
             var orderedResults = sectionResultsArray
-                .OrderBy(sectionResult => sectionResult.SectionStart)
-                .ToArray();
+                                 .OrderBy(sectionResult => sectionResult.SectionStart)
+                                 .ToArray();
 
             FailureMechanismSection previousFailureMechanismSection = null;
             foreach (var section in orderedResults)
@@ -113,7 +113,7 @@ namespace Assembly.Kernel.Model
                     if (section.SectionStart > 0.0)
                     {
                         throw new AssemblyException("FailureMechanismSectionList",
-                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
                 }
                 else
@@ -122,7 +122,7 @@ namespace Assembly.Kernel.Model
                     if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
                     {
                         throw new AssemblyException("FailuremechanismSectionList",
-                            EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                                                    EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                     }
                 }
 

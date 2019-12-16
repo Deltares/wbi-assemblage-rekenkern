@@ -35,15 +35,6 @@ namespace Assembly.Kernel.Tests.Model
     [TestFixture]
     public class FailureMechanismSectionListTests
     {
-        private static void CheckException(AssemblyException e, EAssemblyErrors expectedError)
-        {
-            Assert.NotNull(e.Errors);
-            var message = e.Errors.FirstOrDefault();
-            Assert.NotNull(message);
-            Assert.AreEqual(expectedError, message.ErrorCode);
-            Assert.Pass();
-        }
-
         [Test]
         public void EmptyListInputTest()
         {
@@ -66,7 +57,10 @@ namespace Assembly.Kernel.Tests.Model
         {
             var list = new FailureMechanismSectionList(
                 null,
-                new[] {new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr)}
+                new[]
+                {
+                    new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr)
+                }
             );
 
             Assert.AreEqual("", list.FailureMechanismId);
@@ -227,6 +221,15 @@ namespace Assembly.Kernel.Tests.Model
             }
 
             Assert.Fail("Expected exception was not thrown");
+        }
+
+        private static void CheckException(AssemblyException e, EAssemblyErrors expectedError)
+        {
+            Assert.NotNull(e.Errors);
+            var message = e.Errors.FirstOrDefault();
+            Assert.NotNull(message);
+            Assert.AreEqual(expectedError, message.ErrorCode);
+            Assert.Pass();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <returns>The updated FmSectionCategoryCompliancyResults object (self)</returns>
         /// <exception cref="AssemblyException">Thrown when a category is supplied which is not allowed</exception>
         public FmSectionCategoryCompliancyResults Set(EFmSectionCategory category,
-            ECategoryCompliancy compliancyResult)
+                                                      ECategoryCompliancy compliancyResult)
         {
             if (!compliancyResultMap.ContainsKey(category))
             {

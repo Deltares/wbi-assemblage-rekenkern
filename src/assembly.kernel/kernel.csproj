@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{2925251D-96CC-4A66-8AC6-2B4D39DFD399}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -11,8 +11,6 @@
     <AssemblyName>Assembly.Kernel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -32,8 +30,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -91,14 +87,9 @@
     <Compile Include="Model\ModelExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\sln\COPYING">
-      <Link>COPYING</Link>
+    <None Include="..\..\build\Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
     </None>
-    <None Include="..\..\sln\COPYING.LESSER">
-      <Link>COPYING.LESSER</Link>
-    </None>
-    <None Include="assembly.kernel.licenseheader" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

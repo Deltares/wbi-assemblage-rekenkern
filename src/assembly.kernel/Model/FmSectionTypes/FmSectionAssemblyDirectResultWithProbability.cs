@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
             if (failureProbability < 0.0 || failureProbability > 1.0)
             {
                 throw new AssemblyException("FmSectionAssemblyDirectResultWithProbability",
-                    EAssemblyErrors.FailureProbabilityOutOfRange);
+                                            EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
             FailureProbability = failureProbability;

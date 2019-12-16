@@ -1,4 +1,27 @@
-﻿using System.Linq;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
@@ -9,10 +32,24 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
-    public class Group4NoDetailedAssessmentFailureMechanismTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
+    /// <summary>
+    /// Result tester for failure mechanisms in group 4 without detailed assessment.
+    /// </summary>
+    public class Group4NoDetailedAssessmentFailureMechanismResultTester : FailureMechanismResultTesterBase<Group4Or5ExpectedFailureMechanismResult>
     {
-        public Group4NoDetailedAssessmentFailureMechanismTester(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(methodResults, expectedFailureMechanismResult)
+        /// <summary>
+        /// Creates a new instance of <see cref="Group4NoDetailedAssessmentFailureMechanismResultTester"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        public Group4NoDetailedAssessmentFailureMechanismResultTester(MethodResultsListing methodResults,
+                                                                      IExpectedFailureMechanismResult
+                                                                          expectedFailureMechanismResult)
+            : base(methodResults, expectedFailureMechanismResult) {}
+
+        public override bool? TestDetailedAssessment()
         {
+            return null;
         }
 
         protected override void TestSimpleAssessmentInternal()
@@ -25,16 +62,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group4NoDetailedAssessmentFailureMechanismSection != null)
                 {
                     // WBI-0E-1
-                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    FmSectionAssemblyDirectResult result =
+                        assembler.TranslateAssessmentResultWbi0E1(
+                            group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
-        }
-
-        public override bool? TestDetailedAssessment()
-        {
-            return null;
         }
 
         protected override void TestTailorMadeAssessmentInternal()
@@ -104,27 +140,27 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetSimpleAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0E1 = GetUpdatedMethodResult(MethodResults.Wbi0E1, result);
+            MethodResults.Wbi0E1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0E1, result);
         }
 
         protected override void SetTailorMadeAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0T1 = GetUpdatedMethodResult(MethodResults.Wbi0T1, result);
+            MethodResults.Wbi0T1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T1, result);
         }
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0A1 = GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
+            MethodResults.Wbi0A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0A1, result);
         }
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Wbi1A1 = GetUpdatedMethodResult(MethodResults.Wbi1A1, result);
+            MethodResults.Wbi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1A1, result);
         }
 
         protected override void SetAssessmentSectionMethodResultTemporal(bool result)
         {
-            MethodResults.Wbi1A1T = GetUpdatedMethodResult(MethodResults.Wbi1A1T, result);
+            MethodResults.Wbi1A1T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1A1T, result);
         }
 
         private FmSectionAssemblyDirectResult CreateFmSectionAssemblyDirectResult(IFailureMechanismSection section)

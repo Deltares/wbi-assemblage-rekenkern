@@ -1,15 +1,50 @@
-﻿using System;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
+using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
-    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : BenchmarkTestsBase, IFailureMechanismResultTester where TFailureMechanismResult : class, IExpectedFailureMechanismResult
+    /// <summary>
+    /// Base class for failure mechanism result tester.
+    /// </summary>
+    /// <typeparam name="TFailureMechanismResult">The type of failure mechanism result.</typeparam>
+    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester
+        where TFailureMechanismResult : class, IExpectedFailureMechanismResult
     {
         protected readonly TFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;
 
-        protected FailureMechanismResultTesterBase(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        /// <summary>
+        /// Creates a new instance of <see cref="FailureMechanismResultTesterBase{TFailureMechanismResult}"/>.
+        /// </summary>
+        /// <param name="methodResults">The method results.</param>
+        /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
+                                                   IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             ExpectedFailureMechanismResult = expectedFailureMechanismResult as TFailureMechanismResult;
             MethodResults = methodResults;
@@ -27,7 +62,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetSimpleAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Eenvoudige toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetSimpleAssessmentMethodResult(false);
@@ -43,7 +78,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetDetailedAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Gedetailleerde toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetDetailedAssessmentMethodResult(false);
@@ -59,7 +94,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetTailorMadeAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Toets op maat - {1}", ExpectedFailureMechanismResult.Name, e.Message);
                 SetTailorMadeAssessmentMethodResult(false);
@@ -75,10 +110,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetCombinedAssessmentMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetCombinedAssessmentMethodResult(false);
                 return false;
             }
@@ -92,10 +127,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetAssessmentSectionMethodResult(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetAssessmentSectionMethodResult(false);
                 return false;
             }
@@ -109,10 +144,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 SetAssessmentSectionMethodResultTemporal(true);
                 return true;
             }
-            catch (Exception e)
+            catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
-                    e.Message);
+                                  e.Message);
                 SetAssessmentSectionMethodResultTemporal(false);
                 return false;
             }
@@ -122,13 +157,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void TestSimpleAssessmentInternal();
 
-        protected virtual void SetDetailedAssessmentMethodResult(bool result)
-        {
-        }
+        protected virtual void SetDetailedAssessmentMethodResult(bool result) {}
 
-        protected virtual void TestDetailedAssessmentInternal()
-        {
-        }
+        protected virtual void TestDetailedAssessmentInternal() {}
 
         protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
 

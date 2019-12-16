@@ -21,28 +21,32 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model.CategoryLimits;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using assembly.kernel.benchmark.tests.TestHelpers;
+using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
+namespace assembly.kernel.benchmark.tests
 {
     /// <summary>
-    /// Interface for expected probabilistic failure mechanism result.
+    /// Factory for creating benchmark test cases.
     /// </summary>
-    public interface IProbabilisticExpectedFailureMechanismResult : IGroup3ExpectedFailureMechanismResult
+    public class BenchmarkTestCaseFactory
     {
         /// <summary>
-        /// The expected assessment result probability corresponding to the expected assessment result
+        /// Gets all benchmark test cases.
         /// </summary>
-        double ExpectedAssessmentResultProbability { get; set; }
+        public static IEnumerable<TestCaseData> BenchmarkTestCases =>
+            AcquireAllBenchmarkTests().Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
+            {
+                TestName = BenchmarkTestHelper.GetTestName(t)
+            });
 
-        /// <summary>
-        /// The expected assessment result probability corresponding to the expected assessment result as a result of partial assembly.
-        /// </summary>
-        double ExpectedAssessmentResultProbabilityTemporal { get; set; }
-
-        /// <summary>
-        /// The expected categories for this failure mechanism at failure mechanism level.
-        /// </summary>
-        CategoriesList<FailureMechanismCategory> ExpectedFailureMechanismCategories { get; set; }
+        private static IEnumerable<string> AcquireAllBenchmarkTests()
+        {
+            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
+            return Directory.GetFiles(testDirectory, "*.xlsm");
+        }
     }
 }

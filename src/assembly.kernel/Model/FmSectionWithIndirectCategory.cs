@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Model
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure mechanism section</param>
         public FmSectionWithIndirectCategory(double sectionStart, double sectionEnd,
-            EIndirectAssessmentResult category) :
+                                             EIndirectAssessmentResult category) :
             base(sectionStart, sectionEnd)
         {
             Category = category;

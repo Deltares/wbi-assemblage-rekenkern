@@ -1,4 +1,27 @@
-﻿using System;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
@@ -8,12 +31,44 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Reader to read common assessment section results.
+    /// </summary>
     public class CommonAssessmentSectionResultsReader : ExcelSheetReaderBase
     {
         private readonly string[] columnStrings =
         {
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-            "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE"
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "U",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z",
+            "AA",
+            "AB",
+            "AC",
+            "AD",
+            "AE"
         };
 
         private readonly Dictionary<MechanismType, bool> failureMechanisms = new Dictionary<MechanismType, bool>
@@ -47,18 +102,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         };
 
         /// <summary>
-        /// Creates an instance of the CommonAssessmentSectionResultsReader
+        /// Creates a new instance of <see cref="CommonAssessmentSectionResultsReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
-        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
-        {
-        }
+        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
+            worksheetPart, workbookPart) {}
 
         /// <summary>
         /// Reads the input and expected output of assembly of the combined section results.
         /// </summary>
-        /// <param name="benchmarkTestInput"></param>
+        /// <param name="benchmarkTestInput">The input to set the results on.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FmSectionWithDirectCategory>();
@@ -83,7 +137,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             int iRow = 4;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("A",iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("A", iRow) * 1000.0;
                 var endMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
@@ -96,6 +150,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 {
                     AddSectionToList(directResultPair.Value, columnKeys[directResultPair.Key], iRow, startMeters, endMeters);
                 }
+
                 foreach (var indirectResultPair in failureMechanismSpecificCommonSectionsWithIndirectResults)
                 {
                     AddSectionToList(indirectResultPair.Value, columnKeys[indirectResultPair.Key], iRow, startMeters, endMeters);
@@ -103,28 +158,34 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
                 iRow++;
             }
+
             benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
             benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
             var resultsPerFailureMechanism =
                 failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv =>
-                        new FailureMechanismSectionList(kv.Key.ToString("D"), kv.Value))
-                    .Concat(failureMechanismSpecificCommonSectionsWithIndirectResults.Select(kv =>
-                        new FailureMechanismSectionList(kv.Key.ToString("D"), kv.Value)));
+                                                                                   new FailureMechanismSectionList(
+                                                                                       kv.Key.ToString("D"), kv.Value))
+                                                                       .Concat(
+                                                                           failureMechanismSpecificCommonSectionsWithIndirectResults
+                                                                               .Select(kv =>
+                                                                                           new FailureMechanismSectionList(
+                                                                                               kv.Key.ToString("D"), kv.Value)));
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
 
-        private void AddSectionToList(List<FmSectionWithIndirectCategory> list, string columnReference, int iRow, double startMeters, double endMeters)
+        private void AddSectionToList(List<FmSectionWithIndirectCategory> list, string columnReference, int iRow,
+                                      double startMeters, double endMeters)
         {
             var category = GetCellValueAsString(columnReference, iRow).ToIndirectFailureMechanismSectionCategory();
             list.Add(new FmSectionWithIndirectCategory(startMeters, endMeters, category));
         }
 
         private void AddSectionToList(List<FmSectionWithDirectCategory> list, string columnReference, int iRow,
-            double startMeters, double endMeters)
+                                      double startMeters, double endMeters)
         {
-            var category = GetCellValueAsString(columnReference,iRow).ToFailureMechanismSectionCategory();
+            var category = GetCellValueAsString(columnReference, iRow).ToFailureMechanismSectionCategory();
             list.Add(new FmSectionWithDirectCategory(startMeters, endMeters, category));
         }
 

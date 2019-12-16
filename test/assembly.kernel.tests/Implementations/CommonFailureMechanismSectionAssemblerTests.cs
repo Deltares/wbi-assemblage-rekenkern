@@ -38,77 +38,6 @@ namespace Assembly.Kernel.Tests.Implementations
         private readonly ICommonFailureMechanismSectionAssembler assembler =
             new CommonFailureMechanismSectionAssembler();
 
-        private void TestCombinedFailureMechanismSectionAssembler(
-            IEnumerable<FailureMechanismSectionList> failureMechanismSections,
-            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
-            IList<FmSectionWithDirectCategory> expectedCombinedResult,
-            bool partial)
-        {
-            var result = assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, partial);
-            Assert.NotNull(result);
-
-            AssertFailureMechanismSectionLists(expectedFailureMechanismResults, result.ResultPerFailureMechanism);
-
-            AssertCombinedResultsList(expectedCombinedResult, result.CombinedSectionResult);
-        }
-
-        private static void AssertCombinedResultsList(IList<FmSectionWithDirectCategory> expectedCombinedResult,
-            IEnumerable<FmSectionWithDirectCategory> result)
-        {
-            List<FmSectionWithDirectCategory> combinedResult = result.ToList();
-            Assert.AreEqual(expectedCombinedResult.Count, combinedResult.Count);
-            for (var i = 0; i < expectedCombinedResult.Count; i++)
-            {
-                Assert.AreEqual(expectedCombinedResult[i].SectionStart, combinedResult[i].SectionStart);
-                Assert.AreEqual(expectedCombinedResult[i].SectionEnd, combinedResult[i].SectionEnd);
-                Assert.AreEqual(expectedCombinedResult[i].Category, combinedResult[i].Category);
-            }
-        }
-
-        private static void AssertFailureMechanismSectionLists(
-            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
-            IEnumerable<FailureMechanismSectionList> result)
-        {
-            List<FailureMechanismSectionList> resultPerFailureMechanism = result.ToList();
-            Assert.AreEqual(expectedFailureMechanismResults.Count, resultPerFailureMechanism.Count);
-
-            for (var i = 0; i < expectedFailureMechanismResults.Count; i++)
-            {
-                var fmResult = resultPerFailureMechanism[i];
-
-                Assert.AreEqual(expectedFailureMechanismResults[i].FailureMechanismId, fmResult.FailureMechanismId);
-
-                IEnumerable<FailureMechanismSection> sectionResults = fmResult.Sections;
-                IEnumerable<FailureMechanismSection> expectedSectionResults =
-                    expectedFailureMechanismResults[i].Sections;
-
-                Assert.AreEqual(expectedSectionResults.Count(), sectionResults.Count());
-                for (var k = 0; k < expectedSectionResults.Count(); k++)
-                {
-                    var expectedResult = expectedSectionResults.ElementAt(k);
-                    var sectionResult = sectionResults.ElementAt(k);
-                    Assert.NotNull(expectedResult);
-                    Assert.NotNull(sectionResult);
-
-                    Assert.AreEqual(expectedResult.SectionStart, sectionResult.SectionStart);
-                    Assert.AreEqual(expectedResult.SectionEnd, sectionResult.SectionEnd);
-
-                    if (sectionResult is FmSectionWithIndirectCategory)
-                    {
-                        Assert.AreEqual(
-                            ((FmSectionWithIndirectCategory) expectedResult).Category,
-                            ((FmSectionWithIndirectCategory) sectionResult).Category);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(
-                            ((FmSectionWithDirectCategory) expectedResult).Category,
-                            ((FmSectionWithDirectCategory) sectionResult).Category);
-                    }
-                }
-            }
-        }
-
         [Test]
         public void AssembleCommonFailureMechanismSectionsTest()
         {
@@ -180,8 +109,9 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
-                        false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[]
+                                                                                {},
+                                                                            false);
             }
             catch (AssemblyException exception)
             {
@@ -206,8 +136,9 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] { },
-                        false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[]
+                                                                                {},
+                                                                            false);
             }
             catch (AssemblyException exception)
             {
@@ -237,14 +168,18 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                    {
+                        sectionsList1,
+                        sectionsList2
+                    }, false);
             }
             catch (AssemblyException exception)
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
-                    exception.Errors.First().ErrorCode);
+                                exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 
@@ -271,14 +206,18 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[] {sectionsList1, sectionsList2}, false);
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                    {
+                        sectionsList1,
+                        sectionsList2
+                    }, false);
             }
             catch (AssemblyException exception)
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
-                    exception.Errors.First().ErrorCode);
+                                exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 
@@ -329,12 +268,25 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[] {list1, list2, list3},
-                    assessmentSectionLength);
+                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                                                                      {
+                                                                          list1,
+                                                                          list2,
+                                                                          list3
+                                                                      },
+                                                                      assessmentSectionLength);
 
             var expectedSectionLimits = new[]
             {
-                0.0, 5.0, 5.001, 10.0, 15.0, 20.0, 25.0, 28.0, assessmentSectionLength
+                0.0,
+                5.0,
+                5.001,
+                10.0,
+                15.0,
+                20.0,
+                25.0,
+                28.0,
+                assessmentSectionLength
             };
 
             var calculatedCommonSecions = commonSections.Sections.ToArray();
@@ -370,14 +322,22 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[] {list1, list2, list3},
-                    assessmentSectionLength);
+                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                                                                      {
+                                                                          list1,
+                                                                          list2,
+                                                                          list3
+                                                                      },
+                                                                      assessmentSectionLength);
 
-            var expectedSectionLimits = new[] {0.0}
-                .Concat(list1.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list2.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list3.Sections.Select(r => r.SectionEnd).ToArray())
-                .Distinct().OrderBy(v => v).ToArray();
+            var expectedSectionLimits = new[]
+                                        {
+                                            0.0
+                                        }
+                                        .Concat(list1.Sections.Select(r => r.SectionEnd).ToArray())
+                                        .Concat(list2.Sections.Select(r => r.SectionEnd).ToArray())
+                                        .Concat(list3.Sections.Select(r => r.SectionEnd).ToArray())
+                                        .Distinct().OrderBy(v => v).ToArray();
 
             var calculatedCommonSecions = commonSections.Sections.ToArray();
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSecions.Length);
@@ -394,7 +354,8 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new FailureMechanismSectionList[] { }, 10.0);
+                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new FailureMechanismSectionList[]
+                                                                              {}, 10.0);
             }
             catch (AssemblyException exception)
             {
@@ -411,7 +372,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(-2.3, EAssemblyErrors.SectionLengthOutOfRange)]
         [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
         public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
-            EAssemblyErrors expectedError)
+                                                                                               EAssemblyErrors expectedError)
         {
             var list1 = new FailureMechanismSectionList("FM1", new[]
             {
@@ -422,8 +383,11 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[] {list1},
-                        assessmentLength);
+                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                                                                          {
+                                                                              list1
+                                                                          },
+                                                                          assessmentLength);
             }
             catch (AssemblyException exception)
             {
@@ -456,8 +420,12 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[] {list1, list2},
-                        assessmentSectionLength);
+                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                                                                          {
+                                                                              list1,
+                                                                              list2
+                                                                          },
+                                                                          assessmentSectionLength);
             }
             catch (AssemblyException exception)
             {
@@ -908,7 +876,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
-                        commonSectionsList);
+                                                                                     commonSectionsList);
             }
             catch (AssemblyException exception)
             {
@@ -944,7 +912,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
-                    exception.Errors.First().ErrorCode);
+                                exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 
@@ -1016,18 +984,18 @@ namespace Assembly.Kernel.Tests.Implementations
             });
             var commonSectionsWithResults =
                 assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
-                    commonSectionsList);
+                                                                                 commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
             Assert.AreEqual(EFmSectionCategory.IIIv,
-                ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
             Assert.AreEqual(EFmSectionCategory.IIIv,
-                ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
             Assert.AreEqual(EFmSectionCategory.IVv,
-                ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
             Assert.AreEqual(EFmSectionCategory.IVv,
-                ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
         [Test]
@@ -1047,18 +1015,89 @@ namespace Assembly.Kernel.Tests.Implementations
             });
             var commonSectionsWithResults =
                 assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
-                    commonSectionsList);
+                                                                                 commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
             Assert.AreEqual(EFmSectionCategory.IIIv,
-                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(0)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
             Assert.AreEqual(EFmSectionCategory.IIIv,
-                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(1)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
             Assert.AreEqual(EFmSectionCategory.IVv,
-                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(2)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
             Assert.AreEqual(EFmSectionCategory.IVv,
-                ((FmSectionWithDirectCategory)commonSectionsWithResults.Sections.ElementAt(3)).Category);
+                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
+        }
+
+        private void TestCombinedFailureMechanismSectionAssembler(
+            IEnumerable<FailureMechanismSectionList> failureMechanismSections,
+            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
+            IList<FmSectionWithDirectCategory> expectedCombinedResult,
+            bool partial)
+        {
+            var result = assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, partial);
+            Assert.NotNull(result);
+
+            AssertFailureMechanismSectionLists(expectedFailureMechanismResults, result.ResultPerFailureMechanism);
+
+            AssertCombinedResultsList(expectedCombinedResult, result.CombinedSectionResult);
+        }
+
+        private static void AssertCombinedResultsList(IList<FmSectionWithDirectCategory> expectedCombinedResult,
+                                                      IEnumerable<FmSectionWithDirectCategory> result)
+        {
+            List<FmSectionWithDirectCategory> combinedResult = result.ToList();
+            Assert.AreEqual(expectedCombinedResult.Count, combinedResult.Count);
+            for (var i = 0; i < expectedCombinedResult.Count; i++)
+            {
+                Assert.AreEqual(expectedCombinedResult[i].SectionStart, combinedResult[i].SectionStart);
+                Assert.AreEqual(expectedCombinedResult[i].SectionEnd, combinedResult[i].SectionEnd);
+                Assert.AreEqual(expectedCombinedResult[i].Category, combinedResult[i].Category);
+            }
+        }
+
+        private static void AssertFailureMechanismSectionLists(
+            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
+            IEnumerable<FailureMechanismSectionList> result)
+        {
+            List<FailureMechanismSectionList> resultPerFailureMechanism = result.ToList();
+            Assert.AreEqual(expectedFailureMechanismResults.Count, resultPerFailureMechanism.Count);
+
+            for (var i = 0; i < expectedFailureMechanismResults.Count; i++)
+            {
+                var fmResult = resultPerFailureMechanism[i];
+
+                Assert.AreEqual(expectedFailureMechanismResults[i].FailureMechanismId, fmResult.FailureMechanismId);
+
+                IEnumerable<FailureMechanismSection> sectionResults = fmResult.Sections;
+                IEnumerable<FailureMechanismSection> expectedSectionResults =
+                    expectedFailureMechanismResults[i].Sections;
+
+                Assert.AreEqual(expectedSectionResults.Count(), sectionResults.Count());
+                for (var k = 0; k < expectedSectionResults.Count(); k++)
+                {
+                    var expectedResult = expectedSectionResults.ElementAt(k);
+                    var sectionResult = sectionResults.ElementAt(k);
+                    Assert.NotNull(expectedResult);
+                    Assert.NotNull(sectionResult);
+
+                    Assert.AreEqual(expectedResult.SectionStart, sectionResult.SectionStart);
+                    Assert.AreEqual(expectedResult.SectionEnd, sectionResult.SectionEnd);
+
+                    if (sectionResult is FmSectionWithIndirectCategory)
+                    {
+                        Assert.AreEqual(
+                            ((FmSectionWithIndirectCategory) expectedResult).Category,
+                            ((FmSectionWithIndirectCategory) sectionResult).Category);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(
+                            ((FmSectionWithDirectCategory) expectedResult).Category,
+                            ((FmSectionWithDirectCategory) sectionResult).Category);
+                    }
+                }
+            }
         }
     }
 }

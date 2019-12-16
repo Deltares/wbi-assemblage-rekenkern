@@ -1,4 +1,27 @@
-﻿using System;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
@@ -16,30 +39,70 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     {
         private readonly MechanismType[] directMechanismTypes =
         {
-            MechanismType.STBI, MechanismType.STBU, MechanismType.STPH, MechanismType.STMI, MechanismType.AGK,
-            MechanismType.AWO, MechanismType.GEBU, MechanismType.GABU, MechanismType.GEKB, MechanismType.GABI,
-            MechanismType.ZST, MechanismType.DA, MechanismType.HTKW, MechanismType.BSKW, MechanismType.PKW,
-            MechanismType.STKWp, MechanismType.STKWl, MechanismType.INN, 
+            MechanismType.STBI,
+            MechanismType.STBU,
+            MechanismType.STPH,
+            MechanismType.STMI,
+            MechanismType.AGK,
+            MechanismType.AWO,
+            MechanismType.GEBU,
+            MechanismType.GABU,
+            MechanismType.GEKB,
+            MechanismType.GABI,
+            MechanismType.ZST,
+            MechanismType.DA,
+            MechanismType.HTKW,
+            MechanismType.BSKW,
+            MechanismType.PKW,
+            MechanismType.STKWp,
+            MechanismType.STKWl,
+            MechanismType.INN
         };
 
         private readonly EFmSectionCategory[] expectedDirectResults =
         {
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.IIv, EFmSectionCategory.Iv,
-            EFmSectionCategory.IIv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.IIIv, EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv
         };
 
         private readonly MechanismType[] indirectMechanismTypes =
         {
-            MechanismType.VLGA, MechanismType.VLAF, MechanismType.VLZV, MechanismType.NWObe, MechanismType.NWObo,
-            MechanismType.NWOkl, MechanismType.NWOoc, MechanismType.HAV
+            MechanismType.VLGA,
+            MechanismType.VLAF,
+            MechanismType.VLZV,
+            MechanismType.NWObe,
+            MechanismType.NWObo,
+            MechanismType.NWOkl,
+            MechanismType.NWOoc,
+            MechanismType.HAV
         };
 
         private readonly EIndirectAssessmentResult[] expectedIndirectResults =
         {
-            EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FactoredInOtherFailureMechanism, EIndirectAssessmentResult.FvEt
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
+            EIndirectAssessmentResult.FvEt
         };
 
         [Test]
@@ -49,7 +112,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
-
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
                 var workSheetPart = workSheetParts["Gecombineerd totaal vakoordeel"];
@@ -78,25 +140,31 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                     if (ninethSection is FmSectionWithDirectCategory)
                     {
                         var sectionWithDirectCategory = (FmSectionWithDirectCategory) ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes,type)], sectionWithDirectCategory);
+                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
+                                                  sectionWithDirectCategory);
                     }
+
                     if (ninethSection is FmSectionWithIndirectCategory)
                     {
-                        var sectionWithIndirectCategory = (FmSectionWithIndirectCategory)ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)], sectionWithIndirectCategory);
+                        var sectionWithIndirectCategory = (FmSectionWithIndirectCategory) ninethSection;
+                        AssertResultsIsAsExpected(
+                            6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)],
+                            sectionWithIndirectCategory);
                     }
                 }
             }
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EIndirectAssessmentResult category, FmSectionWithIndirectCategory section)
+        private void AssertResultsIsAsExpected(double start, double end, EIndirectAssessmentResult category,
+                                               FmSectionWithIndirectCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);
             Assert.AreEqual(category, section.Category);
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EFmSectionCategory category, FmSectionWithDirectCategory section)
+        private void AssertResultsIsAsExpected(double start, double end, EFmSectionCategory category,
+                                               FmSectionWithDirectCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);

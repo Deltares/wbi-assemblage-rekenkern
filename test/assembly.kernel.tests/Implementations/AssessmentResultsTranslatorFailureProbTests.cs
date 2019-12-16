@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new FmSectionCategory(EFmSectionCategory.Iv, 0, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4),
                 new FmSectionCategory(EFmSectionCategory.IIv, 1 / 30.0 * 1 / 1000.0 * 0.04 / 14.4,
-                    1 / 1000.0 * 0.04 / 14.4),
+                                      1 / 1000.0 * 0.04 / 14.4),
                 new FmSectionCategory(EFmSectionCategory.IIIv, 1 / 1000.0 * 0.04 / 14.4, 1 / 300.0 * 0.04 / 14.4),
                 new FmSectionCategory(EFmSectionCategory.IVv, 1 / 300.0 * 0.04 / 14.4, 1 / 300.0),
                 new FmSectionCategory(EFmSectionCategory.Vv, 1 / 300.0, 30.0 * 1 / 300.0),
@@ -125,8 +125,9 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0G5FailureProbabilityTest(double failureProbability)
         {
             var result = translator.TranslateAssessmentResultWbi0G5(FailureMechanismSectionLengthEffectFactor,
-                EAssessmentResultTypeG2.ResultSpecified,
-                failureProbability, AssessmentSectionAmelandDefaultCategories);
+                                                                    EAssessmentResultTypeG2.ResultSpecified,
+                                                                    failureProbability,
+                                                                    AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             Assert.AreEqual(failureProbability * FailureMechanismSectionLengthEffectFactor, result.FailureProbability);
@@ -140,8 +141,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0G5AssessmentResultTest(EAssessmentResultTypeG2 assessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0G5(FailureMechanismSectionLengthEffectFactor,
-                assessmentResult,
-                double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                                    assessmentResult,
+                                                                    double.NaN, AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             if (result.Result == EFmSectionCategory.Iv || result.Result == EFmSectionCategory.NotApplicable)
@@ -153,7 +154,6 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.IsNaN(result.FailureProbability);
             }
 
-
             return result.Result;
         }
 
@@ -163,8 +163,8 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 translator.TranslateAssessmentResultWbi0G5(FailureMechanismSectionLengthEffectFactor,
-                    EAssessmentResultTypeG2.ResultSpecified,
-                    double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                           EAssessmentResultTypeG2.ResultSpecified,
+                                                           double.NaN, AssessmentSectionAmelandDefaultCategories);
             }
             catch (AssemblyException e)
             {
@@ -181,8 +181,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi0G5ResultingFailureProbAboveOneTest()
         {
             var result = translator.TranslateAssessmentResultWbi0G5(FailureMechanismSectionLengthEffectFactor,
-                EAssessmentResultTypeG2.ResultSpecified,
-                0.6, AssessmentSectionAmelandDefaultCategories);
+                                                                    EAssessmentResultTypeG2.ResultSpecified,
+                                                                    0.6, AssessmentSectionAmelandDefaultCategories);
             Assert.AreEqual(1.0, result.FailureProbability);
         }
 
@@ -192,7 +192,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0T3FailureProbabilityTest(double failureProbability)
         {
             var result = translator.TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3.ResultSpecified,
-                failureProbability, AssessmentSectionAmelandDefaultCategories);
+                                                                    failureProbability,
+                                                                    AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             Assert.AreEqual(failureProbability, result.FailureProbability);
@@ -206,7 +207,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0T3AssessmentResultTest(EAssessmentResultTypeT3 assessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0T3(assessmentResult,
-                double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                                    double.NaN, AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             if (assessmentResult == EAssessmentResultTypeT3.Fv)
@@ -227,7 +228,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 translator.TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3.ResultSpecified,
-                    double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                           double.NaN, AssessmentSectionAmelandDefaultCategories);
             }
             catch (AssemblyException e)
             {
@@ -246,8 +247,9 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0T5FailureProbabilityTest(double failureProbability)
         {
             var result = translator.TranslateAssessmentResultWbi0T5(FailureMechanismSectionLengthEffectFactor,
-                EAssessmentResultTypeT3.ResultSpecified,
-                failureProbability, AssessmentSectionAmelandDefaultCategories);
+                                                                    EAssessmentResultTypeT3.ResultSpecified,
+                                                                    failureProbability,
+                                                                    AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             Assert.AreEqual(failureProbability * FailureMechanismSectionLengthEffectFactor, result.FailureProbability);
@@ -261,8 +263,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public EFmSectionCategory Wbi0T5AssessmentResultTest(EAssessmentResultTypeT3 assessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0T5(FailureMechanismSectionLengthEffectFactor,
-                assessmentResult,
-                double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                                    assessmentResult,
+                                                                    double.NaN, AssessmentSectionAmelandDefaultCategories);
 
             Assert.NotNull(result);
             if (assessmentResult == EAssessmentResultTypeT3.Fv)
@@ -283,8 +285,8 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 translator.TranslateAssessmentResultWbi0T5(FailureMechanismSectionLengthEffectFactor,
-                    EAssessmentResultTypeT3.ResultSpecified,
-                    double.NaN, AssessmentSectionAmelandDefaultCategories);
+                                                           EAssessmentResultTypeT3.ResultSpecified,
+                                                           double.NaN, AssessmentSectionAmelandDefaultCategories);
             }
             catch (AssemblyException e)
             {
@@ -301,8 +303,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi0T5ResultingFailureProbAboveOneTest()
         {
             var result = translator.TranslateAssessmentResultWbi0T5(FailureMechanismSectionLengthEffectFactor,
-                EAssessmentResultTypeT3.ResultSpecified,
-                0.6, AssessmentSectionAmelandDefaultCategories);
+                                                                    EAssessmentResultTypeT3.ResultSpecified,
+                                                                    0.6, AssessmentSectionAmelandDefaultCategories);
             Assert.AreEqual(1.0, result.FailureProbability);
         }
 

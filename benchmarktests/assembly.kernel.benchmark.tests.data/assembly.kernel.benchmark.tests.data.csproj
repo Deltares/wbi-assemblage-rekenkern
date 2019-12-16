@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\FailureMechanismSections\NWOocFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\IProbabilisticMechanismSection.cs" />
+    <Compile Include="Input\FailureMechanismSections\IProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />
@@ -54,7 +54,7 @@
     <Compile Include="Input\FailureMechanismSections\STBUFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanisms\ExpectedFailureMechanismResultBase.cs" />
-    <Compile Include="Input\FailureMechanisms\FailureMechanismFactory.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismResultFactory.cs" />
     <Compile Include="Input\FailureMechanisms\ProbabilisticExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IProbabilisticExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IGroup3ExpectedFailureMechanismResult.cs" />
@@ -74,6 +74,11 @@
       <Project>{2925251D-96CC-4A66-8AC6-2B4D39DFD399}</Project>
       <Name>kernel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\build\Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{CEF51E59-7750-46DA-94CF-43913C94988F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -60,6 +60,9 @@
     <Compile Include="Readers\TestFileReaderTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\build\Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

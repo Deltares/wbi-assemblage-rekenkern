@@ -34,15 +34,6 @@ namespace Assembly.Kernel.Tests.Model
     [TestFixture]
     public class FmSectionAssemblyResultTests
     {
-        private static void CheckException(AssemblyException e)
-        {
-            Assert.NotNull(e.Errors);
-            var message = e.Errors.FirstOrDefault();
-            Assert.NotNull(message);
-            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
-            Assert.Pass();
-        }
-
         [Test]
         public void DirectFailureProbAboveOne()
         {
@@ -78,7 +69,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             var result = new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv);
 
-            Assert.AreEqual($"FmSectionAssemblyDirectResult [Iv]", result.ToString());
+            Assert.AreEqual("FmSectionAssemblyDirectResult [Iv]", result.ToString());
         }
 
         [Test]
@@ -96,6 +87,15 @@ namespace Assembly.Kernel.Tests.Model
             var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvEt);
 
             Assert.AreEqual("FmSectionAssemblyIndirectResult [FvEt]", result.ToString());
+        }
+
+        private static void CheckException(AssemblyException e)
+        {
+            Assert.NotNull(e.Errors);
+            var message = e.Errors.FirstOrDefault();
+            Assert.NotNull(message);
+            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
+            Assert.Pass();
         }
     }
 }

@@ -1,32 +1,60 @@
-﻿using System;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 {
-    public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader
+    /// <summary>
+    /// Reader for probabilistic failure mechanism sections.
+    /// </summary>
+    public class ProbabilisticFailureMechanismSectionReader : ExcelSheetReaderBase, ISectionReader<ProbabilisticFailureMechanismSection>
     {
         private readonly bool lengthEffectPresent;
 
         /// <summary>
-        /// Creates an instance of the ProbabilisticFailureMechanismSectionReader.
+        /// Creates a new instance of <see cref="ProbabilisticFailureMechanismSectionReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
-        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart, bool lengthEffectPresent)
+        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart,
+                                                          bool lengthEffectPresent)
             : base(worksheetPart, workbookPart)
         {
             this.lengthEffectPresent = lengthEffectPresent;
         }
 
-        public IFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
+        public ProbabilisticFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             var cellFValueAsString = GetCellValueAsString("F", iRow);
             var lengthEffectFactor = lengthEffectPresent ? GetCellValueAsDouble("P", iRow) : 1.0;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
             var cellHValueAsString = GetCellValueAsString("H", iRow);
-            var tailorMadeAssessmentResultProbability = cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
+            var tailorMadeAssessmentResultProbability =
+                cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
 
             return new ProbabilisticFailureMechanismSection
             {

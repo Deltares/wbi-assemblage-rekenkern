@@ -27,11 +27,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("assembly.kernel.benchmark.tests.data")]
+[assembly: AssemblyTitle("kernel_tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("assembly.kernel.benchmark.tests.data")]
+[assembly: AssemblyProduct("kernel_tests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -42,7 +42,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ae6ee545-d958-4f8f-ba37-50be961a0348")]
+[assembly: Guid("65BE57C6-E62D-49E6-85F7-74144351B109")]
 
 // Version information for an assembly consists of the following four values:
 //

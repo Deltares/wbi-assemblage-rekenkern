@@ -1,24 +1,48 @@
-﻿using System.Collections.Generic;
+﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using static System.Double;
-using static System.Int32;
-using static System.String;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
+    /// <summary>
+    /// Helper class for reading excel data.
+    /// </summary>
     public static class ExcelReaderHelper
     {
         /// <summary>
         /// Creates a dictionary of keywords and row numbers based on column A.
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbookpart of the workbook that contains this worksheet</param>
+        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
-        /// <returns></returns>
-        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart, int maxRow)
+        /// <returns>The created dictionary.</returns>
+        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,
+                                                                     int maxRow)
         {
             var dict = new Dictionary<string, int>();
 
@@ -26,10 +50,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             while (iRow <= maxRow)
             {
                 var keyword = GetCellValueAsString(worksheetPart.Worksheet, "A" + iRow, workbookPart);
-                if (!(IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
+                if (!(string.IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
                 {
                     dict[keyword] = iRow;
                 }
+
                 iRow++;
             }
 
@@ -39,60 +64,35 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Reads cell contain and translates the result to a double
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="cellReference"></param>
-        /// <param name="workbookPart"></param>
-        /// <returns></returns>
+        /// <param name="worksheet">The worksheet.</param>
+        /// <param name="cellReference">the cell reference.</param>
+        /// <param name="workbookPart">the workbook part.</param>
+        /// <returns>The cell value as <see cref="double"/>.</returns>
         public static double GetCellValueAsDouble(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
         {
             var cellValue = GetCellValueAsString(worksheet, cellReference, workbookPart);
-            if (IsNullOrWhiteSpace(cellValue))
+            if (string.IsNullOrWhiteSpace(cellValue))
             {
-                return NaN;
+                return double.NaN;
             }
-
 
             var culture = cellValue.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
             double cellValueAsDouble;
-            if (!TryParse(cellValue, NumberStyles.Any, culture, out cellValueAsDouble))
+            if (!double.TryParse(cellValue, NumberStyles.Any, culture, out cellValueAsDouble))
             {
-                return NaN;
+                return double.NaN;
             }
 
             return cellValueAsDouble;
         }
 
         /// <summary>
-        /// Reads cell contain and translates the result to an int
-        /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="cellReference"></param>
-        /// <param name="workbookPart"></param>
-        /// <returns></returns>
-        public static int GetCellValueAsInt(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
-        {
-            var cellValue = GetCellValueAsString(worksheet, cellReference, workbookPart);
-            if (IsNullOrWhiteSpace(cellValue))
-            {
-                return default(int);
-            }
-
-            int cellValueAsInt;
-            if (!TryParse(cellValue, NumberStyles.Any, CultureInfo.InvariantCulture, out cellValueAsInt))
-            {
-                return default(int);
-            }
-
-            return cellValueAsInt;
-        }
-
-        /// <summary>
         /// Reads cell contain and translates the result to a string
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="cellReference"></param>
-        /// <param name="workbookPart"></param>
-        /// <returns></returns>
+        /// <param name="worksheet">The worksheet.</param>
+        /// <param name="cellReference">the cell reference.</param>
+        /// <param name="workbookPart">the workbook part.</param>
+        /// <returns>The cell value as <see cref="string"/>.</returns>
         public static string GetCellValueAsString(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
         {
             var cell = GetCell(worksheet, cellReference);
@@ -105,20 +105,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets te number of columns in an Excel-sheet
-        /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <returns></returns>
-        public static int GetMaxColumn(WorksheetPart worksheetPart)
-        {
-            return worksheetPart.Worksheet.Descendants<Column>().Count();
-        }
-
-        /// <summary>
         /// Gets te number of rows in an Excel-sheet
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <returns></returns>
+        /// <param name="worksheetPart">The worksheet part.</param>
+        /// <returns>The row count.</returns>
         public static int GetMaxRow(WorksheetPart worksheetPart)
         {
             return worksheetPart.Worksheet.Descendants<Row>().Count();
@@ -127,10 +117,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the row number associated to a certain keyword (column A).
         /// </summary>
-        /// <param name="worksheetPart"></param>
-        /// <param name="key"></param>
-        /// <param name="keywords"></param>
-        /// <returns></returns>
+        /// <param name="key">The key to get the row for.</param>
+        /// <param name="keywords">All the keywords.</param>
+        /// <returns>The row number that belongs to the key;
+        /// or -1 when the key does not exist.</returns>
         public static int GetRowId(string key, Dictionary<string, int> keywords)
         {
             if (keywords.ContainsKey(key))
@@ -142,10 +132,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Creates a dictionary of all worksheetparts associated with the name of the tab in Excel.
+        /// Creates a dictionary of all worksheet parts associated with the name of the tab in Excel.
         /// </summary>
-        /// <param name="workbookPart"></param>
-        /// <returns></returns>
+        /// <param name="workbookPart">The workbook part.</param>
+        /// <returns>A dictionary with all worksheet parts
+        /// associated with the name of the tab in Excel</returns>
         public static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();
@@ -166,12 +157,12 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private static string CellValueAsStringFromCell(Cell cell, WorkbookPart workbookPart)
         {
-            string cellValue = Empty;
+            string cellValue = string.Empty;
 
             if (cell.DataType != null && cell.DataType == CellValues.SharedString && workbookPart != null)
             {
                 int id;
-                if (TryParse(cell.InnerText, out id))
+                if (int.TryParse(cell.InnerText, out id))
                 {
                     SharedStringItem item = GetSharedStringItemById(workbookPart, id);
 

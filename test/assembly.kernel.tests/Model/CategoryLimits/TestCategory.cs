@@ -34,9 +34,9 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             CategoryIDentifyer = categoryIDentifyer;
         }
 
+        public string CategoryIDentifyer { get; }
+
         public double UpperLimit { get; }
         public double LowerLimit { get; }
-
-        public string CategoryIDentifyer { get; }
     }
 }

@@ -48,15 +48,16 @@ namespace Assembly.Kernel.Model.CategoryLimits
         }
 
         /// <summary>
-        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1. The categories in this list are ordered from best (low probabilities) to worst (high probabilities).
+        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1.
+        /// The categories in this list are ordered from best (low probabilities) to worst (high probabilities).
         /// </summary>
         public TCategory[] Categories { get; }
 
         /// <summary>
-        /// Returns the first category where the upper limit equals or is less then the specified failure probability 
+        /// Returns the first category where the upper limit equals or is less then the specified failure probability.
         /// </summary>
-        /// <param name="failureProbability">The failure probability that should be translated</param>
-        /// <returns></returns>
+        /// <param name="failureProbability">The failure probability that should be translated.</param>
+        /// <returns>The category based on the <paramref name="failureProbability"/>.</returns>
         public TCategory GetCategoryForFailureProbability(double failureProbability)
         {
             if (double.IsNaN(failureProbability))

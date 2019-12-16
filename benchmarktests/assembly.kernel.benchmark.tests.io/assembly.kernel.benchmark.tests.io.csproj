@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -65,6 +65,9 @@
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\build\Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

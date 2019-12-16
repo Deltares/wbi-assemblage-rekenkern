@@ -37,10 +37,10 @@ namespace Assembly.Kernel.Model
         /// <param name="resultPerFailureMechanism">The greatest common denominator section results per 
         /// Failure mechanism.</param>
         /// <param name="combinedSectionResult">The greatest common denominator section results for 
-        /// all failure mechnisms combined.</param>
+        /// all failure mechanisms combined.</param>
         /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
         public AssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
-            IEnumerable<FmSectionWithDirectCategory> combinedSectionResult)
+                              IEnumerable<FmSectionWithDirectCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Model
         public IEnumerable<FailureMechanismSectionList> ResultPerFailureMechanism { get; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechnisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> CombinedSectionResult { get; }
     }

@@ -63,7 +63,7 @@ namespace Assembly.Kernel.Model
                     return EFailureMechanismCategory.Nvt;
                 default:
                     throw new AssemblyException("FailureMechanismAssembler: " + failureMechanismCategory,
-                        EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                                                EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Assembly.Kernel.Model
                     return EAssessmentGrade.Gr;
                 default:
                     throw new AssemblyException("FailureMechanismAssembler: " + failureMechanismCategory,
-                        EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                                                EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
         }
     }

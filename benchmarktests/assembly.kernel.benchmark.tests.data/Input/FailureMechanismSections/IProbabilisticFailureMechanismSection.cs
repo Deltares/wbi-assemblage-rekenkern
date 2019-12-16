@@ -21,28 +21,18 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.FmSectionTypes;
 
-namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
+namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
     /// <summary>
-    /// Interface for expected probabilistic failure mechanism result.
+    /// Interface for a probabilistic failure mechanism section.
     /// </summary>
-    public interface IProbabilisticExpectedFailureMechanismResult : IGroup3ExpectedFailureMechanismResult
+    public interface IProbabilisticFailureMechanismSection : IFailureMechanismSection<EFmSectionCategory>
     {
         /// <summary>
-        /// The expected assessment result probability corresponding to the expected assessment result
+        /// The expected combined result probability (0 - 1) of assembly with method WBI-0A-1.
         /// </summary>
-        double ExpectedAssessmentResultProbability { get; set; }
-
-        /// <summary>
-        /// The expected assessment result probability corresponding to the expected assessment result as a result of partial assembly.
-        /// </summary>
-        double ExpectedAssessmentResultProbabilityTemporal { get; set; }
-
-        /// <summary>
-        /// The expected categories for this failure mechanism at failure mechanism level.
-        /// </summary>
-        CategoriesList<FailureMechanismCategory> ExpectedFailureMechanismCategories { get; set; }
+        double ExpectedCombinedResultProbability { get; }
     }
 }

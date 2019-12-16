@@ -42,6 +42,15 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         public EFmSectionCategory Result { get; }
 
+        /// <summary>
+        /// Convert to string
+        /// </summary>
+        /// <returns>String of the object</returns>
+        public override string ToString()
+        {
+            return "FmSectionAssemblyDirectResult [" + Result + "]";
+        }
+
         /// <inheritdoc />
         public virtual bool HasResult()
         {
@@ -52,15 +61,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public bool NotApplicableOrNeglectable()
         {
             return Result == EFmSectionCategory.NotApplicable || Result == EFmSectionCategory.Iv;
-        }
-
-        /// <summary>
-        /// Convert to string
-        /// </summary>
-        /// <returns>String of the object</returns>
-        public override string ToString()
-        {
-            return "FmSectionAssemblyDirectResult [" + Result + "]";
         }
     }
 }

@@ -34,106 +34,12 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class AssessmentResultsTranslatorAssessmentResultTests
     {
+        private IAssessmentResultsTranslator translator;
+
         [SetUp]
         public void Init()
         {
             translator = new AssessmentResultsTranslator();
-        }
-
-        private IAssessmentResultsTranslator translator;
-
-        private sealed class AssessmentResultTestCases
-        {
-            public static IEnumerable Wbi0E1
-            {
-                get
-                {
-                    yield return
-                        new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EFmSectionCategory.NotApplicable);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EFmSectionCategory.Iv);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E3
-            {
-                get
-                {
-                    yield return
-                        new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EFmSectionCategory.NotApplicable);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0G1
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0T1
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeT1.V).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(EAssessmentResultTypeT1.Vn).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(EAssessmentResultTypeT1.Ngo).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeT1.Fv).Returns(EFmSectionCategory.Iv);
-                    yield return new TestCaseData(EAssessmentResultTypeT1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E2
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EIndirectAssessmentResult.Nvt);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EIndirectAssessmentResult.FvEt);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EIndirectAssessmentResult.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E4
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EIndirectAssessmentResult.Nvt);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EIndirectAssessmentResult.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0G2
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EIndirectAssessmentResult.FvGt);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EIndirectAssessmentResult.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0T2
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeT2.V).Returns(EIndirectAssessmentResult.FvTom);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Vn).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Ngo).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Fv).Returns(EIndirectAssessmentResult.FvTom);
-                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult
-                        .FactoredInOtherFailureMechanism);
-                }
-            }
         }
 
         [Test, TestCaseSource(
@@ -249,6 +155,97 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
 
             return result.Result;
+        }
+
+        private class AssessmentResultTestCases
+        {
+            public static IEnumerable Wbi0E1
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EFmSectionCategory.NotApplicable);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EFmSectionCategory.Iv);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EFmSectionCategory.VIIv);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EFmSectionCategory.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0E3
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EFmSectionCategory.NotApplicable);
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EFmSectionCategory.VIIv);
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EFmSectionCategory.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0G1
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EFmSectionCategory.IIv);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EFmSectionCategory.VIIv);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EFmSectionCategory.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0T1
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeT1.V).Returns(EFmSectionCategory.IIv);
+                    yield return new TestCaseData(EAssessmentResultTypeT1.Vn).Returns(EFmSectionCategory.Vv);
+                    yield return new TestCaseData(EAssessmentResultTypeT1.Ngo).Returns(EFmSectionCategory.VIIv);
+                    yield return new TestCaseData(EAssessmentResultTypeT1.Fv).Returns(EFmSectionCategory.Iv);
+                    yield return new TestCaseData(EAssessmentResultTypeT1.Gr).Returns(EFmSectionCategory.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0E2
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EIndirectAssessmentResult.Nvt);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EIndirectAssessmentResult.FvEt);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EIndirectAssessmentResult.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0E4
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EIndirectAssessmentResult.Nvt);
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EIndirectAssessmentResult.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0G2
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EIndirectAssessmentResult.FvGt);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EIndirectAssessmentResult.Gr);
+                }
+            }
+
+            public static IEnumerable Wbi0T2
+            {
+                get
+                {
+                    yield return new TestCaseData(EAssessmentResultTypeT2.V).Returns(EIndirectAssessmentResult.FvTom);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Vn).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Ngo).Returns(EIndirectAssessmentResult.Ngo);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Fv).Returns(EIndirectAssessmentResult.FvTom);
+                    yield return new TestCaseData(EAssessmentResultTypeT2.Verd).Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
+                }
+            }
         }
     }
 }

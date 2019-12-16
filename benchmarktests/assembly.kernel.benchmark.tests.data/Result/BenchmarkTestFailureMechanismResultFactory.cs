@@ -1,13 +1,39 @@
-﻿using System;
+﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 
 namespace assembly.kernel.benchmark.tests.data.Result
 {
+    /// <summary>
+    /// Factory for creating instances of <see cref="BenchmarkFailureMechanismTestResult"/>.
+    /// </summary>
     public static class BenchmarkTestFailureMechanismResultFactory
     {
-        private static readonly Dictionary<MechanismType, Tuple<string, int>> Infos =
+        private static readonly Dictionary<MechanismType, Tuple<string, int>> infos =
             new Dictionary<MechanismType, Tuple<string, int>>
             {
                 {MechanismType.STBI, new Tuple<string, int>("Macrostabiliteit binnenwaarts", 2)},
@@ -41,16 +67,16 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Creates a default benchmark test result for the specified failure mechanism type.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">The <see cref="MechanismType"/> to get the result for.</param>
+        /// <returns>A new <see cref="BenchmarkFailureMechanismTestResult"/>.</returns>
         public static BenchmarkFailureMechanismTestResult CreateFailureMechanismTestResult(MechanismType type)
         {
-            if (!Infos.ContainsKey(type))
+            if (!infos.ContainsKey(type))
             {
                 throw new InvalidEnumArgumentException();
             }
 
-            var mechanismInformation = Infos[type];
+            Tuple<string, int> mechanismInformation = infos[type];
             return new BenchmarkFailureMechanismTestResult(mechanismInformation.Item1, type, mechanismInformation.Item2);
         }
     }

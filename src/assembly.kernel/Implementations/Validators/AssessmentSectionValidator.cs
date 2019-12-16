@@ -41,7 +41,8 @@ namespace Assembly.Kernel.Implementations.Validators
         /// section. Must be &gt;= 0 &lt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid.</exception>
         public static void CheckAssessmentSectionInput(double length,
-            double failureProbabilitySignallingLimit, double failureProbabilityLowerLimit)
+                                                       double failureProbabilitySignallingLimit,
+                                                       double failureProbabilityLowerLimit)
         {
             var errors = new List<AssemblyErrorMessage>();
             if (length <= 0)

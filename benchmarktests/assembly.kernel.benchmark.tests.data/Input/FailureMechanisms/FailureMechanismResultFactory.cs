@@ -1,12 +1,38 @@
-﻿using System;
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
-    public static class FailureMechanismFactory
+    /// <summary>
+    /// Factory for creating instances of <see cref="IExpectedFailureMechanismResult"/>.
+    /// </summary>
+    public static class FailureMechanismResultFactory
     {
-        private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> Infos =
+        private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> infos =
             new Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>>
             {
                 {MechanismType.STBI, CreateSTBIFailureMechanism},
@@ -41,15 +67,15 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// Creates an empty IExpectedFailureMechanismResult based on the specified MechanismType.
         /// </summary>
         /// <param name="type">The mechanism type of the mechanism for which an empty expected result needs to be created</param>
-        /// <returns></returns>
+        /// <returns>The created <see cref="IExpectedFailureMechanismResult"/>.</returns>
         public static IExpectedFailureMechanismResult CreateFailureMechanism(MechanismType type)
         {
-            if (!Infos.ContainsKey(type))
+            if (!infos.ContainsKey(type))
             {
                 throw new InvalidEnumArgumentException();
             }
 
-            return Infos[type]();
+            return infos[type]();
         }
 
         #region Group 1
@@ -87,6 +113,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new ProbabilisticExpectedFailureMechanismResult("Piping", MechanismType.STPH, 2);
         }
+
         #endregion
 
         #region Group 3
@@ -154,6 +181,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group4Or5ExpectedFailureMechanismResult("Technische innovaties", MechanismType.INN, 4);
         }
+
         #endregion
 
         #region Group 5
@@ -197,7 +225,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group4Or5ExpectedFailureMechanismResult("Havendammen", MechanismType.HAV, 5);
         }
-        #endregion
 
+        #endregion
     }
 }

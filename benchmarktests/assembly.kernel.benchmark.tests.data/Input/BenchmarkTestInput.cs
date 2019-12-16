@@ -1,11 +1,40 @@
-﻿using System.Collections.Generic;
+﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+//
+// This file is part of the Assembly kernel.
+//
+// Assembly kernel is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
+// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All rights reserved.
+#endregion
+
+using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {
+    /// <summary>
+    /// Benchmark test input.
+    /// </summary>
     public class BenchmarkTestInput
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="BenchmarkTestInput"/>.
+        /// </summary>
         public BenchmarkTestInput()
         {
             ExpectedSafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
@@ -43,12 +72,12 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public IEnumerable<FailureMechanismSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechnisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResult { get; set; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechnisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResultTemporal { get; set; }
 

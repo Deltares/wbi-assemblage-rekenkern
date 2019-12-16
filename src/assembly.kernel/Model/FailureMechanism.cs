@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Model
         public FailureMechanism(double lengthEffectFactor, double failureProbabilityMarginFactor)
         {
             FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
-                failureProbabilityMarginFactor);
+                                                                 failureProbabilityMarginFactor);
 
             LengthEffectFactor = lengthEffectFactor;
             FailureProbabilityMarginFactor = failureProbabilityMarginFactor;
