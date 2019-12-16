@@ -123,7 +123,7 @@ namespace Assembly.Kernel.Implementations
             };
 
         /*
-         *direct failure mechnism methods.
+         *direct failure mechanism methods.
          */
         /// <inheritdoc />
         public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(

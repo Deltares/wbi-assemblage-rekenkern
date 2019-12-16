@@ -112,7 +112,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Reads the input and expected output of assembly of the combined section results.
         /// </summary>
-        /// <param name="benchmarkTestInput"></param>
+        /// <param name="benchmarkTestInput">The input to set the results on.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FmSectionWithDirectCategory>();

@@ -34,35 +34,35 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Calculate the category limits for an assessment section as specified in WBI-2-1.
         /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for</param>
-        /// <returns>A list of all the categories with their lower and upper limits</returns>
+        /// <param name="section">The assessment section to calculate the category limits for.</param>
+        /// <returns>A list of all the categories with their lower and upper limits.</returns>
         CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(
             AssessmentSection section);
 
         /// <summary>
-        /// Calculate the category limits for a failure mechanism as specified in WBI-1-1
+        /// Calculate the category limits for a failure mechanism as specified in WBI-1-1.
         /// </summary>
-        /// <param name="section">The assessment section information</param>
-        /// <param name="failureMechanism">The failure mechanism to calculate the category limits for</param>
-        /// <returns>A list of all the categories with their lower and upper limits</returns>
+        /// <param name="section">The assessment section information.</param>
+        /// <param name="failureMechanism">The failure mechanism to calculate the category limits for.</param>
+        /// <returns>A list of all the categories with their lower and upper limits.</returns>
         CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(AssessmentSection section,
                                                                                               FailureMechanism failureMechanism);
 
         /// <summary>
-        /// Calculate the category limits for a failure mechanism section as specified in WBI-0-1
+        /// Calculate the category limits for a failure mechanism section as specified in WBI-0-1.
         /// </summary>
-        /// <param name="section">The assessment section information</param>
-        /// <param name="failureMechanism">The failure mechanism information</param>
-        /// <returns>A list of all the categories with their lower and upper limits</returns>
+        /// <param name="section">The assessment section information.</param>
+        /// <param name="failureMechanism">The failure mechanism information.</param>
+        /// <returns>A list of all the categories with their lower and upper limits.</returns>
         CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
                                                                                 FailureMechanism failureMechanism);
 
         /// <summary>
-        /// Calculate the category limits for a section of failure mechanism STBU as specified in WBI-0-2
+        /// Calculate the category limits for a section of failure mechanism STBU as specified in WBI-0-2.
         /// </summary>
-        /// <param name="assessmentSectionNorm"></param>
-        /// <param name="failureMechanism">The failure mechanism information</param>
-        /// <returns>A list of all the categories with their lower and upper limits</returns>
+        /// <param name="assessmentSectionNorm">The norm of the assessment section.</param>
+        /// <param name="failureMechanism">The failure mechanism information.</param>
+        /// <returns>A list of all the categories with their lower and upper limits.</returns>
         CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
                                                                                 FailureMechanism failureMechanism);
     }

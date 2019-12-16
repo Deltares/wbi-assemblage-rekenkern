@@ -37,10 +37,10 @@ namespace assembly.kernel.benchmark.tests.io
     public static class StringExtensions
     {
         /// <summary>
-        /// Translate a string value to a specific MechanismType
+        /// Translate a string value to a specific <see cref="MechanismType"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="MechanismType"/>.</returns>
         public static MechanismType ToMechanismType(this string str)
         {
             MechanismType mechanismType;
@@ -53,10 +53,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EFailureMechanismCategory
+        /// Translate a string value to a specific <see cref="EFailureMechanismCategory"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EFailureMechanismCategory"/>.</returns>
         public static EFailureMechanismCategory ToFailureMechanismCategory(this string str)
         {
             EFailureMechanismCategory category;
@@ -91,10 +91,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EIndirectAssessmentResult
+        /// Translate a string value to a specific <see cref="EIndirectAssessmentResult"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EIndirectAssessmentResult"/>.</returns>
         public static EIndirectAssessmentResult ToIndirectFailureMechanismSectionCategory(this string str)
         {
             switch (str)
@@ -124,10 +124,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EFmSectionCategory
+        /// Translate a string value to a specific <see cref="EFmSectionCategory"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EFmSectionCategory"/>.</returns>
         public static EFmSectionCategory ToFailureMechanismSectionCategory(this string str)
         {
             EFmSectionCategory sectionCategory;
@@ -163,10 +163,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentGrade
+        /// Translate a string value to a specific <see cref="EAssessmentGrade"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentGrade"/>.</returns>
         public static EAssessmentGrade ToAssessmentGrade(this string str)
         {
             EAssessmentGrade sectionCategory;
@@ -203,10 +203,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeE1
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeE1"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeE1"/>.</returns>
         public static EAssessmentResultTypeE1 ToEAssessmentResultTypeE1(this string str)
         {
             EAssessmentResultTypeE1 assessmentResultType;
@@ -222,10 +222,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeE2
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeE2"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeE2"/>.</returns>
         public static EAssessmentResultTypeE2 ToEAssessmentResultTypeE2(this string str)
         {
             EAssessmentResultTypeE2 assessmentResultType;
@@ -241,10 +241,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeG1
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeG1"/>..
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeG1"/>.</returns>
         public static EAssessmentResultTypeG1 ToEAssessmentResultTypeG1(this string str)
         {
             EAssessmentResultTypeG1 assessmentResultType;
@@ -260,10 +260,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeG2
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeG2"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeG2"/>.</returns>
         public static EAssessmentResultTypeG2 ToEAssessmentResultTypeG2(this string str, bool probabilistic)
         {
             if (probabilistic)
@@ -301,10 +301,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeT1
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeT1"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeT1"/>.</returns>
         public static EAssessmentResultTypeT1 ToEAssessmentResultTypeT1(this string str)
         {
             EAssessmentResultTypeT1 assessmentResultType;
@@ -320,10 +320,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeT2
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeT2"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeT2"/>.</returns>
         public static EAssessmentResultTypeT2 ToEAssessmentResultTypeT2(this string str)
         {
             EAssessmentResultTypeT2 assessmentResultType;
@@ -339,10 +339,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeT3
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeT3"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeT3"/>.</returns>
         public static EAssessmentResultTypeT3 ToEAssessmentResultTypeT3(this string str, bool probabilistic)
         {
             if (probabilistic)
@@ -380,10 +380,10 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific EAssessmentResultTypeT4
+        /// Translate a string value to a specific <see cref="EAssessmentResultTypeT4"/>.
         /// </summary>
-        /// <param name="str">string value to be translated</param>
-        /// <returns></returns>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EAssessmentResultTypeT4"/>.</returns>
         public static EAssessmentResultTypeT4 ToEAssessmentResultTypeT4(this string str)
         {
             var culture = str.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;

@@ -67,7 +67,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Creates a default benchmark test result for the specified failure mechanism type.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The <see cref="MechanismType"/> to get the result for.</param>
         /// <returns>A new <see cref="BenchmarkFailureMechanismTestResult"/>.</returns>
         public static BenchmarkFailureMechanismTestResult CreateFailureMechanismTestResult(MechanismType type)
         {

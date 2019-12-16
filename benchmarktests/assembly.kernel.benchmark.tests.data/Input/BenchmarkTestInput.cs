@@ -72,12 +72,12 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public IEnumerable<FailureMechanismSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechnisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResult { get; set; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechnisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResultTemporal { get; set; }
 

@@ -36,12 +36,12 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Assemble failure mechanism section results into a greatest common denominator assembly result.
         /// </summary>
-        /// <param name="failureMechanismSectionLists">The list of failure mechnism section results 
-        /// grouped by failure mechnism</param>
+        /// <param name="failureMechanismSectionLists">The list of failure mechanism section results 
+        /// grouped by failure mechanism.</param>
         /// <param name="assessmentSectionLength">The total length of the assessment section. 
         /// The sum of the section lengths must be equal to this length.</param>
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
-        /// <returns>The greatest common denominator assembly result</returns>
+        /// <returns>The greatest common denominator assembly result.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
         /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
@@ -52,10 +52,10 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Find the greatest common denominator sections based on a list of all sections for various failure mechanisms.
         /// </summary>
-        /// <param name="failureMechanismSectionLists">A list of all failure mechanism sections for all relevant failure mechanisms</param>
+        /// <param name="failureMechanismSectionLists">A list of all failure mechanism sections for all relevant failure mechanisms.</param>
         /// <param name="assessmentSectionLength">The total length of the assessment section. 
         /// The sum of the section lengths must be equal to this length.</param>
-        /// <returns>The greatest common denominator sections spanning the complete assessment section length</returns>
+        /// <returns>The greatest common denominator sections spanning the complete assessment section length.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
         /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
@@ -64,11 +64,11 @@ namespace Assembly.Kernel.Interfaces
             double assessmentSectionLength);
 
         /// <summary>
-        /// Translate the results per section of a failure mechanism to results per common greatest denominator section
+        /// Translate the results per section of a failure mechanism to results per common greatest denominator section.
         /// </summary>
-        /// <param name="commonSections"></param>
         /// <param name="failureMechanismSectionList">This list needs to have also categories. Sections are restricted to either 
         /// FmSectionWithDirectCategory of FmSectionWithIndirectCategory.</param>
+        /// <param name="commonSections">The of all common failure mechanism sections.</param>
         /// <returns></returns>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
@@ -81,7 +81,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismResults">The list of results per failure mechanism translated to the greatest denominator
         /// sections across all failure mechanisms. All lists should have equal sections (start and end).</param>
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
-        /// <returns>The greatest common denominator assembly result</returns>
+        /// <returns>The greatest common denominator assembly result.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections, or 
         /// when there are only results for indirect failure mechanisms.</exception>
         IEnumerable<FmSectionWithDirectCategory> DetermineCombinedResultPerCommonSectionWbi3C1(

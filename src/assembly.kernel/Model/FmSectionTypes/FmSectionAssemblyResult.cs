@@ -31,13 +31,15 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <summary>
         /// Does the assessment result have a result other than Gr.
         /// </summary>
-        /// <returns>false if the assessment result is Gr</returns>
+        /// <returns><c>false</c> if the assessment result is Gr; <c>true</c> otherwise.</returns>
         bool HasResult();
 
         /// <summary>
         /// Returns whether the specified result is not applicable of has a neglectable probability of failure.
         /// </summary>
-        /// <returns></returns>
+        /// <returns><c>true</c> when the assessment result is
+        /// not applicable or has a neglectable probability of failure;
+        /// <c>false</c> otherwise.</returns>
         bool NotApplicableOrNeglectable();
     }
 }

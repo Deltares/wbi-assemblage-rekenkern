@@ -51,10 +51,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the rownumber given a specific keyword (Column A)
+        /// Gets the row number given a specific keyword (Column A)
         /// </summary>
-        /// <param name="keyword"></param>
-        /// <returns></returns>
+        /// <param name="keyword">The keyword to get te row number for.</param>
+        /// <returns>The row number that belongs to the key; or -1 when
+        /// the key does not exist.</returns>
         protected int GetRowId(string keyword)
         {
             return ExcelReaderHelper.GetRowId(keyword, keywordsDictionary);
@@ -63,9 +64,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the string value of a cell in the specified column at the row that is associated with the specified keyword (Column A)
         /// </summary>
-        /// <param name="columnReference"></param>
-        /// <param name="keyword"></param>
-        /// <returns></returns>
+        /// <param name="columnReference">The column reference.</param>
+        /// <param name="keyword">The keyword to get the cell value from.</param>
+        /// <returns>The cell value as <see cref="string"/>.</returns>
         protected string GetCellValueAsString(string columnReference, string keyword)
         {
             return GetCellValueAsString(columnReference, GetRowId(keyword));
@@ -74,7 +75,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the string value of a cell in the specified column at the specified row
         /// </summary>
-        /// <returns></returns>
+        /// <param name="columnReference">The column reference.</param>
+        /// <param name="rowId">The row id to get the cell value from.</param>
+        /// <returns>The cell value as <see cref="string"/>.</returns>
         protected string GetCellValueAsString(string columnReference, int rowId)
         {
             return ExcelReaderHelper.GetCellValueAsString(worksheet, columnReference + rowId, workbookPart);
@@ -83,9 +86,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the double value of a cell in the specified column at the row that is associated with the specified keyword (Column A)
         /// </summary>
-        /// <param name="columnReference"></param>
-        /// <param name="keyword"></param>
-        /// <returns></returns>
+        /// <param name="columnReference">The column reference.</param>
+        /// <param name="keyword">The keyword to get the cell value from.</param>
+        /// <returns>The cell value as <see cref="double"/>.</returns>
         protected double GetCellValueAsDouble(string columnReference, string keyword)
         {
             return GetCellValueAsDouble(columnReference, GetRowId(keyword));
@@ -94,9 +97,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the double value of a cell in the specified column at the specified row
         /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="columnReference"></param>
-        /// <returns></returns>
+        /// <param name="columnReference">The column reference.</param>
+        /// <param name="rowId">The row id to get the cell value from.</param>
+        /// <returns>The cell value as <see cref="double"/>.</returns>
         protected double GetCellValueAsDouble(string columnReference, int rowId)
         {
             return ExcelReaderHelper.GetCellValueAsDouble(worksheet, columnReference + rowId, workbookPart);

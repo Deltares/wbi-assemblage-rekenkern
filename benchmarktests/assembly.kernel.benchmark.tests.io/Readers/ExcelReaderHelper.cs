@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
-        /// <returns></returns>
+        /// <returns>The created dictionary.</returns>
         public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,
                                                                      int maxRow)
         {
@@ -117,9 +117,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Gets the row number associated to a certain keyword (column A).
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="keywords"></param>
-        /// <returns></returns>
+        /// <param name="key">The key to get the row for.</param>
+        /// <param name="keywords">All the keywords.</param>
+        /// <returns>The row number that belongs to the key;
+        /// or -1 when the key does not exist.</returns>
         public static int GetRowId(string key, Dictionary<string, int> keywords)
         {
             if (keywords.ContainsKey(key))

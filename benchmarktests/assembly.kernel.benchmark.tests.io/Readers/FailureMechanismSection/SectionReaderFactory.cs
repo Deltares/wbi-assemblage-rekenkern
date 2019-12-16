@@ -50,8 +50,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <summary>
         /// Creates a reader for the specified mechanism type.
         /// </summary>
-        /// <param name="mechanismType"></param>
-        /// <returns></returns>
+        /// <param name="mechanismType">The <see cref="MechanismType"/> to get the reader for.</param>
+        /// <returns>The created <see cref="ISectionReader{TFailureMechanismSection}"/>.</returns>
         public ISectionReader<IFailureMechanismSection> CreateReader(MechanismType mechanismType)
         {
             switch (mechanismType)

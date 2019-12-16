@@ -67,7 +67,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// Creates an empty IExpectedFailureMechanismResult based on the specified MechanismType.
         /// </summary>
         /// <param name="type">The mechanism type of the mechanism for which an empty expected result needs to be created</param>
-        /// <returns></returns>
+        /// <returns>The created <see cref="IExpectedFailureMechanismResult"/>.</returns>
         public static IExpectedFailureMechanismResult CreateFailureMechanism(MechanismType type)
         {
             if (!infos.ContainsKey(type))
