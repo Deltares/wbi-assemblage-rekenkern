@@ -31,7 +31,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// <summary>
         /// Creates an empty StbuExpectedFailureMechanismResult
         /// </summary>
-        public StbuExpectedFailureMechanismResult() : base("Macrostabiliteit buitenwaarts") { }
+        public StbuExpectedFailureMechanismResult() : base("Macrostabiliteit buitenwaarts") {}
 
         public override MechanismType Type => MechanismType.STBU;
 

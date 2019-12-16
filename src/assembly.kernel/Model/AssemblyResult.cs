@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Model
         /// all failure mechnisms combined.</param>
         /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
         public AssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
-            IEnumerable<FmSectionWithDirectCategory> combinedSectionResult)
+                              IEnumerable<FmSectionWithDirectCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {

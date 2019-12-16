@@ -38,13 +38,15 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
             bool partialAssembly)
         {
-            FailureMechanismAssemblyResult[] failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+            FailureMechanismAssemblyResult[] failureMechanismResults =
+                CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
 
             if (partialAssembly)
             {
                 failureMechanismResults = failureMechanismResults.Where(fmr =>
-                        fmr.Category != EFailureMechanismCategory.Gr && fmr.Category != EFailureMechanismCategory.VIIt)
-                    .ToArray();
+                                                                            fmr.Category != EFailureMechanismCategory.Gr &&
+                                                                            fmr.Category != EFailureMechanismCategory.VIIt)
+                                                                 .ToArray();
             }
 
             if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
@@ -93,7 +95,8 @@ namespace Assembly.Kernel.Implementations
             CategoriesList<FailureMechanismCategory> categories,
             bool partialAssembly)
         {
-            FailureMechanismAssemblyResult[] failureMechanismResults = CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+            FailureMechanismAssemblyResult[] failureMechanismResults =
+                CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
 
             if (categories == null)
             {
@@ -103,8 +106,9 @@ namespace Assembly.Kernel.Implementations
             if (partialAssembly)
             {
                 failureMechanismResults = failureMechanismResults.Where(fmr =>
-                        fmr.Category != EFailureMechanismCategory.Gr && fmr.Category != EFailureMechanismCategory.VIIt)
-                    .ToArray();
+                                                                            fmr.Category != EFailureMechanismCategory.Gr &&
+                                                                            fmr.Category != EFailureMechanismCategory.VIIt)
+                                                                 .ToArray();
             }
 
             if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
@@ -183,8 +187,8 @@ namespace Assembly.Kernel.Implementations
             }
 
             return assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category
-                ? assemblyResultNoFailureProbability.ToAssessmentGrade()
-                : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
+                       ? assemblyResultNoFailureProbability.ToAssessmentGrade()
+                       : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
         }
 
         private static FailureMechanismAssemblyResult[] CheckFailureMechanismAssemblyResults(
@@ -200,7 +204,7 @@ namespace Assembly.Kernel.Implementations
             if (failureMechanismResults.Count == 0)
             {
                 throw new AssemblyException("AssembleFailureMechanismResult",
-                    EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                                            EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
             return failureMechanismResults.ToArray();

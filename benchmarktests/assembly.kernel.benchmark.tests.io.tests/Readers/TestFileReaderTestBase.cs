@@ -41,24 +41,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             return Path.Combine(GetSolutionRoot(), "benchmarktests", "assembly.kernel.benchmark.tests.io.tests", "test-data");
         }
 
-        private static string GetSolutionRoot()
-        {
-            const string solutionName = "Assembly.sln";
-            var testContext = new TestContext(new TestExecutionContext.AdhocContext());
-            string curDir = testContext.TestDirectory;
-            while (Directory.Exists(curDir) && !File.Exists(curDir + @"\" + solutionName))
-            {
-                curDir += "/../";
-            }
-
-            if (!File.Exists(Path.Combine(curDir, solutionName)))
-            {
-                throw new InvalidOperationException($"Solution file '{solutionName}' not found in any folder of '{Directory.GetCurrentDirectory()}'.");
-            }
-
-            return Path.GetFullPath(curDir);
-        }
-
         protected static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();
@@ -72,16 +54,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             return workSheetParts;
         }
 
-        private static Sheet GetSheetFromWorkSheet
-            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
-        {
-            string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
-            IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
-            return sheets.FirstOrDefault(s => s.Id.HasValue && s.Id.Value == relationshipId);
-        }
-
         protected void AssertAreEqualCategories<TCategory>(TCategory expectedCategory, double expectedLowerLimit,
-            double expectedUpperLimit, CategoryBase<TCategory> assessmentSectionCategory)
+                                                           double expectedUpperLimit,
+                                                           CategoryBase<TCategory> assessmentSectionCategory)
         {
             Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
             AssertAreEqualProbabilities(expectedLowerLimit, assessmentSectionCategory.LowerLimit);
@@ -91,6 +66,33 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         protected void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
         {
             Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
+        }
+
+        private static string GetSolutionRoot()
+        {
+            const string solutionName = "Assembly.sln";
+            var testContext = new TestContext(new TestExecutionContext.AdhocContext());
+            string curDir = testContext.TestDirectory;
+            while (Directory.Exists(curDir) && !File.Exists(curDir + @"\" + solutionName))
+            {
+                curDir += "/../";
+            }
+
+            if (!File.Exists(Path.Combine(curDir, solutionName)))
+            {
+                throw new InvalidOperationException(
+                    $"Solution file '{solutionName}' not found in any folder of '{Directory.GetCurrentDirectory()}'.");
+            }
+
+            return Path.GetFullPath(curDir);
+        }
+
+        private static Sheet GetSheetFromWorkSheet
+            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
+        {
+            string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
+            IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
+            return sheets.FirstOrDefault(s => s.Id.HasValue && s.Id.Value == relationshipId);
         }
 
         /// <summary>

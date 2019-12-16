@@ -39,6 +39,29 @@ namespace assembly.kernel.benchmark.tests
         private string reportDirectory;
         private Dictionary<string, BenchmarkTestResult> testResults;
 
+        [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
+        public void RunBenchmarkTest(string testName, string fileName)
+        {
+            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
+            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
+
+            BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
+
+            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input
+                .ExpectedFailureMechanismsResults)
+            {
+                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
+                                                                 input.LowerBoundaryNorm,
+                                                                 input.SignallingNorm, testResult);
+            }
+
+            BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);
+
+            BenchmarkTestRunner.TestAssemblyOfCombinedSections(input, testResult);
+
+            testResults[testName] = testResult;
+        }
+
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -59,29 +82,6 @@ namespace assembly.kernel.benchmark.tests
             }
 
             BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"), testResults);
-        }
-
-        [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
-        public void RunBenchmarkTest(string testName, string fileName)
-        {
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
-
-            BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
-
-            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input
-                .ExpectedFailureMechanismsResults)
-            {
-                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
-                    input.LowerBoundaryNorm,
-                    input.SignallingNorm, testResult);
-            }
-
-            BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);
-
-            BenchmarkTestRunner.TestAssemblyOfCombinedSections(input, testResult);
-
-            testResults[testName] = testResult;
         }
 
         private static string PrepareReportDirectory()

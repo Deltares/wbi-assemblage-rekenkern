@@ -42,9 +42,79 @@ namespace Assembly.Kernel.Tests
         private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
             new CommonFailureMechanismSectionAssembler();
 
+        [Test]
+        public void FullAssembly()
+        {
+            const int sectionLength = 3750;
+            var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
+            var withoutFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
+            var withFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
+            var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
+
+            // create section results for 15 failure mechanisms with 250 sections each
+            CreateTestInput(sectionLength, withoutFailureProb, withFailureProb);
+
+            // start timer
+            var watch = Stopwatch.StartNew();
+
+            var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
+            var failureMechanismResultsWithoutFailureProb = new List<FailureMechanismAssemblyResult>();
+
+            // assembly step 1
+            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb)
+            {
+                var result = fmAssembler.AssembleFailureMechanismWbi1A1(
+                    fmSectionResults.Value.Select(fmSection => fmSection.Result),
+                    false);
+                failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result, double.NaN));
+
+                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
+            }
+
+            var categoriesCalculator = new CategoryLimitsCalculator();
+            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb)
+            {
+                var categoriesList =
+                    categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, fmSectionResults.Key);
+
+                var result = fmAssembler.AssembleFailureMechanismWbi1B1(
+                    fmSectionResults.Key,
+                    fmSectionResults.Value.Select(fmSection =>
+                                                      (FmSectionAssemblyDirectResultWithProbability) fmSection.Result),
+                    categoriesList,
+                    false);
+                failureMechanismResultsWithFailureProb.Add(result);
+
+                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
+            }
+
+            // assembly step 2
+
+            var assessmentGradeWithoutFailureProb =
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2A1(failureMechanismResultsWithoutFailureProb,
+                                                                           false);
+            var assessmentGradeWithFailureProb =
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb,
+                                                                           categoriesCalculator
+                                                                               .CalculateFailureMechanismCategoryLimitsWbi11(
+                                                                                   section,
+                                                                                   new FailureMechanism(1.0, 0.7)), false);
+
+            assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(assessmentGradeWithoutFailureProb,
+                                                                       assessmentGradeWithFailureProb);
+
+            // assembly step 3
+            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,
+                                                                            false);
+            watch.Stop();
+
+            var elapsedMs = watch.Elapsed.TotalMilliseconds;
+            Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
+        }
+
         private static void CreateTestInput(int sectionLength,
-            IDictionary<FailureMechanism, List<FmSection>> withoutFailureProb,
-            IDictionary<FailureMechanism, List<FmSection>> withFailureProb)
+                                            IDictionary<FailureMechanism, List<FmSection>> withoutFailureProb,
+                                            IDictionary<FailureMechanism, List<FmSection>> withFailureProb)
         {
             for (var i = 1; i <= 15; i++)
             {
@@ -93,16 +163,18 @@ namespace Assembly.Kernel.Tests
             List<FmSection> fmSectionResults)
         {
             var fmsectionList = new FailureMechanismSectionList(fmSectionResults.FirstOrDefault()?.FmType,
-                fmSectionResults.Select(fmsection =>
-                    new FmSectionWithDirectCategory(fmsection.SectionStart, fmsection.SectionEnd,
-                        fmsection.Result.Result)));
+                                                                fmSectionResults.Select(fmsection =>
+                                                                                            new FmSectionWithDirectCategory(
+                                                                                                fmsection.SectionStart,
+                                                                                                fmsection.SectionEnd,
+                                                                                                fmsection.Result.Result)));
             return fmsectionList;
         }
 
         private sealed class FmSection
         {
             public FmSection(FmSectionAssemblyDirectResult result, string fmType, double sectionStart,
-                double sectionEnd)
+                             double sectionEnd)
             {
                 Result = result;
                 FmType = fmType;
@@ -117,74 +189,6 @@ namespace Assembly.Kernel.Tests
             public double SectionStart { get; }
 
             public double SectionEnd { get; }
-        }
-
-        [Test]
-        public void FullAssembly()
-        {
-            const int sectionLength = 3750;
-            var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
-            var withoutFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
-            var withFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
-            var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
-
-            // create section results for 15 failure mechanisms with 250 sections each
-            CreateTestInput(sectionLength, withoutFailureProb, withFailureProb);
-
-            // start timer
-            var watch = Stopwatch.StartNew();
-
-            var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
-            var failureMechanismResultsWithoutFailureProb = new List<FailureMechanismAssemblyResult>();
-
-            // assembly step 1
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb)
-            {
-                var result = fmAssembler.AssembleFailureMechanismWbi1A1(
-                    fmSectionResults.Value.Select(fmSection => fmSection.Result),
-                    false);
-                failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result, double.NaN));
-
-                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
-            }
-
-            var categoriesCalculator = new CategoryLimitsCalculator();
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb)
-            {
-                var categoriesList =
-                    categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, fmSectionResults.Key);
-
-                var result = fmAssembler.AssembleFailureMechanismWbi1B1(
-                    fmSectionResults.Key,
-                    fmSectionResults.Value.Select(fmSection =>
-                        (FmSectionAssemblyDirectResultWithProbability) fmSection.Result),
-                    categoriesList,
-                    false);
-                failureMechanismResultsWithFailureProb.Add(result);
-
-                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
-            }
-
-            // assembly step 2
-
-            var assessmentGradeWithoutFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2A1(failureMechanismResultsWithoutFailureProb,
-                    false);
-            var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb,
-                    categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section,
-                        new FailureMechanism(1.0, 0.7)), false);
-
-            assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(assessmentGradeWithoutFailureProb,
-                assessmentGradeWithFailureProb);
-
-            // assembly step 3
-            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,
-                false);
-            watch.Stop();
-
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
         }
     }
 }

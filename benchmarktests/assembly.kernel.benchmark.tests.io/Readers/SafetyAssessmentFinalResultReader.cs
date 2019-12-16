@@ -39,9 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
-            : base(worksheetPart, workbookPart)
-        {
-        }
+            : base(worksheetPart, workbookPart) {}
 
         /// <summary>
         /// Reads the final verdict worksheet of a benchmark test definition.
@@ -75,12 +73,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             for (int iRow = startRowCategories; iRow <= startRowCategories + 5; iRow++)
             {
                 list.Add(new FailureMechanismCategory(
-                    GetCellValueAsString("D", iRow).ToFailureMechanismCategory(),
-                    GetCellValueAsDouble("E", iRow),
-                    GetCellValueAsDouble("F", iRow)));
+                             GetCellValueAsString("D", iRow).ToFailureMechanismCategory(),
+                             GetCellValueAsDouble("E", iRow),
+                             GetCellValueAsDouble("F", iRow)));
             }
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2 = new CategoriesList<FailureMechanismCategory>(list);
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2 =
+                new CategoriesList<FailureMechanismCategory>(list);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -39,30 +39,70 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     {
         private readonly MechanismType[] directMechanismTypes =
         {
-            MechanismType.STBI, MechanismType.STBU, MechanismType.STPH, MechanismType.STMI, MechanismType.AGK,
-            MechanismType.AWO, MechanismType.GEBU, MechanismType.GABU, MechanismType.GEKB, MechanismType.GABI,
-            MechanismType.ZST, MechanismType.DA, MechanismType.HTKW, MechanismType.BSKW, MechanismType.PKW,
-            MechanismType.STKWp, MechanismType.STKWl, MechanismType.INN, 
+            MechanismType.STBI,
+            MechanismType.STBU,
+            MechanismType.STPH,
+            MechanismType.STMI,
+            MechanismType.AGK,
+            MechanismType.AWO,
+            MechanismType.GEBU,
+            MechanismType.GABU,
+            MechanismType.GEKB,
+            MechanismType.GABI,
+            MechanismType.ZST,
+            MechanismType.DA,
+            MechanismType.HTKW,
+            MechanismType.BSKW,
+            MechanismType.PKW,
+            MechanismType.STKWp,
+            MechanismType.STKWl,
+            MechanismType.INN
         };
 
         private readonly EFmSectionCategory[] expectedDirectResults =
         {
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.IIv, EFmSectionCategory.Iv,
-            EFmSectionCategory.IIv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv, EFmSectionCategory.IIIv, EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable, EFmSectionCategory.Iv, EFmSectionCategory.Iv
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.IIIv,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.NotApplicable,
+            EFmSectionCategory.Iv,
+            EFmSectionCategory.Iv
         };
 
         private readonly MechanismType[] indirectMechanismTypes =
         {
-            MechanismType.VLGA, MechanismType.VLAF, MechanismType.VLZV, MechanismType.NWObe, MechanismType.NWObo,
-            MechanismType.NWOkl, MechanismType.NWOoc, MechanismType.HAV
+            MechanismType.VLGA,
+            MechanismType.VLAF,
+            MechanismType.VLZV,
+            MechanismType.NWObe,
+            MechanismType.NWObo,
+            MechanismType.NWOkl,
+            MechanismType.NWOoc,
+            MechanismType.HAV
         };
 
         private readonly EIndirectAssessmentResult[] expectedIndirectResults =
         {
-            EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt, EIndirectAssessmentResult.FactoredInOtherFailureMechanism, EIndirectAssessmentResult.FvEt
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
+            EIndirectAssessmentResult.FvEt
         };
 
         [Test]
@@ -72,7 +112,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
-
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
                 var workSheetPart = workSheetParts["Gecombineerd totaal vakoordeel"];
@@ -101,25 +140,31 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                     if (ninethSection is FmSectionWithDirectCategory)
                     {
                         var sectionWithDirectCategory = (FmSectionWithDirectCategory) ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes,type)], sectionWithDirectCategory);
+                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
+                                                  sectionWithDirectCategory);
                     }
+
                     if (ninethSection is FmSectionWithIndirectCategory)
                     {
-                        var sectionWithIndirectCategory = (FmSectionWithIndirectCategory)ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)], sectionWithIndirectCategory);
+                        var sectionWithIndirectCategory = (FmSectionWithIndirectCategory) ninethSection;
+                        AssertResultsIsAsExpected(
+                            6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)],
+                            sectionWithIndirectCategory);
                     }
                 }
             }
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EIndirectAssessmentResult category, FmSectionWithIndirectCategory section)
+        private void AssertResultsIsAsExpected(double start, double end, EIndirectAssessmentResult category,
+                                               FmSectionWithIndirectCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);
             Assert.AreEqual(category, section.Category);
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EFmSectionCategory category, FmSectionWithDirectCategory section)
+        private void AssertResultsIsAsExpected(double start, double end, EFmSectionCategory category,
+                                               FmSectionWithDirectCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);

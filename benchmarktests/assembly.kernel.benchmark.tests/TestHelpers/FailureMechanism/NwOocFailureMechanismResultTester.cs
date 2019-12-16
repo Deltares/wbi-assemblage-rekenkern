@@ -44,9 +44,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public NwOocFailureMechanismResultTester(MethodResultsListing methodResults,
                                                  IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
-        {
-        }
+            : base(methodResults, expectedFailureMechanismResult) {}
 
         protected override void TestSimpleAssessmentInternal()
         {
@@ -58,8 +56,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (nwOocFailureMechanismSection != null)
                 {
                     // WBI-0E-4
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0E4(nwOocFailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = nwOocFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0E4(nwOocFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        nwOocFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -75,7 +75,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (nwOocFailureMechanismSection != null)
                 {
                     // WBI-0G-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0G2(nwOocFailureMechanismSection.DetailedAssessmentResult);
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0G2(nwOocFailureMechanismSection.DetailedAssessmentResult);
 
                     var expectedResult =
                         nwOocFailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as
@@ -95,9 +96,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (nwOocFailureMechanismSection != null)
                 {
                     // WBI-0T-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0T2(nwOocFailureMechanismSection.TailorMadeAssessmentResult);
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0T2(nwOocFailureMechanismSection.TailorMadeAssessmentResult);
 
-                    var expectedResult = nwOocFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    var expectedResult =
+                        nwOocFailureMechanismSection
+                            .ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -116,7 +120,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
                         section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
                         section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult);
-                
+
                     Assert.IsInstanceOf<FmSectionAssemblyIndirectResult>(result);
                     Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
                 }

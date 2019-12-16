@@ -60,7 +60,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismSectionReader(worksheetPart, workbookPart, mechanismType == MechanismType.STBI || mechanismType == MechanismType.STPH);
+                    return new ProbabilisticFailureMechanismSectionReader(worksheetPart, workbookPart,
+                                                                          mechanismType == MechanismType.STBI ||
+                                                                          mechanismType == MechanismType.STPH);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
                     return new Group1NoSimpleAssessmentFailureMechanismSectionReader(worksheetPart, workbookPart);

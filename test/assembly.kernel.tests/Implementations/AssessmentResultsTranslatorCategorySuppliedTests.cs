@@ -71,7 +71,7 @@ namespace Assembly.Kernel.Tests.Implementations
              typeof(CategorySuppliedTestCases),
              nameof(CategorySuppliedTestCases.WbiG4Exceptions))]
         public EAssemblyErrors? Wbi0G4ExceptionTest(EAssessmentResultTypeG2 assessment,
-            EFmSectionCategory? category)
+                                                    EFmSectionCategory? category)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Assembly.Kernel.Tests.Implementations
              typeof(CategorySuppliedTestCases),
              nameof(CategorySuppliedTestCases.WbiT4Exceptions))]
         public EAssemblyErrors? Wbi0T4ExceptionTest(EAssessmentResultTypeT3 assessment,
-            EFmSectionCategory? category)
+                                                    EFmSectionCategory? category)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(EAssessmentResultTypeG2.ResultSpecified,
-                            EFmSectionCategory.NotApplicable)
+                                                  EFmSectionCategory.NotApplicable)
                         .Returns(EAssemblyErrors.TranslateAssessmentInvalidInput);
                     yield return new TestCaseData(EAssessmentResultTypeG2.ResultSpecified, null)
                         .Returns(EAssemblyErrors.ValueMayNotBeNull);
@@ -183,7 +183,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(EAssessmentResultTypeT3.ResultSpecified,
-                            EFmSectionCategory.NotApplicable)
+                                                  EFmSectionCategory.NotApplicable)
                         .Returns(EAssemblyErrors.TranslateAssessmentInvalidInput);
                     yield return new TestCaseData(EAssessmentResultTypeT3.ResultSpecified, null)
                         .Returns(EAssemblyErrors.ValueMayNotBeNull);

@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -125,60 +125,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             }
         }
 
-        #region Read Categories
-        private void ReadSectionCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FmSectionCategory>();
-            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
-            {
-                var category = GetCellValueAsString("D", i).ToFailureMechanismSectionCategory();
-                var lowerLimit = GetCellValueAsDouble("E", i);
-                var upperLimit = GetCellValueAsDouble("F", i);
-                categories.Add(new FmSectionCategory(category, lowerLimit, upperLimit));
-            }
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
-        }
-
-        private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FailureMechanismCategory>();
-            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
-            {
-                var category = GetCellValueAsString("A", i).ToFailureMechanismCategory();
-                var lowerLimit = GetCellValueAsDouble("B", i);
-                var upperLimit = GetCellValueAsDouble("C", i);
-                categories.Add(new FailureMechanismCategory(category, lowerLimit, upperLimit));
-            }
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismCategories = new CategoriesList<FailureMechanismCategory>(categories);
-        }
-
-        private void ReadGroup3SectionCategoryBoundaries(IGroup3ExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FmSectionCategory>();
-            var lastCategoryBoundary = 0.0;
-            for (int i = headerRowId + 1; i < headerRowId + 6; i++)
-            {
-                var category = GetCellValueAsString("A", i).ToFailureMechanismSectionCategory();
-                var currentBoundary = GetCellValueAsDouble("B", i);
-                categories.Add(new FmSectionCategory(category, lastCategoryBoundary, currentBoundary));
-                lastCategoryBoundary = currentBoundary;
-            }
-            categories.Add(new FmSectionCategory(EFmSectionCategory.VIv, lastCategoryBoundary, 1.0));
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories = new CategoriesList<FmSectionCategory>(categories);
-        }
-
-        #endregion
-
         #region Read Sections
+
         private void ReadFailureMechanismSections(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var sections = new List<IFailureMechanismSection>();
@@ -203,6 +151,65 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
             expectedFailureMechanismResult.Sections = sections;
         }
+
+        #endregion
+
+        #region Read Categories
+
+        private void ReadSectionCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
+        {
+            var headerRowId = GetRowId("Categorie");
+
+            var categories = new List<FmSectionCategory>();
+            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
+            {
+                var category = GetCellValueAsString("D", i).ToFailureMechanismSectionCategory();
+                var lowerLimit = GetCellValueAsDouble("E", i);
+                var upperLimit = GetCellValueAsDouble("F", i);
+                categories.Add(new FmSectionCategory(category, lowerLimit, upperLimit));
+            }
+
+            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories =
+                new CategoriesList<FmSectionCategory>(categories);
+        }
+
+        private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
+        {
+            var headerRowId = GetRowId("Categorie");
+
+            var categories = new List<FailureMechanismCategory>();
+            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
+            {
+                var category = GetCellValueAsString("A", i).ToFailureMechanismCategory();
+                var lowerLimit = GetCellValueAsDouble("B", i);
+                var upperLimit = GetCellValueAsDouble("C", i);
+                categories.Add(new FailureMechanismCategory(category, lowerLimit, upperLimit));
+            }
+
+            expectedFailureMechanismResult.ExpectedFailureMechanismCategories =
+                new CategoriesList<FailureMechanismCategory>(categories);
+        }
+
+        private void ReadGroup3SectionCategoryBoundaries(IGroup3ExpectedFailureMechanismResult expectedFailureMechanismResult)
+        {
+            var headerRowId = GetRowId("Categorie");
+
+            var categories = new List<FmSectionCategory>();
+            var lastCategoryBoundary = 0.0;
+            for (int i = headerRowId + 1; i < headerRowId + 6; i++)
+            {
+                var category = GetCellValueAsString("A", i).ToFailureMechanismSectionCategory();
+                var currentBoundary = GetCellValueAsDouble("B", i);
+                categories.Add(new FmSectionCategory(category, lastCategoryBoundary, currentBoundary));
+                lastCategoryBoundary = currentBoundary;
+            }
+
+            categories.Add(new FmSectionCategory(EFmSectionCategory.VIv, lastCategoryBoundary, 1.0));
+
+            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories =
+                new CategoriesList<FmSectionCategory>(categories);
+        }
+
         #endregion
     }
 }

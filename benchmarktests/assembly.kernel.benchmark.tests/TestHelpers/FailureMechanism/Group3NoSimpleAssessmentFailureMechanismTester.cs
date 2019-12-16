@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -44,9 +44,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public Group3NoSimpleAssessmentFailureMechanismTester(MethodResultsListing methodResults,
                                                               IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
-        {
-        }
+            : base(methodResults, expectedFailureMechanismResult) {}
 
         protected override void TestSimpleAssessmentInternal()
         {
@@ -58,8 +56,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group3FailureMechanismSection != null)
                 {
                     // WBI-0E-3
-                    FmSectionAssemblyDirectResultWithProbability result = assembler.TranslateAssessmentResultWbi0E3(group3FailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group3FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    FmSectionAssemblyDirectResultWithProbability result =
+                        assembler.TranslateAssessmentResultWbi0E3(group3FailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        group3FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -79,7 +79,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         group3FailureMechanismSection.DetailedAssessmentResult,
                         group3FailureMechanismSection.DetailedAssessmentResultValue);
 
-                    var expectedResult = group3FailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    var expectedResult =
+                        group3FailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -99,7 +100,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         group3FailureMechanismSection.TailorMadeAssessmentResult,
                         group3FailureMechanismSection.TailorMadeAssessmentResultCategory);
 
-                    var expectedResult = group3FailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    var expectedResult =
+                        group3FailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -111,7 +113,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<Group3NoSimpleAssessmentFailureMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult
+                                        .Sections.OfType<Group3NoSimpleAssessmentFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(

@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanism">The failure mechanism to calculate the category limits for</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
         CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(AssessmentSection section,
-            FailureMechanism failureMechanism);
+                                                                                              FailureMechanism failureMechanism);
 
         /// <summary>
         /// Calculate the category limits for a failure mechanism section as specified in WBI-0-1
@@ -55,7 +55,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanism">The failure mechanism information</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
         CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
-            FailureMechanism failureMechanism);
+                                                                                FailureMechanism failureMechanism);
 
         /// <summary>
         /// Calculate the category limits for a section of failure mechanism STBU as specified in WBI-0-2
@@ -64,6 +64,6 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanism">The failure mechanism information</param>
         /// <returns>A list of all the categories with their lower and upper limits</returns>
         CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
-            FailureMechanism failureMechanism);
+                                                                                FailureMechanism failureMechanism);
     }
 }

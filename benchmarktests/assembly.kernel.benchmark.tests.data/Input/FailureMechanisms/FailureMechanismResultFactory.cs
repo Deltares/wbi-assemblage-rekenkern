@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -113,6 +113,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new ProbabilisticExpectedFailureMechanismResult("Piping", MechanismType.STPH, 2);
         }
+
         #endregion
 
         #region Group 3
@@ -180,6 +181,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group4Or5ExpectedFailureMechanismResult("Technische innovaties", MechanismType.INN, 4);
         }
+
         #endregion
 
         #region Group 5
@@ -223,7 +225,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group4Or5ExpectedFailureMechanismResult("Havendammen", MechanismType.HAV, 5);
         }
-        #endregion
 
+        #endregion
     }
 }

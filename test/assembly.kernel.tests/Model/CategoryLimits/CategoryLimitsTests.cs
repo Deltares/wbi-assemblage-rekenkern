@@ -35,8 +35,29 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
     [TestFixture]
     public class CategoryLimitsTests
     {
+        [Test]
+        public void AssessmentSectionCategoryLimitsTests()
+        {
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
+        }
+
+        [Test]
+        public void FailureMechanismCategoryLimitsTests()
+        {
+            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.It, 0, 0.1, false);
+            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.VIIt, 0.5, 0.1, true);
+        }
+
+        [Test]
+        public void FmSectionCategoryLimitsTests()
+        {
+            FmSectionCategoryLimitsTest(EFmSectionCategory.Iv, 0, 0.1, false);
+            FmSectionCategoryLimitsTest(EFmSectionCategory.VIv, 0.5, 0.1, true);
+        }
+
         public void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
-            double upperLimit, bool shouldExceptionOccure)
+                                                        double upperLimit, bool shouldExceptionOccure)
         {
             try
             {
@@ -66,7 +87,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         }
 
         public void FailureMechanismCategoryLimitsTest(EFailureMechanismCategory category, double lowerLimit,
-            double upperLimit, bool shouldExceptionOccure)
+                                                       double upperLimit, bool shouldExceptionOccure)
         {
             try
             {
@@ -96,7 +117,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         }
 
         public void FmSectionCategoryLimitsTest(EFmSectionCategory category, double lowerLimit,
-            double upperLimit, bool shouldExceptionOccure)
+                                                double upperLimit, bool shouldExceptionOccure)
         {
             try
             {
@@ -123,27 +144,6 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             }
 
             Assert.Pass();
-        }
-
-        [Test]
-        public void AssessmentSectionCategoryLimitsTests()
-        {
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
-        }
-
-        [Test]
-        public void FailureMechanismCategoryLimitsTests()
-        {
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.It, 0, 0.1, false);
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.VIIt, 0.5, 0.1, true);
-        }
-
-        [Test]
-        public void FmSectionCategoryLimitsTests()
-        {
-            FmSectionCategoryLimitsTest(EFmSectionCategory.Iv, 0, 0.1, false);
-            FmSectionCategoryLimitsTest(EFmSectionCategory.VIv, 0.5, 0.1, true);
         }
     }
 }

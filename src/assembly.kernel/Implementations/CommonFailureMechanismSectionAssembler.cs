@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Implementations
             {
                 failureMechanismResults.Add(
                     TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failureMechanismSectionList,
-                        commonSections));
+                                                                           commonSections));
             }
 
             // step 3: determine combined result per common section
@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Implementations
                 if (Math.Abs(minimumAssessmentSectionLength - assessmentSectionLength) > 0.01)
                 {
                     throw new AssemblyException("AssembleCommonFailureMechanismSection",
-                        EAssemblyErrors.FmSectionLengthInvalid);
+                                                EAssemblyErrors.FmSectionLengthInvalid);
                 }
             }
 
@@ -110,6 +110,7 @@ namespace Assembly.Kernel.Implementations
                 {
                     continue;
                 }
+
                 commonSections.Add(new FailureMechanismSection(previousSectionEnd, sectionLimit));
                 previousSectionEnd = sectionLimit;
             }
@@ -130,25 +131,27 @@ namespace Assembly.Kernel.Implementations
             var resultsToCommonSections = new List<FailureMechanismSection>();
             foreach (var commonSection in commonSectionsArray)
             {
-                var section = failureMechanismSectionList.GetSectionCategoryForPoint(commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
+                var section = failureMechanismSectionList.GetSectionCategoryForPoint(
+                    commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
 
                 var sectionWithDirectCategory = section as FmSectionWithDirectCategory;
                 if (sectionWithDirectCategory != null)
                 {
                     resultsToCommonSections.Add(new FmSectionWithDirectCategory(commonSection.SectionStart,
-                        commonSection.SectionEnd,
-                        sectionWithDirectCategory.Category));
+                                                                                commonSection.SectionEnd,
+                                                                                sectionWithDirectCategory.Category));
                 }
                 else
                 {
                     resultsToCommonSections.Add(new FmSectionWithIndirectCategory(commonSection.SectionStart,
-                        commonSection.SectionEnd,
-                        ((FmSectionWithIndirectCategory) section).Category));
+                                                                                  commonSection.SectionEnd,
+                                                                                  ((FmSectionWithIndirectCategory) section)
+                                                                                  .Category));
                 }
             }
 
             return new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId,
-                resultsToCommonSections);
+                                                   resultsToCommonSections);
         }
 
         /// <inheritdoc />
@@ -163,7 +166,8 @@ namespace Assembly.Kernel.Implementations
             for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
             {
                 var newCombinedSection = new FmSectionWithDirectCategory(firstSectionsList[iSection].SectionStart,
-                    firstSectionsList[iSection].SectionEnd, EFmSectionCategory.NotApplicable);
+                                                                         firstSectionsList[iSection].SectionEnd,
+                                                                         EFmSectionCategory.NotApplicable);
 
                 foreach (var failureMechanismSectionList in directFailureMechanismSectionLists)
                 {
@@ -171,10 +175,11 @@ namespace Assembly.Kernel.Implementations
                     if (!AreEqualSections(section, newCombinedSection))
                     {
                         throw new AssemblyException("FailureMechanismSectionList",
-                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
 
-                    newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category, section.Category, partialAssembly);
+                    newCombinedSection.Category =
+                        DetermineCombinedCategory(newCombinedSection.Category, section.Category, partialAssembly);
 
                     if (newCombinedSection.Category == EFmSectionCategory.Gr)
                     {
@@ -188,29 +193,32 @@ namespace Assembly.Kernel.Implementations
             return combinedSectionResults;
         }
 
-        private static FmSectionWithDirectCategory[][] CheckInputWbi3C1(IEnumerable<FailureMechanismSectionList> failureMechanismResults)
+        private static FmSectionWithDirectCategory[][] CheckInputWbi3C1(
+            IEnumerable<FailureMechanismSectionList> failureMechanismResults)
         {
             if (failureMechanismResults == null)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var directFailureMechanismSectionLists = failureMechanismResults
-                .Where(fmrl => fmrl.Sections.First().GetType() == typeof(FmSectionWithDirectCategory))
-                .Select(fmrl => fmrl.Sections.OfType<FmSectionWithDirectCategory>().ToArray())
-                .ToArray();
+                                                     .Where(fmrl => fmrl.Sections.First().GetType() ==
+                                                                    typeof(FmSectionWithDirectCategory))
+                                                     .Select(fmrl =>
+                                                                 fmrl.Sections.OfType<FmSectionWithDirectCategory>().ToArray())
+                                                     .ToArray();
 
             if (!directFailureMechanismSectionLists.Any())
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (directFailureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             return directFailureMechanismSectionLists;
@@ -223,26 +231,26 @@ namespace Assembly.Kernel.Implementations
         }
 
         private static void CheckResultsToCommonSectionsInput(FailureMechanismSectionList commonSections,
-            FailureMechanismSectionList failureMechanismSectionList)
+                                                              FailureMechanismSectionList failureMechanismSectionList)
         {
             if (commonSections == null || failureMechanismSectionList == null)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (Math.Abs(commonSections.Sections.Last().SectionEnd -
                          failureMechanismSectionList.Sections.Last().SectionEnd) > 1e-8)
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             var firstResult = failureMechanismSectionList.Sections.First();
             if (!(firstResult is FmSectionWithIndirectCategory) && !(firstResult is FmSectionWithDirectCategory))
             {
                 throw new AssemblyException("FailureMechanismSectionList",
-                    EAssemblyErrors.SectionsWithoutCategory);
+                                            EAssemblyErrors.SectionsWithoutCategory);
             }
         }
 
@@ -253,19 +261,19 @@ namespace Assembly.Kernel.Implementations
             if (double.IsNaN(assessmentSectionLength))
             {
                 throw new AssemblyException("AssessmentSectionLength",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (assessmentSectionLength <= 0.0)
             {
                 throw new AssemblyException("AssessmentSectionLength",
-                    EAssemblyErrors.SectionLengthOutOfRange);
+                                            EAssemblyErrors.SectionLengthOutOfRange);
             }
 
             if (failureMechanismSectionLists == null)
             {
                 throw new AssemblyException("FailureMEchanismSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var mechanismSectionLists = failureMechanismSectionLists as FailureMechanismSectionList[] ??
@@ -273,15 +281,15 @@ namespace Assembly.Kernel.Implementations
             if (!mechanismSectionLists.Any())
             {
                 throw new AssemblyException("FailureMEchanismSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                                            EAssemblyErrors.ValueMayNotBeNull);
             }
 
             return mechanismSectionLists;
         }
 
         private static EFmSectionCategory DetermineCombinedCategory(EFmSectionCategory combinedCategory,
-            EFmSectionCategory currentCategory,
-            bool partialAssembly)
+                                                                    EFmSectionCategory currentCategory,
+                                                                    bool partialAssembly)
         {
             switch (currentCategory)
             {

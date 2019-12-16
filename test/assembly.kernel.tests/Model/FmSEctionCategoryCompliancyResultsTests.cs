@@ -33,21 +33,6 @@ namespace Assembly.Kernel.Tests.Model
     [TestFixture]
     public class FmSEctionCategoryCompliancyResultsTests
     {
-        private sealed class CompliancyTestCases
-        {
-            public static IEnumerable NotAllowedCategories
-            {
-                // ReSharper disable once UnusedMember.Local
-                get
-                {
-                    yield return new TestCaseData(EFmSectionCategory.VIv);
-                    yield return new TestCaseData(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EFmSectionCategory.Gr);
-                    yield return new TestCaseData(EFmSectionCategory.NotApplicable);
-                }
-            }
-        }
-
         [Test, TestCaseSource(
              typeof(CompliancyTestCases),
              nameof(CompliancyTestCases.NotAllowedCategories))]
@@ -67,6 +52,21 @@ namespace Assembly.Kernel.Tests.Model
             }
 
             Assert.Fail("Expected exception was not thrown");
+        }
+
+        private sealed class CompliancyTestCases
+        {
+            public static IEnumerable NotAllowedCategories
+            {
+                // ReSharper disable once UnusedMember.Local
+                get
+                {
+                    yield return new TestCaseData(EFmSectionCategory.VIv);
+                    yield return new TestCaseData(EFmSectionCategory.VIIv);
+                    yield return new TestCaseData(EFmSectionCategory.Gr);
+                    yield return new TestCaseData(EFmSectionCategory.NotApplicable);
+                }
+            }
         }
     }
 }

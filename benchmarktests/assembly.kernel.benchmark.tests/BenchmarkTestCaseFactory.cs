@@ -39,9 +39,9 @@ namespace assembly.kernel.benchmark.tests
         /// </summary>
         public static IEnumerable<TestCaseData> BenchmarkTestCases =>
             AcquireAllBenchmarkTests().Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
-                                      {
-                                          TestName = BenchmarkTestHelper.GetTestName(t)
-                                      });
+            {
+                TestName = BenchmarkTestHelper.GetTestName(t)
+            });
 
         private static IEnumerable<string> AcquireAllBenchmarkTests()
         {

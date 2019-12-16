@@ -55,7 +55,6 @@ namespace Assembly.Kernel.Tests.Implementations
                 translator.TranslateAssessmentResultWbi0G6(compliancyResults);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(translateResult);
 
-
             return translateResult.Result;
         }
 
@@ -63,11 +62,11 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi0G6ComplyDoesNotComplyTest()
         {
             var inputResults = new FmSectionCategoryCompliancyResults()
-                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
+                               .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                               .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                               .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                               .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                               .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
 
             try
             {
@@ -109,7 +108,7 @@ namespace Assembly.Kernel.Tests.Implementations
             FmSectionCategoryCompliancyResults compliancyResults)
         {
             var translateResult = translator.TranslateAssessmentResultWbi0T6(compliancyResults,
-                EAssessmentResultTypeT3.ResultSpecified);
+                                                                             EAssessmentResultTypeT3.ResultSpecified);
 
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(translateResult);
 
@@ -132,12 +131,12 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi0T6ComplyDoesNotComplyTest()
         {
             var inputResults = new FmSectionCategoryCompliancyResults()
-                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
+                               .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                               .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                               .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                               .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                               .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                               .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
 
             try
             {
@@ -176,11 +175,11 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi0T6TestCompliancyAndAssessment()
         {
             var compliancyResults = new FmSectionCategoryCompliancyResults()
-                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
-                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult);
+                                    .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                                    .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
+                                    .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                    .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
+                                    .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult);
 
             try
             {
@@ -204,94 +203,94 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.Iv)
-                        .SetName("AllComply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.Iv)
+                                 .SetName("AllComply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.IIv)
-                        .SetName("IIv comply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.IIv)
+                                 .SetName("IIv comply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.IIIv)
-                        .SetName("IIIv comply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.IIIv)
+                                 .SetName("IIIv comply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.IVv)
-                        .SetName("IVv comply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.IVv)
+                                 .SetName("IVv comply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.Vv)
-                        .SetName("Vv comply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.Vv)
+                                 .SetName("Vv comply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply))
-                        .Returns(EFmSectionCategory.VIv)
-                        .SetName("AllDoNotComply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply))
+                                 .Returns(EFmSectionCategory.VIv)
+                                 .SetName("AllDoNotComply");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Ngo))
-                        .Returns(EFmSectionCategory.VIIv)
-                        .SetName("Ngo");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Ngo))
+                                 .Returns(EFmSectionCategory.VIIv)
+                                 .SetName("Ngo");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Ngo)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
-                        .Returns(EFmSectionCategory.VIIv)
-                        .SetName("Ngo2");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Ngo)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies))
+                                 .Returns(EFmSectionCategory.VIIv)
+                                 .SetName("Ngo2");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult))
-                        .Returns(EFmSectionCategory.Gr)
-                        .SetName("AllNoResult");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.NoResult))
+                                 .Returns(EFmSectionCategory.Gr)
+                                 .SetName("AllNoResult");
                 }
             }
 
@@ -300,18 +299,18 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(null)
-                        .Returns(EAssemblyErrors.ValueMayNotBeNull)
-                        .SetName("Input is null");
+                                 .Returns(EAssemblyErrors.ValueMayNotBeNull)
+                                 .SetName("Input is null");
 
                     yield return new TestCaseData(
-                            new FmSectionCategoryCompliancyResults()
-                                .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                                .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                                .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply))
-                        .Returns(EAssemblyErrors.DoesNotComplyAfterComply)
-                        .SetName("Does not comply after comply");
+                                     new FmSectionCategoryCompliancyResults()
+                                         .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
+                                         .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
+                                         .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
+                                         .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply))
+                                 .Returns(EAssemblyErrors.DoesNotComplyAfterComply)
+                                 .SetName("Does not comply after comply");
                 }
             }
 
@@ -320,11 +319,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 get
                 {
                     yield return new TestCaseData(EAssessmentResultTypeT3.Fv).Returns(EFmSectionCategory.Iv)
-                        .SetName("AssessmentResult: Failure probability negligible");
+                                                                             .SetName(
+                                                                                 "AssessmentResult: Failure probability negligible");
                     yield return new TestCaseData(EAssessmentResultTypeT3.Gr).Returns(EFmSectionCategory.Gr)
-                        .SetName("AssessmentResult: No result");
+                                                                             .SetName("AssessmentResult: No result");
                     yield return new TestCaseData(EAssessmentResultTypeT3.Ngo).Returns(EFmSectionCategory.VIIv)
-                        .SetName("AssessmentResult: No judgement yet");
+                                                                              .SetName("AssessmentResult: No judgement yet");
                 }
             }
         }

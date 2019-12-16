@@ -131,7 +131,7 @@ namespace Assembly.Kernel.Implementations
         {
             var fmSectionCategory = wbi0E1ResultMap.GetResult(assessment);
             return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
-                ResultCategoryToProbabilityEstimation(fmSectionCategory));
+                                                                    ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
@@ -140,7 +140,7 @@ namespace Assembly.Kernel.Implementations
         {
             var fmSectionCategory = wbi0E3ResultMap.GetResult(assessment);
             return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
-                ResultCategoryToProbabilityEstimation(fmSectionCategory));
+                                                                    ResultCategoryToProbabilityEstimation(fmSectionCategory));
         }
 
         /// <inheritdoc />
@@ -187,7 +187,7 @@ namespace Assembly.Kernel.Implementations
          */
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2 assessment,
-            EFmSectionCategory? category)
+                                                                             EFmSectionCategory? category)
         {
             if (assessment != EAssessmentResultTypeG2.ResultSpecified)
             {
@@ -203,7 +203,7 @@ namespace Assembly.Kernel.Implementations
                 case EFmSectionCategory.Gr:
                 case EFmSectionCategory.NotApplicable:
                     throw new AssemblyException("Wbi0G4 input: " + category,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
 
             return new FmSectionAssemblyDirectResult(category.Value);
@@ -211,7 +211,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3 assessment,
-            EFmSectionCategory? category)
+                                                                             EFmSectionCategory? category)
         {
             if (assessment != EAssessmentResultTypeT3.ResultSpecified)
             {
@@ -227,7 +227,7 @@ namespace Assembly.Kernel.Implementations
                 case EFmSectionCategory.Gr:
                 case EFmSectionCategory.NotApplicable:
                     throw new AssemblyException("Wbi0T4 input: " + category,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
 
             return new FmSectionAssemblyDirectResult(category.Value);
@@ -251,7 +251,7 @@ namespace Assembly.Kernel.Implementations
             if (assessment != EAssessmentResultTypeT3.ResultSpecified && compliancyResults != null)
             {
                 throw new AssemblyException("FmSectionCompliancyResults: compliancy & assessmentResult",
-                    EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                            EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
 
             switch (assessment)
@@ -298,7 +298,7 @@ namespace Assembly.Kernel.Implementations
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
         }
 
@@ -319,7 +319,7 @@ namespace Assembly.Kernel.Implementations
                     if (double.IsNaN(failureProbability))
                     {
                         throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                            EAssemblyErrors.ValueMayNotBeNull);
+                                                    EAssemblyErrors.ValueMayNotBeNull);
                     }
 
                     var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
@@ -334,7 +334,7 @@ namespace Assembly.Kernel.Implementations
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
         }
 
@@ -356,7 +356,7 @@ namespace Assembly.Kernel.Implementations
                     if (double.IsNaN(failureProbability))
                     {
                         throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                            EAssemblyErrors.ValueMayNotBeNull);
+                                                    EAssemblyErrors.ValueMayNotBeNull);
                     }
 
                     var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
@@ -365,7 +365,7 @@ namespace Assembly.Kernel.Implementations
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
         }
 
@@ -387,7 +387,7 @@ namespace Assembly.Kernel.Implementations
                     if (double.IsNaN(failureProbability))
                     {
                         throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                            EAssemblyErrors.ValueMayNotBeNull);
+                                                    EAssemblyErrors.ValueMayNotBeNull);
                     }
 
                     var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
@@ -402,13 +402,14 @@ namespace Assembly.Kernel.Implementations
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
         }
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categories)
+                                                                             double failureProbability,
+                                                                             CategoriesList<FmSectionCategory> categories)
         {
             switch (assessment)
             {
@@ -426,7 +427,7 @@ namespace Assembly.Kernel.Implementations
                     if (double.IsNaN(failureProbability))
                     {
                         throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                            EAssemblyErrors.ValueMayNotBeNull);
+                                                    EAssemblyErrors.ValueMayNotBeNull);
                     }
 
                     var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
@@ -435,7 +436,7 @@ namespace Assembly.Kernel.Implementations
 
                 default:
                     throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
             }
         }
 
@@ -450,18 +451,18 @@ namespace Assembly.Kernel.Implementations
             FmSectionAssemblyDirectResult customAssessmentResult)
         {
             var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
-                customAssessmentResult);
+                                                                 customAssessmentResult);
             return new FmSectionAssemblyDirectResult(result.Result);
         }
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-        FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
+            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
         {
             var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
-                customAssessmentResult);
+                                                                 customAssessmentResult);
             return new FmSectionAssemblyDirectResultWithProbability(result.Result, result.FailureProbability);
         }
 
@@ -471,7 +472,8 @@ namespace Assembly.Kernel.Implementations
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult)
         {
-            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult, customAssessmentResult);
+            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
+                                                                 customAssessmentResult);
             return new FmSectionAssemblyIndirectResult(result.Result);
         }
 
@@ -527,8 +529,8 @@ namespace Assembly.Kernel.Implementations
         private static double ResultCategoryToProbabilityEstimation(EFmSectionCategory fmSectionCategory)
         {
             return fmSectionCategory == EFmSectionCategory.Iv || fmSectionCategory == EFmSectionCategory.NotApplicable
-                ? 0.0
-                : double.NaN;
+                       ? 0.0
+                       : double.NaN;
         }
 
         /// <summary>
@@ -569,7 +571,7 @@ namespace Assembly.Kernel.Implementations
                         if (firstComplyFound)
                         {
                             throw new AssemblyException("FmSectionCompliancyResults",
-                                EAssemblyErrors.DoesNotComplyAfterComply);
+                                                        EAssemblyErrors.DoesNotComplyAfterComply);
                         }
 
                         result = EFmSectionCategory.VIv;
@@ -595,21 +597,6 @@ namespace Assembly.Kernel.Implementations
                 this.translateMethodName = translateMethodName;
             }
 
-            private void CheckInput(TInput input)
-            {
-                if (input == null)
-                {
-                    throw new AssemblyException("TranslateAssessmentResult: " + translateMethodName,
-                        EAssemblyErrors.ValueMayNotBeNull);
-                }
-
-                if (!(Keys as ICollection<TInput>).Contains(input))
-                {
-                    throw new AssemblyException(translateMethodName + " input: " + input,
-                        EAssemblyErrors.TranslateAssessmentInvalidInput);
-                }
-            }
-
             /// <summary>
             /// Get the TResult value for the TInput value
             /// </summary>
@@ -621,6 +608,21 @@ namespace Assembly.Kernel.Implementations
             {
                 CheckInput(input);
                 return this[input];
+            }
+
+            private void CheckInput(TInput input)
+            {
+                if (input == null)
+                {
+                    throw new AssemblyException("TranslateAssessmentResult: " + translateMethodName,
+                                                EAssemblyErrors.ValueMayNotBeNull);
+                }
+
+                if (!(Keys as ICollection<TInput>).Contains(input))
+                {
+                    throw new AssemblyException(translateMethodName + " input: " + input,
+                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
+                }
             }
         }
     }

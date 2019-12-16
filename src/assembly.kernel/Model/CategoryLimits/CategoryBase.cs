@@ -70,19 +70,19 @@ namespace Assembly.Kernel.Model.CategoryLimits
             if (lowerLimit > upperLimit)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.LowerLimitIsAboveUpperLimit));
+                                                    EAssemblyErrors.LowerLimitIsAboveUpperLimit));
             }
 
             if (lowerLimit < 0 || lowerLimit > 1)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.CategoryLowerLimitOutOfRange));
+                                                    EAssemblyErrors.CategoryLowerLimitOutOfRange));
             }
 
             if (upperLimit < 0 || upperLimit > 1)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.CategoryUpperLimitOutOfRange));
+                                                    EAssemblyErrors.CategoryUpperLimitOutOfRange));
             }
 
             if (errors.Count > 0)

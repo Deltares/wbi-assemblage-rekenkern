@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -45,9 +45,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public StbuFailureMechanismResultTester(MethodResultsListing methodResults,
                                                 IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
-        {
-        }
+            : base(methodResults, expectedFailureMechanismResult) {}
 
         protected override void TestSimpleAssessmentInternal()
         {

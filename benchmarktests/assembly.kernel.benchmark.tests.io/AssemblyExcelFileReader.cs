@@ -86,34 +86,37 @@ namespace assembly.kernel.benchmark.tests.io
                 ReadFailureMechanism(workSheetParts["HAV"], workbookPart, assessmentSection);
                 ReadFailureMechanism(workSheetParts["INN"], workbookPart, assessmentSection);
 
-                ReadSafetyAssessmentFinalResult(workSheetParts["Gecombineerd veiligheidsoordeel"], workbookPart, assessmentSection);
+                ReadSafetyAssessmentFinalResult(workSheetParts["Gecombineerd veiligheidsoordeel"], workbookPart,
+                                                assessmentSection);
 
-                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd totaal vakoordeel"], workbookPart, assessmentSection);
+                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd totaal vakoordeel"], workbookPart,
+                                                     assessmentSection);
 
                 return assessmentSection;
             }
         }
 
         private static void ReadGeneralAssessmentSectionInformation(WorksheetPart workSheetPart,
-            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
+                                                                    WorkbookPart workbookPart,
+                                                                    BenchmarkTestInput benchmarkTestInput)
         {
             new GeneralInformationReader(workSheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadSafetyAssessmentFinalResult(WorksheetPart worksheetPart, WorkbookPart workbookPart,
-            BenchmarkTestInput benchmarkTestInput)
+                                                            BenchmarkTestInput benchmarkTestInput)
         {
             new SafetyAssessmentFinalResultReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadCombinedAssessmentSectionResults(WorksheetPart worksheetPart,
-            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
+                                                                 WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
             new CommonAssessmentSectionResultsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
         private static void ReadFailureMechanism(WorksheetPart worksheetPart,
-            WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
+                                                 WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
             new FailureMechanismsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }

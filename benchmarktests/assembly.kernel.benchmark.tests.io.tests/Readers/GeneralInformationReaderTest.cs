@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -42,11 +42,10 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
-                
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 WorksheetPart workSheetPart = workbookPart.WorksheetParts.First();
 
-                var reader = new GeneralInformationReader(workSheetPart,workbookPart);
+                var reader = new GeneralInformationReader(workSheetPart, workbookPart);
 
                 var result = new BenchmarkTestInput();
 
@@ -66,7 +65,8 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             }
         }
 
-        private void AssertAreEqualCategories(EAssessmentGrade expectedCategory, double expectedLowerLimit, double expectedUpperLimit, AssessmentSectionCategory assessmentSectionCategory)
+        private void AssertAreEqualCategories(EAssessmentGrade expectedCategory, double expectedLowerLimit,
+                                              double expectedUpperLimit, AssessmentSectionCategory assessmentSectionCategory)
         {
             Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
             Assert.AreEqual(expectedLowerLimit, assessmentSectionCategory.LowerLimit);

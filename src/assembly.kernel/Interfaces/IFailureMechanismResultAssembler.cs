@@ -77,7 +77,8 @@ namespace Assembly.Kernel.Interfaces
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(FailureMechanism failureMechanism,
+        FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
+            FailureMechanism failureMechanism,
             IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
             CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly);

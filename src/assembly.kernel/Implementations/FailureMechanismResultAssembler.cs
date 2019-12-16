@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -43,7 +43,8 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv && r.Result != EFmSectionCategory.Gr).ToArray();
+                sectionResults = sectionResults
+                                 .Where(r => r.Result != EFmSectionCategory.VIIv && r.Result != EFmSectionCategory.Gr).ToArray();
             }
 
             if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
@@ -92,7 +93,8 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.Result != EIndirectAssessmentResult.Ngo && r.Result != EIndirectAssessmentResult.Gr).ToArray();
+                sectionResults = sectionResults.Where(r => r.Result != EIndirectAssessmentResult.Ngo &&
+                                                           r.Result != EIndirectAssessmentResult.Gr).ToArray();
             }
 
             if (sectionResults.All(r => r.Result == EIndirectAssessmentResult.Gr) || sectionResults.Length == 0)
@@ -130,7 +132,8 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(FailureMechanism failureMechanism,
+        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
+            FailureMechanism failureMechanism,
             IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
             CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly)
@@ -139,7 +142,8 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv && r.Result != EFmSectionCategory.Gr).ToArray();
+                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv &&
+                                                           r.Result != EFmSectionCategory.Gr).ToArray();
             }
 
             if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
@@ -216,7 +220,7 @@ namespace Assembly.Kernel.Implementations
             if (sectionResults.Length == 0)
             {
                 throw new AssemblyException("AssembleFailureMechanismResult",
-                    EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                                            EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
             }
 
             return sectionResults;

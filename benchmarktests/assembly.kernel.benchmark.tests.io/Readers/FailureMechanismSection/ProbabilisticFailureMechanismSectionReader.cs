@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -40,7 +40,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
-        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart, bool lengthEffectPresent)
+        public ProbabilisticFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart,
+                                                          bool lengthEffectPresent)
             : base(worksheetPart, workbookPart)
         {
             this.lengthEffectPresent = lengthEffectPresent;
@@ -52,7 +53,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
             var lengthEffectFactor = lengthEffectPresent ? GetCellValueAsDouble("P", iRow) : 1.0;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
             var cellHValueAsString = GetCellValueAsString("H", iRow);
-            var tailorMadeAssessmentResultProbability = cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
+            var tailorMadeAssessmentResultProbability =
+                cellHValueAsString.ToLower() == "fv" ? 0.0 : GetCellValueAsDouble("H", iRow);
 
             return new ProbabilisticFailureMechanismSection
             {

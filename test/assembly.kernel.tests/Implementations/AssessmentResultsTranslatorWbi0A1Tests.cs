@@ -53,8 +53,8 @@ namespace Assembly.Kernel.Tests.Implementations
             EFmSectionCategory? customAssessmentResult)
         {
             var result = translator.TranslateAssessmentResultWbi0A1(
-                simpleAssessmentResult == null 
-                    ? null 
+                simpleAssessmentResult == null
+                    ? null
                     : new FmSectionAssemblyDirectResult(simpleAssessmentResult.Value),
                 detailedAssessmentResult == null
                     ? null
@@ -96,7 +96,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var detailedAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
             var customAssessmentResult = new FmSectionAssemblyDirectResult(EFmSectionCategory.IIIv);
             var result = translator.TranslateAssessmentResultWbi0A1(simpleAssessmentResult, detailedAssessmentResult,
-                customAssessmentResult);
+                                                                    customAssessmentResult);
 
             Assert.IsNotNull(result);
             Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
@@ -115,20 +115,23 @@ namespace Assembly.Kernel.Tests.Implementations
             var detailedAssessmentProbability = 0.5;
             var customAssessmentProbability = 0.6;
             var simpleAssessmentResult = simpleAssessmentResultCategory == null
-                ? null
-                : new FmSectionAssemblyDirectResultWithProbability(simpleAssessmentResultCategory.Value,
-                    simpleAssessmentProbability);
+                                             ? null
+                                             : new FmSectionAssemblyDirectResultWithProbability(
+                                                 simpleAssessmentResultCategory.Value,
+                                                 simpleAssessmentProbability);
             var detailedAssessmentResult = detailedAssessmentResultCategory == null
-                ? null
-                : new FmSectionAssemblyDirectResultWithProbability(detailedAssessmentResultCategory.Value,
-                    detailedAssessmentProbability);
+                                               ? null
+                                               : new FmSectionAssemblyDirectResultWithProbability(
+                                                   detailedAssessmentResultCategory.Value,
+                                                   detailedAssessmentProbability);
             var customAssessmentResult = customAssessmentResultCategory == null
-                ? null
-                : new FmSectionAssemblyDirectResultWithProbability(customAssessmentResultCategory.Value,
-                    customAssessmentProbability);
+                                             ? null
+                                             : new FmSectionAssemblyDirectResultWithProbability(
+                                                 customAssessmentResultCategory.Value,
+                                                 customAssessmentProbability);
 
             var result = translator.TranslateAssessmentResultWbi0A1(simpleAssessmentResult, detailedAssessmentResult,
-                customAssessmentResult);
+                                                                    customAssessmentResult);
 
             Assert.IsNotNull(result);
 

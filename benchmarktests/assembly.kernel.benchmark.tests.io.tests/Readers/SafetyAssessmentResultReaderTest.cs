@@ -40,7 +40,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
-
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
                 var workSheetPart = workSheetParts["Gecombineerd veiligheidsoordeel"];
@@ -72,7 +71,5 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 AssertAreEqualCategories(EFailureMechanismCategory.VIt, 3.00e-2, 1.00, categories[5]);
             }
         }
-
-        
     }
 }

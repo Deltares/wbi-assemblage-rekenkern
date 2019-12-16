@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Implementations.Validators
         ///     Must be &gt;= 0 &lt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
         public static void CheckFailureMechanismInput(double lengthEffectFactor,
-            double failureProbabilityMarginFactor)
+                                                      double failureProbabilityMarginFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
 
@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Implementations.Validators
                 failureProbabilityMarginFactor > 1)
             {
                 errors.Add(new AssemblyErrorMessage("FailureMechanism",
-                    EAssemblyErrors.FailurePropbabilityMarginOutOfRange));
+                                                    EAssemblyErrors.FailurePropbabilityMarginOutOfRange));
             }
 
             if (lengthEffectFactor < 1)

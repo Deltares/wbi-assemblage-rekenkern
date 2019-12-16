@@ -44,9 +44,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public Group5FailureMechanismResultTester(MethodResultsListing methodResults,
                                                   IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
-        {
-        }
+            : base(methodResults, expectedFailureMechanismResult) {}
 
         protected override void TestSimpleAssessmentInternal()
         {
@@ -58,8 +56,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group5FailureMechanismSection != null)
                 {
                     // WBI-0E-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0E2(group5FailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group5FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0E2(group5FailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        group5FailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -75,7 +75,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group5FailureMechanismSection != null)
                 {
                     // WBI-0G-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0G2(group5FailureMechanismSection.DetailedAssessmentResult);
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0G2(group5FailureMechanismSection.DetailedAssessmentResult);
 
                     var expectedResult =
                         group5FailureMechanismSection.ExpectedDetailedAssessmentAssemblyResult as
@@ -95,9 +96,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group5FailureMechanismSection != null)
                 {
                     // WBI-0T-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0T2(group5FailureMechanismSection.TailorMadeAssessmentResult);
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0T2(group5FailureMechanismSection.TailorMadeAssessmentResult);
 
-                    var expectedResult = group5FailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    var expectedResult =
+                        group5FailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as
+                            FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -116,7 +120,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
                         section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyIndirectResult,
                         section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult);
-                
+
                     Assert.IsInstanceOf<FmSectionAssemblyIndirectResult>(result);
                     Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
                 }

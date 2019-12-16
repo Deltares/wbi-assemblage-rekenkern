@@ -109,7 +109,7 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2 assessment,
-            EFmSectionCategory? category);
+                                                                      EFmSectionCategory? category);
 
         /// <summary>
         /// Translate an assessment result or failure mechanism category to an Failure mecahnism category 
@@ -121,7 +121,7 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The Failure mechanism category belonging to the assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3 assessment,
-            EFmSectionCategory? category);
+                                                                      EFmSectionCategory? category);
 
         /// <summary>
         /// Translate a list of category comliancy results to one failure mechanism section result
@@ -165,7 +165,9 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(EAssessmentResultTypeG2 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categories);
+                                                                                     double failureProbability,
+                                                                                     CategoriesList<FmSectionCategory>
+                                                                                         categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
@@ -180,9 +182,10 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(double fmSectionLengthEffectFactor,
-            EAssessmentResultTypeG2 assessment,
-            double failureProbability,
-            CategoriesList<FmSectionCategory> categories);
+                                                                                     EAssessmentResultTypeG2 assessment,
+                                                                                     double failureProbability,
+                                                                                     CategoriesList<FmSectionCategory>
+                                                                                         categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
@@ -195,8 +198,9 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(EAssessmentResultTypeT3 assessment,
-            double failureProbability,
-            CategoriesList<FmSectionCategory> categories);
+                                                                                     double failureProbability,
+                                                                                     CategoriesList<FmSectionCategory>
+                                                                                         categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
@@ -211,8 +215,10 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T5(double fmSectionLengthEffectFactor,
-            EAssessmentResultTypeT3 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categories);
+                                                                                     EAssessmentResultTypeT3 assessment,
+                                                                                     double failureProbability,
+                                                                                     CategoriesList<FmSectionCategory>
+                                                                                         categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result
@@ -225,7 +231,8 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The failure mechanism category belonging to the failure probability or assessment result</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T7(EAssessmentResultTypeT4 assessment,
-            double failureProbability, CategoriesList<FmSectionCategory> categories);
+                                                                      double failureProbability,
+                                                                      CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate the assessment result of failure mechanism section assessments (direct without probability) to a 

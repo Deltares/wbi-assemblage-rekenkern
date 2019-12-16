@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -52,7 +52,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                     return new ProbabilisticFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
+                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(
+                        methodResults, expectedFailureMechanismResult);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
                     return new Group3FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
@@ -67,7 +68,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.AWO:
                 case MechanismType.STKWl:
                 case MechanismType.INN:
-                    return new Group4NoDetailedAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
+                    return new Group4NoDetailedAssessmentFailureMechanismResultTester(
+                        methodResults, expectedFailureMechanismResult);
                 case MechanismType.STBU:
                     return new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.HAV:
@@ -80,7 +82,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:
-                    return new Group5NoDetailedAssessmentFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
+                    return new Group5NoDetailedAssessmentFailureMechanismResultTester(
+                        methodResults, expectedFailureMechanismResult);
                 default:
                     throw new InvalidEnumArgumentException();
             }
@@ -105,14 +108,17 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.BSKW:
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new ProbabilisticFailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                    return new ProbabilisticFailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult,
+                                                                             lowerBoundaryNorm, signallingNorm);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3FailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult, lowerBoundaryNorm, signallingNorm);
+                    return new Group3FailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult,
+                                                                      lowerBoundaryNorm, signallingNorm);
                 case MechanismType.STBU:
-                    return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm, lowerBoundaryNorm);
+                    return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,
+                                                    lowerBoundaryNorm);
                 default:
                     return null;
             }

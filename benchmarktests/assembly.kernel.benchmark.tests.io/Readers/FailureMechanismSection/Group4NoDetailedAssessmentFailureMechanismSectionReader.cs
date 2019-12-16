@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -38,9 +38,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public Group4NoDetailedAssessmentFailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
-            : base(worksheetPart, workbookPart)
-        {
-        }
+            : base(worksheetPart, workbookPart) {}
 
         public Group4NoDetailedAssessmentFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
@@ -52,15 +50,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
                 ExpectedSimpleAssessmentAssemblyResult =
                     new FmSectionAssemblyDirectResult(GetCellValueAsString("J", iRow)
-                        .ToFailureMechanismSectionCategory()),
+                                                          .ToFailureMechanismSectionCategory()),
                 ExpectedDetailedAssessmentAssemblyResult =
                     new FmSectionAssemblyDirectResult(GetCellValueAsString("K", iRow)
-                        .ToFailureMechanismSectionCategory()),
+                                                          .ToFailureMechanismSectionCategory()),
                 TailorMadeAssessmentResult = GetCellValueAsString("H", iRow).ToEAssessmentResultTypeT1(),
                 ExpectedTailorMadeAssessmentAssemblyResult =
                     new FmSectionAssemblyDirectResult(GetCellValueAsString("L", iRow)
-                        .ToFailureMechanismSectionCategory()),
-                ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
+                                                          .ToFailureMechanismSectionCategory()),
+                ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory()
             };
         }
     }

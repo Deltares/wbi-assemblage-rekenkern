@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -43,9 +43,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public Group4NoDetailedAssessmentFailureMechanismResultTester(MethodResultsListing methodResults,
-                                                                      IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
+                                                                      IExpectedFailureMechanismResult
+                                                                          expectedFailureMechanismResult)
+            : base(methodResults, expectedFailureMechanismResult) {}
+
+        public override bool? TestDetailedAssessment()
         {
+            return null;
         }
 
         protected override void TestSimpleAssessmentInternal()
@@ -58,16 +62,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (group4NoDetailedAssessmentFailureMechanismSection != null)
                 {
                     // WBI-0E-1
-                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0E1(group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
+                    FmSectionAssemblyDirectResult result =
+                        assembler.TranslateAssessmentResultWbi0E1(
+                            group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as
+                            FmSectionAssemblyDirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
-        }
-
-        public override bool? TestDetailedAssessment()
-        {
-            return null;
         }
 
         protected override void TestTailorMadeAssessmentInternal()

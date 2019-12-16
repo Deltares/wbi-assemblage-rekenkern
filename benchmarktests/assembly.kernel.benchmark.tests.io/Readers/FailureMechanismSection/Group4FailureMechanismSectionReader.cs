@@ -38,9 +38,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <param name="worksheetPart">The WorksheetPart that contains information on this failure mechanism</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public Group4FailureMechanismSectionReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
-            : base(worksheetPart, workbookPart)
-        {
-        }
+            : base(worksheetPart, workbookPart) {}
 
         public Group4FailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
@@ -50,12 +48,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 Start = startMeters,
                 End = endMeters,
                 SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
-                ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResult(GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory()),
+                ExpectedSimpleAssessmentAssemblyResult =
+                    new FmSectionAssemblyDirectResult(GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory()),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG1(),
-                ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResult(GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory()),
+                ExpectedDetailedAssessmentAssemblyResult =
+                    new FmSectionAssemblyDirectResult(GetCellValueAsString("K", iRow).ToFailureMechanismSectionCategory()),
                 TailorMadeAssessmentResult = GetCellValueAsString("H", iRow).ToEAssessmentResultTypeT1(),
-                ExpectedTailorMadeAssessmentAssemblyResult = new FmSectionAssemblyDirectResult(GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory()),
-                ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory(),
+                ExpectedTailorMadeAssessmentAssemblyResult =
+                    new FmSectionAssemblyDirectResult(GetCellValueAsString("L", iRow).ToFailureMechanismSectionCategory()),
+                ExpectedCombinedResult = GetCellValueAsString("M", iRow).ToFailureMechanismSectionCategory()
             };
         }
     }

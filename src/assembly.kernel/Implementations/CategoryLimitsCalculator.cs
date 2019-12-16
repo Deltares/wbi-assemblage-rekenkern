@@ -21,8 +21,6 @@
 // All rights reserved.
 #endregion
 
-using System.Collections.Generic;
-using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
@@ -110,7 +108,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
-            FailureMechanism failureMechanism)
+                                                                                       FailureMechanism failureMechanism)
         {
             var pSigDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
                           failureMechanism.LengthEffectFactor;
@@ -148,7 +146,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
-            FailureMechanism failureMechanism)
+                                                                                       FailureMechanism failureMechanism)
         {
             var pDsn = CapToOne(failureMechanism.FailureProbabilityMarginFactor *
                                 (10 * assessmentSectionNorm) /

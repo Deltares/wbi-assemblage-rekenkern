@@ -32,8 +32,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
     /// </summary>
     public class ExcelSheetReaderBase
     {
-        private readonly Dictionary<string, int> keywordsDictionary;
         protected readonly int MaxRow;
+        private readonly Dictionary<string, int> keywordsDictionary;
         private readonly WorkbookPart workbookPart;
         private readonly Worksheet worksheet;
 

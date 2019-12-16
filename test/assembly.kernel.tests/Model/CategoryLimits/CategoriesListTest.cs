@@ -38,7 +38,10 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             get
             {
                 yield return new TestCaseData(
-                    new List<TestCategory> {new TestCategory(0.0, 0.9)});
+                    new List<TestCategory>
+                    {
+                        new TestCategory(0.0, 0.9)
+                    });
 
                 yield return new TestCaseData(
                     new List<TestCategory>
@@ -56,7 +59,6 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
                         new TestCategory(0.2, 0.5),
                         new TestCategory(0.5, 1.0)
                     });
-
 
                 yield return new TestCaseData(
                     new List<TestCategory>
@@ -146,7 +148,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             var category = list.GetCategoryForFailureProbability(probability);
 
             Assert.IsNotNull(category);
-            Assert.AreEqual(expectedCategory,category.CategoryIDentifyer);
+            Assert.AreEqual(expectedCategory, category.CategoryIDentifyer);
         }
 
         [Test]
@@ -154,7 +156,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
         [TestCase(-0.2, EAssemblyErrors.FailureProbabilityOutOfRange)]
         [TestCase(1.3, EAssemblyErrors.FailureProbabilityOutOfRange)]
         public void GetCategoryForFailureProbabilityTestThrowsInInvalidProbability(double probability,
-            EAssemblyErrors expectedMessage)
+                                                                                   EAssemblyErrors expectedMessage)
         {
             var list = new CategoriesList<TestCategory>(new[]
             {

@@ -36,12 +36,12 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
         [Test,
          TestCaseSource(typeof(FailureMechanismValidatorTestData), nameof(FailureMechanismValidatorTestData.TestCases))]
         public List<EAssemblyErrors> FailureMechanismCheckTest(double lengthEffectFactor,
-            double failureProbabilityMarginFactor)
+                                                               double failureProbabilityMarginFactor)
         {
             try
             {
                 FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
-                    failureProbabilityMarginFactor);
+                                                                     failureProbabilityMarginFactor);
             }
             catch (AssemblyException e)
             {

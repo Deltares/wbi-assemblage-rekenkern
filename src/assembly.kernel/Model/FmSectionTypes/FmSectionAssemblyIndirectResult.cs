@@ -42,6 +42,15 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// </summary>
         public EIndirectAssessmentResult Result { get; }
 
+        /// <summary>
+        /// Convert to string
+        /// </summary>
+        /// <returns>String of the object</returns>
+        public override string ToString()
+        {
+            return "FmSectionAssemblyIndirectResult [" + Result + "]";
+        }
+
         /// <inheritdoc />
         public bool HasResult()
         {
@@ -52,15 +61,6 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public bool NotApplicableOrNeglectable()
         {
             return Result == EIndirectAssessmentResult.Nvt || Result == EIndirectAssessmentResult.FvEt;
-        }
-
-        /// <summary>
-        /// Convert to string
-        /// </summary>
-        /// <returns>String of the object</returns>
-        public override string ToString()
-        {
-            return "FmSectionAssemblyIndirectResult [" + Result + "]";
         }
     }
 }

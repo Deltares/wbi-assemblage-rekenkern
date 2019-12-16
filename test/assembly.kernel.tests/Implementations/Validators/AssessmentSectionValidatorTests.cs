@@ -33,7 +33,24 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
     [TestFixture]
     public class AssessmentSectionValidatorTests
     {
-        private sealed class AssesmentSectionTestData
+        [Test, TestCaseSource(typeof(AssessmentSectionTestData), nameof(AssessmentSectionTestData.TestCases))]
+        public List<EAssemblyErrors> AssessmentSectionValidatorTest(double length, double signallingLimit,
+                                                                    double lowerLimit)
+        {
+            try
+            {
+                AssessmentSectionValidator.CheckAssessmentSectionInput(length, signallingLimit, lowerLimit);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                return e.Errors.Select(message => message.ErrorCode).ToList();
+            }
+
+            return null;
+        }
+
+        private class AssessmentSectionTestData
         {
             public static IEnumerable TestCases
             {
@@ -73,24 +90,6 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
                         });
                 }
             }
-        }
-
-        [Test, TestCaseSource(typeof(AssesmentSectionTestData), nameof(AssesmentSectionTestData.TestCases))]
-        public List<EAssemblyErrors> AssessmentSectionValidatorTest(double length,
-            double signallingLimit, double lowerLimit)
-        {
-            try
-            {
-                AssessmentSectionValidator.CheckAssessmentSectionInput(length,
-                    signallingLimit, lowerLimit);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                return e.Errors.Select(message => message.ErrorCode).ToList();
-            }
-
-            return null;
         }
     }
 }

@@ -44,7 +44,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
         /// <returns></returns>
-        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart, int maxRow)
+        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,
+                                                                     int maxRow)
         {
             var dict = new Dictionary<string, int>();
 
@@ -56,6 +57,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 {
                     dict[keyword] = iRow;
                 }
+
                 iRow++;
             }
 
@@ -76,7 +78,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 return NaN;
             }
-
 
             var culture = cellValue.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
             double cellValueAsDouble;

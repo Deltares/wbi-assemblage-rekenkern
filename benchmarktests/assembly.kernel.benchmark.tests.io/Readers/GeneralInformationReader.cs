@@ -38,7 +38,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
-        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart) { }
+        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
+            worksheetPart, workbookPart) {}
 
         /// <summary>
         /// Reads the general information of an assessment section.
@@ -46,8 +47,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D","Signaleringswaarde [terugkeertijd]");
-            benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D","Ondergrens [terugkeertijd]");
+            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D", "Signaleringswaarde [terugkeertijd]");
+            benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D", "Ondergrens [terugkeertijd]");
             benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte [m]");
 
             var list = new List<AssessmentSectionCategory>();
@@ -55,12 +56,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             for (int iRow = startRowCategories; iRow <= startRowCategories + 4; iRow++)
             {
                 list.Add(new AssessmentSectionCategory(
-                    GetCellValueAsString("A", iRow).ToAssessmentGrade(),
-                    GetCellValueAsDouble("B", iRow),
-                    GetCellValueAsDouble("C", iRow)));
+                             GetCellValueAsString("A", iRow).ToAssessmentGrade(),
+                             GetCellValueAsDouble("B", iRow),
+                             GetCellValueAsDouble("C", iRow)));
             }
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories = new CategoriesList<AssessmentSectionCategory>(list);
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories =
+                new CategoriesList<AssessmentSectionCategory>(list);
         }
     }
 }

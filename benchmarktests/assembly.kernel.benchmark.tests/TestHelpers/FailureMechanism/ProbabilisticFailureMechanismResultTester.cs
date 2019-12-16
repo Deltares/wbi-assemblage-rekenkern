@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -34,9 +34,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
     public class ProbabilisticFailureMechanismResultTester : FailureMechanismResultTesterBase<ProbabilisticExpectedFailureMechanismResult>
     {
-        public ProbabilisticFailureMechanismResultTester(MethodResultsListing methodResults, IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(methodResults, expectedFailureMechanismResult)
-        {
-        }
+        public ProbabilisticFailureMechanismResultTester(MethodResultsListing methodResults,
+                                                         IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(
+            methodResults, expectedFailureMechanismResult) {}
 
         protected override void TestSimpleAssessmentInternal()
         {
@@ -48,9 +48,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 if (probabilisticSection != null)
                 {
                     // WBI-0E-1
-                    FmSectionAssemblyDirectResultWithProbability result = assembler.TranslateAssessmentResultWbi0E1(probabilisticSection.SimpleAssessmentResult);
+                    FmSectionAssemblyDirectResultWithProbability result =
+                        assembler.TranslateAssessmentResultWbi0E1(probabilisticSection.SimpleAssessmentResult);
                     var expectedResult = probabilisticSection.ExpectedSimpleAssessmentAssemblyResult as
-                        FmSectionAssemblyDirectResultWithProbability;
+                                             FmSectionAssemblyDirectResultWithProbability;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                     Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
                 }
@@ -72,9 +73,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     {
                         // WBI-0G-5
                         result = assembler.TranslateAssessmentResultWbi0G5(probabilisticSection.LengthEffectFactor,
-                            probabilisticSection.DetailedAssessmentResult,
-                            probabilisticSection.DetailedAssessmentResultProbability,
-                            ExpectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                                                                           probabilisticSection.DetailedAssessmentResult,
+                                                                           probabilisticSection
+                                                                               .DetailedAssessmentResultProbability,
+                                                                           ExpectedFailureMechanismResult
+                                                                               .ExpectedFailureMechanismSectionCategories);
                     }
                     else
                     {
@@ -109,9 +112,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     {
                         // WBI-0T-5
                         result = assembler.TranslateAssessmentResultWbi0T5(probabilisticSection.LengthEffectFactor,
-                            probabilisticSection.TailorMadeAssessmentResult,
-                            probabilisticSection.TailorMadeAssessmentResultProbability,
-                            ExpectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
+                                                                           probabilisticSection.TailorMadeAssessmentResult,
+                                                                           probabilisticSection
+                                                                               .TailorMadeAssessmentResultProbability,
+                                                                           ExpectedFailureMechanismResult
+                                                                               .ExpectedFailureMechanismSectionCategories);
                     }
                     else
                     {
@@ -159,8 +164,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             var assembler = new FailureMechanismResultAssembler();
 
             // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
-                    ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
+                new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
+                                                           ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
                 ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
                 ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 false
@@ -175,15 +181,17 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             var assembler = new FailureMechanismResultAssembler();
 
             // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
-                    ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
+            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
+                new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
+                                                           ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
                 ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
                 ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 true
             );
 
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal, result.FailureProbability);
+            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal,
+                            result.FailureProbability);
         }
 
         protected override void SetSimpleAssessmentMethodResult(bool result)
@@ -234,12 +242,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             MethodResults.Wbi1B1T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
         }
 
-        private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(IFailureMechanismSection section)
+        private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(
+            IFailureMechanismSection section)
         {
             var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
             var probabilisticMechanismSection = section as IProbabilisticFailureMechanismSection;
             return new FmSectionAssemblyDirectResultWithProbability(directMechanismSection.ExpectedCombinedResult,
-                probabilisticMechanismSection.ExpectedCombinedResultProbability);
+                                                                    probabilisticMechanismSection
+                                                                        .ExpectedCombinedResultProbability);
         }
     }
 }

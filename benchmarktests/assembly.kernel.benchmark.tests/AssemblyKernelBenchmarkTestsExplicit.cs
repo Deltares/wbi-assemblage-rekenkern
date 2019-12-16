@@ -51,7 +51,7 @@ namespace assembly.kernel.benchmark.tests
                 .ExpectedFailureMechanismsResults)
             {
                 BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm,
-                    input.SignallingNorm, testResult);
+                                                                 input.SignallingNorm, testResult);
             }
 
             BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);

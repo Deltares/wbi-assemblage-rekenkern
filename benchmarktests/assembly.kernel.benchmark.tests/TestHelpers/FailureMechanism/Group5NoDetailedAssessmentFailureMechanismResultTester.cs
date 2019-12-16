@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -43,9 +43,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public Group5NoDetailedAssessmentFailureMechanismResultTester(MethodResultsListing methodResults,
-                                                                      IExpectedFailureMechanismResult expectedFailureMechanismResult)
-            : base(methodResults, expectedFailureMechanismResult)
+                                                                      IExpectedFailureMechanismResult
+                                                                          expectedFailureMechanismResult)
+            : base(methodResults, expectedFailureMechanismResult) {}
+
+        public override bool? TestDetailedAssessment()
         {
+            return null;
         }
 
         protected override void TestSimpleAssessmentInternal()
@@ -54,20 +58,20 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group5NoDetailedAssessmentFailureMechanismSection = section as Group5NoDetailedAssessmentFailureMechanismSection;
+                var group5NoDetailedAssessmentFailureMechanismSection =
+                    section as Group5NoDetailedAssessmentFailureMechanismSection;
                 if (group5NoDetailedAssessmentFailureMechanismSection != null)
                 {
                     // WBI-0E-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0E2(group5NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult = group5NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0E2(
+                            group5NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
+                    var expectedResult =
+                        group5NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as
+                            FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
-        }
-
-        public override bool? TestDetailedAssessment()
-        {
-            return null;
         }
 
         protected override void TestTailorMadeAssessmentInternal()
@@ -76,13 +80,18 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             foreach (var section in ExpectedFailureMechanismResult.Sections)
             {
-                var group5NoDetailedAssessmentFailureMechanismSection = section as Group5NoDetailedAssessmentFailureMechanismSection;
+                var group5NoDetailedAssessmentFailureMechanismSection =
+                    section as Group5NoDetailedAssessmentFailureMechanismSection;
                 if (group5NoDetailedAssessmentFailureMechanismSection != null)
                 {
                     // WBI-0T-2
-                    FmSectionAssemblyIndirectResult result = assembler.TranslateAssessmentResultWbi0T2(group5NoDetailedAssessmentFailureMechanismSection.TailorMadeAssessmentResult);
+                    FmSectionAssemblyIndirectResult result =
+                        assembler.TranslateAssessmentResultWbi0T2(
+                            group5NoDetailedAssessmentFailureMechanismSection.TailorMadeAssessmentResult);
 
-                    var expectedResult = group5NoDetailedAssessmentFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyIndirectResult;
+                    var expectedResult =
+                        group5NoDetailedAssessmentFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as
+                            FmSectionAssemblyIndirectResult;
                     Assert.AreEqual(expectedResult.Result, result.Result);
                 }
             }
@@ -94,7 +103,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<Group5NoDetailedAssessmentFailureMechanismSection>())
+                foreach (var section in ExpectedFailureMechanismResult
+                                        .Sections.OfType<Group5NoDetailedAssessmentFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(

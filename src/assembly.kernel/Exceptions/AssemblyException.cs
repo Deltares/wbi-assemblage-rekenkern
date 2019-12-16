@@ -38,7 +38,10 @@ namespace Assembly.Kernel.Exceptions
         /// <param name="error">The code of the error which occurred</param>
         public AssemblyException(string entityId, EAssemblyErrors error)
         {
-            Errors = new List<AssemblyErrorMessage> {new AssemblyErrorMessage(entityId, error)};
+            Errors = new List<AssemblyErrorMessage>
+            {
+                new AssemblyErrorMessage(entityId, error)
+            };
         }
 
         /// <summary>

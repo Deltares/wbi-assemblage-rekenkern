@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System;
@@ -69,8 +71,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
-                                         .OfType<FailureMechanismSectionBase<EFmSectionCategory>>().First()
-                                         .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
+                                                                   .OfType<FailureMechanismSectionBase<EFmSectionCategory>>()
+                                                                   .First()
+                                                                   .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
         }
 
         public bool? TestCategories()
@@ -81,11 +84,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
 
             var calculator = new CategoryLimitsCalculator();
-            CategoriesList<FmSectionCategory> categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(norm,
-                new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
+            CategoriesList<FmSectionCategory> categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(
+                norm, new Assembly.Kernel.Model.FailureMechanism(
+                    failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 
-            bool assertEqualCategoriesList = AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(GetExpectedCategories(), categoriesList);
+            bool assertEqualCategoriesList =
+                AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(
+                    GetExpectedCategories(), categoriesList);
             methodResults.Wbi02 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi02, assertEqualCategoriesList);
 
             return assertEqualCategoriesList;
@@ -96,9 +102,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             return new CategoriesList<FmSectionCategory>(new[]
             {
                 new FmSectionCategory(EFmSectionCategory.IIv, 0.0,
-                    failureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
+                                      failureMechanismResult.ExpectedSectionsCategoryDivisionProbability),
                 new FmSectionCategory(EFmSectionCategory.Vv,
-                    failureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
+                                      failureMechanismResult.ExpectedSectionsCategoryDivisionProbability, 1.0)
             });
         }
     }
