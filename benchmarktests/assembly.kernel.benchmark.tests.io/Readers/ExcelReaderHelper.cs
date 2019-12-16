@@ -26,9 +26,6 @@ using System.Globalization;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using static System.Double;
-using static System.Int32;
-using static System.String;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
 {
@@ -53,7 +50,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             while (iRow <= maxRow)
             {
                 var keyword = GetCellValueAsString(worksheetPart.Worksheet, "A" + iRow, workbookPart);
-                if (!(IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
+                if (!(string.IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
                 {
                     dict[keyword] = iRow;
                 }
@@ -74,16 +71,16 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public static double GetCellValueAsDouble(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
         {
             var cellValue = GetCellValueAsString(worksheet, cellReference, workbookPart);
-            if (IsNullOrWhiteSpace(cellValue))
+            if (string.IsNullOrWhiteSpace(cellValue))
             {
-                return NaN;
+                return double.NaN;
             }
 
             var culture = cellValue.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
             double cellValueAsDouble;
-            if (!TryParse(cellValue, NumberStyles.Any, culture, out cellValueAsDouble))
+            if (!double.TryParse(cellValue, NumberStyles.Any, culture, out cellValueAsDouble))
             {
-                return NaN;
+                return double.NaN;
             }
 
             return cellValueAsDouble;
@@ -159,12 +156,12 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private static string CellValueAsStringFromCell(Cell cell, WorkbookPart workbookPart)
         {
-            string cellValue = Empty;
+            string cellValue = string.Empty;
 
             if (cell.DataType != null && cell.DataType == CellValues.SharedString && workbookPart != null)
             {
                 int id;
-                if (TryParse(cell.InnerText, out id))
+                if (int.TryParse(cell.InnerText, out id))
                 {
                     SharedStringItem item = GetSharedStringItemById(workbookPart, id);
 
