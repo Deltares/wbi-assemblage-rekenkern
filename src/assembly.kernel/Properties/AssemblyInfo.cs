@@ -27,5 +27,5 @@ using System.Reflection;
 [assembly: AssemblyProduct("Assembly Kernel")]
 [assembly: AssemblyCompany("Rijkswaterstaat")]
 [assembly: AssemblyCopyright("Copyright © 2019, All rights reserved")]
-[assembly: AssemblyVersion("19.1.1.0")]
-[assembly: AssemblyInformationalVersion("19.1.1.0")]
+[assembly: AssemblyVersion("19.1.2.0")]
+[assembly: AssemblyInformationalVersion("19.1.2.0")]
