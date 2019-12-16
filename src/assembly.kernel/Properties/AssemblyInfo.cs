@@ -26,6 +26,6 @@ using System.Reflection;
 [assembly: AssemblyTitle("Assembly.kernel")]
 [assembly: AssemblyProduct("Assembly Kernel")]
 [assembly: AssemblyCompany("Informatiehuis Water")]
-[assembly: AssemblyCopyright("Copyright © 2018, All rights reserved")]
+[assembly: AssemblyCopyright("Copyright © 2019, All rights reserved")]
 [assembly: AssemblyVersion("1.3.0.0")]
 [assembly: AssemblyInformationalVersion("1.3.0.0 - snapshot")]
