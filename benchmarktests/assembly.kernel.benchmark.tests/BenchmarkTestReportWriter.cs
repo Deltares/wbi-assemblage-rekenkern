@@ -63,10 +63,10 @@ namespace assembly.kernel.benchmark.tests
         public static void WriteSummary(string destinationFileName, Dictionary<string, BenchmarkTestResult> testResults)
         {
             string str =
-                "\\section{Samenvatting van de testresultaten per methode} \n      \\label{sec:summary} \n In deze paragraaf zijn de resultaten tijdens alle benchmarktests weergegeven per methode. \n\n";
+                "\\section{Samenvatting van de testresultaten per methode} \n      \\label{sec:summary} \n In deze paragraaf zijn de resultaten tijdens alle benchmarktests weergegeven per methode, zie \\autoref{tab:ResultatenPerMethode}. \n\n";
             str += @"\begin{longtable}[]{| l | " + string.Concat(Enumerable.Repeat("cc |", testResults.Count)) + @" }" + "\n";
             str +=
-                @"   \caption{Samenvatting van de resultaten van alle benchmarktests per methode bij volledig assembleren (V) en tussentijds assembleren (T).  \label{tab:DocumentatieBijAssemblageRekenkern}} \\" +
+                @"   \caption{Samenvatting van de resultaten van alle benchmarktests per methode bij volledig assembleren (V) en tussentijds assembleren (T).  \label{tab:ResultatenPerMethode}} \\" +
                 "\n";
             str += @"   \hline \T" + "\n";
             str += @"    " + string.Concat(testResults.Select(
