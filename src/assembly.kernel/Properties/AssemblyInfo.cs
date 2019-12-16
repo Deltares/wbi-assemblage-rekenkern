@@ -28,4 +28,4 @@ using System.Reflection;
 [assembly: AssemblyCompany("Rijkswaterstaat")]
 [assembly: AssemblyCopyright("Copyright © 2019, All rights reserved")]
 [assembly: AssemblyVersion("19.1.1.0")]
-[assembly: AssemblyInformationalVersion("19.1.1.0 - snapshot")]
+[assembly: AssemblyInformationalVersion("19.1.1.0")]
