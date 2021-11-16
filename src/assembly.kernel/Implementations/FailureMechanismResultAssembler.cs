@@ -134,11 +134,11 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
             FailureMechanism failureMechanism,
-            IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            IEnumerable<FmSectionAssemblyDirectResultWithProbabilities> fmSectionAssemblyResults,
             CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly)
         {
-            FmSectionAssemblyDirectResultWithProbability[] sectionResults = CheckInput(fmSectionAssemblyResults);
+            FmSectionAssemblyDirectResultWithProbabilities[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             if (partialAssembly)
             {
@@ -178,9 +178,10 @@ namespace Assembly.Kernel.Implementations
                         failureProbFound = true;
 
                         var sectionFailureProb = fmSectionResult.FailureProbability;
+                        var profileFailureProb = fmSectionResult.FailureProbabilityProfile;
                         if (sectionFailureProb > highestFailureProbability)
                         {
-                            highestFailureProbability = sectionFailureProb;
+                            highestFailureProbability = profileFailureProb;
                         }
 
                         noFailureProbProduct *= 1.0 - sectionFailureProb;

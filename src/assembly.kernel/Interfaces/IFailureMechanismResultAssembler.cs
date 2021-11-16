@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Interfaces
         /// </exception>
         FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
             FailureMechanism failureMechanism,
-            IEnumerable<FmSectionAssemblyDirectResultWithProbability> fmSectionAssemblyResults,
+            IEnumerable<FmSectionAssemblyDirectResultWithProbabilities> fmSectionAssemblyResults,
             CategoriesList<FailureMechanismCategory> categoryLimits,
             bool partialAssembly);
     }

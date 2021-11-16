@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -160,10 +161,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.0001),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.00026)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.0001, 0.0001),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -178,15 +179,16 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test, TestCaseSource(
              typeof(AssembleFailureMechanismTestData),
              nameof(AssembleFailureMechanismTestData.Wbi1B1))]
-        public void Wbi1B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
+        public void Wbi1B1FailureProbabilityTests(Tuple<double,double>[] failureProbabilities,
                                                   EAssemblyType assemblyType, double expectedResult)
         {
+            // Use correct probabilities
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism1,
                                                                   failureProbabilities.Select(failureProbability =>
                                                                                                   new
-                                                                                                      FmSectionAssemblyDirectResultWithProbability(
+                                                                                                      FmSectionAssemblyDirectResultWithProbabilities(
                                                                                                           EFmSectionCategory.Iv,
-                                                                                                          failureProbability)),
+                                                                                                          failureProbability.Item1, failureProbability.Item2)),
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
                                                                           assessmentSectionAmeland, testFailureMechanism1),
@@ -202,18 +204,18 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIv, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000009)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -231,12 +233,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIIv, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.00026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.00026)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -253,12 +255,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.00026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIIv, 0.00026)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -275,12 +277,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -297,12 +299,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -319,22 +321,22 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIv, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIIv, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -352,24 +354,24 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIv, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIIv, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -387,22 +389,22 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.VIv, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.IIv, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.NotApplicable, 0.0)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -420,10 +422,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbability(
-                                                                          EFmSectionCategory.Gr, double.NaN)
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
+                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
+                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN)
                                                                   },
                                                                   categoryLimitsCalculator
                                                                       .CalculateFailureMechanismCategoryLimitsWbi11(
@@ -447,21 +449,34 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 get
                 {
-                    yield return new TestCaseData(new[]
-                                                  {
-                                                      0.0,
-                                                      0.1
-                                                  },
-                                                  EAssemblyType.Full,
-                                                  0.1);
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<double, double>(0.0,0.0), 
+                            new Tuple<double, double>(0.1, 0.1)
+                        },
+                        EAssemblyType.Full,
+                        0.1);
 
-                    yield return new TestCaseData(new[]
-                                                  {
-                                                      0.0005,
-                                                      0.00005
-                                                  },
-                                                  EAssemblyType.Full,
-                                                  0.000549975);
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<double, double>(0.0,0.0),
+                            new Tuple<double, double>(0.01, 0.0001),
+                            new Tuple<double, double>(0.01,0.0005),
+                            new Tuple<double, double>(0.01, 0.0007)
+                        },
+                        EAssemblyType.Full,
+                        0.01008);
+
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<double, double>(0.0005,0.0005),
+                            new Tuple<double, double>(0.00005,0.00005)
+                        },
+                        EAssemblyType.Full,
+                        0.000549975);
                 }
             }
 
