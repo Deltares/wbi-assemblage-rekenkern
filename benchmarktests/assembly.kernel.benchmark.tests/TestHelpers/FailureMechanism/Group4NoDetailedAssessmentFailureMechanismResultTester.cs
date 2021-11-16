@@ -52,27 +52,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             return null;
         }
 
-        protected override void TestSimpleAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in ExpectedFailureMechanismResult.Sections)
-            {
-                var group4NoDetailedAssessmentFailureMechanismSection = section as Group4NoDetailedAssessmentFailureMechanismSection;
-                if (group4NoDetailedAssessmentFailureMechanismSection != null)
-                {
-                    // WBI-0E-1
-                    FmSectionAssemblyDirectResult result =
-                        assembler.TranslateAssessmentResultWbi0E1(
-                            group4NoDetailedAssessmentFailureMechanismSection.SimpleAssessmentResult);
-                    var expectedResult =
-                        group4NoDetailedAssessmentFailureMechanismSection.ExpectedSimpleAssessmentAssemblyResult as
-                            FmSectionAssemblyDirectResult;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                }
-            }
-        }
-
         protected override void TestTailorMadeAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
@@ -102,7 +81,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
-                        section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
                         section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
                         section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult);
 
@@ -136,11 +114,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             );
 
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
-        }
-
-        protected override void SetSimpleAssessmentMethodResult(bool result)
-        {
-            MethodResults.Wbi0E1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0E1, result);
         }
 
         protected override void SetTailorMadeAssessmentMethodResult(bool result)

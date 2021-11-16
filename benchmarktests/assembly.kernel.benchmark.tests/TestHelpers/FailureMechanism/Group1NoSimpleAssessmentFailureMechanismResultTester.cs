@@ -48,26 +48,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                                                         expectedFailureMechanismResult)
             : base(methodResults, expectedFailureMechanismResult) {}
 
-        protected override void TestSimpleAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in ExpectedFailureMechanismResult.Sections)
-            {
-                var probabilisticSection = section as Group1NoSimpleAssessmentFailureMechanismSection;
-                if (probabilisticSection != null)
-                {
-                    // WBI-0E-3
-                    FmSectionAssemblyDirectResultWithProbability result =
-                        assembler.TranslateAssessmentResultWbi0E3(probabilisticSection.SimpleAssessmentResult);
-                    var expectedResult = probabilisticSection.ExpectedSimpleAssessmentAssemblyResult as
-                                             FmSectionAssemblyDirectResultWithProbability;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                    Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
-                }
-            }
-        }
-
         protected override void TestDetailedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
@@ -126,7 +106,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 {
                     // WBI-0A-1 (direct with probability)
                     var result = assembler.TranslateAssessmentResultWbi0A1(
-                        section.ExpectedSimpleAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
                         section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability,
                         section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResultWithProbability);
 
@@ -170,11 +149,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
             Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal,
                             result.FailureProbability);
-        }
-
-        protected override void SetSimpleAssessmentMethodResult(bool result)
-        {
-            MethodResults.Wbi0E3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0E3, result);
         }
 
         protected override void SetDetailedAssessmentMethodResult(bool result)

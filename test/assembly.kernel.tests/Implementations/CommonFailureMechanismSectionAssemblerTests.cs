@@ -129,8 +129,8 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var sectionsList1 = new FailureMechanismSectionList("", new[]
             {
-                new FmSectionWithIndirectCategory(0.0, 1.0, EIndirectAssessmentResult.FvEt),
-                new FmSectionWithIndirectCategory(1.0, 2.0, EIndirectAssessmentResult.FvEt)
+                new FmSectionWithIndirectCategory(0.0, 1.0, EIndirectAssessmentResult.FvGt),
+                new FmSectionWithIndirectCategory(1.0, 2.0, EIndirectAssessmentResult.FvGt)
             });
 
             try

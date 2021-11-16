@@ -32,11 +32,6 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
     public class ProbabilisticFailureMechanismSection : FailureMechanismSectionBase<EFmSectionCategory>, IProbabilisticFailureMechanismSection
     {
         /// <summary>
-        /// The result of simple assessment as input for assembly.
-        /// </summary>
-        public EAssessmentResultTypeE1 SimpleAssessmentResult { get; set; }
-
-        /// <summary>
         /// The result of detailed assessment as input for assembly.
         /// </summary>
         public EAssessmentResultTypeG2 DetailedAssessmentResult { get; set; }

@@ -42,10 +42,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 
         public Group1NoSimpleAssessmentFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
-            var cellFValueAsString = GetCellValueAsString("F", iRow);
-            var simpleProbability = cellFValueAsString.ToLower() == "nvt"
-                                        ? 0.0
-                                        : double.NaN;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
             var cellHValueAsString = GetCellValueAsString("H", iRow);
             var tailorMadeAssessmentResultProbability =
@@ -56,11 +52,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
-                SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE2(),
-                SimpleAssessmentResultProbability = simpleProbability,
-                ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
-                    GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
-                    simpleProbability),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(true),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(

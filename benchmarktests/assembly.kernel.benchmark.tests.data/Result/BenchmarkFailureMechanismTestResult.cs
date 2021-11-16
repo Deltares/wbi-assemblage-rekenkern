@@ -64,11 +64,6 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool? AreEqualCategoryBoundaries { get; set; }
 
         /// <summary>
-        /// Indicates whether all simple assessment results where translated correctly during assembly.
-        /// </summary>
-        public bool AreEqualSimpleAssessmentResults { get; set; }
-
-        /// <summary>
         /// Indicates whether all detailed assessment results where translated correctly during assembly.
         /// </summary>
         public bool? AreEqualDetailedAssessmentResults { get; set; }

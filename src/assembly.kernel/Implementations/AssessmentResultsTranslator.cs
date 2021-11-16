@@ -34,40 +34,6 @@ namespace Assembly.Kernel.Implementations
     /// <inheritdoc />
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
-        private readonly ResultMapper<EAssessmentResultTypeE1, EFmSectionCategory> wbi0E1ResultMap =
-            new ResultMapper<EAssessmentResultTypeE1, EFmSectionCategory>("Wbi0E1")
-            {
-                {EAssessmentResultTypeE1.Nvt, EFmSectionCategory.NotApplicable},
-                {EAssessmentResultTypeE1.Fv, EFmSectionCategory.Iv},
-                {EAssessmentResultTypeE1.Vb, EFmSectionCategory.VIIv},
-                {EAssessmentResultTypeE1.Gr, EFmSectionCategory.Gr}
-            };
-
-        private readonly ResultMapper<EAssessmentResultTypeE1, EIndirectAssessmentResult> wbi0E2ResultMap =
-            new ResultMapper<EAssessmentResultTypeE1, EIndirectAssessmentResult>("Wbi0E2")
-            {
-                {EAssessmentResultTypeE1.Nvt, EIndirectAssessmentResult.Nvt},
-                {EAssessmentResultTypeE1.Fv, EIndirectAssessmentResult.FvEt},
-                {EAssessmentResultTypeE1.Vb, EIndirectAssessmentResult.Ngo},
-                {EAssessmentResultTypeE1.Gr, EIndirectAssessmentResult.Gr}
-            };
-
-        private readonly ResultMapper<EAssessmentResultTypeE2, EFmSectionCategory> wbi0E3ResultMap =
-            new ResultMapper<EAssessmentResultTypeE2, EFmSectionCategory>("Wbi0E3")
-            {
-                {EAssessmentResultTypeE2.Nvt, EFmSectionCategory.NotApplicable},
-                {EAssessmentResultTypeE2.Wvt, EFmSectionCategory.VIIv},
-                {EAssessmentResultTypeE2.Gr, EFmSectionCategory.Gr}
-            };
-
-        private readonly ResultMapper<EAssessmentResultTypeE2, EIndirectAssessmentResult> wbi0E4ResultMap =
-            new ResultMapper<EAssessmentResultTypeE2, EIndirectAssessmentResult>("Wbi0E4")
-            {
-                {EAssessmentResultTypeE2.Nvt, EIndirectAssessmentResult.Nvt},
-                {EAssessmentResultTypeE2.Wvt, EIndirectAssessmentResult.Ngo},
-                {EAssessmentResultTypeE2.Gr, EIndirectAssessmentResult.Gr}
-            };
-
         private readonly ResultMapper<EAssessmentResultTypeG1, EFmSectionCategory> wbi0G1ResultMap =
             new ResultMapper<EAssessmentResultTypeG1, EFmSectionCategory>("Wbi0G1")
             {
@@ -122,27 +88,6 @@ namespace Assembly.Kernel.Implementations
                 {EAssessmentResultTypeT1.Gr, EFmSectionCategory.Gr}
             };
 
-        /*
-         *direct failure mechanism methods.
-         */
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(
-            EAssessmentResultTypeE1 assessment)
-        {
-            var fmSectionCategory = wbi0E1ResultMap.GetResult(assessment);
-            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
-                                                                    ResultCategoryToProbabilityEstimation(fmSectionCategory));
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(
-            EAssessmentResultTypeE2 assessment)
-        {
-            var fmSectionCategory = wbi0E3ResultMap.GetResult(assessment);
-            return new FmSectionAssemblyDirectResultWithProbability(fmSectionCategory,
-                                                                    ResultCategoryToProbabilityEstimation(fmSectionCategory));
-        }
-
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G1(EAssessmentResultTypeG1 assessment)
         {
@@ -153,21 +98,6 @@ namespace Assembly.Kernel.Implementations
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T1(EAssessmentResultTypeT1 assessment)
         {
             return new FmSectionAssemblyDirectResult(wbiT1ResultMap.GetResult(assessment));
-        }
-
-        /*
-         * indirect Failure mechanism methods
-         */
-        /// <inheritdoc />
-        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0E2(EAssessmentResultTypeE1 assessment)
-        {
-            return new FmSectionAssemblyIndirectResult(wbi0E2ResultMap.GetResult(assessment));
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0E4(EAssessmentResultTypeE2 assessment)
-        {
-            return new FmSectionAssemblyIndirectResult(wbi0E4ResultMap.GetResult(assessment));
         }
 
         /// <inheritdoc />
@@ -446,34 +376,28 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult)
         {
-            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
-                                                                 customAssessmentResult);
+            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
             return new FmSectionAssemblyDirectResult(result.Result);
         }
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
         {
-            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
-                                                                 customAssessmentResult);
+            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
             return new FmSectionAssemblyDirectResultWithProbability(result.Result, result.FailureProbability);
         }
 
         /// <inheritdoc />
         public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult)
         {
-            var result = TranslateAssessmentResultWbi0A1Internal(simpleAssessmentResult, detailedAssessmentResult,
-                                                                 customAssessmentResult);
+            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
             return new FmSectionAssemblyIndirectResult(result.Result);
         }
 
@@ -481,31 +405,23 @@ namespace Assembly.Kernel.Implementations
         * Private methods and classes.
         */
         /// <summary>
-        /// Internal method to calculate WBI-0A-1 (normative results based on a simple assessment, detailed assessment and custom assessment result).
+        /// Internal method to calculate WBI-0A-1 (normative results based on a detailed assessment and custom assessment result).
         /// </summary>
         /// <typeparam name="TResult">Generic assessment result.</typeparam>
-        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
         /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
         /// May be null when not available</param>
         /// <param name="customAssessmentResult">The test result of a custom assessment.
         /// May be null when not available</param>
         /// <returns>The normative result.</returns>
-        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
         private TResult TranslateAssessmentResultWbi0A1Internal<TResult>(
-            TResult simpleAssessmentResult,
             TResult detailedAssessmentResult,
             TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult
         {
-            if (simpleAssessmentResult == null)
+            if (detailedAssessmentResult == null)
             {
                 throw new AssemblyException(
-                    "TranslateNormativeAssessmentResult: simple assessment result",
+                    "TranslateNormativeAssessmentResult: detailed assessment result",
                     EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (simpleAssessmentResult.NotApplicableOrNeglectable())
-            {
-                return simpleAssessmentResult;
             }
 
             if (customAssessmentResult != null && customAssessmentResult.HasResult())
@@ -513,12 +429,7 @@ namespace Assembly.Kernel.Implementations
                 return customAssessmentResult;
             }
 
-            if (detailedAssessmentResult != null && detailedAssessmentResult.HasResult())
-            {
-                return detailedAssessmentResult;
-            }
-
-            return simpleAssessmentResult;
+            return detailedAssessmentResult;
         }
 
         /// <summary>

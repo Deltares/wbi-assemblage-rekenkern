@@ -84,9 +84,9 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void IndirectToStringTest()
         {
-            var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvEt);
+            var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvGt);
 
-            Assert.AreEqual("FmSectionAssemblyIndirectResult [FvEt]", result.ToString());
+            Assert.AreEqual("FmSectionAssemblyIndirectResult [FvGt]", result.ToString());
         }
 
         private static void CheckException(AssemblyException e)

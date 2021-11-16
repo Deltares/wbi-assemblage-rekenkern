@@ -54,22 +54,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        public bool TestSimpleAssessment()
-        {
-            try
-            {
-                TestSimpleAssessmentInternal();
-                SetSimpleAssessmentMethodResult(true);
-                return true;
-            }
-            catch (AssertionException e)
-            {
-                Console.WriteLine("{0}: Eenvoudige toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
-                SetSimpleAssessmentMethodResult(false);
-                return false;
-            }
-        }
-
         public virtual bool? TestDetailedAssessment()
         {
             try
@@ -152,10 +136,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 return false;
             }
         }
-
-        protected abstract void SetSimpleAssessmentMethodResult(bool result);
-
-        protected abstract void TestSimpleAssessmentInternal();
 
         protected virtual void SetDetailedAssessmentMethodResult(bool result) {}
 

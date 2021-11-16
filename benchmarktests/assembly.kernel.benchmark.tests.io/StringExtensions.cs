@@ -106,7 +106,8 @@ namespace assembly.kernel.benchmark.tests.io
                 case "*":
                     return EIndirectAssessmentResult.FactoredInOtherFailureMechanism;
                 case "FV_ET":
-                    return EIndirectAssessmentResult.FvEt;
+                    // TODO: Remove
+                    return EIndirectAssessmentResult.FvGt;
                 case "FV_GT":
                     return EIndirectAssessmentResult.FvGt;
                 case "FV_TOM":
@@ -200,44 +201,6 @@ namespace assembly.kernel.benchmark.tests.io
             }
 
             return sectionCategory;
-        }
-
-        /// <summary>
-        /// Translate a string value to a specific <see cref="EAssessmentResultTypeE1"/>.
-        /// </summary>
-        /// <param name="str">string value to be translated.</param>
-        /// <returns>The translated <see cref="EAssessmentResultTypeE1"/>.</returns>
-        public static EAssessmentResultTypeE1 ToEAssessmentResultTypeE1(this string str)
-        {
-            EAssessmentResultTypeE1 assessmentResultType;
-            if (!Enum.TryParse(str, true, out assessmentResultType))
-            {
-                if (string.IsNullOrWhiteSpace(str))
-                {
-                    return EAssessmentResultTypeE1.Gr;
-                }
-            }
-
-            return assessmentResultType;
-        }
-
-        /// <summary>
-        /// Translate a string value to a specific <see cref="EAssessmentResultTypeE2"/>.
-        /// </summary>
-        /// <param name="str">string value to be translated.</param>
-        /// <returns>The translated <see cref="EAssessmentResultTypeE2"/>.</returns>
-        public static EAssessmentResultTypeE2 ToEAssessmentResultTypeE2(this string str)
-        {
-            EAssessmentResultTypeE2 assessmentResultType;
-            if (!Enum.TryParse(str, true, out assessmentResultType))
-            {
-                if (string.IsNullOrWhiteSpace(str))
-                {
-                    return EAssessmentResultTypeE2.Gr;
-                }
-            }
-
-            return assessmentResultType;
         }
 
         /// <summary>

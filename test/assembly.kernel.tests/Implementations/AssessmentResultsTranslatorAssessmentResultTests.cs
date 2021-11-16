@@ -44,73 +44,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
         [Test, TestCaseSource(
              typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0E1))]
-        public EFmSectionCategory Wbi0E1Test(EAssessmentResultTypeE1 assessmentResult)
-        {
-            FmSectionAssemblyDirectResultWithProbability result =
-                translator.TranslateAssessmentResultWbi0E1(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResultWithProbability>(result);
-
-            if (result.Result == EFmSectionCategory.Iv || result.Result == EFmSectionCategory.NotApplicable)
-            {
-                Assert.AreEqual(0.0, result.FailureProbability);
-            }
-            else
-            {
-                Assert.IsNaN(result.FailureProbability);
-            }
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0E2))]
-        public EIndirectAssessmentResult Wbi0E2Test(EAssessmentResultTypeE1 assessmentResult)
-        {
-            FmSectionAssemblyIndirectResult result = translator.TranslateAssessmentResultWbi0E2(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0E3))]
-        public EFmSectionCategory Wbi0E3Test(EAssessmentResultTypeE2 assessmentResult)
-        {
-            FmSectionAssemblyDirectResultWithProbability result =
-                translator.TranslateAssessmentResultWbi0E3(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResultWithProbability>(result);
-            if (result.Result == EFmSectionCategory.Iv || result.Result == EFmSectionCategory.NotApplicable)
-            {
-                Assert.AreEqual(0.0, result.FailureProbability);
-            }
-            else
-            {
-                Assert.IsNaN(result.FailureProbability);
-            }
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0E4))]
-        public EIndirectAssessmentResult Wbi0E4Test(EAssessmentResultTypeE2 assessmentResult)
-        {
-            var result = translator.TranslateAssessmentResultWbi0E4(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
              nameof(AssessmentResultTestCases.Wbi0G1))]
         public EFmSectionCategory Wbi0G1Test(EAssessmentResultTypeG1 assessmentResult)
         {
@@ -159,27 +92,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private class AssessmentResultTestCases
         {
-            public static IEnumerable Wbi0E1
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EFmSectionCategory.NotApplicable);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EFmSectionCategory.Iv);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E3
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EFmSectionCategory.NotApplicable);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
             public static IEnumerable Wbi0G1
             {
                 get
@@ -200,27 +112,6 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(EAssessmentResultTypeT1.Ngo).Returns(EFmSectionCategory.VIIv);
                     yield return new TestCaseData(EAssessmentResultTypeT1.Fv).Returns(EFmSectionCategory.Iv);
                     yield return new TestCaseData(EAssessmentResultTypeT1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E2
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Nvt).Returns(EIndirectAssessmentResult.Nvt);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Fv).Returns(EIndirectAssessmentResult.FvEt);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Vb).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeE1.Gr).Returns(EIndirectAssessmentResult.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0E4
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Nvt).Returns(EIndirectAssessmentResult.Nvt);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Wvt).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeE2.Gr).Returns(EIndirectAssessmentResult.Gr);
                 }
             }
 

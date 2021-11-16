@@ -53,24 +53,6 @@ namespace Assembly.Kernel.Tests
         [Test]
         public void TranslateAssessmentResults()
         {
-            Wbi0E1(EAssessmentResultTypeE1.Fv);
-            Wbi0E1(EAssessmentResultTypeE1.Gr);
-            Wbi0E1(EAssessmentResultTypeE1.Vb);
-            Wbi0E1(EAssessmentResultTypeE1.Nvt);
-
-            Wbi0E2(EAssessmentResultTypeE1.Fv);
-            Wbi0E2(EAssessmentResultTypeE1.Gr);
-            Wbi0E2(EAssessmentResultTypeE1.Vb);
-            Wbi0E2(EAssessmentResultTypeE1.Nvt);
-
-            Wbi0E3(EAssessmentResultTypeE2.Gr);
-            Wbi0E3(EAssessmentResultTypeE2.Nvt);
-            Wbi0E3(EAssessmentResultTypeE2.Wvt);
-
-            Wbi0E4(EAssessmentResultTypeE2.Gr);
-            Wbi0E4(EAssessmentResultTypeE2.Nvt);
-            Wbi0E4(EAssessmentResultTypeE2.Wvt);
-
             Wbi0G1(EAssessmentResultTypeG1.Gr);
             Wbi0G1(EAssessmentResultTypeG1.Ngo);
             Wbi0G1(EAssessmentResultTypeG1.V);
@@ -144,42 +126,6 @@ namespace Assembly.Kernel.Tests
             Wbi0T7(EAssessmentResultTypeT4.V, double.NaN);
             Wbi0T7(EAssessmentResultTypeT4.Vn, double.NaN);
             Wbi0T7(EAssessmentResultTypeT4.ResultSpecified, 0.3);
-        }
-
-        public void Wbi0E1(EAssessmentResultTypeE1 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E1({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E2(EAssessmentResultTypeE1 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E2(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E2({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E3(EAssessmentResultTypeE2 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E3(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E3({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0E4(EAssessmentResultTypeE2 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0E4(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0E4({input}): {elapsedMs} ms (max: 200 ms)");
         }
 
         public void Wbi0G1(EAssessmentResultTypeG1 input)

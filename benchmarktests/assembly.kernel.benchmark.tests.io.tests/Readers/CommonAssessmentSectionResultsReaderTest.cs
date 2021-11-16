@@ -95,14 +95,14 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
         private readonly EIndirectAssessmentResult[] expectedIndirectResults =
         {
-            EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt,
-            EIndirectAssessmentResult.FvEt,
+            EIndirectAssessmentResult.FvGt,
+            EIndirectAssessmentResult.FvGt,
+            EIndirectAssessmentResult.FvGt,
+            EIndirectAssessmentResult.FvGt,
+            EIndirectAssessmentResult.FvGt,
+            EIndirectAssessmentResult.FvGt,
             EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
-            EIndirectAssessmentResult.FvEt
+            EIndirectAssessmentResult.FvGt
         };
 
         [Test]

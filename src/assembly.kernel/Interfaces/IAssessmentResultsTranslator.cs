@@ -34,22 +34,6 @@ namespace Assembly.Kernel.Interfaces
     public interface IAssessmentResultsTranslator
     {
         /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0E-1.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E1(EAssessmentResultTypeE1 assessment);
-
-        /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0E-3.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0E3(EAssessmentResultTypeE2 assessment);
-
-        /// <summary>
         /// Translate an assessment result to an Failure mechanism category as specified by WBI-0G-1.
         /// </summary>
         /// <param name="assessment">The assessment result to translate.</param>
@@ -64,22 +48,6 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T1(EAssessmentResultTypeT1 assessment);
-
-        /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0E-2.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0E2(EAssessmentResultTypeE1 assessment);
-
-        /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0E-4.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0E4(EAssessmentResultTypeE2 assessment);
 
         /// <summary>
         /// Translate an assessment result to an Failure mechanism category as specified by WBI-0G-2.
@@ -237,7 +205,6 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the assessment result of failure mechanism section assessments (direct without probability) to a 
         /// single normative result. As specified in WBI-0A-1.
         /// </summary>
-        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
         /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
         /// May be null when not available.</param>
         /// <param name="customAssessmentResult">The test result of a custom assessment.
@@ -245,7 +212,6 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>A new result resambling the normative result of the three input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null.</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResult simpleAssessmentResult,
             FmSectionAssemblyDirectResult detailedAssessmentResult,
             FmSectionAssemblyDirectResult customAssessmentResult);
 
@@ -253,7 +219,6 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the assessment result of failure mechanism section assessments (direct with probability) to a 
         /// single normative result. As specified in WBI-0A-1.
         /// </summary>
-        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
         /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
         /// May be null when not available.</param>
         /// <param name="customAssessmentResult">The test result of a custom assessment.
@@ -261,7 +226,6 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>A new result resambling the normative result of the three input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
         FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResultWithProbability simpleAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
             FmSectionAssemblyDirectResultWithProbability customAssessmentResult);
 
@@ -269,7 +233,6 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the assessment result of failure mechanism section assessments (indirect) to a 
         /// single normative result. As specified in WBI-0A-1.
         /// </summary>
-        /// <param name="simpleAssessmentResult">The test result of a simple assessment. May not be null.</param>
         /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
         /// May be null when not available.</param>
         /// <param name="customAssessmentResult">The test result of a custom assessment.
@@ -277,7 +240,6 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>A new result resambling the normative result of the three input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
         FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyIndirectResult simpleAssessmentResult,
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult);
     }

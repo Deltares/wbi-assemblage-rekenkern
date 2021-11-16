@@ -47,10 +47,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
-                SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
-                ExpectedSimpleAssessmentAssemblyResult =
-                    new FmSectionAssemblyIndirectResult(GetCellValueAsString("J", iRow)
-                                                            .ToIndirectFailureMechanismSectionCategory()),
                 ExpectedDetailedAssessmentAssemblyResult =
                     new FmSectionAssemblyIndirectResult(GetCellValueAsString("K", iRow)
                                                             .ToIndirectFailureMechanismSectionCategory()),

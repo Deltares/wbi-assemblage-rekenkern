@@ -108,7 +108,6 @@ namespace Assembly.Kernel.Implementations
                 switch (sectionResult.Result)
                 {
                     case EIndirectAssessmentResult.Nvt:
-                    case EIndirectAssessmentResult.FvEt:
                     case EIndirectAssessmentResult.FvGt:
                     case EIndirectAssessmentResult.FvTom:
                     case EIndirectAssessmentResult.FactoredInOtherFailureMechanism:

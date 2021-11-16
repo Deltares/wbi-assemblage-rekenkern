@@ -90,19 +90,6 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi21) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"WBI-0E-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E1) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0E-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E2) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0E-3 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E3) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0E-4 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0E4) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"\grayhline" + "\n";
             str += "   " + @"WBI-0G-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G1) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
@@ -199,7 +186,6 @@ namespace assembly.kernel.benchmark.tests
             {
                 var m = result.FailureMechanismResults[index];
                 str += m.Name + " & " + m.Type.ToString("G") + " & " + m.Group + " & " +
-                       ToResultText(m.AreEqualSimpleAssessmentResults) + " & " +
                        ToResultText(m.AreEqualDetailedAssessmentResults) + " & " +
                        ToResultText(m.AreEqualTailorMadeAssessmentResults) + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +

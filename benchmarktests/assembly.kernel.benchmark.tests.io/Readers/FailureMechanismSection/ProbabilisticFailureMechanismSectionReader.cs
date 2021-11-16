@@ -62,12 +62,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 Start = startMeters,
                 End = endMeters,
                 LengthEffectFactor = lengthEffectFactor,
-                SimpleAssessmentResult = cellFValueAsString.ToEAssessmentResultTypeE1(),
-                ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
-                    GetCellValueAsString("J", iRow).ToFailureMechanismSectionCategory(),
-                    cellFValueAsString.ToLower() == "fv" || cellFValueAsString.ToLower() == "nvt"
-                        ? 0.0
-                        : double.NaN),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(true),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(

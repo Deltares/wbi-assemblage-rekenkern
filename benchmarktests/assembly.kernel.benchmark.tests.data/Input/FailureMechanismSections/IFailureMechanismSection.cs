@@ -41,11 +41,6 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         double End { get; }
 
         /// <summary>
-        /// The expected result of the simple assessment
-        /// </summary>
-        IFmSectionAssemblyResult ExpectedSimpleAssessmentAssemblyResult { get; }
-
-        /// <summary>
         /// The expected result of the detailed assessment
         /// </summary>
         IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; }

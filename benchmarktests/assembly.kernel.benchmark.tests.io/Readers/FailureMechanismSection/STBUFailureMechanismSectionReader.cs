@@ -42,10 +42,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
 
         public STBUFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
-            var cellJValueAsString = GetCellValueAsString("J", iRow);
-            var simpleProbability = cellJValueAsString.ToLower() == "fv" || cellJValueAsString.ToLower() == "nvt"
-                                        ? 0.0
-                                        : double.NaN;
             var detailedAssessmentResultProbability = GetCellValueAsDouble("G", iRow);
             var cellHValueAsString = GetCellValueAsString("H", iRow);
             var tailorMadeAssessmentResultProbability =
@@ -56,10 +52,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 SectionName = GetCellValueAsString("E", iRow),
                 Start = startMeters,
                 End = endMeters,
-                SimpleAssessmentResult = GetCellValueAsString("F", iRow).ToEAssessmentResultTypeE1(),
-                ExpectedSimpleAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(
-                    cellJValueAsString.ToFailureMechanismSectionCategory(),
-                    simpleProbability),
                 DetailedAssessmentResult = GetCellValueAsString("G", iRow).ToEAssessmentResultTypeG2(true),
                 DetailedAssessmentResultProbability = detailedAssessmentResultProbability,
                 ExpectedDetailedAssessmentAssemblyResult = new FmSectionAssemblyDirectResultWithProbability(

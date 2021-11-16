@@ -51,26 +51,6 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi0E1 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0E2 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0E3 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0E4 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
         public bool? Wbi0G1 { get; set; }
 
         /// <summary>

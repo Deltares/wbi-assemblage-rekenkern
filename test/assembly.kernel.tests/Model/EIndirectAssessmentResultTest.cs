@@ -33,9 +33,8 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void TestEnumContract()
         {
-            Assert.AreEqual(7, Enum.GetValues(typeof(EIndirectAssessmentResult)).Length);
+            Assert.AreEqual(6, Enum.GetValues(typeof(EIndirectAssessmentResult)).Length);
             Assert.AreEqual(1, (int) EIndirectAssessmentResult.Nvt);
-            Assert.AreEqual(2, (int) EIndirectAssessmentResult.FvEt);
             Assert.AreEqual(3, (int) EIndirectAssessmentResult.FvGt);
             Assert.AreEqual(4, (int) EIndirectAssessmentResult.FvTom);
             Assert.AreEqual(5, (int) EIndirectAssessmentResult.FactoredInOtherFailureMechanism);

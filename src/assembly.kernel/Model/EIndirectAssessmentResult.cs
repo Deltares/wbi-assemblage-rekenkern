@@ -34,11 +34,6 @@ namespace Assembly.Kernel.Model
         Nvt = 1,
 
         /// <summary>
-        /// Failure probability negligible for a simple assessment
-        /// </summary>
-        FvEt = 2,
-
-        /// <summary>
         /// Failure probability negligible for a detailed assessment
         /// </summary>
         FvGt = 3,

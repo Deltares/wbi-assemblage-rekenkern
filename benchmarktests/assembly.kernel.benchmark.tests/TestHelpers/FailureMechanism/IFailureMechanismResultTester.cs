@@ -29,13 +29,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     public interface IFailureMechanismResultTester
     {
         /// <summary>
-        /// Tests the simple assessment.
-        /// </summary>
-        /// <returns><c>true</c> when the simple assessment is valid;
-        /// <c>false</c> otherwise.</returns>
-        bool TestSimpleAssessment();
-
-        /// <summary>
         /// Tests the detailed assessment.
         /// </summary>
         /// <returns><c>true</c> when the simple assessment is valid;

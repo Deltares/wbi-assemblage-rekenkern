@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <inheritdoc />
         public bool NotApplicableOrNeglectable()
         {
-            return Result == EIndirectAssessmentResult.Nvt || Result == EIndirectAssessmentResult.FvEt;
+            return Result == EIndirectAssessmentResult.Nvt;
         }
     }
 }

@@ -639,7 +639,6 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.FvGt,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
@@ -651,7 +650,6 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.FvGt,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.Nvt
@@ -663,9 +661,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.Nvt
                             },
                             EAssemblyType.Full)
@@ -675,15 +671,14 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt
                             },
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FvEt);
+                        .Returns(EIndirectAssessmentResult.Nvt);
 
                     yield return new TestCaseData(
                             Generate250IndirectCategories(),
                             EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FvEt);
+                        .Returns(EIndirectAssessmentResult.FvGt);
 
                     yield return new TestCaseData(
                             new[]
@@ -698,7 +693,6 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.Gr,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
@@ -710,7 +704,6 @@ namespace Assembly.Kernel.Tests.Implementations
                             new[]
                             {
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.Gr,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
@@ -736,7 +729,6 @@ namespace Assembly.Kernel.Tests.Implementations
                             {
                                 EIndirectAssessmentResult.Ngo,
                                 EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvEt,
                                 EIndirectAssessmentResult.FvGt,
                                 EIndirectAssessmentResult.FvTom,
                                 EIndirectAssessmentResult.FactoredInOtherFailureMechanism
@@ -762,7 +754,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var categories = new List<EIndirectAssessmentResult>();
                 for (var i = 0; i < 250; i++)
                 {
-                    categories.Add(EIndirectAssessmentResult.FvEt);
+                    categories.Add(EIndirectAssessmentResult.FvGt);
                 }
 
                 return categories;

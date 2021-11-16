@@ -58,8 +58,6 @@
     <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeT1.cs" />
     <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeG2.cs" />
     <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeG1.cs" />
-    <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeE2.cs" />
-    <Compile Include="Model\AssessmentResultTypes\EAssessmentResultTypeE1.cs" />
     <Compile Include="Model\AssessmentSection.cs" />
     <Compile Include="Model\EAssessmentGrade.cs" />
     <Compile Include="Model\CategoryLimits\CategoryBase.cs" />

@@ -90,7 +90,6 @@ namespace assembly.kernel.benchmark.tests
             var failureMechanismTestHelper =
                 TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
 
-            failureMechanismTestResult.AreEqualSimpleAssessmentResults = failureMechanismTestHelper.TestSimpleAssessment();
             failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
             failureMechanismTestResult.AreEqualTailorMadeAssessmentResults =
                 failureMechanismTestHelper.TestTailorMadeAssessment();
