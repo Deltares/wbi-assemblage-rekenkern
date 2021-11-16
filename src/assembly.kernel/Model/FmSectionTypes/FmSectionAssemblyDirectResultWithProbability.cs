@@ -34,18 +34,18 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// Constructor of the direct failure mechanism assembly result with failure probability.
         /// </summary>
         /// <param name="result">The translated category type of the result</param>
-        /// <param name="failureProbability">The failure probability of the failure mechanism section</param>
+        /// <param name="failureProbabilitySection">The failure probability of the failure mechanism section</param>
         /// <exception cref="AssemblyException">Thrown when failure probability is &lt;0 or &gt;1</exception>
-        public FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory result, double failureProbability) :
+        public FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory result, double failureProbabilitySection) :
             base(result)
         {
-            if (failureProbability < 0.0 || failureProbability > 1.0)
+            if (failureProbabilitySection < 0.0 || failureProbabilitySection > 1.0)
             {
                 throw new AssemblyException("FmSectionAssemblyDirectResultWithProbability",
                                             EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
-            FailureProbability = failureProbability;
+            FailureProbability = failureProbabilitySection;
         }
 
         /// <summary>

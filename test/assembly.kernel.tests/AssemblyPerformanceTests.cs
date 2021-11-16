@@ -48,11 +48,11 @@ namespace Assembly.Kernel.Tests
             const int sectionLength = 3750;
             var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
             var withoutFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
-            var withFailureProb = new Dictionary<FailureMechanism, List<FmSection>>();
+            var withFailureProbabilities = new Dictionary<FailureMechanism, List<FmSection>>();
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
             // create section results for 15 failure mechanisms with 250 sections each
-            CreateTestInput(sectionLength, withoutFailureProb, withFailureProb);
+            CreateTestInput(sectionLength, withoutFailureProb, withFailureProbabilities);
 
             // start timer
             var watch = Stopwatch.StartNew();
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Tests
             }
 
             var categoriesCalculator = new CategoryLimitsCalculator();
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProb)
+            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProbabilities)
             {
                 var categoriesList =
                     categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(section, fmSectionResults.Key);
@@ -80,7 +80,7 @@ namespace Assembly.Kernel.Tests
                 var result = fmAssembler.AssembleFailureMechanismWbi1B1(
                     fmSectionResults.Key,
                     fmSectionResults.Value.Select(fmSection =>
-                                                      (FmSectionAssemblyDirectResultWithProbability) fmSection.Result),
+                                                      (FmSectionAssemblyDirectResultWithProbabilities) fmSection.Result),
                     categoriesList,
                     false);
                 failureMechanismResultsWithFailureProb.Add(result);
@@ -114,7 +114,7 @@ namespace Assembly.Kernel.Tests
 
         private static void CreateTestInput(int sectionLength,
                                             IDictionary<FailureMechanism, List<FmSection>> withoutFailureProb,
-                                            IDictionary<FailureMechanism, List<FmSection>> withFailureProb)
+                                            IDictionary<FailureMechanism, List<FmSection>> WithFailureProbabilities)
         {
             for (var i = 1; i <= 15; i++)
             {
@@ -139,7 +139,7 @@ namespace Assembly.Kernel.Tests
                     {
                         failureMechanismSections.Add(
                             new FmSection(
-                                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.IIIv, 0.002),
+                                new FmSectionAssemblyDirectResultWithProbabilities(EFmSectionCategory.IIIv, 0.002, 1.0E-4),
                                 $"TEST{i}F",
                                 sectionStart,
                                 sectionEnd));
@@ -154,7 +154,7 @@ namespace Assembly.Kernel.Tests
                 }
                 else
                 {
-                    withFailureProb.Add(failureMechanism, failureMechanismSections);
+                    WithFailureProbabilities.Add(failureMechanism, failureMechanismSections);
                 }
             }
         }

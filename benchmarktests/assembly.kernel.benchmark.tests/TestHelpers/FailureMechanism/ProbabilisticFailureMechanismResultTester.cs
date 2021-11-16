@@ -146,7 +146,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
                 new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
                                                            ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbabilities),
                 ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 false
             );
@@ -163,7 +163,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
                 new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
                                                            ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbability),
+                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbabilities),
                 ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
                 true
             );
@@ -216,14 +216,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             MethodResults.Wbi1B1T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
         }
 
-        private FmSectionAssemblyDirectResultWithProbability CreateFmSectionAssemblyDirectResultWithProbability(
+        private FmSectionAssemblyDirectResultWithProbabilities CreateFmSectionAssemblyDirectResultWithProbabilities(
             IFailureMechanismSection section)
         {
             var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
             var probabilisticMechanismSection = section as IProbabilisticFailureMechanismSection;
-            return new FmSectionAssemblyDirectResultWithProbability(directMechanismSection.ExpectedCombinedResult,
-                                                                    probabilisticMechanismSection
-                                                                        .ExpectedCombinedResultProbability);
+            return new FmSectionAssemblyDirectResultWithProbabilities(directMechanismSection.ExpectedCombinedResult,
+                probabilisticMechanismSection
+                    .ExpectedCombinedResultProbability, probabilisticMechanismSection
+                    .ExpectedCombinedResultProbability);
         }
     }
 }
