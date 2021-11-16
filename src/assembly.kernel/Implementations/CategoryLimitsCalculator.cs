@@ -165,6 +165,52 @@ namespace Assembly.Kernel.Implementations
             });
         }
 
+        /// <inheritdoc />
+        public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(AssessmentSection section)
+        {
+            var sigDiv30 = CapToOne(section.FailureProbabilitySignallingLimit / 30.0);
+            var sigDiv10 = CapToOne(section.FailureProbabilitySignallingLimit / 10.0);
+            var sigDiv3 = CapToOne(section.FailureProbabilitySignallingLimit / 3.0);
+            var lowTimes10 = CapToOne(section.FailureProbabilityLowerLimit * 10.0);
+            var lowTimes3 = CapToOne(section.FailureProbabilityLowerLimit * 3.0);
+
+            return new CategoriesList<InterpretationCategory>(new[]
+            {
+                new InterpretationCategory(
+                    EInterpretationCategory.III,
+                    0,
+                    sigDiv30),
+                new InterpretationCategory(
+                    EInterpretationCategory.II,
+                    sigDiv30,
+                    sigDiv10),
+                new InterpretationCategory(
+                    EInterpretationCategory.I,
+                    sigDiv10,
+                    sigDiv3),
+                new InterpretationCategory(
+                    EInterpretationCategory.ZeroPlus,
+                    sigDiv3,
+                    section.FailureProbabilitySignallingLimit),
+                new InterpretationCategory(
+                    EInterpretationCategory.Zero,
+                    section.FailureProbabilitySignallingLimit,
+                    section.FailureProbabilityLowerLimit),
+                new InterpretationCategory(
+                    EInterpretationCategory.IMin,
+                    section.FailureProbabilityLowerLimit,
+                    lowTimes3),
+                new InterpretationCategory(
+                    EInterpretationCategory.IIMin,
+                    lowTimes3,
+                    lowTimes10),
+                new InterpretationCategory(
+                    EInterpretationCategory.IIIMin,
+                    lowTimes10,
+                    1)
+            });
+        }
+
         /// <summary>
         /// Caps the input value to one. So every value above one will return one.
         /// </summary>

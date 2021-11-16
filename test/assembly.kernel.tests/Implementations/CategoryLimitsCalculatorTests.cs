@@ -271,6 +271,61 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        [TestCase(0.0003,0.034)]
+        [TestCase(0.00003, 0.0003)]
+        public void CalculateWbi03Test(double signallingLimit, double lowerLimit)
+        {
+            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
+
+            CategoriesList<InterpretationCategory> results =
+                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
+
+            Assert.AreEqual(8, results.Categories.Length);
+
+            foreach (var limitResults in results.Categories)
+            {
+                switch (limitResults.Category)
+                {
+                    case EInterpretationCategory.III:
+                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(signallingLimit / 30.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.II:
+                        Assert.AreEqual(signallingLimit / 30.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.I:
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 3.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.ZeroPlus:
+                        Assert.AreEqual(signallingLimit / 3.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.Zero:
+                        Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IMin:
+                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit*3.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IIMin:
+                        Assert.AreEqual(lowerLimit*3.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit*10.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IIIMin:
+                        Assert.AreEqual(lowerLimit*10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    default:
+                        Assert.Fail("Unexpected category received");
+                        break;
+                }
+            }
+        }
+
+        [Test]
         public void CalculateWbi11MaximizeTest()
         {
             const double SignallingLimit = 0.0003;

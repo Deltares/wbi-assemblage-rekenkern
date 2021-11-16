@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="Model\CategoryLimits\CategoriesList.cs" />
     <Compile Include="Model\CategoryLimits\ICategoryLimits.cs" />
+    <Compile Include="Model\CategoryLimits\InterpretationCategory.cs" />
+    <Compile Include="Model\FmSectionTypes\EInterpretationCategory.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResultWithProbabilities.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResultWithProbability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
