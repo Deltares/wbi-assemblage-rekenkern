@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -31,6 +31,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
+    <Compile Include="Model\FmSectionAssemblyResultTests.cs" />
+    <Compile Include="Model\FmSectionTypes\EInterpretationCategoryTest.cs" />
     <Compile Include="Model\ModelExtensionMethodTests.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
@@ -53,7 +56,7 @@
     <Compile Include="Model\EIndirectAssessmentResultTest.cs" />
     <Compile Include="Model\FailureMechanismSectionListTests.cs" />
     <Compile Include="Model\FailureMechanismTests.cs" />
-    <Compile Include="Model\FmSectionAssemblyResultTests.cs" />
+    <Compile Include="Model\FmSectionAssemblyDirectResultTests.cs" />
     <Compile Include="Model\FmSEctionCategoryCompliancyResultsTests.cs" />
     <Compile Include="Model\FmSectionTypes\EFmSectionCategoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

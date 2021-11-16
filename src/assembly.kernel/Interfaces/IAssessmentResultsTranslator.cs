@@ -242,5 +242,30 @@ namespace Assembly.Kernel.Interfaces
         FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
             FmSectionAssemblyIndirectResult detailedAssessmentResult,
             FmSectionAssemblyIndirectResult customAssessmentResult);
+
+        /// <summary>
+        /// Translate the assessment result of failure mechanism section assessments to a 
+        /// single normative result. As specified in WBI-0A-2.
+        /// </summary>
+        /// <param name="isRelevant"></param>
+        /// <param name="probabilityInitialMechanismProfile"></param>
+        /// <param name="probabilityInitialMechanismSection"></param>
+        /// <param name="needsRefinement"></param>
+        /// <param name="refinedProbabilityProfile"></param>
+        /// <param name="refinedProbabilitySection"></param>
+        /// <param name="categories"></param>
+        /// <returns>A new result resembling the normative result of the input parameters.</returns>
+        /// <exception cref="AssemblyException">Thrown when probabilityInitialMechanismProfile is either smaller than 0.0 or greater than 1.0</exception>
+        /// <exception cref="AssemblyException">Thrown when probabilityInitialMechanismSection is either smaller than 0.0 or greater than 1.0</exception>
+        /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
+        /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
+        FmSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+            bool isRelevant,
+            double probabilityInitialMechanismProfile,
+            double probabilityInitialMechanismSection,
+            bool needsRefinement,
+            double refinedProbabilityProfile,
+            double refinedProbabilitySection,
+            CategoriesList<InterpretationCategory> categories);
     }
 }

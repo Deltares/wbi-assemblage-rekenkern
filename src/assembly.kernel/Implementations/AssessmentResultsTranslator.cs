@@ -401,6 +401,59 @@ namespace Assembly.Kernel.Implementations
             return new FmSectionAssemblyIndirectResult(result.Result);
         }
 
+        /// <inheritdoc />
+        public FmSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant, double probabilityInitialMechanismProfile,
+            double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
+            double refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
+        {
+            CheckInputProbability(probabilityInitialMechanismProfile);
+            CheckInputProbability(probabilityInitialMechanismSection);
+            CheckInputProbability(refinedProbabilityProfile);
+            CheckInputProbability(refinedProbabilitySection);
+
+            if (categories == null)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (!isRelevant)
+            {
+                return new FmSectionAssemblyResult(0.0,0.0,EInterpretationCategory.III);
+            }
+
+            if (needsRefinement)
+            {
+                // Check whether a refined probability is given
+                if (!double.IsNaN(refinedProbabilitySection))
+                {
+                    var interpretationCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
+                    return new FmSectionAssemblyResult(
+                        double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile,
+                        refinedProbabilitySection, interpretationCategory);
+                }
+
+                return new FmSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
+            }
+            else
+            {
+                if (!double.IsNaN(probabilityInitialMechanismSection))
+                {
+                    var interpretationCategory = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
+                    return new FmSectionAssemblyResult(double.IsNaN(probabilityInitialMechanismProfile) ? probabilityInitialMechanismSection : probabilityInitialMechanismProfile, probabilityInitialMechanismSection, interpretationCategory);
+                }
+
+                return new FmSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
+            }
+        }
+
+        private static void CheckInputProbability(double probability)
+        {
+            if (probability < 0.0 || probability > 1.0)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+        }
+
         /*
         * Private methods and classes.
         */

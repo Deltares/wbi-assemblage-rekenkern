@@ -1,45 +1,81 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
-// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
-//
-// This file is part of the Assembly kernel.
-//
-// Assembly kernel is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU Lesser General Public License for more details.
-//
-// You should have received a copy of the GNU Lesser General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
-//
-// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
-// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
-// All rights reserved.
-#endregion
+﻿using System.Globalization;
+using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.FmSectionTypes
 {
-    /// <summary>
-    /// Base class for the failure mechanism section assembly result.
-    /// </summary>
-    public interface IFmSectionAssemblyResult
+    /// <inheritdoc />
+    public class FmSectionAssemblyResult : IFmSectionAssemblyResult
     {
         /// <summary>
-        /// Does the assessment result have a result other than Gr.
+        /// Constructor for the FmSectionAssemblyResult class
         /// </summary>
-        /// <returns><c>false</c> if the assessment result is Gr; <c>true</c> otherwise.</returns>
-        bool HasResult();
+        /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section</param>
+        /// <param name="probabilitySection">Estimated probability of failure of the section</param>
+        /// <param name="category">The resulting interpretation category</param>
+        /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
+        public FmSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
+        {
+            if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
+            {
+                throw new AssemblyException("FmSectionAssemblyResult",
+                    EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+            if (probabilitySection < 0.0 || probabilitySection > 1.0)
+            {
+                throw new AssemblyException("FmSectionAssemblyResult",
+                    EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+
+            InterpretationCategory = category;
+            ProbabilityProfile = probabilityProfile;
+            ProbabilitySection = probabilitySection;
+            if (double.IsNaN(probabilitySection) || double.IsNaN(probabilityProfile))
+            {
+                NSection = 1.0;
+            }
+            else
+            {
+                NSection = probabilitySection / probabilityProfile;
+            }
+        }
 
         /// <summary>
-        /// Returns whether the specified result is not applicable of has a neglectable probability of failure.
+        /// The resulting interpretation category
         /// </summary>
-        /// <returns><c>true</c> when the assessment result is
-        /// not applicable or has a neglectable probability of failure;
-        /// <c>false</c> otherwise.</returns>
-        bool NotApplicableOrNeglectable();
+        public EInterpretationCategory InterpretationCategory { get; }
+
+        /// <summary>
+        /// The length-effect factor
+        /// </summary>
+        public double NSection { get; }
+
+        /// <summary>
+        /// Estimated probability of failure for a representative profile in the section
+        /// </summary>
+        public double ProbabilityProfile { get; }
+
+        /// <summary>
+        /// Estimated probability of failure of the section
+        /// </summary>
+        public double ProbabilitySection { get; }
+
+        /// <inheritdoc />
+        public bool HasResult()
+        {
+            return InterpretationCategory != EInterpretationCategory.Gr;
+        }
+
+        /// <inheritdoc />
+        public bool NotApplicableOrNeglectable()
+        {
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return "FmSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
+                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" + ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
+        }
     }
 }

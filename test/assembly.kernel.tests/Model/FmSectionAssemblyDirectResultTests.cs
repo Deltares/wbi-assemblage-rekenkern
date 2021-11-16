@@ -23,25 +23,21 @@
 
 using System.Linq;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class FmSectionAssemblyResultTests
+    public class FmSectionAssemblyDirectResultTests
     {
         [Test]
-        [TestCase(1.5,0.4)]
-        [TestCase(0.5, 1.4)]
-        [TestCase(-0.5, 0.4)]
-        [TestCase(0.5, -0.4)]
-        [TestCase(-0.5, 10.4)]
-        public void FmSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection)
+        public void DirectFailureProbAboveOne()
         {
             try
             {
-                new FmSectionAssemblyResult(probabilityProfile, probabilitySection, EInterpretationCategory.D);
+                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, 1.5);
             }
             catch (AssemblyException e)
             {
@@ -51,21 +47,44 @@ namespace Assembly.Kernel.Tests.Model
             Assert.Fail("Expected exception was not thrown");
         }
 
-        public void FmSectionAssemblyResultConstructorPassesArguments()
+        [Test]
+        public void DirectFailureProbBelowZero()
         {
-            var result = new FmSectionAssemblyResult(0.1,0.2,EInterpretationCategory.III);
-            Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
-            Assert.AreEqual(0.2, result.ProbabilityProfile);
-            Assert.AreEqual(0.1, result.ProbabilitySection);
-            Assert.AreEqual(2.0, result.NSection);
+            try
+            {
+                new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, -1.0);
+            }
+            catch (AssemblyException e)
+            {
+                CheckException(e);
+            }
+
+            Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void FmSectionAssemblyResultToStringTest()
+        public void DirectToStringTest()
         {
-            var result = new FmSectionAssemblyResult(0.2,0.1,EInterpretationCategory.III);
+            var result = new FmSectionAssemblyDirectResult(EFmSectionCategory.Iv);
 
-            Assert.AreEqual("FmSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
+            Assert.AreEqual("FmSectionAssemblyDirectResult [Iv]", result.ToString());
+        }
+
+        [Test]
+        public void DirectWithProbabilityToStringTest()
+        {
+            const double FailureProb = 0.2;
+            var result = new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Iv, FailureProb);
+
+            Assert.AreEqual($"FmSectionAssemblyDirectResultWithProbability [Iv P: {FailureProb}]", result.ToString());
+        }
+
+        [Test]
+        public void IndirectToStringTest()
+        {
+            var result = new FmSectionAssemblyIndirectResult(EIndirectAssessmentResult.FvGt);
+
+            Assert.AreEqual("FmSectionAssemblyIndirectResult [FvGt]", result.ToString());
         }
 
         private static void CheckException(AssemblyException e)
