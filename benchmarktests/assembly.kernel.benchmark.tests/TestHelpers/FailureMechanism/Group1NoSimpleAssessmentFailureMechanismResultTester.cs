@@ -118,7 +118,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void TestAssessmentSectionResultInternal()
         {
-            var assembler = new FailureMechanismResultAssembler();
+            var assembler = new FailurePathResultAssembler();
 
             // WBI-1B-1
             FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
@@ -135,7 +135,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void TestAssessmentSectionResultTemporalInternal()
         {
-            var assembler = new FailureMechanismResultAssembler();
+            var assembler = new FailurePathResultAssembler();
 
             // WBI-1B-1
             FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(

@@ -151,10 +151,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void SetAssessmentSectionMethodResult(bool result);
 
-        protected abstract void TestAssessmentSectionResultInternal();
+        protected virtual void TestAssessmentSectionResultInternal() { throw new NotImplementedException("No tests available"); }
 
         protected abstract void SetAssessmentSectionMethodResultTemporal(bool result);
 
-        protected abstract void TestAssessmentSectionResultTemporalInternal();
+        protected virtual void TestAssessmentSectionResultTemporalInternal() { throw new NotImplementedException("No tests available"); }
     }
 }

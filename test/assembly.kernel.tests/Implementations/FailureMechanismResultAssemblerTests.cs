@@ -47,138 +47,16 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private readonly FailureMechanism testFailureMechanism2 = new FailureMechanism(10, 0.1);
 
-        private IFailureMechanismResultAssembler assembler;
+        private IFailurePathResultAssembler assembler;
 
         private readonly CategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
 
         [SetUp]
         public void Init()
         {
-            assembler = new FailureMechanismResultAssembler();
+            assembler = new FailurePathResultAssembler();
         }
 
-        [Test]
-        public void Wbi1A1ExceptionEmptyListTest()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1A1(new List<FmSectionAssemblyDirectResult>(), false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismAssemblerInputInvalid, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
-        public void Wbi1A1ExceptionNullTest()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1A1(null, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssembleFailureMechanismTestData),
-             nameof(AssembleFailureMechanismTestData.DirectTestCases))]
-        public EFailureMechanismCategory? Wbi1A1Test(
-            IEnumerable<EFmSectionCategory> fmSectionAssemblyResults, EAssemblyType assemblyType)
-        {
-            return assembler.AssembleFailureMechanismWbi1A1(
-                fmSectionAssemblyResults.Select(category => new FmSectionAssemblyDirectResult(category)),
-                assemblyType == EAssemblyType.Partial);
-        }
-
-        [Test]
-        public void Wbi1A2ExceptionEmptyListTest()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1A2(new List<FmSectionAssemblyIndirectResult>(), false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismAssemblerInputInvalid, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
-        public void Wbi1A2ExceptionNullTest()
-        {
-            try
-            {
-                assembler.AssembleFailureMechanismWbi1A2(null, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssembleFailureMechanismTestData),
-             nameof(AssembleFailureMechanismTestData.IndirectTestCases))]
-        public EIndirectAssessmentResult? Wbi1A2Test(
-            IEnumerable<EIndirectAssessmentResult> fmSectionAssemblyResults, EAssemblyType assemblyType)
-        {
-            return assembler.AssembleFailureMechanismWbi1A2(
-                fmSectionAssemblyResults.Select(category => new FmSectionAssemblyIndirectResult(category)),
-                assemblyType == EAssemblyType.Partial);
-        }
-
-        [Test]
-        public void Wbi1B1Category()
-        {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
-                                                                  new[]
-                                                                  {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.0001, 0.0001),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
-                                                                  },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
-                                                                  false);
-
-            Assert.IsFalse(double.IsNaN(result.FailureProbability));
-            Assert.AreEqual(3.5997E-4, result.FailureProbability, 1e-8);
-            Assert.AreEqual(EFailureMechanismCategory.IVt, result.Category);
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssembleFailureMechanismTestData),
-             nameof(AssembleFailureMechanismTestData.Wbi1B1))]
         public void Wbi1B1FailureProbabilityTests(Tuple<double,double>[] failureProbabilities,
                                                   EAssemblyType assemblyType, double expectedResult)
         {

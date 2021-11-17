@@ -32,37 +32,8 @@ namespace Assembly.Kernel.Interfaces
     /// <summary>
     /// Assemble Failure mechanism section results into one result for the failure mechanism.
     /// </summary>
-    public interface IFailureMechanismResultAssembler
+    public interface IFailurePathResultAssembler
     {
-        /// <summary>
-        /// Assemble a list of failure mechanism section assembly direct results to a single failure 
-        /// mechanism category. As specified in Wbi-1A-1
-        /// </summary>
-        /// <param name="fmSectionAssemblyResults">The list of failure mechanism section assembly direct 
-        /// results to assemble</param>
-        /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
-        /// <returns>The assembled failure mechanism result category</returns>
-        /// <exception cref="AssemblyException">Thrown when:<br/>
-        /// - result input is null or empty<br/>
-        /// - one or more of the results is not of the failure mechanism without failure mechanism type<br/>
-        /// </exception>
-        EFailureMechanismCategory AssembleFailureMechanismWbi1A1(
-            IEnumerable<FmSectionAssemblyDirectResult> fmSectionAssemblyResults, bool partialAssembly);
-
-        /// <summary>
-        /// Assemble a list of failure mechanism section assembly indirect results to a single failure 
-        /// mechanism category. As specified in Wbi-1A-2
-        /// </summary>
-        /// <param name="fmSectionAssemblyResults">The list of failure mechanism section assembly indirect 
-        /// results to assemble</param>
-        /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
-        /// <returns>The assembled failure mechanism result category</returns>
-        /// <exception cref="AssemblyException">Thrown when:<br/>
-        /// - result input is null or empty<br/>
-        /// </exception>
-        EIndirectAssessmentResult AssembleFailureMechanismWbi1A2(
-            IEnumerable<FmSectionAssemblyIndirectResult> fmSectionAssemblyResults, bool partialAssembly);
-
         /// <summary>
         /// Assemble a list of failure mechanism section assembly results with failure probability to
         /// a single failure mechanism assembly result.

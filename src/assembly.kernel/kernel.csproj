@@ -48,11 +48,11 @@
     <Compile Include="Exceptions\EAssemblyErrors.cs" />
     <Compile Include="Implementations\AssessmentGradeAssembler.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssembler.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssembler.cs" />
+    <Compile Include="Implementations\FailurePathResultAssembler.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslator.cs" />
     <Compile Include="Interfaces\IAssessmentGradeAssembler.cs" />
     <Compile Include="Interfaces\ICommonFailureMechanismSectionAssembler.cs" />
-    <Compile Include="Interfaces\IFailureMechanismResultAssembler.cs" />
+    <Compile Include="Interfaces\IFailurePathResultAssembler.cs" />
     <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
     <Compile Include="Implementations\Validators\AssessmentSectionValidator.cs" />
     <Compile Include="Implementations\Validators\FailureMechanismValidator.cs" />

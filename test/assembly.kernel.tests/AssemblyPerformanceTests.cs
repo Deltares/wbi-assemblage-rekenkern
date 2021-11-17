@@ -36,7 +36,7 @@ namespace Assembly.Kernel.Tests
     [TestFixture]
     public class AssemblyPerformanceTests
     {
-        private readonly IFailureMechanismResultAssembler fmAssembler = new FailureMechanismResultAssembler();
+        private readonly IFailurePathResultAssembler fmAssembler = new FailurePathResultAssembler();
         private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
 
         private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
@@ -58,19 +58,8 @@ namespace Assembly.Kernel.Tests
             var watch = Stopwatch.StartNew();
 
             var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
-            var failureMechanismResultsWithoutFailureProb = new List<FailureMechanismAssemblyResult>();
 
             // assembly step 1
-            foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withoutFailureProb)
-            {
-                var result = fmAssembler.AssembleFailureMechanismWbi1A1(
-                    fmSectionResults.Value.Select(fmSection => fmSection.Result),
-                    false);
-                failureMechanismResultsWithoutFailureProb.Add(new FailureMechanismAssemblyResult(result, double.NaN));
-
-                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fmSectionResults.Value));
-            }
-
             var categoriesCalculator = new CategoryLimitsCalculator();
             foreach (KeyValuePair<FailureMechanism, List<FmSection>> fmSectionResults in withFailureProbabilities)
             {
@@ -89,11 +78,6 @@ namespace Assembly.Kernel.Tests
             }
 
             // assembly step 2
-
-            var assessmentGradeWithoutFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2A1(failureMechanismResultsWithoutFailureProb,
-                                                                           false);
-
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
             var assessmentGradeWithFailureProb =
                 assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb, categories, false);

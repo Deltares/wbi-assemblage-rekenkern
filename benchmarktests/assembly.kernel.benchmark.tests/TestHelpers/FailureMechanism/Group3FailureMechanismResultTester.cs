@@ -107,32 +107,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void TestAssessmentSectionResultInternal()
-        {
-            var assembler = new FailureMechanismResultAssembler();
-
-            // WBI-1A-1
-            EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
-                false
-            );
-
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResult, result);
-        }
-
-        protected override void TestAssessmentSectionResultTemporalInternal()
-        {
-            var assembler = new FailureMechanismResultAssembler();
-
-            // WBI-1A-1
-            EFailureMechanismCategory result = assembler.AssembleFailureMechanismWbi1A1(
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResult),
-                true
-            );
-
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result);
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             MethodResults.Wbi0G4 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G4, result);
