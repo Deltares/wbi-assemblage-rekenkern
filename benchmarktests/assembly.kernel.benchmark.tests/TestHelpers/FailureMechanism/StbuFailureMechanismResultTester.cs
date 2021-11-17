@@ -47,27 +47,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                                 IExpectedFailureMechanismResult expectedFailureMechanismResult)
             : base(methodResults, expectedFailureMechanismResult) {}
 
-        protected override void TestTailorMadeAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in ExpectedFailureMechanismResult.Sections)
-            {
-                var stbuFailureMechanismSection = section as STBUFailureMechanismSection;
-                if (stbuFailureMechanismSection != null)
-                {
-                    // WBI-0T-7
-                    FmSectionAssemblyDirectResult result = assembler.TranslateAssessmentResultWbi0T7(
-                        stbuFailureMechanismSection.TailorMadeAssessmentResult,
-                        stbuFailureMechanismSection.TailorMadeAssessmentResultProbability,
-                        GetSTBUCategories());
-
-                    var expectedResult = stbuFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                }
-            }
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             MethodResults.Wbi0G3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G3, result);

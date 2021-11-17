@@ -52,29 +52,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             return null;
         }
 
-        protected override void TestTailorMadeAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in ExpectedFailureMechanismResult.Sections)
-            {
-                var group5NoDetailedAssessmentFailureMechanismSection =
-                    section as Group5NoDetailedAssessmentFailureMechanismSection;
-                if (group5NoDetailedAssessmentFailureMechanismSection != null)
-                {
-                    // WBI-0T-2
-                    FmSectionAssemblyIndirectResult result =
-                        assembler.TranslateAssessmentResultWbi0T2(
-                            group5NoDetailedAssessmentFailureMechanismSection.TailorMadeAssessmentResult);
-
-                    var expectedResult =
-                        group5NoDetailedAssessmentFailureMechanismSection.ExpectedTailorMadeAssessmentAssemblyResult as
-                            FmSectionAssemblyIndirectResult;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                }
-            }
-        }
-
         protected override void SetTailorMadeAssessmentMethodResult(bool result)
         {
             MethodResults.Wbi0T2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0T2, result);

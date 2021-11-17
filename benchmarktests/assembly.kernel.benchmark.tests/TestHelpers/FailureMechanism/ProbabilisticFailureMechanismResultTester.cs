@@ -38,45 +38,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                                          IExpectedFailureMechanismResult expectedFailureMechanismResult) : base(
             methodResults, expectedFailureMechanismResult) {}
 
-        protected override void TestTailorMadeAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            foreach (var section in ExpectedFailureMechanismResult.Sections)
-            {
-                var probabilisticSection = section as ProbabilisticFailureMechanismSection;
-                if (probabilisticSection != null)
-                {
-                    FmSectionAssemblyDirectResultWithProbability result;
-                    if (ExpectedFailureMechanismResult.Type == MechanismType.STBI ||
-                        ExpectedFailureMechanismResult.Type == MechanismType.STPH)
-                    {
-                        // WBI-0T-5
-                        result = assembler.TranslateAssessmentResultWbi0T5(probabilisticSection.LengthEffectFactor,
-                                                                           probabilisticSection.TailorMadeAssessmentResult,
-                                                                           probabilisticSection
-                                                                               .TailorMadeAssessmentResultProbability,
-                                                                           ExpectedFailureMechanismResult
-                                                                               .ExpectedFailureMechanismSectionCategories);
-                    }
-                    else
-                    {
-                        // WBI-0T-3
-                        result = assembler.TranslateAssessmentResultWbi0T3(
-                            probabilisticSection.TailorMadeAssessmentResult,
-                            probabilisticSection.TailorMadeAssessmentResultProbability,
-                            ExpectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories);
-                    }
-
-                    var expectedResult =
-                        probabilisticSection.ExpectedTailorMadeAssessmentAssemblyResult as
-                            FmSectionAssemblyDirectResultWithProbability;
-                    Assert.AreEqual(expectedResult.Result, result.Result);
-                    Assert.AreEqual(expectedResult.FailureProbability, result.FailureProbability);
-                }
-            }
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             switch (ExpectedFailureMechanismResult.Type)
