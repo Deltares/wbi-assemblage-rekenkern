@@ -112,7 +112,7 @@ namespace Assembly.Kernel.Implementations
 
             if (failureMechanismResults.All(fmr => double.IsNaN(fmr.FailureProbability)))
             {
-                return new AssessmentSectionResult(EAssessmentGrade.Gr, double.NaN);
+                return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
             }
 
             var failureProbProduct = 1.0;
@@ -120,14 +120,14 @@ namespace Assembly.Kernel.Implementations
             {
                 if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability))
                 {
-                    return new AssessmentSectionResult(EAssessmentGrade.Gr, double.NaN);
+                    return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
                 }
                 failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
             }
 
             var probabilityOfFailure = 1 - failureProbProduct;
             var category = categories.GetCategoryForFailureProbability(probabilityOfFailure);
-            return new AssessmentSectionResult(category.Category, probabilityOfFailure);
+            return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
         /// <inheritdoc />
