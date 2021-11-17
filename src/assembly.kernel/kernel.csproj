@@ -43,7 +43,7 @@
     <Compile Include="Model\FmSectionTypes\EInterpretationCategory.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResultWithProbabilities.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResultWithProbability.cs" />
-    <Compile Include="Model\FmSectionTypes\FmSectionAssemblyResult.cs" />
+    <Compile Include="Model\FmSectionTypes\FpSectionAssemblyResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\EAssemblyErrors.cs" />
     <Compile Include="Implementations\AssessmentGradeAssembler.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
     <Compile Include="Model\ECategoryCompliancy.cs" />
     <Compile Include="Model\EIndirectAssessmentResult.cs" />
-    <Compile Include="Model\FailureMechanismAssemblyResult.cs" />
+    <Compile Include="Model\FailurePathAssemblyResult.cs" />
     <Compile Include="Model\FailureMechanismSectionList.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResult.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyIndirectResult.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
     <Compile Include="Exceptions\AssemblyException.cs" />
     <Compile Include="Model\EFailureMechanismCategory.cs" />
-    <Compile Include="Model\FailureMechanism.cs" />
+    <Compile Include="Model\FailurePath.cs" />
     <Compile Include="Model\FmSectionTypes\EFmSectionCategory.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionCategoryCompliancyResults.cs" />
     <Compile Include="Model\FailureMechanismSection.cs" />

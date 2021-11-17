@@ -46,13 +46,13 @@ namespace Assembly.Kernel.Implementations.Validators
             if (failureProbabilityMarginFactor < 0 ||
                 failureProbabilityMarginFactor > 1)
             {
-                errors.Add(new AssemblyErrorMessage("FailureMechanism",
+                errors.Add(new AssemblyErrorMessage("FailurePath",
                                                     EAssemblyErrors.FailurePropbabilityMarginOutOfRange));
             }
 
             if (lengthEffectFactor < 1)
             {
-                errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
+                errors.Add(new AssemblyErrorMessage("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
             if (errors.Count > 0)

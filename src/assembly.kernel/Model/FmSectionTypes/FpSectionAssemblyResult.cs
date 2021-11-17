@@ -4,25 +4,25 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.FmSectionTypes
 {
     /// <inheritdoc />
-    public class FmSectionAssemblyResult : IFmSectionAssemblyResult
+    public class FpSectionAssemblyResult : IFmSectionAssemblyResult
     {
         /// <summary>
-        /// Constructor for the FmSectionAssemblyResult class
+        /// Constructor for the FpSectionAssemblyResult class
         /// </summary>
         /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section</param>
         /// <param name="category">The resulting interpretation category</param>
         /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
-        public FmSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
+        public FpSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
         {
             if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
             {
-                throw new AssemblyException("FmSectionAssemblyResult",
+                throw new AssemblyException("FpSectionAssemblyResult",
                     EAssemblyErrors.FailureProbabilityOutOfRange);
             }
             if (probabilitySection < 0.0 || probabilitySection > 1.0)
             {
-                throw new AssemblyException("FmSectionAssemblyResult",
+                throw new AssemblyException("FpSectionAssemblyResult",
                     EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FmSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
+            return "FpSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
                    ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" + ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }

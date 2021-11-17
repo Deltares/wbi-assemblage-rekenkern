@@ -29,17 +29,17 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// Failure Mechanism data object
     /// </summary>
-    public class FailureMechanism
+    public class FailurePath
     {
         /// <summary>
-        /// FailureMechanism Constructor
+        /// FailurePath Constructor
         /// </summary>
         /// <param name="lengthEffectFactor">factor to correct for length of the section. 
         /// Has to be greater or equal to 1</param>
         /// <param name="failureProbabilityMarginFactor">Factor for the failure probability margin. 
         /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public FailureMechanism(double lengthEffectFactor, double failureProbabilityMarginFactor)
+        public FailurePath(double lengthEffectFactor, double failureProbabilityMarginFactor)
         {
             FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
                                                                  failureProbabilityMarginFactor);

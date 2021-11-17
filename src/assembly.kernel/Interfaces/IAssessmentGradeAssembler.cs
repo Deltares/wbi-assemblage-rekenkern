@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
         AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
+            IEnumerable<FailurePathAssemblyResult> failureMechanismAssemblyResults,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
     }

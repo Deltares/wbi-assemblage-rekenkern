@@ -138,41 +138,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void TestAssessmentSectionResultInternal()
-        {
-            var assembler = new FailurePathResultAssembler();
-
-            // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
-                new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
-                                                           ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbabilities),
-                ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
-                false
-            );
-
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResult, result.Category);
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbability, result.FailureProbability);
-        }
-
-        protected override void TestAssessmentSectionResultTemporalInternal()
-        {
-            var assembler = new FailurePathResultAssembler();
-
-            // WBI-1B-1
-            FailureMechanismAssemblyResult result = assembler.AssembleFailureMechanismWbi1B1(
-                new Assembly.Kernel.Model.FailureMechanism(ExpectedFailureMechanismResult.LengthEffectFactor,
-                                                           ExpectedFailureMechanismResult.FailureMechanismProbabilitySpace),
-                ExpectedFailureMechanismResult.Sections.Select(CreateFmSectionAssemblyDirectResultWithProbabilities),
-                ExpectedFailureMechanismResult.ExpectedFailureMechanismCategories,
-                true
-            );
-
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultTemporal, result.Category);
-            Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedAssessmentResultProbabilityTemporal,
-                            result.FailureProbability);
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             switch (ExpectedFailureMechanismResult.Type)

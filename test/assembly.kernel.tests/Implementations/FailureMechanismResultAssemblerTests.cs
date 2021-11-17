@@ -23,9 +23,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -37,19 +35,9 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class FailureMechanismResultAssemblerTests
     {
-        private readonly AssessmentSection assessmentSectionAmeland =
-            new AssessmentSection(20306, 1.0 / 1000.0, 1.0 / 300.0);
-
-        private readonly FailureMechanism testFailureMechanism1 = new FailureMechanism(14.4, 0.04);
-
-        private readonly AssessmentSection assessmentSectionTest =
-            new AssessmentSection(10000, 1.0 / 3000.0, 1.0 / 300.0);
-
-        private readonly FailureMechanism testFailureMechanism2 = new FailureMechanism(10, 0.1);
-
+        private readonly FailurePath testFailurePath1 = new FailurePath(14.4, 0.04);
+        private readonly FailurePath testFailureMechanism2 = new FailurePath(10, 0.1);
         private IFailurePathResultAssembler assembler;
-
-        private readonly CategoryLimitsCalculator categoryLimitsCalculator = new CategoryLimitsCalculator();
 
         [SetUp]
         public void Init()
@@ -57,19 +45,16 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new FailurePathResultAssembler();
         }
 
+        [Test, TestCaseSource(typeof(AssembleFailurePathTestData), nameof(AssembleFailurePathTestData.Wbi1B1))]
         public void Wbi1B1FailureProbabilityTests(Tuple<double,double>[] failureProbabilities,
                                                   EAssemblyType assemblyType, double expectedResult)
         {
             // Use correct probabilities
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism1,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath1,
                                                                   failureProbabilities.Select(failureProbability =>
                                                                                                   new
-                                                                                                      FmSectionAssemblyDirectResultWithProbabilities(
-                                                                                                          EFmSectionCategory.Iv,
-                                                                                                          failureProbability.Item1, failureProbability.Item2)),
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionAmeland, testFailureMechanism1),
+                                                                                                      FpSectionAssemblyResult(
+                                                                                                          failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
                                                                   assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
@@ -79,240 +64,86 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1LengthEffectFactor()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(new FailurePath(5,0.2),
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009)
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin),
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IMin),
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIMin),
+                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin)
                                                                   },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
                                                                   false);
 
             Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
-            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
-        }
-
-        [Test]
-        public void Wbi1B1NoJudgementYet()
-        {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
-                                                                  new[]
-                                                                  {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
-                                                                  },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
-                                                                  false);
-
-            Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EFailureMechanismCategory.VIIt, result.Category);
+            Assert.AreEqual(0.005, result.FailureProbability, 1e-4);
         }
 
         [Test]
         public void Wbi1B1NoResultPartly()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIIv, 0.00026, 0.00026)
+                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.IMin),
+                                                                      new FpSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D)
                                                                   },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
                                                                   false);
 
             Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EFailureMechanismCategory.VIIt, result.Category);
         }
 
         [Test]
         public void Wbi1B1NoResult()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN)
+                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D)
                                                                   },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
                                                                   false);
 
             Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EFailureMechanismCategory.Gr, result.Category);
         }
 
         [Test]
         public void Wbi1B1NotApplicable()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
+                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D)
                                                                   },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
                                                                   false);
 
             Assert.AreEqual(0.0, result.FailureProbability);
-            Assert.AreEqual(EFailureMechanismCategory.Nvt, result.Category);
         }
 
         [Test]
         public void Wbi1B1Partial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
+                                                                      new FpSectionAssemblyResult(0.9, 0.9, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(0.000026, 0.000026, EInterpretationCategory.D),
+                                                                      new FpSectionAssemblyResult(0.000010, 0.000010, EInterpretationCategory.II),
+                                                                      new FpSectionAssemblyResult(0.0000011, 0.0000011, EInterpretationCategory.II),
+                                                                      new FpSectionAssemblyResult(0.000015, 0.000015, EInterpretationCategory.II),
+                                                                      new FpSectionAssemblyResult(0.000009, 0.000009, EInterpretationCategory.III),
+                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.III),
+                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.IIIMin)
                                                                   },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
                                                                   true);
 
             Assert.NotNull(result.FailureProbability);
             Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
-            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
-        }
-
-        [Test]
-        public void Wbi1B1PartialNoResultPartly()
-        {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
-                                                                  new[]
-                                                                  {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIIv, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
-                                                                  },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
-                                                                  true);
-
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
-            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
-        }
-
-        [Test]
-        public void Wbi1B1PartialNoResultWithoutCatVii()
-        {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
-                                                                  new[]
-                                                                  {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.VIv, 0.9, 0.9),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000026, 0.000026),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000010, 0.000010),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.0000011, 0.0000011),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000015, 0.000015),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.IIv, 0.000009, 0.000009),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.NotApplicable, 0.0, 0.0)
-                                                                  },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
-                                                                  true);
-
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
-            Assert.AreEqual(EFailureMechanismCategory.VIt, result.Category);
-        }
-
-        [Test]
-        public void Wbi1B1PartialNoResultAtAll()
-        {
-            var result = assembler.AssembleFailureMechanismWbi1B1(testFailureMechanism2,
-                                                                  new[]
-                                                                  {
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN),
-                                                                      new FmSectionAssemblyDirectResultWithProbabilities(
-                                                                          EFmSectionCategory.Gr, double.NaN, double.NaN)
-                                                                  },
-                                                                  categoryLimitsCalculator
-                                                                      .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                          assessmentSectionTest, testFailureMechanism2),
-                                                                  true);
-
-            Assert.NotNull(result.FailureProbability);
-            Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EFailureMechanismCategory.Gr, result.Category);
         }
 
         public enum EAssemblyType
@@ -321,7 +152,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Partial
         }
 
-        public class AssembleFailureMechanismTestData
+        public class AssembleFailurePathTestData
         {
             public static IEnumerable Wbi1B1
             {
@@ -345,7 +176,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<double, double>(0.01, 0.0007)
                         },
                         EAssemblyType.Full,
-                        0.01008);
+                        0.0012995300);
 
                     yield return new TestCaseData(
                         new[]
@@ -356,301 +187,6 @@ namespace Assembly.Kernel.Tests.Implementations
                         EAssemblyType.Full,
                         0.000549975);
                 }
-            }
-
-            public static IEnumerable DirectTestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.IVv,
-                                EFmSectionCategory.Vv,
-                                EFmSectionCategory.VIv,
-                                EFmSectionCategory.VIIv
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.VIIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.IVv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.IIv
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.IVt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.IIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.Iv
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.It);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.IVv,
-                                EFmSectionCategory.Vv,
-                                EFmSectionCategory.VIv,
-                                EFmSectionCategory.Gr
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.VIIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.Vv,
-                                EFmSectionCategory.VIv,
-                                EFmSectionCategory.Gr
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.VIIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Iv,
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.NotApplicable
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.IIIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.NotApplicable,
-                                EFmSectionCategory.NotApplicable
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.Nvt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.Gr,
-                                EFmSectionCategory.Gr
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.Gr);
-
-                    yield return new TestCaseData(
-                            Generate250DirectCategories(),
-                            EAssemblyType.Full)
-                        .Returns(EFailureMechanismCategory.IIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.IIv,
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.NotApplicable
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.IIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.Gr,
-                                EFmSectionCategory.NotApplicable
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.IIIt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.Gr,
-                                EFmSectionCategory.VIIv
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.Gr);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.VIIv
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.Gr);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EFmSectionCategory.IIIv,
-                                EFmSectionCategory.VIIv,
-                                EFmSectionCategory.NotApplicable
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EFailureMechanismCategory.IIIt);
-                }
-            }
-
-            public static IEnumerable IndirectTestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.Nvt
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FvTom);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.Nvt
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FvGt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Nvt);
-
-                    yield return new TestCaseData(
-                            Generate250IndirectCategories(),
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.FvGt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.Nvt
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Nvt);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.Gr,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Ngo);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.Gr,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Ngo);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Ngo,
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.Gr,
-                                EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
-                            },
-                            EAssemblyType.Full)
-                        .Returns(EIndirectAssessmentResult.Ngo);
-
-                    yield return new TestCaseData(
-                            new[]
-                            {
-                                EIndirectAssessmentResult.Ngo,
-                                EIndirectAssessmentResult.Nvt,
-                                EIndirectAssessmentResult.FvGt,
-                                EIndirectAssessmentResult.FvTom,
-                                EIndirectAssessmentResult.FactoredInOtherFailureMechanism
-                            },
-                            EAssemblyType.Partial)
-                        .Returns(EIndirectAssessmentResult.FactoredInOtherFailureMechanism);
-                }
-            }
-
-            private static IEnumerable<EFmSectionCategory> Generate250DirectCategories()
-            {
-                var categories = new List<EFmSectionCategory>();
-                for (var i = 0; i < 250; i++)
-                {
-                    categories.Add(EFmSectionCategory.IIv);
-                }
-
-                return categories;
-            }
-
-            private static IEnumerable<EIndirectAssessmentResult> Generate250IndirectCategories()
-            {
-                var categories = new List<EIndirectAssessmentResult>();
-                for (var i = 0; i < 250; i++)
-                {
-                    categories.Add(EIndirectAssessmentResult.FvGt);
-                }
-
-                return categories;
             }
         }
     }

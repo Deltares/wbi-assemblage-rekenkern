@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<FailureMechanismAssemblyResult>(), categories,
+                assembler.AssembleAssessmentSectionWbi2B1(new List<FailurePathAssemblyResult>(), categories,
                                                           false);
             }
             catch (AssemblyException e)
@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
                     new
-                        FailureMechanismAssemblyResult(failureProbability)), categories,
+                        FailurePathAssemblyResult(failureProbability)), categories,
                                                                    assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
@@ -91,10 +91,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(double.NaN),
-                    new FailureMechanismAssemblyResult(double.NaN),
-                    new FailureMechanismAssemblyResult(0.00003),
-                    new FailureMechanismAssemblyResult(0.00003)
+                    new FailurePathAssemblyResult(double.NaN),
+                    new FailurePathAssemblyResult(double.NaN),
+                    new FailurePathAssemblyResult(0.00003),
+                    new FailurePathAssemblyResult(0.00003)
                 }, categories,
                 false);
 
@@ -109,8 +109,8 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(double.NaN),
-                    new FailureMechanismAssemblyResult(double.NaN)
+                    new FailurePathAssemblyResult(double.NaN),
+                    new FailurePathAssemblyResult(double.NaN)
                 }, categories, false);
 
             Assert.IsNaN(result.FailureProbability);
@@ -139,10 +139,10 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                List<FailureMechanismAssemblyResult> results = new List<FailureMechanismAssemblyResult>
+                List<FailurePathAssemblyResult> results = new List<FailurePathAssemblyResult>
                 {
-                    new FailureMechanismAssemblyResult(0.003),
-                    new FailureMechanismAssemblyResult(0.003),
+                    new FailurePathAssemblyResult(0.003),
+                    new FailurePathAssemblyResult(0.003),
                 };
                 assembler.AssembleAssessmentSectionWbi2B1(results, null, false);
             }
@@ -163,9 +163,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailureMechanismAssemblyResult(double.NaN),
-                    new FailureMechanismAssemblyResult(sectionFailureProbability),
-                    new FailureMechanismAssemblyResult(sectionFailureProbability)
+                    new FailurePathAssemblyResult(double.NaN),
+                    new FailurePathAssemblyResult(sectionFailureProbability),
+                    new FailurePathAssemblyResult(sectionFailureProbability)
                 }, categories,
                 true);
 

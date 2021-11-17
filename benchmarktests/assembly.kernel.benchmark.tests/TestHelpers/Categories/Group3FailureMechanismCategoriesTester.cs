@@ -84,7 +84,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             CategoriesList<FmSectionCategory> categoriesListFailureMechanismSection =
                 calculator.CalculateFmSectionCategoryLimitsWbi01(
                     new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
-                    new Assembly.Kernel.Model.FailureMechanism(failureMechanismResult.LengthEffectFactor,
+                    new Assembly.Kernel.Model.FailurePath(failureMechanismResult.LengthEffectFactor,
                                                                failureMechanismResult.FailureMechanismProbabilitySpace));
             var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
 

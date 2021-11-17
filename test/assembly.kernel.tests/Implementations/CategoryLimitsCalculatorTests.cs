@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double LengthEffectFactor = 1;
 
             var section = new AssessmentSection(20306, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
+            var failureMechanism = new FailurePath(LengthEffectFactor,
                                                         FailurePobabilityMarginFactor);
 
             var results = categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi01(section, failureMechanism);
@@ -101,7 +101,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double LengthEffectFactor = 14.4;
 
             var section = new AssessmentSection(20306, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
+            var failureMechanism = new FailurePath(LengthEffectFactor,
                                                         FailurePobabilityMarginFactor);
 
             CategoriesList<FmSectionCategory> results =
@@ -156,7 +156,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double LengthEffectFactor = 14.4;
 
             var section = new AssessmentSection(20306, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
+            var failureMechanism = new FailurePath(LengthEffectFactor,
                                                         FailurePobabilityMarginFactor);
 
             CategoriesList<FmSectionCategory> results =
@@ -206,7 +206,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double failurePobabilityMarginFactor = 0.1;
             const double lengthEffectFactor = 2;
 
-            var failureMechanism = new FailureMechanism(lengthEffectFactor,
+            var failureMechanism = new FailurePath(lengthEffectFactor,
                                                         failurePobabilityMarginFactor);
 
             CategoriesList<FmSectionCategory> results =
@@ -242,7 +242,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double failurePobabilityMarginFactor = 0.1;
             const double lengthEffectFactor = 2;
 
-            var failureMechanism = new FailureMechanism(lengthEffectFactor, failurePobabilityMarginFactor);
+            var failureMechanism = new FailurePath(lengthEffectFactor, failurePobabilityMarginFactor);
 
             CategoriesList<FmSectionCategory> results =
                 categoryLimitsCalculator.CalculateFmSectionCategoryLimitsWbi02(norm, failureMechanism);
@@ -334,7 +334,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double LengthEffectFactor = 1;
 
             var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
+            var failureMechanism = new FailurePath(LengthEffectFactor,
                                                         FailurePobabilityMarginFactor);
 
             CategoriesList<FailureMechanismCategory> results =
@@ -386,7 +386,7 @@ namespace Assembly.Kernel.Tests.Implementations
             const double LengthEffectFactor = 1;
 
             var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
-            var failureMechanism = new FailureMechanism(LengthEffectFactor,
+            var failureMechanism = new FailurePath(LengthEffectFactor,
                                                         FailurePobabilityMarginFactor);
 
             CategoriesList<FailureMechanismCategory> results =

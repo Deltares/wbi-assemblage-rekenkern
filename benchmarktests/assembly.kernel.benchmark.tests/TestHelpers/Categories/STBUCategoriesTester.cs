@@ -85,7 +85,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
             var calculator = new CategoryLimitsCalculator();
             CategoriesList<FmSectionCategory> categoriesList = calculator.CalculateFmSectionCategoryLimitsWbi02(
-                norm, new Assembly.Kernel.Model.FailureMechanism(
+                norm, new Assembly.Kernel.Model.FailurePath(
                     failureMechanismResult.LengthEffectFactor,
                     failureMechanismResult.FailureMechanismProbabilitySpace));
 

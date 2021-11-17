@@ -34,7 +34,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             const double LengthEffectFactor = 1.1;
             const double FailureProbMaringFactor = 0.2;
-            var failureMechanism = new FailureMechanism(LengthEffectFactor, FailureProbMaringFactor);
+            var failureMechanism = new FailurePath(LengthEffectFactor, FailureProbMaringFactor);
             Assert.AreEqual($"Length effect factor: {LengthEffectFactor}, " +
                             $"Failure probability margin factor: {FailureProbMaringFactor}",
                             failureMechanism.ToString());

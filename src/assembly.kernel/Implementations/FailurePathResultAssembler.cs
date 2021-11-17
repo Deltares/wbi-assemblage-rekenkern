@@ -36,80 +36,52 @@ namespace Assembly.Kernel.Implementations
     public class FailurePathResultAssembler : IFailurePathResultAssembler
     {
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
-            FailureMechanism failureMechanism,
-            IEnumerable<FmSectionAssemblyDirectResultWithProbabilities> fmSectionAssemblyResults,
-            CategoriesList<FailureMechanismCategory> categoryLimits,
+        public FailurePathAssemblyResult AssembleFailurePathWbi1B1(
+            FailurePath failurePath,
+            IEnumerable<FpSectionAssemblyResult> fmSectionAssemblyResults,
             bool partialAssembly)
         {
-            FmSectionAssemblyDirectResultWithProbabilities[] sectionResults = CheckInput(fmSectionAssemblyResults);
+            FpSectionAssemblyResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.Result != EFmSectionCategory.VIIv &&
-                                                           r.Result != EFmSectionCategory.Gr).ToArray();
+                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection)).ToArray();
             }
 
-            if (sectionResults.All(r => r.Result == EFmSectionCategory.Gr) || sectionResults.Length == 0)
+            if (sectionResults.All(r => double.IsNaN(r.ProbabilitySection)) || sectionResults.Length == 0)
             {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+                return new FailurePathAssemblyResult(double.NaN);
             }
 
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
             var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
-            var failureProbFound = false;
-            foreach (var fmSectionResult in sectionResults)
+            foreach (var fpSectionResult in sectionResults)
             {
-                switch (fmSectionResult.Result)
+                if (double.IsNaN(fpSectionResult.ProbabilitySection))
                 {
-                    case EFmSectionCategory.NotApplicable:
-                        // ignore not applicable category
-                        continue;
-                    case EFmSectionCategory.Iv:
-                    case EFmSectionCategory.IIv:
-                    case EFmSectionCategory.IIIv:
-                    case EFmSectionCategory.IVv:
-                    case EFmSectionCategory.Vv:
-                    case EFmSectionCategory.VIv:
-                        if (double.IsNaN(fmSectionResult.FailureProbability))
-                        {
-                            throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
-                        }
-
-                        // This failuremechanism section contains a failure probability 
-                        failureProbFound = true;
-
-                        var sectionFailureProb = fmSectionResult.FailureProbability;
-                        var profileFailureProb = fmSectionResult.FailureProbabilityProfile;
-                        if (sectionFailureProb > highestFailureProbability)
-                        {
-                            highestFailureProbability = profileFailureProb;
-                        }
-
-                        noFailureProbProduct *= 1.0 - sectionFailureProb;
-                        break;
-                    case EFmSectionCategory.VIIv:
-                    case EFmSectionCategory.Gr:
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
+                    return new FailurePathAssemblyResult(double.NaN);
                 }
-            }
 
-            if (!failureProbFound)
-            {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, 0.0);
+                var sectionFailureProb = fpSectionResult.ProbabilitySection;
+                var profileFailureProb = fpSectionResult.ProbabilityProfile;
+                if (sectionFailureProb > highestFailureProbability)
+                {
+                    highestFailureProbability = profileFailureProb;
+                }
+
+                noFailureProbProduct *= 1.0 - sectionFailureProb;
             }
 
             var failureMechanismFailureProbability = 1 - noFailureProbProduct;
 
             // step 2: Get section with largest failure probability and multiply with Assessment section length effect factor.
-            highestFailureProbability *= failureMechanism.LengthEffectFactor;
+            highestFailureProbability *= failurePath.LengthEffectFactor;
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failureMechanismFailureProbability);
             // step 4: Return the category + failure probability
-            var resultCategory = categoryLimits.GetCategoryForFailureProbability(resultFailureProb);
-            return new FailureMechanismAssemblyResult(resultCategory.Category, resultFailureProb);
+            return new FailurePathAssemblyResult(resultFailureProb);
         }
 
         private static T[] CheckInput<T>(IEnumerable<T> results) where T : IFmSectionAssemblyResult

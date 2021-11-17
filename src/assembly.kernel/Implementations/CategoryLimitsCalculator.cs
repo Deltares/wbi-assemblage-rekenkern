@@ -68,13 +68,13 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(
-            AssessmentSection section, FailureMechanism failureMechanism)
+            AssessmentSection section, FailurePath failurePath)
         {
             var signTimesMargin = CapToOne(section.FailureProbabilitySignallingLimit *
-                                           failureMechanism.FailureProbabilityMarginFactor);
+                                           failurePath.FailureProbabilityMarginFactor);
             var signTimesMarginDiv30 = CapToOne(signTimesMargin / 30.0);
             var lowTimesMargin = CapToOne(section.FailureProbabilityLowerLimit *
-                                          failureMechanism.FailureProbabilityMarginFactor);
+                                          failurePath.FailureProbabilityMarginFactor);
             var lowTimes30 = CapToOne(section.FailureProbabilityLowerLimit * 30.0);
 
             return new CategoriesList<FailureMechanismCategory>(new[]
@@ -108,12 +108,12 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
-                                                                                       FailureMechanism failureMechanism)
+                                                                                       FailurePath failurePath)
         {
-            var pSigDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
-                          failureMechanism.LengthEffectFactor;
-            var pLowDsn = failureMechanism.FailureProbabilityMarginFactor * section.FailureProbabilityLowerLimit /
-                          failureMechanism.LengthEffectFactor;
+            var pSigDsn = failurePath.FailureProbabilityMarginFactor * section.FailureProbabilitySignallingLimit /
+                          failurePath.LengthEffectFactor;
+            var pLowDsn = failurePath.FailureProbabilityMarginFactor * section.FailureProbabilityLowerLimit /
+                          failurePath.LengthEffectFactor;
 
             return new CategoriesList<FmSectionCategory>(new[]
             {
@@ -146,11 +146,11 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
-                                                                                       FailureMechanism failureMechanism)
+                                                                                       FailurePath failurePath)
         {
-            var pDsn = CapToOne(failureMechanism.FailureProbabilityMarginFactor *
+            var pDsn = CapToOne(failurePath.FailureProbabilityMarginFactor *
                                 (10 * assessmentSectionNorm) /
-                                failureMechanism.LengthEffectFactor);
+                                failurePath.LengthEffectFactor);
 
             return new CategoriesList<FmSectionCategory>(new[]
             {

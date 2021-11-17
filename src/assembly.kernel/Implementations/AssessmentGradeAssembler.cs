@@ -35,11 +35,11 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
+            IEnumerable<FailurePathAssemblyResult> failureMechanismAssemblyResults,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            FailureMechanismAssemblyResult[] failureMechanismResults =
+            FailurePathAssemblyResult[] failureMechanismResults =
                 CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
 
             if (categories == null)
@@ -74,15 +74,15 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
-        private static FailureMechanismAssemblyResult[] CheckFailureMechanismAssemblyResults(
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults)
+        private static FailurePathAssemblyResult[] CheckFailureMechanismAssemblyResults(
+            IEnumerable<FailurePathAssemblyResult> failureMechanismAssemblyResults)
         {
             if (failureMechanismAssemblyResults == null)
             {
                 throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            List<FailureMechanismAssemblyResult> failureMechanismResults = failureMechanismAssemblyResults.ToList();
+            List<FailurePathAssemblyResult> failureMechanismResults = failureMechanismAssemblyResults.ToList();
 
             if (failureMechanismResults.Count == 0)
             {

@@ -26,34 +26,17 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// The assembly result class of a direct failure mechanism.
     /// </summary>
-    public class FailureMechanismAssemblyResult
+    public class FailurePathAssemblyResult
     {
         /// <summary>
         /// Failure mechanism assembly direct result constructor, with failure probability.
         /// </summary>
         /// <param name="category">The resulting category of the failure mechanism assembly step</param>
         /// <param name="failureProbability">The assembled failure probability of the failure mechanism</param>
-        public FailureMechanismAssemblyResult(double failureProbability)
+        public FailurePathAssemblyResult(double failureProbability)
         {
             FailureProbability = failureProbability;
         }
-
-        /// <summary>
-        /// Failure mechanism assembly direct result constructor, with failure probability.
-        /// </summary>
-        /// <param name="category">The resulting category of the failure mechanism assembly step</param>
-        /// <param name="failureProbability">The assembled failure probability of the failure mechanism</param>
-        // TODO: remove
-        public FailureMechanismAssemblyResult(EFailureMechanismCategory category, double failureProbability)
-        {
-            Category = category;
-            FailureProbability = failureProbability;
-        }
-
-        /// <summary>
-        /// The failure mechanism category.
-        /// </summary>
-        public EFailureMechanismCategory Category { get; }
 
         /// <summary>
         /// The failure probability of the failure mechanism. 

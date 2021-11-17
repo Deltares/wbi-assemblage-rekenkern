@@ -139,7 +139,7 @@ namespace assembly.kernel.benchmark.tests
             var probabilisticFailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
                                                                     .OfType<ProbabilisticExpectedFailureMechanismResult>()
                                                                     .Select(fm =>
-                                                                                new FailureMechanismAssemblyResult(fm.ExpectedAssessmentResultProbabilityTemporal));
+                                                                                new FailurePathAssemblyResult(fm.ExpectedAssessmentResultProbabilityTemporal));
             var categories = input.ExpectedSafetyAssessmentAssemblyResult
                 .ExpectedAssessmentSectionCategories;
             var resultGroup1And2Temporal = assembler.AssembleAssessmentSectionWbi2B1(
@@ -166,14 +166,14 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
                                                                       BenchmarkTestResult result)
         {
-            IEnumerable<FailureMechanismAssemblyResult> probabilisticFailureMechanismResults = input
+            IEnumerable<FailurePathAssemblyResult> probabilisticFailureMechanismResults = input
                                                                                                .ExpectedFailureMechanismsResults
                                                                                                .OfType<
                                                                                                    ProbabilisticExpectedFailureMechanismResult
                                                                                                >()
                                                                                                .Select(fm =>
                                                                                                            new
-                                                                                                               FailureMechanismAssemblyResult(
+                                                                                                               FailurePathAssemblyResult(
                                                                                                                    fm
                                                                                                                        .ExpectedAssessmentResultProbability));
             // Test correct result for groups 1/2 and 3.4, WBI-2B-1
@@ -208,7 +208,7 @@ namespace assembly.kernel.benchmark.tests
             CategoriesList<FailureMechanismCategory> categories =
                 categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
                     new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
-                    new FailureMechanism(1,
+                    new FailurePath(1,
                                          input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
 
             bool areEqualCategories = AssertHelper.AssertEqualCategoriesList<FailureMechanismCategory, EFailureMechanismCategory>(

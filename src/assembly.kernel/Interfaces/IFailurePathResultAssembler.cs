@@ -38,8 +38,8 @@ namespace Assembly.Kernel.Interfaces
         /// Assemble a list of failure mechanism section assembly results with failure probability to
         /// a single failure mechanism assembly result.
         /// </summary>
-        /// <param name="failureMechanism">The failure mechanism to assemble the result for</param>
-        /// <param name="fmSectionAssemblyResults">The list of failure mechanism section assembly results 
+        /// <param name="failurePath">The failure mechanism to assemble the result for</param>
+        /// <param name="fpSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
         /// <param name="categoryLimits">Category limits that should be used when translating a probability of failure to an assessment category</param>
         /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
@@ -48,10 +48,9 @@ namespace Assembly.Kernel.Interfaces
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
-            FailureMechanism failureMechanism,
-            IEnumerable<FmSectionAssemblyDirectResultWithProbabilities> fmSectionAssemblyResults,
-            CategoriesList<FailureMechanismCategory> categoryLimits,
+        FailurePathAssemblyResult AssembleFailurePathWbi1B1(
+            FailurePath failurePath,
+            IEnumerable<FpSectionAssemblyResult> fpSectionAssemblyResults,
             bool partialAssembly);
     }
 }
