@@ -370,37 +370,6 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        /*
-         * Methods for translation to a normative result result.
-         */
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResult detailedAssessmentResult,
-            FmSectionAssemblyDirectResult customAssessmentResult)
-        {
-            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
-            return new FmSectionAssemblyDirectResult(result.Result);
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
-            FmSectionAssemblyDirectResultWithProbability customAssessmentResult)
-        {
-            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
-            return new FmSectionAssemblyDirectResultWithProbability(result.Result, result.FailureProbability);
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyIndirectResult detailedAssessmentResult,
-            FmSectionAssemblyIndirectResult customAssessmentResult)
-        {
-            var result = TranslateAssessmentResultWbi0A1Internal(detailedAssessmentResult, customAssessmentResult);
-            return new FmSectionAssemblyIndirectResult(result.Result);
-        }
-
         /// <inheritdoc />
         public FpSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant, double probabilityInitialMechanismProfile,
             double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
@@ -452,49 +421,6 @@ namespace Assembly.Kernel.Implementations
             {
                 throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
             }
-        }
-
-        /*
-        * Private methods and classes.
-        */
-        /// <summary>
-        /// Internal method to calculate WBI-0A-1 (normative results based on a detailed assessment and custom assessment result).
-        /// </summary>
-        /// <typeparam name="TResult">Generic assessment result.</typeparam>
-        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
-        /// May be null when not available</param>
-        /// <param name="customAssessmentResult">The test result of a custom assessment.
-        /// May be null when not available</param>
-        /// <returns>The normative result.</returns>
-        private TResult TranslateAssessmentResultWbi0A1Internal<TResult>(
-            TResult detailedAssessmentResult,
-            TResult customAssessmentResult) where TResult : IFmSectionAssemblyResult
-        {
-            if (detailedAssessmentResult == null)
-            {
-                throw new AssemblyException(
-                    "TranslateNormativeAssessmentResult: detailed assessment result",
-                    EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (customAssessmentResult != null && customAssessmentResult.HasResult())
-            {
-                return customAssessmentResult;
-            }
-
-            return detailedAssessmentResult;
-        }
-
-        /// <summary>
-        /// Translates a section result category to the associated estimated probability of failure
-        /// </summary>
-        /// <param name="fmSectionCategory">The section result category that needs to be translated</param>
-        /// <returns>Either 0.0 in case the category equals EFmSectionCategory.Iv or EFmSectionCategory.NotApplicable</returns>
-        private static double ResultCategoryToProbabilityEstimation(EFmSectionCategory fmSectionCategory)
-        {
-            return fmSectionCategory == EFmSectionCategory.Iv || fmSectionCategory == EFmSectionCategory.NotApplicable
-                       ? 0.0
-                       : double.NaN;
         }
 
         /// <summary>

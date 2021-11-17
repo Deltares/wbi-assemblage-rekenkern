@@ -91,25 +91,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void TestCombinedAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            if (ExpectedFailureMechanismResult != null)
-            {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<STBUFailureMechanismSection>())
-                {
-                    // WBI-0A-1 (direct with probability)
-                    var result = assembler.TranslateAssessmentResultWbi0A1(
-                        section.ExpectedDetailedAssessmentAssemblyResult as FmSectionAssemblyDirectResult,
-                        section.ExpectedTailorMadeAssessmentAssemblyResult as FmSectionAssemblyDirectResult);
-
-                    Assert.IsInstanceOf<FmSectionAssemblyDirectResult>(result);
-                    Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
-                }
-            }
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             MethodResults.Wbi0G3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0G3, result);

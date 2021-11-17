@@ -202,48 +202,6 @@ namespace Assembly.Kernel.Interfaces
             CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments (direct without probability) to a 
-        /// single normative result. As specified in WBI-0A-1.
-        /// </summary>
-        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
-        /// May be null when not available.</param>
-        /// <param name="customAssessmentResult">The test result of a custom assessment.
-        /// May be null when not available.</param>
-        /// <returns>A new result resambling the normative result of the three input parameters.</returns>
-        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null.</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResult detailedAssessmentResult,
-            FmSectionAssemblyDirectResult customAssessmentResult);
-
-        /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments (direct with probability) to a 
-        /// single normative result. As specified in WBI-0A-1.
-        /// </summary>
-        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
-        /// May be null when not available.</param>
-        /// <param name="customAssessmentResult">The test result of a custom assessment.
-        /// May be null when not available.</param>
-        /// <returns>A new result resambling the normative result of the three input parameters.</returns>
-        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyDirectResultWithProbability detailedAssessmentResult,
-            FmSectionAssemblyDirectResultWithProbability customAssessmentResult);
-
-        /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments (indirect) to a 
-        /// single normative result. As specified in WBI-0A-1.
-        /// </summary>
-        /// <param name="detailedAssessmentResult">The test result of a detailed assessment. 
-        /// May be null when not available.</param>
-        /// <param name="customAssessmentResult">The test result of a custom assessment.
-        /// May be null when not available.</param>
-        /// <returns>A new result resambling the normative result of the three input parameters.</returns>
-        /// <exception cref="AssemblyException">Thrown when simpleAssessmentResult == null</exception>
-        FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0A1(
-            FmSectionAssemblyIndirectResult detailedAssessmentResult,
-            FmSectionAssemblyIndirectResult customAssessmentResult);
-
-        /// <summary>
         /// Translate the assessment result of failure mechanism section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>

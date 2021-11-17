@@ -38,7 +38,6 @@
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorCategoryCompliancyTests.cs" />
-    <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A1Tests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorFailureProbTests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorCategorySuppliedTests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorAssessmentResultTests.cs" />

@@ -147,7 +147,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void SetCombinedAssessmentMethodResult(bool result);
 
-        protected abstract void TestCombinedAssessmentInternal();
+        protected virtual void TestCombinedAssessmentInternal() { throw new NotImplementedException("No tests available"); }
 
         protected abstract void SetAssessmentSectionMethodResult(bool result);
 

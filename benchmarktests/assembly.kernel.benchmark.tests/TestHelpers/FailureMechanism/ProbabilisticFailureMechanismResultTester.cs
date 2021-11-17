@@ -116,28 +116,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void TestCombinedAssessmentInternal()
-        {
-            var assembler = new AssessmentResultsTranslator();
-
-            if (ExpectedFailureMechanismResult != null)
-            {
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<IProbabilisticFailureMechanismSection>())
-                {
-                    // WBI-0A-1 (direct with probability)
-                    var result = assembler.TranslateAssessmentResultWbi0A1(
-                        section.ExpectedDetailedAssessmentAssemblyResult as
-                            FmSectionAssemblyDirectResultWithProbability,
-                        section.ExpectedTailorMadeAssessmentAssemblyResult as
-                            FmSectionAssemblyDirectResultWithProbability);
-
-                    Assert.IsInstanceOf<FmSectionAssemblyDirectResultWithProbability>(result);
-                    Assert.AreEqual(section.ExpectedCombinedResult, result.Result);
-                    Assert.AreEqual(section.ExpectedCombinedResultProbability, result.FailureProbability);
-                }
-            }
-        }
-
         protected override void SetDetailedAssessmentMethodResult(bool result)
         {
             switch (ExpectedFailureMechanismResult.Type)

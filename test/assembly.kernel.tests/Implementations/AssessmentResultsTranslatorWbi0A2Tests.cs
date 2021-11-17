@@ -21,12 +21,10 @@
 // All rights reserved.
 #endregion
 
-using System.Collections;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
@@ -107,7 +105,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(1.0, 30.2, 0.4, 0.2)]
         [TestCase(1.0, 0.2, 40.4, 0.2)]
         [TestCase(1.0, 0.2, 0.4, 50.2)]
-        public void Wbi0A1DirectWithProbabilityNullTest(double p1, double p2, double p3, double p4)
+        public void Wbi0A2DirectWithProbabilityNullTest(double p1, double p2, double p3, double p4)
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
