@@ -74,33 +74,6 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
-        /// <inheritdoc />
-        public EAssessmentGrade AssembleAssessmentSectionWbi2C1(
-            EFailureMechanismCategory assemblyResultNoFailureProbability,
-            FailureMechanismAssemblyResult assemblyResultWithFailureProbability)
-        {
-            if (assemblyResultWithFailureProbability == null)
-            {
-                throw new AssemblyException("AssessmentGradeAssembler", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Gr ||
-                assemblyResultWithFailureProbability.Category == EFailureMechanismCategory.Gr)
-            {
-                if (assemblyResultNoFailureProbability == EFailureMechanismCategory.Gr &&
-                    assemblyResultWithFailureProbability.Category == EFailureMechanismCategory.Gr)
-                {
-                    return EAssessmentGrade.Gr;
-                }
-
-                return EAssessmentGrade.Ngo;
-            }
-
-            return assemblyResultNoFailureProbability > assemblyResultWithFailureProbability.Category
-                       ? assemblyResultNoFailureProbability.ToAssessmentGrade()
-                       : assemblyResultWithFailureProbability.Category.ToAssessmentGrade();
-        }
-
         private static FailureMechanismAssemblyResult[] CheckFailureMechanismAssemblyResults(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults)
         {

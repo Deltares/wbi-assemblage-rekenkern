@@ -46,19 +46,5 @@ namespace Assembly.Kernel.Interfaces
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
-
-        /// <summary>
-        /// Assemble and assessment section assembly result with and without a failiure probability into 
-        /// one assessment section result.
-        /// </summary>
-        /// <param name="assemblyResultNoFailureProbability">The assessment section assembly result 
-        /// without failure probability. May not be null.</param>
-        /// <param name="assemblyResultWithFailureProbability">The assessment section assembly result 
-        /// with failure probability. May not be null.</param>
-        /// <returns>A copy of the input result with the lowest assessment grade</returns>
-        /// <exception cref="AssemblyException">Thrown when one of the inputs are null</exception>
-        EAssessmentGrade AssembleAssessmentSectionWbi2C1(
-            EFailureMechanismCategory assemblyResultNoFailureProbability,
-            FailureMechanismAssemblyResult assemblyResultWithFailureProbability);
     }
 }

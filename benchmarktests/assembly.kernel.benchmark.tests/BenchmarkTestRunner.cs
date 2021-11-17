@@ -111,8 +111,6 @@ namespace assembly.kernel.benchmark.tests
             TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
             TestProbabilisticFailureMechanismsResults(input, result);
             TestProbabilisticFailureMechanismsResultsTemporal(input, result);
-            TestFinalAssessmentGrade(input, result);
-            TestFinalAssessmentGradeTemporal(input, result);
         }
 
         /// <summary>
@@ -131,51 +129,6 @@ namespace assembly.kernel.benchmark.tests
             {
                 TestCombinedSectionsFailureMechanismResults(input, result,
                                                             failureMechanismsCombinedResult.FailureMechanismId.ToMechanismType());
-            }
-        }
-
-        private static void TestFinalAssessmentGradeTemporal(BenchmarkTestInput input, BenchmarkTestResult result)
-        {
-            var assembler = new AssessmentGradeAssembler();
-            var resultFinalVerdictTemporal = assembler.AssembleAssessmentSectionWbi2C1(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal,
-                new FailureMechanismAssemblyResult(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Temporal,
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal));
-            try
-            {
-                Assert.AreEqual(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal,
-                    resultFinalVerdictTemporal);
-                result.AreEqualAssemblyResultFinalVerdictTemporal = true;
-                result.MethodResults.Wbi2C1T = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdictTemporal = false;
-                result.MethodResults.Wbi2C1T = false;
-            }
-        }
-
-        private static void TestFinalAssessmentGrade(BenchmarkTestInput input, BenchmarkTestResult result)
-        {
-            var assembler = new AssessmentGradeAssembler();
-            var resultFinalVerdict = assembler.AssembleAssessmentSectionWbi2C1(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4,
-                new FailureMechanismAssemblyResult(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2,
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability));
-            try
-            {
-                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult,
-                                resultFinalVerdict);
-                result.AreEqualAssemblyResultFinalVerdict = true;
-                result.MethodResults.Wbi2C1 = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdict = false;
-                result.MethodResults.Wbi2C1 = false;
             }
         }
 
