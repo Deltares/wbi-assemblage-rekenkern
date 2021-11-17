@@ -49,49 +49,6 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new AssessmentGradeAssembler();
         }
 
-        [Test, TestCaseSource(
-             typeof(AssessMentGradeAssemblerTestData),
-             nameof(AssessMentGradeAssemblerTestData.Wbi2A1Categories))]
-        public EFailureMechanismCategory Wbi2A1(IEnumerable<EFailureMechanismCategory> failureMechanismCategories,
-                                                EAssemblyType assemblyType)
-        {
-            return assembler.AssembleAssessmentSectionWbi2A1(
-                failureMechanismCategories.Select(category => new FailureMechanismAssemblyResult(category, double.NaN)),
-                assemblyType == EAssemblyType.Partial);
-        }
-
-        [Test]
-        public void Wbi2A1EmptyList()
-        {
-            try
-            {
-                assembler.AssembleAssessmentSectionWbi2A1(new List<FailureMechanismAssemblyResult>(), false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismAssemblerInputInvalid, message.ErrorCode);
-            }
-        }
-
-        [Test]
-        public void Wbi2A1NullTest()
-        {
-            try
-            {
-                assembler.AssembleAssessmentSectionWbi2A1(null, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-            }
-        }
-
         [Test]
         public void Wbi2B1EmptyList()
         {

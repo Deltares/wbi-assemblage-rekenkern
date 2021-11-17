@@ -34,17 +34,6 @@ namespace Assembly.Kernel.Interfaces
     public interface IAssessmentGradeAssembler
     {
         /// <summary>
-        /// Assembles Failure mechanism results without failure probability into one assembly section result.
-        /// </summary>
-        /// <param name="failureMechanismAssemblyResults">failure mechanism assembly result without failure probability</param>
-        /// <param name="partialAssembly">true if this assembly call is for a partial assembly call</param>
-        /// <returns>The assembled assessment grade of the assessment section</returns>
-        /// <exception cref="AssemblyException">Thrown when input list is null or empty, 
-        /// or when a input category is not known</exception>
-        EFailureMechanismCategory AssembleAssessmentSectionWbi2A1(
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults, bool partialAssembly);
-
-        /// <summary>
         /// Assembles Failure mechanism results with failure probability into one assembly section result.
         /// </summary>
         /// <param name="failureMechanismAssemblyResults">failure mechanism assembly result with failure probability</param>

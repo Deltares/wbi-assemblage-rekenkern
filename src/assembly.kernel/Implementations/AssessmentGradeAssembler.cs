@@ -34,62 +34,6 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
         /// <inheritdoc />
-        public EFailureMechanismCategory AssembleAssessmentSectionWbi2A1(
-            IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            bool partialAssembly)
-        {
-            FailureMechanismAssemblyResult[] failureMechanismResults =
-                CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
-
-            if (partialAssembly)
-            {
-                failureMechanismResults = failureMechanismResults.Where(fmr =>
-                                                                            fmr.Category != EFailureMechanismCategory.Gr &&
-                                                                            fmr.Category != EFailureMechanismCategory.VIIt)
-                                                                 .ToArray();
-            }
-
-            if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
-            {
-                return EFailureMechanismCategory.Gr;
-            }
-
-            var categoryViiFound = false;
-            var resultCategory = EFailureMechanismCategory.Nvt;
-            foreach (var failureMechanismResult in failureMechanismResults)
-            {
-                switch (failureMechanismResult.Category)
-                {
-                    case EFailureMechanismCategory.Nvt:
-                        // ignore does not apply category
-
-                        break;
-                    case EFailureMechanismCategory.It:
-                    case EFailureMechanismCategory.IIt:
-                    case EFailureMechanismCategory.IIIt:
-                    case EFailureMechanismCategory.IVt:
-                    case EFailureMechanismCategory.Vt:
-                    case EFailureMechanismCategory.VIt:
-                        if (failureMechanismResult.Category > resultCategory)
-                        {
-                            resultCategory = failureMechanismResult.Category;
-                        }
-
-                        break;
-                    case EFailureMechanismCategory.VIIt:
-                    case EFailureMechanismCategory.Gr:
-                        return EFailureMechanismCategory.VIIt;
-                    default:
-                        throw new AssemblyException(
-                            "AssembleFailureMechanismResult: " + failureMechanismResult.Category,
-                            EAssemblyErrors.CategoryNotAllowed);
-                }
-            }
-
-            return categoryViiFound ? EFailureMechanismCategory.VIIt : resultCategory;
-        }
-
-        /// <inheritdoc />
         public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
             CategoriesList<AssessmentSectionCategory> categories,

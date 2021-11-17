@@ -111,8 +111,6 @@ namespace assembly.kernel.benchmark.tests
             TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
             TestProbabilisticFailureMechanismsResults(input, result);
             TestProbabilisticFailureMechanismsResultsTemporal(input, result);
-            TestGroup3And4FailureMechanismsResults(input, result);
-            TestGroup3And4FailureMechanismsResultsTemporal(input, result);
             TestFinalAssessmentGrade(input, result);
             TestFinalAssessmentGradeTemporal(input, result);
         }
@@ -178,60 +176,6 @@ namespace assembly.kernel.benchmark.tests
             {
                 result.AreEqualAssemblyResultFinalVerdict = false;
                 result.MethodResults.Wbi2C1 = false;
-            }
-        }
-
-        private static void TestGroup3And4FailureMechanismsResultsTemporal(BenchmarkTestInput input,
-                                                                           BenchmarkTestResult result)
-        {
-            var assembler = new AssessmentGradeAssembler();
-            var group3Or4FailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
-                                                                .Where(fm => fm.Group == 3 || fm.Group == 4)
-                                                                .Select(fm =>
-                                                                            new FailureMechanismAssemblyResult(
-                                                                                CastToEnum<EFailureMechanismCategory>(
-                                                                                    fm.ExpectedAssessmentResultTemporal),
-                                                                                Double.NaN));
-            var resultGroup3And4Temporal =
-                assembler.AssembleAssessmentSectionWbi2A1(group3Or4FailureMechanismResultsTemporal, true);
-            try
-            {
-                Assert.IsNotNull(resultGroup3And4Temporal);
-                Assert.AreEqual(resultGroup3And4Temporal,
-                                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal);
-                result.AreEqualAssemblyResultGroup3and4Temporal = true;
-                result.MethodResults.Wbi2A1T = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultGroup3and4Temporal = false;
-                result.MethodResults.Wbi2A1T = false;
-            }
-        }
-
-        private static void TestGroup3And4FailureMechanismsResults(BenchmarkTestInput input, BenchmarkTestResult result)
-        {
-            var assembler = new AssessmentGradeAssembler();
-            var group3Or4FailureMechanismResults = input.ExpectedFailureMechanismsResults
-                                                        .Where(fm => fm.Group == 3 || fm.Group == 4)
-                                                        .Select(fm =>
-                                                                    new FailureMechanismAssemblyResult(
-                                                                        CastToEnum<EFailureMechanismCategory>(
-                                                                            fm.ExpectedAssessmentResult),
-                                                                        Double.NaN));
-            var resultGroup3And4 = assembler.AssembleAssessmentSectionWbi2A1(group3Or4FailureMechanismResults, false);
-            try
-            {
-                Assert.IsNotNull(resultGroup3And4);
-                Assert.AreEqual(resultGroup3And4,
-                                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4);
-                result.AreEqualAssemblyResultGroup3and4 = true;
-                result.MethodResults.Wbi2A1 = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultGroup3and4 = false;
-                result.MethodResults.Wbi2A1 = false;
             }
         }
 
