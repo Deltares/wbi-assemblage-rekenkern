@@ -90,9 +90,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult AssembleAssessmentSectionWbi2B1(
+        public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
             IEnumerable<FailureMechanismAssemblyResult> failureMechanismAssemblyResults,
-            CategoriesList<FailureMechanismCategory> categories,
+            CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
             FailureMechanismAssemblyResult[] failureMechanismResults =
@@ -106,62 +106,28 @@ namespace Assembly.Kernel.Implementations
             if (partialAssembly)
             {
                 failureMechanismResults = failureMechanismResults.Where(fmr =>
-                                                                            fmr.Category != EFailureMechanismCategory.Gr &&
-                                                                            fmr.Category != EFailureMechanismCategory.VIIt)
+                                                                            !double.IsNaN(fmr.FailureProbability))
                                                                  .ToArray();
             }
 
-            if (failureMechanismResults.All(fmr => fmr.Category == EFailureMechanismCategory.Gr))
+            if (failureMechanismResults.All(fmr => double.IsNaN(fmr.FailureProbability)))
             {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Gr, double.NaN);
+                return new AssessmentSectionResult(EAssessmentGrade.Gr, double.NaN);
             }
 
-            // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanisms.
             var failureProbProduct = 1.0;
-            var failureProbFound = false;
-
             foreach (var failureMechanismAssemblyResult in failureMechanismResults)
             {
-                switch (failureMechanismAssemblyResult.Category)
+                if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability))
                 {
-                    case EFailureMechanismCategory.Nvt:
-                        // ignore "does not apply" category
-                        continue;
-                    case EFailureMechanismCategory.It:
-                    case EFailureMechanismCategory.IIt:
-                    case EFailureMechanismCategory.IIIt:
-                    case EFailureMechanismCategory.IVt:
-                    case EFailureMechanismCategory.Vt:
-                    case EFailureMechanismCategory.VIt:
-                        if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability))
-                        {
-                            throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
-                        }
-
-                        failureProbFound = true;
-
-                        failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
-                        break;
-                    case EFailureMechanismCategory.VIIt:
-                    case EFailureMechanismCategory.Gr:
-                        return new FailureMechanismAssemblyResult(EFailureMechanismCategory.VIIt, double.NaN);
-                    default:
-                        throw new AssemblyException(
-                            "AssembleFailureMechanismResult: " + failureMechanismAssemblyResult.Category,
-                            EAssemblyErrors.CategoryNotAllowed);
+                    return new AssessmentSectionResult(EAssessmentGrade.Gr, double.NaN);
                 }
+                failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
             }
 
-            if (!failureProbFound)
-            {
-                return new FailureMechanismAssemblyResult(EFailureMechanismCategory.Nvt, 0.0);
-            }
-
-            var assessmentSectionFailureProb = 1 - failureProbProduct;
-
-            // step 2: Get category limits for the assessment section and return the category + failure probability
-            var resultCategory = categories.GetCategoryForFailureProbability(assessmentSectionFailureProb);
-            return new FailureMechanismAssemblyResult(resultCategory.Category, assessmentSectionFailureProb);
+            var probabilityOfFailure = 1 - failureProbProduct;
+            var category = categories.GetCategoryForFailureProbability(probabilityOfFailure);
+            return new AssessmentSectionResult(category.Category, probabilityOfFailure);
         }
 
         /// <inheritdoc />

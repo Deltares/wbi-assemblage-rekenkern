@@ -33,6 +33,17 @@ namespace Assembly.Kernel.Model
         /// </summary>
         /// <param name="category">The resulting category of the failure mechanism assembly step</param>
         /// <param name="failureProbability">The assembled failure probability of the failure mechanism</param>
+        public FailureMechanismAssemblyResult(double failureProbability)
+        {
+            FailureProbability = failureProbability;
+        }
+
+        /// <summary>
+        /// Failure mechanism assembly direct result constructor, with failure probability.
+        /// </summary>
+        /// <param name="category">The resulting category of the failure mechanism assembly step</param>
+        /// <param name="failureProbability">The assembled failure probability of the failure mechanism</param>
+        // TODO: remove
         public FailureMechanismAssemblyResult(EFailureMechanismCategory category, double failureProbability)
         {
             Category = category;

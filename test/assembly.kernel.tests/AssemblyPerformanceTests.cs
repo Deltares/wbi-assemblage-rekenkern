@@ -93,15 +93,12 @@ namespace Assembly.Kernel.Tests
             var assessmentGradeWithoutFailureProb =
                 assessmentSectionAssembler.AssembleAssessmentSectionWbi2A1(failureMechanismResultsWithoutFailureProb,
                                                                            false);
-            var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb,
-                                                                           categoriesCalculator
-                                                                               .CalculateFailureMechanismCategoryLimitsWbi11(
-                                                                                   section,
-                                                                                   new FailureMechanism(1.0, 0.7)), false);
 
-            assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(assessmentGradeWithoutFailureProb,
-                                                                       assessmentGradeWithFailureProb);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
+            var assessmentGradeWithFailureProb =
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb, categories, false);
+
+            //assessmentSectionAssembler.AssembleAssessmentSectionWbi2C1(assessmentGradeWithoutFailureProb,assessmentGradeWithFailureProb);
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,

@@ -242,17 +242,11 @@ namespace assembly.kernel.benchmark.tests
             var probabilisticFailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
                                                                     .OfType<ProbabilisticExpectedFailureMechanismResult>()
                                                                     .Select(fm =>
-                                                                                new FailureMechanismAssemblyResult(
-                                                                                    CastToEnum<EFailureMechanismCategory>(
-                                                                                        fm.ExpectedAssessmentResultTemporal),
-                                                                                    fm
-                                                                                        .ExpectedAssessmentResultProbabilityTemporal));
+                                                                                new FailureMechanismAssemblyResult(fm.ExpectedAssessmentResultProbabilityTemporal));
             var categories = input.ExpectedSafetyAssessmentAssemblyResult
-                                  .ExpectedCombinedFailureMechanismCategoriesGroup1and2;
-
+                .ExpectedAssessmentSectionCategories;
             var resultGroup1And2Temporal = assembler.AssembleAssessmentSectionWbi2B1(
-                probabilisticFailureMechanismResultsTemporal,
-                categories,
+                probabilisticFailureMechanismResultsTemporal, categories,
                 true);
             try
             {
@@ -283,18 +277,12 @@ namespace assembly.kernel.benchmark.tests
                                                                                                .Select(fm =>
                                                                                                            new
                                                                                                                FailureMechanismAssemblyResult(
-                                                                                                                   CastToEnum<
-                                                                                                                       EFailureMechanismCategory
-                                                                                                                   >(
-                                                                                                                       fm
-                                                                                                                           .ExpectedAssessmentResult),
                                                                                                                    fm
                                                                                                                        .ExpectedAssessmentResultProbability));
-            var categories = input.ExpectedSafetyAssessmentAssemblyResult
-                                  .ExpectedCombinedFailureMechanismCategoriesGroup1and2;
-
             // Test correct result for groups 1/2 and 3.4, WBI-2B-1
             var assembler = new AssessmentGradeAssembler();
+            var categories = input.ExpectedSafetyAssessmentAssemblyResult
+                .ExpectedAssessmentSectionCategories;
             var resultGroup1And2 = assembler.AssembleAssessmentSectionWbi2B1(probabilisticFailureMechanismResults,
                                                                              categories,
                                                                              false);
