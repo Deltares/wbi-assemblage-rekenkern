@@ -108,7 +108,6 @@ namespace assembly.kernel.benchmark.tests
         /// <param name="result">The result.</param>
         public static void TestFinalVerdictAssembly(BenchmarkTestInput input, BenchmarkTestResult result)
         {
-            TestCombinedProbabilisticFailureMechanismsCategoriesList(input, result);
             TestProbabilisticFailureMechanismsResults(input, result);
             TestProbabilisticFailureMechanismsResultsTemporal(input, result);
         }
@@ -198,30 +197,6 @@ namespace assembly.kernel.benchmark.tests
                 result.AreEqualAssemblyResultGroup1and2 = false;
                 result.MethodResults.Wbi2B1 = false;
             }
-        }
-
-        private static void TestCombinedProbabilisticFailureMechanismsCategoriesList(BenchmarkTestInput input,
-                                                                                     BenchmarkTestResult result)
-        {
-            var categoriesCalculator = new CategoryLimitsCalculator();
-
-            CategoriesList<FailureMechanismCategory> categories =
-                categoriesCalculator.CalculateFailureMechanismCategoryLimitsWbi11(
-                    new AssessmentSection(input.Length, input.SignallingNorm, input.LowerBoundaryNorm),
-                    new FailurePath(1,
-                                         input.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace));
-
-            bool areEqualCategories = AssertHelper.AssertEqualCategoriesList<FailureMechanismCategory, EFailureMechanismCategory>(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2,
-                categories);
-            result.MethodResults.Wbi11 = areEqualCategories;
-            result.AreEqualCategoriesListGroup1and2 = areEqualCategories;
-        }
-
-        private static T CastToEnum<T>(object o)
-        {
-            T enumVal = (T) Enum.ToObject(typeof(T), o);
-            return enumVal;
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)

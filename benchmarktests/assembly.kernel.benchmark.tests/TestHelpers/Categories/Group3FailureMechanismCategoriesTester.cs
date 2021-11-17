@@ -73,27 +73,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
         public bool? TestCategories()
         {
-            if (mechanismNotApplicable)
-            {
-                return null;
-            }
-
-            var calculator = new CategoryLimitsCalculator();
-
-            // test section categories
-            CategoriesList<FmSectionCategory> categoriesListFailureMechanismSection =
-                calculator.CalculateFmSectionCategoryLimitsWbi01(
-                    new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
-                    new Assembly.Kernel.Model.FailurePath(failureMechanismResult.LengthEffectFactor,
-                                                               failureMechanismResult.FailureMechanismProbabilitySpace));
-            var expectedFailureMechanismSectionCategories = failureMechanismResult.ExpectedFailureMechanismSectionCategories;
-
-            var assertEqualCategoriesList =
-                AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(
-                    categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
-            methodResults.Wbi01 = BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi01, assertEqualCategoriesList);
-
-            return assertEqualCategoriesList;
+            throw new NotImplementedException();
         }
     }
 }

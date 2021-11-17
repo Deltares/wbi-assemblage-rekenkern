@@ -40,33 +40,6 @@ namespace Assembly.Kernel.Interfaces
             AssessmentSection section);
 
         /// <summary>
-        /// Calculate the category limits for a failure mechanism as specified in WBI-1-1.
-        /// </summary>
-        /// <param name="section">The assessment section information.</param>
-        /// <param name="failurePath">The failure mechanism to calculate the category limits for.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<FailureMechanismCategory> CalculateFailureMechanismCategoryLimitsWbi11(AssessmentSection section,
-                                                                                              FailurePath failurePath);
-
-        /// <summary>
-        /// Calculate the category limits for a failure mechanism section as specified in WBI-0-1.
-        /// </summary>
-        /// <param name="section">The assessment section information.</param>
-        /// <param name="failurePath">The failure mechanism information.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi01(AssessmentSection section,
-                                                                                FailurePath failurePath);
-
-        /// <summary>
-        /// Calculate the category limits for a section of failure mechanism STBU as specified in WBI-0-2.
-        /// </summary>
-        /// <param name="assessmentSectionNorm">The norm of the assessment section.</param>
-        /// <param name="failurePath">The failure mechanism information.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<FmSectionCategory> CalculateFmSectionCategoryLimitsWbi02(double assessmentSectionNorm,
-                                                                                FailurePath failurePath);
-
-        /// <summary>
         /// Calculate the interpretation category limits for a section as specified in WBI-0-3.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>

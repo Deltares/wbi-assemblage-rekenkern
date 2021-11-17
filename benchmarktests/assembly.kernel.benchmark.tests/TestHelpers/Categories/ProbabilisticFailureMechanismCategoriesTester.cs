@@ -73,47 +73,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
         public bool? TestCategories()
         {
-            var calculator = new CategoryLimitsCalculator();
-            // Test failure mechanism categories
-            CategoriesList<FailureMechanismCategory> categoriesListFailureMechanism =
-                calculator.CalculateFailureMechanismCategoryLimitsWbi11(
-                    new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
-                    new Assembly.Kernel.Model.FailurePath(failureMechanismResult.LengthEffectFactor,
-                                                               failureMechanismResult.FailureMechanismProbabilitySpace));
-
-            CategoriesList<FailureMechanismCategory> expectedFailureMechanismCategories =
-                failureMechanismResult.ExpectedFailureMechanismCategories;
-
-            bool areEqualCategoryLimitsFailureMechanism =
-                AssertHelper.AssertEqualCategoriesList<FailureMechanismCategory, EFailureMechanismCategory>(
-                    expectedFailureMechanismCategories, categoriesListFailureMechanism);
-
-            methodResults.Wbi11 =
-                BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi11, areEqualCategoryLimitsFailureMechanism);
-
-            var areEqualCategoryLimitsFailureMechanismSections = true;
-            if (!mechanismNotApplicable)
-            {
-                // test section categories
-                CategoriesList<FmSectionCategory> categoriesListFailureMechanismSection =
-                    calculator.CalculateFmSectionCategoryLimitsWbi01(
-                        new AssessmentSection(1.0, signallingNorm, lowerBoundaryNorm),
-                        new Assembly.Kernel.Model.FailurePath(failureMechanismResult.LengthEffectFactor,
-                                                                   failureMechanismResult.FailureMechanismProbabilitySpace));
-
-                CategoriesList<FmSectionCategory> expectedFailureMechanismSectionCategories =
-                    failureMechanismResult.ExpectedFailureMechanismSectionCategories;
-
-                areEqualCategoryLimitsFailureMechanismSections =
-                    AssertHelper.AssertEqualCategoriesList<FmSectionCategory, EFmSectionCategory>(
-                        categoriesListFailureMechanismSection, expectedFailureMechanismSectionCategories);
-
-                methodResults.Wbi01 =
-                    BenchmarkTestHelper.GetUpdatedMethodResult(methodResults.Wbi01,
-                                                               areEqualCategoryLimitsFailureMechanismSections);
-            }
-
-            return areEqualCategoryLimitsFailureMechanism && areEqualCategoryLimitsFailureMechanismSections;
+            throw new NotImplementedException();
         }
     }
 }
