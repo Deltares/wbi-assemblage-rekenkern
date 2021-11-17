@@ -139,7 +139,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected virtual void SetDetailedAssessmentMethodResult(bool result) {}
 
-        protected virtual void TestDetailedAssessmentInternal() {}
+        protected virtual void TestDetailedAssessmentInternal() { }
 
         protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
 
@@ -147,11 +147,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void SetCombinedAssessmentMethodResult(bool result);
 
-        protected virtual void TestCombinedAssessmentInternal() { throw new NotImplementedException("No tests available"); }
+        protected virtual void TestCombinedAssessmentInternal() { }
 
         protected abstract void SetAssessmentSectionMethodResult(bool result);
 
-        protected virtual void TestAssessmentSectionResultInternal() { throw new NotImplementedException("No tests available"); }
+        protected virtual void TestAssessmentSectionResultInternal() { }
 
         protected abstract void SetAssessmentSectionMethodResultTemporal(bool result);
 

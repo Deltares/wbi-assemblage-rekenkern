@@ -34,14 +34,6 @@ namespace Assembly.Kernel.Interfaces
     public interface IAssessmentResultsTranslator
     {
         /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0G-1.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G1(EAssessmentResultTypeG1 assessment);
-
-        /// <summary>
         /// Translate an assessment result to an Failure mechanism category as specified by WBI-0T-1.
         /// </summary>
         /// <param name="assessment">The assessment result to translate.</param>
@@ -50,32 +42,12 @@ namespace Assembly.Kernel.Interfaces
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T1(EAssessmentResultTypeT1 assessment);
 
         /// <summary>
-        /// Translate an assessment result to an Failure mechanism category as specified by WBI-0G-2.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0G2(EAssessmentResultTypeG1 assessment);
-
-        /// <summary>
         /// Translate an assessment result to an Failure mechanism category as specified by WBI-0T-2.
         /// </summary>
         /// <param name="assessment">The assessment result to translate.</param>
         /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
         FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0T2(EAssessmentResultTypeT2 assessment);
-
-        /// <summary>
-        /// Translate an assessment result or failure mechanism category to an Failure mechanism category
-        /// as specified by WBI-0G-4.
-        /// </summary>
-        /// <param name="assessment">The assessment result to translate.</param>
-        /// <param name="category">The failure mechanism category to use when 
-        /// assessment == AssessmentCategorySpecified otherwise this field is ignored.</param>
-        /// <returns>The Failure mechanism category belonging to the assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2 assessment,
-                                                                      EFmSectionCategory? category);
 
         /// <summary>
         /// Translate an assessment result or failure mechanism category to an Failure mechanism category 
@@ -88,20 +60,6 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3 assessment,
                                                                       EFmSectionCategory? category);
-
-        /// <summary>
-        /// Translate a list of category compliancy results to one failure mechanism section result
-        /// as specified in WBI-0G-6.
-        /// </summary>
-        /// <param name="compliancyResults">The failure mechanism category limit compliancy results.</param>
-        /// <returns>The failure mechanism category distilled from the list of compliancy results.</returns>
-        /// <exception cref="AssemblyException">Thrown when:<br/>
-        /// - compliancyResults == null<br/>
-        /// - compliancyResults list does not contain 5 entries<br/>
-        /// - Not all mandatory categories are present<br/>
-        /// - A Does not comply is present for a lower category.</exception>
-        FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G6(
-            FmSectionCategoryCompliancyResults compliancyResults);
 
         /// <summary>
         /// Translate a list of category compliancy results to one failure mechanism section result
@@ -119,39 +77,6 @@ namespace Assembly.Kernel.Interfaces
         /// - A Does not comply is present for a lower category.</exception>
         FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T6(
             FmSectionCategoryCompliancyResults compliancyResults, EAssessmentResultTypeT3 assessment);
-
-        /// <summary>
-        /// Translate an assessment result with failure probability to an failure mechanism result
-        /// including failure probability as specified in WBI-0G-3.
-        /// </summary>
-        /// <param name="assessment">The assessment result to check.</param>
-        /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
-        /// This field may be Double.NaN when it is in the state of "No result yet".</param>
-        /// <param name="categories">Categories list that should be used when determining the category based on the entered failureProbability.</param>
-        /// <returns>The failure mechanism category belonging to the failure probability or assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(
-            EAssessmentResultTypeG2 assessment,
-            double failureProbability,
-            CategoriesList<FmSectionCategory> categories);
-
-        /// <summary>
-        /// Translate an assessment result with failure probability to an failure mechanism result
-        /// including failure probability as specified in WBI-0G-5.
-        /// </summary>
-        /// <param name="fmSectionLengthEffectFactor">The length effect factor of the failure mechanism section.</param>
-        /// <param name="assessment">The assessment result to check.</param>
-        /// <param name="failureProbability">The failure probability if assessment == FailureProbabilitySpecified.
-        ///     This field may be Double.NaN when it is in the state of "No result yet", if the resulting failure probability 
-        ///     is greater than 1.0 it will be maximized to 1.0 </param>
-        /// <param name="categories">Categories list that should be used when determining the category based on the entered failureProbability.</param>
-        /// <returns>The failure mechanism category belonging to the failure probability or assessment result.</returns>
-        /// <exception cref="AssemblyException">Thrown when input is not valid for this assembly method.</exception>
-        FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(
-            double fmSectionLengthEffectFactor,
-            EAssessmentResultTypeG2 assessment,
-            double failureProbability,
-            CategoriesList<FmSectionCategory> categories);
 
         /// <summary>
         /// Translate an assessment result with failure probability to an failure mechanism result

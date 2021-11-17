@@ -47,50 +47,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test, TestCaseSource(
              typeof(CategorySuppliedTestCases),
              nameof(CategorySuppliedTestCases.Wbi0Gt4ResultSupplied))]
-        public EFmSectionCategory Wbi0G4ResultSuppliedTest(EFmSectionCategory category)
-        {
-            var result = translator.TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2.ResultSpecified, category);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategorySuppliedTestCases),
-             nameof(CategorySuppliedTestCases.Wbi0G4AssessmentResult))]
-        public EFmSectionCategory Wbi0G4AssessmentResultTest(
-            EAssessmentResultTypeG2 assessmentResult)
-        {
-            var result = translator.TranslateAssessmentResultWbi0G4(assessmentResult, null);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategorySuppliedTestCases),
-             nameof(CategorySuppliedTestCases.WbiG4Exceptions))]
-        public EAssemblyErrors? Wbi0G4ExceptionTest(EAssessmentResultTypeG2 assessment,
-                                                    EFmSectionCategory? category)
-        {
-            try
-            {
-                translator.TranslateAssessmentResultWbi0G4(assessment, category);
-            }
-            catch (AssemblyException e)
-            {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                return message.ErrorCode;
-            }
-
-            Assert.Fail("Expected exception not thrown.");
-            return null;
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategorySuppliedTestCases),
-             nameof(CategorySuppliedTestCases.Wbi0Gt4ResultSupplied))]
         public EFmSectionCategory Wbi0T4ResultSuppliedTest(EFmSectionCategory category)
         {
             var result = translator.TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3.ResultSpecified, category);

@@ -34,31 +34,6 @@ namespace Assembly.Kernel.Implementations
     /// <inheritdoc />
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
-        private readonly ResultMapper<EAssessmentResultTypeG1, EFmSectionCategory> wbi0G1ResultMap =
-            new ResultMapper<EAssessmentResultTypeG1, EFmSectionCategory>("Wbi0G1")
-            {
-                {EAssessmentResultTypeG1.V, EFmSectionCategory.IIv},
-                {EAssessmentResultTypeG1.Vn, EFmSectionCategory.Vv},
-                {EAssessmentResultTypeG1.Ngo, EFmSectionCategory.VIIv},
-                {EAssessmentResultTypeG1.Gr, EFmSectionCategory.Gr}
-            };
-
-        private readonly ResultMapper<EAssessmentResultTypeG1, EIndirectAssessmentResult> wbi0G2ResultMap =
-            new ResultMapper<EAssessmentResultTypeG1, EIndirectAssessmentResult>("Wbi0G2")
-            {
-                {EAssessmentResultTypeG1.V, EIndirectAssessmentResult.FvGt},
-                {EAssessmentResultTypeG1.Vn, EIndirectAssessmentResult.Ngo},
-                {EAssessmentResultTypeG1.Ngo, EIndirectAssessmentResult.Ngo},
-                {EAssessmentResultTypeG1.Gr, EIndirectAssessmentResult.Gr}
-            };
-
-        private readonly ResultMapper<EAssessmentResultTypeG2, EFmSectionCategory> wbi0G4ResultMap =
-            new ResultMapper<EAssessmentResultTypeG2, EFmSectionCategory>("Wbi0G4")
-            {
-                {EAssessmentResultTypeG2.Ngo, EFmSectionCategory.VIIv},
-                {EAssessmentResultTypeG2.Gr, EFmSectionCategory.Gr}
-            };
-
         private readonly ResultMapper<EAssessmentResultTypeT2, EIndirectAssessmentResult> wbi0T2ResultMap =
             new ResultMapper<EAssessmentResultTypeT2, EIndirectAssessmentResult>("Wbi0T2")
             {
@@ -89,21 +64,9 @@ namespace Assembly.Kernel.Implementations
             };
 
         /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G1(EAssessmentResultTypeG1 assessment)
-        {
-            return new FmSectionAssemblyDirectResult(wbi0G1ResultMap.GetResult(assessment));
-        }
-
-        /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T1(EAssessmentResultTypeT1 assessment)
         {
             return new FmSectionAssemblyDirectResult(wbiT1ResultMap.GetResult(assessment));
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyIndirectResult TranslateAssessmentResultWbi0G2(EAssessmentResultTypeG1 assessment)
-        {
-            return new FmSectionAssemblyIndirectResult(wbi0G2ResultMap.GetResult(assessment));
         }
 
         /// <inheritdoc />
@@ -115,30 +78,6 @@ namespace Assembly.Kernel.Implementations
         /*
          * Methods with supplied categories
          */
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G4(EAssessmentResultTypeG2 assessment,
-                                                                             EFmSectionCategory? category)
-        {
-            if (assessment != EAssessmentResultTypeG2.ResultSpecified)
-            {
-                return new FmSectionAssemblyDirectResult(wbi0G4ResultMap.GetResult(assessment));
-            }
-
-            switch (category)
-            {
-                case null:
-                    throw new AssemblyException(
-                        "Wbi0G4 input: " + assessment + " - null",
-                        EAssemblyErrors.ValueMayNotBeNull);
-                case EFmSectionCategory.Gr:
-                case EFmSectionCategory.NotApplicable:
-                    throw new AssemblyException("Wbi0G4 input: " + category,
-                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
-            }
-
-            return new FmSectionAssemblyDirectResult(category.Value);
-        }
-
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T4(EAssessmentResultTypeT3 assessment,
                                                                              EFmSectionCategory? category)
@@ -166,13 +105,6 @@ namespace Assembly.Kernel.Implementations
         /*
          * Methods for assessment result determination based of category limit compliancy.
          */
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0G6(
-            FmSectionCategoryCompliancyResults compliancyResults)
-        {
-            return TranslateCompliancyResultToCategory(compliancyResults);
-        }
 
         /// <inheritdoc />
         public FmSectionAssemblyDirectResult TranslateAssessmentResultWbi0T6(
@@ -204,70 +136,6 @@ namespace Assembly.Kernel.Implementations
         /*
          * Methods with supplied failure probability
          */
-        /// <inheritdoc/>
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G3(
-            EAssessmentResultTypeG2 assessment, double failureProbability, CategoriesList<FmSectionCategory> categories)
-        {
-            switch (assessment)
-            {
-                case EAssessmentResultTypeG2.Ngo:
-                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
-                case EAssessmentResultTypeG2.Gr:
-                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
-                case EAssessmentResultTypeG2.ResultSpecified:
-                    if (double.IsNaN(failureProbability))
-                    {
-                        throw new AssemblyException(
-                            "TranslateAssessmentResult with Failure probability: " + assessment,
-                            EAssemblyErrors.ValueMayNotBeNull);
-                    }
-
-                    var category = categories.GetCategoryForFailureProbability(failureProbability);
-
-                    return new FmSectionAssemblyDirectResultWithProbability(category.Category, failureProbability);
-
-                default:
-                    throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
-            }
-        }
-
-        /// <inheritdoc />
-        public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0G5(
-            double fmSectionLengthEffectFactor,
-            EAssessmentResultTypeG2 assessment,
-            double failureProbability,
-            CategoriesList<FmSectionCategory> categories)
-        {
-            switch (assessment)
-            {
-                case EAssessmentResultTypeG2.Ngo:
-                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.VIIv, double.NaN);
-                case EAssessmentResultTypeG2.Gr:
-                    return new FmSectionAssemblyDirectResultWithProbability(EFmSectionCategory.Gr, double.NaN);
-                case EAssessmentResultTypeG2.ResultSpecified:
-                    if (double.IsNaN(failureProbability))
-                    {
-                        throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                                                    EAssemblyErrors.ValueMayNotBeNull);
-                    }
-
-                    var category = categories.GetCategoryForFailureProbability(failureProbability).Category;
-
-                    var failureProbValue = failureProbability * fmSectionLengthEffectFactor;
-                    if (failureProbValue > 1)
-                    {
-                        failureProbValue = 1.0;
-                    }
-
-                    return new FmSectionAssemblyDirectResultWithProbability(category, failureProbValue);
-
-                default:
-                    throw new AssemblyException("TranslateAssessmentResult with Failure probability: " + assessment,
-                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
-            }
-        }
-
         /// <inheritdoc />
         public FmSectionAssemblyDirectResultWithProbability TranslateAssessmentResultWbi0T3(
             EAssessmentResultTypeT3 assessment,

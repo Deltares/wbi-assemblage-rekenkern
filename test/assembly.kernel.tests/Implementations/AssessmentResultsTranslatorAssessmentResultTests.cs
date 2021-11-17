@@ -44,30 +44,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
         [Test, TestCaseSource(
              typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0G1))]
-        public EFmSectionCategory Wbi0G1Test(EAssessmentResultTypeG1 assessmentResult)
-        {
-            var result = translator.TranslateAssessmentResultWbi0G1(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
-             nameof(AssessmentResultTestCases.Wbi0G2))]
-        public EIndirectAssessmentResult Wbi0G2Test(EAssessmentResultTypeG1 assessmentResult)
-        {
-            var result = translator.TranslateAssessmentResultWbi0G2(assessmentResult);
-            Assert.NotNull(result);
-            Assert.IsAssignableFrom<FmSectionAssemblyIndirectResult>(result);
-
-            return result.Result;
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessmentResultTestCases),
              nameof(AssessmentResultTestCases.Wbi0T1))]
         public EFmSectionCategory Wbi0T1Test(EAssessmentResultTypeT1 assessmentResult)
         {
@@ -92,17 +68,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private class AssessmentResultTestCases
         {
-            public static IEnumerable Wbi0G1
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EFmSectionCategory.IIv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EFmSectionCategory.Vv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EFmSectionCategory.VIIv);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
             public static IEnumerable Wbi0T1
             {
                 get
@@ -112,17 +77,6 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(EAssessmentResultTypeT1.Ngo).Returns(EFmSectionCategory.VIIv);
                     yield return new TestCaseData(EAssessmentResultTypeT1.Fv).Returns(EFmSectionCategory.Iv);
                     yield return new TestCaseData(EAssessmentResultTypeT1.Gr).Returns(EFmSectionCategory.Gr);
-                }
-            }
-
-            public static IEnumerable Wbi0G2
-            {
-                get
-                {
-                    yield return new TestCaseData(EAssessmentResultTypeG1.V).Returns(EIndirectAssessmentResult.FvGt);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Vn).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Ngo).Returns(EIndirectAssessmentResult.Ngo);
-                    yield return new TestCaseData(EAssessmentResultTypeG1.Gr).Returns(EIndirectAssessmentResult.Gr);
                 }
             }
 

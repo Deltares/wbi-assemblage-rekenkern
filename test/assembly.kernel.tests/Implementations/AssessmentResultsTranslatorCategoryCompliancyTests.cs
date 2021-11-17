@@ -47,63 +47,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         [Test, TestCaseSource(
              typeof(CategoryCompliancyTestCases),
-             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
-        public EFmSectionCategory Wbi0G6ResultSpecifiedTest(
-            FmSectionCategoryCompliancyResults compliancyResults)
-        {
-            FmSectionAssemblyDirectResult translateResult =
-                translator.TranslateAssessmentResultWbi0G6(compliancyResults);
-            Assert.IsAssignableFrom<FmSectionAssemblyDirectResult>(translateResult);
-
-            return translateResult.Result;
-        }
-
-        [Test]
-        public void Wbi0G6ComplyDoesNotComplyTest()
-        {
-            var inputResults = new FmSectionCategoryCompliancyResults()
-                               .Set(EFmSectionCategory.Iv, ECategoryCompliancy.NoResult)
-                               .Set(EFmSectionCategory.IIv, ECategoryCompliancy.DoesNotComply)
-                               .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                               .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                               .Set(EFmSectionCategory.Vv, ECategoryCompliancy.DoesNotComply);
-
-            try
-            {
-                translator.TranslateAssessmentResultWbi0G6(inputResults);
-            }
-            catch (AssemblyException e)
-            {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.DoesNotComplyAfterComply, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test]
-        public void Wbi0G6NullTest()
-        {
-            try
-            {
-                translator.TranslateAssessmentResultWbi0G6(null);
-            }
-            catch (AssemblyException e)
-            {
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception not thrown.");
-        }
-
-        [Test, TestCaseSource(
-             typeof(CategoryCompliancyTestCases),
-             nameof(CategoryCompliancyTestCases.Wbi0Gt6ResultSpecified))]
+             nameof(CategoryCompliancyTestCases.Wbi0T6ResultSpecified))]
         public EFmSectionCategory Wbi0T6ResultSpecifiedTest(
             FmSectionCategoryCompliancyResults compliancyResults)
         {
@@ -198,7 +142,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private sealed class CategoryCompliancyTestCases
         {
-            public static IEnumerable Wbi0Gt6ResultSpecified
+            public static IEnumerable Wbi0T6ResultSpecified
             {
                 get
                 {
@@ -294,7 +238,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 }
             }
 
-            public static IEnumerable Wbi0Gt6Exceptions
+            public static IEnumerable Wbi0T6Exceptions
             {
                 get
                 {

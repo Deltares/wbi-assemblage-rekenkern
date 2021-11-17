@@ -53,35 +53,6 @@ namespace Assembly.Kernel.Tests
         [Test]
         public void TranslateAssessmentResults()
         {
-            Wbi0G1(EAssessmentResultTypeG1.Gr);
-            Wbi0G1(EAssessmentResultTypeG1.Ngo);
-            Wbi0G1(EAssessmentResultTypeG1.V);
-            Wbi0G1(EAssessmentResultTypeG1.Vn);
-
-            Wbi0G2(EAssessmentResultTypeG1.Gr);
-            Wbi0G2(EAssessmentResultTypeG1.Ngo);
-            Wbi0G2(EAssessmentResultTypeG1.V);
-            Wbi0G2(EAssessmentResultTypeG1.Vn);
-
-            Wbi0G3(EAssessmentResultTypeG2.Gr, double.NaN);
-            Wbi0G3(EAssessmentResultTypeG2.Ngo, double.NaN);
-            Wbi0G3(EAssessmentResultTypeG2.ResultSpecified, 0.002);
-
-            Wbi0G4(EAssessmentResultTypeG2.Gr, null);
-            Wbi0G4(EAssessmentResultTypeG2.Ngo, null);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.Iv);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.IIv);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.IIIv);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.IVv);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.Vv);
-            Wbi0G4(EAssessmentResultTypeG2.ResultSpecified, EFmSectionCategory.VIv);
-
-            Wbi0G5(EAssessmentResultTypeG2.Gr, double.NaN);
-            Wbi0G5(EAssessmentResultTypeG2.Ngo, double.NaN);
-            Wbi0G5(EAssessmentResultTypeG2.ResultSpecified, 0.002);
-
-            Wbi0G6();
-
             Wbi0T1(EAssessmentResultTypeT1.Fv);
             Wbi0T1(EAssessmentResultTypeT1.Gr);
             Wbi0T1(EAssessmentResultTypeT1.Ngo);
@@ -126,68 +97,6 @@ namespace Assembly.Kernel.Tests
             Wbi0T7(EAssessmentResultTypeT4.V, double.NaN);
             Wbi0T7(EAssessmentResultTypeT4.Vn, double.NaN);
             Wbi0T7(EAssessmentResultTypeT4.ResultSpecified, 0.3);
-        }
-
-        public void Wbi0G1(EAssessmentResultTypeG1 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G1({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G2(EAssessmentResultTypeG1 input)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G1(input);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G2({input}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G3(EAssessmentResultTypeG2 input, double failureProb)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G3(input, failureProb, AssessmentSectionAmelandDefaultCategories);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G3({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G4(EAssessmentResultTypeG2 input, EFmSectionCategory? category)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G4(input, category);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G4({input}; {category}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G5(EAssessmentResultTypeG2 input, double failureProb)
-        {
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G5(0.5, input, failureProb,
-                                                       AssessmentSectionAmelandDefaultCategories);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G5({input}; {failureProb}): {elapsedMs} ms (max: 200 ms)");
-        }
-
-        public void Wbi0G6()
-        {
-            var compliancyResults = new FmSectionCategoryCompliancyResults()
-                                    .Set(EFmSectionCategory.Iv, ECategoryCompliancy.Complies)
-                                    .Set(EFmSectionCategory.IIv, ECategoryCompliancy.Complies)
-                                    .Set(EFmSectionCategory.IIIv, ECategoryCompliancy.Complies)
-                                    .Set(EFmSectionCategory.IVv, ECategoryCompliancy.Complies)
-                                    .Set(EFmSectionCategory.Vv, ECategoryCompliancy.Complies);
-
-            var watch = Stopwatch.StartNew();
-            translator.TranslateAssessmentResultWbi0G6(compliancyResults);
-            watch.Stop();
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Wbi0G6: {elapsedMs} ms (max: 200 ms)");
         }
 
         public void Wbi0T1(EAssessmentResultTypeT1 input)
