@@ -71,11 +71,5 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         {
             MethodResults.Wbi1A2T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1A2T, result);
         }
-
-        private FmSectionAssemblyIndirectResult CreateFmSectionAssemblyIndirectResult(IFailureMechanismSection section)
-        {
-            var directMechanismSection = section as FailureMechanismSectionBase<EIndirectAssessmentResult>;
-            return new FmSectionAssemblyIndirectResult(directMechanismSection.ExpectedCombinedResult);
-        }
     }
 }

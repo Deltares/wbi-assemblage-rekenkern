@@ -80,16 +80,5 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         {
             MethodResults.Wbi1B1T = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1T, result);
         }
-
-        private FmSectionAssemblyDirectResultWithProbabilities CreateFmSectionAssemblyDirectResultWithProbabilities(
-            IFailureMechanismSection section)
-        {
-            var directMechanismSection = section as FailureMechanismSectionBase<EFmSectionCategory>;
-            var probabilisticMechanismSection = section as IProbabilisticFailureMechanismSection;
-            return new FmSectionAssemblyDirectResultWithProbabilities(directMechanismSection.ExpectedCombinedResult,
-                probabilisticMechanismSection
-                    .ExpectedCombinedResultProbability, probabilisticMechanismSection
-                    .ExpectedCombinedResultProbability);
-        }
     }
 }
