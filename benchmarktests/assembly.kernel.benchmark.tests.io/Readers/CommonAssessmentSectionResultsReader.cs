@@ -116,15 +116,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The input to set the results on.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            var commonSections = new List<FailurePathSectionWithResult>();
-            var commonSectionsTemporal = new List<FailurePathSectionWithResult>();
+            var commonSections = new List<FailurePathSectionWithCategory>();
+            var commonSectionsTemporal = new List<FailurePathSectionWithCategory>();
 
-            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FailurePathSectionWithResult>>();
+            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FailurePathSectionWithCategory>>();
             foreach (var failureMechanismsKey in failureMechanisms.Keys)
             {
                 if (failureMechanisms[failureMechanismsKey])
                 {
-                    failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailurePathSectionWithResult>();
+                    failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailurePathSectionWithCategory>();
                 }
             }
 
@@ -161,10 +161,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
 
-        private void AddSectionToList(List<FailurePathSectionWithResult> list, string columnReference, int iRow,
+        private void AddSectionToList(List<FailurePathSectionWithCategory> list, string columnReference, int iRow,
                                       double startMeters, double endMeters)
         {
-            list.Add(new FailurePathSectionWithResult(startMeters, endMeters, EInterpretationCategory.Gr));
+            list.Add(new FailurePathSectionWithCategory(startMeters, endMeters, EInterpretationCategory.Gr));
         }
 
         private Dictionary<MechanismType, string> GetColumnKeys(int iRow)

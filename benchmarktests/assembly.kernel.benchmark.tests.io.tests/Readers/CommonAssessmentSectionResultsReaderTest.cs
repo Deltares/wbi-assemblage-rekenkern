@@ -91,9 +91,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                     Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
                     FailurePathSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
                     var type = failureMechanismSectionList.FailurePathId.ToMechanismType();
-                    if (ninethSection is FailurePathSectionWithResult)
+                    if (ninethSection is FailurePathSectionWithCategory)
                     {
-                        var sectionWithDirectCategory = (FailurePathSectionWithResult) ninethSection;
+                        var sectionWithDirectCategory = (FailurePathSectionWithCategory) ninethSection;
                         AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
                                                   sectionWithDirectCategory);
                     }
@@ -102,7 +102,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
-                                               FailurePathSectionWithResult section)
+                                               FailurePathSectionWithCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);

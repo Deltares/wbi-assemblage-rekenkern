@@ -266,8 +266,8 @@ namespace assembly.kernel.benchmark.tests
                 {
                     Assert.AreEqual(expectedSections[i].SectionStart, calculatedSections[i].SectionStart, 0.01);
                     Assert.AreEqual(expectedSections[i].SectionEnd, calculatedSections[i].SectionEnd, 0.01);
-                    Assert.AreEqual(((FailurePathSectionWithResult) expectedSections[i]).Category,
-                                        ((FailurePathSectionWithResult) calculatedSections[i]).Category);
+                    Assert.AreEqual(((FailurePathSectionWithCategory) expectedSections[i]).Category,
+                                        ((FailurePathSectionWithCategory) calculatedSections[i]).Category);
                 }
 
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
@@ -285,7 +285,7 @@ namespace assembly.kernel.benchmark.tests
             /*var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
             if (directMechanism != null)
             {
-                return new FailurePathSectionWithResult(directMechanism.Start, directMechanism.End,
+                return new FailurePathSectionWithCategory(directMechanism.Start, directMechanism.End,
                                                        EInterpretationCategory.Gr);
             }*/
 

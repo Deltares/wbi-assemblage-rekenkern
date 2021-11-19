@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// The list of failure mechanism section asesssment results grouped.
+        /// The list of failure mechanism section assessment results grouped.
         /// </summary>
         public IEnumerable<FailurePathSection> Sections { get; }
 

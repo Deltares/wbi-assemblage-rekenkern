@@ -75,13 +75,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var temporalAssessmentResultString = GetCellValueAsString("D", "Tijdelijk Toetsoordeel per toetsspoor per traject");
             if (expectedFailureMechanismResult.Group > 4)
             {
-                expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
-                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();
+                /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();*/
             }
             else
             {
-                expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
-                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();
+                /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
+                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();*/
             }
         }
 

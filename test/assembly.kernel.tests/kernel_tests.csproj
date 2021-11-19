@@ -34,7 +34,6 @@
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
     <Compile Include="Model\FmSectionAssemblyResultTests.cs" />
     <Compile Include="Model\FmSectionTypes\EInterpretationCategoryTest.cs" />
-    <Compile Include="Model\ModelExtensionMethodTests.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
@@ -47,8 +46,6 @@
     <Compile Include="Model\CategoryLimits\CategoryLimitsTests.cs" />
     <Compile Include="Model\CategoryLimits\TestCategory.cs" />
     <Compile Include="Model\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\EFailureMEchanismCategoryTest.cs" />
-    <Compile Include="Model\EIndirectAssessmentResultTest.cs" />
     <Compile Include="Model\FailureMechanismSectionListTests.cs" />
     <Compile Include="Model\FailureMechanismTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

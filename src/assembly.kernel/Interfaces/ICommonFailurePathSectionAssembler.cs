@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the results per section of a failure mechanism to results per common greatest denominator section.
         /// </summary>
         /// <param name="failurePathSectionList">This list needs to have also categories. Sections are restricted to either 
-        /// FailurePathSectionWithResult of FmSectionWithIndirectCategory.</param>
+        /// FailurePathSectionWithCategory of FmSectionWithIndirectCategory.</param>
         /// <param name="commonSections">The of all common failure mechanism sections.</param>
         /// <returns>The assembly result per common denominator section for the specified failure mechanism.</returns>
         FailurePathSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The greatest common denominator assembly result.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections, or 
         /// when there are only results for indirect failure mechanisms.</exception>
-        IEnumerable<FailurePathSectionWithResult> DetermineCombinedResultPerCommonSectionWbi3C1(
+        IEnumerable<FailurePathSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
             IEnumerable<FailurePathSectionList> failureMechanismResults, bool partialAssembly);
     }
 }

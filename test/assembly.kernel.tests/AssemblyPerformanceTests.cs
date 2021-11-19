@@ -119,7 +119,7 @@ namespace Assembly.Kernel.Tests
         {
             var fmsectionList = new FailurePathSectionList(fmSectionResults.FirstOrDefault()?.FmType,
                                                                 fmSectionResults.Select(fmsection =>
-                                                                                            new FailurePathSectionWithResult(
+                                                                                            new FailurePathSectionWithCategory(
                                                                                                 fmsection.SectionStart,
                                                                                                 fmsection.SectionEnd,
                                                                                                 fmsection.Result.)));

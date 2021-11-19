@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Model
         /// all failure mechanisms combined.</param>
         /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
         public AssemblyResult(IEnumerable<FailurePathSectionList> resultPerFailureMechanism,
-                              IEnumerable<FailurePathSectionWithResult> combinedSectionResult)
+                              IEnumerable<FailurePathSectionWithCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
@@ -59,6 +59,6 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailurePathSectionWithResult> CombinedSectionResult { get; }
+        public IEnumerable<FailurePathSectionWithCategory> CombinedSectionResult { get; }
     }
 }

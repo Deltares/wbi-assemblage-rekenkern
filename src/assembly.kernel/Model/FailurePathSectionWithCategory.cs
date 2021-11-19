@@ -21,31 +21,33 @@
 // All rights reserved.
 #endregion
 
+using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.FmSectionTypes;
+
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Values possible fo a category compliancy result.
+    /// Direct failure mechanism with assessment result category.
     /// </summary>
-    public enum ECategoryCompliancy
+    public class FailurePathSectionWithCategory : FailurePathSection
     {
         /// <summary>
-        /// The failure probability value complies with the upper limit of the category
+        /// Indirect failure mechanism with category
         /// </summary>
-        Complies,
+        /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
+        ///  Must be greater than 0</param>
+        /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
+        ///  Must be greater than 0 and greater than the start of the section</param>
+        /// <param name="category">The assessment result of the failure mechanism section</param>
+        public FailurePathSectionWithCategory(double sectionStart, double sectionEnd, EInterpretationCategory category) :
+            base(sectionStart, sectionEnd)
+        {
+            Category = category;
+        }
 
         /// <summary>
-        /// The failure probability value does not comply with the upper limit of the category
+        /// The assessment result of the direct failure mechanism of this section.
         /// </summary>
-        DoesNotComply,
-
-        /// <summary>
-        /// The failure probability value complies with the upper limit of the category
-        /// </summary>
-        NoResult,
-
-        /// <summary>
-        /// No judgement of the category limit has been taken place.
-        /// </summary>
-        Ngo
+        public EInterpretationCategory Category { get; set; }
     }
 }

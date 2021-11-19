@@ -60,18 +60,14 @@
     <Compile Include="Model\CategoryLimits\CategoryBase.cs" />
     <Compile Include="Model\CategoryLimits\AssessmentSectionCategory.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
-    <Compile Include="Model\ECategoryCompliancy.cs" />
-    <Compile Include="Model\EIndirectAssessmentResult.cs" />
     <Compile Include="Model\FailurePathAssemblyResult.cs" />
     <Compile Include="Model\FailurePathSectionList.cs" />
     <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
     <Compile Include="Exceptions\AssemblyException.cs" />
-    <Compile Include="Model\EFailureMechanismCategory.cs" />
     <Compile Include="Model\FailurePath.cs" />
     <Compile Include="Model\FailurePathSection.cs" />
-    <Compile Include="Model\FailurePathSectionWithResult.cs" />
-    <Compile Include="Model\ModelExtensionMethods.cs" />
+    <Compile Include="Model\FailurePathSectionWithCategory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\build\Assembly.Kernel.licenseheader">

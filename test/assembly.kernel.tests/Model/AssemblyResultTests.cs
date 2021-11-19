@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new AssemblyResult(null, new List<FailurePathSectionWithResult>());
+                new AssemblyResult(null, new List<FailurePathSectionWithCategory>());
             }
             catch (AssemblyException e)
             {

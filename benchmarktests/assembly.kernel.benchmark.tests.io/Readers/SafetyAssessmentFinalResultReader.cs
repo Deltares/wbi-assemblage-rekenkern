@@ -47,7 +47,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
+            /*benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
                 GetCellValueAsString("D", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
                 GetCellValueAsDouble("E", "Toetssporen in groep 1 en 2");
@@ -63,7 +63,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal =
                 GetCellValueAsString("F", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal =
-                GetCellValueAsString("F", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();
+                GetCellValueAsString("F", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();*/
 
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
                 GetCellValueAsDouble("M", 10);

@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Tests.Model
                 null,
                 new[]
                 {
-                    new FailurePathSectionWithResult(0, 1, EInterpretationCategory.Gr)
+                    new FailurePathSectionWithCategory(0, 1, EInterpretationCategory.Gr)
                 }
             );
 
@@ -75,8 +75,8 @@ namespace Assembly.Kernel.Tests.Model
                     "TEST",
                     new List<FailurePathSection>
                     {
-                        new FailurePathSectionWithResult(1, 5, EInterpretationCategory.I),
-                        new FailurePathSectionWithResult(10, 15, EInterpretationCategory.I)
+                        new FailurePathSectionWithCategory(1, 5, EInterpretationCategory.I),
+                        new FailurePathSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -96,8 +96,8 @@ namespace Assembly.Kernel.Tests.Model
                     "TEST",
                     new List<FailurePathSection>
                     {
-                        new FailurePathSectionWithResult(0, 5, EInterpretationCategory.I),
-                        new FailurePathSectionWithResult(10, 15, EInterpretationCategory.I)
+                        new FailurePathSectionWithCategory(0, 5, EInterpretationCategory.I),
+                        new FailurePathSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -117,8 +117,8 @@ namespace Assembly.Kernel.Tests.Model
                     "TEST",
                     new List<FailurePathSection>
                     {
-                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I)
+                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.I)
                     });
                 fmSectionList.GetSectionResultForPoint(25.0);
             }
@@ -139,8 +139,8 @@ namespace Assembly.Kernel.Tests.Model
                     "TEST",
                     new List<FailurePathSection>
                     {
-                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithResult(5, 15, EInterpretationCategory.I)
+                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithCategory(5, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -190,8 +190,8 @@ namespace Assembly.Kernel.Tests.Model
                     "TEST",
                     new List<FailurePathSection>
                     {
-                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithResult(10, 10, EInterpretationCategory.I)
+                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithCategory(10, 10, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)

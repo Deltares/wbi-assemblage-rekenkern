@@ -134,10 +134,10 @@ namespace Assembly.Kernel.Implementations
                 var section = failurePathSectionList.GetSectionResultForPoint(
                     commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
 
-                var sectionWithDirectCategory = section as FailurePathSectionWithResult;
+                var sectionWithDirectCategory = section as FailurePathSectionWithCategory;
                 if (sectionWithDirectCategory != null)
                 {
-                    resultsToCommonSections.Add(new FailurePathSectionWithResult(
+                    resultsToCommonSections.Add(new FailurePathSectionWithCategory(
                         commonSection.SectionStart,
                         commonSection.SectionEnd,
                         sectionWithDirectCategory.Category));
@@ -148,17 +148,17 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public IEnumerable<FailurePathSectionWithResult> DetermineCombinedResultPerCommonSectionWbi3C1(
+        public IEnumerable<FailurePathSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
             IEnumerable<FailurePathSectionList> failureMechanismResults, bool partialAssembly)
         {
-            FailurePathSectionWithResult[][] directFailureMechanismSectionLists = CheckInputWbi3C1(failureMechanismResults);
+            FailurePathSectionWithCategory[][] directFailureMechanismSectionLists = CheckInputWbi3C1(failureMechanismResults);
 
-            FailurePathSectionWithResult[] firstSectionsList = directFailureMechanismSectionLists.First();
-            var combinedSectionResults = new List<FailurePathSectionWithResult>();
+            FailurePathSectionWithCategory[] firstSectionsList = directFailureMechanismSectionLists.First();
+            var combinedSectionResults = new List<FailurePathSectionWithCategory>();
 
             for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
             {
-                var newCombinedSection = new FailurePathSectionWithResult(firstSectionsList[iSection].SectionStart,
+                var newCombinedSection = new FailurePathSectionWithCategory(firstSectionsList[iSection].SectionStart,
                                                                          firstSectionsList[iSection].SectionEnd,
                                                                          EInterpretationCategory.Gr);
 
@@ -184,7 +184,7 @@ namespace Assembly.Kernel.Implementations
             return combinedSectionResults;
         }
 
-        private static FailurePathSectionWithResult[][] CheckInputWbi3C1(
+        private static FailurePathSectionWithCategory[][] CheckInputWbi3C1(
             IEnumerable<FailurePathSectionList> failureMechanismResults)
         {
             if (failureMechanismResults == null)
@@ -195,9 +195,9 @@ namespace Assembly.Kernel.Implementations
 
             var directFailureMechanismSectionLists = failureMechanismResults
                                                      .Where(fmrl => fmrl.Sections.First().GetType() ==
-                                                                    typeof(FailurePathSectionWithResult))
+                                                                    typeof(FailurePathSectionWithCategory))
                                                      .Select(fmrl =>
-                                                                 fmrl.Sections.OfType<FailurePathSectionWithResult>().ToArray())
+                                                                 fmrl.Sections.OfType<FailurePathSectionWithCategory>().ToArray())
                                                      .ToArray();
 
             if (!directFailureMechanismSectionLists.Any())
@@ -215,7 +215,7 @@ namespace Assembly.Kernel.Implementations
             return directFailureMechanismSectionLists;
         }
 
-        private static bool AreEqualSections(FailurePathSectionWithResult section1, FailurePathSectionWithResult section2)
+        private static bool AreEqualSections(FailurePathSectionWithCategory section1, FailurePathSectionWithCategory section2)
         {
             return Math.Abs(section1.SectionStart - section2.SectionStart) < 1e-8 &&
                    Math.Abs(section1.SectionEnd - section2.SectionEnd) < 1e-8;
@@ -238,7 +238,7 @@ namespace Assembly.Kernel.Implementations
             }
 
             var firstResult = failurePathSectionList.Sections.First();
-            if (!(firstResult is FailurePathSectionWithResult))
+            if (!(firstResult is FailurePathSectionWithCategory))
             {
                 throw new AssemblyException("FailurePathSectionList",
                                             EAssemblyErrors.SectionsWithoutCategory);
