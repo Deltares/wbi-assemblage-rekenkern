@@ -126,7 +126,6 @@ namespace Assembly.Kernel.Exceptions
 
         /// <summary>
         /// The results in the list are not all of the same type. 
-        /// One of the inputs in the list is either not of the direct or indirect type.
         /// </summary>
         InputNotTheSameType,
 

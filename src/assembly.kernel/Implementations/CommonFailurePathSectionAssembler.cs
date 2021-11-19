@@ -134,13 +134,13 @@ namespace Assembly.Kernel.Implementations
                 var section = failurePathSectionList.GetSectionResultForPoint(
                     commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
 
-                var sectionWithDirectCategory = section as FailurePathSectionWithCategory;
-                if (sectionWithDirectCategory != null)
+                var sectionWithCategory = section as FailurePathSectionWithCategory;
+                if (sectionWithCategory != null)
                 {
                     resultsToCommonSections.Add(new FailurePathSectionWithCategory(
                         commonSection.SectionStart,
                         commonSection.SectionEnd,
-                        sectionWithDirectCategory.Category));
+                        sectionWithCategory.Category));
                 }
             }
 

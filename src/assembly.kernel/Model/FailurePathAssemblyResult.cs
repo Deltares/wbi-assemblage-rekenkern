@@ -24,12 +24,12 @@
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// The assembly result class of a direct failure path.
+    /// The assembly result class of a failure path.
     /// </summary>
     public class FailurePathAssemblyResult
     {
         /// <summary>
-        /// Failure path assembly direct result constructor, with failure probability.
+        /// Failure path assembly result constructor, with failure probability.
         /// </summary>
         /// <param name="failureProbability">The assembled failure probability of the failure path</param>
         public FailurePathAssemblyResult(double failureProbability)

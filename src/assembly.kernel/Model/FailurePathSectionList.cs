@@ -94,7 +94,7 @@ namespace Assembly.Kernel.Model
                                             EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
-            // Check if all entries are either direct or indirect, not a combination.
+            // Check if all entries are of the same type.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
                 throw new AssemblyException("FailurePathSectionList",
