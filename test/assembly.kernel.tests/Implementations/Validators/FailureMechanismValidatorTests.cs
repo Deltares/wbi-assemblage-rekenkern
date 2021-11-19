@@ -35,13 +35,11 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
     {
         [Test,
          TestCaseSource(typeof(FailureMechanismValidatorTestData), nameof(FailureMechanismValidatorTestData.TestCases))]
-        public List<EAssemblyErrors> FailureMechanismCheckTest(double lengthEffectFactor,
-                                                               double failureProbabilityMarginFactor)
+        public List<EAssemblyErrors> FailureMechanismCheckTest(double lengthEffectFactor)
         {
             try
             {
-                FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
-                                                                     failureProbabilityMarginFactor);
+                FailureMechanismValidator.CheckFailurePathInput(lengthEffectFactor);
             }
             catch (AssemblyException e)
             {
@@ -59,22 +57,16 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
         {
             get
             {
-                yield return new TestCaseData(1, 0).Returns(null);
-                yield return new TestCaseData(10, 0.5).Returns(null);
-                yield return new TestCaseData(0, 0.1).Returns(
+                yield return new TestCaseData(1).Returns(null);
+                yield return new TestCaseData(10).Returns(null);
+                yield return new TestCaseData(0).Returns(
                     new List<EAssemblyErrors>
                     {
                         EAssemblyErrors.LengthEffectFactorOutOfRange
                     });
-                yield return new TestCaseData(100, -1).Returns(
+                yield return new TestCaseData(-2).Returns(
                     new List<EAssemblyErrors>
                     {
-                        EAssemblyErrors.FailurePropbabilityMarginOutOfRange
-                    });
-                yield return new TestCaseData(-2, 2).Returns(
-                    new List<EAssemblyErrors>
-                    {
-                        EAssemblyErrors.FailurePropbabilityMarginOutOfRange,
                         EAssemblyErrors.LengthEffectFactorOutOfRange
                     });
             }

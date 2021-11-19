@@ -41,12 +41,6 @@ namespace Assembly.Kernel.Exceptions
         LowerLimitOutOfRange,
 
         /// <summary>
-        /// The failure probability margin factor is out of range.
-        /// The value is smaller than 0 or greater than 1.
-        /// </summary>
-        FailurePropbabilityMarginOutOfRange,
-
-        /// <summary>
         /// The length effect factor is out of range.
         /// The value is smaller than 1.
         /// </summary>

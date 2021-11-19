@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Tests
         {
             const int sectionLength = 3750;
             var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
-            var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FpSection>>();
+            var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FailurePathSection>>();
             // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
             //var failureMechanismSectionLists = new List<FailurePathSectionList>();
 
@@ -61,7 +61,7 @@ namespace Assembly.Kernel.Tests
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();
-            foreach (KeyValuePair<FailurePath, List<FpSection>> fpSectionResults in fpSectionResultsDictionary)
+            foreach (KeyValuePair<FailurePath, List<FailurePathSection>> fpSectionResults in fpSectionResultsDictionary)
             {
                 var result = fmAssembler.AssembleFailurePathWbi1B1(
                     fpSectionResults.Key,
@@ -87,13 +87,12 @@ namespace Assembly.Kernel.Tests
             Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
         }
 
-        private static void CreateTestInput(int sectionLength,
-            IDictionary<FailurePath, List<FpSection>> WithFailureProbabilities)
+        private static void CreateTestInput(int sectionLength, IDictionary<FailurePath, List<FailurePathSection>> withFailureProbabilities)
         {
             for (var i = 1; i <= 15; i++)
             {
-                var failureMechanism = new FailurePath(i, 0.01 + i / 100.0);
-                var failureMechanismSections = new List<FpSection>();
+                var failureMechanism = new FailurePath(i);
+                var failureMechanismSections = new List<FailurePathSection>();
 
                 var sectionLengthRemaining = sectionLength;
                 for (var k = 0; k < 250; k++)
@@ -101,7 +100,7 @@ namespace Assembly.Kernel.Tests
                     var sectionStart = sectionLengthRemaining / (250 - k) * k;
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
                     failureMechanismSections.Add(
-                        new FpSection(
+                        new FailurePathSection(
                             new FpSectionAssemblyResult(0.002, 1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
                             sectionStart,
@@ -110,13 +109,13 @@ namespace Assembly.Kernel.Tests
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }
 
-                WithFailureProbabilities.Add(failureMechanism, failureMechanismSections);
+                withFailureProbabilities.Add(failureMechanism, failureMechanismSections);
             }
         }
 
         // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
         /*private static FailurePathSectionList CreateFailureMechanismSectionListForStep3(
-            List<FpSection> fmSectionResults)
+            List<FailurePathSection> fmSectionResults)
         {
             var fmsectionList = new FailurePathSectionList(fmSectionResults.FirstOrDefault()?.FmType,
                                                                 fmSectionResults.Select(fmsection =>
@@ -127,9 +126,9 @@ namespace Assembly.Kernel.Tests
             return fmsectionList;
         }*/
 
-        private sealed class FpSection
+        private sealed class FailurePathSection
         {
-            public FpSection(FpSectionAssemblyResult result, string fmType, double sectionStart,
+            public FailurePathSection(FpSectionAssemblyResult result, string fmType, double sectionStart,
                              double sectionEnd)
             {
                 Result = result;

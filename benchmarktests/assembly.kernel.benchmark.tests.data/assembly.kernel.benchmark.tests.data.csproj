@@ -38,21 +38,11 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Input\FailureMechanismSections\NWOocFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanismSections\IProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />
     <Compile Include="Input\FailureMechanismSections\FailureMechanismSectionBase.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group5NoDetailedAssessmentFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group5FailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group4NoDetailedAssessmentFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group3NoSimpleAssessmentFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group3FailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group4FailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\Group1NoSimpleAssessmentFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\STBUFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanismSections\ProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanisms\ExpectedFailureMechanismResultBase.cs" />
     <Compile Include="Input\FailureMechanisms\FailureMechanismResultFactory.cs" />
     <Compile Include="Input\FailureMechanisms\ProbabilisticExpectedFailureMechanismResult.cs" />

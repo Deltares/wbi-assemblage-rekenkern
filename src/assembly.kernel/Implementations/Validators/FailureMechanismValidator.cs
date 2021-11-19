@@ -35,20 +35,10 @@ namespace Assembly.Kernel.Implementations.Validators
         /// Checks if failure mechanism data is valid.
         /// </summary>
         /// <param name="lengthEffectFactor">The length effect factor to check. Has to be &gt;= 1</param>
-        /// <param name="failureProbabilityMarginFactor">The failure probaility margin factor to check. 
-        ///     Must be &gt;= 0 &lt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
-        public static void CheckFailureMechanismInput(double lengthEffectFactor,
-                                                      double failureProbabilityMarginFactor)
+        public static void CheckFailurePathInput(double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
-
-            if (failureProbabilityMarginFactor < 0 ||
-                failureProbabilityMarginFactor > 1)
-            {
-                errors.Add(new AssemblyErrorMessage("FailurePath",
-                                                    EAssemblyErrors.FailurePropbabilityMarginOutOfRange));
-            }
 
             if (lengthEffectFactor < 1)
             {

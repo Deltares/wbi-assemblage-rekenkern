@@ -32,11 +32,9 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void ToStringTest()
         {
-            const double LengthEffectFactor = 1.1;
-            const double FailureProbMaringFactor = 0.2;
-            var failureMechanism = new FailurePath(LengthEffectFactor, FailureProbMaringFactor);
-            Assert.AreEqual($"Length effect factor: {LengthEffectFactor}, " +
-                            $"Failure probability margin factor: {FailureProbMaringFactor}",
+            const double lengthEffectFactor = 1.1;
+            var failureMechanism = new FailurePath(lengthEffectFactor);
+            Assert.AreEqual($"Length effect factor: {lengthEffectFactor}",
                             failureMechanism.ToString());
         }
     }

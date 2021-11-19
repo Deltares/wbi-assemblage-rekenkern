@@ -35,8 +35,8 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class FailureMechanismResultAssemblerTests
     {
-        private readonly FailurePath testFailurePath1 = new FailurePath(14.4, 0.04);
-        private readonly FailurePath testFailureMechanism2 = new FailurePath(10, 0.1);
+        private readonly FailurePath testFailurePath1 = new FailurePath(14.4);
+        private readonly FailurePath testFailureMechanism2 = new FailurePath(10);
         private IFailurePathResultAssembler assembler;
 
         [SetUp]
@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1LengthEffectFactor()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(new FailurePath(5,0.2),
+            var result = assembler.AssembleFailurePathWbi1B1(new FailurePath(5),
                                                                   new[]
                                                                   {
                                                                       new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),

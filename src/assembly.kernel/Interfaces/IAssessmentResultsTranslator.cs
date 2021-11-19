@@ -22,7 +22,6 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.AssessmentResultTypes;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 

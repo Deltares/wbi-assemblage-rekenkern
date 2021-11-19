@@ -36,16 +36,12 @@ namespace Assembly.Kernel.Model
         /// </summary>
         /// <param name="lengthEffectFactor">factor to correct for length of the section. 
         /// Has to be greater or equal to 1</param>
-        /// <param name="failureProbabilityMarginFactor">Factor for the failure probability margin. 
-        /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public FailurePath(double lengthEffectFactor, double failureProbabilityMarginFactor)
+        public FailurePath(double lengthEffectFactor)
         {
-            FailureMechanismValidator.CheckFailureMechanismInput(lengthEffectFactor,
-                                                                 failureProbabilityMarginFactor);
+            FailureMechanismValidator.CheckFailurePathInput(lengthEffectFactor);
 
             LengthEffectFactor = lengthEffectFactor;
-            FailureProbabilityMarginFactor = failureProbabilityMarginFactor;
         }
 
         /// <summary>
@@ -53,20 +49,13 @@ namespace Assembly.Kernel.Model
         /// </summary>
         public double LengthEffectFactor { get; }
 
-        /// <summary>
-        /// Factor for the failure probability margin.
-        /// </summary>
-        public double FailureProbabilityMarginFactor { get; }
-
         /// /// <summary>
         /// Generates string from failure mechanism object.
         /// </summary>
         /// <returns>Text representation of the failure mechanism object</returns>
         public override string ToString()
         {
-            return
-                $"Length effect factor: {LengthEffectFactor}, " +
-                $"Failure probability margin factor: {FailureProbabilityMarginFactor}";
+            return $"Length effect factor: {LengthEffectFactor}";
         }
     }
 }
