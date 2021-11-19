@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Model
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
         public FailurePath(double lengthEffectFactor)
         {
-            FailureMechanismValidator.CheckFailurePathInput(lengthEffectFactor);
+            FailurePathValidator.CheckFailurePathInput(lengthEffectFactor);
 
             LengthEffectFactor = lengthEffectFactor;
         }

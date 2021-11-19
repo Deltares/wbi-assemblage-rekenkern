@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
         {
             try
             {
-                FailureMechanismValidator.CheckFailurePathInput(lengthEffectFactor);
+                FailurePathValidator.CheckFailurePathInput(lengthEffectFactor);
             }
             catch (AssemblyException e)
             {

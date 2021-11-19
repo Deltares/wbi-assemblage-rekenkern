@@ -53,7 +53,7 @@
     <Compile Include="Interfaces\IFailurePathResultAssembler.cs" />
     <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
     <Compile Include="Implementations\Validators\AssessmentSectionValidator.cs" />
-    <Compile Include="Implementations\Validators\FailureMechanismValidator.cs" />
+    <Compile Include="Implementations\Validators\FailurePathValidator.cs" />
     <Compile Include="Model\AssemblyResult.cs" />
     <Compile Include="Model\AssessmentSection.cs" />
     <Compile Include="Model\EAssessmentGrade.cs" />
