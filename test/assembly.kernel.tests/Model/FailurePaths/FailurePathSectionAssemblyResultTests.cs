@@ -21,57 +21,52 @@
 // All rights reserved.
 #endregion
 
-using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
-// ReSharper disable ObjectCreationAsStatement
-
-namespace Assembly.Kernel.Tests.Model
+namespace Assembly.Kernel.Tests.Model.FailurePaths
 {
     [TestFixture]
-    public class AssemblyResultTests
+    public class FailurePathSectionAssemblyResultTests
     {
         [Test]
-        public void CombinedSectionResultNullTest()
+        [TestCase(1.5,0.4)]
+        [TestCase(0.5, 1.4)]
+        [TestCase(-0.5, 0.4)]
+        [TestCase(0.5, -0.4)]
+        [TestCase(-0.5, 10.4)]
+        public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection)
         {
             try
             {
-                new AssemblyResult(new List<FailurePathSectionList>(), null);
+                new FailurePathSectionAssemblyResult(probabilityProfile, probabilitySection, EInterpretationCategory.D);
             }
             catch (AssemblyException e)
             {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
+                CheckException(e);
             }
 
             Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void ResultPerFailurePathNullTest()
+        public void FailurePathSectionAssemblyResultToStringTest()
         {
-            try
-            {
-                new AssemblyResult(null, new List<FailurePathSectionWithCategory>());
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
+            var result = new FailurePathSectionAssemblyResult(0.2,0.1,EInterpretationCategory.III);
 
-            Assert.Fail("Expected exception was not thrown");
+            Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
+        }
+
+        private static void CheckException(AssemblyException e)
+        {
+            Assert.NotNull(e.Errors);
+            var message = e.Errors.FirstOrDefault();
+            Assert.NotNull(message);
+            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
+            Assert.Pass();
         }
     }
 }

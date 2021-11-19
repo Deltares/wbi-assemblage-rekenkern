@@ -32,8 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
-    <Compile Include="Model\FmSectionAssemblyResultTests.cs" />
-    <Compile Include="Model\FmSectionTypes\EInterpretationCategoryTest.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSectionAssemblyResultTests.cs" />
+    <Compile Include="Model\FailurePaths\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
     <Compile Include="Implementations\CommonFailurePathSectionAssemblerTests.cs" />
@@ -41,13 +41,13 @@
     <Compile Include="Implementations\Validators\FailurePathValidatorTests.cs" />
     <Compile Include="Implementations\Validators\AssessmentSectionValidatorTests.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
-    <Compile Include="Model\AssemblyResultTests.cs" />
-    <Compile Include="Model\CategoryLimits\CategoriesListTest.cs" />
-    <Compile Include="Model\CategoryLimits\CategoryLimitsTests.cs" />
-    <Compile Include="Model\CategoryLimits\TestCategory.cs" />
-    <Compile Include="Model\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\FailurePathSectionListTests.cs" />
-    <Compile Include="Model\FailurePathTests.cs" />
+    <Compile Include="Model\AssessmentSection\AssemblyResultTests.cs" />
+    <Compile Include="Model\Categories\CategoriesListTest.cs" />
+    <Compile Include="Model\Categories\CategoryLimitsTests.cs" />
+    <Compile Include="Model\Categories\TestCategory.cs" />
+    <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSectionListTests.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +71,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

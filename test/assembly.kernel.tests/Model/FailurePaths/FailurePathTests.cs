@@ -21,29 +21,21 @@
 // All rights reserved.
 #endregion
 
-using System;
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model
+namespace Assembly.Kernel.Tests.Model.FailurePaths
 {
     [TestFixture]
-    public class EAssessmentGradeTest
+    public class FailurePathTests
     {
         [Test]
-        public void TestEnumContract()
+        public void ToStringTest()
         {
-            Assert.AreEqual(8, Enum.GetValues(typeof(EAssessmentGrade)).Length);
-            Assert.AreEqual(-1, (int) EAssessmentGrade.Nvt);
-            Assert.AreEqual(1, (int) EAssessmentGrade.APlus);
-            Assert.AreEqual(2, (int) EAssessmentGrade.A);
-            Assert.AreEqual(3, (int) EAssessmentGrade.B);
-            Assert.AreEqual(4, (int) EAssessmentGrade.C);
-            Assert.AreEqual(5, (int) EAssessmentGrade.D);
-            Assert.AreEqual(6, (int) EAssessmentGrade.Ngo);
-            Assert.AreEqual(7, (int) EAssessmentGrade.Gr);
-            Assert.Greater(EAssessmentGrade.B, EAssessmentGrade.A);
+            const double lengthEffectFactor = 1.1;
+            var failurePath = new FailurePath(lengthEffectFactor);
+            Assert.AreEqual($"Length effect factor: {lengthEffectFactor}",
+                            failurePath.ToString());
         }
     }
 }

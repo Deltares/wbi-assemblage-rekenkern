@@ -21,22 +21,22 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePaths;
-using NUnit.Framework;
+using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Tests.Model
+namespace Assembly.Kernel.Tests.Model.Categories
 {
-    [TestFixture]
-    public class FailurePathTests
+    public class TestCategory : ICategoryLimits
     {
-        [Test]
-        public void ToStringTest()
+        public TestCategory(double lowerLimit, double upperLimit, string categoryIDentifyer = "")
         {
-            const double lengthEffectFactor = 1.1;
-            var failurePath = new FailurePath(lengthEffectFactor);
-            Assert.AreEqual($"Length effect factor: {lengthEffectFactor}",
-                            failurePath.ToString());
+            LowerLimit = lowerLimit;
+            UpperLimit = upperLimit;
+            CategoryIDentifyer = categoryIDentifyer;
         }
+
+        public string CategoryIDentifyer { get; }
+
+        public double UpperLimit { get; }
+        public double LowerLimit { get; }
     }
 }

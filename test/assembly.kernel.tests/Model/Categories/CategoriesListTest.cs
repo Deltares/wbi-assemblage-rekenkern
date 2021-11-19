@@ -28,7 +28,7 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.CategoryLimits
+namespace Assembly.Kernel.Tests.Model.Categories
 {
     [TestFixture]
     public class CategoriesListTest

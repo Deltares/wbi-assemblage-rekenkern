@@ -22,11 +22,10 @@
 #endregion
 
 using System;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.FmSectionTypes
+namespace Assembly.Kernel.Tests.Model.FailurePaths
 {
     [TestFixture]
     public class EInterpretationCategoryTest

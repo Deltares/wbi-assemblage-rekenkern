@@ -22,53 +22,55 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
 
-namespace Assembly.Kernel.Tests.Model.CategoryLimits
+namespace Assembly.Kernel.Tests.Model.AssessmentSection
 {
     [TestFixture]
-    public class CategoryLimitsTests
+    public class AssemblyResultTests
     {
         [Test]
-        public void AssessmentSectionCategoryLimitsTests()
-        {
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
-        }
-
-        private void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
-                                                        double upperLimit, bool shouldExceptionOccure)
+        public void CombinedSectionResultNullTest()
         {
             try
             {
-                new AssessmentSectionCategory(assessmentGrade, lowerLimit, upperLimit);
+                new AssemblyResult(new List<FailurePathSectionList>(), null);
             }
             catch (AssemblyException e)
             {
-                if (!shouldExceptionOccure)
-                {
-                    Assert.Fail("Exception occured while it should not have.");
-                }
-
-                if (e.Errors != null)
-                {
-                    var errors = e.Errors as List<AssemblyErrorMessage>;
-
-                    Assert.NotNull(errors);
-                    Assert.AreEqual(1, errors.Count);
-                    var message = errors[0];
-
-                    Assert.AreEqual(EAssemblyErrors.LowerLimitIsAboveUpperLimit, message.ErrorCode);
-                    Assert.AreEqual("Category: " + assessmentGrade, message.EntityId);
-                }
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
             }
 
-            Assert.Pass();
+            Assert.Fail("Expected exception was not thrown");
+        }
+
+        [Test]
+        public void ResultPerFailurePathNullTest()
+        {
+            try
+            {
+                new AssemblyResult(null, new List<FailurePathSectionWithCategory>());
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception was not thrown");
         }
     }
 }
