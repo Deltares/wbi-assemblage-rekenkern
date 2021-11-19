@@ -35,7 +35,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         private static readonly Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>> infos =
             new Dictionary<MechanismType, Func<IExpectedFailureMechanismResult>>
             {
-                {MechanismType.STBI, CreateSTBIFailureMechanism},
+                /*{MechanismType.STBI, CreateSTBIFailureMechanism},
                 {MechanismType.STBU, CreateSTBUFailureMechanism},
                 {MechanismType.STPH, CreateSTPHFailureMechanism},
                 {MechanismType.STMI, CreateSTMIFailureMechanism},
@@ -60,7 +60,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
                 {MechanismType.NWOkl, CreateNWOklFailureMechanism},
                 {MechanismType.NWOoc, CreateNWOocFailureMechanism},
                 {MechanismType.HAV, CreateHAVFailureMechanism},
-                {MechanismType.INN, CreateINNFailureMechanism}
+                {MechanismType.INN, CreateINNFailureMechanism}*/
             };
 
         /// <summary>
@@ -80,6 +80,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 
         #region Group 1
 
+        /*
         private static ProbabilisticExpectedFailureMechanismResult CreateGEKBFailureMechanism()
         {
             return new ProbabilisticExpectedFailureMechanismResult("Grasbekleding erosie kruin en binnentalud", MechanismType.GEKB, 1);
@@ -99,25 +100,27 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new ProbabilisticExpectedFailureMechanismResult("Sterkte en stabiliteit punconstructies", MechanismType.STKWp, 1);
         }
+        */
 
         #endregion
 
         #region Group 2
 
-        private static ProbabilisticExpectedFailureMechanismResult CreateSTBIFailureMechanism()
-        {
-            return new ProbabilisticExpectedFailureMechanismResult("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2);
-        }
-
-        private static ProbabilisticExpectedFailureMechanismResult CreateSTPHFailureMechanism()
-        {
-            return new ProbabilisticExpectedFailureMechanismResult("Piping", MechanismType.STPH, 2);
-        }
+        // private static ProbabilisticExpectedFailureMechanismResult CreateSTBIFailureMechanism()
+        // {
+        //     return new ProbabilisticExpectedFailureMechanismResult("Macrostabiliteit binnenwaarts", MechanismType.STBI, 2);
+        // }
+        //
+        // private static ProbabilisticExpectedFailureMechanismResult CreateSTPHFailureMechanism()
+        // {
+        //     return new ProbabilisticExpectedFailureMechanismResult("Piping", MechanismType.STPH, 2);
+        // }
 
         #endregion
 
         #region Group 3
 
+        /*
         private static Group3ExpectedFailureMechanismResult CreateAGKFailureMechanism()
         {
             return new Group3ExpectedFailureMechanismResult("Golfklappen op asfaltbekleding", MechanismType.AGK);
@@ -137,6 +140,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group3ExpectedFailureMechanismResult("Duinafslag", MechanismType.DA);
         }
+        */
 
         #endregion
 
@@ -147,6 +151,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
             return new StbuExpectedFailureMechanismResult();
         }
 
+        /*
         private static Group4Or5ExpectedFailureMechanismResult CreateSTMIFailureMechanism()
         {
             return new Group4Or5ExpectedFailureMechanismResult("Microstabiliteit", MechanismType.STMI, 4);
@@ -181,11 +186,13 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         {
             return new Group4Or5ExpectedFailureMechanismResult("Technische innovaties", MechanismType.INN, 4);
         }
+        */
 
         #endregion
 
         #region Group 5
 
+        /*
         private static Group4Or5ExpectedFailureMechanismResult CreateVLGAFailureMechanism()
         {
             return new Group4Or5ExpectedFailureMechanismResult("Golfafslag voorland", MechanismType.VLGA, 5);
@@ -226,6 +233,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
             return new Group4Or5ExpectedFailureMechanismResult("Havendammen", MechanismType.HAV, 5);
         }
 
+        */
         #endregion
     }
 }

@@ -65,8 +65,6 @@
     <Compile Include="Model\FailurePathAssemblyResult.cs" />
     <Compile Include="Model\FailurePathSectionList.cs" />
     <Compile Include="Model\FmSectionTypes\IFmSectionAssemblyResult.cs" />
-    <Compile Include="Model\CategoryLimits\FailureMechanismCategory.cs" />
-    <Compile Include="Model\CategoryLimits\FmSectionCategory.cs" />
     <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
     <Compile Include="Exceptions\AssemblyException.cs" />

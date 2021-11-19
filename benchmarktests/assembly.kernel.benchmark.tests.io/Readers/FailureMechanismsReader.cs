@@ -99,30 +99,12 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private void ReadProbabilisticFailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
-            if (probabilisticFailureMechanism != null)
-            {
-                probabilisticFailureMechanism.ExpectedAssessmentResultProbability =
-                    GetCellValueAsDouble("F", "Toetsoordeel per toetsspoor per traject");
-                probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal =
-                    GetCellValueAsDouble("F", "Tijdelijk Toetsoordeel per toetsspoor per traject");
-                ReadFailureMechanismCategories(probabilisticFailureMechanism);
-                ReadSectionCategories(probabilisticFailureMechanism);
-            }
+            
         }
 
         private void ReadGroup3FailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var group3FailureMechanism = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
-            if (group3FailureMechanism != null)
-            {
-                group3FailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
-                group3FailureMechanism.LengthEffectFactor = GetCellValueAsDouble("B", "Ndsn (lengte effectfactor)");
-                if (group3FailureMechanism.Group == 3)
-                {
-                    ReadGroup3SectionCategoryBoundaries(group3FailureMechanism);
-                }
-            }
+            
         }
 
         #region Read Sections
@@ -156,24 +138,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         #region Read Categories
 
-        private void ReadSectionCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FmSectionCategory>();
-            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
-            {
-                var category = GetCellValueAsString("D", i).ToFailureMechanismSectionCategory();
-                var lowerLimit = GetCellValueAsDouble("E", i);
-                var upperLimit = GetCellValueAsDouble("F", i);
-                categories.Add(new FmSectionCategory(category, lowerLimit, upperLimit));
-            }
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories =
-                new CategoriesList<FmSectionCategory>(categories);
-        }
-
-        private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
+       /*
+       private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var headerRowId = GetRowId("Categorie");
 
@@ -189,26 +155,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             expectedFailureMechanismResult.ExpectedFailureMechanismCategories =
                 new CategoriesList<FailureMechanismCategory>(categories);
         }
-
-        private void ReadGroup3SectionCategoryBoundaries(IGroup3ExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FmSectionCategory>();
-            var lastCategoryBoundary = 0.0;
-            for (int i = headerRowId + 1; i < headerRowId + 6; i++)
-            {
-                var category = GetCellValueAsString("A", i).ToFailureMechanismSectionCategory();
-                var currentBoundary = GetCellValueAsDouble("B", i);
-                categories.Add(new FmSectionCategory(category, lastCategoryBoundary, currentBoundary));
-                lastCategoryBoundary = currentBoundary;
-            }
-
-            categories.Add(new FmSectionCategory(EFmSectionCategory.VIv, lastCategoryBoundary, 1.0));
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismSectionCategories =
-                new CategoriesList<FmSectionCategory>(categories);
-        }
+        */
 
         #endregion
     }

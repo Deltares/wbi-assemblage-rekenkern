@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FmSectionTypes;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
@@ -42,21 +41,7 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
             AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
         }
 
-        [Test]
-        public void FailureMechanismCategoryLimitsTests()
-        {
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.It, 0, 0.1, false);
-            FailureMechanismCategoryLimitsTest(EFailureMechanismCategory.VIIt, 0.5, 0.1, true);
-        }
-
-        [Test]
-        public void FmSectionCategoryLimitsTests()
-        {
-            FmSectionCategoryLimitsTest(EFmSectionCategory.Iv, 0, 0.1, false);
-            FmSectionCategoryLimitsTest(EFmSectionCategory.VIv, 0.5, 0.1, true);
-        }
-
-        public void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
+        private void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
                                                         double upperLimit, bool shouldExceptionOccure)
         {
             try
@@ -80,66 +65,6 @@ namespace Assembly.Kernel.Tests.Model.CategoryLimits
 
                     Assert.AreEqual(EAssemblyErrors.LowerLimitIsAboveUpperLimit, message.ErrorCode);
                     Assert.AreEqual("Category: " + assessmentGrade, message.EntityId);
-                }
-            }
-
-            Assert.Pass();
-        }
-
-        public void FailureMechanismCategoryLimitsTest(EFailureMechanismCategory category, double lowerLimit,
-                                                       double upperLimit, bool shouldExceptionOccure)
-        {
-            try
-            {
-                new FailureMechanismCategory(category, lowerLimit, upperLimit);
-            }
-            catch (AssemblyException e)
-            {
-                if (!shouldExceptionOccure)
-                {
-                    Assert.Fail("Exception occured while it should not have.");
-                }
-
-                if (e.Errors != null)
-                {
-                    var errors = e.Errors as List<AssemblyErrorMessage>;
-
-                    Assert.NotNull(errors);
-                    Assert.AreEqual(1, errors.Count);
-                    var message = errors[0];
-
-                    Assert.AreEqual(EAssemblyErrors.LowerLimitIsAboveUpperLimit, message.ErrorCode);
-                    Assert.AreEqual("Category: " + category, message.EntityId);
-                }
-            }
-
-            Assert.Pass();
-        }
-
-        public void FmSectionCategoryLimitsTest(EFmSectionCategory category, double lowerLimit,
-                                                double upperLimit, bool shouldExceptionOccure)
-        {
-            try
-            {
-                new FmSectionCategory(category, lowerLimit, upperLimit);
-            }
-            catch (AssemblyException e)
-            {
-                if (!shouldExceptionOccure)
-                {
-                    Assert.Fail("Exception occured while it should not have.");
-                }
-
-                if (e.Errors != null)
-                {
-                    var errors = e.Errors as List<AssemblyErrorMessage>;
-
-                    Assert.NotNull(errors);
-                    Assert.AreEqual(1, errors.Count);
-                    var message = errors[0];
-
-                    Assert.AreEqual(EAssemblyErrors.LowerLimitIsAboveUpperLimit, message.ErrorCode);
-                    Assert.AreEqual("Category: " + category, message.EntityId);
                 }
             }
 

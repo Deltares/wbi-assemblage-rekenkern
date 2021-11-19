@@ -60,15 +60,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(4.24e-4, assemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal, 1e-6);
                 Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4Temporal);
                 Assert.AreEqual(EAssessmentGrade.C, assemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal);
-
-                var categories = assemblyResult.ExpectedCombinedFailureMechanismCategoriesGroup1and2.Categories;
-                Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFailureMechanismCategory.It, 0.0, 6.44e-6, categories[0]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIt, 6.44e-6, 1.93e-4, categories[1]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIIt, 1.93e-4, 5.80e-4, categories[2]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IVt, 5.80e-4, 1.00e-3, categories[3]);
-                AssertAreEqualCategories(EFailureMechanismCategory.Vt, 1.00e-3, 3.00e-2, categories[4]);
-                AssertAreEqualCategories(EFailureMechanismCategory.VIt, 3.00e-2, 1.00, categories[5]);
             }
         }
     }

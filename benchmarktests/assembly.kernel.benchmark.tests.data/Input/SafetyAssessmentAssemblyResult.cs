@@ -43,12 +43,6 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public CategoriesList<AssessmentSectionCategory> ExpectedAssessmentSectionCategories { get; set; }
 
         /// <summary>
-        /// The expected categories (It to VIt) for the combined failure mechanisms in
-        /// groups 1 and 2 (the probabilistic mechanisms).
-        /// </summary>
-        public CategoriesList<FailureMechanismCategory> ExpectedCombinedFailureMechanismCategoriesGroup1and2 { get; set; }
-
-        /// <summary>
         /// The expected result (toetsoordeel) for the combined failure mechanisms
         /// in group 1 and 2 (the probabilistic mechanisms).
         /// </summary>

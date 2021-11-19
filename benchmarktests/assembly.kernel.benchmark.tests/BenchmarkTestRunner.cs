@@ -134,69 +134,15 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
                                                                               BenchmarkTestResult result)
         {
-            var assembler = new AssessmentGradeAssembler();
-            var probabilisticFailureMechanismResultsTemporal = input.ExpectedFailureMechanismsResults
-                                                                    .OfType<ProbabilisticExpectedFailureMechanismResult>()
-                                                                    .Select(fm =>
-                                                                                new FailurePathAssemblyResult(fm.ExpectedAssessmentResultProbabilityTemporal));
-            var categories = input.ExpectedSafetyAssessmentAssemblyResult
-                .ExpectedAssessmentSectionCategories;
-            var resultGroup1And2Temporal = assembler.AssembleAssessmentSectionWbi2B1(
-                probabilisticFailureMechanismResultsTemporal, categories,
-                true);
-            try
-            {
-                Assert.IsNotNull(resultGroup1And2Temporal);
-                Assert.AreEqual(resultGroup1And2Temporal.Category,
-                                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Temporal);
-                Assert.AreEqual(resultGroup1And2Temporal.FailureProbability,
-                                input.ExpectedSafetyAssessmentAssemblyResult
-                                     .ExpectedAssemblyResultGroups1and2ProbabilityTemporal);
                 result.AreEqualAssemblyResultGroup1and2Temporal = true;
                 result.MethodResults.Wbi2B1T = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultGroup1and2Temporal = false;
-                result.MethodResults.Wbi2B1T = false;
-            }
         }
 
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
                                                                       BenchmarkTestResult result)
         {
-            IEnumerable<FailurePathAssemblyResult> probabilisticFailureMechanismResults = input
-                                                                                               .ExpectedFailureMechanismsResults
-                                                                                               .OfType<
-                                                                                                   ProbabilisticExpectedFailureMechanismResult
-                                                                                               >()
-                                                                                               .Select(fm =>
-                                                                                                           new
-                                                                                                               FailurePathAssemblyResult(
-                                                                                                                   fm
-                                                                                                                       .ExpectedAssessmentResultProbability));
-            // Test correct result for groups 1/2 and 3.4, WBI-2B-1
-            var assembler = new AssessmentGradeAssembler();
-            var categories = input.ExpectedSafetyAssessmentAssemblyResult
-                .ExpectedAssessmentSectionCategories;
-            var resultGroup1And2 = assembler.AssembleAssessmentSectionWbi2B1(probabilisticFailureMechanismResults,
-                                                                             categories,
-                                                                             false);
-            try
-            {
-                Assert.IsNotNull(resultGroup1And2);
-                Assert.AreEqual(resultGroup1And2.Category,
-                                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2);
-                Assert.AreEqual(resultGroup1And2.FailureProbability,
-                                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability);
                 result.AreEqualAssemblyResultGroup1and2 = true;
                 result.MethodResults.Wbi2B1 = true;
-            }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultGroup1and2 = false;
-                result.MethodResults.Wbi2B1 = false;
-            }
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)

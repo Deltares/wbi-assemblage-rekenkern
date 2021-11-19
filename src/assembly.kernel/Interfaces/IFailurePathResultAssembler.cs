@@ -24,7 +24,6 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace Assembly.Kernel.Interfaces
@@ -41,7 +40,6 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failurePath">The failure mechanism to assemble the result for</param>
         /// <param name="fpSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
-        /// <param name="categoryLimits">Category limits that should be used when translating a probability of failure to an assessment category</param>
         /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
         /// <returns>An assambled Failure mechanism result</returns>
         /// /// <exception cref="AssemblyException">Thrown when:<br/>

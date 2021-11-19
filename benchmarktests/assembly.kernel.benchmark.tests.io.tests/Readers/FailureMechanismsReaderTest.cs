@@ -66,20 +66,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
                 Assert.AreEqual(EFailureMechanismCategory.IVt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
-
-                var group3FailureMechanism = expectedFailureMechanismResult as IGroup3ExpectedFailureMechanismResult;
-                Assert.IsNotNull(group3FailureMechanism);
-                Assert.AreEqual(0.05, group3FailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(19.3, group3FailureMechanism.LengthEffectFactor, 9e-2);
-
-                var categories = group3FailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
-                Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 2.88e-8, categories[0]);
-                AssertAreEqualCategories(EFmSectionCategory.IIv, 2.88e-8, 8.64e-7, categories[1]);
-                AssertAreEqualCategories(EFmSectionCategory.IIIv, 8.64e-7, 2.59e-6, categories[2]);
-                AssertAreEqualCategories(EFmSectionCategory.IVv, 2.59e-6, 1.00e-3, categories[3]);
-                AssertAreEqualCategories(EFmSectionCategory.Vv, 1.00e-3, 3.00e-2, categories[4]);
-                AssertAreEqualCategories(EFmSectionCategory.VIv, 3.00e-2, 1.0, categories[5]);
             }
         }
 
@@ -99,37 +85,15 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                IExpectedFailureMechanismResult expectedFailureMechanismResult =
+                    result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(2, expectedFailureMechanismResult.Group);
                 Assert.AreEqual(MechanismType.STPH, expectedFailureMechanismResult.Type);
                 Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
-                Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
-
-                var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
-                Assert.IsNotNull(probabilisticFailureMechanism);
-                Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(26.7, probabilisticFailureMechanism.LengthEffectFactor, 1e-1);
-                AssertAreEqualProbabilities(double.NaN, probabilisticFailureMechanism.ExpectedAssessmentResultProbability);
-                AssertAreEqualProbabilities(4.04e-5, probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal);
-
-                var categories = probabilisticFailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
-                Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 9.98E-08, categories[0]);
-                AssertAreEqualCategories(EFmSectionCategory.IIv, 9.98E-08, 2.99e-6, categories[1]);
-                AssertAreEqualCategories(EFmSectionCategory.IIIv, 2.99e-6, 8.98e-6, categories[2]);
-                AssertAreEqualCategories(EFmSectionCategory.IVv, 8.98e-6, 1.00e-3, categories[3]);
-                AssertAreEqualCategories(EFmSectionCategory.Vv, 1.00e-3, 3.00e-2, categories[4]);
-                AssertAreEqualCategories(EFmSectionCategory.VIv, 3.00e-2, 1.0, categories[5]);
-
-                var categoriesFailureMechanism = probabilisticFailureMechanism.ExpectedFailureMechanismCategories.Categories.ToArray();
-                Assert.AreEqual(6, categoriesFailureMechanism.Length);
-                AssertAreEqualCategories(EFailureMechanismCategory.It, 0.0, 2.67e-6, categoriesFailureMechanism[0]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIt, 2.67e-6, 8.00e-5, categoriesFailureMechanism[1]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIIt, 8.00e-5, 2.40e-4, categoriesFailureMechanism[2]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IVt, 2.40e-4, 1.00e-3, categoriesFailureMechanism[3]);
-                AssertAreEqualCategories(EFailureMechanismCategory.Vt, 1.00e-3, 3.00e-2, categoriesFailureMechanism[4]);
-                AssertAreEqualCategories(EFailureMechanismCategory.VIt, 3.00e-2, 1.0, categoriesFailureMechanism[5]);
+                Assert.AreEqual(EFailureMechanismCategory.VIIt,
+                    expectedFailureMechanismResult.ExpectedAssessmentResult);
+                Assert.AreEqual(EFailureMechanismCategory.IIt,
+                    expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
             }
         }
 
@@ -155,31 +119,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
                 Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
                 Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
-
-                var probabilisticFailureMechanism = expectedFailureMechanismResult as IProbabilisticExpectedFailureMechanismResult;
-                Assert.IsNotNull(probabilisticFailureMechanism);
-                Assert.AreEqual(0.24, probabilisticFailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(2.0, probabilisticFailureMechanism.LengthEffectFactor, 9e-2);
-                AssertAreEqualProbabilities(double.NaN, probabilisticFailureMechanism.ExpectedAssessmentResultProbability);
-                AssertAreEqualProbabilities(4.88e-5, probabilisticFailureMechanism.ExpectedAssessmentResultProbabilityTemporal);
-
-                var categories = probabilisticFailureMechanism.ExpectedFailureMechanismSectionCategories.Categories.ToArray();
-                Assert.AreEqual(6, categories.Length);
-                AssertAreEqualCategories(EFmSectionCategory.Iv, 0.0, 1.33e-6, categories[0]);
-                AssertAreEqualCategories(EFmSectionCategory.IIv, 1.33e-6, 4.00e-5, categories[1]);
-                AssertAreEqualCategories(EFmSectionCategory.IIIv, 4.00e-5, 1.20e-4, categories[2]);
-                AssertAreEqualCategories(EFmSectionCategory.IVv, 1.20e-4, 1.00e-3, categories[3]);
-                AssertAreEqualCategories(EFmSectionCategory.Vv, 1.00e-3, 3.00e-2, categories[4]);
-                AssertAreEqualCategories(EFmSectionCategory.VIv, 3.00e-2, 1.0, categories[5]);
-
-                var categoriesFailureMechanism = probabilisticFailureMechanism.ExpectedFailureMechanismCategories.Categories.ToArray();
-                Assert.AreEqual(6, categoriesFailureMechanism.Length);
-                AssertAreEqualCategories(EFailureMechanismCategory.It, 0.0, 2.67e-6, categoriesFailureMechanism[0]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIt, 2.67e-6, 8.00e-5, categoriesFailureMechanism[1]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IIIt, 8.00e-5, 2.40e-4, categoriesFailureMechanism[2]);
-                AssertAreEqualCategories(EFailureMechanismCategory.IVt, 2.40e-4, 1.00e-3, categoriesFailureMechanism[3]);
-                AssertAreEqualCategories(EFailureMechanismCategory.Vt, 1.00e-3, 3.00e-2, categoriesFailureMechanism[4]);
-                AssertAreEqualCategories(EFailureMechanismCategory.VIt, 3.00e-2, 1.0, categoriesFailureMechanism[5]);
             }
         }
 

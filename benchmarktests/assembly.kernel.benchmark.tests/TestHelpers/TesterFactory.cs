@@ -49,41 +49,29 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.STPH:
                 case MechanismType.HTKW:
                 case MechanismType.BSKW:
-                    return new ProbabilisticFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new Group1NoSimpleAssessmentFailureMechanismResultTester(
-                        methodResults, expectedFailureMechanismResult);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
-                    return new Group3FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3NoSimpleAssessmentFailureMechanismTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.GABI:
                 case MechanismType.GABU:
                 case MechanismType.STMI:
                 case MechanismType.PKW:
-                    return new Group4FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.AWO:
                 case MechanismType.STKWl:
                 case MechanismType.INN:
-                    return new Group4NoDetailedAssessmentFailureMechanismResultTester(
-                        methodResults, expectedFailureMechanismResult);
                 case MechanismType.STBU:
                     return new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.HAV:
                 case MechanismType.NWOkl:
                 case MechanismType.VLZV:
                 case MechanismType.VLAF:
-                    return new Group5FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.NWOoc:
-                    return new NwOocFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
                 case MechanismType.NWObe:
                 case MechanismType.NWObo:
                 case MechanismType.VLGA:
-                    return new Group5NoDetailedAssessmentFailureMechanismResultTester(
-                        methodResults, expectedFailureMechanismResult);
                 default:
                     throw new InvalidEnumArgumentException();
             }
@@ -108,14 +96,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                 case MechanismType.BSKW:
                 case MechanismType.STKWp:
                 case MechanismType.GEKB:
-                    return new ProbabilisticFailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult,
-                                                                             lowerBoundaryNorm, signallingNorm);
                 case MechanismType.AGK:
                 case MechanismType.GEBU:
                 case MechanismType.ZST:
                 case MechanismType.DA:
-                    return new Group3FailureMechanismCategoriesTester(methodResults, expectedFailureMechanismResult,
-                                                                      lowerBoundaryNorm, signallingNorm);
                 case MechanismType.STBU:
                     return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,
                                                     lowerBoundaryNorm);

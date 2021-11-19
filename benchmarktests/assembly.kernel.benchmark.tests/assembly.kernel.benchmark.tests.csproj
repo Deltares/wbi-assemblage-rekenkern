@@ -58,21 +58,10 @@
     </Compile>
     <Compile Include="TestHelpers\Categories\AssertHelper.cs" />
     <Compile Include="TestHelpers\FailureMechanism\FailureMechanismResultTesterBase.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group1NoSimpleAssessmentFailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\Categories\Group3FailureMechanismCategoriesTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group3FailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group3NoSimpleAssessmentFailureMechanismTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group4FailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group4NoDetailedAssessmentFailureMechanismResultTester.cs" />
     <Compile Include="TestHelpers\Categories\ICategoriesTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\NwOocFailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group5FailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\Group5NoDetailedAssessmentFailureMechanismResultTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelpers\FailureMechanism\StbuFailureMechanismResultTester.cs" />
     <Compile Include="TestHelpers\FailureMechanism\IFailureMechanismResultTester.cs" />
-    <Compile Include="TestHelpers\Categories\ProbabilisticFailureMechanismCategoriesTester.cs" />
-    <Compile Include="TestHelpers\FailureMechanism\ProbabilisticFailureMechanismResultTester.cs" />
     <Compile Include="TestHelpers\Categories\STBUCategoriesTester.cs" />
     <Compile Include="TestHelpers\TesterFactory.cs" />
   </ItemGroup>
