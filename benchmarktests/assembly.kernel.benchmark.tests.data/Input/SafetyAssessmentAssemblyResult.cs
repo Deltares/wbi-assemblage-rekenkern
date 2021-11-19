@@ -22,7 +22,7 @@
 #endregion
 
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {

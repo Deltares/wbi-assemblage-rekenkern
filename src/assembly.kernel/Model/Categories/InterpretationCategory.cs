@@ -1,4 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+﻿#region Copyright(C) Rijkswaterstaat 2019. All rights reserved
 
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
@@ -23,25 +23,24 @@
 
 #endregion
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.Categories
 {
+    /// <inheritdoc />
     /// <summary>
-    /// The assembly result class of a failure path.
+    /// Category limits for an failure path section
     /// </summary>
-    public class FailurePathAssemblyResult
+    public class InterpretationCategory : CategoryBase<EInterpretationCategory>
     {
         /// <summary>
-        /// Failure path assembly result constructor, with failure probability.
+        /// FmSectionCategory constructor
         /// </summary>
-        /// <param name="failureProbability">The assembled failure probability of the failure path</param>
-        public FailurePathAssemblyResult(double failureProbability)
+        /// <param name="category">category for which the limits are valid</param>
+        /// <param name="lowerLimit">lower limit of the category</param>
+        /// <param name="upperLimit">upper limit of the category</param>
+        public InterpretationCategory(EInterpretationCategory category, double lowerLimit, double upperLimit) :
+            base(category, lowerLimit, upperLimit)
         {
-            FailureProbability = failureProbability;
+            // Construct super class
         }
-
-        /// <summary>
-        /// The failure probability of the failure path.
-        /// </summary>
-        public double FailureProbability { get; }
     }
 }

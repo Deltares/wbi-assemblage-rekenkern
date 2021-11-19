@@ -26,7 +26,7 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations.Validators;
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.AssessmentSection
 {
     /// <summary>
     /// Assessment Section data object

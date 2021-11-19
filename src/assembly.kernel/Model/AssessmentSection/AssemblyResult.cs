@@ -25,8 +25,9 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.FailurePaths;
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.AssessmentSection
 {
     /// <summary>
     /// The assessment section result per greatest common denominator section.

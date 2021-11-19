@@ -23,7 +23,7 @@
 
 #endregion
 
-namespace Assembly.Kernel.Model.FailurePathSectionResults
+namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
     /// Failure mechanism section categories

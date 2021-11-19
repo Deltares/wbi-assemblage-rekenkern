@@ -23,21 +23,24 @@
 
 #endregion
 
-namespace Assembly.Kernel.Model.CategoryLimits
+namespace Assembly.Kernel.Model.Categories
 {
+    /// <inheritdoc />
     /// <summary>
-    /// Interface for a category with upper and lower limit
+    /// Category limits for an assessment section.
     /// </summary>
-    public interface ICategoryLimits
+    public class AssessmentSectionCategory : CategoryBase<EAssessmentGrade>
     {
         /// <summary>
-        /// The upper limit of the category
+        /// AssessmentSectionCategory constructor
         /// </summary>
-        double UpperLimit { get; }
-
-        /// <summary>
-        /// The lower limit of the category
-        /// </summary>
-        double LowerLimit { get; }
+        /// <param name="category">category for which the limits are valid</param>
+        /// <param name="lowerLimit">lower limit of the category</param>
+        /// <param name="upperLimit">upper limit of the category</param>
+        public AssessmentSectionCategory(EAssessmentGrade category, double lowerLimit, double upperLimit)
+            : base(category, lowerLimit, upperLimit)
+        {
+            // Construct super class
+        }
     }
 }

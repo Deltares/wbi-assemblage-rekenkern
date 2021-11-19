@@ -23,53 +23,21 @@
 
 #endregion
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// The different kind of ratings for an assessment.
+    /// Interface for a category with upper and lower limit
     /// </summary>
-    public enum EAssessmentGrade
+    public interface ICategoryLimits
     {
         /// <summary>
-        /// Does not apply
+        /// The upper limit of the category
         /// </summary>
-        Nvt = -1,
+        double UpperLimit { get; }
 
         /// <summary>
-        /// Highest rating
-        /// Assessment section is well above standard
+        /// The lower limit of the category
         /// </summary>
-        APlus = 1,
-
-        /// <summary>
-        /// Assessment section complies with standard
-        /// </summary>
-        A = 2,
-
-        /// <summary>
-        /// Assessment section complies with lower limit but fails signalling limit
-        /// </summary>
-        B = 3,
-
-        /// <summary>
-        /// Assessment section fails both signalling and lower limits
-        /// </summary>
-        C = 4,
-
-        /// <summary>
-        /// Lowest rating
-        /// Assessment section fails both limits well
-        /// </summary>
-        D = 5,
-
-        /// <summary>
-        /// No verdict yet
-        /// </summary>
-        Ngo = 6,
-
-        /// <summary>
-        /// No result 
-        /// </summary>
-        Gr = 7
+        double LowerLimit { get; }
     }
 }

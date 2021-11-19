@@ -29,7 +29,6 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
-using Assembly.Kernel.Model.CategoryLimits;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 {

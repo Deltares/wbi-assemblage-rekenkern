@@ -28,7 +28,8 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Implementations

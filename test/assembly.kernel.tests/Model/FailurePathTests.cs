@@ -22,6 +22,7 @@
 #endregion
 
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model

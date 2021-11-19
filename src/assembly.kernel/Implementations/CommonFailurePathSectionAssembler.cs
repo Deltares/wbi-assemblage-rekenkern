@@ -29,7 +29,9 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Implementations
 {

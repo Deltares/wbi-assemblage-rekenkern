@@ -25,7 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model.CategoryLimits

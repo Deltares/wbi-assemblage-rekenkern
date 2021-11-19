@@ -25,8 +25,8 @@
 
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Implementations
 {

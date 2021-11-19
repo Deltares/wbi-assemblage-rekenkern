@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement

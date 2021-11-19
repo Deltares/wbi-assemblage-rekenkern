@@ -25,8 +25,8 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
 // ReSharper disable UnusedMember.Local

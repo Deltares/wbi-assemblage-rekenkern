@@ -26,6 +26,8 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Interfaces
 {

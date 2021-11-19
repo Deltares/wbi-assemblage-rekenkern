@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model.FailurePathSectionResults
+namespace Assembly.Kernel.Model.FailurePaths
 {
     /// <summary>
     /// Class that holds the results for a section of a failure path

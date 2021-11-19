@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MathNet.Numerics.Distributions;

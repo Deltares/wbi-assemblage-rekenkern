@@ -28,7 +28,8 @@ using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.io.Readers;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
 

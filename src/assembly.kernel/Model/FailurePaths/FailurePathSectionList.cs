@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.FailurePaths
 {
     /// <summary>
     /// Failure path section categories of a single failure path.

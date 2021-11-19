@@ -23,30 +23,41 @@
 
 #endregion
 
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.AssessmentSection;
-using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Implementations.Validators;
 
-namespace Assembly.Kernel.Interfaces
+namespace Assembly.Kernel.Model.FailurePaths
 {
     /// <summary>
-    /// Interface for determining category limits.
+    /// Failure path data object
     /// </summary>
-    public interface ICategoryLimitsCalculator
+    public class FailurePath
     {
         /// <summary>
-        /// Calculate the category limits for an assessment section as specified in WBI-2-1.
+        /// FailurePath Constructor
         /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(
-            AssessmentSection section);
+        /// <param name="lengthEffectFactor">factor to correct for length of the section. 
+        /// Has to be greater or equal to 1</param>
+        /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
+        public FailurePath(double lengthEffectFactor)
+        {
+            FailurePathValidator.CheckFailurePathInput(lengthEffectFactor);
+
+            LengthEffectFactor = lengthEffectFactor;
+        }
 
         /// <summary>
-        /// Calculate the interpretation category limits for a section as specified in WBI-0-3.
+        /// Factor to correct for length of the section.
         /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(AssessmentSection section);
+        public double LengthEffectFactor { get; }
+
+        /// /// <summary>
+        /// Generates string from failure paths object.
+        /// </summary>
+        /// <returns>Text representation of the failure path object</returns>
+        public override string ToString()
+        {
+            return $"Length effect factor: {LengthEffectFactor}";
+        }
     }
 }

@@ -23,24 +23,53 @@
 
 #endregion
 
-namespace Assembly.Kernel.Model.CategoryLimits
+namespace Assembly.Kernel.Model.Categories
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Category limits for an assesment section.
+    /// The different kind of ratings for an assessment.
     /// </summary>
-    public class AssessmentSectionCategory : CategoryBase<EAssessmentGrade>
+    public enum EAssessmentGrade
     {
         /// <summary>
-        /// AssessmentSectionCategory constructor
+        /// Does not apply
         /// </summary>
-        /// <param name="category">category for which the limits are valid</param>
-        /// <param name="lowerLimit">lower limit of the category</param>
-        /// <param name="upperLimit">upper limit of the category</param>
-        public AssessmentSectionCategory(EAssessmentGrade category, double lowerLimit, double upperLimit)
-            : base(category, lowerLimit, upperLimit)
-        {
-            // Construct super class
-        }
+        Nvt = -1,
+
+        /// <summary>
+        /// Highest rating
+        /// Assessment section is well above standard
+        /// </summary>
+        APlus = 1,
+
+        /// <summary>
+        /// Assessment section complies with standard
+        /// </summary>
+        A = 2,
+
+        /// <summary>
+        /// Assessment section complies with lower limit but fails signalling limit
+        /// </summary>
+        B = 3,
+
+        /// <summary>
+        /// Assessment section fails both signalling and lower limits
+        /// </summary>
+        C = 4,
+
+        /// <summary>
+        /// Lowest rating
+        /// Assessment section fails both limits well
+        /// </summary>
+        D = 5,
+
+        /// <summary>
+        /// No verdict yet
+        /// </summary>
+        Ngo = 6,
+
+        /// <summary>
+        /// No result 
+        /// </summary>
+        Gr = 7
     }
 }

@@ -23,41 +23,25 @@
 
 #endregion
 
-using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Implementations.Validators;
-
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.FailurePaths
 {
     /// <summary>
-    /// Failure path data object
+    /// The assembly result class of a failure path.
     /// </summary>
-    public class FailurePath
+    public class FailurePathAssemblyResult
     {
         /// <summary>
-        /// FailurePath Constructor
+        /// Failure path assembly result constructor, with failure probability.
         /// </summary>
-        /// <param name="lengthEffectFactor">factor to correct for length of the section. 
-        /// Has to be greater or equal to 1</param>
-        /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public FailurePath(double lengthEffectFactor)
+        /// <param name="failureProbability">The assembled failure probability of the failure path</param>
+        public FailurePathAssemblyResult(double failureProbability)
         {
-            FailurePathValidator.CheckFailurePathInput(lengthEffectFactor);
-
-            LengthEffectFactor = lengthEffectFactor;
+            FailureProbability = failureProbability;
         }
 
         /// <summary>
-        /// Factor to correct for length of the section.
+        /// The failure probability of the failure path.
         /// </summary>
-        public double LengthEffectFactor { get; }
-
-        /// /// <summary>
-        /// Generates string from failure paths object.
-        /// </summary>
-        /// <returns>Text representation of the failure path object</returns>
-        public override string ToString()
-        {
-            return $"Length effect factor: {LengthEffectFactor}";
-        }
+        public double FailureProbability { get; }
     }
 }

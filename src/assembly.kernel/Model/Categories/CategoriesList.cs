@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.CategoryLimits
+namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
     /// This object us used to validate category boundaries once and remove this validation from all methods that use category boundaries.
@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Model.CategoryLimits
         /// <summary>
         /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than EpsilonFactor will not be taken into account.
         /// </summary>
-        public static readonly double EpsilonFactor = 1e-40;
+        private static readonly double EpsilonFactor = 1e-40;
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.

@@ -26,7 +26,7 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.CategoryLimits
+namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
     /// /// Base category limits class.

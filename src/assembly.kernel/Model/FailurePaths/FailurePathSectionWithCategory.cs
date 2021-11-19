@@ -23,9 +23,9 @@
 
 #endregion
 
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.FailurePaths
 {
     /// <summary>
     /// Failure path with assessment result category.

@@ -23,7 +23,7 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers

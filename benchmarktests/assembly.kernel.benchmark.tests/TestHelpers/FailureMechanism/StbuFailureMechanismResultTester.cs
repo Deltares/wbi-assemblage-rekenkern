@@ -27,7 +27,6 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism

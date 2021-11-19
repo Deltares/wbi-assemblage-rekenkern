@@ -24,8 +24,9 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Interfaces
 {

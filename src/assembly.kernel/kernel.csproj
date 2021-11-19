@@ -36,12 +36,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\AssessmentSectionResult.cs" />
-    <Compile Include="Model\CategoryLimits\CategoriesList.cs" />
-    <Compile Include="Model\CategoryLimits\ICategoryLimits.cs" />
-    <Compile Include="Model\CategoryLimits\InterpretationCategory.cs" />
-    <Compile Include="Model\FailurePathSectionResults\EInterpretationCategory.cs" />
-    <Compile Include="Model\FailurePathSectionResults\FailurePathSectionAssemblyResult.cs" />
+    <Compile Include="Model\AssessmentSection\AssessmentSectionResult.cs" />
+    <Compile Include="Model\Categories\CategoriesList.cs" />
+    <Compile Include="Model\Categories\ICategoryLimits.cs" />
+    <Compile Include="Model\Categories\InterpretationCategory.cs" />
+    <Compile Include="Model\Categories\EInterpretationCategory.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSectionAssemblyResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\EAssemblyErrors.cs" />
     <Compile Include="Implementations\AssessmentGradeAssembler.cs" />
@@ -54,25 +54,26 @@
     <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
     <Compile Include="Implementations\Validators\AssessmentSectionValidator.cs" />
     <Compile Include="Implementations\Validators\FailurePathValidator.cs" />
-    <Compile Include="Model\AssemblyResult.cs" />
-    <Compile Include="Model\AssessmentSection.cs" />
-    <Compile Include="Model\EAssessmentGrade.cs" />
-    <Compile Include="Model\CategoryLimits\CategoryBase.cs" />
-    <Compile Include="Model\CategoryLimits\AssessmentSectionCategory.cs" />
+    <Compile Include="Model\AssessmentSection\AssemblyResult.cs" />
+    <Compile Include="Model\AssessmentSection\AssessmentSection.cs" />
+    <Compile Include="Model\Categories\EAssessmentGrade.cs" />
+    <Compile Include="Model\Categories\CategoryBase.cs" />
+    <Compile Include="Model\Categories\AssessmentSectionCategory.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
-    <Compile Include="Model\FailurePathAssemblyResult.cs" />
-    <Compile Include="Model\FailurePathSectionList.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathAssemblyResult.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSectionList.cs" />
     <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
     <Compile Include="Exceptions\AssemblyException.cs" />
-    <Compile Include="Model\FailurePath.cs" />
-    <Compile Include="Model\FailurePathSection.cs" />
-    <Compile Include="Model\FailurePathSectionWithCategory.cs" />
+    <Compile Include="Model\FailurePaths\FailurePath.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSection.cs" />
+    <Compile Include="Model\FailurePaths\FailurePathSectionWithCategory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\build\Assembly.Kernel.licenseheader">
       <Link>Assembly.Kernel.licenseheader</Link>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

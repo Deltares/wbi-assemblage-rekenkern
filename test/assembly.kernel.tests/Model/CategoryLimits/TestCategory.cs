@@ -21,7 +21,7 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Tests.Model.CategoryLimits
 {

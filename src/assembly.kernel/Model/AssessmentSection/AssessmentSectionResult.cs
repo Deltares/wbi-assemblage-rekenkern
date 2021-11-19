@@ -1,6 +1,7 @@
 ﻿using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model
+namespace Assembly.Kernel.Model.AssessmentSection
 {
     /// <summary>
     /// The assessment result for this assessment section

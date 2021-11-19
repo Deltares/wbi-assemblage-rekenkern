@@ -22,7 +22,7 @@
 #endregion
 
 using System;
-using Assembly.Kernel.Model.CategoryLimits;
+using Assembly.Kernel.Model.Categories;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 

@@ -25,7 +25,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSectionResults;
+using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
