@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -50,8 +52,8 @@ namespace Assembly.Kernel.Implementations
             if (partialAssembly)
             {
                 failurePathAssemblyResults = failurePathAssemblyResults.Where(fmr =>
-                                                                            !double.IsNaN(fmr.FailureProbability))
-                                                                 .ToArray();
+                        !double.IsNaN(fmr.FailureProbability))
+                    .ToArray();
             }
 
             if (failurePathAssemblyResults.All(fmr => double.IsNaN(fmr.FailureProbability)))
@@ -66,6 +68,7 @@ namespace Assembly.Kernel.Implementations
                 {
                     return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
                 }
+
                 failureProbProduct *= 1.0 - failurePathAssemblyResult.FailureProbability;
             }
 
@@ -87,7 +90,7 @@ namespace Assembly.Kernel.Implementations
             if (failurePathResults.Count == 0)
             {
                 throw new AssemblyException("AssembleFailurePathResult",
-                                            EAssemblyErrors.FailurePathAssemblerInputInvalid);
+                    EAssemblyErrors.FailurePathAssemblerInputInvalid);
             }
 
             return failurePathResults.ToArray();

@@ -23,7 +23,7 @@
 
 using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model

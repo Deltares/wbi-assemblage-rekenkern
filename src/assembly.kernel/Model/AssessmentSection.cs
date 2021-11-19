@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
@@ -41,10 +43,10 @@ namespace Assembly.Kernel.Model
         /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
         public AssessmentSection(double length, double failureProbabilitySignallingLimit,
-                                 double failureProbabilityLowerLimit)
+            double failureProbabilityLowerLimit)
         {
             AssessmentSectionValidator.CheckAssessmentSectionInput(length, failureProbabilitySignallingLimit,
-                                                                   failureProbabilityLowerLimit);
+                failureProbabilityLowerLimit);
 
             Length = length;
             FailureProbabilitySignallingLimit = failureProbabilitySignallingLimit;

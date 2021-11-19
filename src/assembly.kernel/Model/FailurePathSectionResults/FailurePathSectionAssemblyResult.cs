@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.FmSectionTypes
+namespace Assembly.Kernel.Model.FailurePathSectionResults
 {
     /// <summary>
     /// Class that holds the results for a section of a failure path
@@ -15,13 +15,15 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         /// <param name="probabilitySection">Estimated probability of failure of the section</param>
         /// <param name="category">The resulting interpretation category</param>
         /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
-        public FailurePathSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
+        public FailurePathSectionAssemblyResult(double probabilityProfile, double probabilitySection,
+            EInterpretationCategory category)
         {
             if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
             {
                 throw new AssemblyException("FailurePathSectionAssemblyResult",
                     EAssemblyErrors.FailureProbabilityOutOfRange);
             }
+
             if (probabilitySection < 0.0 || probabilitySection > 1.0)
             {
                 throw new AssemblyException("FailurePathSectionAssemblyResult",
@@ -65,7 +67,8 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public override string ToString()
         {
             return "FailurePathSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
-                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" + ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
+                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
+                   ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }
 }

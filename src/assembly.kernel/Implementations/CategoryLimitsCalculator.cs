@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,12 +20,13 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -67,7 +69,8 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(AssessmentSection section)
+        public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(
+            AssessmentSection section)
         {
             var sigDiv30 = CapToOne(section.FailureProbabilitySignallingLimit / 30.0);
             var sigDiv10 = CapToOne(section.FailureProbabilitySignallingLimit / 10.0);

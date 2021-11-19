@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 namespace Assembly.Kernel.Exceptions
@@ -59,18 +61,6 @@ namespace Assembly.Kernel.Exceptions
         SignallingLimitAboveLowerLimit,
 
         /// <summary>
-        /// The calculated cross section failure probability signalling limit 
-        /// is above or equal to the signalling limit of the section.
-        /// </summary>
-        PsigDsnAbovePsig,
-
-        /// <summary>
-        /// The calculated cross section failure probability lower limit 
-        /// is above or equal to the lower limit of the section.
-        /// </summary>
-        PlowDsnAbovePlow,
-
-        /// <summary>
         /// The lower limit of the category is above the upper limit of the category.
         /// </summary>
         LowerLimitIsAboveUpperLimit,
@@ -88,24 +78,9 @@ namespace Assembly.Kernel.Exceptions
         CategoryUpperLimitOutOfRange,
 
         /// <summary>
-        /// The input for the translate assessment result method is invalid for the current method.
-        /// </summary>
-        TranslateAssessmentInvalidInput,
-
-        /// <summary>
         /// The value passed may not be null
         /// </summary>
         ValueMayNotBeNull,
-
-        /// <summary>
-        /// The category limit passed to the method is not allowed.
-        /// </summary>
-        CategoryNotAllowed,
-
-        /// <summary>
-        /// A does not comply result is found after a comply result for a higher category.
-        /// </summary>
-        DoesNotComplyAfterComply,
 
         /// <summary>
         /// The length field of the failure path section &lt;=0.

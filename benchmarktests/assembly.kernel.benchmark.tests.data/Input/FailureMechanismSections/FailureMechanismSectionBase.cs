@@ -21,8 +21,6 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model.FmSectionTypes;
-
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
     /// <summary>

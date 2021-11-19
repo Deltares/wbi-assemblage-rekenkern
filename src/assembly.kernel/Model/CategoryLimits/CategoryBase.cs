@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -70,19 +72,19 @@ namespace Assembly.Kernel.Model.CategoryLimits
             if (lowerLimit > upperLimit)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                                                    EAssemblyErrors.LowerLimitIsAboveUpperLimit));
+                    EAssemblyErrors.LowerLimitIsAboveUpperLimit));
             }
 
             if (lowerLimit < 0 || lowerLimit > 1)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                                                    EAssemblyErrors.CategoryLowerLimitOutOfRange));
+                    EAssemblyErrors.CategoryLowerLimitOutOfRange));
             }
 
             if (upperLimit < 0 || upperLimit > 1)
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
-                                                    EAssemblyErrors.CategoryUpperLimitOutOfRange));
+                    EAssemblyErrors.CategoryUpperLimitOutOfRange));
             }
 
             if (errors.Count > 0)

@@ -17,7 +17,7 @@ namespace Assembly.Kernel.Model
         {
             if (failureProbability < 0.0 || failureProbability > 1.0)
             {
-                throw new AssemblyException("AssessmentSectionResult",EAssemblyErrors.FailureProbabilityOutOfRange);
+                throw new AssemblyException("AssessmentSectionResult", EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
             Category = grade;

@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System;
@@ -42,7 +44,7 @@ namespace Assembly.Kernel.Model
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
         public FailurePathSectionList(string failurePathId,
-                                           IEnumerable<FailurePathSection> sectionResults)
+            IEnumerable<FailurePathSection> sectionResults)
         {
             Sections = CheckSectionResults(sectionResults);
             FailurePathId = failurePathId ?? "";
@@ -91,19 +93,19 @@ namespace Assembly.Kernel.Model
             if (sectionResultsArray.Length == 0)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             // Check if all entries are of the same type.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.InputNotTheSameType);
+                    EAssemblyErrors.InputNotTheSameType);
             }
 
             var orderedResults = sectionResultsArray
-                                 .OrderBy(sectionResult => sectionResult.SectionStart)
-                                 .ToArray();
+                .OrderBy(sectionResult => sectionResult.SectionStart)
+                .ToArray();
 
             FailurePathSection previousFailurePathSection = null;
             foreach (var section in orderedResults)
@@ -114,7 +116,7 @@ namespace Assembly.Kernel.Model
                     if (section.SectionStart > 0.0)
                     {
                         throw new AssemblyException("FailurePathSectionList",
-                                                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
                     }
                 }
                 else
@@ -123,7 +125,7 @@ namespace Assembly.Kernel.Model
                     if (Math.Abs(previousFailurePathSection.SectionEnd - section.SectionStart) > 0.01)
                     {
                         throw new AssemblyException("FailurepathSectionList",
-                                                    EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
+                            EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
                     }
                 }
 

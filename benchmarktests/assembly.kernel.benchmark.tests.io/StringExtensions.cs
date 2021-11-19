@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.Globalization;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace assembly.kernel.benchmark.tests.io
 {

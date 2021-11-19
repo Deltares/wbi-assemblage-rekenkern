@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,12 +20,13 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -32,7 +34,8 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant, double probabilityInitialMechanismProfile,
+        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant,
+            double probabilityInitialMechanismProfile,
             double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
             double refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
@@ -48,7 +51,7 @@ namespace Assembly.Kernel.Implementations
 
             if (!isRelevant)
             {
-                return new FailurePathSectionAssemblyResult(0.0,0.0,EInterpretationCategory.III);
+                return new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.III);
             }
 
             if (needsRefinement)
@@ -56,7 +59,8 @@ namespace Assembly.Kernel.Implementations
                 // Check whether a refined probability is given
                 if (!double.IsNaN(refinedProbabilitySection))
                 {
-                    var interpretationCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
+                    var interpretationCategory =
+                        categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
                     return new FailurePathSectionAssemblyResult(
                         double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile,
                         refinedProbabilitySection, interpretationCategory);
@@ -64,16 +68,19 @@ namespace Assembly.Kernel.Implementations
 
                 return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
             }
-            else
-            {
-                if (!double.IsNaN(probabilityInitialMechanismSection))
-                {
-                    var interpretationCategory = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
-                    return new FailurePathSectionAssemblyResult(double.IsNaN(probabilityInitialMechanismProfile) ? probabilityInitialMechanismSection : probabilityInitialMechanismProfile, probabilityInitialMechanismSection, interpretationCategory);
-                }
 
-                return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
+            if (!double.IsNaN(probabilityInitialMechanismSection))
+            {
+                var interpretationCategory =
+                    categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
+                return new FailurePathSectionAssemblyResult(
+                    double.IsNaN(probabilityInitialMechanismProfile)
+                        ? probabilityInitialMechanismSection
+                        : probabilityInitialMechanismProfile, probabilityInitialMechanismSection,
+                    interpretationCategory);
             }
+
+            return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
         }
 
         private static void CheckInputProbability(double probability)

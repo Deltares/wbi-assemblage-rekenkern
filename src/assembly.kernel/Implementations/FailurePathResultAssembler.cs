@@ -1,4 +1,5 @@
 #region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System;
@@ -27,8 +29,7 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.CategoryLimits;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -84,7 +85,8 @@ namespace Assembly.Kernel.Implementations
             return new FailurePathAssemblyResult(resultFailureProb);
         }
 
-        private static FailurePathSectionAssemblyResult[] CheckInput(IEnumerable<FailurePathSectionAssemblyResult> results)
+        private static FailurePathSectionAssemblyResult[] CheckInput(
+            IEnumerable<FailurePathSectionAssemblyResult> results)
         {
             if (results == null)
             {
@@ -97,7 +99,7 @@ namespace Assembly.Kernel.Implementations
             if (sectionResults.Length == 0)
             {
                 throw new AssemblyException("AssembleFailurePathResult",
-                                            EAssemblyErrors.FailurePathAssemblerInputInvalid);
+                    EAssemblyErrors.FailurePathAssemblerInputInvalid);
             }
 
             return sectionResults;

@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,10 +20,10 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
-using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 
 namespace Assembly.Kernel.Model
 {
@@ -39,7 +40,8 @@ namespace Assembly.Kernel.Model
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure path section</param>
-        public FailurePathSectionWithCategory(double sectionStart, double sectionEnd, EInterpretationCategory category) :
+        public FailurePathSectionWithCategory(double sectionStart, double sectionEnd,
+            EInterpretationCategory category) :
             base(sectionStart, sectionEnd)
         {
             Category = category;

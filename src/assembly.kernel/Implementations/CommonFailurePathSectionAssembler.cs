@@ -1,4 +1,5 @@
 ﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+
 // Copyright (C) Rijkswaterstaat 2019. All rights reserved.
 //
 // This file is part of the Assembly kernel.
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System;
@@ -27,7 +29,7 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -51,7 +53,7 @@ namespace Assembly.Kernel.Implementations
             {
                 failurePathResults.Add(
                     TranslateFailurePathResultsToCommonSectionsWbi3B1(failurePathSectionList,
-                                                                           commonSections));
+                        commonSections));
             }
 
             // step 3: determine combined result per common section
@@ -92,7 +94,7 @@ namespace Assembly.Kernel.Implementations
                 if (Math.Abs(minimumAssessmentSectionLength - assessmentSectionLength) > 0.01)
                 {
                     throw new AssemblyException("AssembleCommonFailurePathSection",
-                                                EAssemblyErrors.FpSectionLengthInvalid);
+                        EAssemblyErrors.FpSectionLengthInvalid);
                 }
             }
 
@@ -159,8 +161,8 @@ namespace Assembly.Kernel.Implementations
             for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
             {
                 var newCombinedSection = new FailurePathSectionWithCategory(firstSectionsList[iSection].SectionStart,
-                                                                         firstSectionsList[iSection].SectionEnd,
-                                                                         EInterpretationCategory.Gr);
+                    firstSectionsList[iSection].SectionEnd,
+                    EInterpretationCategory.Gr);
 
                 foreach (var failurePathSectionList in failurePathSectionLists)
                 {
@@ -168,10 +170,11 @@ namespace Assembly.Kernel.Implementations
                     if (!AreEqualSections(section, newCombinedSection))
                     {
                         throw new AssemblyException("FailurePathSectionList",
-                                                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
                     }
 
-                    newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category, section.Category, partialAssembly);
+                    newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category,
+                        section.Category, partialAssembly);
                     if (newCombinedSection.Category == EInterpretationCategory.D)
                     {
                         break;
@@ -190,58 +193,59 @@ namespace Assembly.Kernel.Implementations
             if (failurePathResults == null)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var failurePathSectionLists = failurePathResults
-                                                     .Where(fmrl => fmrl.Sections.First().GetType() ==
-                                                                    typeof(FailurePathSectionWithCategory))
-                                                     .Select(fmrl =>
-                                                                 fmrl.Sections.OfType<FailurePathSectionWithCategory>().ToArray())
-                                                     .ToArray();
+                .Where(fmrl => fmrl.Sections.First().GetType() ==
+                               typeof(FailurePathSectionWithCategory))
+                .Select(fmrl =>
+                    fmrl.Sections.OfType<FailurePathSectionWithCategory>().ToArray())
+                .ToArray();
 
             if (!failurePathSectionLists.Any())
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (failurePathSectionLists.Select(l => l.Length).Distinct().Count() > 1)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             return failurePathSectionLists;
         }
 
-        private static bool AreEqualSections(FailurePathSectionWithCategory section1, FailurePathSectionWithCategory section2)
+        private static bool AreEqualSections(FailurePathSectionWithCategory section1,
+            FailurePathSectionWithCategory section2)
         {
             return Math.Abs(section1.SectionStart - section2.SectionStart) < 1e-8 &&
                    Math.Abs(section1.SectionEnd - section2.SectionEnd) < 1e-8;
         }
 
         private static void CheckResultsToCommonSectionsInput(FailurePathSectionList commonSections,
-                                                              FailurePathSectionList failurePathSectionList)
+            FailurePathSectionList failurePathSectionList)
         {
             if (commonSections == null || failurePathSectionList == null)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (Math.Abs(commonSections.Sections.Last().SectionEnd -
                          failurePathSectionList.Sections.Last().SectionEnd) > 1e-8)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             var firstResult = failurePathSectionList.Sections.First();
             if (!(firstResult is FailurePathSectionWithCategory))
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.SectionsWithoutCategory);
+                    EAssemblyErrors.SectionsWithoutCategory);
             }
         }
 
@@ -252,44 +256,46 @@ namespace Assembly.Kernel.Implementations
             if (double.IsNaN(assessmentSectionLength))
             {
                 throw new AssemblyException("AssessmentSectionLength",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (assessmentSectionLength <= 0.0)
             {
                 throw new AssemblyException("AssessmentSectionLength",
-                                            EAssemblyErrors.SectionLengthOutOfRange);
+                    EAssemblyErrors.SectionLengthOutOfRange);
             }
 
             if (failurePathSectionLists == null)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var pathSectionLists = failurePathSectionLists as FailurePathSectionList[] ??
-                                        failurePathSectionLists.ToArray();
+                                   failurePathSectionLists.ToArray();
             if (!pathSectionLists.Any())
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                    EAssemblyErrors.ValueMayNotBeNull);
             }
 
             return pathSectionLists;
         }
 
         private static EInterpretationCategory DetermineCombinedCategory(EInterpretationCategory combinedCategory,
-                                                                    EInterpretationCategory currentCategory,
-                                                                    bool partialAssembly)
+            EInterpretationCategory currentCategory,
+            bool partialAssembly)
         {
             switch (currentCategory)
             {
                 case EInterpretationCategory.Gr:
-                case EInterpretationCategory.D: // TODO: This should maybe not result in Gr? Does D prevail above any other value?
+                case EInterpretationCategory.D
+                    : // TODO: This should maybe not result in Gr? Does D prevail above any other value?
                     if (!partialAssembly)
                     {
                         return EInterpretationCategory.Gr;
                     }
+
                     break;
                 case EInterpretationCategory.ND:
                     break;
@@ -305,6 +311,7 @@ namespace Assembly.Kernel.Implementations
                     {
                         combinedCategory = currentCategory;
                     }
+
                     break;
             }
 

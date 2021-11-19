@@ -22,7 +22,7 @@
 #endregion
 
 using System;
-using Assembly.Kernel.Model.FmSectionTypes;
+using Assembly.Kernel.Model.FailurePathSectionResults;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model.FmSectionTypes
