@@ -34,15 +34,15 @@ namespace Assembly.Kernel.Tests.Model.FmSectionTypes
         public void TestEnumContract()
         {
             Assert.AreEqual(11, Enum.GetValues(typeof(EInterpretationCategory)).Length);
-            Assert.AreEqual(1, (int)EInterpretationCategory.III);
-            Assert.AreEqual(2, (int)EInterpretationCategory.II);
-            Assert.AreEqual(3, (int)EInterpretationCategory.I);
-            Assert.AreEqual(4, (int)EInterpretationCategory.ZeroPlus);
-            Assert.AreEqual(5, (int)EInterpretationCategory.Zero);
-            Assert.AreEqual(6, (int)EInterpretationCategory.IMin);
-            Assert.AreEqual(7, (int)EInterpretationCategory.IIMin);
-            Assert.AreEqual(8, (int)EInterpretationCategory.IIIMin);
-            Assert.AreEqual(9, (int)EInterpretationCategory.ND);
+            Assert.AreEqual(1, (int)EInterpretationCategory.ND);
+            Assert.AreEqual(2, (int)EInterpretationCategory.III);
+            Assert.AreEqual(3, (int)EInterpretationCategory.II);
+            Assert.AreEqual(4, (int)EInterpretationCategory.I);
+            Assert.AreEqual(5, (int)EInterpretationCategory.ZeroPlus);
+            Assert.AreEqual(6, (int)EInterpretationCategory.Zero);
+            Assert.AreEqual(7, (int)EInterpretationCategory.IMin);
+            Assert.AreEqual(8, (int)EInterpretationCategory.IIMin);
+            Assert.AreEqual(9, (int)EInterpretationCategory.IIIMin);
             Assert.AreEqual(10, (int)EInterpretationCategory.D);
             Assert.AreEqual(11, (int)EInterpretationCategory.Gr);
             Assert.Greater(EInterpretationCategory.IIMin, EInterpretationCategory.II);

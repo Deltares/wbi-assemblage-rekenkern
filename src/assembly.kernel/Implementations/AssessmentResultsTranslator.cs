@@ -21,10 +21,8 @@
 // All rights reserved.
 #endregion
 
-using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.CategoryLimits;
 using Assembly.Kernel.Model.FmSectionTypes;
 
@@ -83,99 +81,6 @@ namespace Assembly.Kernel.Implementations
             if (probability < 0.0 || probability > 1.0)
             {
                 throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
-        }
-
-        /// <summary>
-        /// Translates a list of compliancy results to a single result.
-        /// </summary>
-        /// <param name="compliancyResults">The list of compliancy results to use for the translation</param>
-        /// <returns>The failure mechanism category distilled from the list of compliancy results</returns>
-        /// <exception cref="AssemblyException">Thrown when:<br/>
-        /// - compliancyResults == null<br/>
-        /// - A lower category has "Does not comply" when a higher category has "Comply"</exception>
-        private static FmSectionAssemblyDirectResult TranslateCompliancyResultToCategory(
-            FmSectionCategoryCompliancyResults compliancyResults)
-        {
-            if (compliancyResults == null)
-            {
-                throw new AssemblyException("FmSectionCompliancyResults", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            var firstComplyFound = false;
-            var result = EFmSectionCategory.Gr;
-
-            foreach (KeyValuePair<EFmSectionCategory, ECategoryCompliancy> compliancyResult
-                in compliancyResults.GetCompliancyResults())
-            {
-                switch (compliancyResult.Value)
-                {
-                    case ECategoryCompliancy.Ngo:
-                        return new FmSectionAssemblyDirectResult(EFmSectionCategory.VIIv);
-                    case ECategoryCompliancy.Complies:
-                        if (!firstComplyFound)
-                        {
-                            result = compliancyResult.Key;
-                            firstComplyFound = true;
-                        }
-
-                        break;
-                    case ECategoryCompliancy.DoesNotComply:
-                        if (firstComplyFound)
-                        {
-                            throw new AssemblyException("FmSectionCompliancyResults",
-                                                        EAssemblyErrors.DoesNotComplyAfterComply);
-                        }
-
-                        result = EFmSectionCategory.VIv;
-                        break;
-                }
-            }
-
-            return new FmSectionAssemblyDirectResult(result);
-        }
-
-        /// <summary>
-        /// Mapper which maps a value of type TInput to a value of type TResult.
-        /// And Checks whether the input value is not null and is present in the list of TInput values.
-        /// </summary>
-        /// <typeparam name="TInput">The allowable input type</typeparam>
-        /// <typeparam name="TResult">The resulting output type</typeparam>
-        private sealed class ResultMapper<TInput, TResult> : Dictionary<TInput, TResult>
-        {
-            private readonly string translateMethodName;
-
-            public ResultMapper(string translateMethodName)
-            {
-                this.translateMethodName = translateMethodName;
-            }
-
-            /// <summary>
-            /// Get the TResult value for the TInput value
-            /// </summary>
-            /// <param name="input">The input to translate</param>
-            /// <returns>The translated input</returns>
-            /// <exception cref="AssemblyException">Thrown when input == null or 
-            /// when input value is not present in the list of results</exception>
-            public TResult GetResult(TInput input)
-            {
-                CheckInput(input);
-                return this[input];
-            }
-
-            private void CheckInput(TInput input)
-            {
-                if (input == null)
-                {
-                    throw new AssemblyException("TranslateAssessmentResult: " + translateMethodName,
-                                                EAssemblyErrors.ValueMayNotBeNull);
-                }
-
-                if (!(Keys as ICollection<TInput>).Contains(input))
-                {
-                    throw new AssemblyException(translateMethodName + " input: " + input,
-                                                EAssemblyErrors.TranslateAssessmentInvalidInput);
-                }
             }
         }
     }

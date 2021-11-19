@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace Assembly.Kernel.Model
@@ -28,7 +29,7 @@ namespace Assembly.Kernel.Model
     /// <summary>
     /// Direct failure mechanism with assessment result category.
     /// </summary>
-    public class FmSectionWithDirectCategory : FailureMechanismSection
+    public class FailurePathSectionWithResult : FailurePathSection
     {
         /// <summary>
         /// Indirect failure mechanism with category
@@ -38,7 +39,7 @@ namespace Assembly.Kernel.Model
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure mechanism section</param>
-        public FmSectionWithDirectCategory(double sectionStart, double sectionEnd, EFmSectionCategory category) :
+        public FailurePathSectionWithResult(double sectionStart, double sectionEnd, EInterpretationCategory category) :
             base(sectionStart, sectionEnd)
         {
             Category = category;
@@ -47,6 +48,6 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// The assessment result of the direct failure mechanism of this section.
         /// </summary>
-        public EFmSectionCategory Category { get; set; }
+        public EInterpretationCategory Category { get; set; }
     }
 }

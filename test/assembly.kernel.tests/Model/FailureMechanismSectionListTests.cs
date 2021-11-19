@@ -40,9 +40,9 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>());
+                    new List<FailurePathSection>());
             }
             catch (AssemblyException e)
             {
@@ -55,15 +55,15 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void FailureMechanismNullInputTest()
         {
-            var list = new FailureMechanismSectionList(
+            var list = new FailurePathSectionList(
                 null,
                 new[]
                 {
-                    new FmSectionWithDirectCategory(0, 1, EFmSectionCategory.Gr)
+                    new FailurePathSectionWithResult(0, 1, EInterpretationCategory.Gr)
                 }
             );
 
-            Assert.AreEqual("", list.FailureMechanismId);
+            Assert.AreEqual("", list.FailurePathId);
         }
 
         [Test]
@@ -71,12 +71,12 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>
+                    new List<FailurePathSection>
                     {
-                        new FmSectionWithDirectCategory(1, 5, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(10, 15, EFmSectionCategory.Iv)
+                        new FailurePathSectionWithResult(1, 5, EInterpretationCategory.I),
+                        new FailurePathSectionWithResult(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -92,12 +92,12 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>
+                    new List<FailurePathSection>
                     {
-                        new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(10, 15, EFmSectionCategory.Iv)
+                        new FailurePathSectionWithResult(0, 5, EInterpretationCategory.I),
+                        new FailurePathSectionWithResult(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -113,14 +113,14 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                var fmSectionList = new FailureMechanismSectionList(
+                var fmSectionList = new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>
+                    new List<FailurePathSection>
                     {
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv)
+                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I)
                     });
-                fmSectionList.GetSectionCategoryForPoint(25.0);
+                fmSectionList.GetSectionResultForPoint(25.0);
             }
             catch (AssemblyException e)
             {
@@ -131,37 +131,16 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void NotTheSameTypeInputTest()
-        {
-            try
-            {
-                new FailureMechanismSectionList(
-                    "TEST",
-                    new List<FailureMechanismSection>
-                    {
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                        new FmSectionWithIndirectCategory(10, 20, EIndirectAssessmentResult.Gr)
-                    });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.InputNotTheSameType);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
         public void OverlappingSectionsInputTest()
         {
             try
             {
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>
+                    new List<FailurePathSection>
                     {
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(5, 15, EFmSectionCategory.Iv)
+                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithResult(5, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -177,7 +156,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList("TEST", null);
+                new FailurePathSectionList("TEST", null);
             }
             catch (AssemblyException e)
             {
@@ -192,7 +171,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList(null, null);
+                new FailurePathSectionList(null, null);
             }
             catch (AssemblyException e)
             {
@@ -207,17 +186,17 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     "TEST",
-                    new List<FailureMechanismSection>
+                    new List<FailurePathSection>
                     {
-                        new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                        new FmSectionWithDirectCategory(10, 10, EFmSectionCategory.Iv)
+                        new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                        new FailurePathSectionWithResult(10, 10, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.FmSectionSectionStartEndInvalid);
+                CheckException(e, EAssemblyErrors.FpSectionSectionStartEndInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");

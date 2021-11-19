@@ -69,17 +69,17 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
+        public IEnumerable<FailurePathSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResult { get; set; }
+        public IEnumerable<FailurePathSectionWithResult> ExpectedCombinedSectionResult { get; set; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FmSectionWithDirectCategory> ExpectedCombinedSectionResultTemporal { get; set; }
+        public IEnumerable<FailurePathSectionWithResult> ExpectedCombinedSectionResultTemporal { get; set; }
 
         /// <summary>
         /// Expected input and results per failure mechanism.

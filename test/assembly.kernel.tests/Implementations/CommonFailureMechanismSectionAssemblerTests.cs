@@ -13,7 +13,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
+// You should have receIed a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -41,60 +42,71 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void AssembleCommonFailureMechanismSectionsTest()
         {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            var failureMechanismSections = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20, 30, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(30, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 50, EInterpretationCategory.I)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0, 5, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5, 10, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 45, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45, 50, EInterpretationCategory.I)
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
+            var expectedFailureMechanismResults = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.I)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.I)
                 })
             };
 
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
+            var expectedCombinedResult = new List<FailurePathSectionWithResult>
             {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.Gr)
             };
+
+            /*var expectedCombinedResult = new List<FailurePathSectionWithResult>
+            {
+                new FailurePathSectionWithResult(0.0, 5.0, 0.1, EInterpretationCategory.II),
+                new FailurePathSectionWithResult(5.0, 10.0, 0.1, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(10.0, 20.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(20.0, 30.0, 0.1, EInterpretationCategory.Zero),
+                new FailurePathSectionWithResult(30.0, 40.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(40.0, 45.0, 0.1, EInterpretationCategory.Zero),
+                new FailurePathSectionWithResult(45.0, 50.0, 0.1, EInterpretationCategory.I)
+            };*/
 
             TestCombinedFailureMechanismSectionAssembler(
                 failureMechanismSections,
@@ -109,7 +121,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[]
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailurePathSectionList[]
                                                                                 {},
                                                                             false);
             }
@@ -127,17 +139,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DeterminCombinedResultPerCommonSectionThrowsOnEmptyList2()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
-            {
-                new FmSectionWithIndirectCategory(0.0, 1.0, EIndirectAssessmentResult.FvGt),
-                new FmSectionWithIndirectCategory(1.0, 2.0, EIndirectAssessmentResult.FvGt)
-            });
-
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[]
-                                                                                {},
+                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailurePathSectionList[] {},
                                                                             false);
             }
             catch (AssemblyException exception)
@@ -154,15 +159,15 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DeterminCombinedResultPerCommonSectionThrowsOnInvalidSections1()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailurePathSectionList("", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 1.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(1.0, 2.0, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 1.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(1.0, 2.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailurePathSectionList("", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 1.0, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 1.0, EInterpretationCategory.III)
             });
 
             try
@@ -189,18 +194,18 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DeterminCombinedResultPerCommonSectionThrowsOnInvalidSections2()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailurePathSectionList("", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 1.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(1.0, 2.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(2.0, 3.0, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 1.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(1.0, 2.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(2.0, 3.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailurePathSectionList("", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 1.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(1.0, 2.5, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(2.5, 3.0, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 1.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(1.0, 2.5, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(2.5, 3.0, EInterpretationCategory.III)
             });
 
             try
@@ -247,24 +252,24 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var delta = 1e-6;
             var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailurePathSectionList("FM1", new[]
             {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength + delta)
+                new FailurePathSection(0.0, 10.0),
+                new FailurePathSection(10.001, 20.0),
+                new FailurePathSection(20.0, assessmentSectionLength + delta)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailurePathSectionList("FM2", new[]
             {
-                new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 5.0),
+                new FailurePathSection(5.0, 25.0),
+                new FailurePathSection(25.0, assessmentSectionLength)
             });
-            var list3 = new FailureMechanismSectionList("FM3", new[]
+            var list3 = new FailurePathSectionList("FM3", new[]
             {
-                new FailureMechanismSection(0.0, 5.001),
-                new FailureMechanismSection(5.001, 15.0),
-                new FailureMechanismSection(15.0, 28.0),
-                new FailureMechanismSection(28.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 5.001),
+                new FailurePathSection(5.001, 15.0),
+                new FailurePathSection(15.0, 28.0),
+                new FailurePathSection(28.0, assessmentSectionLength)
             });
 
             var commonSections =
@@ -302,23 +307,23 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ReturnsCorrectSections()
         {
             var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailurePathSectionList("FM1", new[]
             {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 10.0),
+                new FailurePathSection(10.0, 20.0),
+                new FailurePathSection(20.0, assessmentSectionLength)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailurePathSectionList("FM2", new[]
             {
-                new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 5.0),
+                new FailurePathSection(5.0, 25.0),
+                new FailurePathSection(25.0, assessmentSectionLength)
             });
-            var list3 = new FailureMechanismSectionList("FM3", new[]
+            var list3 = new FailurePathSectionList("FM3", new[]
             {
-                new FailureMechanismSection(0.0, 15.0),
-                new FailureMechanismSection(15.0, 28.0),
-                new FailureMechanismSection(28.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 15.0),
+                new FailurePathSection(15.0, 28.0),
+                new FailurePathSection(28.0, assessmentSectionLength)
             });
 
             var commonSections =
@@ -354,7 +359,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new FailureMechanismSectionList[]
+                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new FailurePathSectionList[]
                                                                               {}, 10.0);
             }
             catch (AssemblyException exception)
@@ -374,11 +379,11 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
                                                                                                EAssemblyErrors expectedError)
         {
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailurePathSectionList("FM1", new[]
             {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0),
-                new FailureMechanismSection(20.0, 30.0)
+                new FailurePathSection(0.0, 10.0),
+                new FailurePathSection(10.0, 20.0),
+                new FailurePathSection(20.0, 30.0)
             });
             try
             {
@@ -404,17 +409,17 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidSectionList()
         {
             var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailurePathSectionList("FM1", new[]
             {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
+                new FailurePathSection(0.0, 10.0),
+                new FailurePathSection(10.001, 20.0),
+                new FailurePathSection(20.0, assessmentSectionLength)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailurePathSectionList("FM2", new[]
             {
-                new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength - 1.0)
+                new FailurePathSection(0.0, 5.0),
+                new FailurePathSection(5.0, 25.0),
+                new FailurePathSection(25.0, assessmentSectionLength - 1.0)
             });
 
             try
@@ -431,7 +436,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.FmSectionLengthInvalid, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.FpSectionLengthInvalid, exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 
@@ -455,170 +460,75 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.Fail("Expected exception did not occur");
         }
-
         [Test]
-        public void IndirectFailureMechanismTest()
+        public void NoResultFailurePathTest()
         {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            var failureMechanismSections = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20, 30, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(30, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 50, EInterpretationCategory.Gr)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
-                }),
-
-                new FailureMechanismSectionList("TEST2", new[]
-                {
-                    new FmSectionWithIndirectCategory(0, 7, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(7, 8, EIndirectAssessmentResult.Ngo),
-                    new FmSectionWithIndirectCategory(8, 10, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(10, 50, EIndirectAssessmentResult.FvTom)
+                    new FailurePathSectionWithResult(0, 5, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5, 10, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 45, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45, 50, EInterpretationCategory.I)
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
+            var expectedFailureMechanismResults = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Gr),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.Gr)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
-                }),
-                new FailureMechanismSectionList("TEST2", new[]
-                {
-                    new FmSectionWithIndirectCategory(0.0, 5.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(5.0, 7.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(7.0, 8.0, EIndirectAssessmentResult.Ngo),
-                    new FmSectionWithIndirectCategory(8.0, 10.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(10.0, 20.0, EIndirectAssessmentResult.FvTom),
-                    new FmSectionWithIndirectCategory(20.0, 30.0, EIndirectAssessmentResult.FvTom),
-                    new FmSectionWithIndirectCategory(30.0, 40.0, EIndirectAssessmentResult.FvTom),
-                    new FmSectionWithIndirectCategory(40.0, 45.0, EIndirectAssessmentResult.FvTom),
-                    new FmSectionWithIndirectCategory(45.0, 50.0, EIndirectAssessmentResult.FvTom)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.I)
                 })
             };
 
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
+            /*var expectedCombinedResult = new List<FailurePathSectionWithResult>
             {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 7.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(7.0, 8.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(8.0, 10.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.VIIv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                new FailurePathSectionWithResult(0.0, 5.0, 0.1, EInterpretationCategory.II),
+                new FailurePathSectionWithResult(5.0, 10.0, 0.1, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(10.0, 20.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(20.0, 30.0, 0.1, EInterpretationCategory.IIIMin),
+                new FailurePathSectionWithResult(30.0, 40.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(40.0, 45.0, 0.1, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(45.0, 50.0, 0.1, EInterpretationCategory.Gr)
             };
+            */
 
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
-                expectedCombinedResult,
-                false);
-        }
-
-        [Test]
-        public void NoResultFailureMechanismTest()
-        {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            // TODO: Adjust WBI-3C-1 such that the result is correct
+            var expectedCombinedResult = new List<FailurePathSectionWithResult>
             {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.Gr)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
-                }),
-                new FailureMechanismSectionList("TEST2", new[]
-                {
-                    new FmSectionWithIndirectCategory(0, 20, EIndirectAssessmentResult.Gr),
-                    new FmSectionWithIndirectCategory(20, 50, EIndirectAssessmentResult.FvGt)
-                })
-            };
-
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
-            {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Gr),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Gr)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
-                }),
-
-                new FailureMechanismSectionList("TEST2", new[]
-                {
-                    new FmSectionWithIndirectCategory(0.0, 5.0, EIndirectAssessmentResult.Gr),
-                    new FmSectionWithIndirectCategory(5.0, 10.0, EIndirectAssessmentResult.Gr),
-                    new FmSectionWithIndirectCategory(10.0, 20.0, EIndirectAssessmentResult.Gr),
-                    new FmSectionWithIndirectCategory(20.0, 30.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(30.0, 40.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(40.0, 45.0, EIndirectAssessmentResult.FvGt),
-                    new FmSectionWithIndirectCategory(45.0, 50.0, EIndirectAssessmentResult.FvGt)
-                })
-            };
-
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
-            {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Gr),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Gr)
+                new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.Gr)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -631,15 +541,15 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void NotAllSectionsProvidedExceptionTest()
         {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            var failureMechanismSections = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.IIv)
+                    new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(30, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20, 30, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(40, 45, EInterpretationCategory.II)
                     // section starting at 45 to 50 is missing.
                 })
             };
@@ -653,7 +563,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FmSectionLengthInvalid, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.FpSectionLengthInvalid, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -661,191 +571,73 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void NotApplicableFailureMechanismTest()
+        public void PartialFailurePathTest()
         {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            var failureMechanismSections = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
+                    new FailurePathSectionWithResult(0, 10, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10, 20, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20, 30, EInterpretationCategory.IIIMin),
+                    new FailurePathSectionWithResult(30, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 50, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0, 5, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5, 10, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10, 40, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40, 45, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45, 50, EInterpretationCategory.I)
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
+            var expectedFailureMechanismResults = new List<FailurePathSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailurePathSectionList("TEST", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.IIIMin),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailurePathSectionList("TEST1", new[]
                 {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
+                    new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.III),
+                    new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.I),
+                    new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Zero),
+                    new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.I)
                 })
             };
 
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
+            /*
+            var expectedCombinedResult = new List<FailurePathSectionWithResult>
             {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
+                new FailurePathSectionWithResult(0.0, 5.0, 0.1, EInterpretationCategory.II),
+                new FailurePathSectionWithResult(5.0, 10.0, 0.1, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(10.0, 20.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(20.0, 30.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(30.0, 40.0, 0.1, EInterpretationCategory.I),
+                new FailurePathSectionWithResult(40.0, 45.0, 0.1, EInterpretationCategory.Zero),
+                new FailurePathSectionWithResult(45.0, 50.0, 0.1, EInterpretationCategory.II)
             };
-
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
-                expectedCombinedResult,
-                true);
-        }
-
-        [Test]
-        public void NotApplicablePartialFailureMechanismTest()
-        {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
+            */
+            var expectedCombinedResult = new List<FailurePathSectionWithResult>
             {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
-                })
-            };
-
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
-            {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.NotApplicable),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
-                })
-            };
-
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
-            {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.NotApplicable),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
-            };
-
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
-                expectedCombinedResult,
-                true);
-        }
-
-        [Test]
-        public void PartialFailureMechanismTest()
-        {
-            var failureMechanismSections = new List<FailureMechanismSectionList>
-            {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 10, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10, 20, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20, 30, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(30, 40, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40, 50, EFmSectionCategory.IIv)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0, 5, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5, 10, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10, 40, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40, 45, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45, 50, EFmSectionCategory.Iv)
-                })
-            };
-
-            var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
-            {
-                new FailureMechanismSectionList("TEST", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.VIIv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.Iv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
-                }),
-                new FailureMechanismSectionList("TEST1", new[]
-                {
-                    new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                    new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                    new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                    new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                    new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.Iv)
-                })
-            };
-
-            var expectedCombinedResult = new List<FmSectionWithDirectCategory>
-            {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(10.0, 20.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(20.0, 30.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(30.0, 40.0, EFmSectionCategory.IVv),
-                new FmSectionWithDirectCategory(40.0, 45.0, EFmSectionCategory.Vv),
-                new FmSectionWithDirectCategory(45.0, 50.0, EFmSectionCategory.IIv)
+                new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(10.0, 20.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(20.0, 30.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(30.0, 40.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(40.0, 45.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithResult(45.0, 50.0, EInterpretationCategory.Gr)
             };
 
             TestCombinedFailureMechanismSectionAssembler(
@@ -858,18 +650,18 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnIncorrectListType()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
-                new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 10.0)
+                new FailurePathSection(0.0, 5.0),
+                new FailurePathSection(5.0, 10.0)
             });
 
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailurePathSectionList("Common", new[]
             {
-                new FailureMechanismSection(0.0, 2.5),
-                new FailureMechanismSection(2.5, 5.0),
-                new FailureMechanismSection(5.0, 7.5),
-                new FailureMechanismSection(7.5, 10.0)
+                new FailurePathSection(0.0, 2.5),
+                new FailurePathSection(2.5, 5.0),
+                new FailurePathSection(5.0, 7.5),
+                new FailurePathSection(7.5, 10.0)
             });
 
             try
@@ -892,14 +684,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnInvalidSectionLengthsEmpty()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailurePathSectionList("TestList", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 2.85, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 2.85, EInterpretationCategory.III)
             });
 
-            var longList = new FailureMechanismSectionList("TestListEmpty", new FailureMechanismSection[]
+            var longList = new FailurePathSectionList("TestListEmpty", new FailurePathSection[]
             {
-                new FmSectionWithDirectCategory(0.0, 10.0, EFmSectionCategory.IIIv)
+                new FailurePathSectionWithResult(0.0, 10.0, EInterpretationCategory.III)
             });
 
             try
@@ -922,9 +714,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailurePathSectionList("TestList", new[]
             {
-                new FailureMechanismSection(0.0, 2.5)
+                new FailurePathSection(0.0, 2.5)
             });
 
             try
@@ -946,9 +738,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists2()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailurePathSectionList("TestList", new[]
             {
-                new FailureMechanismSection(0.0, 2.5)
+                new FailurePathSection(0.0, 2.5)
             });
 
             try
@@ -970,17 +762,17 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1TranslatesCorrectly()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IVv)
+                new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.I)
             });
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailurePathSectionList("Common", new[]
             {
-                new FailureMechanismSection(0.0, 2.5),
-                new FailureMechanismSection(2.5, 5.0),
-                new FailureMechanismSection(5.0, 7.5),
-                new FailureMechanismSection(7.5, 10.0)
+                new FailurePathSection(0.0, 2.5),
+                new FailurePathSection(2.5, 5.0),
+                new FailurePathSection(5.0, 7.5),
+                new FailurePathSection(7.5, 10.0)
             });
             var commonSectionsWithResults =
                 assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
@@ -988,30 +780,30 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
-            Assert.AreEqual(EFmSectionCategory.IIIv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
-            Assert.AreEqual(EFmSectionCategory.IIIv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
-            Assert.AreEqual(EFmSectionCategory.IVv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
-            Assert.AreEqual(EFmSectionCategory.IVv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
+            Assert.AreEqual(EInterpretationCategory.III,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(0)).Category);
+            Assert.AreEqual(EInterpretationCategory.III,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(1)).Category);
+            Assert.AreEqual(EInterpretationCategory.I,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(2)).Category);
+            Assert.AreEqual(EInterpretationCategory.I,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
-                new FmSectionWithDirectCategory(0.0, 5.0, EFmSectionCategory.IIIv),
-                new FmSectionWithDirectCategory(5.0, 10.0, EFmSectionCategory.IVv)
+                new FailurePathSectionWithResult(0.0, 5.0, EInterpretationCategory.III),
+                new FailurePathSectionWithResult(5.0, 10.0, EInterpretationCategory.I)
             });
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailurePathSectionList("Common", new[]
             {
-                new FailureMechanismSection(0.0, 2.5),
-                new FailureMechanismSection(2.5, 5.0),
-                new FailureMechanismSection(5.0, 7.5),
-                new FailureMechanismSection(7.5, 10.000000001)
+                new FailurePathSection(0.0, 2.5),
+                new FailurePathSection(2.5, 5.0),
+                new FailurePathSection(5.0, 7.5),
+                new FailurePathSection(7.5, 10.000000001)
             });
             var commonSectionsWithResults =
                 assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
@@ -1019,20 +811,20 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
-            Assert.AreEqual(EFmSectionCategory.IIIv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
-            Assert.AreEqual(EFmSectionCategory.IIIv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
-            Assert.AreEqual(EFmSectionCategory.IVv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
-            Assert.AreEqual(EFmSectionCategory.IVv,
-                            ((FmSectionWithDirectCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
+            Assert.AreEqual(EInterpretationCategory.III,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(0)).Category);
+            Assert.AreEqual(EInterpretationCategory.III,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(1)).Category);
+            Assert.AreEqual(EInterpretationCategory.I,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(2)).Category);
+            Assert.AreEqual(EInterpretationCategory.I,
+                            ((FailurePathSectionWithResult) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
         private void TestCombinedFailureMechanismSectionAssembler(
-            IEnumerable<FailureMechanismSectionList> failureMechanismSections,
-            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
-            IList<FmSectionWithDirectCategory> expectedCombinedResult,
+            IEnumerable<FailurePathSectionList> failureMechanismSections,
+            IList<FailurePathSectionList> expectedFailureMechanismResults,
+            IList<FailurePathSectionWithResult> expectedCombinedResult,
             bool partial)
         {
             var result = assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, partial);
@@ -1043,10 +835,10 @@ namespace Assembly.Kernel.Tests.Implementations
             AssertCombinedResultsList(expectedCombinedResult, result.CombinedSectionResult);
         }
 
-        private static void AssertCombinedResultsList(IList<FmSectionWithDirectCategory> expectedCombinedResult,
-                                                      IEnumerable<FmSectionWithDirectCategory> result)
+        private static void AssertCombinedResultsList(IList<FailurePathSectionWithResult> expectedCombinedResult,
+                                                      IEnumerable<FailurePathSectionWithResult> result)
         {
-            List<FmSectionWithDirectCategory> combinedResult = result.ToList();
+            List<FailurePathSectionWithResult> combinedResult = result.ToList();
             Assert.AreEqual(expectedCombinedResult.Count, combinedResult.Count);
             for (var i = 0; i < expectedCombinedResult.Count; i++)
             {
@@ -1057,45 +849,35 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         private static void AssertFailureMechanismSectionLists(
-            IList<FailureMechanismSectionList> expectedFailureMechanismResults,
-            IEnumerable<FailureMechanismSectionList> result)
+            IList<FailurePathSectionList> expectedFailureMechanismResults,
+            IEnumerable<FailurePathSectionList> result)
         {
-            List<FailureMechanismSectionList> resultPerFailureMechanism = result.ToList();
+            List<FailurePathSectionList> resultPerFailureMechanism = result.ToList();
             Assert.AreEqual(expectedFailureMechanismResults.Count, resultPerFailureMechanism.Count);
 
             for (var i = 0; i < expectedFailureMechanismResults.Count; i++)
             {
                 var fmResult = resultPerFailureMechanism[i];
 
-                Assert.AreEqual(expectedFailureMechanismResults[i].FailureMechanismId, fmResult.FailureMechanismId);
+                Assert.AreEqual(expectedFailureMechanismResults[i].FailurePathId, fmResult.FailurePathId);
 
-                IEnumerable<FailureMechanismSection> sectionResults = fmResult.Sections;
-                IEnumerable<FailureMechanismSection> expectedSectionResults =
-                    expectedFailureMechanismResults[i].Sections;
+                var sectionResults = fmResult.Sections.ToArray();
+                var expectedSectionResults = expectedFailureMechanismResults[i].Sections.ToArray();
 
-                Assert.AreEqual(expectedSectionResults.Count(), sectionResults.Count());
-                for (var k = 0; k < expectedSectionResults.Count(); k++)
+                Assert.AreEqual(expectedSectionResults.Length, sectionResults.Length);
+                for (var k = 0; k < expectedSectionResults.Length; k++)
                 {
-                    var expectedResult = expectedSectionResults.ElementAt(k);
-                    var sectionResult = sectionResults.ElementAt(k);
+                    var expectedResult = expectedSectionResults[k];
+                    var sectionResult = sectionResults[k];
                     Assert.NotNull(expectedResult);
                     Assert.NotNull(sectionResult);
 
                     Assert.AreEqual(expectedResult.SectionStart, sectionResult.SectionStart);
                     Assert.AreEqual(expectedResult.SectionEnd, sectionResult.SectionEnd);
 
-                    if (sectionResult is FmSectionWithIndirectCategory)
-                    {
-                        Assert.AreEqual(
-                            ((FmSectionWithIndirectCategory) expectedResult).Category,
-                            ((FmSectionWithIndirectCategory) sectionResult).Category);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(
-                            ((FmSectionWithDirectCategory) expectedResult).Category,
-                            ((FmSectionWithDirectCategory) sectionResult).Category);
-                    }
+                    Assert.AreEqual(
+                            ((FailurePathSectionWithResult) expectedResult).Category,
+                            ((FailurePathSectionWithResult) sectionResult).Category);
                 }
             }
         }

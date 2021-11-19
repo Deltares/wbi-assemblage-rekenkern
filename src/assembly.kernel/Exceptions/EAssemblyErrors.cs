@@ -117,13 +117,13 @@ namespace Assembly.Kernel.Exceptions
         /// The length field of the failure mechanism section &lt;=0.
         /// Or the calculated section length isn't the same as the provided length.
         /// </summary>
-        FmSectionLengthInvalid,
+        FpSectionLengthInvalid,
 
         /// <summary>
         /// The section start or end field of the failure mechanism section &lt;0 
         /// or the section end is defined before the section start.
         /// </summary>
-        FmSectionSectionStartEndInvalid,
+        FpSectionSectionStartEndInvalid,
 
         /// <summary>
         /// The failure probability is greater than one or below zero. Which is an invalid value.

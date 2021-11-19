@@ -123,11 +123,11 @@ namespace assembly.kernel.benchmark.tests
             TestCombinedSectionsFinalResults(input, result);
             TestCombinedSectionsFinalResultsTemporal(input, result);
 
-            foreach (FailureMechanismSectionList failureMechanismsCombinedResult in input
+            foreach (FailurePathSectionList failureMechanismsCombinedResult in input
                 .ExpectedCombinedSectionResultPerFailureMechanism)
             {
                 TestCombinedSectionsFailureMechanismResults(input, result,
-                                                            failureMechanismsCombinedResult.FailureMechanismId.ToMechanismType());
+                                                            failureMechanismsCombinedResult.FailurePathId.ToMechanismType());
             }
         }
 
@@ -205,9 +205,9 @@ namespace assembly.kernel.benchmark.tests
             // WBI-3A-1
             var combinedSections = assembler.FindGreatestCommonDenominatorSectionsWbi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
-                         fm => new FailureMechanismSectionList(fm.Name,
+                         fm => new FailurePathSectionList(fm.Name,
                                                                fm.Sections.Select(
-                                                                   s => new FailureMechanismSection(s.Start, s.End))))
+                                                                   s => new FailurePathSection(s.Start, s.End))))
                      .ToArray()
                 , input.Length);
 
@@ -297,18 +297,17 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var combinedSections = new FailureMechanismSectionList("", input.ExpectedCombinedSectionResult);
+            var combinedSections = new FailurePathSectionList("", input.ExpectedCombinedSectionResult);
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
-                new FailureMechanismSectionList(
+                new FailurePathSectionList(
                     type.ToString("D"),
                     input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Sections
                          .Select(CreateExpectedFailureMechanismSectionWithResult)),
                 combinedSections);
 
-            var isDirectMechanism = input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Group < 5;
             var calculatedSections = calculatedSectionResults.Sections.ToArray();
             var expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism.First(l =>
-                                                                                                    l.FailureMechanismId ==
+                                                                                                    l.FailurePathId ==
                                                                                                     type.ToString("D")).Sections
                                         .ToArray();
 
@@ -321,16 +320,8 @@ namespace assembly.kernel.benchmark.tests
                 {
                     Assert.AreEqual(expectedSections[i].SectionStart, calculatedSections[i].SectionStart, 0.01);
                     Assert.AreEqual(expectedSections[i].SectionEnd, calculatedSections[i].SectionEnd, 0.01);
-                    if (isDirectMechanism)
-                    {
-                        Assert.AreEqual(((FmSectionWithDirectCategory) expectedSections[i]).Category,
-                                        ((FmSectionWithDirectCategory) calculatedSections[i]).Category);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(((FmSectionWithIndirectCategory) expectedSections[i]).Category,
-                                        ((FmSectionWithIndirectCategory) calculatedSections[i]).Category);
-                    }
+                    Assert.AreEqual(((FailurePathSectionWithResult) expectedSections[i]).Category,
+                                        ((FailurePathSectionWithResult) calculatedSections[i]).Category);
                 }
 
                 fmResult.AreEqualCombinedResultsCombinedSections = true;
@@ -343,20 +334,13 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
+        private static FailurePathSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
         {
             var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
             if (directMechanism != null)
             {
-                return new FmSectionWithDirectCategory(directMechanism.Start, directMechanism.End,
-                                                       directMechanism.ExpectedCombinedResult);
-            }
-
-            var indirectMechanism = section as IFailureMechanismSection<EIndirectAssessmentResult>;
-            if (indirectMechanism != null)
-            {
-                return new FmSectionWithIndirectCategory(indirectMechanism.Start, indirectMechanism.End,
-                                                         indirectMechanism.ExpectedCombinedResult);
+                return new FailurePathSectionWithResult(directMechanism.Start, directMechanism.End,
+                                                       EInterpretationCategory.Gr);
             }
 
             throw new InvalidOperationException();

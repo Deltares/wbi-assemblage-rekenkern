@@ -29,49 +29,49 @@ namespace Assembly.Kernel.Model.FmSectionTypes
     public enum EInterpretationCategory
     {
         /// <summary>
+        /// Relevant but not dominant without probability estimation
+        /// </summary>
+        ND = 1,
+
+        /// <summary>
         /// probability less than 1/30 of the signalling norm
         /// </summary>
-        III = 1,
+        III = 2,
 
         /// <summary>
         /// probability less than 1/10 of the signalling norm
         /// </summary>
-        II = 2,
+        II = 3,
 
         /// <summary>
         /// probability less than 1/3 of the signalling norm
         /// </summary>
-        I = 3,
+        I = 4,
 
         /// <summary>
         /// probability less than the signalling norm
         /// </summary>
-        ZeroPlus = 4,
+        ZeroPlus = 5,
 
         /// <summary>
         /// probability less than the lower boundary norm
         /// </summary>
-        Zero = 5,
+        Zero = 6,
 
         /// <summary>
         /// probability less than the lower boundary norm
         /// </summary>
-        IMin = 6,
+        IMin = 7,
 
         /// <summary>
         /// probability less than the 3 times the lower boundary norm
         /// </summary>
-        IIMin = 7,
+        IIMin = 8,
 
         /// <summary>
         /// probability less than the 10 times the lower boundary norm
         /// </summary>
-        IIIMin = 8,
-
-        /// <summary>
-        /// Relevant but not dominant without probability estimation
-        /// </summary>
-        ND = 9,
+        IIIMin = 9,
 
         /// <summary>
         /// Dominant without probability estimation

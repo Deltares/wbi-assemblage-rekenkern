@@ -71,7 +71,7 @@
     <Compile Include="Model\ECategoryCompliancy.cs" />
     <Compile Include="Model\EIndirectAssessmentResult.cs" />
     <Compile Include="Model\FailurePathAssemblyResult.cs" />
-    <Compile Include="Model\FailureMechanismSectionList.cs" />
+    <Compile Include="Model\FailurePathSectionList.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyDirectResult.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionAssemblyIndirectResult.cs" />
     <Compile Include="Model\FmSectionTypes\IFmSectionAssemblyResult.cs" />
@@ -84,9 +84,8 @@
     <Compile Include="Model\FailurePath.cs" />
     <Compile Include="Model\FmSectionTypes\EFmSectionCategory.cs" />
     <Compile Include="Model\FmSectionTypes\FmSectionCategoryCompliancyResults.cs" />
-    <Compile Include="Model\FailureMechanismSection.cs" />
-    <Compile Include="Model\FmSectionWithDirectCategory.cs" />
-    <Compile Include="Model\FmSectionWithIndirectCategory.cs" />
+    <Compile Include="Model\FailurePathSection.cs" />
+    <Compile Include="Model\FailurePathSectionWithResult.cs" />
     <Compile Include="Model\ModelExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>

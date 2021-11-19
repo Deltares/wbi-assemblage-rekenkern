@@ -27,6 +27,7 @@ using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.FmSectionTypes;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
@@ -115,20 +116,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The input to set the results on.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            var commonSections = new List<FmSectionWithDirectCategory>();
-            var commonSectionsTemporal = new List<FmSectionWithDirectCategory>();
+            var commonSections = new List<FailurePathSectionWithResult>();
+            var commonSectionsTemporal = new List<FailurePathSectionWithResult>();
 
-            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FmSectionWithDirectCategory>>();
-            var failureMechanismSpecificCommonSectionsWithIndirectResults = new Dictionary<MechanismType, List<FmSectionWithIndirectCategory>>();
+            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FailurePathSectionWithResult>>();
             foreach (var failureMechanismsKey in failureMechanisms.Keys)
             {
                 if (failureMechanisms[failureMechanismsKey])
                 {
-                    failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FmSectionWithDirectCategory>();
-                }
-                else
-                {
-                    failureMechanismSpecificCommonSectionsWithIndirectResults[failureMechanismsKey] = new List<FmSectionWithIndirectCategory>();
+                    failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailurePathSectionWithResult>();
                 }
             }
 
@@ -151,11 +147,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                     AddSectionToList(directResultPair.Value, columnKeys[directResultPair.Key], iRow, startMeters, endMeters);
                 }
 
-                foreach (var indirectResultPair in failureMechanismSpecificCommonSectionsWithIndirectResults)
-                {
-                    AddSectionToList(indirectResultPair.Value, columnKeys[indirectResultPair.Key], iRow, startMeters, endMeters);
-                }
-
                 iRow++;
             }
 
@@ -164,29 +155,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
             var resultsPerFailureMechanism =
                 failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv =>
-                                                                                   new FailureMechanismSectionList(
-                                                                                       kv.Key.ToString("D"), kv.Value))
-                                                                       .Concat(
-                                                                           failureMechanismSpecificCommonSectionsWithIndirectResults
-                                                                               .Select(kv =>
-                                                                                           new FailureMechanismSectionList(
-                                                                                               kv.Key.ToString("D"), kv.Value)));
+                                                                                   new FailurePathSectionList(
+                                                                                       kv.Key.ToString("D"), kv.Value));
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
 
-        private void AddSectionToList(List<FmSectionWithIndirectCategory> list, string columnReference, int iRow,
-                                      double startMeters, double endMeters)
-        {
-            var category = GetCellValueAsString(columnReference, iRow).ToIndirectFailureMechanismSectionCategory();
-            list.Add(new FmSectionWithIndirectCategory(startMeters, endMeters, category));
-        }
-
-        private void AddSectionToList(List<FmSectionWithDirectCategory> list, string columnReference, int iRow,
+        private void AddSectionToList(List<FailurePathSectionWithResult> list, string columnReference, int iRow,
                                       double startMeters, double endMeters)
         {
             var category = GetCellValueAsString(columnReference, iRow).ToFailureMechanismSectionCategory();
-            list.Add(new FmSectionWithDirectCategory(startMeters, endMeters, category));
+            list.Add(new FailurePathSectionWithResult(startMeters, endMeters, EInterpretationCategory.Gr));
         }
 
         private Dictionary<MechanismType, string> GetColumnKeys(int iRow)

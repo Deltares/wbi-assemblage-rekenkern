@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new AssemblyResult(new List<FailureMechanismSectionList>(), null);
+                new AssemblyResult(new List<FailurePathSectionList>(), null);
             }
             catch (AssemblyException e)
             {
@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new AssemblyResult(null, new List<FmSectionWithDirectCategory>());
+                new AssemblyResult(null, new List<FailurePathSectionWithResult>());
             }
             catch (AssemblyException e)
             {

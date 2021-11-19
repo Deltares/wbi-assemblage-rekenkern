@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Tests
             var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
             var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FpSection>>();
             // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-            //var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
+            //var failureMechanismSectionLists = new List<FailurePathSectionList>();
 
             // create section results for 15 failure mechanisms with 250 sections each
             CreateTestInput(sectionLength, fpSectionResultsDictionary);
@@ -115,12 +115,12 @@ namespace Assembly.Kernel.Tests
         }
 
         // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-        /*private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
+        /*private static FailurePathSectionList CreateFailureMechanismSectionListForStep3(
             List<FpSection> fmSectionResults)
         {
-            var fmsectionList = new FailureMechanismSectionList(fmSectionResults.FirstOrDefault()?.FmType,
+            var fmsectionList = new FailurePathSectionList(fmSectionResults.FirstOrDefault()?.FmType,
                                                                 fmSectionResults.Select(fmsection =>
-                                                                                            new FmSectionWithDirectCategory(
+                                                                                            new FailurePathSectionWithResult(
                                                                                                 fmsection.SectionStart,
                                                                                                 fmsection.SectionEnd,
                                                                                                 fmsection.Result.)));

@@ -59,52 +59,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             MechanismType.INN
         };
 
-        private readonly EFmSectionCategory[] expectedDirectResults =
-        {
-            EFmSectionCategory.NotApplicable,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.IIv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.IIv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.IIIv,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.NotApplicable,
-            EFmSectionCategory.Iv,
-            EFmSectionCategory.Iv
-        };
-
-        private readonly MechanismType[] indirectMechanismTypes =
-        {
-            MechanismType.VLGA,
-            MechanismType.VLAF,
-            MechanismType.VLZV,
-            MechanismType.NWObe,
-            MechanismType.NWObo,
-            MechanismType.NWOkl,
-            MechanismType.NWOoc,
-            MechanismType.HAV
-        };
-
-        private readonly EIndirectAssessmentResult[] expectedIndirectResults =
-        {
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FvGt,
-            EIndirectAssessmentResult.FactoredInOtherFailureMechanism,
-            EIndirectAssessmentResult.FvGt
-        };
-
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
@@ -123,48 +77,32 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 Assert.AreEqual(40, result.ExpectedCombinedSectionResult.Count());
-                AssertResultsIsAsExpected(6700, 7100, EFmSectionCategory.IIIv, result.ExpectedCombinedSectionResult.ElementAt(9));
-                AssertResultsIsAsExpected(11800,  12100, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResult.ElementAt(18));
-                AssertResultsIsAsExpected(12100, 12700, EFmSectionCategory.VIIv, result.ExpectedCombinedSectionResult.ElementAt(19));
+                AssertResultsIsAsExpected(6700, 7100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(9));
+                AssertResultsIsAsExpected(11800,  12100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(18));
+                AssertResultsIsAsExpected(12100, 12700, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(19));
 
-                AssertResultsIsAsExpected(6700, 7100, EFmSectionCategory.IIIv, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
-                AssertResultsIsAsExpected(11800, 12100, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
-                AssertResultsIsAsExpected(12100, 12700, EFmSectionCategory.Vv, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
+                AssertResultsIsAsExpected(6700, 7100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
+                AssertResultsIsAsExpected(11800, 12100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
+                AssertResultsIsAsExpected(12100, 12700, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
 
-                Assert.AreEqual(26, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
-                foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
+                Assert.AreEqual(18, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
+                /*foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
-                    FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
-                    var type = failureMechanismSectionList.FailureMechanismId.ToMechanismType();
-                    if (ninethSection is FmSectionWithDirectCategory)
+                    FailurePathSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
+                    var type = failureMechanismSectionList.FailurePathId.ToMechanismType();
+                    if (ninethSection is FailurePathSectionWithResult)
                     {
-                        var sectionWithDirectCategory = (FmSectionWithDirectCategory) ninethSection;
+                        var sectionWithDirectCategory = (FailurePathSectionWithResult) ninethSection;
                         AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
                                                   sectionWithDirectCategory);
                     }
-
-                    if (ninethSection is FmSectionWithIndirectCategory)
-                    {
-                        var sectionWithIndirectCategory = (FmSectionWithIndirectCategory) ninethSection;
-                        AssertResultsIsAsExpected(
-                            6700, 7100, expectedIndirectResults[Array.IndexOf(indirectMechanismTypes, type)],
-                            sectionWithIndirectCategory);
-                    }
-                }
+                }*/
             }
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EIndirectAssessmentResult category,
-                                               FmSectionWithIndirectCategory section)
-        {
-            Assert.AreEqual(start, section.SectionStart);
-            Assert.AreEqual(end, section.SectionEnd);
-            Assert.AreEqual(category, section.Category);
-        }
-
-        private void AssertResultsIsAsExpected(double start, double end, EFmSectionCategory category,
-                                               FmSectionWithDirectCategory section)
+        private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
+                                               FailurePathSectionWithResult section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);
