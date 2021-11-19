@@ -33,7 +33,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class FailureMechanismSectionListTests
+    public class FailurePathSectionListTests
     {
         [Test]
         public void EmptyListInputTest()
@@ -46,14 +46,14 @@ namespace Assembly.Kernel.Tests.Model
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void FailureMechanismNullInputTest()
+        public void FailurePathNullInputTest()
         {
             var list = new FailurePathSectionList(
                 null,
@@ -81,7 +81,7 @@ namespace Assembly.Kernel.Tests.Model
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");
@@ -102,7 +102,7 @@ namespace Assembly.Kernel.Tests.Model
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
             }
 
             Assert.Fail("Expected exception was not thrown");
@@ -145,7 +145,7 @@ namespace Assembly.Kernel.Tests.Model
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
             }
 
             Assert.Fail("Expected exception was not thrown");

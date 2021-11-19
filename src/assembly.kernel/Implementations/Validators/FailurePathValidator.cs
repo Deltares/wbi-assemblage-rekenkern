@@ -27,12 +27,12 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Implementations.Validators
 {
     /// <summary>
-    /// Validator for failure mechanism objects.
+    /// Validator for failure path objects.
     /// </summary>
     public static class FailurePathValidator
     {
         /// <summary>
-        /// Checks if failure mechanism data is valid.
+        /// Checks if failure path data is valid.
         /// </summary>
         /// <param name="lengthEffectFactor">The length effect factor to check. Has to be &gt;= 1</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>

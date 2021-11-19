@@ -26,12 +26,12 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Failure mechanism section with assessment category.
+    /// Failure path section with assessment category.
     /// </summary>
     public class FailurePathSection
     {
         /// <summary>
-        /// Failure mechanism with category constructor.
+        /// Failure path with category constructor.
         /// </summary>
         /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>

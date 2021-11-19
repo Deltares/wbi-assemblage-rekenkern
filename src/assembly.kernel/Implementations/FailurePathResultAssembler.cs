@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Implementations
                 return new FailurePathAssemblyResult(double.NaN);
             }
 
-            // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure mechanism sections.
+            // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure path sections.
             var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
@@ -74,12 +74,12 @@ namespace Assembly.Kernel.Implementations
                 noFailureProbProduct *= 1.0 - sectionFailureProb;
             }
 
-            var failureMechanismFailureProbability = 1 - noFailureProbProduct;
+            var failurePathFailureProbability = 1 - noFailureProbProduct;
 
             // step 2: Get section with largest failure probability and multiply with Assessment section length effect factor.
             highestFailureProbability *= failurePath.LengthEffectFactor;
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
-            var resultFailureProb = Math.Min(highestFailureProbability, failureMechanismFailureProbability);
+            var resultFailureProb = Math.Min(highestFailureProbability, failurePathFailureProbability);
             // step 4: Return the category + failure probability
             return new FailurePathAssemblyResult(resultFailureProb);
         }
@@ -88,7 +88,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (results == null)
             {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var sectionResults = results.ToArray();
@@ -96,8 +96,8 @@ namespace Assembly.Kernel.Implementations
             // result list should not be empty
             if (sectionResults.Length == 0)
             {
-                throw new AssemblyException("AssembleFailureMechanismResult",
-                                            EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                throw new AssemblyException("AssembleFailurePathResult",
+                                            EAssemblyErrors.FailurePathAssemblerInputInvalid);
             }
 
             return sectionResults;

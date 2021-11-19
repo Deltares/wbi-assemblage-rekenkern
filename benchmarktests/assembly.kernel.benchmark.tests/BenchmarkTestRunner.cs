@@ -244,7 +244,7 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailurePathSectionAssembler();
 
             var combinedSections = new FailurePathSectionList("", input.ExpectedCombinedSectionResult);
-            var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+            var calculatedSectionResults = assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(
                 new FailurePathSectionList(
                     type.ToString("D"),
                     input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Sections

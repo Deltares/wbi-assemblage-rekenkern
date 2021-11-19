@@ -29,19 +29,19 @@ using Assembly.Kernel.Model.FmSectionTypes;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure mechanism section results into one result for the failure mechanism.
+    /// Assemble Failure path section results into one result for the failure path.
     /// </summary>
     public interface IFailurePathResultAssembler
     {
         /// <summary>
-        /// Assemble a list of failure mechanism section assembly results with failure probability to
-        /// a single failure mechanism assembly result.
+        /// Assemble a list of failure path section assembly results with failure probability to
+        /// a single failure path assembly result.
         /// </summary>
-        /// <param name="failurePath">The failure mechanism to assemble the result for</param>
-        /// <param name="fpSectionAssemblyResults">The list of failure mechanism section assembly results 
+        /// <param name="failurePath">The failure path to assemble the result for</param>
+        /// <param name="fpSectionAssemblyResults">The list of failure path section assembly results 
         /// with failure probability to use for this assembly step.</param>
         /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
-        /// <returns>An assambled Failure mechanism result</returns>
+        /// <returns>An assambled Failure path result</returns>
         /// /// <exception cref="AssemblyException">Thrown when:<br/>
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>

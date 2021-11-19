@@ -33,10 +33,10 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class FailureMechanismResultAssemblerTests
+    public class FailurePathResultAssemblerTests
     {
         private readonly FailurePath testFailurePath1 = new FailurePath(14.4);
-        private readonly FailurePath testFailureMechanism2 = new FailurePath(10);
+        private readonly FailurePath testFailurePath2 = new FailurePath(10);
         private IFailurePathResultAssembler assembler;
 
         [SetUp]
@@ -83,7 +83,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NoResultPartly()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.IMin),
@@ -98,7 +98,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NoResult()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
@@ -113,7 +113,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NotApplicable()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
@@ -128,7 +128,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1Partial()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
+            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(0.9, 0.9, EInterpretationCategory.D),

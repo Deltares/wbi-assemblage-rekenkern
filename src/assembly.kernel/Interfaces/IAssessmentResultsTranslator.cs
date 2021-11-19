@@ -28,12 +28,12 @@ using Assembly.Kernel.Model.FmSectionTypes;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Translate assessment results to an failure mechanism section assessment result.
+    /// Translate assessment results to an failure path section assessment result.
     /// </summary>
     public interface IAssessmentResultsTranslator
     {
         /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments to a 
+        /// Translate the assessment result of failure path section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>
         /// <param name="isRelevant"></param>

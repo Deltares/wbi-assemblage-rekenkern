@@ -35,22 +35,22 @@ namespace Assembly.Kernel.Implementations
     public class CommonFailurePathSectionAssembler : ICommonFailurePathSectionAssembler
     {
         /// <inheritdoc />
-        public AssemblyResult AssembleCommonFailureMechanismSections(
+        public AssemblyResult AssembleCommonFailurePathSections(
             IEnumerable<FailurePathSectionList> failurePathSectionLists, double assessmentSectionLength,
             bool partialAssembly)
         {
             FailurePathSectionList[] failurePathSections = failurePathSectionLists.ToArray();
 
-            // step 1: create greatest common denominator list of the failure mechanism sections in the list.
+            // step 1: create greatest common denominator list of the failure path sections in the list.
             FailurePathSectionList commonSections =
                 FindGreatestCommonDenominatorSectionsWbi3A1(failurePathSections, assessmentSectionLength);
 
-            // step 2: determine assessment results per section for each failure mechanism.
+            // step 2: determine assessment results per section for each failure path.
             var failurePathResults = new List<FailurePathSectionList>();
             foreach (FailurePathSectionList failurePathSectionList in failurePathSections)
             {
                 failurePathResults.Add(
-                    TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failurePathSectionList,
+                    TranslateFailurePathResultsToCommonSectionsWbi3B1(failurePathSectionList,
                                                                            commonSections));
             }
 
@@ -119,7 +119,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailurePathSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+        public FailurePathSectionList TranslateFailurePathResultsToCommonSectionsWbi3B1(
             FailurePathSectionList failurePathSectionList,
             FailurePathSectionList commonSections)
         {
@@ -149,11 +149,11 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public IEnumerable<FailurePathSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
-            IEnumerable<FailurePathSectionList> failureMechanismResults, bool partialAssembly)
+            IEnumerable<FailurePathSectionList> failurePathResults, bool partialAssembly)
         {
-            FailurePathSectionWithCategory[][] directFailureMechanismSectionLists = CheckInputWbi3C1(failureMechanismResults);
+            FailurePathSectionWithCategory[][] failurePathSectionLists = CheckInputWbi3C1(failurePathResults);
 
-            FailurePathSectionWithCategory[] firstSectionsList = directFailureMechanismSectionLists.First();
+            FailurePathSectionWithCategory[] firstSectionsList = failurePathSectionLists.First();
             var combinedSectionResults = new List<FailurePathSectionWithCategory>();
 
             for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
@@ -162,13 +162,13 @@ namespace Assembly.Kernel.Implementations
                                                                          firstSectionsList[iSection].SectionEnd,
                                                                          EInterpretationCategory.Gr);
 
-                foreach (var failureMechanismSectionList in directFailureMechanismSectionLists)
+                foreach (var failurePathSectionList in failurePathSectionLists)
                 {
-                    var section = failureMechanismSectionList[iSection];
+                    var section = failurePathSectionList[iSection];
                     if (!AreEqualSections(section, newCombinedSection))
                     {
                         throw new AssemblyException("FailurePathSectionList",
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
                     }
 
                     newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category, section.Category, partialAssembly);
@@ -185,34 +185,34 @@ namespace Assembly.Kernel.Implementations
         }
 
         private static FailurePathSectionWithCategory[][] CheckInputWbi3C1(
-            IEnumerable<FailurePathSectionList> failureMechanismResults)
+            IEnumerable<FailurePathSectionList> failurePathResults)
         {
-            if (failureMechanismResults == null)
+            if (failurePathResults == null)
             {
                 throw new AssemblyException("FailurePathSectionList",
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            var directFailureMechanismSectionLists = failureMechanismResults
+            var failurePathSectionLists = failurePathResults
                                                      .Where(fmrl => fmrl.Sections.First().GetType() ==
                                                                     typeof(FailurePathSectionWithCategory))
                                                      .Select(fmrl =>
                                                                  fmrl.Sections.OfType<FailurePathSectionWithCategory>().ToArray())
                                                      .ToArray();
 
-            if (!directFailureMechanismSectionLists.Any())
+            if (!failurePathSectionLists.Any())
             {
                 throw new AssemblyException("FailurePathSectionList",
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            if (directFailureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)
+            if (failurePathSectionLists.Select(l => l.Length).Distinct().Count() > 1)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
-            return directFailureMechanismSectionLists;
+            return failurePathSectionLists;
         }
 
         private static bool AreEqualSections(FailurePathSectionWithCategory section1, FailurePathSectionWithCategory section2)
@@ -234,7 +234,7 @@ namespace Assembly.Kernel.Implementations
                          failurePathSectionList.Sections.Last().SectionEnd) > 1e-8)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             var firstResult = failurePathSectionList.Sections.First();
@@ -246,7 +246,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         private static FailurePathSectionList[] CheckGreatestCommonDenominatorInput(
-            IEnumerable<FailurePathSectionList> failureMechanismSectionLists,
+            IEnumerable<FailurePathSectionList> failurePathSectionLists,
             double assessmentSectionLength)
         {
             if (double.IsNaN(assessmentSectionLength))
@@ -261,21 +261,21 @@ namespace Assembly.Kernel.Implementations
                                             EAssemblyErrors.SectionLengthOutOfRange);
             }
 
-            if (failureMechanismSectionLists == null)
+            if (failurePathSectionLists == null)
             {
-                throw new AssemblyException("FailureMEchanismSectionList",
+                throw new AssemblyException("FailurePathSectionList",
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            var mechanismSectionLists = failureMechanismSectionLists as FailurePathSectionList[] ??
-                                        failureMechanismSectionLists.ToArray();
-            if (!mechanismSectionLists.Any())
+            var pathSectionLists = failurePathSectionLists as FailurePathSectionList[] ??
+                                        failurePathSectionLists.ToArray();
+            if (!pathSectionLists.Any())
             {
-                throw new AssemblyException("FailureMEchanismSectionList",
+                throw new AssemblyException("FailurePathSectionList",
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            return mechanismSectionLists;
+            return pathSectionLists;
         }
 
         private static EInterpretationCategory DetermineCombinedCategory(EInterpretationCategory combinedCategory,

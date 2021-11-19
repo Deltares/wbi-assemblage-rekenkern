@@ -27,18 +27,18 @@ using Assembly.Kernel.Model.FmSectionTypes;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Direct failure mechanism with assessment result category.
+    /// Direct failure path with assessment result category.
     /// </summary>
     public class FailurePathSectionWithCategory : FailurePathSection
     {
         /// <summary>
-        /// Indirect failure mechanism with category
+        /// Indirect failure path with category
         /// </summary>
         /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
-        /// <param name="category">The assessment result of the failure mechanism section</param>
+        /// <param name="category">The assessment result of the failure path section</param>
         public FailurePathSectionWithCategory(double sectionStart, double sectionEnd, EInterpretationCategory category) :
             base(sectionStart, sectionEnd)
         {
@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// The assessment result of the direct failure mechanism of this section.
+        /// The assessment result of the direct failure path of this section.
         /// </summary>
         public EInterpretationCategory Category { get; set; }
     }

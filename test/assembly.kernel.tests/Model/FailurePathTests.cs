@@ -27,15 +27,15 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class FailureMechanismTests
+    public class FailurePathTests
     {
         [Test]
         public void ToStringTest()
         {
             const double lengthEffectFactor = 1.1;
-            var failureMechanism = new FailurePath(lengthEffectFactor);
+            var failurePath = new FailurePath(lengthEffectFactor);
             Assert.AreEqual($"Length effect factor: {lengthEffectFactor}",
-                            failureMechanism.ToString());
+                            failurePath.ToString());
         }
     }
 }

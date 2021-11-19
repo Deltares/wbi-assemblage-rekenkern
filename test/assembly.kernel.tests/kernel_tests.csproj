@@ -36,9 +36,9 @@
     <Compile Include="Model\FmSectionTypes\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
-    <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssemblerTests.cs" />
-    <Compile Include="Implementations\Validators\FailureMechanismValidatorTests.cs" />
+    <Compile Include="Implementations\CommonFailurePathSectionAssemblerTests.cs" />
+    <Compile Include="Implementations\FailurePathResultAssemblerTests.cs" />
+    <Compile Include="Implementations\Validators\FailurePathValidatorTests.cs" />
     <Compile Include="Implementations\Validators\AssessmentSectionValidatorTests.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssemblyResultTests.cs" />
@@ -46,8 +46,8 @@
     <Compile Include="Model\CategoryLimits\CategoryLimitsTests.cs" />
     <Compile Include="Model\CategoryLimits\TestCategory.cs" />
     <Compile Include="Model\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\FailureMechanismSectionListTests.cs" />
-    <Compile Include="Model\FailureMechanismTests.cs" />
+    <Compile Include="Model\FailurePathSectionListTests.cs" />
+    <Compile Include="Model\FailurePathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

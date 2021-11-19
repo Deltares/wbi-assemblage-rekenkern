@@ -31,11 +31,11 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations.Validators
 {
     [TestFixture]
-    public class FailureMechanismValidatorTests
+    public class FailurePathValidatorTests
     {
         [Test,
-         TestCaseSource(typeof(FailureMechanismValidatorTestData), nameof(FailureMechanismValidatorTestData.TestCases))]
-        public List<EAssemblyErrors> FailureMechanismCheckTest(double lengthEffectFactor)
+         TestCaseSource(typeof(FailurePathValidatorTestData), nameof(FailurePathValidatorTestData.TestCases))]
+        public List<EAssemblyErrors> FailurePathCheckTest(double lengthEffectFactor)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
         }
     }
 
-    public class FailureMechanismValidatorTestData
+    public class FailurePathValidatorTestData
     {
         public static IEnumerable TestCases
         {

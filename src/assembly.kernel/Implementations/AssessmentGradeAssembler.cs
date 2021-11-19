@@ -35,12 +35,12 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailurePathAssemblyResult> failureMechanismAssemblyResults,
+            IEnumerable<FailurePathAssemblyResult> failurePathmAssemblyResults,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            FailurePathAssemblyResult[] failureMechanismResults =
-                CheckFailureMechanismAssemblyResults(failureMechanismAssemblyResults);
+            FailurePathAssemblyResult[] failurePathAssemblyResults =
+                CheckFailurePathAssemblyResults(failurePathmAssemblyResults);
 
             if (categories == null)
             {
@@ -49,24 +49,24 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                failureMechanismResults = failureMechanismResults.Where(fmr =>
+                failurePathAssemblyResults = failurePathAssemblyResults.Where(fmr =>
                                                                             !double.IsNaN(fmr.FailureProbability))
                                                                  .ToArray();
             }
 
-            if (failureMechanismResults.All(fmr => double.IsNaN(fmr.FailureProbability)))
+            if (failurePathAssemblyResults.All(fmr => double.IsNaN(fmr.FailureProbability)))
             {
                 return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
             }
 
             var failureProbProduct = 1.0;
-            foreach (var failureMechanismAssemblyResult in failureMechanismResults)
+            foreach (var failurePathAssemblyResult in failurePathAssemblyResults)
             {
-                if (double.IsNaN(failureMechanismAssemblyResult.FailureProbability))
+                if (double.IsNaN(failurePathAssemblyResult.FailureProbability))
                 {
                     return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
                 }
-                failureProbProduct *= 1.0 - failureMechanismAssemblyResult.FailureProbability;
+                failureProbProduct *= 1.0 - failurePathAssemblyResult.FailureProbability;
             }
 
             var probabilityOfFailure = 1 - failureProbProduct;
@@ -74,23 +74,23 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
-        private static FailurePathAssemblyResult[] CheckFailureMechanismAssemblyResults(
-            IEnumerable<FailurePathAssemblyResult> failureMechanismAssemblyResults)
+        private static FailurePathAssemblyResult[] CheckFailurePathAssemblyResults(
+            IEnumerable<FailurePathAssemblyResult> failurePathAssemblyResults)
         {
-            if (failureMechanismAssemblyResults == null)
+            if (failurePathAssemblyResults == null)
             {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            List<FailurePathAssemblyResult> failureMechanismResults = failureMechanismAssemblyResults.ToList();
+            List<FailurePathAssemblyResult> failurePathResults = failurePathAssemblyResults.ToList();
 
-            if (failureMechanismResults.Count == 0)
+            if (failurePathResults.Count == 0)
             {
-                throw new AssemblyException("AssembleFailureMechanismResult",
-                                            EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
+                throw new AssemblyException("AssembleFailurePathResult",
+                                            EAssemblyErrors.FailurePathAssemblerInputInvalid);
             }
 
-            return failureMechanismResults.ToArray();
+            return failurePathResults.ToArray();
         }
     }
 }

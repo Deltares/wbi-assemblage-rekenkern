@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismAssemblerInputInvalid, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.FailurePathAssemblerInputInvalid, message.ErrorCode);
             }
         }
 

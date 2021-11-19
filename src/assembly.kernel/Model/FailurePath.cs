@@ -27,7 +27,7 @@ using Assembly.Kernel.Implementations.Validators;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Failure Mechanism data object
+    /// Failure path data object
     /// </summary>
     public class FailurePath
     {
@@ -50,9 +50,9 @@ namespace Assembly.Kernel.Model
         public double LengthEffectFactor { get; }
 
         /// /// <summary>
-        /// Generates string from failure mechanism object.
+        /// Generates string from failure paths object.
         /// </summary>
-        /// <returns>Text representation of the failure mechanism object</returns>
+        /// <returns>Text representation of the failure path object</returns>
         public override string ToString()
         {
             return $"Length effect factor: {LengthEffectFactor}";

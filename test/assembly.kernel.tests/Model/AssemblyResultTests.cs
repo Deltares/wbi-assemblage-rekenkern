@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void ResultPerFailureMechanismNullTest()
+        public void ResultPerFailurePathNullTest()
         {
             try
             {

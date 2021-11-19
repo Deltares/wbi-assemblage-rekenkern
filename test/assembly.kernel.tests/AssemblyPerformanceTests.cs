@@ -48,16 +48,15 @@ namespace Assembly.Kernel.Tests
             const int sectionLength = 3750;
             var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
             var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FailurePathSection>>();
-            // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-            //var failureMechanismSectionLists = new List<FailurePathSectionList>();
+            var failurePathSectionLists = new List<FailurePathSectionList>();
 
-            // create section results for 15 failure mechanisms with 250 sections each
+            // create section results for 15 failure paths with 250 sections each
             CreateTestInput(sectionLength, fpSectionResultsDictionary);
 
             // start timer
             var watch = Stopwatch.StartNew();
 
-            var failureMechanismResultsWithFailureProb = new List<FailurePathAssemblyResult>();
+            var failurePathResultsWithFailureProb = new List<FailurePathAssemblyResult>();
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();
@@ -67,20 +66,18 @@ namespace Assembly.Kernel.Tests
                     fpSectionResults.Key,
                     fpSectionResults.Value.Select(fpSection => fpSection.Result),
                     false);
-                failureMechanismResultsWithFailureProb.Add(result);
+                failurePathResultsWithFailureProb.Add(result);
 
-                // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-                //failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(fpSectionResults.Value));
+                failurePathSectionLists.Add(CreateFailurePathSectionListForStep3(fpSectionResults.Value));
             }
 
             // assembly step 2
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
             var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb, categories, false);
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failurePathResultsWithFailureProb, categories, false);
 
             // assembly step 3
-            // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-            //combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,false);
+            combinedSectionAssembler.AssembleCommonFailurePathSections(failurePathSectionLists, sectionLength,false);
             watch.Stop();
 
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
@@ -91,15 +88,15 @@ namespace Assembly.Kernel.Tests
         {
             for (var i = 1; i <= 15; i++)
             {
-                var failureMechanism = new FailurePath(i);
-                var failureMechanismSections = new List<FailurePathSection>();
+                var failurePath = new FailurePath(i);
+                var failurePathSections = new List<FailurePathSection>();
 
                 var sectionLengthRemaining = sectionLength;
                 for (var k = 0; k < 250; k++)
                 {
                     var sectionStart = sectionLengthRemaining / (250 - k) * k;
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
-                    failureMechanismSections.Add(
+                    failurePathSections.Add(
                         new FailurePathSection(
                             new FailurePathSectionAssemblyResult(0.002, 1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
@@ -109,22 +106,21 @@ namespace Assembly.Kernel.Tests
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }
 
-                withFailureProbabilities.Add(failureMechanism, failureMechanismSections);
+                withFailureProbabilities.Add(failurePath, failurePathSections);
             }
         }
 
-        // TODO: Temp disable and wait for implementation of ASK-36 and ASK37
-        /*private static FailurePathSectionList CreateFailureMechanismSectionListForStep3(
+        private static FailurePathSectionList CreateFailurePathSectionListForStep3(
             List<FailurePathSection> fmSectionResults)
         {
             var fmsectionList = new FailurePathSectionList(fmSectionResults.FirstOrDefault()?.FmType,
-                                                                fmSectionResults.Select(fmsection =>
+                                                                fmSectionResults.Select(fpSection =>
                                                                                             new FailurePathSectionWithCategory(
-                                                                                                fmsection.SectionStart,
-                                                                                                fmsection.SectionEnd,
-                                                                                                fmsection.Result.)));
+                                                                                                fpSection.SectionStart,
+                                                                                                fpSection.SectionEnd,
+                                                                                                fpSection.Result.InterpretationCategory)));
             return fmsectionList;
-        }*/
+        }
 
         private sealed class FailurePathSection
         {

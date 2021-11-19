@@ -29,14 +29,14 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Failure mechanism section categories of a single failure mechanism.
+    /// Failure path section categories of a single failure path.
     /// </summary>
     public class FailurePathSectionList
     {
         /// <summary>
-        /// Failure mechanism section list constructor.
+        /// Failure path section list constructor.
         /// </summary>
-        /// <param name="failurePathId">The failure mechanism to which the section results belong</param>
+        /// <param name="failurePathId">The failure path to which the section results belong</param>
         /// <param name="sectionResults">The fmSection categories, this list will be sorted by section start</param>
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
@@ -49,12 +49,12 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// The list of failure mechanism section assessment results grouped.
+        /// The list of failure path section assessment results grouped.
         /// </summary>
         public IEnumerable<FailurePathSection> Sections { get; }
 
         /// <summary>
-        /// The failure mechanism to which the section results belong.
+        /// The failure path to which the section results belong.
         /// </summary>
         /// TODO: Does this still exist? also for 
         public string FailurePathId { get; }
@@ -91,7 +91,7 @@ namespace Assembly.Kernel.Model
             if (sectionResultsArray.Length == 0)
             {
                 throw new AssemblyException("FailurePathSectionList",
-                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
             }
 
             // Check if all entries are either direct or indirect, not a combination.
@@ -114,7 +114,7 @@ namespace Assembly.Kernel.Model
                     if (section.SectionStart > 0.0)
                     {
                         throw new AssemblyException("FailurePathSectionList",
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
                     }
                 }
                 else
@@ -122,8 +122,8 @@ namespace Assembly.Kernel.Model
                     // check if sections are consecutive with a margin of 1 cm
                     if (Math.Abs(previousFailurePathSection.SectionEnd - section.SectionStart) > 0.01)
                     {
-                        throw new AssemblyException("FailuremechanismSectionList",
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                        throw new AssemblyException("FailurepathSectionList",
+                                                    EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
                     }
                 }
 

@@ -34,15 +34,15 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class CommonFailureMechanismSectionAssemblerTests
+    public class CommonFailurePathSectionAssemblerTests
     {
         private readonly ICommonFailurePathSectionAssembler assembler =
             new CommonFailurePathSectionAssembler();
 
         [Test]
-        public void AssembleCommonFailureMechanismSectionsTest()
+        public void AssembleCommonFailurePathSectionsTest()
         {
-            var failureMechanismSections = new List<FailurePathSectionList>
+            var failurePathSectionLists = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailurePathSectionList>
+            var expectedFailurePathResults = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -108,9 +108,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailurePathSectionWithCategory(45.0, 50.0, 0.1, EInterpretationCategory.I)
             };*/
 
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
+            TestCombinedFailurePathSectionAssembler(
+                failurePathSectionLists,
+                expectedFailurePathResults,
                 expectedCombinedResult,
                 false);
         }
@@ -183,7 +183,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
+                Assert.AreEqual(EAssemblyErrors.CommonFailurePathSectionsInvalid,
                                 exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
@@ -221,7 +221,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
+                Assert.AreEqual(EAssemblyErrors.CommonFailurePathSectionsInvalid,
                                 exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
@@ -463,7 +463,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void NoResultFailurePathTest()
         {
-            var failureMechanismSections = new List<FailurePathSectionList>
+            var failurePathSectionLists = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -483,7 +483,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailurePathSectionList>
+            var expectedFailurePathResults = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -531,9 +531,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
             };
 
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
+            TestCombinedFailurePathSectionAssembler(
+                failurePathSectionLists,
+                expectedFailurePathResults,
                 expectedCombinedResult,
                 false);
         }
@@ -541,7 +541,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void NotAllSectionsProvidedExceptionTest()
         {
-            var failureMechanismSections = new List<FailurePathSectionList>
+            var failurePathSectionLists = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -556,7 +556,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             try
             {
-                assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, false);
+                assembler.AssembleCommonFailurePathSections(failurePathSectionLists, 50.0, false);
             }
             catch (AssemblyException e)
             {
@@ -573,7 +573,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void PartialFailurePathTest()
         {
-            var failureMechanismSections = new List<FailurePathSectionList>
+            var failurePathSectionLists = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -593,7 +593,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            var expectedFailureMechanismResults = new List<FailurePathSectionList>
+            var expectedFailurePathResults = new List<FailurePathSectionList>
             {
                 new FailurePathSectionList("TEST", new[]
                 {
@@ -640,15 +640,15 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
             };
 
-            TestCombinedFailureMechanismSectionAssembler(
-                failureMechanismSections,
-                expectedFailureMechanismResults,
+            TestCombinedFailurePathSectionAssembler(
+                failurePathSectionLists,
+                expectedFailurePathResults,
                 expectedCombinedResult,
                 true);
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnIncorrectListType()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1ThrowsOnIncorrectListType()
         {
             var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
@@ -667,7 +667,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                    assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(resultSectionsList,
                                                                                      commonSectionsList);
             }
             catch (AssemblyException exception)
@@ -682,7 +682,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnInvalidSectionLengthsEmpty()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1ThrowsOnInvalidSectionLengthsEmpty()
         {
             var list = new FailurePathSectionList("TestList", new[]
             {
@@ -697,13 +697,13 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(longList, list);
+                    assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(longList, list);
             }
             catch (AssemblyException exception)
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
+                Assert.AreEqual(EAssemblyErrors.CommonFailurePathSectionsInvalid,
                                 exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
@@ -712,7 +712,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1ThrowsOnNullLists()
         {
             var list = new FailurePathSectionList("TestList", new[]
             {
@@ -722,7 +722,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(null, list);
+                    assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(null, list);
             }
             catch (AssemblyException exception)
             {
@@ -736,7 +736,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists2()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1ThrowsOnNullLists2()
         {
             var list = new FailurePathSectionList("TestList", new[]
             {
@@ -746,7 +746,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(list, null);
+                    assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(list, null);
             }
             catch (AssemblyException exception)
             {
@@ -760,7 +760,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1TranslatesCorrectly()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1TranslatesCorrectly()
         {
             var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
@@ -775,7 +775,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailurePathSection(7.5, 10.0)
             });
             var commonSectionsWithResults =
-                assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(resultSectionsList,
                                                                                  commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
@@ -791,7 +791,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
+        public void TranslateFailurePathResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
         {
             var resultSectionsList = new FailurePathSectionList("FM1", new[]
             {
@@ -806,7 +806,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailurePathSection(7.5, 10.000000001)
             });
             var commonSectionsWithResults =
-                assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                assembler.TranslateFailurePathResultsToCommonSectionsWbi3B1(resultSectionsList,
                                                                                  commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
@@ -821,16 +821,16 @@ namespace Assembly.Kernel.Tests.Implementations
                             ((FailurePathSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
-        private void TestCombinedFailureMechanismSectionAssembler(
-            IEnumerable<FailurePathSectionList> failureMechanismSections,
-            IList<FailurePathSectionList> expectedFailureMechanismResults,
+        private void TestCombinedFailurePathSectionAssembler(
+            IEnumerable<FailurePathSectionList> failurePathSections,
+            IList<FailurePathSectionList> expectedFailurePathResults,
             IList<FailurePathSectionWithCategory> expectedCombinedResult,
             bool partial)
         {
-            var result = assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, partial);
+            var result = assembler.AssembleCommonFailurePathSections(failurePathSections, 50.0, partial);
             Assert.NotNull(result);
 
-            AssertFailureMechanismSectionLists(expectedFailureMechanismResults, result.ResultPerFailureMechanism);
+            AssertFailurePathSectionLists(expectedFailurePathResults, result.ResultPerFailurePath);
 
             AssertCombinedResultsList(expectedCombinedResult, result.CombinedSectionResult);
         }
@@ -848,21 +848,21 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
-        private static void AssertFailureMechanismSectionLists(
-            IList<FailurePathSectionList> expectedFailureMechanismResults,
+        private static void AssertFailurePathSectionLists(
+            IList<FailurePathSectionList> expectedFailurePathResults,
             IEnumerable<FailurePathSectionList> result)
         {
-            List<FailurePathSectionList> resultPerFailureMechanism = result.ToList();
-            Assert.AreEqual(expectedFailureMechanismResults.Count, resultPerFailureMechanism.Count);
+            List<FailurePathSectionList> resultPerFailurePath = result.ToList();
+            Assert.AreEqual(expectedFailurePathResults.Count, resultPerFailurePath.Count);
 
-            for (var i = 0; i < expectedFailureMechanismResults.Count; i++)
+            for (var i = 0; i < expectedFailurePathResults.Count; i++)
             {
-                var fmResult = resultPerFailureMechanism[i];
+                var fmResult = resultPerFailurePath[i];
 
-                Assert.AreEqual(expectedFailureMechanismResults[i].FailurePathId, fmResult.FailurePathId);
+                Assert.AreEqual(expectedFailurePathResults[i].FailurePathId, fmResult.FailurePathId);
 
                 var sectionResults = fmResult.Sections.ToArray();
-                var expectedSectionResults = expectedFailureMechanismResults[i].Sections.ToArray();
+                var expectedSectionResults = expectedFailurePathResults[i].Sections.ToArray();
 
                 Assert.AreEqual(expectedSectionResults.Length, sectionResults.Length);
                 for (var k = 0; k < expectedSectionResults.Length; k++)

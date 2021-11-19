@@ -28,63 +28,63 @@ using Assembly.Kernel.Model;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble failure mechanism section results of multiple failure mechanisms to 
+    /// Assemble failure path section results of multiple failure paths to 
     /// a greatest denominator section result.
     /// </summary>
     public interface ICommonFailurePathSectionAssembler
     {
         /// <summary>
-        /// Assemble failure mechanism section results into a greatest common denominator assembly result.
+        /// Assemble failure path section results into a greatest common denominator assembly result.
         /// </summary>
-        /// <param name="failurePathSectionLists">The list of failure mechanism section results 
-        /// grouped by failure mechanism.</param>
+        /// <param name="failurePathSectionLists">The list of failure path section results 
+        /// grouped by failure path.</param>
         /// <param name="assessmentSectionLength">The total length of the assessment section. 
         /// The sum of the section lengths must be equal to this length.</param>
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
         /// <returns>The greatest common denominator assembly result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
+        /// <exception cref="AssemblyException">Thrown when the failure path sections aren't consecutive, 
+        /// or when the sum of the failure path sections is not the same as the total assessment section 
         /// length.</exception>
-        AssemblyResult AssembleCommonFailureMechanismSections(
+        AssemblyResult AssembleCommonFailurePathSections(
             IEnumerable<FailurePathSectionList> failurePathSectionLists, double assessmentSectionLength,
             bool partialAssembly);
 
         /// <summary>
-        /// Find the greatest common denominator sections based on a list of all sections for various failure mechanisms.
+        /// Find the greatest common denominator sections based on a list of all sections for various failure paths.
         /// </summary>
-        /// <param name="failurePathSectionLists">A list of all failure mechanism sections for all relevant failure mechanisms.</param>
+        /// <param name="failurePathSectionLists">A list of all failure path sections for all relevant failure paths.</param>
         /// <param name="assessmentSectionLength">The total length of the assessment section. 
         /// The sum of the section lengths must be equal to this length.</param>
         /// <returns>The greatest common denominator sections spanning the complete assessment section length.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
+        /// <exception cref="AssemblyException">Thrown when the failure path sections aren't consecutive, 
+        /// or when the sum of the failure path sections is not the same as the total assessment section 
         /// length.</exception>
         FailurePathSectionList FindGreatestCommonDenominatorSectionsWbi3A1(
             IEnumerable<FailurePathSectionList> failurePathSectionLists,
             double assessmentSectionLength);
 
         /// <summary>
-        /// Translate the results per section of a failure mechanism to results per common greatest denominator section.
+        /// Translate the results per section of a failure path to results per common greatest denominator section.
         /// </summary>
         /// <param name="failurePathSectionList">This list needs to have also categories. Sections are restricted to either 
         /// FailurePathSectionWithCategory of FmSectionWithIndirectCategory.</param>
-        /// <param name="commonSections">The of all common failure mechanism sections.</param>
-        /// <returns>The assembly result per common denominator section for the specified failure mechanism.</returns>
-        FailurePathSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+        /// <param name="commonSections">The of all common failure path sections.</param>
+        /// <returns>The assembly result per common denominator section for the specified failure path.</returns>
+        FailurePathSectionList TranslateFailurePathResultsToCommonSectionsWbi3B1(
             FailurePathSectionList failurePathSectionList,
             FailurePathSectionList commonSections);
 
         /// <summary>
         /// This method determines the combined result per common greatest denominator section based on a list of results for those
-        /// sections per failure mechanism.
+        /// sections per failure path.
         /// </summary>
-        /// <param name="failureMechanismResults">The list of results per failure mechanism translated to the greatest denominator
-        /// sections across all failure mechanisms. All lists should have equal sections (start and end).</param>
+        /// <param name="failurePathResults">The list of results per failure path translated to the greatest denominator
+        /// sections across all failure paths. All lists should have equal sections (start and end).</param>
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
         /// <returns>The greatest common denominator assembly result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections, or 
-        /// when there are only results for indirect failure mechanisms.</exception>
+        /// <exception cref="AssemblyException">Thrown when the failure path sections lists do not have equal sections, or 
+        /// when there are only results for indirect failure paths.</exception>
         IEnumerable<FailurePathSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
-            IEnumerable<FailurePathSectionList> failureMechanismResults, bool partialAssembly);
+            IEnumerable<FailurePathSectionList> failurePathResults, bool partialAssembly);
     }
 }
