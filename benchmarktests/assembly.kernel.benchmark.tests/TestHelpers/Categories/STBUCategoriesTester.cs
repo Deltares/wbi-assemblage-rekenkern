@@ -69,11 +69,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                 throw new ArgumentException();
             }
 
+            /*
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
                                                                    .OfType<FailureMechanismSectionBase<EFmSectionCategory>>()
                                                                    .First()
                                                                    .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
+        */
         }
 
         public bool? TestCategories()

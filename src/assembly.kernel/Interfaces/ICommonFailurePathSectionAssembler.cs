@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Interfaces
     /// Assemble failure mechanism section results of multiple failure mechanisms to 
     /// a greatest denominator section result.
     /// </summary>
-    public interface ICommonFailureMechanismSectionAssembler
+    public interface ICommonFailurePathSectionAssembler
     {
         /// <summary>
         /// Assemble failure mechanism section results into a greatest common denominator assembly result.

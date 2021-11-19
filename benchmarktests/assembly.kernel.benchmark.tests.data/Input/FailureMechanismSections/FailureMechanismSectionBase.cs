@@ -43,8 +43,10 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 
         public double End { get; set; }
 
+        /*
         public IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; set; }
 
         public IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; set; }
+    */
     }
 }

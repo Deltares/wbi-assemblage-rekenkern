@@ -38,10 +38,10 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailurePathAssemblyResult AssembleFailurePathWbi1B1(
             FailurePath failurePath,
-            IEnumerable<FpSectionAssemblyResult> fmSectionAssemblyResults,
+            IEnumerable<FailurePathSectionAssemblyResult> fmSectionAssemblyResults,
             bool partialAssembly)
         {
-            FpSectionAssemblyResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
+            FailurePathSectionAssemblyResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
 
             if (partialAssembly)
             {
@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Implementations
             return new FailurePathAssemblyResult(resultFailureProb);
         }
 
-        private static T[] CheckInput<T>(IEnumerable<T> results) where T : IFmSectionAssemblyResult
+        private static FailurePathSectionAssemblyResult[] CheckInput(IEnumerable<FailurePathSectionAssemblyResult> results)
         {
             if (results == null)
             {

@@ -22,7 +22,6 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.FmSectionTypes;
 
 namespace Assembly.Kernel.Model
 {
@@ -31,42 +30,6 @@ namespace Assembly.Kernel.Model
     /// </summary>
     public static class ModelExtensionMethods
     {
-        /// <summary>
-        /// Translates an EFmSectionCategory to an EFailureMechanismCategory, as specified in WBI-1A-1
-        /// </summary>
-        /// <param name="failureMechanismCategory">The failure mechanism section category</param>
-        /// <returns>The failure mechanism category belonging to the section category</returns>
-        /// <exception cref="AssemblyException">Thrown when a category is present which is unkown to the translator
-        /// </exception>
-        public static EFailureMechanismCategory ToAssessmentGrade(
-            this EFmSectionCategory failureMechanismCategory)
-        {
-            switch (failureMechanismCategory)
-            {
-                case EFmSectionCategory.Iv:
-                    return EFailureMechanismCategory.It;
-                case EFmSectionCategory.IIv:
-                    return EFailureMechanismCategory.IIt;
-                case EFmSectionCategory.IIIv:
-                    return EFailureMechanismCategory.IIIt;
-                case EFmSectionCategory.IVv:
-                    return EFailureMechanismCategory.IVt;
-                case EFmSectionCategory.Vv:
-                    return EFailureMechanismCategory.Vt;
-                case EFmSectionCategory.VIv:
-                    return EFailureMechanismCategory.VIt;
-                case EFmSectionCategory.VIIv:
-                    return EFailureMechanismCategory.VIIt;
-                case EFmSectionCategory.Gr:
-                    return EFailureMechanismCategory.Gr;
-                case EFmSectionCategory.NotApplicable:
-                    return EFailureMechanismCategory.Nvt;
-                default:
-                    throw new AssemblyException("FailureMechanismAssembler: " + failureMechanismCategory,
-                                                EAssemblyErrors.FailureMechanismAssemblerInputInvalid);
-            }
-        }
-
         /// <summary>
         /// Translates an EFailureMechanismCategory to an EAssessmentGrade, as specified in Wbi-2A-1
         /// </summary>

@@ -36,8 +36,8 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class CommonFailureMechanismSectionAssemblerTests
     {
-        private readonly ICommonFailureMechanismSectionAssembler assembler =
-            new CommonFailureMechanismSectionAssembler();
+        private readonly ICommonFailurePathSectionAssembler assembler =
+            new CommonFailurePathSectionAssembler();
 
         [Test]
         public void AssembleCommonFailureMechanismSectionsTest()

@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(testFailurePath1,
                                                                   failureProbabilities.Select(failureProbability =>
                                                                                                   new
-                                                                                                      FpSectionAssemblyResult(
+                                                                                                      FailurePathSectionAssemblyResult(
                                                                                                           failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
                                                                   assemblyType == EAssemblyType.Partial);
 
@@ -67,12 +67,12 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(new FailurePath(5),
                                                                   new[]
                                                                   {
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin),
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IMin),
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIMin),
-                                                                      new FpSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin)
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.II),
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin),
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IMin),
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIMin),
+                                                                      new FailurePathSectionAssemblyResult(0.001, 0.001, EInterpretationCategory.IIIMin)
                                                                   },
                                                                   false);
 
@@ -86,9 +86,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.IMin),
-                                                                      new FpSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D)
+                                                                      new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.IMin),
+                                                                      new FailurePathSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(0.00026, 0.00026, EInterpretationCategory.D)
                                                                   },
                                                                   false);
 
@@ -101,9 +101,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D)
+                                                                      new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D)
                                                                   },
                                                                   false);
 
@@ -116,9 +116,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D)
+                                                                      new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.D)
                                                                   },
                                                                   false);
 
@@ -131,14 +131,14 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(testFailureMechanism2,
                                                                   new[]
                                                                   {
-                                                                      new FpSectionAssemblyResult(0.9, 0.9, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(0.000026, 0.000026, EInterpretationCategory.D),
-                                                                      new FpSectionAssemblyResult(0.000010, 0.000010, EInterpretationCategory.II),
-                                                                      new FpSectionAssemblyResult(0.0000011, 0.0000011, EInterpretationCategory.II),
-                                                                      new FpSectionAssemblyResult(0.000015, 0.000015, EInterpretationCategory.II),
-                                                                      new FpSectionAssemblyResult(0.000009, 0.000009, EInterpretationCategory.III),
-                                                                      new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.III),
-                                                                      new FpSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.IIIMin)
+                                                                      new FailurePathSectionAssemblyResult(0.9, 0.9, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(0.000026, 0.000026, EInterpretationCategory.D),
+                                                                      new FailurePathSectionAssemblyResult(0.000010, 0.000010, EInterpretationCategory.II),
+                                                                      new FailurePathSectionAssemblyResult(0.0000011, 0.0000011, EInterpretationCategory.II),
+                                                                      new FailurePathSectionAssemblyResult(0.000015, 0.000015, EInterpretationCategory.II),
+                                                                      new FailurePathSectionAssemblyResult(0.000009, 0.000009, EInterpretationCategory.III),
+                                                                      new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.III),
+                                                                      new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.IIIMin)
                                                                   },
                                                                   true);
 

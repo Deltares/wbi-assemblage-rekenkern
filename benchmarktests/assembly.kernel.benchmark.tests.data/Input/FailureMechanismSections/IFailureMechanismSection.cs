@@ -40,6 +40,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         double End { get; }
 
+        /*
         /// <summary>
         /// The expected result of the detailed assessment
         /// </summary>
@@ -49,6 +50,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// The expected result of the tailor made assessment
         /// </summary>
         IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; }
+    */
     }
 
     /// <summary>

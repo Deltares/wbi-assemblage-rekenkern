@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Interfaces
         /// </exception>
         FailurePathAssemblyResult AssembleFailurePathWbi1B1(
             FailurePath failurePath,
-            IEnumerable<FpSectionAssemblyResult> fpSectionAssemblyResults,
+            IEnumerable<FailurePathSectionAssemblyResult> fpSectionAssemblyResults,
             bool partialAssembly);
     }
 }

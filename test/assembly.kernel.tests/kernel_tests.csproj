@@ -51,7 +51,6 @@
     <Compile Include="Model\EIndirectAssessmentResultTest.cs" />
     <Compile Include="Model\FailureMechanismSectionListTests.cs" />
     <Compile Include="Model\FailureMechanismTests.cs" />
-    <Compile Include="Model\FmSectionTypes\EFmSectionCategoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

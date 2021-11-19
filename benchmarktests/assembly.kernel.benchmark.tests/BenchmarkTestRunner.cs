@@ -147,7 +147,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
         {
-            var assembler = new CommonFailureMechanismSectionAssembler();
+            var assembler = new CommonFailurePathSectionAssembler();
             // WBI-3A-1
             var combinedSections = assembler.FindGreatestCommonDenominatorSectionsWbi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
@@ -181,7 +181,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static void TestCombinedSectionsFinalResults(BenchmarkTestInput input, BenchmarkTestResult result)
         {
-            var assembler = new CommonFailureMechanismSectionAssembler();
+            var assembler = new CommonFailurePathSectionAssembler();
 
             var calculatedResults = assembler
                                     .DetermineCombinedResultPerCommonSectionWbi3C1(
@@ -211,7 +211,7 @@ namespace assembly.kernel.benchmark.tests
         private static void TestCombinedSectionsFinalResultsTemporal(BenchmarkTestInput input,
                                                                      BenchmarkTestResult result)
         {
-            var assembler = new CommonFailureMechanismSectionAssembler();
+            var assembler = new CommonFailurePathSectionAssembler();
 
             var calculatedResults = assembler
                                     .DetermineCombinedResultPerCommonSectionWbi3C1(
@@ -241,7 +241,7 @@ namespace assembly.kernel.benchmark.tests
         private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input,
                                                                         BenchmarkTestResult result, MechanismType type)
         {
-            var assembler = new CommonFailureMechanismSectionAssembler();
+            var assembler = new CommonFailurePathSectionAssembler();
 
             var combinedSections = new FailurePathSectionList("", input.ExpectedCombinedSectionResult);
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
@@ -282,12 +282,12 @@ namespace assembly.kernel.benchmark.tests
 
         private static FailurePathSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
         {
-            var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
+            /*var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
             if (directMechanism != null)
             {
                 return new FailurePathSectionWithResult(directMechanism.Start, directMechanism.End,
                                                        EInterpretationCategory.Gr);
-            }
+            }*/
 
             throw new InvalidOperationException();
         }

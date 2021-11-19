@@ -32,7 +32,7 @@ using Assembly.Kernel.Model.FmSectionTypes;
 namespace Assembly.Kernel.Implementations
 {
     /// <inheritdoc />
-    public class CommonFailureMechanismSectionAssembler : ICommonFailureMechanismSectionAssembler
+    public class CommonFailurePathSectionAssembler : ICommonFailurePathSectionAssembler
     {
         /// <inheritdoc />
         public AssemblyResult AssembleCommonFailureMechanismSections(

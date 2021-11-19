@@ -32,7 +32,7 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FpSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant, double probabilityInitialMechanismProfile,
+        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant, double probabilityInitialMechanismProfile,
             double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
             double refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Implementations
 
             if (!isRelevant)
             {
-                return new FpSectionAssemblyResult(0.0,0.0,EInterpretationCategory.III);
+                return new FailurePathSectionAssemblyResult(0.0,0.0,EInterpretationCategory.III);
             }
 
             if (needsRefinement)
@@ -57,22 +57,22 @@ namespace Assembly.Kernel.Implementations
                 if (!double.IsNaN(refinedProbabilitySection))
                 {
                     var interpretationCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
-                    return new FpSectionAssemblyResult(
+                    return new FailurePathSectionAssemblyResult(
                         double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile,
                         refinedProbabilitySection, interpretationCategory);
                 }
 
-                return new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
+                return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
             }
             else
             {
                 if (!double.IsNaN(probabilityInitialMechanismSection))
                 {
                     var interpretationCategory = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
-                    return new FpSectionAssemblyResult(double.IsNaN(probabilityInitialMechanismProfile) ? probabilityInitialMechanismSection : probabilityInitialMechanismProfile, probabilityInitialMechanismSection, interpretationCategory);
+                    return new FailurePathSectionAssemblyResult(double.IsNaN(probabilityInitialMechanismProfile) ? probabilityInitialMechanismSection : probabilityInitialMechanismProfile, probabilityInitialMechanismSection, interpretationCategory);
                 }
 
-                return new FpSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
+                return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
             }
         }
 

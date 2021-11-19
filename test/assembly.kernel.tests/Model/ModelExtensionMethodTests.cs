@@ -43,19 +43,5 @@ namespace Assembly.Kernel.Tests.Model
             Assert.AreEqual(EAssessmentGrade.Nvt, EFailureMechanismCategory.Nvt.ToAssessmentGrade());
             Assert.AreEqual(EAssessmentGrade.Gr, EFailureMechanismCategory.Gr.ToAssessmentGrade());
         }
-
-        [Test]
-        public void ToFailureMechanismCategoryTests()
-        {
-            Assert.AreEqual(EFailureMechanismCategory.It, EFmSectionCategory.Iv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.IIt, EFmSectionCategory.IIv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.IIIt, EFmSectionCategory.IIIv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.IVt, EFmSectionCategory.IVv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.Vt, EFmSectionCategory.Vv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.VIt, EFmSectionCategory.VIv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.VIIt, EFmSectionCategory.VIIv.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.Gr, EFmSectionCategory.Gr.ToAssessmentGrade());
-            Assert.AreEqual(EFailureMechanismCategory.Nvt, EFmSectionCategory.NotApplicable.ToAssessmentGrade());
-        }
     }
 }

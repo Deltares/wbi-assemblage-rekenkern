@@ -38,7 +38,6 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Input\FailureMechanismSections\IProbabilisticFailureMechanismSection.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />

@@ -164,7 +164,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         private void AddSectionToList(List<FailurePathSectionWithResult> list, string columnReference, int iRow,
                                       double startMeters, double endMeters)
         {
-            var category = GetCellValueAsString(columnReference, iRow).ToFailureMechanismSectionCategory();
             list.Add(new FailurePathSectionWithResult(startMeters, endMeters, EInterpretationCategory.Gr));
         }
 

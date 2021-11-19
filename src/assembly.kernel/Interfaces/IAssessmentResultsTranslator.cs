@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when probabilityInitialMechanismSection is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
-        FpSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             bool isRelevant,
             double probabilityInitialMechanismProfile,
             double probabilityInitialMechanismSection,

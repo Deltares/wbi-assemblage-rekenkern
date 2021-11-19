@@ -39,8 +39,8 @@ namespace Assembly.Kernel.Tests
         private readonly IFailurePathResultAssembler fmAssembler = new FailurePathResultAssembler();
         private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
 
-        private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
-            new CommonFailureMechanismSectionAssembler();
+        private readonly ICommonFailurePathSectionAssembler combinedSectionAssembler =
+            new CommonFailurePathSectionAssembler();
 
         [Test]
         public void FullAssembly()
@@ -101,7 +101,7 @@ namespace Assembly.Kernel.Tests
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
                     failureMechanismSections.Add(
                         new FailurePathSection(
-                            new FpSectionAssemblyResult(0.002, 1.0E-4, EInterpretationCategory.I),
+                            new FailurePathSectionAssemblyResult(0.002, 1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
                             sectionStart,
                             sectionEnd));
@@ -128,7 +128,7 @@ namespace Assembly.Kernel.Tests
 
         private sealed class FailurePathSection
         {
-            public FailurePathSection(FpSectionAssemblyResult result, string fmType, double sectionStart,
+            public FailurePathSection(FailurePathSectionAssemblyResult result, string fmType, double sectionStart,
                              double sectionEnd)
             {
                 Result = result;
@@ -137,7 +137,7 @@ namespace Assembly.Kernel.Tests
                 SectionEnd = sectionEnd;
             }
 
-            public FpSectionAssemblyResult Result { get; }
+            public FailurePathSectionAssemblyResult Result { get; }
 
             public string FmType { get; }
 

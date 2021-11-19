@@ -124,45 +124,6 @@ namespace assembly.kernel.benchmark.tests.io
         }
 
         /// <summary>
-        /// Translate a string value to a specific <see cref="EFmSectionCategory"/>.
-        /// </summary>
-        /// <param name="str">string value to be translated.</param>
-        /// <returns>The translated <see cref="EFmSectionCategory"/>.</returns>
-        public static EFmSectionCategory ToFailureMechanismSectionCategory(this string str)
-        {
-            EFmSectionCategory sectionCategory;
-            if (!Enum.TryParse(str, true, out sectionCategory))
-            {
-                switch (str.ToLower())
-                {
-                    case "niet meegenomen":
-                    case "-":
-                        sectionCategory = EFmSectionCategory.NotApplicable;
-                        break;
-                    case "nog geen oordeel":
-                    case "ngo":
-                        sectionCategory = EFmSectionCategory.VIIv;
-                        break;
-                    default:
-                        sectionCategory = (EFmSectionCategory) (-2);
-                        break;
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                return EFmSectionCategory.Gr;
-            }
-
-            if ((int) sectionCategory < -1)
-            {
-                throw new InvalidEnumArgumentException(str);
-            }
-
-            return sectionCategory;
-        }
-
-        /// <summary>
         /// Translate a string value to a specific <see cref="EAssessmentGrade"/>.
         /// </summary>
         /// <param name="str">string value to be translated.</param>

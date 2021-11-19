@@ -3,26 +3,28 @@ using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.FmSectionTypes
 {
-    /// <inheritdoc />
-    public class FpSectionAssemblyResult : IFmSectionAssemblyResult
+    /// <summary>
+    /// Class that holds the results for a section of a failure path
+    /// </summary>
+    public class FailurePathSectionAssemblyResult
     {
         /// <summary>
-        /// Constructor for the FpSectionAssemblyResult class
+        /// Constructor for the FailurePathSectionAssemblyResult class
         /// </summary>
         /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section</param>
         /// <param name="category">The resulting interpretation category</param>
         /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
-        public FpSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
+        public FailurePathSectionAssemblyResult(double probabilityProfile, double probabilitySection, EInterpretationCategory category)
         {
             if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
             {
-                throw new AssemblyException("FpSectionAssemblyResult",
+                throw new AssemblyException("FailurePathSectionAssemblyResult",
                     EAssemblyErrors.FailureProbabilityOutOfRange);
             }
             if (probabilitySection < 0.0 || probabilitySection > 1.0)
             {
-                throw new AssemblyException("FpSectionAssemblyResult",
+                throw new AssemblyException("FailurePathSectionAssemblyResult",
                     EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
@@ -60,21 +62,9 @@ namespace Assembly.Kernel.Model.FmSectionTypes
         public double ProbabilitySection { get; }
 
         /// <inheritdoc />
-        public bool HasResult()
-        {
-            return InterpretationCategory != EInterpretationCategory.Gr;
-        }
-
-        /// <inheritdoc />
-        public bool NotApplicableOrNeglectable()
-        {
-            return false;
-        }
-
-        /// <inheritdoc />
         public override string ToString()
         {
-            return "FpSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
+            return "FailurePathSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
                    ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" + ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }

@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             try
             {
-                new FpSectionAssemblyResult(probabilityProfile, probabilitySection, EInterpretationCategory.D);
+                new FailurePathSectionAssemblyResult(probabilityProfile, probabilitySection, EInterpretationCategory.D);
             }
             catch (AssemblyException e)
             {
@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Tests.Model
 
         public void FmSectionAssemblyResultConstructorPassesArguments()
         {
-            var result = new FpSectionAssemblyResult(0.1,0.2,EInterpretationCategory.III);
+            var result = new FailurePathSectionAssemblyResult(0.1,0.2,EInterpretationCategory.III);
             Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
             Assert.AreEqual(0.2, result.ProbabilityProfile);
             Assert.AreEqual(0.1, result.ProbabilitySection);
@@ -63,9 +63,9 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void FmSectionAssemblyResultToStringTest()
         {
-            var result = new FpSectionAssemblyResult(0.2,0.1,EInterpretationCategory.III);
+            var result = new FailurePathSectionAssemblyResult(0.2,0.1,EInterpretationCategory.III);
 
-            Assert.AreEqual("FpSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
+            Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
         }
 
         private static void CheckException(AssemblyException e)
