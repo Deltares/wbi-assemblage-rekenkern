@@ -42,6 +42,7 @@
     <Compile Include="Model\Categories\InterpretationCategory.cs" />
     <Compile Include="Model\Categories\EInterpretationCategory.cs" />
     <Compile Include="Model\FailurePaths\FailurePathSectionAssemblyResult.cs" />
+    <Compile Include="Model\Probability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\EAssemblyErrors.cs" />
     <Compile Include="Implementations\AssessmentGradeAssembler.cs" />

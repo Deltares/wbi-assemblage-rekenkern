@@ -48,6 +48,7 @@
     <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
     <Compile Include="Model\FailurePaths\FailurePathSectionListTests.cs" />
     <Compile Include="Model\FailurePaths\FailurePathTests.cs" />
+    <Compile Include="Model\ProbabilityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
