@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
@@ -38,11 +39,11 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailurePathAssemblyResult> failurePathProbabilities,
+            IEnumerable<Probability> failurePathProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            FailurePathAssemblyResult[] failurePathProbabilitiesArray = CheckFailurePathAssemblyResults(failurePathProbabilities);
+            Probability[] failurePathProbabilitiesArray = CheckFailurePathAssemblyResults(failurePathProbabilities);
 
             if (categories == null)
             {
@@ -51,25 +52,25 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                failurePathProbabilitiesArray = failurePathProbabilitiesArray.Where(fmr =>
-                        !double.IsNaN(fmr.FailureProbability))
+                failurePathProbabilitiesArray = failurePathProbabilitiesArray.Where(probability =>
+                        !double.IsNaN(probability.Value))
                     .ToArray();
             }
 
-            if (failurePathProbabilitiesArray.All(fmr => double.IsNaN(fmr.FailureProbability)))
+            if (failurePathProbabilitiesArray.All(probability => double.IsNaN(probability.Value)))
             {
                 return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
             }
 
             var failureProbabilityProduct = 1.0;
-            foreach (var failurePathResult in failurePathProbabilitiesArray)
+            foreach (var probability in failurePathProbabilitiesArray)
             {
-                if (double.IsNaN(failurePathResult.FailureProbability))
+                if (double.IsNaN(probability))
                 {
                     return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
                 }
 
-                failureProbabilityProduct *= 1.0 - failurePathResult.FailureProbability;
+                failureProbabilityProduct *= 1.0 - probability;
             }
 
             var probabilityOfFailure = 1 - failureProbabilityProduct;
@@ -77,15 +78,15 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
-        private static FailurePathAssemblyResult[] CheckFailurePathAssemblyResults(
-            IEnumerable<FailurePathAssemblyResult> failurePathAssemblyResults)
+        private static Probability[] CheckFailurePathAssemblyResults(
+            IEnumerable<Probability> failurePathAssemblyResults)
         {
             if (failurePathAssemblyResults == null)
             {
                 throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            FailurePathAssemblyResult[] failurePathResults = failurePathAssemblyResults.ToArray();
+            Probability[] failurePathResults = failurePathAssemblyResults.ToArray();
 
             if (failurePathResults.Length == 0)
             {

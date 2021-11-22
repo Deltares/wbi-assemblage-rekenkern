@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Interfaces
@@ -47,7 +48,7 @@ namespace Assembly.Kernel.Interfaces
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        FailurePathAssemblyResult AssembleFailurePathWbi1B1(
+        Probability AssembleFailurePathWbi1B1(
             FailurePath failurePath,
             IEnumerable<FailurePathSectionAssemblyResult> fpSectionAssemblyResults,
             bool partialAssembly);

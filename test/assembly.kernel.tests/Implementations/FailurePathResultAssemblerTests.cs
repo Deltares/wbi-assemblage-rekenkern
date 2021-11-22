@@ -58,8 +58,8 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                                                           failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
                                                                   assemblyType == EAssemblyType.Partial);
 
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(expectedResult, result.FailureProbability, 1e-10);
+            Assert.NotNull(result);
+            Assert.AreEqual(expectedResult, result, 1e-10);
         }
 
         [Test]
@@ -77,8 +77,8 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                   },
                                                                   false);
 
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.005, result.FailureProbability, 1e-4);
+            Assert.NotNull(result);
+            Assert.AreEqual(0.005, result, 1e-4);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                   },
                                                                   false);
 
-            Assert.IsNaN(result.FailureProbability);
+            Assert.IsNaN(result.Value);
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                   },
                                                                   false);
 
-            Assert.IsNaN(result.FailureProbability);
+            Assert.IsNaN(result.Value);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                   },
                                                                   false);
 
-            Assert.AreEqual(0.0, result.FailureProbability);
+            Assert.AreEqual(0.0, result);
         }
 
         [Test]
@@ -143,8 +143,8 @@ namespace Assembly.Kernel.Tests.Implementations
                                                                   },
                                                                   true);
 
-            Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(0.9, result.FailureProbability, 1e-4);
+            Assert.NotNull(result);
+            Assert.AreEqual(0.9, result, 1e-4);
         }
 
         public enum EAssemblyType

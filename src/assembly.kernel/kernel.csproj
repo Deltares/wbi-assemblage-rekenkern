@@ -61,7 +61,6 @@
     <Compile Include="Model\Categories\CategoryBase.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategory.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
-    <Compile Include="Model\FailurePaths\FailurePathAssemblyResult.cs" />
     <Compile Include="Model\FailurePaths\FailurePathSectionList.cs" />
     <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessage.cs" />

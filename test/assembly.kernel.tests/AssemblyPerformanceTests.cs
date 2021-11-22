@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Tests
             // start timer
             var watch = Stopwatch.StartNew();
 
-            var failurePathResultsWithFailureProb = new List<FailurePathAssemblyResult>();
+            var failurePathResultsWithFailureProb = new List<Probability>();
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();

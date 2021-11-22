@@ -25,9 +25,9 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Interfaces
 {
@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
         AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailurePathAssemblyResult> failurePathProbabilities,
+            IEnumerable<Probability> failurePathProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
     }

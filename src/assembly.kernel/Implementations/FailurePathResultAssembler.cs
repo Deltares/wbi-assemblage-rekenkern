@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Implementations
@@ -36,7 +37,7 @@ namespace Assembly.Kernel.Implementations
     public class FailurePathResultAssembler : IFailurePathResultAssembler
     {
         /// <inheritdoc />
-        public FailurePathAssemblyResult AssembleFailurePathWbi1B1(
+        public Probability AssembleFailurePathWbi1B1(
             FailurePath failurePath,
             IEnumerable<FailurePathSectionAssemblyResult> fmSectionAssemblyResults,
             bool partialAssembly)
@@ -50,7 +51,7 @@ namespace Assembly.Kernel.Implementations
 
             if (sectionResults.All(r => double.IsNaN(r.ProbabilitySection)) || sectionResults.Length == 0)
             {
-                return new FailurePathAssemblyResult(double.NaN);
+                return Probability.NaN;
             }
 
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure path sections.
@@ -62,7 +63,7 @@ namespace Assembly.Kernel.Implementations
             {
                 if (double.IsNaN(fpSectionResult.ProbabilitySection))
                 {
-                    return new FailurePathAssemblyResult(double.NaN);
+                    return Probability.NaN;
                 }
 
                 var sectionFailureProb = fpSectionResult.ProbabilitySection;
@@ -82,7 +83,7 @@ namespace Assembly.Kernel.Implementations
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failurePathFailureProbability);
             // step 4: Return the category + failure probability
-            return new FailurePathAssemblyResult(resultFailureProb);
+            return new Probability(resultFailureProb);
         }
 
         private static FailurePathSectionAssemblyResult[] CheckInput(

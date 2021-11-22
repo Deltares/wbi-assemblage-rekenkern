@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<FailurePathAssemblyResult>(), categories,
+                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), categories,
                                                           false);
             }
             catch (AssemblyException e)
@@ -72,14 +72,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test, TestCaseSource(
              typeof(AssessMentGradeAssemblerTestData),
              nameof(AssessMentGradeAssemblerTestData.Wbi2B1))]
-        public void Wbi2B1FailureProbabilityTests(IEnumerable<double> failureProbabilities,
-                                                  EAssemblyType assemblyType, double expectedResult, EAssessmentGrade expectedGrade)
+        public void Wbi2B1FailureProbabilityTests(IEnumerable<Probability> failureProbabilities,
+                                                  EAssemblyType assemblyType, Probability expectedResult, EAssessmentGrade expectedGrade)
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
 
             var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
-                    new
-                        FailurePathAssemblyResult(failureProbability)), categories,
+                    
+                        failureProbability), categories,
                                                                    assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result.FailureProbability);
@@ -94,10 +94,10 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailurePathAssemblyResult(double.NaN),
-                    new FailurePathAssemblyResult(double.NaN),
-                    new FailurePathAssemblyResult(0.00003),
-                    new FailurePathAssemblyResult(0.00003)
+                    new Probability(double.NaN), 
+                    new Probability(double.NaN),
+                    new Probability(0.00003),
+                    new Probability(0.00003)
                 }, categories,
                 false);
 
@@ -112,8 +112,8 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailurePathAssemblyResult(double.NaN),
-                    new FailurePathAssemblyResult(double.NaN)
+                    new Probability(double.NaN),
+                    new Probability(double.NaN)
                 }, categories, false);
 
             Assert.IsNaN(result.FailureProbability);
@@ -142,10 +142,10 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                List<FailurePathAssemblyResult> results = new List<FailurePathAssemblyResult>
+                List<Probability> results = new List<Probability>
                 {
-                    new FailurePathAssemblyResult(0.003),
-                    new FailurePathAssemblyResult(0.003),
+                    new Probability(0.003),
+                    new Probability(0.003),
                 };
                 assembler.AssembleAssessmentSectionWbi2B1(results, null, false);
             }
@@ -166,9 +166,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleAssessmentSectionWbi2B1(
                 new[]
                 {
-                    new FailurePathAssemblyResult(double.NaN),
-                    new FailurePathAssemblyResult(sectionFailureProbability),
-                    new FailurePathAssemblyResult(sectionFailureProbability)
+                    new Probability(double.NaN),
+                    new Probability(sectionFailureProbability),
+                    new Probability(sectionFailureProbability)
                 }, categories,
                 true);
 
@@ -190,20 +190,20 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     yield return new TestCaseData(new[]
                                                   {
-                                                      0.0,
-                                                      0.1
+                                                      (Probability)0.0,
+                                                      (Probability)0.1
                                                   },
                                                   EAssemblyType.Full,
-                                                  0.1,
+                                                  (Probability)0.1,
                                                   EAssessmentGrade.C);
 
                     yield return new TestCaseData(new[]
                                                   {
-                                                      0.0005,
-                                                      0.00005
+                                                      (Probability)0.0005,
+                                                      (Probability)0.00005
                                                   },
                                                   EAssemblyType.Full,
-                                                  0.000549975,
+                                                  (Probability)0.000549975,
                                                   EAssessmentGrade.A);
                 }
             }
