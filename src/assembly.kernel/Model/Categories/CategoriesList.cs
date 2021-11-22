@@ -60,16 +60,11 @@ namespace Assembly.Kernel.Model.Categories
         /// </summary>
         /// <param name="failureProbability">The failure probability that should be translated.</param>
         /// <returns>The category based on the <paramref name="failureProbability"/>.</returns>
-        public TCategory GetCategoryForFailureProbability(double failureProbability)
+        public TCategory GetCategoryForFailureProbability(Probability failureProbability)
         {
-            if (double.IsNaN(failureProbability))
+            if (double.IsNaN(failureProbability.Value))
             {
                 throw new AssemblyException("FailureProbability", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (failureProbability < 0 || failureProbability > 1)
-            {
-                throw new AssemblyException("FailureProbability", EAssemblyErrors.FailureProbabilityOutOfRange);
             }
 
             return Categories.First(category => failureProbability <= category.UpperLimit);

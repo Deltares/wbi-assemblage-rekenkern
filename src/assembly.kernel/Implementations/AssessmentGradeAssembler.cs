@@ -73,8 +73,8 @@ namespace Assembly.Kernel.Implementations
                 failureProbabilityProduct *= 1.0 - probability;
             }
 
-            var probabilityOfFailure = 1 - failureProbabilityProduct;
-            var category = categories.GetCategoryForFailureProbability(probabilityOfFailure);
+            var probabilityOfFailure = 1.0 - failureProbabilityProduct;
+            var category = categories.GetCategoryForFailureProbability(new Probability(probabilityOfFailure));
             return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 

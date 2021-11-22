@@ -23,6 +23,7 @@
 
 using System.Linq;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
@@ -42,7 +43,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
         {
             try
             {
-                new FailurePathSectionAssemblyResult(probabilityProfile, probabilitySection, EInterpretationCategory.D);
+                new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, EInterpretationCategory.D);
             }
             catch (AssemblyException e)
             {
@@ -55,7 +56,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
         [Test]
         public void FailurePathSectionAssemblyResultToStringTest()
         {
-            var result = new FailurePathSectionAssemblyResult(0.2,0.1,EInterpretationCategory.III);
+            var result = new FailurePathSectionAssemblyResult((Probability)0.2,(Probability)0.1,EInterpretationCategory.III);
 
             Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
         }

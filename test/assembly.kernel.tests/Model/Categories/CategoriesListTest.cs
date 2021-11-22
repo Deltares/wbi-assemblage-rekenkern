@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
@@ -145,7 +146,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
                 new TestCategory(0.3, 1.0, "B")
             });
 
-            var category = list.GetCategoryForFailureProbability(probability);
+            var category = list.GetCategoryForFailureProbability((Probability) probability);
 
             Assert.IsNotNull(category);
             Assert.AreEqual(expectedCategory, category.CategoryIDentifyer);
@@ -153,8 +154,6 @@ namespace Assembly.Kernel.Tests.Model.Categories
 
         [Test]
         [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
-        [TestCase(-0.2, EAssemblyErrors.FailureProbabilityOutOfRange)]
-        [TestCase(1.3, EAssemblyErrors.FailureProbabilityOutOfRange)]
         public void GetCategoryForFailureProbabilityTestThrowsInInvalidProbability(double probability,
                                                                                    EAssemblyErrors expectedMessage)
         {
@@ -166,7 +165,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
 
             try
             {
-                var category = list.GetCategoryForFailureProbability(probability);
+                var category = list.GetCategoryForFailureProbability((Probability) probability);
             }
             catch (AssemblyException e)
             {

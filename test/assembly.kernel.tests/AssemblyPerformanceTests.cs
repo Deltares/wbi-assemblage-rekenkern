@@ -100,7 +100,7 @@ namespace Assembly.Kernel.Tests
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
                     failurePathSections.Add(
                         new FailurePathSection(
-                            new FailurePathSectionAssemblyResult(0.002, 1.0E-4, EInterpretationCategory.I),
+                            new FailurePathSectionAssemblyResult((Probability)0.002, (Probability)1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
                             sectionStart,
                             sectionEnd));

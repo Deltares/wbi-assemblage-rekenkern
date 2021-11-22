@@ -25,6 +25,7 @@
 
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
 
@@ -35,63 +36,65 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant,
-            double probabilityInitialMechanismProfile,
-            double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
-            double refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
+            Probability probabilityInitialMechanismProfile,
+            Probability probabilityInitialMechanismSection, 
+            bool needsRefinement, 
+            Probability refinedProbabilityProfile,
+            Probability refinedProbabilitySection, 
+            CategoriesList<InterpretationCategory> categories)
         {
-            CheckInputProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
-            CheckInputProbabilities(refinedProbabilityProfile, refinedProbabilitySection);
-
-            if (categories == null)
-            {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
-            }
+            CheckInput(probabilityInitialMechanismProfile, probabilityInitialMechanismSection, refinedProbabilityProfile, refinedProbabilitySection, categories);
 
             if (!isRelevant)
             {
-                return new FailurePathSectionAssemblyResult(0.0, 0.0, EInterpretationCategory.III);
+                return new FailurePathSectionAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.III);
             }
 
             if (needsRefinement)
             {
                 // Check whether a refined probability is given
-                if (!double.IsNaN(refinedProbabilitySection))
+                if (!double.IsNaN(refinedProbabilitySection.Value))
                 {
                     var category = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
                     // TODO: Write tests for these situations
-                    var probabilityProfile = double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile;
+                    var probabilityProfile = double.IsNaN(refinedProbabilityProfile.Value) ? refinedProbabilitySection : refinedProbabilityProfile;
                     return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, category);
                 }
-                return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
+                return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D);
             }
 
             if (!double.IsNaN(probabilityInitialMechanismSection))
             {
                 var category = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
                 // TODO: Write tests for these situations
-                var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile)
+                var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile.Value)
                     ? probabilityInitialMechanismSection
                     : probabilityInitialMechanismProfile;
                 return new FailurePathSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, category);
             }
 
-            return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
+            return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.ND);
         }
 
-        private static void CheckInputProbabilities(double probabilityProfile, double probabilitySection)
+        private static void CheckInput(Probability probabilityInitialMechanismProfile,
+            Probability probabilityInitialMechanismSection, Probability refinedProbabilityProfile,
+            Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
-            if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
+            if (probabilityInitialMechanismSection < probabilityInitialMechanismProfile)
             {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
-            if (probabilitySection < 0.0 || probabilitySection > 1.0)
-            {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
+                throw new AssemblyException("AssemblyResultsTranslator",
+                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
 
-            if (probabilitySection < probabilityProfile)
+            if (refinedProbabilitySection < refinedProbabilityProfile)
             {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                throw new AssemblyException("AssemblyResultsTranslator",
+                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+            }
+
+            if (categories == null)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
             }
         }
     }

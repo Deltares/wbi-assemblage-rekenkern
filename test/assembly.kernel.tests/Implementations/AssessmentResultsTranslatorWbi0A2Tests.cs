@@ -52,9 +52,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(true, 0.01, 0.02, true, double.NaN, 0.04, EInterpretationCategory.II, 0.04, 0.04)]
         [TestCase(true, 0.01, 0.02, true, double.NaN, double.NaN, EInterpretationCategory.D, double.NaN, double.NaN)]
         public void Wbi0A2FunctionsTest(
-            bool isRelevant, double probabilityProfile, double probabilitySection,
-            bool needsRefinement, double refinedProbabilityProfile,double refinedProbabilitySection,
-            EInterpretationCategory expectedCategory, double expectedProbabilityProfile, double expectedProbabilitySection)
+            bool isRelevant, double probabilityProfileValue, double probabilitySectionValue,
+            bool needsRefinement, double refinedProbabilityProfileValue,double refinedProbabilitySectionValue,
+            EInterpretationCategory expectedCategory, double expectedProbabilityProfileValue, double expectedProbabilitySectionValue)
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -64,16 +64,20 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, 0.04,1.0)
                 });
 
+            Probability probabilityProfile = new Probability(probabilityProfileValue);
+            Probability probabilitySection = new Probability(probabilitySectionValue);
+            Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
+            Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
             var result = translator.TranslateAssessmentResultWbi0A2(isRelevant, probabilityProfile, probabilitySection,
                 needsRefinement, refinedProbabilityProfile, refinedProbabilitySection, categories);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCategory, result.InterpretationCategory);
-            Assert.AreEqual(expectedProbabilityProfile, result.ProbabilityProfile);
-            Assert.AreEqual(expectedProbabilitySection, result.ProbabilitySection);
-            var expectedN = double.IsNaN(expectedProbabilityProfile) | double.IsNaN(expectedProbabilityProfile)
+            Assert.AreEqual(expectedProbabilityProfileValue, result.ProbabilityProfile);
+            Assert.AreEqual(expectedProbabilitySectionValue, result.ProbabilitySection);
+            var expectedN = double.IsNaN(expectedProbabilityProfileValue) | double.IsNaN(expectedProbabilityProfileValue)
                 ? 1.0
-                : expectedProbabilitySection / expectedProbabilityProfile;
+                : expectedProbabilitySectionValue / expectedProbabilityProfileValue;
             Assert.AreEqual(expectedN, result.NSection);
         }
 
@@ -82,7 +86,8 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(true, 0.1, 0.1, true, 0.1, 0.1, null);
+                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability) 0.1, (Probability) 0.1,
+                    true, (Probability) 0.1, (Probability) 0.1, null);
             }
             catch (AssemblyException e)
             {
@@ -103,8 +108,8 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(true, pInitialProfile, pInitialSection, true,
-                    pRefinedProfile, pRefinedSection, null);
+                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability) pInitialProfile, (Probability) pInitialSection, true,
+                    (Probability) pRefinedProfile, (Probability) pRefinedSection, null);
             }
             catch (AssemblyException e)
             {
@@ -139,7 +144,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             try
             {
-                translator.TranslateAssessmentResultWbi0A2(true,p1,p2, true,p3,p4, categories);
+                translator.TranslateAssessmentResultWbi0A2(true,(Probability) p1,(Probability) p2, true,(Probability) p3,(Probability) p4, categories);
             }
             catch (AssemblyException e)
             {

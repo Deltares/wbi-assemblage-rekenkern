@@ -16,21 +16,9 @@ namespace Assembly.Kernel.Model.FailurePaths
         /// <param name="probabilitySection">Estimated probability of failure of the section</param>
         /// <param name="category">The resulting interpretation category</param>
         /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
-        public FailurePathSectionAssemblyResult(double probabilityProfile, double probabilitySection,
+        public FailurePathSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
             EInterpretationCategory category)
         {
-            if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
-            {
-                throw new AssemblyException("FailurePathSectionAssemblyResult",
-                    EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
-
-            if (probabilitySection < 0.0 || probabilitySection > 1.0)
-            {
-                throw new AssemblyException("FailurePathSectionAssemblyResult",
-                    EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
-
             InterpretationCategory = category;
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
@@ -57,19 +45,19 @@ namespace Assembly.Kernel.Model.FailurePaths
         /// <summary>
         /// Estimated probability of failure for a representative profile in the section
         /// </summary>
-        public double ProbabilityProfile { get; }
+        public Probability ProbabilityProfile { get; }
 
         /// <summary>
         /// Estimated probability of failure of the section
         /// </summary>
-        public double ProbabilitySection { get; }
+        public Probability ProbabilitySection { get; }
 
         /// <inheritdoc />
         public override string ToString()
         {
             return "FailurePathSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
-                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
-                   ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
+                   ProbabilityProfile.Value.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
+                   ProbabilitySection.Value.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }
 }

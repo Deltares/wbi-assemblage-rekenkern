@@ -24,6 +24,7 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
 
@@ -52,11 +53,11 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
         FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             bool isRelevant,
-            double probabilityInitialMechanismProfile,
-            double probabilityInitialMechanismSection,
+            Probability probabilityInitialMechanismProfile,
+            Probability probabilityInitialMechanismSection,
             bool needsRefinement,
-            double refinedProbabilityProfile,
-            double refinedProbabilitySection,
+            Probability refinedProbabilityProfile,
+            Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories);
     }
 }
