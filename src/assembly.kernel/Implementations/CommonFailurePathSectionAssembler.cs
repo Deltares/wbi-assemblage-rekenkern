@@ -254,30 +254,41 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailurePathSectionList> failurePathSectionLists,
             double assessmentSectionLength)
         {
+            var errors = new List<AssemblyErrorMessage>();
+
+            FailurePathSectionList[] pathSectionLists = null;
+
             if (double.IsNaN(assessmentSectionLength))
             {
-                throw new AssemblyException("AssessmentSectionLength",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                errors.Add(new AssemblyErrorMessage("AssessmentSectionLength",
+                    EAssemblyErrors.ValueMayNotBeNull));
             }
 
             if (assessmentSectionLength <= 0.0)
             {
-                throw new AssemblyException("AssessmentSectionLength",
-                    EAssemblyErrors.SectionLengthOutOfRange);
+                errors.Add(new AssemblyErrorMessage("AssessmentSectionLength",
+                    EAssemblyErrors.SectionLengthOutOfRange));
             }
 
             if (failurePathSectionLists == null)
             {
-                throw new AssemblyException("FailurePathSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                errors.Add(new AssemblyErrorMessage("FailurePathSectionList",
+                    EAssemblyErrors.ValueMayNotBeNull));
+            }
+            else
+            {
+                pathSectionLists = failurePathSectionLists as FailurePathSectionList[] ??
+                                                            failurePathSectionLists.ToArray();
+                if (!pathSectionLists.Any())
+                {
+                    errors.Add(new AssemblyErrorMessage("FailurePathSectionList",
+                        EAssemblyErrors.EmptyResultsList));
+                }
             }
 
-            var pathSectionLists = failurePathSectionLists as FailurePathSectionList[] ??
-                                   failurePathSectionLists.ToArray();
-            if (!pathSectionLists.Any())
+            if (errors.Count > 0)
             {
-                throw new AssemblyException("FailurePathSectionList",
-                    EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(errors);
             }
 
             return pathSectionLists;

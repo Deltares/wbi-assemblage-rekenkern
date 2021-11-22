@@ -69,6 +69,27 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
+        [Test]
+        public void Wbi2B1MultipleInputErrorsList()
+        {
+            try
+            {
+                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), null, false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                Assert.AreEqual(2, e.Errors.Count());
+
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
+                var message2 = e.Errors.ElementAt(1);
+                Assert.NotNull(message2);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message2.ErrorCode);
+            }
+        }
+
         [Test, TestCaseSource(
              typeof(AssessMentGradeAssemblerTestData),
              nameof(AssessMentGradeAssemblerTestData.Wbi2B1))]

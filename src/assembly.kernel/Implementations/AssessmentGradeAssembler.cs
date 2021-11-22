@@ -42,12 +42,7 @@ namespace Assembly.Kernel.Implementations
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            Probability[] failurePathProbabilitiesArray = CheckFailurePathAssemblyResults(failurePathProbabilities);
-
-            if (categories == null)
-            {
-                throw new AssemblyException("Categories", EAssemblyErrors.ValueMayNotBeNull);
-            }
+            Probability[] failurePathProbabilitiesArray = CheckFailurePathAssemblyResults(failurePathProbabilities, categories);
 
             if (partialAssembly)
             {
@@ -77,20 +72,35 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(new Probability(probabilityOfFailure), category.Category);
         }
 
-        private static Probability[] CheckFailurePathAssemblyResults(
-            IEnumerable<Probability> probabilities)
+        private static Probability[] CheckFailurePathAssemblyResults(IEnumerable<Probability> probabilities,
+            CategoriesList<AssessmentSectionCategory> categories)
         {
+            var errors = new List<AssemblyErrorMessage>();
+
+            Probability[] probabilitiesArray = null;
+
             if (probabilities == null)
             {
-                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
+                errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull));
+            }
+            else
+            {
+                probabilitiesArray = probabilities.ToArray();
+                if (probabilitiesArray.Length == 0)
+                {
+                    errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.EmptyResultsList));
+                }
+            }
+            
+
+            if (categories == null)
+            {
+                errors.Add(new AssemblyErrorMessage("Categories", EAssemblyErrors.ValueMayNotBeNull));
             }
 
-            Probability[] probabilitiesArray = probabilities.ToArray();
-
-            if (probabilitiesArray.Length == 0)
+            if (errors.Count > 0)
             {
-                throw new AssemblyException("AssembleFailurePathResult",
-                    EAssemblyErrors.EmptyResultsList);
+                throw new AssemblyException(errors);
             }
 
             return probabilitiesArray;

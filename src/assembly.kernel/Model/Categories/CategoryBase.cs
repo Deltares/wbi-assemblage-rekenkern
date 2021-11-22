@@ -67,17 +67,9 @@ namespace Assembly.Kernel.Model.Categories
 
         private static void CheckInput(T category, Probability lowerLimit, Probability upperLimit)
         {
-            var errors = new List<AssemblyErrorMessage>();
-
             if (lowerLimit > upperLimit)
             {
-                errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.LowerLimitIsAboveUpperLimit));
-            }
-
-            if (errors.Count > 0)
-            {
-                throw new AssemblyException(errors);
+                throw new AssemblyException("Category: " + category, EAssemblyErrors.LowerLimitIsAboveUpperLimit);
             }
         }
     }

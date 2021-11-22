@@ -23,6 +23,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -80,21 +81,28 @@ namespace Assembly.Kernel.Implementations
             Probability probabilityInitialMechanismSection, Probability refinedProbabilityProfile,
             Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
+            var errors = new List<AssemblyErrorMessage>();
+
             if (probabilityInitialMechanismSection < probabilityInitialMechanismProfile)
             {
-                throw new AssemblyException("AssemblyResultsTranslator",
-                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator",
+                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
             }
 
             if (refinedProbabilitySection < refinedProbabilityProfile)
             {
-                throw new AssemblyException("AssemblyResultsTranslator",
-                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator",
+                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
             }
 
             if (categories == null)
             {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
+                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull));
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new AssemblyException(errors);
             }
         }
     }
