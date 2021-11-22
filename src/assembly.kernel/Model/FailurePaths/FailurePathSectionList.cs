@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.FailurePaths
@@ -58,7 +60,6 @@ namespace Assembly.Kernel.Model.FailurePaths
         /// <summary>
         /// The failure path to which the section results belong.
         /// </summary>
-        /// TODO: Does this still exist? also for 
         public string FailurePathId { get; }
 
         /// <summary>

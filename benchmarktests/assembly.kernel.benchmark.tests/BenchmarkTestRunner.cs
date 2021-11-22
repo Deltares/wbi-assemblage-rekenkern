@@ -56,9 +56,7 @@ namespace assembly.kernel.benchmark.tests
 
             // WBI-2-1
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(
-                new AssessmentSection(
-                    input.Length,
-                    (Probability) input.SignallingNorm, (Probability) input.LowerBoundaryNorm));
+                new AssessmentSection((Probability) input.SignallingNorm, (Probability) input.LowerBoundaryNorm));
             CategoriesList<AssessmentSectionCategory> expectedCategories =
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
 

@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.00003, 0.0003)]
         public void CalculateWbi03Test(double signallingLimit, double lowerLimit)
         {
-            var section = new AssessmentSection(10000, (Probability) signallingLimit, (Probability) lowerLimit);
+            var section = new AssessmentSection((Probability) signallingLimit, (Probability) lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
@@ -103,7 +103,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var signallingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.034);
 
-            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
+            var section = new AssessmentSection(signallingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
@@ -147,7 +147,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var signallingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.03);
 
-            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
+            var section = new AssessmentSection(signallingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);

@@ -24,7 +24,6 @@
 #endregion
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Implementations.Validators;
 
 namespace Assembly.Kernel.Model.AssessmentSection
 {
@@ -36,28 +35,22 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// AssessmentSection Constructor
         /// </summary>
-        /// <param name="length"> length of the section in meters</param>
         /// <param name="failureProbabilitySignallingLimit">signalling limit for failure 
-        /// probability of the section in 1/years. Has to be between 0 and 1</param>
+        ///     probability of the section in 1/years. Has to be between 0 and 1</param>
         /// <param name="failureProbabilityLowerLimit">lower limit for failure probability of the section in 1/years. 
-        /// Has to be between 0 and 1</param>
+        ///     Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public AssessmentSection(double length, Probability failureProbabilitySignallingLimit,
+        public AssessmentSection(Probability failureProbabilitySignallingLimit,
             Probability failureProbabilityLowerLimit)
         {
-            AssessmentSectionValidator.CheckAssessmentSectionInput(length, failureProbabilitySignallingLimit,
-                failureProbabilityLowerLimit);
-
-            Length = length;
+            if (failureProbabilitySignallingLimit > failureProbabilityLowerLimit)
+            {
+                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignallingLimitAboveLowerLimit);
+            }
+            
             FailureProbabilitySignallingLimit = failureProbabilitySignallingLimit;
             FailureProbabilityLowerLimit = failureProbabilityLowerLimit;
         }
-
-        /// <summary>
-        /// Length of the assesment section in meters.
-        /// </summary>
-        /// TODO: Should there be a check somewhere or just remove this parameter?
-        public double Length { get; }
 
         /// <summary>
         /// signalling limit for failure probability of the section in 1/years.

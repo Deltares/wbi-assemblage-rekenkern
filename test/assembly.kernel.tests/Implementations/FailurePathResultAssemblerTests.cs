@@ -23,7 +23,9 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -47,16 +49,16 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test, TestCaseSource(typeof(AssembleFailurePathTestData), nameof(AssembleFailurePathTestData.Wbi1B1))]
-        public void Wbi1B1FailureProbabilityTests(Tuple<Probability,Probability>[] failureProbabilities,
-                                                  EAssemblyType assemblyType, Probability expectedResult)
+        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability>[] failureProbabilities,
+            EAssemblyType assemblyType, Probability expectedResult)
         {
             // Use correct probabilities
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor1,
-                                                                  failureProbabilities.Select(failureProbability =>
-                                                                                                  new
-                                                                                                      FailurePathSectionAssemblyResult(
-                                                                                                          failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
-                                                                  assemblyType == EAssemblyType.Partial);
+                failureProbabilities.Select(failureProbability =>
+                    new
+                        FailurePathSectionAssemblyResult(
+                            failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
+                assemblyType == EAssemblyType.Partial);
 
             Assert.NotNull(result);
             Assert.AreEqual(expectedResult, result, 1e-10);
@@ -66,16 +68,22 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi1B1LengthEffectFactor()
         {
             var result = assembler.AssembleFailurePathWbi1B1(5,
-                                                                  new[]
-                                                                  {
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.II),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.II),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.IIIMin),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.IMin),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.IIMin),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.IIIMin)
-                                                                  },
-                                                                  false);
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.II),
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.II),
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.IIIMin),
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.IMin),
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.IIMin),
+                    new FailurePathSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                        EInterpretationCategory.IIIMin)
+                },
+                false);
 
             Assert.NotNull(result);
             Assert.AreEqual(0.005, result, 1e-4);
@@ -85,13 +93,16 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi1B1NoResultPartly()
         {
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
-                                                                  new[]
-                                                                  {
-                                                                      new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.IMin),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.00026, (Probability)0.00026, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.00026, (Probability)0.00026, EInterpretationCategory.D)
-                                                                  },
-                                                                  false);
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                        EInterpretationCategory.IMin),
+                    new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        EInterpretationCategory.D)
+                },
+                false);
 
             Assert.IsNaN(result.Value);
         }
@@ -100,13 +111,13 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi1B1NoResult()
         {
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
-                                                                  new[]
-                                                                  {
-                                                                      new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D)
-                                                                  },
-                                                                  false);
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D)
+                },
+                false);
 
             Assert.IsNaN(result.Value);
         }
@@ -115,13 +126,16 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi1B1NotApplicable()
         {
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
-                                                                  new[]
-                                                                  {
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.0, (Probability)0.0, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.0, (Probability)0.0, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.0, (Probability)0.0, EInterpretationCategory.D)
-                                                                  },
-                                                                  false);
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                        EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                        EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                        EInterpretationCategory.D)
+                },
+                false);
 
             Assert.AreEqual(0.0, result);
         }
@@ -130,21 +144,47 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi1B1Partial()
         {
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
-                                                                  new[]
-                                                                  {
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.9, (Probability)0.9, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.000026, (Probability)0.000026, EInterpretationCategory.D),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.000010, (Probability)0.000010, EInterpretationCategory.II),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.0000011, (Probability)0.0000011, EInterpretationCategory.II),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.000015, (Probability)0.000015, EInterpretationCategory.II),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.000009, (Probability)0.000009, EInterpretationCategory.III),
-                                                                      new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.III),
-                                                                      new FailurePathSectionAssemblyResult((Probability)0.0, (Probability)0.0, EInterpretationCategory.IIIMin)
-                                                                  },
-                                                                  true);
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult((Probability) 0.9, (Probability) 0.9,
+                        EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult((Probability) 0.000026, (Probability) 0.000026,
+                        EInterpretationCategory.D),
+                    new FailurePathSectionAssemblyResult((Probability) 0.000010, (Probability) 0.000010,
+                        EInterpretationCategory.II),
+                    new FailurePathSectionAssemblyResult((Probability) 0.0000011, (Probability) 0.0000011,
+                        EInterpretationCategory.II),
+                    new FailurePathSectionAssemblyResult((Probability) 0.000015, (Probability) 0.000015,
+                        EInterpretationCategory.II),
+                    new FailurePathSectionAssemblyResult((Probability) 0.000009, (Probability) 0.000009,
+                        EInterpretationCategory.III),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.III),
+                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                        EInterpretationCategory.IIIMin)
+                },
+                true);
 
             Assert.NotNull(result);
             Assert.AreEqual(0.9, result, 1e-4);
+        }
+
+        [Test,
+         TestCaseSource(typeof(LengthEffectTestData), nameof(LengthEffectTestData.TestCases))]
+        public List<EAssemblyErrors> FailurePathCheckTest(double lengthEffectFactor)
+        {
+            try
+            {
+                assembler.AssembleFailurePathWbi1B1(lengthEffectFactor,
+                    new []{new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D) },
+                    false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                return e.Errors.Select(message => message.ErrorCode).ToList();
+            }
+
+            return null;
         }
 
         public enum EAssemblyType
@@ -153,7 +193,29 @@ namespace Assembly.Kernel.Tests.Implementations
             Partial
         }
 
-        public class AssembleFailurePathTestData
+        private class LengthEffectTestData
+        {
+            public static IEnumerable TestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(1).Returns(null);
+                    yield return new TestCaseData(10).Returns(null);
+                    yield return new TestCaseData(0).Returns(
+                        new List<EAssemblyErrors>
+                        {
+                            EAssemblyErrors.LengthEffectFactorOutOfRange
+                        });
+                    yield return new TestCaseData(-2).Returns(
+                        new List<EAssemblyErrors>
+                        {
+                            EAssemblyErrors.LengthEffectFactorOutOfRange
+                        });
+                }
+            }
+        }
+
+        private class AssembleFailurePathTestData
         {
             public static IEnumerable Wbi1B1
             {
@@ -162,31 +224,31 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability)0.0,(Probability)0.0), 
-                            new Tuple<Probability, Probability>((Probability)0.1, (Probability)0.1)
+                            new Tuple<Probability, Probability>((Probability) 0.0, (Probability) 0.0),
+                            new Tuple<Probability, Probability>((Probability) 0.1, (Probability) 0.1)
                         },
                         EAssemblyType.Full,
-                        (Probability)0.1);
+                        (Probability) 0.1);
 
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability)0.0,(Probability)0.0),
-                            new Tuple<Probability, Probability>((Probability)0.01, (Probability)0.0001),
-                            new Tuple<Probability, Probability>((Probability)0.01,(Probability)0.0005),
-                            new Tuple<Probability, Probability>((Probability)0.01, (Probability)0.0007)
+                            new Tuple<Probability, Probability>((Probability) 0.0, (Probability) 0.0),
+                            new Tuple<Probability, Probability>((Probability) 0.01, (Probability) 0.0001),
+                            new Tuple<Probability, Probability>((Probability) 0.01, (Probability) 0.0005),
+                            new Tuple<Probability, Probability>((Probability) 0.01, (Probability) 0.0007)
                         },
                         EAssemblyType.Full,
-                        (Probability)0.0012995300);
+                        (Probability) 0.0012995300);
 
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability)0.0005,(Probability)0.0005),
-                            new Tuple<Probability, Probability>((Probability)0.00005,(Probability)0.00005)
+                            new Tuple<Probability, Probability>((Probability) 0.0005, (Probability) 0.0005),
+                            new Tuple<Probability, Probability>((Probability) 0.00005, (Probability) 0.00005)
                         },
                         EAssemblyType.Full,
-                        (Probability)0.000549975);
+                        (Probability) 0.000549975);
                 }
             }
         }

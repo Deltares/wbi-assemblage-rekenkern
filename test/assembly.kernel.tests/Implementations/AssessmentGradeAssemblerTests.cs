@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Tests.Implementations
     public class AssessmentGradeAssemblerTests
     {
         private IAssessmentGradeAssembler assembler;
-        private readonly AssessmentSection assessmentSection = new AssessmentSection(10000, (Probability) (1.0 / 1000.0), (Probability) (1.0 / 300.0));
+        private readonly AssessmentSection assessmentSection = new AssessmentSection((Probability) (1.0 / 1000.0), (Probability) (1.0 / 300.0));
         private readonly CategoryLimitsCalculator categoriesCalculator = new CategoryLimitsCalculator();
 
         [SetUp]

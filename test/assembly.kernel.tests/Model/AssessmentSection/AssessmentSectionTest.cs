@@ -25,21 +25,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Implementations.Validators;
+using Assembly.Kernel.Model;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Implementations.Validators
+namespace Assembly.Kernel.Tests.Model.AssessmentSection
 {
     [TestFixture]
-    public class AssessmentSectionValidatorTests
+    public class AssessmentSectionTest
     {
         [Test, TestCaseSource(typeof(AssessmentSectionTestData), nameof(AssessmentSectionTestData.TestCases))]
-        public List<EAssemblyErrors> AssessmentSectionValidatorTest(double length, double signallingLimit,
-                                                                    double lowerLimit)
+        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signallingLimit, double lowerLimit)
         {
             try
             {
-                AssessmentSectionValidator.CheckAssessmentSectionInput(length, signallingLimit, lowerLimit);
+                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signallingLimit, (Probability)lowerLimit);
             }
             catch (AssemblyException e)
             {
@@ -57,20 +56,15 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
                 // ReSharper disable once UnusedMember.Local
                 get
                 {
-                    yield return new TestCaseData(10000, 0, 0).Returns(null);
-                    yield return new TestCaseData(1000, 1, 1).Returns(null);
-                    yield return new TestCaseData(0, 0.1, 0.05).Returns(
+                    yield return new TestCaseData(0, 0).Returns(null);
+                    yield return new TestCaseData(1, 1).Returns(null);
+                    yield return new TestCaseData(0.1, 0.05).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SectionLengthOutOfRange,
                             EAssemblyErrors.SignallingLimitAboveLowerLimit
                         });
-                    yield return new TestCaseData(-10, 0.1, 0.2).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.SectionLengthOutOfRange,
-                        });
-                    yield return new TestCaseData(10000, 0.2, 0.1).Returns(
+                    yield return new TestCaseData(0.1, 0.2).Returns(null);
+                    yield return new TestCaseData(0.2, 0.1).Returns(
                         new List<EAssemblyErrors>
                         {
                             EAssemblyErrors.SignallingLimitAboveLowerLimit

@@ -89,11 +89,9 @@ namespace Assembly.Kernel.Implementations
         private static FailurePathSectionAssemblyResult[] CheckInput(
             IEnumerable<FailurePathSectionAssemblyResult> results, double lengthEffectFactor)
         {
-            var errors = new List<AssemblyErrorMessage>();
-
             if (results == null)
             {
-                errors.Add(new AssemblyErrorMessage("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange));
+                throw new AssemblyException("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange);
             }
 
             var sectionResults = results.ToArray();
@@ -101,8 +99,7 @@ namespace Assembly.Kernel.Implementations
             // result list should not be empty
             if (sectionResults.Length == 0)
             {
-                throw new AssemblyException("AssembleFailurePathResult",
-                    EAssemblyErrors.EmptyResultsList);
+                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.EmptyResultsList);
             }
 
             if (lengthEffectFactor < 1)
