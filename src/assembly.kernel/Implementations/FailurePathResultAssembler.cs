@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Implementations
@@ -55,6 +54,7 @@ namespace Assembly.Kernel.Implementations
             }
 
             // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure path sections.
+            // TODO: Merge this with method WBI-0A-2 which contains the same logic.
             var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 

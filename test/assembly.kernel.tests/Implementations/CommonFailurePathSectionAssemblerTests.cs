@@ -34,6 +34,7 @@ using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Implementations
 {
+    // TODO: Split tests and test individual functionality of the methods.
     [TestFixture]
     public class CommonFailurePathSectionAssemblerTests
     {

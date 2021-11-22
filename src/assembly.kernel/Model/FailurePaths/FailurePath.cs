@@ -31,6 +31,7 @@ namespace Assembly.Kernel.Model.FailurePaths
     /// <summary>
     /// Failure path data object
     /// </summary>
+    /// TODO: Remove this class as it only facilitates a check on the length-effect factor for one method.
     public class FailurePath
     {
         /// <summary>

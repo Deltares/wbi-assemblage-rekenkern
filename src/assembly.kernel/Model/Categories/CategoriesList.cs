@@ -102,10 +102,10 @@ namespace Assembly.Kernel.Model.Categories
             return categories;
         }
 
-        private static bool CompareProbabilities(double firstProbability, double secondprobability)
+        private static bool CompareProbabilities(double firstProbability, double secondProbability)
         {
-            var epsilon = Math.Max(firstProbability, secondprobability) * EpsilonFactor;
-            return Math.Abs(firstProbability - secondprobability) > epsilon;
+            var epsilon = Math.Max(firstProbability, secondProbability) * EpsilonFactor;
+            return Math.Abs(firstProbability - secondProbability) > epsilon;
         }
     }
 }

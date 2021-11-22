@@ -25,7 +25,6 @@
 
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
 
@@ -58,25 +57,22 @@ namespace Assembly.Kernel.Implementations
                 // Check whether a refined probability is given
                 if (!double.IsNaN(refinedProbabilitySection))
                 {
-                    var interpretationCategory =
-                        categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
-                    return new FailurePathSectionAssemblyResult(
-                        double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile,
-                        refinedProbabilitySection, interpretationCategory);
+                    var category = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
+                    // TODO: Write tests for these situations
+                    var probabilityProfile = double.IsNaN(refinedProbabilityProfile) ? refinedProbabilitySection : refinedProbabilityProfile;
+                    return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, category);
                 }
-
                 return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.D);
             }
 
             if (!double.IsNaN(probabilityInitialMechanismSection))
             {
-                var interpretationCategory =
-                    categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
-                return new FailurePathSectionAssemblyResult(
-                    double.IsNaN(probabilityInitialMechanismProfile)
-                        ? probabilityInitialMechanismSection
-                        : probabilityInitialMechanismProfile, probabilityInitialMechanismSection,
-                    interpretationCategory);
+                var category = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
+                // TODO: Write tests for these situations
+                var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile)
+                    ? probabilityInitialMechanismSection
+                    : probabilityInitialMechanismProfile;
+                return new FailurePathSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, category);
             }
 
             return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);

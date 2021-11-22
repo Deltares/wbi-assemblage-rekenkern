@@ -25,7 +25,6 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
@@ -40,14 +39,14 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Assembles Failure path results with failure probability into one assembly section result.
         /// </summary>
-        /// <param name="failurePathmAssemblyResults">failure path assembly result with failure probability</param>
+        /// <param name="failurePathProbabilities">failure path assembly result with failure probability</param>
         /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category</param>
         /// <param name="partialAssembly">true if this assembly call is for a partial assembly call</param>
         /// <returns>An assembled assessment section result</returns>
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
         AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<FailurePathAssemblyResult> failurePathmAssemblyResults,
+            IEnumerable<FailurePathAssemblyResult> failurePathProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
     }

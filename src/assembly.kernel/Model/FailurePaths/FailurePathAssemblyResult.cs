@@ -28,6 +28,7 @@ namespace Assembly.Kernel.Model.FailurePaths
     /// <summary>
     /// The assembly result class of a failure path.
     /// </summary>
+    /// TODO: Replace this by a class "Probability"
     public class FailurePathAssemblyResult
     {
         /// <summary>

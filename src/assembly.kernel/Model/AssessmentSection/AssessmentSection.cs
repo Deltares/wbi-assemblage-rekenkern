@@ -56,6 +56,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// Length of the assesment section in meters.
         /// </summary>
+        /// TODO: Should there be a check somewhere or just remove this parameter?
         public double Length { get; }
 
         /// <summary>
