@@ -163,7 +163,7 @@ namespace Assembly.Kernel.Implementations
             {
                 var newCombinedSection = new FailurePathSectionWithCategory(firstSectionsList[iSection].SectionStart,
                     firstSectionsList[iSection].SectionEnd,
-                    EInterpretationCategory.Gr);
+                    EInterpretationCategory.III);
 
                 foreach (var failurePathSectionList in failurePathSectionLists)
                 {
@@ -287,7 +287,7 @@ namespace Assembly.Kernel.Implementations
             EInterpretationCategory currentCategory,
             bool partialAssembly)
         {
-            if (partialAssembly && currentCategory == EInterpretationCategory.D || currentCategory == EInterpretationCategory.Gr)
+            if (partialAssembly && (currentCategory == EInterpretationCategory.D || currentCategory == EInterpretationCategory.Gr))
             {
                 return combinedCategory;
             }

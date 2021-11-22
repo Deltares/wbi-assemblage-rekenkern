@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(20, 30, EInterpretationCategory.Zero),
                     new FailurePathSectionWithCategory(30, 40, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(40, 50, EInterpretationCategory.I)
+                    new FailurePathSectionWithCategory(40, 50, EInterpretationCategory.II)
                 }),
                 new FailurePathSectionList("TEST1", new[]
                 {
@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionWithCategory(5, 10, EInterpretationCategory.III),
                     new FailurePathSectionWithCategory(10, 40, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(40, 45, EInterpretationCategory.Zero),
-                    new FailurePathSectionWithCategory(45, 50, EInterpretationCategory.I)
+                    new FailurePathSectionWithCategory(45, 50, EInterpretationCategory.II)
                 })
             };
 
@@ -72,8 +72,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.Zero),
                     new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.I)
+                    new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.II)
                 }),
                 new FailurePathSectionList("TEST1", new[]
                 {
@@ -83,31 +83,20 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Zero),
-                    new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.I)
+                    new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.II)
                 })
             };
 
             var expectedCombinedResult = new List<FailurePathSectionWithCategory>
             {
-                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
+                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.Zero),
+                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Zero),
+                new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.II)
             };
-
-            /*var expectedCombinedResult = new List<FailurePathSectionWithCategory>
-            {
-                new FailurePathSectionWithCategory(0.0, 5.0, 0.1, EInterpretationCategory.II),
-                new FailurePathSectionWithCategory(5.0, 10.0, 0.1, EInterpretationCategory.III),
-                new FailurePathSectionWithCategory(10.0, 20.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(20.0, 30.0, 0.1, EInterpretationCategory.Zero),
-                new FailurePathSectionWithCategory(30.0, 40.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(40.0, 45.0, 0.1, EInterpretationCategory.Zero),
-                new FailurePathSectionWithCategory(45.0, 50.0, 0.1, EInterpretationCategory.I)
-            };*/
 
             TestCombinedFailurePathSectionAssembler(
                 failurePathSectionLists,
@@ -471,7 +460,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(20, 30, EInterpretationCategory.II),
+                    new FailurePathSectionWithCategory(20, 30, EInterpretationCategory.IIMin),
                     new FailurePathSectionWithCategory(30, 40, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(40, 50, EInterpretationCategory.Gr)
                 }),
@@ -492,7 +481,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.II),
+                    new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.IIMin),
                     new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
                     new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
                     new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
@@ -509,26 +498,13 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            /*var expectedCombinedResult = new List<FailurePathSectionWithCategory>
-            {
-                new FailurePathSectionWithCategory(0.0, 5.0, 0.1, EInterpretationCategory.II),
-                new FailurePathSectionWithCategory(5.0, 10.0, 0.1, EInterpretationCategory.III),
-                new FailurePathSectionWithCategory(10.0, 20.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(20.0, 30.0, 0.1, EInterpretationCategory.IIIMin),
-                new FailurePathSectionWithCategory(30.0, 40.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(40.0, 45.0, 0.1, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(45.0, 50.0, 0.1, EInterpretationCategory.Gr)
-            };
-            */
-
-            // TODO: Adjust WBI-3C-1 such that the result is correct
             var expectedCombinedResult = new List<FailurePathSectionWithCategory>
             {
-                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.Gr),
+                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.IIMin),
+                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
                 new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
                 new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
             };
@@ -619,27 +595,15 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            /*
             var expectedCombinedResult = new List<FailurePathSectionWithCategory>
             {
-                new FailurePathSectionWithCategory(0.0, 5.0, 0.1, EInterpretationCategory.II),
-                new FailurePathSectionWithCategory(5.0, 10.0, 0.1, EInterpretationCategory.III),
-                new FailurePathSectionWithCategory(10.0, 20.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(20.0, 30.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(30.0, 40.0, 0.1, EInterpretationCategory.I),
-                new FailurePathSectionWithCategory(40.0, 45.0, 0.1, EInterpretationCategory.Zero),
-                new FailurePathSectionWithCategory(45.0, 50.0, 0.1, EInterpretationCategory.II)
-            };
-            */
-            var expectedCombinedResult = new List<FailurePathSectionWithCategory>
-            {
-                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
-                new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
+                new FailurePathSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(20.0, 30.0, EInterpretationCategory.IIIMin),
+                new FailurePathSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
+                new FailurePathSectionWithCategory(40.0, 45.0, EInterpretationCategory.Zero),
+                new FailurePathSectionWithCategory(45.0, 50.0, EInterpretationCategory.I)
             };
 
             TestCombinedFailurePathSectionAssembler(
