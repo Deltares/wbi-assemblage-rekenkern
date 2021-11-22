@@ -54,35 +54,26 @@ namespace Assembly.Kernel.Implementations
                 return Probability.NaN;
             }
 
-            // step 1: Ptraject = 1 - Product(1-Pi){i=1 -> N} where N is the number of failure path sections.
-            // TODO: Merge this with method WBI-0A-2 which contains the same logic.
             var noFailureProbProduct = 1.0;
             var highestFailureProbability = 0.0;
 
-            foreach (var fpSectionResult in sectionResults)
+            foreach (var sectionResult in sectionResults)
             {
-                if (double.IsNaN(fpSectionResult.ProbabilitySection.Value))
+                if (double.IsNaN(sectionResult.ProbabilitySection.Value))
                 {
                     return Probability.NaN;
                 }
 
-                var sectionFailureProb = fpSectionResult.ProbabilitySection;
-                var profileFailureProb = fpSectionResult.ProbabilityProfile;
-                if (sectionFailureProb > highestFailureProbability)
+                if (sectionResult.ProbabilitySection > highestFailureProbability)
                 {
-                    highestFailureProbability = profileFailureProb;
+                    highestFailureProbability = sectionResult.ProbabilityProfile;
                 }
 
-                noFailureProbProduct *= 1.0 - sectionFailureProb;
+                noFailureProbProduct *= 1.0 - sectionResult.ProbabilitySection;
             }
 
-            var failurePathFailureProbability = 1 - noFailureProbProduct;
-
-            // step 2: Get section with largest failure probability and multiply with Assessment section length effect factor.
             highestFailureProbability *= lengthEffectFactor;
-            // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
-            var resultFailureProb = Math.Min(highestFailureProbability, failurePathFailureProbability);
-            // step 4: Return the category + failure probability
+            var resultFailureProb = Math.Min(highestFailureProbability, 1 - noFailureProbProduct);
             return new Probability(resultFailureProb);
         }
 

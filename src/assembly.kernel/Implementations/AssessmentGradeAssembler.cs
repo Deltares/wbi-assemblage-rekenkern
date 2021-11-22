@@ -30,7 +30,6 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -65,7 +64,7 @@ namespace Assembly.Kernel.Implementations
             var failureProbabilityProduct = 1.0;
             foreach (var probability in failurePathProbabilitiesArray)
             {
-                if (double.IsNaN(probability))
+                if (double.IsNaN(probability.Value))
                 {
                     return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
                 }
