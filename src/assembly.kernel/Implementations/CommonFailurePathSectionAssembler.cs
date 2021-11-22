@@ -95,7 +95,7 @@ namespace Assembly.Kernel.Implementations
                 if (Math.Abs(minimumAssessmentSectionLength - assessmentSectionLength) > 0.01)
                 {
                     throw new AssemblyException("AssembleCommonFailurePathSection",
-                        EAssemblyErrors.FpSectionLengthInvalid);
+                        EAssemblyErrors.FailurePathSectionLengthInvalid);
                 }
             }
 
@@ -134,7 +134,7 @@ namespace Assembly.Kernel.Implementations
             var resultsToCommonSections = new List<FailurePathSection>();
             foreach (var commonSection in commonSectionsArray)
             {
-                var section = failurePathSectionList.GetSectionResultForPoint(
+                var section = failurePathSectionList.GetSectionAtPoint(
                     commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
 
                 var sectionWithCategory = section as FailurePathSectionWithCategory;

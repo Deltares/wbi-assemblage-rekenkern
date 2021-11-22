@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="lowerLimit"> the lower limit of the category</param>
         /// <param name="upperLimit"> the upper limit of the category</param>
         /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
-        protected CategoryBase(T category, double lowerLimit, double upperLimit)
+        protected CategoryBase(T category, Probability lowerLimit, Probability upperLimit)
         {
             CheckInput(category, lowerLimit, upperLimit);
 
@@ -58,14 +58,14 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// The upper limit of the category
         /// </summary>
-        public double UpperLimit { get; }
+        public Probability UpperLimit { get; }
 
         /// <summary>
         /// The lower limit of the category
         /// </summary>
-        public double LowerLimit { get; }
+        public Probability LowerLimit { get; }
 
-        private static void CheckInput(T category, double lowerLimit, double upperLimit)
+        private static void CheckInput(T category, Probability lowerLimit, Probability upperLimit)
         {
             var errors = new List<AssemblyErrorMessage>();
 
@@ -73,18 +73,6 @@ namespace Assembly.Kernel.Model.Categories
             {
                 errors.Add(new AssemblyErrorMessage("Category: " + category,
                     EAssemblyErrors.LowerLimitIsAboveUpperLimit));
-            }
-
-            if (lowerLimit < 0 || lowerLimit > 1)
-            {
-                errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.CategoryLowerLimitOutOfRange));
-            }
-
-            if (upperLimit < 0 || upperLimit > 1)
-            {
-                errors.Add(new AssemblyErrorMessage("Category: " + category,
-                    EAssemblyErrors.CategoryUpperLimitOutOfRange));
             }
 
             if (errors.Count > 0)

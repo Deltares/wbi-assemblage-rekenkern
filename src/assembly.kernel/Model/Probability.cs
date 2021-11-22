@@ -101,6 +101,21 @@ namespace Assembly.Kernel.Model
             return new Probability(left.Value * right.Value);
         }
 
+        public static Probability operator /(Probability left, double right)
+        {
+            return new Probability(left.Value / right);
+        }
+
+        public static Probability operator /(double left, Probability right)
+        {
+            return new Probability(left / right.Value);
+        }
+
+        public static Probability operator /(Probability left, Probability right)
+        {
+            return new Probability(left.Value / right.Value);
+        }
+
         public static implicit operator double(Probability d)
         {
             return d.Value;

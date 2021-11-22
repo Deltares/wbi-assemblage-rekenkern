@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Implementations
 
             if (failurePathProbabilitiesArray.All(probability => double.IsNaN(probability.Value)))
             {
-                return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
+                return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
             }
 
             var failureProbabilityProduct = 1.0;
@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Implementations
             {
                 if (double.IsNaN(probability))
                 {
-                    return new AssessmentSectionResult(double.NaN, EAssessmentGrade.Gr);
+                    return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
                 }
 
                 failureProbabilityProduct *= 1.0 - probability;
@@ -75,26 +75,26 @@ namespace Assembly.Kernel.Implementations
 
             var probabilityOfFailure = 1.0 - failureProbabilityProduct;
             var category = categories.GetCategoryForFailureProbability(new Probability(probabilityOfFailure));
-            return new AssessmentSectionResult(probabilityOfFailure, category.Category);
+            return new AssessmentSectionResult(new Probability(probabilityOfFailure), category.Category);
         }
 
         private static Probability[] CheckFailurePathAssemblyResults(
-            IEnumerable<Probability> failurePathAssemblyResults)
+            IEnumerable<Probability> probabilities)
         {
-            if (failurePathAssemblyResults == null)
+            if (probabilities == null)
             {
                 throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            Probability[] failurePathResults = failurePathAssemblyResults.ToArray();
+            Probability[] probabilitiesArray = probabilities.ToArray();
 
-            if (failurePathResults.Length == 0)
+            if (probabilitiesArray.Length == 0)
             {
                 throw new AssemblyException("AssembleFailurePathResult",
-                    EAssemblyErrors.FailurePathAssemblerInputInvalid);
+                    EAssemblyErrors.EmptyResultsList);
             }
 
-            return failurePathResults;
+            return probabilitiesArray;
         }
     }
 }

@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
@@ -36,12 +37,12 @@ namespace Assembly.Kernel.Tests.Model.Categories
         [Test]
         public void AssessmentSectionCategoryLimitsTests()
         {
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, 0, 0.1, false);
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, 0.5, 0.1, true);
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, (Probability) 0, (Probability) 0.1, false);
+            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, (Probability) 0.5, (Probability) 0.1, true);
         }
 
-        private void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
-                                                        double upperLimit, bool shouldExceptionOccure)
+        private void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, Probability lowerLimit,
+            Probability upperLimit, bool shouldExceptionOccur)
         {
             try
             {
@@ -49,7 +50,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             }
             catch (AssemblyException e)
             {
-                if (!shouldExceptionOccure)
+                if (!shouldExceptionOccur)
                 {
                     Assert.Fail("Exception occured while it should not have.");
                 }

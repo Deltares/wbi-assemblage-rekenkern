@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="category">category for which the limits are valid</param>
         /// <param name="lowerLimit">lower limit of the category</param>
         /// <param name="upperLimit">upper limit of the category</param>
-        public AssessmentSectionCategory(EAssessmentGrade category, double lowerLimit, double upperLimit)
+        public AssessmentSectionCategory(EAssessmentGrade category, Probability lowerLimit, Probability upperLimit)
             : base(category, lowerLimit, upperLimit)
         {
             // Construct super class

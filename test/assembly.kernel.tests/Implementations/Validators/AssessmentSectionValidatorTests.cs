@@ -59,29 +59,16 @@ namespace Assembly.Kernel.Tests.Implementations.Validators
                 {
                     yield return new TestCaseData(10000, 0, 0).Returns(null);
                     yield return new TestCaseData(1000, 1, 1).Returns(null);
-                    yield return new TestCaseData(0, 0, -0.5).Returns(
+                    yield return new TestCaseData(0, 0.1, 0.05).Returns(
                         new List<EAssemblyErrors>
                         {
                             EAssemblyErrors.SectionLengthOutOfRange,
-                            EAssemblyErrors.LowerLimitOutOfRange,
                             EAssemblyErrors.SignallingLimitAboveLowerLimit
                         });
-                    yield return new TestCaseData(10000, -0.9, 1).Returns(
+                    yield return new TestCaseData(-10, 0.1, 0.2).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SignallingLimitOutOfRange
-                        });
-                    yield return new TestCaseData(10000, -2, -0.5).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.LowerLimitOutOfRange,
-                            EAssemblyErrors.SignallingLimitOutOfRange
-                        });
-                    yield return new TestCaseData(10000, 1.5, 2).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.LowerLimitOutOfRange,
-                            EAssemblyErrors.SignallingLimitOutOfRange
+                            EAssemblyErrors.SectionLengthOutOfRange,
                         });
                     yield return new TestCaseData(10000, 0.2, 0.1).Returns(
                         new List<EAssemblyErrors>

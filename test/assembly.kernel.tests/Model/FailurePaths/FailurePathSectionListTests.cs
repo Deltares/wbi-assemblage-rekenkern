@@ -120,7 +120,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
                         new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
                         new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.I)
                     });
-                fmSectionList.GetSectionResultForPoint(25.0);
+                fmSectionList.GetSectionAtPoint(25.0);
             }
             catch (AssemblyException e)
             {
@@ -196,7 +196,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.FpSectionSectionStartEndInvalid);
+                CheckException(e, EAssemblyErrors.FailurePathSectionSectionStartEndInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");

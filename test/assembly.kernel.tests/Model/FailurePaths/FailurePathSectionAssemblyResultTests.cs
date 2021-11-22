@@ -34,23 +34,14 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
     public class FailurePathSectionAssemblyResultTests
     {
         [Test]
-        [TestCase(1.5,0.4)]
-        [TestCase(0.5, 1.4)]
-        [TestCase(-0.5, 0.4)]
-        [TestCase(0.5, -0.4)]
-        [TestCase(-0.5, 10.4)]
-        public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection)
+        [TestCase(0.2,0.4, 2.0)]
+        [TestCase(0.01, 0.1, 10.0)]
+        [TestCase(double.NaN, 0.4, 1.0)]
+        [TestCase(0.5, double.NaN, 1.0)]
+        public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, double expectedNValue)
         {
-            try
-            {
-                new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, EInterpretationCategory.D);
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            var result = new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, EInterpretationCategory.D);
+            Assert.AreEqual(expectedNValue, result.NSection);
         }
 
         [Test]
@@ -59,15 +50,6 @@ namespace Assembly.Kernel.Tests.Model.FailurePaths
             var result = new FailurePathSectionAssemblyResult((Probability)0.2,(Probability)0.1,EInterpretationCategory.III);
 
             Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
-        }
-
-        private static void CheckException(AssemblyException e)
-        {
-            Assert.NotNull(e.Errors);
-            var message = e.Errors.FirstOrDefault();
-            Assert.NotNull(message);
-            Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
-            Assert.Pass();
         }
     }
 }

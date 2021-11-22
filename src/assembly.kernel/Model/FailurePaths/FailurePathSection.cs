@@ -45,7 +45,7 @@ namespace Assembly.Kernel.Model.FailurePaths
         {
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {
-                throw new AssemblyException("FailurePathSection", EAssemblyErrors.FpSectionSectionStartEndInvalid);
+                throw new AssemblyException("FailurePathSection", EAssemblyErrors.FailurePathSectionSectionStartEndInvalid);
             }
 
             SectionStart = sectionStart;

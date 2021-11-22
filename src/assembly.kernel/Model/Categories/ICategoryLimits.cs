@@ -33,11 +33,11 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// The upper limit of the category
         /// </summary>
-        double UpperLimit { get; }
+        Probability UpperLimit { get; }
 
         /// <summary>
         /// The lower limit of the category
         /// </summary>
-        double LowerLimit { get; }
+        Probability LowerLimit { get; }
     }
 }

@@ -428,7 +428,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.FpSectionLengthInvalid, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.FailurePathSectionLengthInvalid, exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 
@@ -542,7 +542,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FpSectionLengthInvalid, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.FailurePathSectionLengthInvalid, message.ErrorCode);
                 Assert.Pass();
             }
 

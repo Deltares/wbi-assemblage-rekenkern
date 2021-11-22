@@ -31,18 +31,6 @@ namespace Assembly.Kernel.Exceptions
     public enum EAssemblyErrors
     {
         /// <summary>
-        /// The failure probability signalling limit is out of range.
-        /// The value is smaller than 0 or greater than 1.
-        /// </summary>
-        SignallingLimitOutOfRange,
-
-        /// <summary>
-        /// The failure probability lower limit is out of range.
-        /// The value is smaller than 0 or greater than 1.
-        /// </summary>
-        LowerLimitOutOfRange,
-
-        /// <summary>
         /// The length effect factor is out of range.
         /// The value is smaller than 1.
         /// </summary>
@@ -66,18 +54,6 @@ namespace Assembly.Kernel.Exceptions
         LowerLimitIsAboveUpperLimit,
 
         /// <summary>
-        /// The category lower limit is out of range.
-        /// The value is smaller than 0 or greater than 1.
-        /// </summary>
-        CategoryLowerLimitOutOfRange,
-
-        /// <summary>
-        /// The category upper limit is out of range.
-        /// The value is smaller than 0 or greater than 1.
-        /// </summary>
-        CategoryUpperLimitOutOfRange,
-
-        /// <summary>
         /// The value passed may not be null
         /// </summary>
         ValueMayNotBeNull,
@@ -86,13 +62,13 @@ namespace Assembly.Kernel.Exceptions
         /// The length field of the failure path section &lt;=0.
         /// Or the calculated section length isn't the same as the provided length.
         /// </summary>
-        FpSectionLengthInvalid,
+        FailurePathSectionLengthInvalid,
 
         /// <summary>
         /// The section start or end field of the failure path section &lt;0 
         /// or the section end is defined before the section start.
         /// </summary>
-        FpSectionSectionStartEndInvalid,
+        FailurePathSectionSectionStartEndInvalid,
 
         /// <summary>
         /// The failure probability is greater than one or below zero. Which is an invalid value.
@@ -107,7 +83,7 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// Input for the assemble failure path method are invalid. This means the list of FmSection assembly results is empty.
         /// </summary>
-        FailurePathAssemblerInputInvalid,
+        EmptyResultsList,
 
         /// <summary>
         /// The list of failure path sections is empty or incomplete. 

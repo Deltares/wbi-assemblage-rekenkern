@@ -100,7 +100,7 @@ namespace Assembly.Kernel.Implementations
             if (sectionResults.Length == 0)
             {
                 throw new AssemblyException("AssembleFailurePathResult",
-                    EAssemblyErrors.FailurePathAssemblerInputInvalid);
+                    EAssemblyErrors.EmptyResultsList);
             }
 
             return sectionResults;

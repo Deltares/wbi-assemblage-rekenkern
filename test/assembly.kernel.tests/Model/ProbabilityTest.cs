@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
@@ -67,22 +68,28 @@ namespace Assembly.Kernel.Tests.Model
         {
             var precision = 1E-10;
 
-            Assert.IsTrue((Probability)0.1 == (Probability)0.1);
+            Assert.IsTrue(new Probability(0.1) == (Probability)0.1);
             Assert.IsFalse((Probability)0.01 == (Probability)0.1);
             Assert.IsTrue((Probability)0.01 != (Probability)0.1);
-            Assert.IsFalse((Probability)0.1 != (Probability)0.1);
+            Assert.IsFalse(new Probability(0.1) != (Probability)0.1);
             Assert.AreEqual((Probability)0.1, (Probability)0.2 - (Probability)0.1);
             Assert.AreEqual((Probability)0.3, (Probability)0.2 + (Probability)0.1,precision);
             Assert.AreEqual((Probability)0.01, (Probability)0.1 * (Probability)0.1, precision);
             Assert.AreEqual((Probability)0.01, (Probability)0.1 * 0.1, precision);
             Assert.AreEqual((Probability)0.01, 0.1 * (Probability)0.1, precision);
+            Assert.AreEqual((Probability)0.2, (Probability)0.1 / (Probability)0.5, precision);
+            Assert.AreEqual((Probability)0.05, (Probability)0.1 / 2.0, precision);
+            Assert.AreEqual((Probability)0.2, 0.1 / (Probability)0.5, precision);
             Assert.AreEqual(0.3, (double)((Probability)0.3), precision);
+
+            Assert.AreEqual((Probability)1.0, (Probability)0.2 + (Probability)0.9, precision);
+            Assert.AreEqual((Probability)0.0, (Probability)0.2 - (Probability)0.5, precision);
 
             Assert.IsTrue((Probability)0.2 > (Probability)0.1);
             Assert.IsFalse((Probability)0.01 > (Probability)0.1);
             Assert.IsTrue((Probability)0.2 >= (Probability)0.1);
             Assert.IsFalse((Probability)0.01 >= (Probability)0.1);
-            Assert.IsTrue((Probability)0.1 >= (Probability)0.1);
+            Assert.IsTrue(new Probability(0.1) >= (Probability)0.1);
             Assert.IsTrue((Probability)0.2 > 0.1);
             Assert.IsFalse((Probability)0.01 > 0.1);
             Assert.IsTrue((Probability)0.2 >= 0.1);
@@ -98,7 +105,7 @@ namespace Assembly.Kernel.Tests.Model
             Assert.IsTrue((Probability)0.01 < (Probability)0.1);
             Assert.IsFalse((Probability)0.2 <= (Probability)0.1);
             Assert.IsTrue((Probability)0.01 <= (Probability)0.1);
-            Assert.IsTrue((Probability)0.1 <= (Probability)0.1);
+            Assert.IsTrue(new Probability(0.1) <= (Probability)0.1);
             Assert.IsFalse(0.2 < (Probability)0.1);
             Assert.IsTrue(0.01 < (Probability)0.1);
             Assert.IsFalse(0.2 <= (Probability)0.1);
@@ -109,6 +116,39 @@ namespace Assembly.Kernel.Tests.Model
             Assert.IsFalse((Probability)0.2 <= 0.1);
             Assert.IsTrue((Probability)0.01 <= 0.1);
             Assert.IsTrue((Probability)0.1 <= 0.1);
+        }
+
+        [Test]
+        [TestCase(10.0,"*")]
+        [TestCase(-10.0, "*")]
+        [TestCase(-1.0, "*")]
+        [TestCase(0.00001, "/")]
+        [TestCase(-0.00001, "/")]
+        [TestCase(-1.0, "/")]
+        public void OperatorThrowsOnInvalidOutcome(double factor, string operation)
+        {
+            Action target;
+            
+            switch (operation)
+            {
+                case "*":
+                    target = () =>
+                    {
+                        var a = (new Probability(0.5)) * factor;
+                    };
+                    break;
+                case "/":
+                    target = () =>
+                    {
+                        var a = (new Probability(0.5)) / factor;
+                    };
+                    break;
+                default:
+                    Assert.Fail("No valid test input");
+                    return;
+            }
+
+            Assert.Throws<AssemblyException>(new TestDelegate(target));
         }
     }
 }

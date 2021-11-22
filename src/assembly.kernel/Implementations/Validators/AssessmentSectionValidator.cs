@@ -52,16 +52,6 @@ namespace Assembly.Kernel.Implementations.Validators
                 errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SectionLengthOutOfRange));
             }
 
-            if (failureProbabilityLowerLimit < 0 || failureProbabilityLowerLimit > 1)
-            {
-                errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.LowerLimitOutOfRange));
-            }
-
-            if (failureProbabilitySignallingLimit < 0 || failureProbabilitySignallingLimit > 1)
-            {
-                errors.Add(new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SignallingLimitOutOfRange));
-            }
-
             if (failureProbabilitySignallingLimit > failureProbabilityLowerLimit)
             {
                 errors.Add(

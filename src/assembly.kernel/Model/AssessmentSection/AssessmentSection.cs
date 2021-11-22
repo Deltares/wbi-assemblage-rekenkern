@@ -42,8 +42,8 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <param name="failureProbabilityLowerLimit">lower limit for failure probability of the section in 1/years. 
         /// Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public AssessmentSection(double length, double failureProbabilitySignallingLimit,
-            double failureProbabilityLowerLimit)
+        public AssessmentSection(double length, Probability failureProbabilitySignallingLimit,
+            Probability failureProbabilityLowerLimit)
         {
             AssessmentSectionValidator.CheckAssessmentSectionInput(length, failureProbabilitySignallingLimit,
                 failureProbabilityLowerLimit);
@@ -62,12 +62,12 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// signalling limit for failure probability of the section in 1/years.
         /// </summary>
-        public double FailureProbabilitySignallingLimit { get; }
+        public Probability FailureProbabilitySignallingLimit { get; }
 
         /// <summary>
         /// lower limit for failure probability of the section in 1/years. 
         /// </summary>
-        public double FailureProbabilityLowerLimit { get; }
+        public Probability FailureProbabilityLowerLimit { get; }
 
         /// <summary>
         /// Generates string from assessment section object.

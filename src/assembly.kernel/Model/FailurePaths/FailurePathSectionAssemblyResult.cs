@@ -28,7 +28,7 @@ namespace Assembly.Kernel.Model.FailurePaths
             }
             else
             {
-                NSection = probabilitySection / probabilityProfile;
+                NSection = probabilitySection.Value / probabilityProfile.Value;
             }
         }
 

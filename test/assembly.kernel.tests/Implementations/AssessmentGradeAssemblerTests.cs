@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Tests.Implementations
     public class AssessmentGradeAssemblerTests
     {
         private IAssessmentGradeAssembler assembler;
-        private readonly AssessmentSection assessmentSection = new AssessmentSection(10000, 1.0 / 1000.0, 1.0 / 300.0);
+        private readonly AssessmentSection assessmentSection = new AssessmentSection(10000, (Probability) (1.0 / 1000.0), (Probability) (1.0 / 300.0));
         private readonly CategoryLimitsCalculator categoriesCalculator = new CategoryLimitsCalculator();
 
         [SetUp]
@@ -65,7 +65,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailurePathAssemblerInputInvalid, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
             }
         }
 

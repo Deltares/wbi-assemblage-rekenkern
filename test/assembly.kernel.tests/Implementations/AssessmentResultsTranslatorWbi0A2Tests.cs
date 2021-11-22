@@ -59,9 +59,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
                 {
-                    new InterpretationCategory(EInterpretationCategory.III, 0,0.02),
-                    new InterpretationCategory(EInterpretationCategory.II, 0.02,0.04),
-                    new InterpretationCategory(EInterpretationCategory.I, 0.04,1.0)
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
             Probability probabilityProfile = new Probability(probabilityProfileValue);
@@ -124,22 +124,16 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(-10.0,0.2,0.4,0.2)]
-        [TestCase(1.0, -0.2, 0.4, 0.2)]
-        [TestCase(0.01, 0.02, -0.4, 0.2)]
-        [TestCase(0.01, 0.02, 0.4, -0.2)]
-        [TestCase(10.0, 10.0, 0.2, 0.3)]
-        [TestCase(0.1, 30.2, 0.2, 0.3)]
-        [TestCase(0.1, 0.2, 40.4, 40.4)]
-        [TestCase(0.1, 0.2, 0.4, 50.2)]
+        [TestCase(0.4,0.2,0.1,0.2)]
+        [TestCase(0.01, 0.2, 0.4, 0.2)]
         public void Wbi0A2WithProbabilityNullTest(double p1, double p2, double p3, double p4)
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
                 {
-                    new InterpretationCategory(EInterpretationCategory.III, 0,0.02),
-                    new InterpretationCategory(EInterpretationCategory.II, 0.02,0.04),
-                    new InterpretationCategory(EInterpretationCategory.I, 0.04,1.0)
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability) 0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
             try
@@ -151,7 +145,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureProbabilityOutOfRange, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
                 Assert.Pass();
             }
 

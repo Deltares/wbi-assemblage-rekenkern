@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Model.FailurePaths
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
         /// from the beginning of the assessment section</param>
         /// <returns>The section with category belonging to the point in the assessment section</returns>
-        public FailurePathSection GetSectionResultForPoint(double pointInAssessmentSection)
+        public FailurePathSection GetSectionAtPoint(double pointInAssessmentSection)
         {
             foreach (var section in Sections)
             {
@@ -77,7 +77,7 @@ namespace Assembly.Kernel.Model.FailurePaths
                 }
             }
 
-            throw new AssemblyException("GetSectionResultForPoint", EAssemblyErrors.RequestedPointOutOfRange);
+            throw new AssemblyException("GetSectionAtPoint", EAssemblyErrors.RequestedPointOutOfRange);
         }
 
         private static IEnumerable<FailurePathSection> CheckSectionResults(

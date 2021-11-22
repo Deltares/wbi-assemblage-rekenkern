@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System.Linq.Expressions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -46,7 +47,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.00003, 0.0003)]
         public void CalculateWbi03Test(double signallingLimit, double lowerLimit)
         {
-            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
+            var section = new AssessmentSection(10000, (Probability) signallingLimit, (Probability) lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
@@ -58,7 +59,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EInterpretationCategory.III:
-                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0, limitResults.LowerLimit);
                         Assert.AreEqual(signallingLimit / 30.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
@@ -99,10 +100,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi21MaximizeTest()
         {
-            const double SignallingLimit = 0.003;
-            const double LowerLimit = 0.034;
+            var signallingLimit = new Probability(0.003);
+            var lowerLimit = new Probability(0.034);
 
-            var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
+            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
@@ -114,7 +115,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0, limitResults.LowerLimit);
                         Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
                         break;
                     case EAssessmentGrade.A:
@@ -143,10 +144,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi21Test()
         {
-            const double SignallingLimit = 0.003;
-            const double LowerLimit = 0.03;
+            var signallingLimit = new Probability(0.003);
+            var lowerLimit = new Probability(0.03);
 
-            var section = new AssessmentSection(10000, SignallingLimit, LowerLimit);
+            var section = new AssessmentSection(10000, signallingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
@@ -158,7 +159,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 switch (limitResults.Category)
                 {
                     case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0, limitResults.LowerLimit);
                         Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
                         break;
                     case EAssessmentGrade.A:
@@ -175,7 +176,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         break;
                     case EAssessmentGrade.D:
                         Assert.AreEqual(0.9, limitResults.LowerLimit, 1e-1);
-                        Assert.AreEqual(1, limitResults.UpperLimit);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit);
                         break;
                     default:
                         Assert.Fail("Unexpected category received");

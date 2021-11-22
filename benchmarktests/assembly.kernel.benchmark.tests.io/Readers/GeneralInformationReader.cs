@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -57,8 +58,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 list.Add(new AssessmentSectionCategory(
                              GetCellValueAsString("A", iRow).ToAssessmentGrade(),
-                             GetCellValueAsDouble("B", iRow),
-                             GetCellValueAsDouble("C", iRow)));
+                             new Probability(GetCellValueAsDouble("B", iRow)),
+                             new Probability(GetCellValueAsDouble("C", iRow))));
             }
 
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories =

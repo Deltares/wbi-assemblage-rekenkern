@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Tests.Model.Categories
@@ -29,14 +30,14 @@ namespace Assembly.Kernel.Tests.Model.Categories
     {
         public TestCategory(double lowerLimit, double upperLimit, string categoryIDentifyer = "")
         {
-            LowerLimit = lowerLimit;
-            UpperLimit = upperLimit;
+            LowerLimit = new Probability(lowerLimit);
+            UpperLimit = new Probability(upperLimit);
             CategoryIDentifyer = categoryIDentifyer;
         }
 
         public string CategoryIDentifyer { get; }
 
-        public double UpperLimit { get; }
-        public double LowerLimit { get; }
+        public Probability UpperLimit { get; }
+        public Probability LowerLimit { get; }
     }
 }

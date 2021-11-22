@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Tests
         public void FullAssembly()
         {
             const int sectionLength = 3750;
-            var section = new AssessmentSection(sectionLength, 1.0E-3, 1.0 / 300.0);
+            var section = new AssessmentSection(sectionLength, (Probability) 1.0E-3, (Probability) (1.0 / 300.0));
             var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FailurePathSection>>();
             var failurePathSectionLists = new List<FailurePathSectionList>();
 
