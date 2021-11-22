@@ -38,11 +38,11 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public Probability AssembleFailurePathWbi1B1(
-            FailurePath failurePath,
-            IEnumerable<FailurePathSectionAssemblyResult> fmSectionAssemblyResults,
+            double lengthEffectFactor,
+            IEnumerable<FailurePathSectionAssemblyResult> failurePathSectionAssemblyResults,
             bool partialAssembly)
         {
-            FailurePathSectionAssemblyResult[] sectionResults = CheckInput(fmSectionAssemblyResults);
+            var sectionResults = CheckInput(failurePathSectionAssemblyResults, lengthEffectFactor);
 
             if (partialAssembly)
             {
@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Implementations
             var failurePathFailureProbability = 1 - noFailureProbProduct;
 
             // step 2: Get section with largest failure probability and multiply with Assessment section length effect factor.
-            highestFailureProbability *= failurePath.LengthEffectFactor;
+            highestFailureProbability *= lengthEffectFactor;
             // step 3: Compare the Failure probabilities from step 1 and 2 and use the lowest of the two.
             var resultFailureProb = Math.Min(highestFailureProbability, failurePathFailureProbability);
             // step 4: Return the category + failure probability
@@ -87,11 +87,13 @@ namespace Assembly.Kernel.Implementations
         }
 
         private static FailurePathSectionAssemblyResult[] CheckInput(
-            IEnumerable<FailurePathSectionAssemblyResult> results)
+            IEnumerable<FailurePathSectionAssemblyResult> results, double lengthEffectFactor)
         {
+            var errors = new List<AssemblyErrorMessage>();
+
             if (results == null)
             {
-                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull);
+                errors.Add(new AssemblyErrorMessage("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
             var sectionResults = results.ToArray();
@@ -101,6 +103,11 @@ namespace Assembly.Kernel.Implementations
             {
                 throw new AssemblyException("AssembleFailurePathResult",
                     EAssemblyErrors.EmptyResultsList);
+            }
+
+            if (lengthEffectFactor < 1)
+            {
+                throw new AssemblyException("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange);
             }
 
             return sectionResults;

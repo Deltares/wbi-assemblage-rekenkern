@@ -36,8 +36,8 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class FailurePathResultAssemblerTests
     {
-        private readonly FailurePath testFailurePath1 = new FailurePath(14.4);
-        private readonly FailurePath testFailurePath2 = new FailurePath(10);
+        private readonly double lengthEffectFactor1 = 14.4;
+        private readonly double lengthEffectFactor2 = 10;
         private IFailurePathResultAssembler assembler;
 
         [SetUp]
@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Tests.Implementations
                                                   EAssemblyType assemblyType, Probability expectedResult)
         {
             // Use correct probabilities
-            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath1,
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor1,
                                                                   failureProbabilities.Select(failureProbability =>
                                                                                                   new
                                                                                                       FailurePathSectionAssemblyResult(
@@ -65,7 +65,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1LengthEffectFactor()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(new FailurePath(5),
+            var result = assembler.AssembleFailurePathWbi1B1(5,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult((Probability)0.001, (Probability)0.001, EInterpretationCategory.II),
@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NoResultPartly()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.IMin),
@@ -99,7 +99,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NoResult()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
@@ -114,7 +114,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1NotApplicable()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult((Probability)0.0, (Probability)0.0, EInterpretationCategory.D),
@@ -129,7 +129,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Wbi1B1Partial()
         {
-            var result = assembler.AssembleFailurePathWbi1B1(testFailurePath2,
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                                                                   new[]
                                                                   {
                                                                       new FailurePathSectionAssemblyResult((Probability)0.9, (Probability)0.9, EInterpretationCategory.D),

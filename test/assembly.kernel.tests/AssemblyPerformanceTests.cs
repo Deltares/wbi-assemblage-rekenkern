@@ -49,11 +49,11 @@ namespace Assembly.Kernel.Tests
         {
             const int sectionLength = 3750;
             var section = new AssessmentSection(sectionLength, (Probability) 1.0E-3, (Probability) (1.0 / 300.0));
-            var fpSectionResultsDictionary = new Dictionary<FailurePath, List<FailurePathSection>>();
+            var failurePathSectionResultsDictionary = new Dictionary<double, List<FailurePathSection>>();
             var failurePathSectionLists = new List<FailurePathSectionList>();
 
             // create section results for 15 failure paths with 250 sections each
-            CreateTestInput(sectionLength, fpSectionResultsDictionary);
+            CreateTestInput(sectionLength, failurePathSectionResultsDictionary);
 
             // start timer
             var watch = Stopwatch.StartNew();
@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Tests
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();
-            foreach (KeyValuePair<FailurePath, List<FailurePathSection>> fpSectionResults in fpSectionResultsDictionary)
+            foreach (var fpSectionResults in failurePathSectionResultsDictionary)
             {
                 var result = fmAssembler.AssembleFailurePathWbi1B1(
                     fpSectionResults.Key,
@@ -86,11 +86,10 @@ namespace Assembly.Kernel.Tests
             Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
         }
 
-        private static void CreateTestInput(int sectionLength, IDictionary<FailurePath, List<FailurePathSection>> withFailureProbabilities)
+        private static void CreateTestInput(int sectionLength, IDictionary<double, List<FailurePathSection>> withFailureProbabilities)
         {
             for (var i = 1; i <= 15; i++)
             {
-                var failurePath = new FailurePath(i);
                 var failurePathSections = new List<FailurePathSection>();
 
                 var sectionLengthRemaining = sectionLength;
@@ -108,7 +107,7 @@ namespace Assembly.Kernel.Tests
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }
 
-                withFailureProbabilities.Add(failurePath, failurePathSections);
+                withFailureProbabilities.Add(i, failurePathSections);
             }
         }
 
