@@ -121,12 +121,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(-10.0,0.2,0.4,0.2)]
         [TestCase(1.0, -0.2, 0.4, 0.2)]
-        [TestCase(1.0, 0.2, -0.4, 0.2)]
-        [TestCase(1.0, 0.2, 0.4, -0.2)]
-        [TestCase(10.0, 0.2, 0.4, 0.2)]
-        [TestCase(1.0, 30.2, 0.4, 0.2)]
-        [TestCase(1.0, 0.2, 40.4, 0.2)]
-        [TestCase(1.0, 0.2, 0.4, 50.2)]
+        [TestCase(0.01, 0.02, -0.4, 0.2)]
+        [TestCase(0.01, 0.02, 0.4, -0.2)]
+        [TestCase(10.0, 10.0, 0.2, 0.3)]
+        [TestCase(0.1, 30.2, 0.2, 0.3)]
+        [TestCase(0.1, 0.2, 40.4, 40.4)]
+        [TestCase(0.1, 0.2, 0.4, 50.2)]
         public void Wbi0A2WithProbabilityNullTest(double p1, double p2, double p3, double p4)
         {
             var categories = new CategoriesList<InterpretationCategory>(
