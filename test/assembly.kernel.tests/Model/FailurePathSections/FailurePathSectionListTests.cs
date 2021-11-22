@@ -25,12 +25,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
+using Assembly.Kernel.Model.FailurePathSections;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
 
-namespace Assembly.Kernel.Tests.Model.FailurePaths
+namespace Assembly.Kernel.Tests.Model.FailurePathSections
 {
     [TestFixture]
     public class FailurePathSectionListTests

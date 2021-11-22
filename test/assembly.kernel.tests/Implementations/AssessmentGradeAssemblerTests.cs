@@ -31,7 +31,6 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
 using NUnit.Framework;
 
 // ReSharper disable UnusedMember.Local

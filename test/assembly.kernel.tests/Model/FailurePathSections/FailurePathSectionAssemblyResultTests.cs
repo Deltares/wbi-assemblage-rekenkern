@@ -21,14 +21,12 @@
 // All rights reserved.
 #endregion
 
-using System.Linq;
-using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
+using Assembly.Kernel.Model.FailurePathSections;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.FailurePaths
+namespace Assembly.Kernel.Tests.Model.FailurePathSections
 {
     [TestFixture]
     public class FailurePathSectionAssemblyResultTests

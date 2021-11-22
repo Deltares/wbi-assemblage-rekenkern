@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePaths;
+using Assembly.Kernel.Model.FailurePathSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {

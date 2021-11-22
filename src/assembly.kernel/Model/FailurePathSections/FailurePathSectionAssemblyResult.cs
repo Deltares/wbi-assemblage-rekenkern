@@ -2,7 +2,7 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model.FailurePaths
+namespace Assembly.Kernel.Model.FailurePathSections
 {
     /// <summary>
     /// Class that holds the results for a section of a failure path

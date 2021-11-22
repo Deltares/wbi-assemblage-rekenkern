@@ -26,7 +26,7 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
+using Assembly.Kernel.Model.FailurePathSections;
 
 namespace Assembly.Kernel.Interfaces
 {

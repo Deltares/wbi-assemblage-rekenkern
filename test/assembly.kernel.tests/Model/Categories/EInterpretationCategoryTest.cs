@@ -25,7 +25,7 @@ using System;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.FailurePaths
+namespace Assembly.Kernel.Tests.Model.Categories
 {
     [TestFixture]
     public class EInterpretationCategoryTest

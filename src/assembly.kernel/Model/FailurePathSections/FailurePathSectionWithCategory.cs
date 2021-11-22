@@ -25,7 +25,7 @@
 
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model.FailurePaths
+namespace Assembly.Kernel.Model.FailurePathSections
 {
     /// <summary>
     /// Failure path with assessment result category.

@@ -30,7 +30,7 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePaths;
+using Assembly.Kernel.Model.FailurePathSections;
 
 namespace Assembly.Kernel.Implementations
 {

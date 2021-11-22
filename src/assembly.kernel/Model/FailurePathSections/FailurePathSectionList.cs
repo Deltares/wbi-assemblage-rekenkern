@@ -26,11 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.FailurePaths
+namespace Assembly.Kernel.Model.FailurePathSections
 {
     /// <summary>
     /// Failure path section categories of a single failure path.
