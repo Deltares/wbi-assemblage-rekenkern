@@ -193,7 +193,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DeterminCombinedResultPerCommonSectionThrowsOnInvalidSections2()
+        public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections2()
         {
             var sectionsList1 = new FailurePathSectionList("", new[]
             {
@@ -205,7 +205,8 @@ namespace Assembly.Kernel.Tests.Implementations
             var sectionsList2 = new FailurePathSectionList("", new[]
             {
                 new FailurePathSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailurePathSectionWithCategory(1.0, 2.5, EInterpretationCategory.III),
+                new FailurePathSectionWithCategory(1.0, 1.5, EInterpretationCategory.III),
+                new FailurePathSectionWithCategory(1.5, 2.5, EInterpretationCategory.III),
                 new FailurePathSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
 
@@ -231,7 +232,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DeterminCombinedResultPerCommonSectionThrowsOnNullValue()
+        public void DetermineCombinedResultPerCommonSectionThrowsOnNullValue()
         {
             try
             {

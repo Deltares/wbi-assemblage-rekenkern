@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePaths;
@@ -177,7 +176,7 @@ namespace Assembly.Kernel.Implementations
 
                     newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category,
                         section.Category, partialAssembly);
-                    if (newCombinedSection.Category == EInterpretationCategory.D)
+                    if (newCombinedSection.Category == EInterpretationCategory.Gr)
                     {
                         break;
                     }
@@ -288,36 +287,12 @@ namespace Assembly.Kernel.Implementations
             EInterpretationCategory currentCategory,
             bool partialAssembly)
         {
-            switch (currentCategory)
+            if (partialAssembly && currentCategory == EInterpretationCategory.D || currentCategory == EInterpretationCategory.Gr)
             {
-                case EInterpretationCategory.Gr:
-                case EInterpretationCategory.D
-                    : // TODO: This should maybe not result in Gr? Does D prevail above any other value?
-                    if (!partialAssembly)
-                    {
-                        return EInterpretationCategory.Gr;
-                    }
-
-                    break;
-                case EInterpretationCategory.ND:
-                    break;
-                case EInterpretationCategory.III:
-                case EInterpretationCategory.II:
-                case EInterpretationCategory.I:
-                case EInterpretationCategory.ZeroPlus:
-                case EInterpretationCategory.Zero:
-                case EInterpretationCategory.IMin:
-                case EInterpretationCategory.IIMin:
-                case EInterpretationCategory.IIIMin:
-                    if (currentCategory > combinedCategory)
-                    {
-                        combinedCategory = currentCategory;
-                    }
-
-                    break;
+                return combinedCategory;
             }
 
-            return combinedCategory;
+            return currentCategory > combinedCategory ? currentCategory : combinedCategory;
         }
     }
 }
