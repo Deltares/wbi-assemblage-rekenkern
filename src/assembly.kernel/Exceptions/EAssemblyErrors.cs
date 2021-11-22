@@ -133,6 +133,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The supplied sections need to have a category result, otherwise the result cannot be translated to other sections.
         /// </summary>
-        SectionsWithoutCategory
+        SectionsWithoutCategory,
+
+        /// <summary>
+        /// The provided probability for a profile exceeds the corresponding probability for the related section.
+        /// </summary>
+        ProfileProbabilityGreaterThanSectionProbability
     }
 }

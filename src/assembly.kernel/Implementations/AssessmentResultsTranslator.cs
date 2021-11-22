@@ -40,10 +40,8 @@ namespace Assembly.Kernel.Implementations
             double probabilityInitialMechanismSection, bool needsRefinement, double refinedProbabilityProfile,
             double refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
-            CheckInputProbability(probabilityInitialMechanismProfile);
-            CheckInputProbability(probabilityInitialMechanismSection);
-            CheckInputProbability(refinedProbabilityProfile);
-            CheckInputProbability(refinedProbabilitySection);
+            CheckInputProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
+            CheckInputProbabilities(refinedProbabilityProfile, refinedProbabilitySection);
 
             if (categories == null)
             {
@@ -84,11 +82,20 @@ namespace Assembly.Kernel.Implementations
             return new FailurePathSectionAssemblyResult(double.NaN, double.NaN, EInterpretationCategory.ND);
         }
 
-        private static void CheckInputProbability(double probability)
+        private static void CheckInputProbabilities(double probabilityProfile, double probabilitySection)
         {
-            if (probability < 0.0 || probability > 1.0)
+            if (probabilityProfile < 0.0 || probabilityProfile > 1.0)
             {
                 throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+            if (probabilitySection < 0.0 || probabilitySection > 1.0)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+
+            if (probabilitySection < probabilityProfile)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
         }
     }

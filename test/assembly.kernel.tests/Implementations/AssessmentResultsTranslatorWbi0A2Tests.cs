@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0AThrowsOnNullCategoriesTest()
+        public void Wbi0A2ThrowsOnNullCategoriesTest()
         {
             try
             {
@@ -90,6 +90,28 @@ namespace Assembly.Kernel.Tests.Implementations
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
                 Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        [Test]
+        [TestCase(0.1,0.01,0.002,0.01)]
+        [TestCase(0.1, 0.01, 0.02, 0.01)]
+        public void Wbi0A2ThrowsOnLargeProfileProbabilityCategoriesTest(double pInitialProfile, double pInitialSection, double pRefinedProfile, double pRefinedSection)
+        {
+            try
+            {
+                var result = translator.TranslateAssessmentResultWbi0A2(true, pInitialProfile, pInitialSection, true,
+                    pRefinedProfile, pRefinedSection, null);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
                 Assert.Pass();
             }
 
