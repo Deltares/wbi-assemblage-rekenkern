@@ -46,10 +46,10 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection)).ToArray();
+                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value)).ToArray();
             }
 
-            if (sectionResults.All(r => double.IsNaN(r.ProbabilitySection)) || sectionResults.Length == 0)
+            if (sectionResults.All(r => double.IsNaN(r.ProbabilitySection.Value)) || sectionResults.Length == 0)
             {
                 return Probability.NaN;
             }
@@ -61,7 +61,7 @@ namespace Assembly.Kernel.Implementations
 
             foreach (var fpSectionResult in sectionResults)
             {
-                if (double.IsNaN(fpSectionResult.ProbabilitySection))
+                if (double.IsNaN(fpSectionResult.ProbabilitySection.Value))
                 {
                     return Probability.NaN;
                 }
