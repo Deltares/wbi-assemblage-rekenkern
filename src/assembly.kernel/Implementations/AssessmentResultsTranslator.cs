@@ -38,71 +38,64 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant,
             Probability probabilityInitialMechanismProfile,
-            Probability probabilityInitialMechanismSection, 
-            bool needsRefinement, 
+            Probability probabilityInitialMechanismSection,
+            bool needsRefinement,
             Probability refinedProbabilityProfile,
-            Probability refinedProbabilitySection, 
+            Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories)
         {
-            CheckInput(probabilityInitialMechanismProfile, probabilityInitialMechanismSection, refinedProbabilityProfile, refinedProbabilitySection, categories);
+            if (categories == null)
+            {
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
+            }
 
             if (!isRelevant)
             {
-                return new FailurePathSectionAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.III);
+                return new FailurePathSectionAssemblyResult(new Probability(0.0), new Probability(0.0),
+                    EInterpretationCategory.III);
             }
 
             if (needsRefinement)
             {
+                CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
+
                 // Check whether a refined probability is given
-                if (!double.IsNaN(refinedProbabilitySection.Value))
+                if (double.IsNaN(refinedProbabilitySection.Value))
                 {
-                    var category = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
-                    // TODO: Write tests for these situations
-                    var probabilityProfile = double.IsNaN(refinedProbabilityProfile.Value) ? refinedProbabilitySection : refinedProbabilityProfile;
-                    return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, category);
+                    return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                        EInterpretationCategory.D);
                 }
-                return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D);
-            }
 
-            if (!double.IsNaN(probabilityInitialMechanismSection))
-            {
-                var category = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
                 // TODO: Write tests for these situations
-                var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile.Value)
-                    ? probabilityInitialMechanismSection
-                    : probabilityInitialMechanismProfile;
-                return new FailurePathSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, category);
+                var probabilityProfile = double.IsNaN(refinedProbabilityProfile.Value)
+                    ? refinedProbabilitySection
+                    : refinedProbabilityProfile;
+                var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
+                return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, refinedCategory);
             }
 
-            return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.ND);
+            // No refinement necessary. Look at probabilities for the initial mechanism
+            CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
+
+            if (double.IsNaN(probabilityInitialMechanismSection))
+            {
+                return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                    EInterpretationCategory.ND);
+            }
+
+            // TODO: Write tests for these situations
+            var categoryInitialMechanism = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
+            var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile.Value)
+                ? probabilityInitialMechanismSection
+                : probabilityInitialMechanismProfile;
+            return new FailurePathSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, categoryInitialMechanism);
         }
 
-        private static void CheckInput(Probability probabilityInitialMechanismProfile,
-            Probability probabilityInitialMechanismSection, Probability refinedProbabilityProfile,
-            Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
+        private static void CheckProbabilityRatio(Probability profileProbability, Probability sectionProbability)
         {
-            var errors = new List<AssemblyErrorMessage>();
-
-            if (probabilityInitialMechanismSection < probabilityInitialMechanismProfile)
+            if (sectionProbability < profileProbability)
             {
-                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator",
-                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
-            }
-
-            if (refinedProbabilitySection < refinedProbabilityProfile)
-            {
-                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator",
-                    EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
-            }
-
-            if (categories == null)
-            {
-                errors.Add(new AssemblyErrorMessage("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull));
-            }
-
-            if (errors.Count > 0)
-            {
-                throw new AssemblyException(errors);
+                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
         }
     }

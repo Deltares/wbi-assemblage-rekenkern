@@ -102,14 +102,20 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.1,0.01,0.002,0.01)]
-        [TestCase(0.1, 0.01, 0.02, 0.01)]
-        public void Wbi0A2ThrowsOnLargeProfileProbabilityCategoriesTest(double pInitialProfile, double pInitialSection, double pRefinedProfile, double pRefinedSection)
+        public void Wbi0A2ThrowsOnLargeProfileProbabilityInitialMechanism()
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability) pInitialProfile, (Probability) pInitialSection, true,
-                    (Probability) pRefinedProfile, (Probability) pRefinedSection, null);
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability)0.1, (Probability)0.01, false,
+                    Probability.NaN, Probability.NaN, categories);
             }
             catch (AssemblyException e)
             {
@@ -124,21 +130,20 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.4,0.2,0.1,0.2)]
-        [TestCase(0.01, 0.2, 0.4, 0.2)]
-        public void Wbi0A2WithProbabilityNullTest(double p1, double p2, double p3, double p4)
+        public void Wbi0A2ThrowsOnLargeProfileRefinedProbability()
         {
-            var categories = new CategoriesList<InterpretationCategory>(
-                new[]
-                {
-                    new InterpretationCategory(EInterpretationCategory.III, (Probability) 0,(Probability) 0.02),
-                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
-                });
-
             try
             {
-                translator.TranslateAssessmentResultWbi0A2(true,(Probability) p1,(Probability) p2, true,(Probability) p3,(Probability) p4, categories);
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultWbi0A2(true, Probability.NaN, Probability.NaN, true,
+                    (Probability) 0.1, (Probability) 0.01, categories);
             }
             catch (AssemblyException e)
             {
