@@ -80,7 +80,6 @@ namespace Assembly.Kernel.Model.Categories
         /// </summary>
         D = 10,
 
-        // TODO: Does this still exist? I cannot think of a way this van be a result.
         /// <summary>
         /// No result
         /// </summary>

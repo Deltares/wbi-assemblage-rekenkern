@@ -49,11 +49,11 @@ namespace Assembly.Kernel.Implementations
                 failurePathProbabilitiesArray = failurePathProbabilitiesArray.Where(probability =>
                         !double.IsNaN(probability.Value))
                     .ToArray();
-            }
 
-            if (failurePathProbabilitiesArray.All(probability => double.IsNaN(probability.Value)))
-            {
-                return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
+                if (failurePathProbabilitiesArray.Length == 0)
+                {
+                    return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
+                }
             }
 
             var failureProbabilityProduct = 1.0;
@@ -78,20 +78,18 @@ namespace Assembly.Kernel.Implementations
             var errors = new List<AssemblyErrorMessage>();
 
             Probability[] probabilitiesArray = null;
-
             if (probabilities == null)
             {
                 errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull));
             }
             else
             {
-                probabilitiesArray = probabilities.ToArray();
+                probabilitiesArray = probabilities as Probability[] ?? probabilities.ToArray();
                 if (probabilitiesArray.Length == 0)
                 {
                     errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.EmptyResultsList));
                 }
             }
-            
 
             if (categories == null)
             {

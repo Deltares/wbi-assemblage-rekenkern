@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Implementations
                 sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value)).ToArray();
             }
 
-            if (sectionResults.All(r => double.IsNaN(r.ProbabilitySection.Value)) || sectionResults.Length == 0)
+            if (sectionResults.Length == 0)
             {
                 return Probability.NaN;
             }

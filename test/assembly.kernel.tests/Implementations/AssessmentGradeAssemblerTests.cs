@@ -196,6 +196,23 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedProbability, result.FailureProbability);
         }
 
+        [Test]
+        public void Wbi2B1PartialAssemblyNoResults()
+        {
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
+                new[]
+                {
+                    new Probability(double.NaN),
+                    new Probability(double.NaN),
+                    new Probability(double.NaN)
+                }, categories,
+                true);
+
+            Assert.IsNaN(result.FailureProbability);
+        }
+
+
         public enum EAssemblyType
         {
             Full,
