@@ -36,7 +36,8 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(bool isRelevant,
+        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+            ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
             bool needsRefinement,
@@ -49,7 +50,7 @@ namespace Assembly.Kernel.Implementations
                 throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            if (!isRelevant)
+            if (isRelevant == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
             {
                 return new FailurePathSectionAssemblyResult(new Probability(0.0), new Probability(0.0),
                     EInterpretationCategory.III);
@@ -74,14 +75,19 @@ namespace Assembly.Kernel.Implementations
                 return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, refinedCategory);
             }
 
-            // No refinement necessary. Look at probabilities for the initial mechanism
-            CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
-
-            if (double.IsNaN(probabilityInitialMechanismSection))
+            if (isRelevant == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification)
             {
                 return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
                     EInterpretationCategory.ND);
             }
+
+            if (double.IsNaN(probabilityInitialMechanismSection))
+            {
+                throw new AssemblyException("probabilityInitialMechanismSection", EAssemblyErrors.ValueMayNotBeNaN);
+            }
+
+            // No refinement necessary. Look at probabilities for the initial mechanism
+            CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
 
             // TODO: Write tests for these situations
             var categoryInitialMechanism = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;

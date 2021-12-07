@@ -114,6 +114,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The provided probability for a profile exceeds the corresponding probability for the related section.
         /// </summary>
-        ProfileProbabilityGreaterThanSectionProbability
+        ProfileProbabilityGreaterThanSectionProbability,
+
+        /// <summary>
+        /// The provided probability may not be NaN
+        /// </summary>
+        ValueMayNotBeNaN
     }
 }

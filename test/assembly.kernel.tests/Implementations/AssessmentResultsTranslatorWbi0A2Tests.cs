@@ -68,7 +68,13 @@ namespace Assembly.Kernel.Tests.Implementations
             Probability probabilitySection = new Probability(probabilitySectionValue);
             Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(isRelevant, probabilityProfile, probabilitySection,
+            var relevanceInput = isRelevant
+                ? double.IsNaN(probabilitySectionValue)
+                    ?
+                    ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                    : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
+                : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+            var result = translator.TranslateAssessmentResultWbi0A2(relevanceInput, probabilityProfile, probabilitySection,
                 needsRefinement, refinedProbabilityProfile, refinedProbabilitySection, categories);
 
             Assert.IsNotNull(result);
@@ -86,7 +92,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability) 0.1, (Probability) 0.1,
+                var result = translator.TranslateAssessmentResultWbi0A2(ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, (Probability) 0.1, (Probability) 0.1,
                     true, (Probability) 0.1, (Probability) 0.1, null);
             }
             catch (AssemblyException e)
@@ -114,7 +120,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(true, (Probability)0.1, (Probability)0.01, false,
+                var result = translator.TranslateAssessmentResultWbi0A2(ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, (Probability)0.1, (Probability)0.01, false,
                     Probability.NaN, Probability.NaN, categories);
             }
             catch (AssemblyException e)
@@ -142,7 +148,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(true, Probability.NaN, Probability.NaN, true,
+                var result = translator.TranslateAssessmentResultWbi0A2(ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, Probability.NaN, Probability.NaN, true,
                     (Probability) 0.1, (Probability) 0.01, categories);
             }
             catch (AssemblyException e)
