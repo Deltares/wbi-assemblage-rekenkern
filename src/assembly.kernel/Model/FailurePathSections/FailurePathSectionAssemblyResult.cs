@@ -20,6 +20,11 @@ namespace Assembly.Kernel.Model.FailurePathSections
             EInterpretationCategory category)
         {
             InterpretationCategory = category;
+            if (probabilitySection < probabilityProfile)
+            {
+                throw new AssemblyException("FailurePathSectionAssemblyResult",EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+            }
+
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
             if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value) || probabilitySection == probabilityProfile)

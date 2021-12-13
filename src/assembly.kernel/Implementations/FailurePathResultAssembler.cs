@@ -82,7 +82,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (results == null)
             {
-                throw new AssemblyException("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange);
+                throw new AssemblyException("results", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var sectionResults = results.ToArray();

@@ -45,9 +45,9 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         [Test]
         public void FailurePathSectionAssemblyResultToStringTest()
         {
-            var result = new FailurePathSectionAssemblyResult((Probability)0.2,(Probability)0.1,EInterpretationCategory.III);
+            var result = new FailurePathSectionAssemblyResult((Probability)0.2,(Probability)0.4,EInterpretationCategory.III);
 
-            Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.1]", result.ToString());
+            Assert.AreEqual("FailurePathSectionAssemblyResult [III Pprofile:0.2, Psection:0.4]", result.ToString());
         }
     }
 }
