@@ -119,6 +119,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The provided probability may not be NaN
         /// </summary>
-        ValueMayNotBeNaN
+        ValueMayNotBeNaN,
+
+        /// <summary>
+        /// This message is issued whenever an AssemblyException could not be created
+        /// </summary>
+        ErrorConstructingErrorMessage
     }
 }

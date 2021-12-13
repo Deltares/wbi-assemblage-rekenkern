@@ -52,6 +52,14 @@ namespace Assembly.Kernel.Exceptions
         /// <param name="errorMessages">A list of error messages</param>
         public AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
         {
+            if (errorMessages == null)
+            {
+                errorMessages = new List<AssemblyErrorMessage>
+                {
+                    new AssemblyErrorMessage("AssemblyException",EAssemblyErrors.ErrorConstructingErrorMessage)
+                };
+            }
+
             Errors = errorMessages;
         }
 

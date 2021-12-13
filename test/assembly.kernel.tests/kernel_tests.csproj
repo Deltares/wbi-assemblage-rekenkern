@@ -31,6 +31,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\AssemblyErrorMessageTest.cs" />
+    <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
+    <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
     <Compile Include="Model\FailurePathSections\FailurePathSectionAssemblyResultTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
