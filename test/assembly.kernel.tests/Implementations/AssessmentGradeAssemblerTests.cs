@@ -41,6 +41,7 @@ namespace Assembly.Kernel.Tests.Implementations
     public class AssessmentGradeAssemblerTests
     {
         private IAssessmentGradeAssembler assembler;
+
         private readonly AssessmentSection assessmentSection = new AssessmentSection((Probability) (1.0 / 1000.0), (Probability) (1.0 / 300.0));
         private readonly CategoryLimitsCalculator categoriesCalculator = new CategoryLimitsCalculator();
 
@@ -50,64 +51,26 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new AssessmentGradeAssembler();
         }
 
+        #region functional tests
         [Test]
-        public void Wbi2B1EmptyList()
+        [TestCase(0.0,0.1,0.1,EAssessmentGrade.C)]
+        [TestCase(0.0005, 0.00005, 0.000549975, EAssessmentGrade.A)]
+        public void Wbi2B1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            try
+            var failurePathProbabilities = new[]
             {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), categories,
-                                                          false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
-            }
-        }
-
-        [Test]
-        public void Wbi2B1MultipleInputErrorsList()
-        {
-            try
-            {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), null, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(2, e.Errors.Count());
-
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
-                var message2 = e.Errors.ElementAt(1);
-                Assert.NotNull(message2);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message2.ErrorCode);
-            }
-        }
-
-        [Test, TestCaseSource(
-             typeof(AssessMentGradeAssemblerTestData),
-             nameof(AssessMentGradeAssemblerTestData.Wbi2B1))]
-        public void Wbi2B1FailureProbabilityTests(IEnumerable<Probability> failureProbabilities,
-                                                  EAssemblyType assemblyType, Probability expectedResult, EAssessmentGrade expectedGrade)
-        {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-
-            var result = assembler.AssembleAssessmentSectionWbi2B1(failureProbabilities.Select(failureProbability =>
-                    
-                        failureProbability), categories,
-                                                                   assemblyType == EAssemblyType.Partial);
+                (Probability) prob1,
+                (Probability) prob2,
+            };
+            var result = assembler.AssembleAssessmentSectionWbi2B1(failurePathProbabilities, categories, false);
 
             Assert.NotNull(result.FailureProbability);
-            Assert.AreEqual(result.FailureProbability, expectedResult, 10);
+            Assert.AreEqual(expectedProb, result.FailureProbability, 10);
             Assert.AreEqual(expectedGrade, result.Category);
         }
 
-         [Test]
+        [Test]
         public void Wbi2B1NoResultSomeFailurePaths()
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
@@ -140,8 +103,52 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EAssessmentGrade.Gr, result.Category);
         }
 
+        #endregion
+
+        #region functional tests partial assembly
+
         [Test]
-        public void Wbi2B1NullTest()
+        public void Wbi2B1PartialAssembly()
+        {
+            var sectionFailureProbability = 0.00003;
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
+                new[]
+                {
+                    new Probability(double.NaN),
+                    new Probability(sectionFailureProbability),
+                    new Probability(sectionFailureProbability)
+                }, categories,
+                true);
+
+            var expectedProbability = 1 - Math.Pow(1 - sectionFailureProbability, 2);
+            Assert.AreEqual(expectedProbability, result.FailureProbability);
+            Assert.AreEqual(EAssessmentGrade.A, result.Category);
+        }
+
+        [Test]
+        public void Wbi2B1PartialAssemblyNoResults()
+        {
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var result = assembler.AssembleAssessmentSectionWbi2B1(
+                new[]
+                {
+                    new Probability(double.NaN),
+                    new Probability(double.NaN),
+                    new Probability(double.NaN)
+                }, categories,
+                true);
+
+            Assert.IsNaN(result.FailureProbability);
+            Assert.AreEqual(EAssessmentGrade.Gr, result.Category);
+        }
+
+        #endregion
+
+        #region Input handling
+
+        [Test]
+        public void Wbi2B1ProbabilitiesNullTest()
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             try
@@ -154,6 +161,23 @@ namespace Assembly.Kernel.Tests.Implementations
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
                 Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+            }
+        }
+
+        [Test]
+        public void Wbi2B1EmptyProbabilitiesList()
+        {
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            try
+            {
+                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), categories, false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
             }
         }
 
@@ -179,71 +203,26 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1PartialAssembly()
+        public void Wbi2B1MultipleInputErrorsList()
         {
-            var sectionFailureProbability = 0.00003;
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
-                new[]
-                {
-                    new Probability(double.NaN),
-                    new Probability(sectionFailureProbability),
-                    new Probability(sectionFailureProbability)
-                }, categories,
-                true);
-
-            var expectedProbability = 1 - Math.Pow(1 - sectionFailureProbability, 2);
-            Assert.AreEqual(expectedProbability, result.FailureProbability);
-        }
-
-        [Test]
-        public void Wbi2B1PartialAssemblyNoResults()
-        {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
-                new[]
-                {
-                    new Probability(double.NaN),
-                    new Probability(double.NaN),
-                    new Probability(double.NaN)
-                }, categories,
-                true);
-
-            Assert.IsNaN(result.FailureProbability);
-        }
-
-
-        public enum EAssemblyType
-        {
-            Full,
-            Partial
-        }
-
-        private sealed class AssessMentGradeAssemblerTestData
-        {
-            public static IEnumerable Wbi2B1
+            try
             {
-                get
-                {
-                    yield return new TestCaseData(new[]
-                                                  {
-                                                      (Probability)0.0,
-                                                      (Probability)0.1
-                                                  },
-                                                  EAssemblyType.Full,
-                                                  (Probability)0.1,
-                                                  EAssessmentGrade.C);
+                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), null, false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                Assert.AreEqual(2, e.Errors.Count());
 
-                    yield return new TestCaseData(new[]
-                                                  {
-                                                      (Probability)0.0005,
-                                                      (Probability)0.00005
-                                                  },
-                                                  EAssemblyType.Full,
-                                                  (Probability)0.000549975,
-                                                  EAssessmentGrade.A);
-                }
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
+                var message2 = e.Errors.ElementAt(1);
+                Assert.NotNull(message2);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message2.ErrorCode);
             }
         }
+
+        #endregion
     }
 }
