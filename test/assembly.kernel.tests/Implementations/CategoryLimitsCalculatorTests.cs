@@ -21,7 +21,6 @@
 // All rights reserved.
 #endregion
 
-using System.Linq.Expressions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -42,10 +41,11 @@ namespace Assembly.Kernel.Tests.Implementations
             categoryLimitsCalculator = new CategoryLimitsCalculator();
         }
 
+        #region WBI-0-3
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
-        public void CalculateWbi03Test(double signallingLimit, double lowerLimit)
+        public void CalculateWbi03FunctionalTest(double signallingLimit, double lowerLimit)
         {
             var section = new AssessmentSection((Probability) signallingLimit, (Probability) lowerLimit);
 
@@ -98,7 +98,110 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateWbi21MaximizeTest()
+        public void CalculateWbi03CapToOneTest()
+        {
+            var signallingLimit = 0.001;
+            var lowerLimit = 0.5;
+            var section = new AssessmentSection((Probability)signallingLimit, (Probability)lowerLimit);
+
+            CategoriesList<InterpretationCategory> results =
+                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
+
+            Assert.AreEqual(8, results.Categories.Length);
+
+            foreach (var limitResults in results.Categories)
+            {
+                switch (limitResults.Category)
+                {
+                    case EInterpretationCategory.III:
+                        Assert.AreEqual(0.0, limitResults.LowerLimit);
+                        Assert.AreEqual(signallingLimit / 30.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.II:
+                        Assert.AreEqual(signallingLimit / 30.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.I:
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 3.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.ZeroPlus:
+                        Assert.AreEqual(signallingLimit / 3.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.Zero:
+                        Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IMin:
+                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IIMin:
+                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IIIMin:
+                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
+                        break;
+                    default:
+                        Assert.Fail("Unexpected category received");
+                        break;
+                }
+            }
+        }
+
+        #endregion
+
+        #region WBI-2-1
+
+        [Test]
+        public void CalculateWbi21FunctionalTest()
+        {
+            var signallingLimit = new Probability(0.003);
+            var lowerLimit = new Probability(0.03);
+
+            var section = new AssessmentSection(signallingLimit, lowerLimit);
+
+            CategoriesList<AssessmentSectionCategory> results =
+                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
+
+            Assert.AreEqual(5, results.Categories.Length);
+
+            foreach (var limitResults in results.Categories)
+            {
+                switch (limitResults.Category)
+                {
+                    case EAssessmentGrade.APlus:
+                        Assert.AreEqual(0.0, limitResults.LowerLimit);
+                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
+                        break;
+                    case EAssessmentGrade.A:
+                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
+                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
+                        break;
+                    case EAssessmentGrade.B:
+                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
+                        Assert.AreEqual(0.03, limitResults.UpperLimit, 1e-3);
+                        break;
+                    case EAssessmentGrade.C:
+                        Assert.AreEqual(0.03, limitResults.LowerLimit, 1e-2);
+                        Assert.AreEqual(0.9, limitResults.UpperLimit, 1e-3);
+                        break;
+                    case EAssessmentGrade.D:
+                        Assert.AreEqual(0.9, limitResults.LowerLimit, 1e-1);
+                        Assert.AreEqual(1.0, limitResults.UpperLimit);
+                        break;
+                    default:
+                        Assert.Fail("Unexpected category received");
+                        break;
+                }
+            }
+        }
+
+        [Test]
+        public void CalculateWbi21CapToOneTest()
         {
             var signallingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.034);
@@ -141,48 +244,6 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
-        [Test]
-        public void CalculateWbi21Test()
-        {
-            var signallingLimit = new Probability(0.003);
-            var lowerLimit = new Probability(0.03);
-
-            var section = new AssessmentSection(signallingLimit, lowerLimit);
-
-            CategoriesList<AssessmentSectionCategory> results =
-                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
-
-            Assert.AreEqual(5, results.Categories.Length);
-
-            foreach (var limitResults in results.Categories)
-            {
-                switch (limitResults.Category)
-                {
-                    case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
-                        break;
-                    case EAssessmentGrade.A:
-                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
-                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.B:
-                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
-                        Assert.AreEqual(0.03, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.C:
-                        Assert.AreEqual(0.03, limitResults.LowerLimit, 1e-2);
-                        Assert.AreEqual(0.9, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.D:
-                        Assert.AreEqual(0.9, limitResults.LowerLimit, 1e-1);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit);
-                        break;
-                    default:
-                        Assert.Fail("Unexpected category received");
-                        break;
-                }
-            }
-        }
+        #endregion
     }
 }
