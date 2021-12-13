@@ -22,7 +22,7 @@ namespace Assembly.Kernel.Model.FailurePathSections
             InterpretationCategory = category;
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
-            if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value))
+            if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value) || probabilitySection == probabilityProfile)
             {
                 NSection = 1.0;
             }

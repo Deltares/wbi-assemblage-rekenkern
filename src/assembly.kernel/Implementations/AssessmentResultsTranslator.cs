@@ -23,7 +23,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -67,7 +66,6 @@ namespace Assembly.Kernel.Implementations
                         EInterpretationCategory.D);
                 }
 
-                // TODO: Write tests for these situations
                 var probabilityProfile = double.IsNaN(refinedProbabilityProfile.Value)
                     ? refinedProbabilitySection
                     : refinedProbabilityProfile;
@@ -89,7 +87,6 @@ namespace Assembly.Kernel.Implementations
             // No refinement necessary. Look at probabilities for the initial mechanism
             CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
 
-            // TODO: Write tests for these situations
             var categoryInitialMechanism = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
             var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile.Value)
                 ? probabilityInitialMechanismSection
