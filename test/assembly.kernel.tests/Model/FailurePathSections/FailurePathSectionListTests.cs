@@ -36,6 +36,21 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
     public class FailurePathSectionListTests
     {
         [Test]
+        public void ResultListNullInputTest()
+        {
+            try
+            {
+                new FailurePathSectionList("TEST", null);
+            }
+            catch (AssemblyException e)
+            {
+                CheckException(e, EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            Assert.Fail("Expected exception was not thrown");
+        }
+
+        [Test]
         public void EmptyListInputTest()
         {
             try
@@ -64,6 +79,27 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
             );
 
             Assert.AreEqual("", list.FailurePathId);
+        }
+
+        [Test]
+        public void DifferentSectionTypesInputTest()
+        {
+            try
+            {
+                new FailurePathSectionList(
+                    "TEST",
+                    new List<FailurePathSection>
+                    {
+                        new FailurePathSection(1, 5),
+                        new FailurePathSectionWithCategory(5, 15, EInterpretationCategory.I)
+                    });
+            }
+            catch (AssemblyException e)
+            {
+                CheckException(e, EAssemblyErrors.InputNotTheSameType);
+            }
+
+            Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
@@ -131,6 +167,24 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         }
 
         [Test]
+        public void GetCategoryOfSectionReturnsCategory()
+        {
+            var fpSectionList = new FailurePathSectionList(
+                "TEST",
+                new List<FailurePathSection>
+                {
+                    new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
+                    new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.II)
+                });
+            var s = fpSectionList.GetSectionAtPoint(15.0);
+            Assert.AreEqual(10,s.SectionStart);
+            Assert.AreEqual(20, s.SectionEnd);
+            var sectionWithCategory = s as FailurePathSectionWithCategory;
+            Assert.IsNotNull(sectionWithCategory);
+            Assert.AreEqual(EInterpretationCategory.II, sectionWithCategory.Category);
+        }
+
+        [Test]
         public void OverlappingSectionsInputTest()
         {
             try
@@ -146,21 +200,6 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
             catch (AssemblyException e)
             {
                 CheckException(e, EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
-        public void ResultListNullInputTest()
-        {
-            try
-            {
-                new FailurePathSectionList("TEST", null);
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.ValueMayNotBeNull);
             }
 
             Assert.Fail("Expected exception was not thrown");

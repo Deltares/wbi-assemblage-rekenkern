@@ -35,6 +35,9 @@
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
+    <Compile Include="Model\AssessmentSection\AssessmentSectionResultTest.cs" />
+    <Compile Include="Model\Categories\CategoryBaseTest.cs" />
+    <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
     <Compile Include="Model\FailurePathSections\FailurePathSectionAssemblyResultTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
@@ -49,6 +52,8 @@
     <Compile Include="Model\Categories\TestCategory.cs" />
     <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
     <Compile Include="Model\FailurePathSections\FailurePathSectionListTests.cs" />
+    <Compile Include="Model\FailurePathSections\FailurePathSectionTest.cs" />
+    <Compile Include="Model\FailurePathSections\FailurePathSectionWithCategoryTest.cs" />
     <Compile Include="Model\ProbabilityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

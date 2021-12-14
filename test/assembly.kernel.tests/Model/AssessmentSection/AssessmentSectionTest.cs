@@ -39,6 +39,8 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
             try
             {
                 var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signallingLimit, (Probability)lowerLimit);
+                Assert.AreEqual(signallingLimit,section.FailureProbabilitySignallingLimit);
+                Assert.AreEqual(lowerLimit, section.FailureProbabilityLowerLimit);
             }
             catch (AssemblyException e)
             {

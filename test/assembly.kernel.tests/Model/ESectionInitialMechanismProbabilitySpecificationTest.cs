@@ -21,23 +21,26 @@
 // All rights reserved.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
+using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Tests.Model
 {
-    public class TestCategory : ICategoryLimits
+    [TestFixture]
+    public class ESectionInitialMechanismProbabilitySpecificationTest
     {
-        public TestCategory(double lowerLimit, double upperLimit, string categoryIdentifier = "")
+        [Test]
+        public void TestEnumContract()
         {
-            LowerLimit = new Probability(lowerLimit);
-            UpperLimit = new Probability(upperLimit);
-            CategoryIdentifier = categoryIdentifier;
+            Assert.AreEqual(3, Enum.GetValues(typeof(ESectionInitialMechanismProbabilitySpecification)).Length);
+            Assert.AreEqual(1, (int)ESectionInitialMechanismProbabilitySpecification.NotRelevant);
+            Assert.AreEqual(2, (int)ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
+            Assert.AreEqual(3, (int)ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
         }
-
-        public string CategoryIdentifier { get; }
-
-        public Probability UpperLimit { get; }
-        public Probability LowerLimit { get; }
     }
 }

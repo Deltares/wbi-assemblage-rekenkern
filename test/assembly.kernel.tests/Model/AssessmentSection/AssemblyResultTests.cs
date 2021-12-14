@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePathSections;
 using NUnit.Framework;
 
@@ -71,6 +72,23 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
             }
 
             Assert.Fail("Expected exception was not thrown");
+        }
+
+        [Test]
+        public void ConstructorPassesArguments()
+        {
+            var resultPerFailurePath = new []
+            {
+                new FailurePathSectionList("test",new []{new FailurePathSection(0,10) })
+            };
+            var combinedSectionResult = new []
+            {
+                new FailurePathSectionWithCategory(0,10,EInterpretationCategory.I)
+            };
+            var result = new AssemblyResult(resultPerFailurePath, combinedSectionResult);
+
+            Assert.AreEqual(resultPerFailurePath,result.ResultPerFailurePath);
+            Assert.AreEqual(combinedSectionResult, result.CombinedSectionResult);
         }
     }
 }

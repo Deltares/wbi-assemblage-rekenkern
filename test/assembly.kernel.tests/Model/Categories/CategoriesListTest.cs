@@ -149,7 +149,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             var category = list.GetCategoryForFailureProbability((Probability) probability);
 
             Assert.IsNotNull(category);
-            Assert.AreEqual(expectedCategory, category.CategoryIDentifyer);
+            Assert.AreEqual(expectedCategory, category.CategoryIdentifier);
         }
 
         [Test]

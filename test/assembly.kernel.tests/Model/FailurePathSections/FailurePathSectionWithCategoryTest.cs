@@ -21,23 +21,24 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailurePathSections;
+using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Tests.Model.FailurePathSections
 {
-    public class TestCategory : ICategoryLimits
+    [TestFixture]
+    public class FailurePathSectionWithCategoryTest
     {
-        public TestCategory(double lowerLimit, double upperLimit, string categoryIdentifier = "")
+        [Test]
+        public void ConstructorPassesInput()
         {
-            LowerLimit = new Probability(lowerLimit);
-            UpperLimit = new Probability(upperLimit);
-            CategoryIdentifier = categoryIdentifier;
+            var sectionStart = 0.10;
+            var sectionEnd = 5189.015;
+            var section = new FailurePathSectionWithCategory(sectionStart, sectionEnd, EInterpretationCategory.II);
+            Assert.AreEqual(sectionStart, section.SectionStart);
+            Assert.AreEqual(sectionEnd, section.SectionEnd);
+            Assert.AreEqual(EInterpretationCategory.II, section.Category);
         }
-
-        public string CategoryIdentifier { get; }
-
-        public Probability UpperLimit { get; }
-        public Probability LowerLimit { get; }
     }
 }

@@ -22,22 +22,24 @@
 #endregion
 
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
+using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Tests.Model.AssessmentSection
 {
-    public class TestCategory : ICategoryLimits
+    [TestFixture]
+    public class AssessmentSectionResultTest
     {
-        public TestCategory(double lowerLimit, double upperLimit, string categoryIdentifier = "")
+        [Test]
+        public void ConstructorPassesArguments()
         {
-            LowerLimit = new Probability(lowerLimit);
-            UpperLimit = new Probability(upperLimit);
-            CategoryIdentifier = categoryIdentifier;
+            Probability prob = new Probability(0.000012687423);
+            EAssessmentGrade grade = EAssessmentGrade.B;
+            var result = new AssessmentSectionResult(prob, grade);
+
+            Assert.AreEqual(prob,result.FailureProbability);
+            Assert.AreEqual(grade, result.Category);
         }
-
-        public string CategoryIdentifier { get; }
-
-        public Probability UpperLimit { get; }
-        public Probability LowerLimit { get; }
     }
 }

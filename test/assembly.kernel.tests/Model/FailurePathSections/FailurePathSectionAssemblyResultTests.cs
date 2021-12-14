@@ -21,6 +21,8 @@
 // All rights reserved.
 #endregion
 
+using System.Linq;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePathSections;
@@ -32,14 +34,33 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
     public class FailurePathSectionAssemblyResultTests
     {
         [Test]
-        [TestCase(0.2,0.4, 2.0)]
-        [TestCase(0.01, 0.1, 10.0)]
-        [TestCase(double.NaN, 0.4, 1.0)]
-        [TestCase(0.5, double.NaN, 1.0)]
-        public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, double expectedNValue)
+        [TestCase(0.2,0.4, 2.0, EInterpretationCategory.IMin)]
+        [TestCase(0.01, 0.1, 10.0, EInterpretationCategory.IIIMin)]
+        [TestCase(double.NaN, 0.4, 1.0, EInterpretationCategory.Gr)]
+        [TestCase(0.5, double.NaN, 1.0, EInterpretationCategory.ZeroPlus)]
+        public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, double expectedNValue, EInterpretationCategory interpretationCategory)
         {
-            var result = new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, EInterpretationCategory.D);
+            var result = new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, interpretationCategory);
             Assert.AreEqual(expectedNValue, result.NSection);
+            Assert.AreEqual(probabilityProfile, result.ProbabilityProfile);
+            Assert.AreEqual(probabilitySection, result.ProbabilitySection);
+            Assert.AreEqual(interpretationCategory, result.InterpretationCategory);
+        }
+
+        [Test]
+        public void ConstructorChecksInput()
+        {
+            try
+            {
+                var result = new FailurePathSectionAssemblyResult((Probability)0.05, (Probability)0.01, EInterpretationCategory.III);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
         }
 
         [Test]

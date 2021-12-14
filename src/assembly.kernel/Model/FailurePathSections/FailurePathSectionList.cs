@@ -123,7 +123,7 @@ namespace Assembly.Kernel.Model.FailurePathSections
                     // check if sections are consecutive with a margin of 1 cm
                     if (Math.Abs(previousFailurePathSection.SectionEnd - section.SectionStart) > 0.01)
                     {
-                        throw new AssemblyException("FailurepathSectionList",
+                        throw new AssemblyException("FailurePathSectionList",
                             EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
                     }
                 }
