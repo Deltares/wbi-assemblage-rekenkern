@@ -298,7 +298,7 @@ namespace Assembly.Kernel.Implementations
             EInterpretationCategory currentCategory,
             bool partialAssembly)
         {
-            if (partialAssembly && (currentCategory == EInterpretationCategory.D || currentCategory == EInterpretationCategory.Gr))
+            if (partialAssembly && (currentCategory == EInterpretationCategory.Dominant || currentCategory == EInterpretationCategory.Gr))
             {
                 return combinedCategory;
             }

@@ -63,7 +63,7 @@ namespace Assembly.Kernel.Implementations
                 if (double.IsNaN(refinedProbabilitySection.Value))
                 {
                     return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                        EInterpretationCategory.D);
+                        EInterpretationCategory.Dominant);
                 }
 
                 var probabilityProfile = double.IsNaN(refinedProbabilityProfile.Value)
@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Implementations
             if (isRelevant == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification)
             {
                 return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                    EInterpretationCategory.ND);
+                    EInterpretationCategory.NotDominant);
             }
 
             if (double.IsNaN(probabilityInitialMechanismSection))

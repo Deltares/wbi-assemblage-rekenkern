@@ -113,9 +113,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D),
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D)
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant)
                 },
                 false);
 
@@ -129,9 +129,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 new[]
                 {
                     new FailurePathSectionAssemblyResult((Probability) 0.9, (Probability) 0.9,
-                        EInterpretationCategory.D),
+                        EInterpretationCategory.Dominant),
                     new FailurePathSectionAssemblyResult((Probability) 0.000026, (Probability) 0.000026,
-                        EInterpretationCategory.D),
+                        EInterpretationCategory.Dominant),
                     new FailurePathSectionAssemblyResult((Probability) 0.000010, (Probability) 0.000010,
                         EInterpretationCategory.II),
                     new FailurePathSectionAssemblyResult((Probability) 0.0000011, (Probability) 0.0000011,
@@ -159,9 +159,9 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.IMin),
                     new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
-                        EInterpretationCategory.D),
+                        EInterpretationCategory.Dominant),
                     new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
-                        EInterpretationCategory.D)
+                        EInterpretationCategory.Dominant)
                 },
                 false);
 
@@ -220,7 +220,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 assembler.AssembleFailurePathWbi1B1(lengthEffectFactor,
-                    new[] { new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.D) },
+                    new[] { new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant) },
                     false);
             }
             catch (AssemblyException e)

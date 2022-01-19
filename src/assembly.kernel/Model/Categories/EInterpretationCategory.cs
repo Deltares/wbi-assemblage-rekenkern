@@ -33,7 +33,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// Relevant but not dominant without probability estimation
         /// </summary>
-        ND = 1,
+        NotDominant = 1,
 
         /// <summary>
         /// probability less than 1/30 of the signalling norm
@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// Dominant without probability estimation
         /// </summary>
-        D = 10,
+        Dominant = 10,
 
         /// <summary>
         /// No result

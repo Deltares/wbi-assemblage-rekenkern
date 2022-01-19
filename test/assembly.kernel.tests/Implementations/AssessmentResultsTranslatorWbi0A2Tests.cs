@@ -133,7 +133,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 categories);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EInterpretationCategory.ND, result.InterpretationCategory);
+            Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
             Assert.AreEqual(Probability.NaN, result.ProbabilityProfile);
             Assert.AreEqual(Probability.NaN, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
@@ -143,7 +143,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.01, 0.02, 0.03, 0.04, EInterpretationCategory.II, 0.03, 0.04)]
         [TestCase(0.02, 0.01, 0.03, 0.04, EInterpretationCategory.II, 0.03, 0.04)]
         [TestCase(0.01, 0.02, double.NaN, 0.04, EInterpretationCategory.II, 0.04, 0.04)]
-        [TestCase(0.01, 0.02, double.NaN, double.NaN, EInterpretationCategory.D, double.NaN, double.NaN)]
+        [TestCase(0.01, 0.02, double.NaN, double.NaN, EInterpretationCategory.Dominant, double.NaN, double.NaN)]
         public void Wbi0A2RefinedProbabilityEstimationTest(double probabilityProfileValue, double probabilitySectionValue,
             double refinedProbabilityProfileValue, double refinedProbabilitySectionValue,
             EInterpretationCategory expectedCategory, double expectedProbabilityProfileValue, double expectedProbabilitySectionValue)
