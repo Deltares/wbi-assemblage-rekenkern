@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         [TestCase(0.2,0.4, 2.0, EInterpretationCategory.IMin)]
         [TestCase(0.01, 0.1, 10.0, EInterpretationCategory.IIIMin)]
         [TestCase(double.NaN, 0.4, 1.0, EInterpretationCategory.Gr)]
-        [TestCase(0.5, double.NaN, 1.0, EInterpretationCategory.ZeroPlus)]
+        [TestCase(0.5, double.NaN, 1.0, EInterpretationCategory.Zero)]
         public void FailurePathSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, double expectedNValue, EInterpretationCategory interpretationCategory)
         {
             var result = new FailurePathSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, interpretationCategory);

@@ -71,41 +71,36 @@ namespace Assembly.Kernel.Implementations
         public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(
             AssessmentSection section)
         {
-            var sigDiv30 = new Probability(section.FailureProbabilitySignallingLimit / 30.0);
+            var sigDiv1000 = new Probability(section.FailureProbabilitySignallingLimit / 1000.0);
+            var sigDiv100 = new Probability(section.FailureProbabilitySignallingLimit / 100.0);
             var sigDiv10 = new Probability(section.FailureProbabilitySignallingLimit / 10.0);
-            var sigDiv3 = new Probability(section.FailureProbabilitySignallingLimit / 3.0);
             var lowTimes10 = new Probability(CapToOne(section.FailureProbabilityLowerLimit.Value * 10.0));
-            var lowTimes3 = new Probability(CapToOne(section.FailureProbabilityLowerLimit.Value * 3.0));
 
             return new CategoriesList<InterpretationCategory>(new[]
             {
                 new InterpretationCategory(
                     EInterpretationCategory.III,
                     new Probability(0),
-                    sigDiv30),
+                    sigDiv1000),
                 new InterpretationCategory(
                     EInterpretationCategory.II,
-                    sigDiv30,
-                    sigDiv10),
+                    sigDiv1000,
+                    sigDiv100),
                 new InterpretationCategory(
                     EInterpretationCategory.I,
-                    sigDiv10,
-                    sigDiv3),
-                new InterpretationCategory(
-                    EInterpretationCategory.ZeroPlus,
-                    sigDiv3,
-                    section.FailureProbabilitySignallingLimit),
+                    sigDiv100,
+                    sigDiv10),
                 new InterpretationCategory(
                     EInterpretationCategory.Zero,
+                    sigDiv10,
+                    section.FailureProbabilitySignallingLimit),
+                new InterpretationCategory(
+                    EInterpretationCategory.IMin,
                     section.FailureProbabilitySignallingLimit,
                     section.FailureProbabilityLowerLimit),
                 new InterpretationCategory(
-                    EInterpretationCategory.IMin,
-                    section.FailureProbabilityLowerLimit,
-                    lowTimes3),
-                new InterpretationCategory(
                     EInterpretationCategory.IIMin,
-                    lowTimes3,
+                    section.FailureProbabilityLowerLimit,
                     lowTimes10),
                 new InterpretationCategory(
                     EInterpretationCategory.IIIMin,

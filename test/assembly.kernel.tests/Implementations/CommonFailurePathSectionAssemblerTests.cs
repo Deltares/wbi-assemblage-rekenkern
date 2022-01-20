@@ -481,7 +481,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var sectionsList3 = new FailurePathSectionList("", new[]
             {
                 new FailurePathSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
-                new FailurePathSectionWithCategory(1.0, 1.5, EInterpretationCategory.ZeroPlus),
+                new FailurePathSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailurePathSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
                 new FailurePathSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
             });
@@ -527,7 +527,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var sectionsList3 = new FailurePathSectionList("", new[]
             {
                 new FailurePathSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
-                new FailurePathSectionWithCategory(1.0, 1.5, EInterpretationCategory.ZeroPlus),
+                new FailurePathSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailurePathSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
                 new FailurePathSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
             });

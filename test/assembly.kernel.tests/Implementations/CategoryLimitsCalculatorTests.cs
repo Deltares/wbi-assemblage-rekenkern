@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Tests.Implementations
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
 
-            Assert.AreEqual(8, results.Categories.Length);
+            Assert.AreEqual(7, results.Categories.Length);
 
             foreach (var limitResults in results.Categories)
             {
@@ -60,30 +60,26 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signallingLimit / 30.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signallingLimit / 30.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 3.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.ZeroPlus:
-                        Assert.AreEqual(signallingLimit / 3.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IMin:
                         Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
                         break;
-                    case EInterpretationCategory.IMin:
-                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(lowerLimit*3.0, limitResults.UpperLimit, 1e-6);
-                        break;
                     case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(lowerLimit*3.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(lowerLimit*10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIIMin:
@@ -107,7 +103,7 @@ namespace Assembly.Kernel.Tests.Implementations
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
 
-            Assert.AreEqual(8, results.Categories.Length);
+            Assert.AreEqual(7, results.Categories.Length);
 
             foreach (var limitResults in results.Categories)
             {
@@ -115,30 +111,26 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signallingLimit / 30.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signallingLimit / 30.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 3.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.ZeroPlus:
-                        Assert.AreEqual(signallingLimit / 3.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
+                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        break;
+                    case EInterpretationCategory.IMin:
                         Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
                         break;
-                    case EInterpretationCategory.IMin:
-                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
-                        break;
                     case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIIMin:

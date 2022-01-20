@@ -51,38 +51,33 @@ namespace Assembly.Kernel.Model.Categories
         I = 4,
 
         /// <summary>
-        /// probability less than the signalling norm
+        /// probability less than the lower boundary norm
         /// </summary>
-        ZeroPlus = 5,
+        Zero = 5,
 
         /// <summary>
         /// probability less than the lower boundary norm
         /// </summary>
-        Zero = 6,
-
-        /// <summary>
-        /// probability less than the lower boundary norm
-        /// </summary>
-        IMin = 7,
+        IMin = 6,
 
         /// <summary>
         /// probability less than the 3 times the lower boundary norm
         /// </summary>
-        IIMin = 8,
+        IIMin = 7,
 
         /// <summary>
         /// probability less than the 10 times the lower boundary norm
         /// </summary>
-        IIIMin = 9,
+        IIIMin = 8,
 
         /// <summary>
         /// Dominant without probability estimation
         /// </summary>
-        Dominant = 10,
+        Dominant = 9,
 
         /// <summary>
         /// No result
         /// </summary>
-        Gr = 11
+        Gr = 10
     }
 }
