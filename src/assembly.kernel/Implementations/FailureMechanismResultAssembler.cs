@@ -174,12 +174,12 @@ namespace Assembly.Kernel.Implementations
                             throw new AssemblyException("FailureMechanismAssembler", EAssemblyErrors.ValueMayNotBeNull);
                         }
 
-                        // This failuremechanism section contains a failure probability 
+                        // This failure mechanism section contains a failure probability 
                         failureProbFound = true;
 
                         var sectionFailureProb = fmSectionResult.FailureProbability;
                         var profileFailureProb = fmSectionResult.FailureProbabilityProfile;
-                        if (sectionFailureProb > highestFailureProbability)
+                        if (profileFailureProb > highestFailureProbability)
                         {
                             highestFailureProbability = profileFailureProb;
                         }

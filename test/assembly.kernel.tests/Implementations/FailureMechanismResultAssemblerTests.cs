@@ -452,7 +452,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<double, double>(0.0,0.0), 
+                            new Tuple<double, double>(0.0, 0.0),
                             new Tuple<double, double>(0.1, 0.1)
                         },
                         EAssemblyType.Full,
@@ -461,9 +461,9 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<double, double>(0.0,0.0),
+                            new Tuple<double, double>(0.0, 0.0),
                             new Tuple<double, double>(0.01, 0.0001),
-                            new Tuple<double, double>(0.01,0.0005),
+                            new Tuple<double, double>(0.01, 0.0005),
                             new Tuple<double, double>(0.01, 0.0007)
                         },
                         EAssemblyType.Full,
@@ -472,11 +472,35 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<double, double>(0.0005,0.0005),
-                            new Tuple<double, double>(0.00005,0.00005)
+                            new Tuple<double, double>(0.0005, 0.0005),
+                            new Tuple<double, double>(0.00005, 0.00005)
                         },
                         EAssemblyType.Full,
                         0.000549975);
+
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001),
+                            new Tuple<double, double>(0.001,0.001)
+                        },
+                        EAssemblyType.Full,
+                        0.0144);
                 }
             }
 
