@@ -124,6 +124,16 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// This message is issued whenever an AssemblyException could not be created
         /// </summary>
-        ErrorConstructingErrorMessage
+        ErrorConstructingErrorMessage,
+
+        /// <summary>
+        /// List contains a dominant section and cannot be assembled any further.
+        /// </summary>
+        DominantSectionCannotBeAssembled,
+
+        /// <summary>
+        /// The provided list with section results contains one or more sections without result. Assembly cannot be performed.
+        /// </summary>
+        EncounteredOneOrMoreSectionsWithoutResult
     }
 }

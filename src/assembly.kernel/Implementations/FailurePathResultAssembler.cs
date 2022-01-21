@@ -29,6 +29,7 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailurePathSections;
 
 namespace Assembly.Kernel.Implementations
@@ -46,34 +47,50 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value)).ToArray();
+                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value) && r.InterpretationCategory != EInterpretationCategory.Dominant).ToArray();
+                if (sectionResults.Length == 0)
+                {
+                    return new Probability(0);
+                }
             }
 
-            if (sectionResults.Length == 0)
+            var errors = new List<AssemblyErrorMessage>();
+            if (sectionResults.Any(r => r.InterpretationCategory != EInterpretationCategory.Dominant && r.InterpretationCategory != EInterpretationCategory.NotDominant &&
+                                        (double.IsNaN(r.ProbabilityProfile) || double.IsNaN(r.ProbabilitySection))))
             {
-                return Probability.NaN;
+                errors.Add(new AssemblyErrorMessage("failurePathSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
+            }
+
+            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Dominant))
+            {
+                errors.Add(new AssemblyErrorMessage("failurePathSectionAssemblyResults", EAssemblyErrors.DominantSectionCannotBeAssembled));
+            }
+
+            if (errors.Any())
+            {
+                throw new AssemblyException(errors);
             }
 
             var noFailureProbProduct = 1.0;
-            var highestFailureProbability = 0.0;
+            var highestFailureProbabilityProfile = 0.0;
 
             foreach (var sectionResult in sectionResults)
             {
-                if (double.IsNaN(sectionResult.ProbabilitySection.Value))
+                if (sectionResult.InterpretationCategory == EInterpretationCategory.NotDominant)
                 {
-                    return Probability.NaN;
+                    continue;
                 }
 
-                if (sectionResult.ProbabilitySection > highestFailureProbability)
+                if (sectionResult.ProbabilityProfile > highestFailureProbabilityProfile)
                 {
-                    highestFailureProbability = sectionResult.ProbabilityProfile;
+                    highestFailureProbabilityProfile = sectionResult.ProbabilityProfile;
                 }
 
                 noFailureProbProduct *= 1.0 - sectionResult.ProbabilitySection;
             }
 
-            highestFailureProbability *= lengthEffectFactor;
-            var resultFailureProb = Math.Min(highestFailureProbability, 1 - noFailureProbProduct);
+            highestFailureProbabilityProfile *= lengthEffectFactor;
+            var resultFailureProb = Math.Min(highestFailureProbabilityProfile, 1 - noFailureProbProduct);
             return new Probability(resultFailureProb);
         }
 

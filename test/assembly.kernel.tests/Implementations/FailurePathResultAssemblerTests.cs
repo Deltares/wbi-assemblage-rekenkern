@@ -49,16 +49,18 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new FailurePathResultAssembler();
         }
 
+        #region Functional tests
+
         [Test, TestCaseSource(typeof(AssembleFailurePathTestData), nameof(AssembleFailurePathTestData.Wbi1B1))]
-        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability>[] failureProbabilities, Probability expectedResult)
+        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult)
         {
             // Use correct probabilities
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor1,
-                failureProbabilities.Select(failureProbability =>
+                failureProbabilities.Select(sectionResultTuple =>
                     new
                         FailurePathSectionAssemblyResult(
-                            failureProbability.Item1, failureProbability.Item2, EInterpretationCategory.III)),
-                true);
+                            sectionResultTuple.Item1, sectionResultTuple.Item2, sectionResultTuple.Item3)),
+                partialAssembly);
 
             Assert.NotNull(result);
             Assert.AreEqual(expectedResult, result, 1e-10);
@@ -108,41 +110,25 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1NoResult()
-        {
-            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
-                new[]
-                {
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant)
-                },
-                false);
-
-            Assert.IsNaN(result.Value);
-        }
-
-        [Test]
         public void Wbi1B1Partial()
         {
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailurePathSectionAssemblyResult((Probability) 0.9, (Probability) 0.9,
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.Dominant),
-                    new FailurePathSectionAssemblyResult((Probability) 0.000026, (Probability) 0.000026,
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.Dominant),
                     new FailurePathSectionAssemblyResult((Probability) 0.000010, (Probability) 0.000010,
                         EInterpretationCategory.II),
                     new FailurePathSectionAssemblyResult((Probability) 0.0000011, (Probability) 0.0000011,
                         EInterpretationCategory.II),
-                    new FailurePathSectionAssemblyResult((Probability) 0.000015, (Probability) 0.000015,
+                    new FailurePathSectionAssemblyResult((Probability) 0.9, (Probability) 0.9,
                         EInterpretationCategory.II),
                     new FailurePathSectionAssemblyResult((Probability) 0.000009, (Probability) 0.000009,
                         EInterpretationCategory.III),
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.III),
-                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
-                        EInterpretationCategory.IIIMin)
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant),
+                    new FailurePathSectionAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.IIIMin)
                 },
                 true);
 
@@ -156,18 +142,156 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                        EInterpretationCategory.IMin),
                     new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                         EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult((Probability)0.01, (Probability)0.1,
+                        EInterpretationCategory.IMin),
                     new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                         EInterpretationCategory.Dominant)
                 },
-                false);
+                true);
 
-            Assert.IsNaN(result.Value);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0.1, result.Value, 1E-10);
         }
 
+        [Test]
+        public void Wbi1B1AllDominantPartial()
+        {
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant)
+                },
+                true);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0.0, result);
+        }
+
+        [Test]
+        public void Wbi1B1DominantAndNotDominantPartial()
+        {
+            var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant)
+                },
+                true);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0.0, result);
+        }
+
+        #endregion
+
+        #region Error handling
+
+        [Test]
+        public void Wbi1B1AllDominant()
+        {
+            try
+            {
+                var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                new[]
+                {
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant),
+                    new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant)
+                },
+                false);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.DominantSectionCannotBeAssembled, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public void Wbi1B1SectionWithoutResult()
+        {
+            try
+            {
+                var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                    new[]
+                    {
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.II),
+                        new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                            EInterpretationCategory.IMin),
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.II)
+                    },
+                    false);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public void Wbi1B1DominantAndSectionWithoutResult()
+        {
+            try
+            {
+                var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                    new[]
+                    {
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.Dominant),
+                        new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                            EInterpretationCategory.IMin),
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.II)
+                    },
+                    false);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(2, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.DominantSectionCannotBeAssembled, exception.Errors.ElementAt(1).ErrorCode);
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public void Wbi1B1DominantAndSectionWithoutResultPartial()
+        {
+            try
+            {
+                var result = assembler.AssembleFailurePathWbi1B1(lengthEffectFactor2,
+                    new[]
+                    {
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.Dominant),
+                        new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                            EInterpretationCategory.IMin),
+                        new FailurePathSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                            EInterpretationCategory.II)
+                    },
+                    true);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(1, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+        }
+
+        #endregion
 
         #region Input handling
 
@@ -220,7 +344,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 assembler.AssembleFailurePathWbi1B1(lengthEffectFactor,
-                    new[] { new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant) },
+                    new[] { new FailurePathSectionAssemblyResult((Probability)0.0001, (Probability) 0.001, EInterpretationCategory.II) },
                     false);
             }
             catch (AssemblyException e)
@@ -270,28 +394,51 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability) 0.0, (Probability) 0.0),
-                            new Tuple<Probability, Probability>((Probability) 0.1, (Probability) 0.1)
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.1, (Probability) 0.1, EInterpretationCategory.III)
                         },
+                        false,
                         (Probability) 0.1);
 
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability) 0.0, (Probability) 0.0),
-                            new Tuple<Probability, Probability>((Probability) 0.0001, (Probability) 0.001),
-                            new Tuple<Probability, Probability>((Probability) 0.0005, (Probability) 0.005),
-                            new Tuple<Probability, Probability>((Probability) 0.0007, (Probability) 0.0008)
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0001, (Probability) 0.001, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0005, (Probability) 0.005, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0007, (Probability) 0.0008, EInterpretationCategory.III)
                         },
+                        false,
                         (Probability) 0.006790204);
 
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability>((Probability) 0.0005, (Probability) 0.0005),
-                            new Tuple<Probability, Probability>((Probability) 0.00005, (Probability) 0.00005)
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0005, (Probability) 0.0005, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.00005, (Probability) 0.00005, EInterpretationCategory.III)
                         },
+                        false,
                         (Probability) 0.000549975);
+
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1234.0, (Probability) 1.0/23.0, EInterpretationCategory.IIIMin),
+                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1820.0, (Probability) 1.0/781.0, EInterpretationCategory.IIIMin)
+                        },
+                        false,
+                        (Probability)0.0116693679);
+
+                    yield return new TestCaseData(
+                        new[]
+                        {
+                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
+                        },
+                        false,
+                        (Probability)0.0);
                 }
             }
         }
