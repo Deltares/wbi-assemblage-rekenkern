@@ -36,6 +36,21 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+            ESectionInitialMechanismProbabilitySpecification isRelevant, Probability probabilityInitialMechanismSection,
+            bool needsRefinement, Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
+        {
+            return TranslateAssessmentResultWbi0A2(
+                isRelevant,
+                probabilityInitialMechanismSection,
+                probabilityInitialMechanismSection,
+                needsRefinement,
+                refinedProbabilitySection,
+                refinedProbabilitySection,
+                categories);
+        }
+
+        /// <inheritdoc />
+        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,

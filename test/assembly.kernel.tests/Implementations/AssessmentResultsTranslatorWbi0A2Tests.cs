@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
@@ -43,7 +44,7 @@ namespace Assembly.Kernel.Tests.Implementations
             translator = new AssessmentResultsTranslator();
         }
 
-        #region Functional tests
+        #region Functional tests with lengtheffect
 
         [Test]
         public void Wbi0A2NotRelevantTest()
@@ -181,8 +182,126 @@ namespace Assembly.Kernel.Tests.Implementations
 
         #endregion
 
+        #region Functional tests no lengtheffect
 
-        #region input handling
+        [Test]
+        public void Wbi0A2NotRelevantNoLengthEffectTest()
+        {
+            var categories = new CategoriesList<InterpretationCategory>(
+                new[]
+                {
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                });
+
+            var result = translator.TranslateAssessmentResultWbi0A2(
+                ESectionInitialMechanismProbabilitySpecification.NotRelevant,
+                Probability.NaN,
+                false,
+                Probability.NaN,
+                categories);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
+            Assert.AreEqual(0.0, result.ProbabilityProfile);
+            Assert.AreEqual(0.0, result.ProbabilitySection);
+            Assert.AreEqual(1.0, result.NSection);
+        }
+
+        [Test]
+        [TestCase(0.02, EInterpretationCategory.III, 0.02)]
+        [TestCase(0.02, EInterpretationCategory.III, 0.02)]
+        public void Wbi0A2InitialMechanismPrevailsNoLengthEffectTest(double probabilitySectionValue, EInterpretationCategory expectedCategory, double expectedProbabilityValues)
+        {
+            var random = new Random(10);
+            var categories = new CategoriesList<InterpretationCategory>(
+                new[]
+                {
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                });
+
+            Probability probabilitySection = new Probability(probabilitySectionValue);
+            var result = translator.TranslateAssessmentResultWbi0A2(
+                ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                probabilitySection,
+                false,
+                (Probability)random.NextDouble(),
+                categories);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCategory, result.InterpretationCategory);
+            Assert.AreEqual(expectedProbabilityValues, result.ProbabilityProfile);
+            Assert.AreEqual(expectedProbabilityValues, result.ProbabilitySection);
+            Assert.AreEqual(1.0, result.NSection);
+        }
+
+        [Test]
+        [TestCase(0.01)]
+        [TestCase(double.NaN)]
+        public void Wbi0A2RelevantNoProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue)
+        {
+            var categories = new CategoriesList<InterpretationCategory>(
+                new[]
+                {
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                });
+
+            Probability probabilitySection = new Probability(probabilitySectionValue);
+            var result = translator.TranslateAssessmentResultWbi0A2(
+                ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
+                probabilitySection,
+                false,
+                Probability.NaN,
+                categories);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
+            Assert.AreEqual(Probability.NaN, result.ProbabilityProfile);
+            Assert.AreEqual(Probability.NaN, result.ProbabilitySection);
+            Assert.AreEqual(1.0, result.NSection);
+        }
+
+        [Test]
+        [TestCase(0.02, 0.04, EInterpretationCategory.II, 0.04)]
+        [TestCase(0.01, 0.04, EInterpretationCategory.II, 0.04)]
+        [TestCase(0.02, 0.04, EInterpretationCategory.II, 0.04)]
+        [TestCase(0.02, double.NaN, EInterpretationCategory.Dominant, double.NaN)]
+        public void Wbi0A2RefinedProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue, double refinedProbabilitySectionValue,
+            EInterpretationCategory expectedCategory, double expectedProbabilityValue)
+        {
+            var categories = new CategoriesList<InterpretationCategory>(
+                new[]
+                {
+                    new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                    new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                    new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                });
+
+            Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
+            Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
+            var result = translator.TranslateAssessmentResultWbi0A2(
+                ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                probabilityInitialMechanismSection,
+                true,
+                refinedProbabilitySection,
+                categories);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCategory, result.InterpretationCategory);
+            Assert.AreEqual(expectedProbabilityValue, result.ProbabilityProfile);
+            Assert.AreEqual(expectedProbabilityValue, result.ProbabilitySection);
+            Assert.AreEqual(1.0, result.NSection);
+        }
+
+        #endregion
+
+
+        #region input handling with length effect
 
         [Test]
         public void Wbi0A2ThrowsOnNullCategoriesTest()
@@ -297,6 +416,66 @@ namespace Assembly.Kernel.Tests.Implementations
                     Probability.NaN,
                     false,
                     (Probability)0.1,
+                    (Probability)0.01,
+                    categories);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        #endregion
+
+        #region input handleing no length effect
+
+        [Test]
+        public void Wbi0A2NoLengthEffectThrowsOnNullCategoriesTest()
+        {
+            try
+            {
+                var result = translator.TranslateAssessmentResultWbi0A2(
+                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                    (Probability)0.1,
+                    true,
+                    (Probability)0.1,
+                    null);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        [Test]
+        public void Wbi0A2NoLengthEffectThrowsOnNaNSectionProbabilityInitialMechanism()
+        {
+            try
+            {
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultWbi0A2(
+                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                    Probability.NaN,
+                    false,
                     (Probability)0.01,
                     categories);
             }
