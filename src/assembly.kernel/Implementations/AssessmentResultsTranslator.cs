@@ -37,13 +37,13 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant, Probability probabilityInitialMechanismSection,
-            bool needsRefinement, Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
+            ERefinementStatus refinementStatus, Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
             return TranslateAssessmentResultWbi0A2(
                 isRelevant,
                 probabilityInitialMechanismSection,
                 probabilityInitialMechanismSection,
-                needsRefinement,
+                refinementStatus,
                 refinedProbabilitySection,
                 refinedProbabilitySection,
                 categories);
@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Implementations
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
-            bool needsRefinement,
+            ERefinementStatus refinementStatus,
             Probability refinedProbabilityProfile,
             Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories)
@@ -70,7 +70,7 @@ namespace Assembly.Kernel.Implementations
                     EInterpretationCategory.III);
             }
 
-            if (needsRefinement)
+            if (refinementStatus == ERefinementStatus.Performed)
             {
                 CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
 

@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="isRelevant"></param>
         /// <param name="probabilityInitialMechanismSection"></param>
-        /// <param name="needsRefinement"></param>
+        /// <param name="refinementStatus"></param>
         /// <param name="refinedProbabilitySection"></param>
         /// <param name="categories"></param>
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Interfaces
         FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismSection,
-            bool needsRefinement,
+            ERefinementStatus refinementStatus,
             Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories);
 
@@ -63,7 +63,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="isRelevant"></param>
         /// <param name="probabilityInitialMechanismProfile"></param>
         /// <param name="probabilityInitialMechanismSection"></param>
-        /// <param name="needsRefinement"></param>
+        /// <param name="refinementStatus"></param>
         /// <param name="refinedProbabilityProfile"></param>
         /// <param name="refinedProbabilitySection"></param>
         /// <param name="categories"></param>
@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Interfaces
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
-            bool needsRefinement,
+            ERefinementStatus refinementStatus,
             Probability refinedProbabilityProfile,
             Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories);

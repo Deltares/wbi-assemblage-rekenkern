@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 relevanceInput,
                 Probability.NaN,
                 Probability.NaN,
-                false,
+                ERefinementStatus.NotNecessary,
                 Probability.NaN,
                 Probability.NaN,
                 categories);
@@ -93,7 +93,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                 probabilityProfile, 
                 probabilitySection,
-                false, 
+                ERefinementStatus.NotNecessary, 
                 Probability.NaN, 
                 Probability.NaN, 
                 categories);
@@ -128,7 +128,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilityProfile,
                 probabilitySection,
-                false,
+                ERefinementStatus.NotNecessary,
                 Probability.NaN,
                 Probability.NaN,
                 categories);
@@ -165,7 +165,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismProfile,
                 probabilityInitialMechanismSection,
-                true,
+                ERefinementStatus.Performed,
                 refinedProbabilityProfile,
                 refinedProbabilitySection,
                 categories);
@@ -198,7 +198,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 Probability.NaN,
-                false,
+                ERefinementStatus.NotNecessary,
                 Probability.NaN,
                 categories);
 
@@ -227,7 +227,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilitySection,
-                false,
+                ERefinementStatus.NotNecessary,
                 (Probability)random.NextDouble(),
                 categories);
 
@@ -255,7 +255,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilitySection,
-                false,
+                ERefinementStatus.NotNecessary,
                 Probability.NaN,
                 categories);
 
@@ -287,7 +287,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismSection,
-                true,
+                ERefinementStatus.Performed,
                 refinedProbabilitySection,
                 categories);
 
@@ -312,7 +312,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability) 0.1,
                     (Probability) 0.1,
-                    true,
+                    ERefinementStatus.Performed,
                     (Probability) 0.1,
                     (Probability) 0.1,
                     null);
@@ -345,8 +345,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     (Probability)0.1, 
-                    (Probability)0.01, 
-                    false,
+                    (Probability)0.01,
+                    ERefinementStatus.NotNecessary,
                     Probability.NaN, 
                     Probability.NaN, 
                     categories);
@@ -379,8 +379,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     Probability.NaN, 
-                    Probability.NaN, 
-                    true,
+                    Probability.NaN,
+                    ERefinementStatus.Performed,
                     (Probability) 0.1, 
                     (Probability) 0.01, 
                     categories);
@@ -414,7 +414,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     new Probability(0.1),
                     Probability.NaN,
-                    false,
+                    ERefinementStatus.NotNecessary,
                     (Probability)0.1,
                     (Probability)0.01,
                     categories);
@@ -443,7 +443,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability)0.1,
-                    true,
+                    ERefinementStatus.Performed,
                     (Probability)0.1,
                     null);
             }
@@ -475,7 +475,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.NaN,
-                    false,
+                    ERefinementStatus.NotNecessary,
                     (Probability)0.01,
                     categories);
             }
