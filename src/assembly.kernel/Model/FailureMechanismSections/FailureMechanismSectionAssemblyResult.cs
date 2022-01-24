@@ -2,27 +2,27 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model.FailurePathSections
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Class that holds the results for a section of a failure path
+    /// Class that holds the results for a section of a failure mechanism
     /// </summary>
-    public class FailurePathSectionAssemblyResult
+    public class FailureMechanismSectionAssemblyResult
     {
         /// <summary>
-        /// Constructor for the FailurePathSectionAssemblyResult class
+        /// Constructor for the FailureMechanismSectionAssemblyResult class
         /// </summary>
         /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section</param>
         /// <param name="category">The resulting interpretation category</param>
         /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
-        public FailurePathSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
+        public FailureMechanismSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
             EInterpretationCategory category)
         {
             InterpretationCategory = category;
             if (probabilitySection < probabilityProfile)
             {
-                throw new AssemblyException("FailurePathSectionAssemblyResult",EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                throw new AssemblyException("FailureMechanismSectionAssemblyResult",EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
 
             ProbabilityProfile = probabilityProfile;
@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Model.FailurePathSections
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FailurePathSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
+            return "FailureMechanismSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
                    ProbabilityProfile.Value.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
                    ProbabilitySection.Value.ToString(CultureInfo.InvariantCulture) + "]";
         }

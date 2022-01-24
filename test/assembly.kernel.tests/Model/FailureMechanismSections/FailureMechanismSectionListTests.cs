@@ -25,22 +25,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
 
-namespace Assembly.Kernel.Tests.Model.FailurePathSections
+namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
     [TestFixture]
-    public class FailurePathSectionListTests
+    public class FailureMechanismSectionListTests
     {
         [Test]
         public void ResultListNullInputTest()
         {
             try
             {
-                new FailurePathSectionList("TEST", null);
+                new FailureMechanismSectionList("TEST", null);
             }
             catch (AssemblyException e)
             {
@@ -55,30 +55,30 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>());
+                    new List<FailureMechanismSection>());
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");
         }
 
         [Test]
-        public void FailurePathNullInputTest()
+        public void FailureMechanismNullInputTest()
         {
-            var list = new FailurePathSectionList(
+            var list = new FailureMechanismSectionList(
                 null,
                 new[]
                 {
-                    new FailurePathSectionWithCategory(0, 1, EInterpretationCategory.Gr)
+                    new FailureMechanismSectionWithCategory(0, 1, EInterpretationCategory.Gr)
                 }
             );
 
-            Assert.AreEqual("", list.FailurePathId);
+            Assert.AreEqual("", list.FailureMechanismId);
         }
 
         [Test]
@@ -86,12 +86,12 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSection(1, 5),
-                        new FailurePathSectionWithCategory(5, 15, EInterpretationCategory.I)
+                        new FailureMechanismSection(1, 5),
+                        new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
@@ -107,17 +107,17 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSectionWithCategory(1, 5, EInterpretationCategory.I),
-                        new FailurePathSectionWithCategory(10, 15, EInterpretationCategory.I)
+                        new FailureMechanismSectionWithCategory(1, 5, EInterpretationCategory.I),
+                        new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");
@@ -128,17 +128,17 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSectionWithCategory(0, 5, EInterpretationCategory.I),
-                        new FailurePathSectionWithCategory(10, 15, EInterpretationCategory.I)
+                        new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.I),
+                        new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
+                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
             }
 
             Assert.Fail("Expected exception was not thrown");
@@ -149,14 +149,14 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                var fmSectionList = new FailurePathSectionList(
+                var failureMechanismSectionList = new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.I)
+                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I)
                     });
-                fmSectionList.GetSectionAtPoint(25.0);
+                failureMechanismSectionList.GetSectionAtPoint(25.0);
             }
             catch (AssemblyException e)
             {
@@ -169,17 +169,17 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         [Test]
         public void GetCategoryOfSectionReturnsCategory()
         {
-            var fpSectionList = new FailurePathSectionList(
+            var failureMechanismSectionList = new FailureMechanismSectionList(
                 "TEST",
-                new List<FailurePathSection>
+                new List<FailureMechanismSection>
                 {
-                    new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
-                    new FailurePathSectionWithCategory(10, 20, EInterpretationCategory.II)
+                    new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
+                    new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.II)
                 });
-            var s = fpSectionList.GetSectionAtPoint(15.0);
+            var s = failureMechanismSectionList.GetSectionAtPoint(15.0);
             Assert.AreEqual(10,s.SectionStart);
             Assert.AreEqual(20, s.SectionEnd);
-            var sectionWithCategory = s as FailurePathSectionWithCategory;
+            var sectionWithCategory = s as FailureMechanismSectionWithCategory;
             Assert.IsNotNull(sectionWithCategory);
             Assert.AreEqual(EInterpretationCategory.II, sectionWithCategory.Category);
         }
@@ -189,17 +189,17 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithCategory(5, 15, EInterpretationCategory.I)
+                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
+                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
             }
 
             Assert.Fail("Expected exception was not thrown");
@@ -210,7 +210,7 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(null, null);
+                new FailureMechanismSectionList(null, null);
             }
             catch (AssemblyException e)
             {
@@ -225,17 +225,17 @@ namespace Assembly.Kernel.Tests.Model.FailurePathSections
         {
             try
             {
-                new FailurePathSectionList(
+                new FailureMechanismSectionList(
                     "TEST",
-                    new List<FailurePathSection>
+                    new List<FailureMechanismSection>
                     {
-                        new FailurePathSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailurePathSectionWithCategory(10, 10, EInterpretationCategory.I)
+                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
+                        new FailureMechanismSectionWithCategory(10, 10, EInterpretationCategory.I)
                     });
             }
             catch (AssemblyException e)
             {
-                CheckException(e, EAssemblyErrors.FailurePathSectionSectionStartEndInvalid);
+                CheckException(e, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }
 
             Assert.Fail("Expected exception was not thrown");

@@ -38,12 +38,12 @@
     <Compile Include="Model\AssessmentSection\AssessmentSectionResultTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
-    <Compile Include="Model\FailurePathSections\FailurePathSectionAssemblyResultTests.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
-    <Compile Include="Implementations\CommonFailurePathSectionAssemblerTests.cs" />
-    <Compile Include="Implementations\FailurePathResultAssemblerTests.cs" />
+    <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
+    <Compile Include="Implementations\FailureMechanismResultAssemblerTests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssessmentSection\AssemblyResultTests.cs" />
@@ -51,9 +51,9 @@
     <Compile Include="Model\Categories\CategoryLimitsTests.cs" />
     <Compile Include="Model\Categories\TestCategory.cs" />
     <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\FailurePathSections\FailurePathSectionListTests.cs" />
-    <Compile Include="Model\FailurePathSections\FailurePathSectionTest.cs" />
-    <Compile Include="Model\FailurePathSections\FailurePathSectionWithCategoryTest.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTests.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionTest.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategoryTest.cs" />
     <Compile Include="Model\ProbabilityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

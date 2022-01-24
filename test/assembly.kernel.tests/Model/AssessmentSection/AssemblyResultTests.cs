@@ -26,7 +26,7 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
 // ReSharper disable ObjectCreationAsStatement
@@ -41,7 +41,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         {
             try
             {
-                new AssemblyResult(new List<FailurePathSectionList>(), null);
+                new AssemblyResult(new List<FailureMechanismSectionList>(), null);
             }
             catch (AssemblyException e)
             {
@@ -56,11 +56,11 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         }
 
         [Test]
-        public void ResultPerFailurePathNullTest()
+        public void ResultPerFailureMechanismNullTest()
         {
             try
             {
-                new AssemblyResult(null, new List<FailurePathSectionWithCategory>());
+                new AssemblyResult(null, new List<FailureMechanismSectionWithCategory>());
             }
             catch (AssemblyException e)
             {
@@ -77,17 +77,17 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         [Test]
         public void ConstructorPassesArguments()
         {
-            var resultPerFailurePath = new []
+            var resultPerFailureMechanism = new []
             {
-                new FailurePathSectionList("test",new []{new FailurePathSection(0,10) })
+                new FailureMechanismSectionList("test",new []{new FailureMechanismSection(0,10) })
             };
             var combinedSectionResult = new []
             {
-                new FailurePathSectionWithCategory(0,10,EInterpretationCategory.I)
+                new FailureMechanismSectionWithCategory(0,10,EInterpretationCategory.I)
             };
-            var result = new AssemblyResult(resultPerFailurePath, combinedSectionResult);
+            var result = new AssemblyResult(resultPerFailureMechanism, combinedSectionResult);
 
-            Assert.AreEqual(resultPerFailurePath,result.ResultPerFailurePath);
+            Assert.AreEqual(resultPerFailureMechanism,result.ResultPerFailureMechanism);
             Assert.AreEqual(combinedSectionResult, result.CombinedSectionResult);
         }
     }

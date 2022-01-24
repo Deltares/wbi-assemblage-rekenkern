@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input
 {
@@ -70,17 +70,17 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
-        public IEnumerable<FailurePathSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
+        public IEnumerable<FailureMechanismSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailurePathSectionWithCategory> ExpectedCombinedSectionResult { get; set; }
+        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResult { get; set; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailurePathSectionWithCategory> ExpectedCombinedSectionResultTemporal { get; set; }
+        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultTemporal { get; set; }
 
         /// <summary>
         /// Expected input and results per failure mechanism.

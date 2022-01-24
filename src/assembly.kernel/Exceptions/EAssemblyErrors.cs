@@ -59,16 +59,16 @@ namespace Assembly.Kernel.Exceptions
         ValueMayNotBeNull,
 
         /// <summary>
-        /// The length field of the failure path section &lt;=0.
+        /// The length field of the failure mechanism section &lt;=0.
         /// Or the calculated section length isn't the same as the provided length.
         /// </summary>
-        FailurePathSectionLengthInvalid,
+        FailureMechanismSectionLengthInvalid,
 
         /// <summary>
-        /// The section start or end field of the failure path section &lt;0 
+        /// The section start or end field of the failure mechanism section &lt;0 
         /// or the section end is defined before the section start.
         /// </summary>
-        FailurePathSectionSectionStartEndInvalid,
+        FailureMechanismSectionSectionStartEndInvalid,
 
         /// <summary>
         /// The failure probability is greater than one or below zero. Which is an invalid value.
@@ -81,22 +81,22 @@ namespace Assembly.Kernel.Exceptions
         InputNotTheSameType,
 
         /// <summary>
-        /// Input for the assemble failure path method are invalid. This means the list of FmSection assembly results is empty.
+        /// Input for the assemble failure mechanism method are invalid. This means the list of Failure mechanism Section assembly results is empty.
         /// </summary>
         EmptyResultsList,
 
         /// <summary>
-        /// The list of failure path sections is empty or incomplete. 
+        /// The list of failure mechanism sections is empty or incomplete. 
         /// </summary>
-        CommonFailurePathSectionsInvalid,
+        CommonFailureMechanismSectionsInvalid,
 
         /// <summary>
         /// Start and end positions of consecutive sections do not match.
         /// </summary>
-        CommonFailurePathSectionsNotConsecutive,
+        CommonFailureMechanismSectionsNotConsecutive,
 
         /// <summary>
-        /// The requested point of the assessment section is not within the range of failure path sections in the 
+        /// The requested point of the assessment section is not within the range of failure mechanism sections in the 
         /// assessment section.
         /// </summary>
         RequestedPointOutOfRange,

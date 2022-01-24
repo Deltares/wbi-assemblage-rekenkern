@@ -28,37 +28,37 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.FailurePathSections
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure path section categories of a single failure path.
+    /// Failure mechanism section categories of a single failure mechanism.
     /// </summary>
-    public class FailurePathSectionList
+    public class FailureMechanismSectionList
     {
         /// <summary>
-        /// Failure path section list constructor.
+        /// Failure mechanism section list constructor.
         /// </summary>
-        /// <param name="failurePathId">The failure path to which the section results belong</param>
-        /// <param name="sectionResults">The fmSection categories, this list will be sorted by section start</param>
+        /// <param name="failureMechanismId">The failure mechanism to which the section results belong</param>
+        /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start</param>
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
-        public FailurePathSectionList(string failurePathId,
-            IEnumerable<FailurePathSection> sectionResults)
+        public FailureMechanismSectionList(string failureMechanismId,
+            IEnumerable<FailureMechanismSection> sectionResults)
         {
             Sections = CheckSectionResults(sectionResults);
-            FailurePathId = failurePathId ?? "";
+            FailureMechanismId = failureMechanismId ?? "";
         }
 
         /// <summary>
-        /// The list of failure path section assessment results grouped.
+        /// The list of failure mechanism section assessment results grouped.
         /// </summary>
-        public IEnumerable<FailurePathSection> Sections { get; }
+        public IEnumerable<FailureMechanismSection> Sections { get; }
 
         /// <summary>
-        /// The failure path to which the section results belong.
+        /// The failure mechanism to which the section results belong.
         /// </summary>
-        public string FailurePathId { get; }
+        public string FailureMechanismId { get; }
 
         /// <summary>
         /// Get the section with category which belongs to the point in the assessment section.
@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Model.FailurePathSections
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
         /// from the beginning of the assessment section</param>
         /// <returns>The section with category belonging to the point in the assessment section</returns>
-        public FailurePathSection GetSectionAtPoint(double pointInAssessmentSection)
+        public FailureMechanismSection GetSectionAtPoint(double pointInAssessmentSection)
         {
             foreach (var section in Sections)
             {
@@ -79,26 +79,26 @@ namespace Assembly.Kernel.Model.FailurePathSections
             throw new AssemblyException("GetSectionAtPoint", EAssemblyErrors.RequestedPointOutOfRange);
         }
 
-        private static IEnumerable<FailurePathSection> CheckSectionResults(
-            IEnumerable<FailurePathSection> sectionResults)
+        private static IEnumerable<FailureMechanismSection> CheckSectionResults(
+            IEnumerable<FailureMechanismSection> sectionResults)
         {
             if (sectionResults == null)
             {
-                throw new AssemblyException("FailurePathSectionList", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException("FailureMechanismSectionList", EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var sectionResultsArray = sectionResults.ToArray();
 
             if (sectionResultsArray.Length == 0)
             {
-                throw new AssemblyException("FailurePathSectionList",
-                    EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                throw new AssemblyException("FailureMechanismSectionList",
+                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             // Check if all entries are of the same type.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
-                throw new AssemblyException("FailurePathSectionList",
+                throw new AssemblyException("FailureMechanismSectionList",
                     EAssemblyErrors.InputNotTheSameType);
             }
 
@@ -106,29 +106,29 @@ namespace Assembly.Kernel.Model.FailurePathSections
                 .OrderBy(sectionResult => sectionResult.SectionStart)
                 .ToArray();
 
-            FailurePathSection previousFailurePathSection = null;
+            FailureMechanismSection previousFailureMechanismSection = null;
             foreach (var section in orderedResults)
             {
-                if (previousFailurePathSection == null)
+                if (previousFailureMechanismSection == null)
                 {
                     // The current section start should be 0 when no previous section is present.
                     if (section.SectionStart > 0.0)
                     {
-                        throw new AssemblyException("FailurePathSectionList",
-                            EAssemblyErrors.CommonFailurePathSectionsInvalid);
+                        throw new AssemblyException("FailureMechanismSectionList",
+                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
                 }
                 else
                 {
                     // check if sections are consecutive with a margin of 1 cm
-                    if (Math.Abs(previousFailurePathSection.SectionEnd - section.SectionStart) > 0.01)
+                    if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
                     {
-                        throw new AssemblyException("FailurePathSectionList",
-                            EAssemblyErrors.CommonFailurePathSectionsNotConsecutive);
+                        throw new AssemblyException("FailureMechanismSectionList",
+                            EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                     }
                 }
 
-                previousFailurePathSection = section;
+                previousFailureMechanismSection = section;
             }
 
             return orderedResults;

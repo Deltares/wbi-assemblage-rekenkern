@@ -27,12 +27,12 @@ namespace Assembly.Kernel.Model.Categories
 {
     /// <inheritdoc />
     /// <summary>
-    /// Category limits for an failure path section
+    /// Category limits for an failure mechanism section
     /// </summary>
     public class InterpretationCategory : CategoryBase<EInterpretationCategory>
     {
         /// <summary>
-        /// FmSectionCategory constructor
+        /// InterpretationCategory constructor
         /// </summary>
         /// <param name="category">category for which the limits are valid</param>
         /// <param name="lowerLimit">lower limit of the category</param>

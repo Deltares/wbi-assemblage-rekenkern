@@ -32,21 +32,21 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure path assembly results into one AssessmentResult
+    /// Assemble Failure mechanism assembly results into one AssessmentResult
     /// </summary>
     public interface IAssessmentGradeAssembler
     {
         /// <summary>
-        /// Assembles Failure path results with failure probability into one assembly section result.
+        /// Assembles Failure mechanism results with failure probability into one assembly section result.
         /// </summary>
-        /// <param name="failurePathProbabilities">failure path assembly result with failure probability</param>
+        /// <param name="failureMechanismProbabilities">failure mechanism assembly result with failure probability</param>
         /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category</param>
         /// <param name="partialAssembly">true if this assembly call is for a partial assembly call</param>
         /// <returns>An assembled assessment section result</returns>
         /// <exception cref="AssemblyException">Thrown when input category requires an failure probability 
         /// but none is provided</exception>
         AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<Probability> failurePathProbabilities,
+            IEnumerable<Probability> failureMechanismProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly);
     }

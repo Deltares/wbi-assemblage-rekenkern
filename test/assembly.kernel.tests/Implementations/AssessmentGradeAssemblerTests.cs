@@ -58,12 +58,12 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Wbi2B1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var failurePathProbabilities = new[]
+            var failureMechanismProbabilities = new[]
             {
                 (Probability) prob1,
                 (Probability) prob2,
             };
-            var result = assembler.AssembleAssessmentSectionWbi2B1(failurePathProbabilities, categories, false);
+            var result = assembler.AssembleAssessmentSectionWbi2B1(failureMechanismProbabilities, categories, false);
 
             Assert.NotNull(result.FailureProbability);
             Assert.AreEqual(expectedProb, result.FailureProbability, 10);
@@ -71,7 +71,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1NoResultSomeFailurePaths()
+        public void Wbi2B1NoResultSomeFailureMechanisms()
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             var result = assembler.AssembleAssessmentSectionWbi2B1(

@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Tests.Exceptions
         public void ConstructorSingleExceptionPassesArguments()
         {
             var id = "TestId";
-            var error = EAssemblyErrors.FailurePathSectionLengthInvalid;
+            var error = EAssemblyErrors.FailureMechanismSectionLengthInvalid;
 
             var exception = new AssemblyException(id,error);
 
@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Tests.Exceptions
         {
             var messages = new List<AssemblyErrorMessage>
             {
-                new AssemblyErrorMessage("TestId1", EAssemblyErrors.FailurePathSectionLengthInvalid),
+                new AssemblyErrorMessage("TestId1", EAssemblyErrors.FailureMechanismSectionLengthInvalid),
                 new AssemblyErrorMessage("TestId2", EAssemblyErrors.LengthEffectFactorOutOfRange)
             };
 

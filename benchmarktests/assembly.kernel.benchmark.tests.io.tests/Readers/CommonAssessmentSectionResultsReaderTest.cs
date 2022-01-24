@@ -29,7 +29,7 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
 
@@ -90,11 +90,11 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 /*foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
-                    FailurePathSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
-                    var type = failureMechanismSectionList.FailurePathId.ToMechanismType();
-                    if (ninethSection is FailurePathSectionWithCategory)
+                    FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
+                    var type = failureMechanismSectionList.FailureMechanismId.ToMechanismType();
+                    if (ninethSection is FailureMechanismSectionWithCategory)
                     {
-                        var sectionWithDirectCategory = (FailurePathSectionWithCategory) ninethSection;
+                        var sectionWithDirectCategory = (FailureMechanismSectionWithCategory) ninethSection;
                         AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
                                                   sectionWithDirectCategory);
                     }
@@ -103,7 +103,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
-                                               FailurePathSectionWithCategory section)
+                                               FailureMechanismSectionWithCategory section)
         {
             Assert.AreEqual(start, section.SectionStart);
             Assert.AreEqual(end, section.SectionEnd);

@@ -25,15 +25,15 @@
 
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.FailurePathSections
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure path section with assessment category.
+    /// Failure mechanism section with assessment category.
     /// </summary>
-    public class FailurePathSection
+    public class FailureMechanismSection
     {
         /// <summary>
-        /// Failure path with category constructor.
+        /// Failure mechanism with category constructor.
         /// </summary>
         /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>
@@ -41,11 +41,11 @@ namespace Assembly.Kernel.Model.FailurePathSections
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        public FailurePathSection(double sectionStart, double sectionEnd)
+        public FailureMechanismSection(double sectionStart, double sectionEnd)
         {
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {
-                throw new AssemblyException("FailurePathSection", EAssemblyErrors.FailurePathSectionSectionStartEndInvalid);
+                throw new AssemblyException("FailureMechanismSection", EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }
 
             SectionStart = sectionStart;

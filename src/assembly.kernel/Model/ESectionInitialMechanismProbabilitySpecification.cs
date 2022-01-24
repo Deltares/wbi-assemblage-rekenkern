@@ -26,7 +26,7 @@
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Specifies whether the failure path for a specific section is relevant and if so,
+    /// Specifies whether the failure mechanism for a specific section is relevant and if so,
     /// whether the probability of occurrence for the section is specified in the input
     /// for method WBI-0A-2.
     /// </summary>

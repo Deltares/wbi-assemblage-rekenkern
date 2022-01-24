@@ -30,20 +30,20 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Implementations
 {
     /// <inheritdoc />
-    public class FailurePathResultAssembler : IFailurePathResultAssembler
+    public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
         /// <inheritdoc />
-        public Probability AssembleFailurePathWbi1B1(
+        public Probability AssembleFailureMechanismWbi1B1(
             double lengthEffectFactor,
-            IEnumerable<FailurePathSectionAssemblyResult> failurePathSectionAssemblyResults,
+            IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
-            var sectionResults = CheckInput(failurePathSectionAssemblyResults, lengthEffectFactor);
+            var sectionResults = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor);
 
             if (partialAssembly)
             {
@@ -58,12 +58,12 @@ namespace Assembly.Kernel.Implementations
             if (sectionResults.Any(r => r.InterpretationCategory != EInterpretationCategory.Dominant && r.InterpretationCategory != EInterpretationCategory.NotDominant &&
                                         (double.IsNaN(r.ProbabilityProfile) || double.IsNaN(r.ProbabilitySection))))
             {
-                errors.Add(new AssemblyErrorMessage("failurePathSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
+                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
             }
 
             if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Dominant))
             {
-                errors.Add(new AssemblyErrorMessage("failurePathSectionAssemblyResults", EAssemblyErrors.DominantSectionCannotBeAssembled));
+                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.DominantSectionCannotBeAssembled));
             }
 
             if (errors.Any())
@@ -94,8 +94,8 @@ namespace Assembly.Kernel.Implementations
             return new Probability(resultFailureProb);
         }
 
-        private static FailurePathSectionAssemblyResult[] CheckInput(
-            IEnumerable<FailurePathSectionAssemblyResult> results, double lengthEffectFactor)
+        private static FailureMechanismSectionAssemblyResult[] CheckInput(
+            IEnumerable<FailureMechanismSectionAssemblyResult> results, double lengthEffectFactor)
         {
             if (results == null)
             {
@@ -107,12 +107,12 @@ namespace Assembly.Kernel.Implementations
             // result list should not be empty
             if (sectionResults.Length == 0)
             {
-                throw new AssemblyException("AssembleFailurePathResult", EAssemblyErrors.EmptyResultsList);
+                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.EmptyResultsList);
             }
 
             if (lengthEffectFactor < 1)
             {
-                throw new AssemblyException("FailurePath", EAssemblyErrors.LengthEffectFactorOutOfRange);
+                throw new AssemblyException("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange);
             }
 
             return sectionResults;

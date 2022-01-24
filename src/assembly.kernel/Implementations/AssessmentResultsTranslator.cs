@@ -27,7 +27,7 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Implementations
 {
@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant, Probability probabilityInitialMechanismSection,
             bool needsRefinement, Probability refinedProbabilitySection, CategoriesList<InterpretationCategory> categories)
         {
@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Implementations
 
             if (isRelevant == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
             {
-                return new FailurePathSectionAssemblyResult(new Probability(0.0), new Probability(0.0),
+                return new FailureMechanismSectionAssemblyResult(new Probability(0.0), new Probability(0.0),
                     EInterpretationCategory.III);
             }
 
@@ -77,7 +77,7 @@ namespace Assembly.Kernel.Implementations
                 // Check whether a refined probability is given
                 if (double.IsNaN(refinedProbabilitySection.Value))
                 {
-                    return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                    return new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.Dominant);
                 }
 
@@ -85,12 +85,12 @@ namespace Assembly.Kernel.Implementations
                     ? refinedProbabilitySection
                     : refinedProbabilityProfile;
                 var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
-                return new FailurePathSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, refinedCategory);
+                return new FailureMechanismSectionAssemblyResult(probabilityProfile, refinedProbabilitySection, refinedCategory);
             }
 
             if (isRelevant == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification)
             {
-                return new FailurePathSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                return new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
                     EInterpretationCategory.NotDominant);
             }
 
@@ -106,7 +106,7 @@ namespace Assembly.Kernel.Implementations
             var initialMechanismProfile = double.IsNaN(probabilityInitialMechanismProfile.Value)
                 ? probabilityInitialMechanismSection
                 : probabilityInitialMechanismProfile;
-            return new FailurePathSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, categoryInitialMechanism);
+            return new FailureMechanismSectionAssemblyResult(initialMechanismProfile, probabilityInitialMechanismSection, categoryInitialMechanism);
         }
 
         private static void CheckProbabilityRatio(Probability profileProbability, Probability sectionProbability)

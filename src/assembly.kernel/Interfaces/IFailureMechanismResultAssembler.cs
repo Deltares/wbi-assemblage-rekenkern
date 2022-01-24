@@ -26,31 +26,31 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure path section results into one result for the failure path.
+    /// Assemble Failure mechanism section results into one result for the failure mechanism.
     /// </summary>
-    public interface IFailurePathResultAssembler
+    public interface IFailureMechanismResultAssembler
     {
         /// <summary>
-        /// Assemble a list of failure path section assembly results with failure probability to
-        /// a single failure path assembly result.
+        /// Assemble a list of failure mechanism section assembly results with failure probability to
+        /// a single failure mechanism assembly result.
         /// </summary>
-        /// <param name="lengthEffectFactor">The failure path to assemble the result for</param>
-        /// <param name="failurePathSectionAssemblyResults">The list of failure path section assembly results 
+        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for</param>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
         /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
-        /// <returns>An assembled Failure path result</returns>
+        /// <returns>An assembled Failure mechanism result</returns>
         /// /// <exception cref="AssemblyException">Thrown when:<br/>
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        Probability AssembleFailurePathWbi1B1(
+        Probability AssembleFailureMechanismWbi1B1(
             double lengthEffectFactor,
-            IEnumerable<FailurePathSectionAssemblyResult> failurePathSectionAssemblyResults,
+            IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
             bool partialAssembly);
     }
 }

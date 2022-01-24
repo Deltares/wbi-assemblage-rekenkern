@@ -25,22 +25,22 @@
 
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Model.FailurePathSections
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure path with assessment result category.
+    /// Failure mechanism with assessment result category.
     /// </summary>
-    public class FailurePathSectionWithCategory : FailurePathSection
+    public class FailureMechanismSectionWithCategory : FailureMechanismSection
     {
         /// <summary>
-        /// Failure path with category
+        /// Failure mechanism with category
         /// </summary>
         /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>
         /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
-        /// <param name="category">The assessment result of the failure path section</param>
-        public FailurePathSectionWithCategory(double sectionStart, double sectionEnd,
+        /// <param name="category">The assessment result of the failure mechanism section</param>
+        public FailureMechanismSectionWithCategory(double sectionStart, double sectionEnd,
             EInterpretationCategory category) :
             base(sectionStart, sectionEnd)
         {
@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Model.FailurePathSections
         }
 
         /// <summary>
-        /// The assessment result of the failure path of this section.
+        /// The assessment result of the failure mechanism of this section.
         /// </summary>
         public EInterpretationCategory Category { get; set; }
     }

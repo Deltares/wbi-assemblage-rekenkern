@@ -30,7 +30,7 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests
@@ -38,68 +38,68 @@ namespace Assembly.Kernel.Tests
     [TestFixture]
     public class AssemblyPerformanceTests
     {
-        private readonly IFailurePathResultAssembler fmAssembler = new FailurePathResultAssembler();
+        private readonly IFailureMechanismResultAssembler failureMechanismResultAssembler = new FailureMechanismResultAssembler();
         private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
 
-        private readonly ICommonFailurePathSectionAssembler combinedSectionAssembler =
-            new CommonFailurePathSectionAssembler();
+        private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
+            new CommonFailureMechanismSectionAssembler();
 
         [Test]
         public void FullAssembly()
         {
             const int sectionLength = 3750;
             var section = new AssessmentSection((Probability) 1.0E-3, (Probability) (1.0 / 300.0));
-            var failurePathSectionResultsDictionary = new Dictionary<double, List<FailurePathSection>>();
-            var failurePathSectionLists = new List<FailurePathSectionList>();
+            var failureMechanismSectionResultsDictionary = new Dictionary<double, List<FailureMechanismSection>>();
+            var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
-            // create section results for 15 failure paths with 250 sections each
-            CreateTestInput(sectionLength, failurePathSectionResultsDictionary);
+            // create section results for 15 failure mechanisms with 250 sections each
+            CreateTestInput(sectionLength, failureMechanismSectionResultsDictionary);
 
             // start timer
             var watch = Stopwatch.StartNew();
 
-            var failurePathResultsWithFailureProb = new List<Probability>();
+            var failureMechanismResultsWithFailureProb = new List<Probability>();
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();
-            foreach (var fpSectionResults in failurePathSectionResultsDictionary)
+            foreach (var failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                var result = fmAssembler.AssembleFailurePathWbi1B1(
-                    fpSectionResults.Key,
-                    fpSectionResults.Value.Select(fpSection => fpSection.Result),
+                var result = failureMechanismResultAssembler.AssembleFailureMechanismWbi1B1(
+                    failureMechanismSectionResults.Key,
+                    failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Result),
                     false);
-                failurePathResultsWithFailureProb.Add(result);
+                failureMechanismResultsWithFailureProb.Add(result);
 
-                failurePathSectionLists.Add(CreateFailurePathSectionListForStep3(fpSectionResults.Value));
+                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(failureMechanismSectionResults.Value));
             }
 
             // assembly step 2
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
             var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failurePathResultsWithFailureProb, categories, false);
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb, categories, false);
 
             // assembly step 3
-            combinedSectionAssembler.AssembleCommonFailurePathSections(failurePathSectionLists, sectionLength,false);
+            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,false);
             watch.Stop();
 
             var elapsedMs = watch.Elapsed.TotalMilliseconds;
             Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 1000 ms)");
         }
 
-        private static void CreateTestInput(int sectionLength, IDictionary<double, List<FailurePathSection>> withFailureProbabilities)
+        private static void CreateTestInput(int sectionLength, IDictionary<double, List<FailureMechanismSection>> withFailureProbabilities)
         {
             for (var i = 1; i <= 15; i++)
             {
-                var failurePathSections = new List<FailurePathSection>();
+                var failureMechanismSections = new List<FailureMechanismSection>();
 
                 var sectionLengthRemaining = sectionLength;
                 for (var k = 0; k < 250; k++)
                 {
                     var sectionStart = sectionLengthRemaining / (250 - k) * k;
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
-                    failurePathSections.Add(
-                        new FailurePathSection(
-                            new FailurePathSectionAssemblyResult((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
+                    failureMechanismSections.Add(
+                        new FailureMechanismSection(
+                            new FailureMechanismSectionAssemblyResult((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
                             sectionStart,
                             sectionEnd));
@@ -107,36 +107,36 @@ namespace Assembly.Kernel.Tests
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }
 
-                withFailureProbabilities.Add(i, failurePathSections);
+                withFailureProbabilities.Add(i, failureMechanismSections);
             }
         }
 
-        private static FailurePathSectionList CreateFailurePathSectionListForStep3(
-            List<FailurePathSection> fmSectionResults)
+        private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
+            List<FailureMechanismSection> failureMechanismSectionResults)
         {
-            var fmsectionList = new FailurePathSectionList(fmSectionResults.FirstOrDefault()?.FmType,
-                                                                fmSectionResults.Select(fpSection =>
-                                                                                            new FailurePathSectionWithCategory(
-                                                                                                fpSection.SectionStart,
-                                                                                                fpSection.SectionEnd,
-                                                                                                fpSection.Result.InterpretationCategory)));
-            return fmsectionList;
+            var failureMechanismSectionList = new FailureMechanismSectionList(failureMechanismSectionResults.FirstOrDefault()?.FailureMechanismType,
+                                                                failureMechanismSectionResults.Select(failureMechanismSection =>
+                                                                                            new FailureMechanismSectionWithCategory(
+                                                                                                failureMechanismSection.SectionStart,
+                                                                                                failureMechanismSection.SectionEnd,
+                                                                                                failureMechanismSection.Result.InterpretationCategory)));
+            return failureMechanismSectionList;
         }
 
-        private sealed class FailurePathSection
+        private sealed class FailureMechanismSection
         {
-            public FailurePathSection(FailurePathSectionAssemblyResult result, string fmType, double sectionStart,
+            public FailureMechanismSection(FailureMechanismSectionAssemblyResult result, string failureMechanismType, double sectionStart,
                              double sectionEnd)
             {
                 Result = result;
-                FmType = fmType;
+                FailureMechanismType = failureMechanismType;
                 SectionStart = sectionStart;
                 SectionEnd = sectionEnd;
             }
 
-            public FailurePathSectionAssemblyResult Result { get; }
+            public FailureMechanismSectionAssemblyResult Result { get; }
 
-            public string FmType { get; }
+            public string FailureMechanismType { get; }
 
             public double SectionStart { get; }
 

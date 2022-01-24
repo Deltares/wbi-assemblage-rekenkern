@@ -25,7 +25,7 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Model.AssessmentSection
 {
@@ -37,31 +37,31 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// Assembly result constructor
         /// </summary>
-        /// <param name="resultPerFailurePath">The greatest common denominator section results per 
-        /// Failure path.</param>
+        /// <param name="resultPerFailureMechanism">The greatest common denominator section results per 
+        /// Failure mechanism.</param>
         /// <param name="combinedSectionResult">The greatest common denominator section results for 
-        /// all failure paths combined.</param>
+        /// all failure mechanisms combined.</param>
         /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
-        public AssemblyResult(IEnumerable<FailurePathSectionList> resultPerFailurePath,
-            IEnumerable<FailurePathSectionWithCategory> combinedSectionResult)
+        public AssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
+            IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
         {
-            if (resultPerFailurePath == null || combinedSectionResult == null)
+            if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
                 throw new AssemblyException("AssemblyResult", EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            ResultPerFailurePath = resultPerFailurePath;
+            ResultPerFailureMechanism = resultPerFailureMechanism;
             CombinedSectionResult = combinedSectionResult;
         }
 
         /// <summary>
-        /// The greatest common denominator section results per Failure path.
+        /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
-        public IEnumerable<FailurePathSectionList> ResultPerFailurePath { get; }
+        public IEnumerable<FailureMechanismSectionList> ResultPerFailureMechanism { get; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure paths combined.
+        /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailurePathSectionWithCategory> CombinedSectionResult { get; }
+        public IEnumerable<FailureMechanismSectionWithCategory> CombinedSectionResult { get; }
     }
 }

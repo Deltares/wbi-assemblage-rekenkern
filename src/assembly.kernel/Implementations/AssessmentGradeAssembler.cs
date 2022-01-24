@@ -38,26 +38,26 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
-            IEnumerable<Probability> failurePathProbabilities,
+            IEnumerable<Probability> failureMechanismProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            Probability[] failurePathProbabilitiesArray = CheckFailurePathAssemblyResults(failurePathProbabilities, categories);
+            Probability[] failureMechanismProbabilitiesArray = CheckFailureMechanismAssemblyResults(failureMechanismProbabilities, categories);
 
             if (partialAssembly)
             {
-                failurePathProbabilitiesArray = failurePathProbabilitiesArray.Where(probability =>
+                failureMechanismProbabilitiesArray = failureMechanismProbabilitiesArray.Where(probability =>
                         !double.IsNaN(probability.Value))
                     .ToArray();
 
-                if (failurePathProbabilitiesArray.Length == 0)
+                if (failureMechanismProbabilitiesArray.Length == 0)
                 {
                     return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
                 }
             }
 
             var failureProbabilityProduct = 1.0;
-            foreach (var probability in failurePathProbabilitiesArray)
+            foreach (var probability in failureMechanismProbabilitiesArray)
             {
                 if (double.IsNaN(probability.Value))
                 {
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Implementations
             return new AssessmentSectionResult(new Probability(probabilityOfFailure), category.Category);
         }
 
-        private static Probability[] CheckFailurePathAssemblyResults(IEnumerable<Probability> probabilities,
+        private static Probability[] CheckFailureMechanismAssemblyResults(IEnumerable<Probability> probabilities,
             CategoriesList<AssessmentSectionCategory> categories)
         {
             var errors = new List<AssemblyErrorMessage>();
@@ -80,14 +80,14 @@ namespace Assembly.Kernel.Implementations
             Probability[] probabilitiesArray = null;
             if (probabilities == null)
             {
-                errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.ValueMayNotBeNull));
+                errors.Add(new AssemblyErrorMessage("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull));
             }
             else
             {
                 probabilitiesArray = probabilities as Probability[] ?? probabilities.ToArray();
                 if (probabilitiesArray.Length == 0)
                 {
-                    errors.Add(new AssemblyErrorMessage("AssembleFailurePathResult", EAssemblyErrors.EmptyResultsList));
+                    errors.Add(new AssemblyErrorMessage("AssembleFailureMechanismResult", EAssemblyErrors.EmptyResultsList));
                 }
             }
 

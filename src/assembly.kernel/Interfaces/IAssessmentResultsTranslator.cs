@@ -26,17 +26,17 @@
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Translate assessment results to an failure path section assessment result.
+    /// Translate assessment results to an failure mechanism section assessment result.
     /// </summary>
     public interface IAssessmentResultsTranslator
     {
         /// <summary>
-        /// Translate the assessment result of failure path section assessments to a 
+        /// Translate the assessment result of failure mechanism section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>
         /// <param name="isRelevant"></param>
@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when probabilityInitialMechanismSection is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
-        FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismSection,
             bool needsRefinement,
@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Interfaces
             CategoriesList<InterpretationCategory> categories);
 
         /// <summary>
-        /// Translate the assessment result of failure path section assessments to a 
+        /// Translate the assessment result of failure mechanism section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>
         /// <param name="isRelevant"></param>
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when probabilityInitialMechanismSection is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
-        FailurePathSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
             ESectionInitialMechanismProbabilitySpecification isRelevant,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,

@@ -21,24 +21,44 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailurePathSections;
+using System.Linq;
+using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.FailurePathSections
+namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
     [TestFixture]
-    public class FailurePathSectionWithCategoryTest
+    public class FailureMechanismSectionTest
     {
         [Test]
         public void ConstructorPassesInput()
         {
-            var sectionStart = 0.10;
-            var sectionEnd = 5189.015;
-            var section = new FailurePathSectionWithCategory(sectionStart, sectionEnd, EInterpretationCategory.II);
-            Assert.AreEqual(sectionStart, section.SectionStart);
+            var sectionStart = 2.0;
+            var sectionEnd = 20.0;
+            var section = new FailureMechanismSection(sectionStart,sectionEnd);
+
+            Assert.AreEqual(sectionStart,section.SectionStart);
             Assert.AreEqual(sectionEnd, section.SectionEnd);
-            Assert.AreEqual(EInterpretationCategory.II, section.Category);
+        }
+
+        [Test,
+        TestCase(-0.1,30),
+        TestCase(10.0, 4.0),
+        TestCase(10.0, 10.0)]
+        public void ConstructorChecksIncorrectInput(double start, double end)
+        {
+            try
+            {
+                var category = new FailureMechanismSection(start,end);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
         }
     }
 }
