@@ -37,7 +37,9 @@
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionResultTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
+    <Compile Include="Model\FailureMechanismAssemblyResultTest.cs" />
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
+    <Compile Include="Model\FailureMechanismSections\EFailureMechanismAssemblyMethodTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />

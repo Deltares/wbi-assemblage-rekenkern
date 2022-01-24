@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Tests
             // start timer
             var watch = Stopwatch.StartNew();
 
-            var failureMechanismResultsWithFailureProb = new List<Probability>();
+            var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
 
             // assembly step 1
             var categoriesCalculator = new CategoryLimitsCalculator();
@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Tests
             // assembly step 2
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
             var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb, categories, false);
+                assessmentSectionAssembler.AssembleAssessmentSectionWbi2B1(failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), categories, false);
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,false);

@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Functional tests
 
         [Test, TestCaseSource(typeof(AssembleFailureMechanismTestData), nameof(AssembleFailureMechanismTestData.Wbi1B1))]
-        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult)
+        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
         {
             // Use correct probabilities
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor1,
@@ -63,7 +63,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 partialAssembly);
 
             Assert.NotNull(result);
-            Assert.AreEqual(expectedResult, result, 1e-10);
+            Assert.AreEqual(expectedMethod, result.AssemblyMethod);
+            Assert.AreEqual(expectedResult, result.Probability, 1e-10);
         }
 
         [Test]
@@ -88,7 +89,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 false);
 
             Assert.NotNull(result);
-            Assert.AreEqual(0.005, result, 1e-4);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
+            Assert.AreEqual(0.005, result.Probability, 1e-4);
         }
 
         [Test]
@@ -106,7 +108,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 false);
 
-            Assert.AreEqual(0.0, result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
+            Assert.AreEqual(0.0, result.Probability);
         }
 
         [Test]
@@ -133,7 +137,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.NotNull(result);
-            Assert.AreEqual(0.9, result, 1e-4);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(0.9, result.Probability, 1e-4);
         }
 
         [Test]
@@ -152,7 +157,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(0.1, result.Value, 1E-10);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(0.1, result.Probability.Value, 1E-10);
         }
 
         [Test]
@@ -167,7 +173,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0.0, result);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
+            Assert.AreEqual(0.0, result.Probability);
         }
 
         [Test]
@@ -182,7 +189,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0.0, result);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
+            Assert.AreEqual(0.0, result.Probability);
         }
 
         #endregion
@@ -398,7 +406,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.1, (Probability) 0.1, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.1);
+                        (Probability) 0.1, EFailureMechanismAssemblyMethod.UnCorrelated);
 
                     yield return new TestCaseData(
                         new[]
@@ -409,7 +417,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0007, (Probability) 0.0008, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.006790204);
+                        (Probability) 0.006790204, EFailureMechanismAssemblyMethod.UnCorrelated);
 
                     yield return new TestCaseData(
                         new[]
@@ -418,7 +426,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.00005, (Probability) 0.00005, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.000549975);
+                        (Probability) 0.000549975, EFailureMechanismAssemblyMethod.UnCorrelated);
 
                     yield return new TestCaseData(
                         new[]
@@ -428,7 +436,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1820.0, (Probability) 1.0/781.0, EInterpretationCategory.IIIMin)
                         },
                         false,
-                        (Probability)0.0116693679);
+                        (Probability)0.0116693679, EFailureMechanismAssemblyMethod.Correlated);
 
                     yield return new TestCaseData(
                         new[]
@@ -438,7 +446,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
                         },
                         false,
-                        (Probability)0.0);
+                        (Probability)0.0, EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
         }

@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Implementations
     public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
         /// <inheritdoc />
-        public Probability AssembleFailureMechanismWbi1B1(
+        public FailureMechanismAssemblyResult AssembleFailureMechanismWbi1B1(
             double lengthEffectFactor,
             IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Implementations
                 sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value) && r.InterpretationCategory != EInterpretationCategory.Dominant).ToArray();
                 if (sectionResults.Length == 0)
                 {
-                    return new Probability(0);
+                    return new FailureMechanismAssemblyResult(new Probability(0), EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
 
@@ -90,8 +90,11 @@ namespace Assembly.Kernel.Implementations
             }
 
             highestFailureProbabilityProfile *= lengthEffectFactor;
-            var resultFailureProb = Math.Min(highestFailureProbabilityProfile, 1 - noFailureProbProduct);
-            return new Probability(resultFailureProb);
+            var combinedFailureProbabilityUnCorrelated = 1 - noFailureProbProduct;
+
+            return highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
+                ? new FailureMechanismAssemblyResult(new Probability(highestFailureProbabilityProfile), EFailureMechanismAssemblyMethod.Correlated)
+                : new FailureMechanismAssemblyResult(new Probability(combinedFailureProbabilityUnCorrelated), EFailureMechanismAssemblyMethod.UnCorrelated);
         }
 
         private static FailureMechanismSectionAssemblyResult[] CheckInput(
