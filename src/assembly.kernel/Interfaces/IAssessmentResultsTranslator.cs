@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the assessment result of failure mechanism section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>
-        /// <param name="isRelevant"></param>
+        /// <param name="relevance"></param>
         /// <param name="probabilityInitialMechanismSection"></param>
         /// <param name="refinementStatus"></param>
         /// <param name="refinedProbabilitySection"></param>
@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
         FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
-            ESectionInitialMechanismProbabilitySpecification isRelevant,
+            ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismSection,
             ERefinementStatus refinementStatus,
             Probability refinedProbabilitySection,
@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Interfaces
         /// Translate the assessment result of failure mechanism section assessments to a 
         /// single normative result. As specified in WBI-0A-2.
         /// </summary>
-        /// <param name="isRelevant"></param>
+        /// <param name="relevance"></param>
         /// <param name="probabilityInitialMechanismProfile"></param>
         /// <param name="probabilityInitialMechanismSection"></param>
         /// <param name="refinementStatus"></param>
@@ -73,7 +73,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when refinedProbabilityProfile is either smaller than 0.0 or greater than 1.0</exception>
         /// <exception cref="AssemblyException">Thrown when refinedProbabilitySection is either smaller than 0.0 or greater than 1.0</exception>
         FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
-            ESectionInitialMechanismProbabilitySpecification isRelevant,
+            ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
             ERefinementStatus refinementStatus,
