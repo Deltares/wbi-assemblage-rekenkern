@@ -21,22 +21,26 @@
 // All rights reserved.
 #endregion
 
-using System;
-using Assembly.Kernel.Model;
-using NUnit.Framework;
-
-namespace Assembly.Kernel.Tests.Model
+namespace Assembly.Kernel.Model
 {
-    [TestFixture]
-    public class ESectionInitialMechanismProbabilitySpecificationTest
+    /// <summary>
+    /// Enum as input for method WBI-0A-2 that indicates the status of the refined probability per section.
+    /// </summary>
+    public enum ERefinementStatus
     {
-        [Test]
-        public void TestEnumContract()
-        {
-            Assert.AreEqual(3, Enum.GetValues(typeof(ESectionInitialMechanismProbabilitySpecification)).Length);
-            Assert.AreEqual(1, (int)ESectionInitialMechanismProbabilitySpecification.NotRelevant);
-            Assert.AreEqual(2, (int)ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
-            Assert.AreEqual(3, (int)ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
-        }
+        /// <summary>
+        /// No further refinement is necessary (Probability estimation based on the initial mechanism is sufficient).
+        /// </summary>
+        NotNecessary = 1,
+
+        /// <summary>
+        /// Further refinement is necessary (Probability estimation based on the initial mechanism is not sufficient).
+        /// </summary>
+        Necessary = 2,
+
+        /// <summary>
+        /// Further refinement is already performed. This means the refined probabilites are also specified as input.
+        /// </summary>
+        Performed = 3
     }
 }
