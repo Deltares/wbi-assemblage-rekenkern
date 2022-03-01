@@ -467,7 +467,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
 
             var sectionsList2 = new FailureMechanismSectionList("", new[]
@@ -475,7 +476,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.II)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.II)
             });
 
             var sectionsList3 = new FailureMechanismSectionList("", new[]
@@ -483,7 +485,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
             });
 
             var commonSectionsWithResults =
@@ -499,7 +502,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
             };
 
             AssertCombinedResultsList(expectedResults, commonSectionsWithResults);
