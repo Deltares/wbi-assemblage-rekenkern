@@ -134,6 +134,16 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The provided list with section results contains one or more sections without result. Assembly cannot be performed.
         /// </summary>
-        EncounteredOneOrMoreSectionsWithoutResult
+        EncounteredOneOrMoreSectionsWithoutResult,
+
+        /// <summary>
+        /// Thrown when specified probabilities do not match the provided category value.
+        /// </summary>
+        NonMatchingProbabilityValues,
+
+        /// <summary>
+        /// Thrown in case of an incorrect category value
+        /// </summary>
+        InvalidCategoryValue
     }
 }

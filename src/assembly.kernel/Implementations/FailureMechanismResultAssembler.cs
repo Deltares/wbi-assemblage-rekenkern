@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => !double.IsNaN(r.ProbabilitySection.Value) && r.InterpretationCategory != EInterpretationCategory.Dominant).ToArray();
+                sectionResults = sectionResults.Where(r => r.InterpretationCategory != EInterpretationCategory.Dominant && r.InterpretationCategory != EInterpretationCategory.Gr).ToArray();
                 if (sectionResults.Length == 0)
                 {
                     return new FailureMechanismAssemblyResult(new Probability(0), EFailureMechanismAssemblyMethod.Correlated);
@@ -55,8 +55,7 @@ namespace Assembly.Kernel.Implementations
             }
 
             var errors = new List<AssemblyErrorMessage>();
-            if (sectionResults.Any(r => r.InterpretationCategory != EInterpretationCategory.Dominant && r.InterpretationCategory != EInterpretationCategory.NotDominant &&
-                                        (double.IsNaN(r.ProbabilityProfile) || double.IsNaN(r.ProbabilitySection))))
+            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Gr))
             {
                 errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
             }

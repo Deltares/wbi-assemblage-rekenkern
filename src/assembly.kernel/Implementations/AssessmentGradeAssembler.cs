@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Implementations
 
                 if (failureMechanismProbabilitiesArray.Length == 0)
                 {
-                    return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
+                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.EmptyResultsList);
                 }
             }
 
@@ -61,7 +61,7 @@ namespace Assembly.Kernel.Implementations
             {
                 if (double.IsNaN(probability.Value))
                 {
-                    return new AssessmentSectionResult(Probability.NaN, EAssessmentGrade.Gr);
+                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.ValueMayNotBeNaN);
                 }
 
                 failureProbabilityProduct *= 1.0 - probability;

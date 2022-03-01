@@ -498,6 +498,40 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        public void Wbi0A2ThrowsInCaseOfMissingProbabilitiesInitialMechanism2()
+        {
+            try
+            {
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultWbi0A2(
+                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                    Probability.NaN,
+                    new Probability(1/50.0),
+                    ERefinementStatus.NotNecessary,
+                    new Probability(1/50.0),
+                    new Probability(1 / 50.0),
+                    categories);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("No expected exception not thrown");
+        }
+
+        [Test]
         [TestCase(0.01,double.NaN)]
         [TestCase(double.NaN, 0.01)]
         [TestCase(double.NaN, double.NaN)]

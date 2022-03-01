@@ -56,7 +56,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 //Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups1and2);
                 Assert.AreEqual(double.NaN, assemblyResult.ExpectedAssemblyResultGroups1and2Probability, 1e-6);
                 //Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups3and4);
-                Assert.AreEqual(EAssessmentGrade.Ngo, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
+                //Assert.AreEqual(EAssessmentGrade.Ngo, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
                 //Assert.AreEqual(EFailureMechanismCategory.IIIt, assemblyResult.ExpectedAssemblyResultGroups1and2Temporal);
                 Assert.AreEqual(4.24e-4, assemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal, 1e-6);
                 //Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4Temporal);

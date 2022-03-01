@@ -19,22 +19,45 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         public FailureMechanismSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
             EInterpretationCategory category)
         {
-            InterpretationCategory = category;
-            if (probabilitySection < probabilityProfile)
+            switch (category)
             {
-                throw new AssemblyException("FailureMechanismSectionAssemblyResult",EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-            }
+                case EInterpretationCategory.Dominant:
+                case EInterpretationCategory.NotDominant:
+                case EInterpretationCategory.Gr:
+                    if (!double.IsNaN(probabilityProfile) || !double.IsNaN(probabilitySection))
+                    {
+                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.NonMatchingProbabilityValues);
+                    }
+                    break;
+                case EInterpretationCategory.III:
+                case EInterpretationCategory.II:
+                case EInterpretationCategory.I:
+                case EInterpretationCategory.Zero:
+                case EInterpretationCategory.IMin:
+                case EInterpretationCategory.IIMin:
+                case EInterpretationCategory.IIIMin:
+                    if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value))
+                    {
+                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ValueMayNotBeNaN);
+                    }
 
+                    if (probabilitySection < probabilityProfile)
+                    {
+                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                    }
+                    break;
+                default:
+                    // TODO: Write test for this situation
+                    throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.InvalidCategoryValue);
+            }
+            
+            InterpretationCategory = category;
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
-            if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value) || probabilitySection == probabilityProfile)
-            {
-                NSection = 1.0;
-            }
-            else
-            {
-                NSection = probabilitySection.Value / probabilityProfile.Value;
-            }
+
+            NSection = double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value) || probabilitySection == probabilityProfile
+                ? 1.0
+                : probabilitySection.Value / probabilityProfile.Value;
         }
 
         /// <summary>

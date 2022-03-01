@@ -31,11 +31,6 @@ namespace Assembly.Kernel.Model.Categories
     public enum EAssessmentGrade
     {
         /// <summary>
-        /// Does not apply
-        /// </summary>
-        Nvt = -1,
-
-        /// <summary>
         /// Highest rating
         /// Assessment section is well above standard
         /// </summary>
@@ -60,16 +55,6 @@ namespace Assembly.Kernel.Model.Categories
         /// Lowest rating
         /// Assessment section fails both limits well
         /// </summary>
-        D = 5,
-
-        /// <summary>
-        /// No verdict yet
-        /// </summary>
-        Ngo = 6,
-
-        /// <summary>
-        /// No result 
-        /// </summary>
-        Gr = 7
+        D = 5
     }
 }

@@ -36,8 +36,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [Test]
         [TestCase(0.2,0.4, 2.0, EInterpretationCategory.IMin)]
         [TestCase(0.01, 0.1, 10.0, EInterpretationCategory.IIIMin)]
-        [TestCase(double.NaN, 0.4, 1.0, EInterpretationCategory.Gr)]
-        [TestCase(0.5, double.NaN, 1.0, EInterpretationCategory.Zero)]
+        [TestCase(double.NaN, double.NaN, 1.0, EInterpretationCategory.Dominant)]
+        [TestCase(double.NaN, double.NaN, 1.0, EInterpretationCategory.NotDominant)]
+        [TestCase(double.NaN, double.NaN, 1.0, EInterpretationCategory.Gr)]
+        [TestCase(0.01, 0.1, 10.0, EInterpretationCategory.IIIMin)]
         public void FailureMechanismSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, double expectedNValue, EInterpretationCategory interpretationCategory)
         {
             var result = new FailureMechanismSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, interpretationCategory);
@@ -48,7 +50,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [Test]
-        public void ConstructorChecksInput()
+        public void ConstructorChecksInputForInconsistentProbabilities()
         {
             try
             {
@@ -58,6 +60,68 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             {
                 Assert.AreEqual(1, e.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
+        }
+
+        [Test]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.NotDominant)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.NotDominant)]
+        [TestCase(0.1, 0.2, EInterpretationCategory.NotDominant)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.Dominant)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.Dominant)]
+        [TestCase(0.1, 0.2, EInterpretationCategory.Dominant)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.Gr)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.Gr)]
+        [TestCase(0.1, 0.2, EInterpretationCategory.Gr)]
+        public void ConstructorChecksInputForNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
+        {
+            try
+            {
+                var result = new FailureMechanismSectionAssemblyResult((Probability)profileValue, (Probability)sectionValue, category);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.NonMatchingProbabilityValues, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
+        }
+
+        [Test]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.III)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.III)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.III)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.II)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.II)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.II)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.I)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.I)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.I)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.Zero)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.Zero)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.Zero)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.IMin)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.IMin)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.IMin)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.IIMin)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.IIMin)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.IIMin)]
+        [TestCase(double.NaN, 0.4, EInterpretationCategory.IIIMin)]
+        [TestCase(0.4, double.NaN, EInterpretationCategory.IIIMin)]
+        [TestCase(double.NaN, double.NaN, EInterpretationCategory.IIIMin)]
+        public void ConstructorChecksInputForNotNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
+        {
+            try
+            {
+                var result = new FailureMechanismSectionAssemblyResult((Probability)profileValue, (Probability)sectionValue, category);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
             Assert.Fail("Expected error was not thrown");

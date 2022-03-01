@@ -66,21 +66,10 @@ namespace assembly.kernel.benchmark.tests.io
                     case "a+":
                         sectionCategory = EAssessmentGrade.APlus;
                         break;
-                    case "niet meegenomen":
-                        sectionCategory = EAssessmentGrade.Nvt;
-                        break;
-                    case "nog geen oordeel":
-                        sectionCategory = EAssessmentGrade.Ngo;
-                        break;
                     default:
                         sectionCategory = (EAssessmentGrade) (-1);
                         break;
                 }
-            }
-
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                return EAssessmentGrade.Gr;
             }
 
             if (sectionCategory < 0)

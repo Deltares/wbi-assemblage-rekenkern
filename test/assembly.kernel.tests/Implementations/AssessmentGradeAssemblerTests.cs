@@ -22,7 +22,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -69,40 +68,6 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedProb, result.FailureProbability, 10);
             Assert.AreEqual(expectedGrade, result.Category);
         }
-
-        [Test]
-        public void Wbi2B1NoResultSomeFailureMechanisms()
-        {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
-                new[]
-                {
-                    new Probability(double.NaN), 
-                    new Probability(double.NaN),
-                    new Probability(0.00003),
-                    new Probability(0.00003)
-                }, categories,
-                false);
-
-            Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EAssessmentGrade.Gr, result.Category);
-        }
-
-        [Test]
-        public void Wbi2B1NoResultAtAll()
-        {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
-                new[]
-                {
-                    new Probability(double.NaN),
-                    new Probability(double.NaN)
-                }, categories, false);
-
-            Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EAssessmentGrade.Gr, result.Category);
-        }
-
         #endregion
 
         #region functional tests partial assembly
@@ -124,23 +89,6 @@ namespace Assembly.Kernel.Tests.Implementations
             var expectedProbability = 1 - Math.Pow(1 - sectionFailureProbability, 2);
             Assert.AreEqual(expectedProbability, result.FailureProbability);
             Assert.AreEqual(EAssessmentGrade.A, result.Category);
-        }
-
-        [Test]
-        public void Wbi2B1PartialAssemblyNoResults()
-        {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
-                new[]
-                {
-                    new Probability(double.NaN),
-                    new Probability(double.NaN),
-                    new Probability(double.NaN)
-                }, categories,
-                true);
-
-            Assert.IsNaN(result.FailureProbability);
-            Assert.AreEqual(EAssessmentGrade.Gr, result.Category);
         }
 
         #endregion
@@ -220,6 +168,85 @@ namespace Assembly.Kernel.Tests.Implementations
                 var message2 = e.Errors.ElementAt(1);
                 Assert.NotNull(message2);
                 Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message2.ErrorCode);
+            }
+        }
+
+        [Test]
+        public void Wbi2B1PartialAssemblyNoResults()
+        {
+            try
+            {
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                    new[]
+                    {
+                        new Probability(double.NaN),
+                        new Probability(double.NaN),
+                        new Probability(double.NaN)
+                    }, categories,
+                    true);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                Assert.AreEqual(1, e.Errors.Count());
+
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
+            }
+        }
+
+
+        [Test]
+        public void Wbi2B1NoResultSomeFailureMechanisms()
+        {
+            try
+            {
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                    new[]
+                    {
+                        new Probability(double.NaN),
+                        new Probability(double.NaN),
+                        new Probability(0.00003),
+                        new Probability(0.00003)
+                    }, categories,
+                    false);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                Assert.AreEqual(1, e.Errors.Count());
+
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+            }
+        }
+
+        [Test]
+        public void Wbi2B1NoResultAtAll()
+        {
+            try
+            {
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                    new[]
+                    {
+                        new Probability(double.NaN),
+                        new Probability(double.NaN)
+                    }, categories, false);
+
+            }
+            catch (AssemblyException e)
+            {
+                Assert.NotNull(e.Errors);
+                Assert.AreEqual(1, e.Errors.Count());
+
+                var message = e.Errors.FirstOrDefault();
+                Assert.NotNull(message);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
             }
         }
 

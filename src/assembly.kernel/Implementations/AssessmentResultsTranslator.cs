@@ -72,12 +72,11 @@ namespace Assembly.Kernel.Implementations
             switch (refinementStatus)
             {
                 case ERefinementStatus.Performed:
-                    CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
-
                     if (double.IsNaN(refinedProbabilitySection.Value) || double.IsNaN(refinedProbabilityProfile.Value))
                     {
                         throw new AssemblyException("refinedProbability", EAssemblyErrors.ValueMayNotBeNaN);
                     }
+                    CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
 
                     var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
                     return new FailureMechanismSectionAssemblyResult(refinedProbabilityProfile, refinedProbabilitySection, refinedCategory);

@@ -147,11 +147,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                    new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.Dominant),
                     new FailureMechanismSectionAssemblyResult((Probability)0.01, (Probability)0.1,
                         EInterpretationCategory.IMin),
-                    new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                    new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
                         EInterpretationCategory.Dominant)
                 },
                 true);
@@ -193,6 +193,26 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(0.0, result.Probability);
         }
 
+        [Test]
+        public void Wbi1B1DominantAndSectionWithoutResultPartial()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                new[]
+                {
+                    new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                        EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
+                        EInterpretationCategory.Gr),
+                    new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        EInterpretationCategory.II)
+                },
+                true);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(0.00026, result.Probability,1e-8);
+        }
+
         #endregion
 
         #region Error handling
@@ -231,7 +251,8 @@ namespace Assembly.Kernel.Tests.Implementations
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II),
                         new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                            EInterpretationCategory.IMin),
+                            EInterpretationCategory.
+                                Gr),
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II)
                     },
@@ -254,10 +275,10 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                     new[]
                     {
-                        new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
                             EInterpretationCategory.Dominant),
                         new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                            EInterpretationCategory.IMin),
+                            EInterpretationCategory.Gr),
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II)
                     },
@@ -269,32 +290,6 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.AreEqual(2, exception.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
                 Assert.AreEqual(EAssemblyErrors.DominantSectionCannotBeAssembled, exception.Errors.ElementAt(1).ErrorCode);
-                Assert.Pass();
-            }
-        }
-
-        [Test]
-        public void Wbi1B1DominantAndSectionWithoutResultPartial()
-        {
-            try
-            {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
-                    new[]
-                    {
-                        new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
-                            EInterpretationCategory.Dominant),
-                        new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN,
-                            EInterpretationCategory.IMin),
-                        new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
-                            EInterpretationCategory.II)
-                    },
-                    true);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
         }
