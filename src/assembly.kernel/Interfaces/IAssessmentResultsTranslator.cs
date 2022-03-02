@@ -1,6 +1,6 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
+﻿#region Copyright (C) Rijkswaterstaat 2022. All rights reserved
 
-// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //

@@ -1,5 +1,6 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
-// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+﻿#region Copyright (C) Rijkswaterstaat 2022. All rights reserved
+
+// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -13,12 +14,13 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
-// You should have receIed a copy of the GNU Lesser General Public License
+// You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;

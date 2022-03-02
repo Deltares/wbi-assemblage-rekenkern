@@ -30,15 +30,14 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class ERefinementStatusTest
+    public class EFailureMechanismAssemblyMethodTest
     {
         [Test]
-        public void TestEnumContract()
+        public void EFailureMechanismAssemblyMethodContractTest()
         {
-            Assert.AreEqual(3, Enum.GetValues(typeof(ERefinementStatus)).Length);
-            Assert.AreEqual(1, (int) ERefinementStatus.NotNecessary);
-            Assert.AreEqual(2, (int) ERefinementStatus.Necessary);
-            Assert.AreEqual(3, (int) ERefinementStatus.Performed);
+            Assert.AreEqual(2, Enum.GetValues(typeof(EFailureMechanismAssemblyMethod)).Length);
+            Assert.AreEqual(1, (int)EFailureMechanismAssemblyMethod.Correlated);
+            Assert.AreEqual(2, (int)EFailureMechanismAssemblyMethod.UnCorrelated);
         }
     }
 }

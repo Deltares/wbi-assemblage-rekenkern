@@ -1,5 +1,6 @@
-﻿#region Copyright (C) Rijkswaterstaat 2019. All rights reserved
-// Copyright (C) Rijkswaterstaat 2019. All rights reserved.
+﻿#region Copyright (C) Rijkswaterstaat 2022. All rights reserved
+
+// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -19,6 +20,7 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
+
 #endregion
 
 using System.Collections.Generic;
@@ -27,26 +29,20 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-// ReSharper disable ObjectCreationAsStatement
-
 namespace Assembly.Kernel.Tests.Model.Categories
 {
     [TestFixture]
     public class CategoryLimitsTests
     {
         [Test]
-        public void AssessmentSectionCategoryLimitsTests()
-        {
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.A, (Probability) 0, (Probability) 0.1, false);
-            AssessmentSectionCategoryLimitsTest(EAssessmentGrade.B, (Probability) 0.5, (Probability) 0.1, true);
-        }
-
-        private void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, Probability lowerLimit,
-            Probability upperLimit, bool shouldExceptionOccur)
+        [TestCase(EAssessmentGrade.A, 0, 0.1, false)]
+        [TestCase(EAssessmentGrade.B, 0.5, 0.1, true)]
+        public void AssessmentSectionCategoryLimitsTest(EAssessmentGrade assessmentGrade, double lowerLimit,
+            double upperLimit, bool shouldExceptionOccur)
         {
             try
             {
-                new AssessmentSectionCategory(assessmentGrade, lowerLimit, upperLimit);
+                new AssessmentSectionCategory(assessmentGrade, (Probability)lowerLimit, (Probability)upperLimit);
             }
             catch (AssemblyException e)
             {
