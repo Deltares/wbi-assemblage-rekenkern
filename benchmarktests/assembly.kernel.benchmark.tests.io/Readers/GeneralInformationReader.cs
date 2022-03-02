@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
-            worksheetPart, workbookPart) {}
+            worksheetPart, workbookPart, "A") {}
 
         /// <summary>
         /// Reads the general information of an assessment section.
@@ -52,17 +52,33 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("B", "Ondergrens");
             benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte");
 
-            var list = new List<AssessmentSectionCategory>();
+            var assessmentGradeCategories = new List<AssessmentSectionCategory>();
             for (int iRow = 4; iRow <= 8; iRow++)
             {
-                list.Add(new AssessmentSectionCategory(
+                assessmentGradeCategories.Add(new AssessmentSectionCategory(
                              GetCellValueAsString("D", iRow).ToAssessmentGrade(),
                              new Probability(GetCellValueAsDouble("F", iRow)),
                              new Probability(GetCellValueAsDouble("E", iRow))));
             }
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories =
-                new CategoriesList<AssessmentSectionCategory>(list);
+            benchmarkTestInput.ExpectedAssessmentSectionCategories =
+                new CategoriesList<AssessmentSectionCategory>(assessmentGradeCategories);
+
+            var interpretationCategories = new List<InterpretationCategory>();
+            var lastKnownBoundary = new Probability(0);
+            for (int iRow = 13; iRow <= 21; iRow++)
+            {
+                var newBoundary = new Probability(GetCellValueAsDouble("E", iRow));
+                interpretationCategories.Add(new InterpretationCategory(
+                    GetCellValueAsString("D", iRow).ToInterpretationCategory(),
+                    lastKnownBoundary,
+                    newBoundary));
+                lastKnownBoundary = newBoundary;
+            }
+
+            benchmarkTestInput.ExpectedInterpretationCategories =
+                new CategoriesList<InterpretationCategory>(interpretationCategories);
+
         }
     }
 }

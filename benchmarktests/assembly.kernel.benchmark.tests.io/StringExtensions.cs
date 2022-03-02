@@ -23,9 +23,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Globalization;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 
 namespace assembly.kernel.benchmark.tests.io
@@ -62,6 +59,57 @@ namespace assembly.kernel.benchmark.tests.io
             }
 
             return sectionCategory;
+        }
+
+        /// <summary>
+        /// Translate a string value to a specific <see cref="EInterpretationCategory"/>.
+        /// </summary>
+        /// <param name="str">string value to be translated.</param>
+        /// <returns>The translated <see cref="EInterpretationCategory"/>.</returns>
+        public static EInterpretationCategory ToInterpretationCategory(this string str)
+        {
+            // TODO: Test
+            EInterpretationCategory interpretationCategory;
+            switch (str.ToLower())
+            {
+                case "d":
+                    interpretationCategory = EInterpretationCategory.Dominant;
+                    break;
+                case "nd":
+                    interpretationCategory = EInterpretationCategory.NotDominant;
+                    break;
+                case "+iii":
+                    interpretationCategory = EInterpretationCategory.III;
+                    break;
+                case "+ii":
+                    interpretationCategory = EInterpretationCategory.II;
+                    break;
+                case "+i":
+                    interpretationCategory = EInterpretationCategory.I;
+                    break;
+                case "+0":
+                    interpretationCategory = EInterpretationCategory.Zero;
+                    break;
+                case "-i":
+                    interpretationCategory = EInterpretationCategory.IMin;
+                    break;
+                case "-ii":
+                    interpretationCategory = EInterpretationCategory.IIMin;
+                    break;
+                case "-iii":
+                    interpretationCategory = EInterpretationCategory.IIIMin;
+                    break;
+                default:
+                    interpretationCategory = (EInterpretationCategory)(-1);
+                    break;
+            }
+
+            if (interpretationCategory < 0)
+            {
+                throw new InvalidEnumArgumentException(str);
+            }
+
+            return interpretationCategory;
         }
     }
 }

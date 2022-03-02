@@ -60,19 +60,19 @@ namespace assembly.kernel.benchmark.tests.io
 
                 ReadGeneralAssessmentSectionInformation(workSheetParts["Normen en duidingsklassen"], workbookPart, assessmentSection);
 
-                var failureMechanismsTabs = workSheetParts.Select(wsp => wsp.Key).Except(new[]
-                    {
-                        "Informatiepagina", "Normen en duidingsklassen", "Veiligheidsoordeel", "Gecombineerd vakoordeel"
-                    })
-                    .ToArray();
+                var tabsToIgnore = new[]
+                {
+                    "Informatiepagina", "Normen en duidingsklassen", "Veiligheidsoordeel", "Gecombineerd vakoordeel"
+                };
+                var failureMechanismsTabs = workSheetParts.Select(wsp => wsp.Key).Except(tabsToIgnore).ToArray();
 
                 foreach (var failureMechanismsTab in failureMechanismsTabs)
                 {
-                    ReadFailureMechanism(workSheetParts[failureMechanismsTab],workbookPart, assessmentSection);
+                    ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab],workbookPart, assessmentSection);
                 }
 
                 ReadSafetyAssessmentFinalResult(workSheetParts["Veiligheidsoordeel"], workbookPart, assessmentSection);
-                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, assessmentSection);
+                //ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, assessmentSection);
 
                 return assessmentSection;
             }
@@ -97,10 +97,10 @@ namespace assembly.kernel.benchmark.tests.io
             new CommonAssessmentSectionResultsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
         }
 
-        private static void ReadFailureMechanism(WorksheetPart worksheetPart,
+        private static void ReadFailureMechanism(string mechanismId, WorksheetPart worksheetPart,
                                                  WorkbookPart workbookPart, BenchmarkTestInput benchmarkTestInput)
         {
-            new FailureMechanismsReader(worksheetPart, workbookPart).Read(benchmarkTestInput);
+            new FailureMechanismsReader(worksheetPart, workbookPart).Read(benchmarkTestInput, mechanismId);
         }
     }
 }

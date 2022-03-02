@@ -77,7 +77,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet</param>
         public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
-            worksheetPart, workbookPart) {}
+            worksheetPart, workbookPart,"B") {}
 
         /// <summary>
         /// Reads the input and expected output of assembly of the combined section results.

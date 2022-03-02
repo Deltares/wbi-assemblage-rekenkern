@@ -56,15 +56,14 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 var result = new BenchmarkTestInput();
 
-                reader.Read(result);
+                reader.Read(result, "AGK");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("AGK", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IVt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);*/
+                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
+                Assert.AreEqual(EFailureMechanismCategory.IVt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
             }
         }
 
@@ -81,18 +80,17 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 var result = new BenchmarkTestInput();
 
-                reader.Read(result);
+                reader.Read(result, "STPH");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult =
+                ExpectedFailureMechanismResult expectedFailureMechanismResult =
                     result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
                 /*Assert.AreEqual(EFailureMechanismCategory.VIIt,
-                    expectedFailureMechanismResult.ExpectedAssessmentResult);
+                    expectedFailureMechanismResult.ExpectedCombinedProbability);
                 Assert.AreEqual(EFailureMechanismCategory.IIt,
-                    expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);*/
+                    expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
             }
         }
 
@@ -109,15 +107,14 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 var result = new BenchmarkTestInput();
 
-                reader.Read(result);
+                reader.Read(result, "GEKB");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);*/
+                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
             }
         }
 
@@ -134,15 +131,14 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 var result = new BenchmarkTestInput();
 
-                reader.Read(result);
+                reader.Read(result, "STKWl");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STKWl", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);*/
+                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
+                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
             }
         }
 
@@ -159,22 +155,18 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 var result = new BenchmarkTestInput();
 
-                reader.Read(result);
+                reader.Read(result,"STBU");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                IExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STBU", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.AccountForDuringAssembly);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedAssessmentResult);
-                Assert.AreEqual(EFailureMechanismCategory.Vt, expectedFailureMechanismResult.ExpectedAssessmentResultTemporal);
+                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
+                Assert.AreEqual(EFailureMechanismCategory.Vt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);
                 */
 
-                var stbuFailureMechanism = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
-                Assert.IsNotNull(stbuFailureMechanism);
-                Assert.AreEqual(0.04, stbuFailureMechanism.FailureMechanismProbabilitySpace);
-                Assert.AreEqual(13.7, stbuFailureMechanism.LengthEffectFactor, 9e-2);
-                AssertAreEqualProbabilities(9.71e-6, stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability);
+                Assert.IsNotNull(expectedFailureMechanismResult);
+                Assert.AreEqual(13.7, expectedFailureMechanismResult.LengthEffectFactor, 9e-2);
             }
         }
     }

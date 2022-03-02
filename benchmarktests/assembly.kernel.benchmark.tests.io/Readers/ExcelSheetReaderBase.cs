@@ -42,12 +42,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
-        protected ExcelSheetReaderBase(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+        /// <param name="column">"String indicating the column that contains keywords</param>
+        protected ExcelSheetReaderBase(WorksheetPart worksheetPart, WorkbookPart workbookPart, string column)
         {
             this.workbookPart = workbookPart;
             worksheet = worksheetPart.Worksheet;
             MaxRow = ExcelReaderHelper.GetMaxRow(worksheetPart);
-            keywordsDictionary = ExcelReaderHelper.ReadKeywordsDictionary(worksheetPart, workbookPart, MaxRow);
+            keywordsDictionary = ExcelReaderHelper.ReadKeywordsDictionary(worksheetPart, workbookPart, column, MaxRow);
         }
 
         /// <summary>

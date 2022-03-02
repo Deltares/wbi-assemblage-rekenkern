@@ -34,7 +34,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     /// <summary>
     /// Result tester for the STBU failure mechanisms.
     /// </summary>
-    public class StbuFailureMechanismResultTester : FailureMechanismResultTesterBase<StbuExpectedFailureMechanismResult>
+    public class StbuFailureMechanismResultTester : FailureMechanismResultTesterBase
     {
         /// <summary>
         /// Creates a new instance of <see cref="StbuFailureMechanismResultTester"/>.
@@ -42,7 +42,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         public StbuFailureMechanismResultTester(MethodResultsListing methodResults,
-                                                IExpectedFailureMechanismResult expectedFailureMechanismResult)
+                                                ExpectedFailureMechanismResult expectedFailureMechanismResult)
             : base(methodResults, expectedFailureMechanismResult) {}
 
         protected override void SetDetailedAssessmentMethodResult(bool result)

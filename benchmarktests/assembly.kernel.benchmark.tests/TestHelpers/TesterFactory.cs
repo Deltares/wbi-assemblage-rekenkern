@@ -41,7 +41,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         /// <returns>An instance of <see cref="IFailureMechanismResultTester"/>.</returns>
         public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing methodResults,
-                                                                                 IExpectedFailureMechanismResult expectedFailureMechanismResult)
+                                                                                 ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             // TODO: Implement
             return expectedFailureMechanismResult.HasLengthEffect
@@ -57,7 +57,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
         /// <param name="signallingNorm">The signalling norm.</param>
         public static ICategoriesTester CreateCategoriesTester(MethodResultsListing methodResults,
-                                                               IExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                               ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                                double lowerBoundaryNorm, double signallingNorm)
         {
             return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,

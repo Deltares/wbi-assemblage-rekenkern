@@ -32,10 +32,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     /// Base class for failure mechanism result tester.
     /// </summary>
     /// <typeparam name="TFailureMechanismResult">The type of failure mechanism result.</typeparam>
-    public abstract class FailureMechanismResultTesterBase<TFailureMechanismResult> : IFailureMechanismResultTester
-        where TFailureMechanismResult : class, IExpectedFailureMechanismResult
+    public abstract class FailureMechanismResultTesterBase : IFailureMechanismResultTester
     {
-        protected readonly TFailureMechanismResult ExpectedFailureMechanismResult;
+        protected readonly ExpectedFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;
 
         /// <summary>
@@ -44,9 +43,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
-                                                   IExpectedFailureMechanismResult expectedFailureMechanismResult)
+                                                   ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            ExpectedFailureMechanismResult = expectedFailureMechanismResult as TFailureMechanismResult;
+            ExpectedFailureMechanismResult = expectedFailureMechanismResult;
             MethodResults = methodResults;
             if (ExpectedFailureMechanismResult == null)
             {

@@ -47,7 +47,7 @@ namespace assembly.kernel.benchmark.tests
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
 
-            foreach (IExpectedFailureMechanismResult expectedFailureMechanismResult in input
+            foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input
                 .ExpectedFailureMechanismsResults)
             {
                 BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm,

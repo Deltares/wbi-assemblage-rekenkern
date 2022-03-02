@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input
@@ -38,7 +39,7 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public BenchmarkTestInput()
         {
             ExpectedSafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
-            ExpectedFailureMechanismsResults = new List<IExpectedFailureMechanismResult>();
+            ExpectedFailureMechanismsResults = new List<ExpectedFailureMechanismResult>();
         }
 
         /// <summary>
@@ -67,6 +68,26 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public double LowerBoundaryNorm { get; set; }
 
         /// <summary>
+        /// The expected section categories (A+ to D) on the highest (assessment section) level.
+        /// </summary>
+        public CategoriesList<AssessmentSectionCategory> ExpectedAssessmentSectionCategories { get; set; }
+
+        /// <summary>
+        /// The expected interpretation categories.
+        /// </summary>
+        public CategoriesList<InterpretationCategory> ExpectedInterpretationCategories { get; set; }
+
+        /// <summary>
+        /// Expected input and results per failure mechanism.
+        /// </summary>
+        public List<ExpectedFailureMechanismResult> ExpectedFailureMechanismsResults { get; }
+
+        /// <summary>
+        /// The expected safety assessment result on assessment section level.
+        /// </summary>
+        public SafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
+
+        /// <summary>
         /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
         public IEnumerable<FailureMechanismSectionListWithFailureMechanismId> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
@@ -80,15 +101,5 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
         public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultTemporal { get; set; }
-
-        /// <summary>
-        /// Expected input and results per failure mechanism.
-        /// </summary>
-        public List<IExpectedFailureMechanismResult> ExpectedFailureMechanismsResults { get; }
-
-        /// <summary>
-        /// The expected safety assessment result on assessment section level.
-        /// </summary>
-        public SafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
     }
 }

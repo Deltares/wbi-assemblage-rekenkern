@@ -68,7 +68,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 /*foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
-                    FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
+                    ExpectedFailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
                     var type = failureMechanismSectionList.FailureMechanismId.ToMechanismType();
                     if (ninethSection is FailureMechanismSectionWithCategory)
                     {

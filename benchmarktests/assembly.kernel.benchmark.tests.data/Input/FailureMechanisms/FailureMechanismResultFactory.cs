@@ -37,14 +37,10 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// </summary>
         /// <param name="type">The mechanism type of the mechanism for which an empty expected result needs to be created</param>
         /// <returns>The created <see cref="IExpectedFailureMechanismResult"/>.</returns>
-        public static IExpectedFailureMechanismResult CreateFailureMechanism(string mechanismId)
+        public static ExpectedFailureMechanismResult CreateFailureMechanism(string name, string mechanismId, bool hasLengthEffect)
         {
-            throw new NotImplementedException();
+            return new ExpectedFailureMechanismResult(name, mechanismId, hasLengthEffect);
         }
 
-        private static StbuExpectedFailureMechanismResult CreateSTBUFailureMechanism()
-        {
-            return new StbuExpectedFailureMechanismResult();
-        }
     }
 }

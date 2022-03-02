@@ -37,6 +37,7 @@ using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
+using FailureMechanismSection = Assembly.Kernel.Model.FailureMechanismSections.FailureMechanismSection;
 
 namespace assembly.kernel.benchmark.tests
 {
@@ -58,7 +59,7 @@ namespace assembly.kernel.benchmark.tests
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(
                 new AssessmentSection((Probability) input.SignallingNorm, (Probability) input.LowerBoundaryNorm));
             CategoriesList<AssessmentSectionCategory> expectedCategories =
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories;
+                input.ExpectedAssessmentSectionCategories;
 
             result.AreEqualCategoriesListAssessmentSection =
                 AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
@@ -73,7 +74,7 @@ namespace assembly.kernel.benchmark.tests
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
         /// <param name="signallingNorm">The signalling norm.</param>
         /// <param name="testResult">The test result.</param>
-        public static void TestFailureMechanismAssembly(IExpectedFailureMechanismResult expectedFailureMechanismResult,
+        public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                         double lowerBoundaryNorm, double signallingNorm,
                                                         BenchmarkTestResult testResult)
         {
@@ -276,9 +277,9 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IFailureMechanismSection section)
+        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IExpectedFailureMechanismSection section)
         {
-            /*var directMechanism = section as IFailureMechanismSection<EFmSectionCategory>;
+            /*var directMechanism = section as IExpectedFailureMechanismSection<EFmSectionCategory>;
             if (directMechanism != null)
             {
                 return new FailureMechanismSectionWithCategory(directMechanism.Start, directMechanism.End,

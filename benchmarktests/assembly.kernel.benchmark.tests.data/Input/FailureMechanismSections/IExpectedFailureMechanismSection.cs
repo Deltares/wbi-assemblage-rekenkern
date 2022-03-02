@@ -21,12 +21,15 @@
 // All rights reserved.
 #endregion
 
+using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.Categories;
+
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
     /// <summary>
     /// Interface for a failure mechanism section.
     /// </summary>
-    public interface IFailureMechanismSection
+    public interface IExpectedFailureMechanismSection
     {
         /// <summary>
         /// The start position of the section as a length along the assessment section in meters.
@@ -38,28 +41,19 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         double End { get; }
 
-        /*
-        /// <summary>
-        /// The expected result of the detailed assessment
-        /// </summary>
-        IFmSectionAssemblyResult ExpectedDetailedAssessmentAssemblyResult { get; }
+        bool IsRelevant { get; } 
 
-        /// <summary>
-        /// The expected result of the tailor made assessment
-        /// </summary>
-        IFmSectionAssemblyResult ExpectedTailorMadeAssessmentAssemblyResult { get; }
-    */
-    }
+        Probability InitialMechanismProbabilitySection { get; }
 
-    /// <summary>
-    /// Interface for a failure mechanism section.
-    /// </summary>
-    /// <typeparam name="TCombinedResult">The type of the combined result.</typeparam>
-    public interface IFailureMechanismSection<out TCombinedResult> : IFailureMechanismSection
-    {
+        ERefinementStatus RefinementStatus { get; }
+
+        Probability RefinedProbabilitySection { get; }
+
         /// <summary>
         /// The expected combined result for the specific section as a result of method WBI-0A-1.
         /// </summary>
-        TCombinedResult ExpectedCombinedResult { get; }
+        Probability ExpectedCombinedProbabilitySection { get; }
+
+        EInterpretationCategory ExpectedInterpretationCategory { get; }
     }
 }

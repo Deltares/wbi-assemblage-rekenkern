@@ -29,7 +29,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
     /// Interface for a section reader.
     /// </summary>
     /// <typeparam name="TFailureMechanismSection">The type of failure mechanism section.</typeparam>
-    public interface ISectionReader<out TFailureMechanismSection> where TFailureMechanismSection : IFailureMechanismSection
+    public interface ISectionReader<out TFailureMechanismSection> where TFailureMechanismSection : IExpectedFailureMechanismSection
     {
         /// <summary>
         /// Reads the specified section.

@@ -46,6 +46,8 @@
     <Compile Include="Readers\ExcelReaderHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\ExcelSheetReaderBase.cs" />
+    <Compile Include="Readers\FailureMechanismSection\SectionReaderWithLengthEffect.cs" />
+    <Compile Include="Readers\FailureMechanismSection\SectionReaderWithoutLengthEffect.cs" />
     <Compile Include="Readers\FailureMechanismsReader.cs" />
     <Compile Include="Readers\GeneralInformationReader.cs" />
     <Compile Include="Readers\CommonAssessmentSectionResultsReader.cs" />

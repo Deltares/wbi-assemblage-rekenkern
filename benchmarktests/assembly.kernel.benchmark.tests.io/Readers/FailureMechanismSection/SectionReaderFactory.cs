@@ -21,9 +21,6 @@
 // All rights reserved.
 #endregion
 
-using System;
-using System.ComponentModel;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -51,11 +48,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <summary>
         /// Creates a reader for the specified mechanism type.
         /// </summary>
-        /// <param name="mechanismType">The <see cref="MechanismType"/> to get the reader for.</param>
+        /// <param name="hasLengthEffectWithinSection">Indicates whether the sections that need to be read have length effect.</param>
         /// <returns>The created <see cref="ISectionReader{TFailureMechanismSection}"/>.</returns>
-        public ISectionReader<IFailureMechanismSection> CreateReader(bool hasLengthEffectWithinSection)
+        public ISectionReader<IExpectedFailureMechanismSection> CreateReader(bool hasLengthEffectWithinSection)
         {
-            throw new NotImplementedException();
+            return hasLengthEffectWithinSection
+                ? new SectionReaderWithLengthEffect(worksheetPart, workbookPart) as ISectionReader<IExpectedFailureMechanismSection>
+                : new SectionReaderWithoutLengthEffect(worksheetPart, workbookPart);
         }
     }
 }

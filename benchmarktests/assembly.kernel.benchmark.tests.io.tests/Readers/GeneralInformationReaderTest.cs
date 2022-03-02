@@ -54,7 +54,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
                 Assert.AreEqual(10.4, result.Length, 1e-8);
 
-                var categories = result.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories.Categories;
+                var categories = result.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, categories.Length);
                 AssertAreEqualCategories(EAssessmentGrade.APlus, 0.0, result.SignallingNorm / 30.0, categories[0]);
                 AssertAreEqualCategories(EAssessmentGrade.A, result.SignallingNorm / 30.0, result.SignallingNorm, categories[1]);

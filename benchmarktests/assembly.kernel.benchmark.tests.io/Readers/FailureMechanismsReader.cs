@@ -26,6 +26,7 @@ using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection;
+using Assembly.Kernel.Model;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
@@ -42,7 +43,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
-        public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart)
+        public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B")
         {
             sectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
         }
@@ -51,65 +52,40 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// Reads all relevant input and expected output for a specific failure mechanism.
         /// </summary>
         /// <param name="benchmarkTestInput">The test input.</param>
-        public void Read(BenchmarkTestInput benchmarkTestInput)
+        /// <param name="mechanismId">String used to identify the failure mechanism.</param>
+        public void Read(BenchmarkTestInput benchmarkTestInput, string mechanismId)
         {
-            IExpectedFailureMechanismResult expectedFailureMechanismResult =
+            ExpectedFailureMechanismResult expectedFailureMechanismResult =
                 FailureMechanismResultFactory.CreateFailureMechanism(
-                    GetCellValueAsString("B", "Toetsspoor"));
+                    GetCellValueAsString("C", "Faalpad"),
+                    mechanismId,
+                    GetCellValueAsString("C", "Lengte-effect") == "Ja");
 
             ReadGeneralInformation(expectedFailureMechanismResult);
-            ReadGroup3FailureMechanismProperties(expectedFailureMechanismResult);
-            ReadProbabilisticFailureMechanismProperties(expectedFailureMechanismResult);
-            ReadSTBUFailureMechanismSpecificProperties(expectedFailureMechanismResult);
             ReadFailureMechanismSections(expectedFailureMechanismResult);
 
             benchmarkTestInput.ExpectedFailureMechanismsResults.Add(expectedFailureMechanismResult);
         }
 
-        private void ReadGeneralInformation(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        private void ReadGeneralInformation(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            expectedFailureMechanismResult.AccountForDuringAssembly = GetCellValueAsString("D", 1) == "Ja";
-            var assessmentResultString = GetCellValueAsString("D", "Toetsoordeel per toetsspoor per traject");
-            var temporalAssessmentResultString = GetCellValueAsString("D", "Tijdelijk Toetsoordeel per toetsspoor per traject");
-            /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
-                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();*/
+            expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
+            expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
+            expectedFailureMechanismResult.ExpectedIsSectionsCorrelated = GetCellValueAsString("C", "Vakken gecorreleerd?") == "Ja";
+            expectedFailureMechanismResult.LengthEffectFactor = GetCellValueAsDouble("C", "Ntraject");
         }
 
-        private void ReadSTBUFailureMechanismSpecificProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
+        private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            var stbuFailureMechanism = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
-            if (stbuFailureMechanism != null)
-            {
-                stbuFailureMechanism.FailureMechanismProbabilitySpace = GetCellValueAsDouble("B", "ω Faalkansruimtefactor");
-                stbuFailureMechanism.LengthEffectFactor = GetCellValueAsDouble("B", "Ndsn (lengte effectfactor)");
-                stbuFailureMechanism.UseSignallingNorm = GetCellValueAsString("A", 14) == "Signaleringswaarde";
-                stbuFailureMechanism.ExpectedSectionsCategoryDivisionProbability = GetCellValueAsDouble("B", "Peis;dsn ≤");
-            }
-        }
-
-        private void ReadProbabilisticFailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            
-        }
-
-        private void ReadGroup3FailureMechanismProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            
-        }
-
-        #region Read Sections
-
-        private void ReadFailureMechanismSections(IExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var sections = new List<IFailureMechanismSection>();
-            var startRow = GetRowId("Vakindeling") + 3;
+            var sections = new List<IExpectedFailureMechanismSection>();
+            var startRow = GetRowId("Vaknaam") + 1;
             var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.HasLengthEffect);
 
             var iRow = startRow;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("A", iRow) * 1000.0;
-                var endMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
+                var endMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
 
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
@@ -123,30 +99,5 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
             expectedFailureMechanismResult.Sections = sections;
         }
-
-        #endregion
-
-        #region Read Categories
-
-       /*
-       private void ReadFailureMechanismCategories(IProbabilisticExpectedFailureMechanismResult expectedFailureMechanismResult)
-        {
-            var headerRowId = GetRowId("Categorie");
-
-            var categories = new List<FailureMechanismCategory>();
-            for (int i = headerRowId + 1; i < headerRowId + 7; i++)
-            {
-                var category = GetCellValueAsString("A", i).ToFailureMechanismCategory();
-                var lowerLimit = GetCellValueAsDouble("B", i);
-                var upperLimit = GetCellValueAsDouble("C", i);
-                categories.Add(new FailureMechanismCategory(category, lowerLimit, upperLimit));
-            }
-
-            expectedFailureMechanismResult.ExpectedFailureMechanismCategories =
-                new CategoriesList<FailureMechanismCategory>(categories);
-        }
-        */
-
-        #endregion
     }
 }

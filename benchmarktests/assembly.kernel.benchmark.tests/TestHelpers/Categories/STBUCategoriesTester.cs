@@ -37,7 +37,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
     /// </summary>
     public class STBUCategoriesTester : ICategoriesTester
     {
-        private readonly StbuExpectedFailureMechanismResult failureMechanismResult;
+        private readonly ExpectedFailureMechanismResult failureMechanismResult;
         private readonly bool mechanismNotApplicable;
         private readonly MethodResultsListing methodResults;
         private readonly double norm;
@@ -50,29 +50,29 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
         /// <param name="signallingNorm">The signalling norm.</param>
         public STBUCategoriesTester(MethodResultsListing methodResults,
-                                    IExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                    ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                     double signallingNorm,
                                     double lowerBoundaryNorm)
         {
-            failureMechanismResult = expectedFailureMechanismResult as StbuExpectedFailureMechanismResult;
+            failureMechanismResult = expectedFailureMechanismResult;
             this.methodResults = methodResults;
             if (failureMechanismResult == null)
             {
                 throw new ArgumentException();
             }
 
-            norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
+            /*norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
             if (double.IsNaN(norm))
             {
                 throw new ArgumentException();
-            }
+            }*/
 
             /*
             mechanismNotApplicable = expectedFailureMechanismResult.Sections.Count() == 1 &&
                                      expectedFailureMechanismResult.Sections
-                                                                   .OfType<FailureMechanismSectionBase<EFmSectionCategory>>()
+                                                                   .OfType<ExpectedFailureMechanismSection<EFmSectionCategory>>()
                                                                    .First()
-                                                                   .ExpectedCombinedResult == EFmSectionCategory.NotApplicable;
+                                                                   .ExpectedCombinedProbabilitySection == EFmSectionCategory.NotApplicable;
         */
         }
 

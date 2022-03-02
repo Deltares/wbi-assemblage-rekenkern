@@ -23,55 +23,67 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
+using Assembly.Kernel.Model;
 
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
 {
     /// <summary>
     /// Base class for an expected failure mechanism result.
     /// </summary>
-    public abstract class ExpectedFailureMechanismResultBase : IExpectedFailureMechanismResult
+    public class ExpectedFailureMechanismResult
     {
         /// <summary>
-        /// Creates a new instance of <see cref="ExpectedFailureMechanismResultBase"/>.
+        /// Creates a new instance of <see cref="ExpectedFailureMechanismResult"/>.
         /// </summary>
         /// <param name="name">The name of the failure mechanism result.</param>
-        protected ExpectedFailureMechanismResultBase(string name, string mechanismId)
+        /// <param name="mechanismId">(Unique) Identifier of the mechanism</param>
+        /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism</param>
+        public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect)
         {
             Name = name;
             MechanismId = mechanismId;
-            Sections = new List<IFailureMechanismSection>();
+            HasLengthEffect = hasLengthEffect;
+            Sections = new List<IExpectedFailureMechanismSection>();
         }
 
         /// <summary>
         /// Name of the failure mechanism
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         /// MechanismId of the failure mechanism
         /// </summary>
         public string MechanismId { get; }
 
-        public bool HasLengthEffect { get; }
-
         /// <summary>
-        /// Denotes whether the failure mechanism should be taken into account while performing assembly
+        /// Indicates whether there is a length-effect within a single section.
         /// </summary>
-        public bool AccountForDuringAssembly { get; set; }
+        public bool HasLengthEffect { get; }
 
         /// <summary>
         /// The expected result (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
         /// </summary>
-        public object ExpectedAssessmentResult { get; set; }
+        public Probability ExpectedCombinedProbability { get; set; }
 
         /// <summary>
         /// The expected result while performing partial assembly (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
         /// </summary>
-        public object ExpectedAssessmentResultTemporal { get; set; }
+        public Probability ExpectedCombinedProbabilityTemporal { get; set; }
 
         /// <summary>
         /// A listing of all sections within the failure mechanism
         /// </summary>
-        public IEnumerable<IFailureMechanismSection> Sections { get; set; }
+        public IEnumerable<IExpectedFailureMechanismSection> Sections { get; set; }
+
+        /// <summary>
+        /// Length-effect factor for this failure mechanism
+        /// </summary>
+        public double LengthEffectFactor { get; set; }
+
+        /// <summary>
+        /// Indicates whether we expect correlated sections or not when determining the combined probability.
+        /// </summary>
+        public bool ExpectedIsSectionsCorrelated { get; set; }
     }
 }

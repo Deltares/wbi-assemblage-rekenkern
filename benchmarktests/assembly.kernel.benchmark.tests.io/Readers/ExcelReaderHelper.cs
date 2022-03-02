@@ -39,17 +39,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
+        /// <param name="column">The column that contains the keywords</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
         /// <returns>The created dictionary.</returns>
-        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,
-                                                                     int maxRow)
+        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,string column, int maxRow)
         {
             var dict = new Dictionary<string, int>();
 
             int iRow = 1;
             while (iRow <= maxRow)
             {
-                var keyword = GetCellValueAsString(worksheetPart.Worksheet, "A" + iRow, workbookPart);
+                var keyword = GetCellValueAsString(worksheetPart.Worksheet, column + iRow, workbookPart);
                 if (!(string.IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
                 {
                     dict[keyword] = iRow;

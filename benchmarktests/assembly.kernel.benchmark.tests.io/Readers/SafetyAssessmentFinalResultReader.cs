@@ -23,6 +23,7 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input;
+using Assembly.Kernel.Model;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace assembly.kernel.benchmark.tests.io.Readers
@@ -38,7 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
         /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
         public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
-            : base(worksheetPart, workbookPart) {}
+            : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Reads the final verdict worksheet of a benchmark test definition.
@@ -46,26 +47,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            /*benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2 =
-                GetCellValueAsString("D", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Probability =
-                GetCellValueAsDouble("E", "Toetssporen in groep 1 en 2");
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4 =
-                GetCellValueAsString("D", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResult =
-                GetCellValueAsString("D", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability =
+                new Probability(GetCellValueAsDouble("D", "Overstromingskans traject"));
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityTemporal =
+                new Probability(GetCellValueAsDouble("D", "Overstromingskans traject (tussetijds)"));
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2Temporal =
-                GetCellValueAsString("F", "Toetssporen in groep 1 en 2").ToFailureMechanismCategory();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal =
-                GetCellValueAsDouble("G", "Toetssporen in groep 1 en 2");
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssemblyResultGroups3and4Temporal =
-                GetCellValueAsString("F", "Toetssporen in groep 3 en 4").ToFailureMechanismCategory();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal =
-                GetCellValueAsString("F", "Combineren tot veiligheidsoordeel").ToAssessmentGrade();*/
-
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedFailureMechanismProbabilitySpace =
-                GetCellValueAsDouble("M", 10);
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade =
+                GetCellValueAsString("E", "Overstromingskans traject").ToAssessmentGrade();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal =
+                GetCellValueAsString("E", "Overstromingskans traject (tussetijds)").ToAssessmentGrade();
         }
     }
 }
