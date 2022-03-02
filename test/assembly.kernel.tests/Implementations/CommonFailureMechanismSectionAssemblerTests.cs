@@ -44,19 +44,19 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ReturnsCorrectSections()
         {
             const double assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
                 new FailureMechanismSection(10.0, 20.0),
                 new FailureMechanismSection(20.0, assessmentSectionLength)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
                 new FailureMechanismSection(5.0, 25.0),
                 new FailureMechanismSection(25.0, assessmentSectionLength)
             });
-            var list3 = new FailureMechanismSectionList("FM3", new[]
+            var list3 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 15.0),
                 new FailureMechanismSection(15.0, 28.0),
@@ -95,19 +95,19 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var delta = 1e-6;
             var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
                 new FailureMechanismSection(10.001, 20.0),
                 new FailureMechanismSection(20.0, assessmentSectionLength + delta)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
                 new FailureMechanismSection(5.0, 25.0),
                 new FailureMechanismSection(25.0, assessmentSectionLength)
             });
-            var list3 = new FailureMechanismSectionList("FM3", new[]
+            var list3 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.001),
                 new FailureMechanismSection(5.001, 15.0),
@@ -213,7 +213,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
                                                                                                EAssemblyErrors expectedError)
         {
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
                 new FailureMechanismSection(10.0, 20.0),
@@ -243,13 +243,13 @@ namespace Assembly.Kernel.Tests.Implementations
         public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidSectionList()
         {
             var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList("FM1", new[]
+            var list1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
                 new FailureMechanismSection(10.001, 20.0),
                 new FailureMechanismSection(20.0, assessmentSectionLength)
             });
-            var list2 = new FailureMechanismSectionList("FM2", new[]
+            var list2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
                 new FailureMechanismSection(5.0, 25.0),
@@ -284,12 +284,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1TranslatesCorrectly()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.I)
             });
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 2.5),
                 new FailureMechanismSection(2.5, 5.0),
@@ -315,13 +315,13 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnIncorrectListType()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
                 new FailureMechanismSection(5.0, 10.0)
             });
 
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 2.5),
                 new FailureMechanismSection(2.5, 5.0),
@@ -349,12 +349,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnInvalidSectionLengthsEmpty()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 2.85, EInterpretationCategory.III)
             });
 
-            var longList = new FailureMechanismSectionList("TestListEmpty", new FailureMechanismSection[]
+            var longList = new FailureMechanismSectionList(new FailureMechanismSection[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 10.0, EInterpretationCategory.III)
             });
@@ -379,7 +379,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 2.5)
             });
@@ -403,7 +403,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists2()
         {
-            var list = new FailureMechanismSectionList("TestList", new[]
+            var list = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 2.5)
             });
@@ -427,12 +427,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
         {
-            var resultSectionsList = new FailureMechanismSectionList("FM1", new[]
+            var resultSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.I)
             });
-            var commonSectionsList = new FailureMechanismSectionList("Common", new[]
+            var commonSectionsList = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 2.5),
                 new FailureMechanismSection(2.5, 5.0),
@@ -462,7 +462,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineCombinedResultPerCommonSectionReturnsCorrectResults()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
@@ -471,7 +471,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
@@ -480,7 +480,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.II)
             });
 
-            var sectionsList3 = new FailureMechanismSectionList("", new[]
+            var sectionsList3 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
@@ -512,7 +512,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineCombinedResultPerCommonSectionPartialReturnsCorrectResults()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailureMechanismSectionList(new[]
 {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
@@ -520,7 +520,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
@@ -528,7 +528,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.II)
             });
 
-            var sectionsList3 = new FailureMechanismSectionList("", new[]
+            var sectionsList3 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
@@ -578,13 +578,13 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections1()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III)
             });
@@ -613,14 +613,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections2()
         {
-            var sectionsList1 = new FailureMechanismSectionList("", new[]
+            var sectionsList1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
             });
 
-            var sectionsList2 = new FailureMechanismSectionList("", new[]
+            var sectionsList2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.III),
@@ -675,7 +675,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I),
@@ -683,7 +683,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(30, 40, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(40, 50, EInterpretationCategory.Gr)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5, 10, EInterpretationCategory.III),
@@ -695,7 +695,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
@@ -705,7 +705,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
                     new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.III),
@@ -740,7 +740,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I),
@@ -772,7 +772,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I),
@@ -780,7 +780,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(30, 40, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(40, 50, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5, 10, EInterpretationCategory.III),
@@ -792,7 +792,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
@@ -802,7 +802,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.III),
@@ -837,7 +837,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I),
@@ -845,7 +845,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(30, 40, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(40, 50, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5, 10, EInterpretationCategory.III),
@@ -857,7 +857,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var expectedFailureMechanismResults = new List<FailureMechanismSectionList>
             {
-                new FailureMechanismSectionList("TEST", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.I),
@@ -867,7 +867,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.II)
                 }),
-                new FailureMechanismSectionList("TEST1", new[]
+                new FailureMechanismSectionList(new[]
                 {
                     new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.II),
                     new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.III),
@@ -934,8 +934,6 @@ namespace Assembly.Kernel.Tests.Implementations
             for (var i = 0; i < expectedFailureMechanismResults.Count; i++)
             {
                 var failureMechanismResult = resultPerFailureMechanism[i];
-
-                Assert.AreEqual(expectedFailureMechanismResults[i].FailureMechanismId, failureMechanismResult.FailureMechanismId);
 
                 var sectionResults = failureMechanismResult.Sections.ToArray();
                 var expectedSectionResults = expectedFailureMechanismResults[i].Sections.ToArray();

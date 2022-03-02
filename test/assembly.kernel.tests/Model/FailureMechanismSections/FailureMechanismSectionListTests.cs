@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         {
             try
             {
-                new FailureMechanismSectionList("TEST", null);
+                new FailureMechanismSectionList(null);
             }
             catch (AssemblyException e)
             {
@@ -55,9 +55,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         {
             try
             {
-                new FailureMechanismSectionList(
-                    "TEST",
-                    new List<FailureMechanismSection>());
+                new FailureMechanismSectionList(new List<FailureMechanismSection>());
             }
             catch (AssemblyException e)
             {
@@ -68,26 +66,11 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [Test]
-        public void FailureMechanismNullInputTest()
-        {
-            var list = new FailureMechanismSectionList(
-                null,
-                new[]
-                {
-                    new FailureMechanismSectionWithCategory(0, 1, EInterpretationCategory.Gr)
-                }
-            );
-
-            Assert.AreEqual("", list.FailureMechanismId);
-        }
-
-        [Test]
         public void DifferentSectionTypesInputTest()
         {
             try
             {
                 new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSection(1, 5),
@@ -108,7 +91,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             try
             {
                 new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSectionWithCategory(1, 5, EInterpretationCategory.I),
@@ -129,7 +111,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             try
             {
                 new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.I),
@@ -150,7 +131,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             try
             {
                 var failureMechanismSectionList = new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
@@ -170,7 +150,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         public void GetCategoryOfSectionReturnsCategory()
         {
             var failureMechanismSectionList = new FailureMechanismSectionList(
-                "TEST",
                 new List<FailureMechanismSection>
                 {
                     new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
@@ -190,7 +169,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             try
             {
                 new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
@@ -206,27 +184,11 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [Test]
-        public void TwoNullInputTest()
-        {
-            try
-            {
-                new FailureMechanismSectionList(null, null);
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        [Test]
         public void ZeroLengthSectionInputTest()
         {
             try
             {
                 new FailureMechanismSectionList(
-                    "TEST",
                     new List<FailureMechanismSection>
                     {
                         new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),

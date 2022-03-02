@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         {
             var resultPerFailureMechanism = new []
             {
-                new FailureMechanismSectionList("test",new []{new FailureMechanismSection(0,10) })
+                new FailureMechanismSectionList(new []{new FailureMechanismSection(0,10) })
             };
             var combinedSectionResult = new []
             {

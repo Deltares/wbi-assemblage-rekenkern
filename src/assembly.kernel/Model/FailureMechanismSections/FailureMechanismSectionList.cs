@@ -43,24 +43,15 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
         ///  - All the sectionResults are of the same type</exception>
-        public FailureMechanismSectionList(string failureMechanismId,
-            IEnumerable<FailureMechanismSection> sectionResults)
+        public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sectionResults)
         {
             Sections = CheckSectionResults(sectionResults);
-            FailureMechanismId = failureMechanismId ?? "";
         }
 
         /// <summary>
         /// The list of failure mechanism section assessment results grouped.
         /// </summary>
         public IEnumerable<FailureMechanismSection> Sections { get; }
-
-        /// <summary>
-        /// The failure mechanism to which the section results belong.
-        /// </summary>
-        [Obsolete("This parameter is obsolete and won't be used in calculations anymore")]
-        // TODO: Remove this parameter
-        public string FailureMechanismId { get; }
 
         /// <summary>
         /// Get the section with category which belongs to the point in the assessment section.

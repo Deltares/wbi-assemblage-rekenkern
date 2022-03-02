@@ -114,8 +114,7 @@ namespace Assembly.Kernel.Tests
         private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
             List<FailureMechanismSection> failureMechanismSectionResults)
         {
-            var failureMechanismSectionList = new FailureMechanismSectionList(failureMechanismSectionResults.FirstOrDefault()?.FailureMechanismType,
-                                                                failureMechanismSectionResults.Select(failureMechanismSection =>
+            var failureMechanismSectionList = new FailureMechanismSectionList(failureMechanismSectionResults.Select(failureMechanismSection =>
                                                                                             new FailureMechanismSectionWithCategory(
                                                                                                 failureMechanismSection.SectionStart,
                                                                                                 failureMechanismSection.SectionEnd,

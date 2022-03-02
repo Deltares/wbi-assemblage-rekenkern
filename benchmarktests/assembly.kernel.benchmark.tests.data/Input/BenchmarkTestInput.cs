@@ -70,7 +70,7 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionList> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
+        public IEnumerable<FailureMechanismSectionListWithFailureMechanismId> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.

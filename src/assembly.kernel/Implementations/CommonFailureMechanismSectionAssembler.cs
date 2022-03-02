@@ -118,7 +118,7 @@ namespace Assembly.Kernel.Implementations
                 previousSectionEnd = sectionLimit;
             }
 
-            return new FailureMechanismSectionList("Common", commonSections);
+            return new FailureMechanismSectionList(commonSections);
         }
 
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            return new FailureMechanismSectionList(failureMechanismSectionList.FailureMechanismId, resultsToCommonSections);
+            return new FailureMechanismSectionList(resultsToCommonSections);
         }
 
         /// <inheritdoc />

@@ -154,10 +154,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
             benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
-            var resultsPerFailureMechanism =
-                failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv =>
-                                                                                   new FailureMechanismSectionList(
-                                                                                       kv.Key.ToString("D"), kv.Value));
+            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key.ToString("D"),kv.Value));
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }

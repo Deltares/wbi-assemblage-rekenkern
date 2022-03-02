@@ -122,7 +122,7 @@ namespace assembly.kernel.benchmark.tests
             TestCombinedSectionsFinalResults(input, result);
             TestCombinedSectionsFinalResultsTemporal(input, result);
 
-            foreach (FailureMechanismSectionList failureMechanismsCombinedResult in input
+            foreach (FailureMechanismSectionListWithFailureMechanismId failureMechanismsCombinedResult in input
                 .ExpectedCombinedSectionResultPerFailureMechanism)
             {
                 TestCombinedSectionsFailureMechanismResults(input, result,
@@ -150,7 +150,7 @@ namespace assembly.kernel.benchmark.tests
             // WBI-3A-1
             var combinedSections = assembler.FindGreatestCommonDenominatorSectionsWbi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
-                         fm => new FailureMechanismSectionList(fm.Name,
+                         fm => new FailureMechanismSectionListWithFailureMechanismId(fm.Name,
                                                                fm.Sections.Select(
                                                                    s => new FailureMechanismSection(s.Start, s.End))))
                      .ToArray()
@@ -242,10 +242,9 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var combinedSections = new FailureMechanismSectionList("", input.ExpectedCombinedSectionResult);
+            var combinedSections = new FailureMechanismSectionList(input.ExpectedCombinedSectionResult);
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
                 new FailureMechanismSectionList(
-                    type.ToString("D"),
                     input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Sections
                          .Select(CreateExpectedFailureMechanismSectionWithResult)),
                 combinedSections);
