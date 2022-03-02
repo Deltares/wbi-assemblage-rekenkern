@@ -48,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("B", "Signaleringskans");
+            benchmarkTestInput.SignalingNorm = GetCellValueAsDouble("B", "Signaleringskans");
             benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("B", "Ondergrens");
             benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte");
 

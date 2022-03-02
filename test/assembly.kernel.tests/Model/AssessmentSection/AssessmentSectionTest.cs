@@ -36,12 +36,12 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
     public class AssessmentSectionTest
     {
         [Test, TestCaseSource(typeof(AssessmentSectionTestData), nameof(AssessmentSectionTestData.TestCases))]
-        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signallingLimit, double lowerLimit)
+        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signalingLimit, double lowerLimit)
         {
             try
             {
-                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signallingLimit, (Probability)lowerLimit);
-                Assert.AreEqual(signallingLimit,section.FailureProbabilitySignallingLimit);
+                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalingLimit, (Probability)lowerLimit);
+                Assert.AreEqual(signalingLimit,section.FailureProbabilitySignalingLimit);
                 Assert.AreEqual(lowerLimit, section.FailureProbabilityLowerLimit);
             }
             catch (AssemblyException e)
@@ -65,13 +65,13 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
                     yield return new TestCaseData(0.1, 0.05).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SignallingLimitAboveLowerLimit
+                            EAssemblyErrors.SignalingLimitAboveLowerLimit
                         });
                     yield return new TestCaseData(0.1, 0.2).Returns(null);
                     yield return new TestCaseData(0.2, 0.1).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SignallingLimitAboveLowerLimit
+                            EAssemblyErrors.SignalingLimitAboveLowerLimit
                         });
                 }
             }

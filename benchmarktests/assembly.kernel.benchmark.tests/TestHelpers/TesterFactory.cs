@@ -55,12 +55,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
-        /// <param name="signallingNorm">The signalling norm.</param>
+        /// <param name="signalingNorm">The signaling norm.</param>
         public static ICategoriesTester CreateCategoriesTester(MethodResultsListing methodResults,
                                                                ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                                               double lowerBoundaryNorm, double signallingNorm)
+                                                               double lowerBoundaryNorm, double signalingNorm)
         {
-            return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,
+            return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signalingNorm,
                 lowerBoundaryNorm);
         }
     }

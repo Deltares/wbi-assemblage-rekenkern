@@ -35,27 +35,27 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// AssessmentSection Constructor
         /// </summary>
-        /// <param name="failureProbabilitySignallingLimit">signalling limit for failure 
+        /// <param name="failureProbabilitySignalingLimit">signaling limit for failure 
         ///     probability of the section in 1/years. Has to be between 0 and 1</param>
         /// <param name="failureProbabilityLowerLimit">lower limit for failure probability of the section in 1/years. 
         ///     Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public AssessmentSection(Probability failureProbabilitySignallingLimit,
+        public AssessmentSection(Probability failureProbabilitySignalingLimit,
             Probability failureProbabilityLowerLimit)
         {
-            if (failureProbabilitySignallingLimit > failureProbabilityLowerLimit)
+            if (failureProbabilitySignalingLimit > failureProbabilityLowerLimit)
             {
-                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignallingLimitAboveLowerLimit);
+                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignalingLimitAboveLowerLimit);
             }
             
-            FailureProbabilitySignallingLimit = failureProbabilitySignallingLimit;
+            FailureProbabilitySignalingLimit = failureProbabilitySignalingLimit;
             FailureProbabilityLowerLimit = failureProbabilityLowerLimit;
         }
 
         /// <summary>
-        /// signalling limit for failure probability of the section in 1/years.
+        /// signaling limit for failure probability of the section in 1/years.
         /// </summary>
-        public Probability FailureProbabilitySignallingLimit { get; }
+        public Probability FailureProbabilitySignalingLimit { get; }
 
         /// <summary>
         /// lower limit for failure probability of the section in 1/years. 
@@ -69,7 +69,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         public override string ToString()
         {
             return
-                $"Failure prob signalling limit: {FailureProbabilitySignallingLimit}, " +
+                $"Failure prob signaling limit: {FailureProbabilitySignalingLimit}, " +
                 $"Failure prob lower limit: {FailureProbabilityLowerLimit}";
         }
     }

@@ -50,15 +50,15 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 reader.Read(result);
 
-                Assert.AreEqual(1 / 3000.0, result.SignallingNorm, 1e-8);
+                Assert.AreEqual(1 / 3000.0, result.SignalingNorm, 1e-8);
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
                 Assert.AreEqual(10.4, result.Length, 1e-8);
 
                 var categories = result.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, categories.Length);
-                AssertAreEqualCategories(EAssessmentGrade.APlus, 0.0, result.SignallingNorm / 30.0, categories[0]);
-                AssertAreEqualCategories(EAssessmentGrade.A, result.SignallingNorm / 30.0, result.SignallingNorm, categories[1]);
-                AssertAreEqualCategories(EAssessmentGrade.B, result.SignallingNorm, result.LowerBoundaryNorm, categories[2]);
+                AssertAreEqualCategories(EAssessmentGrade.APlus, 0.0, result.SignalingNorm / 30.0, categories[0]);
+                AssertAreEqualCategories(EAssessmentGrade.A, result.SignalingNorm / 30.0, result.SignalingNorm, categories[1]);
+                AssertAreEqualCategories(EAssessmentGrade.B, result.SignalingNorm, result.LowerBoundaryNorm, categories[2]);
                 AssertAreEqualCategories(EAssessmentGrade.C, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 30.0, categories[3]);
                 AssertAreEqualCategories(EAssessmentGrade.D, result.LowerBoundaryNorm * 30.0, 1.0, categories[4]);
             }

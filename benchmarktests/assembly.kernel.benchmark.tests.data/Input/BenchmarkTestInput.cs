@@ -58,9 +58,9 @@ namespace assembly.kernel.benchmark.tests.data.Input
         public double Length { get; set; }
 
         /// <summary>
-        /// The signalling norm for this assessment section
+        /// The signaling norm for this assessment section
         /// </summary>
-        public double SignallingNorm { get; set; }
+        public double SignalingNorm { get; set; }
 
         /// <summary>
         /// The lower boundary norm for this assessment section

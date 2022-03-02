@@ -43,10 +43,10 @@ namespace Assembly.Kernel.Exceptions
         SectionLengthOutOfRange,
 
         /// <summary>
-        /// The probability signalling limit value is above the lower limit value.
-        /// Signalling limit (eg 1/10000) should be smaller or equal to the lower limit (1/300).
+        /// The probability signaling limit value is above the lower limit value.
+        /// Signaling limit (eg 1/10000) should be smaller or equal to the lower limit (1/300).
         /// </summary>
-        SignallingLimitAboveLowerLimit,
+        SignalingLimitAboveLowerLimit,
 
         /// <summary>
         /// The lower limit of the category is above the upper limit of the category.

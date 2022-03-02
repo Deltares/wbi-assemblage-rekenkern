@@ -42,12 +42,12 @@ namespace Assembly.Kernel.Model.Categories
         A = 2,
 
         /// <summary>
-        /// Assessment section complies with lower limit but fails signalling limit
+        /// Assessment section complies with lower limit but fails signaling limit
         /// </summary>
         B = 3,
 
         /// <summary>
-        /// Assessment section fails both signalling and lower limits
+        /// Assessment section fails both signaling and lower limits
         /// </summary>
         C = 4,
 

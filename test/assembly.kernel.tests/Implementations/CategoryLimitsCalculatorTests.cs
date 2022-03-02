@@ -47,9 +47,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
-        public void CalculateWbi03FunctionalTest(double signallingLimit, double lowerLimit)
+        public void CalculateWbi03FunctionalTest(double signalingLimit, double lowerLimit)
         {
-            var section = new AssessmentSection((Probability) signallingLimit, (Probability) lowerLimit);
+            var section = new AssessmentSection((Probability) signalingLimit, (Probability) lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
@@ -62,22 +62,22 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 100.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signallingLimit / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIMin:
@@ -98,9 +98,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi03CapToOneTest()
         {
-            var signallingLimit = 0.001;
+            var signalingLimit = 0.001;
             var lowerLimit = 0.5;
-            var section = new AssessmentSection((Probability)signallingLimit, (Probability)lowerLimit);
+            var section = new AssessmentSection((Probability)signalingLimit, (Probability)lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
@@ -113,22 +113,22 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signallingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 100.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signallingLimit / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signallingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signallingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signallingLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalingLimit, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIMin:
@@ -153,10 +153,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi21FunctionalTest()
         {
-            var signallingLimit = new Probability(0.003);
+            var signalingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.03);
 
-            var section = new AssessmentSection(signallingLimit, lowerLimit);
+            var section = new AssessmentSection(signalingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
@@ -197,10 +197,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateWbi21CapToOneTest()
         {
-            var signallingLimit = new Probability(0.003);
+            var signalingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.034);
 
-            var section = new AssessmentSection(signallingLimit, lowerLimit);
+            var section = new AssessmentSection(signalingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);

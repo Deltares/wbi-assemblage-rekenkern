@@ -36,17 +36,17 @@ namespace Assembly.Kernel.Model.Categories
         NotDominant = 1,
 
         /// <summary>
-        /// probability less than 1/30 of the signalling norm
+        /// probability less than 1/30 of the signaling norm
         /// </summary>
         III = 2,
 
         /// <summary>
-        /// probability less than 1/10 of the signalling norm
+        /// probability less than 1/10 of the signaling norm
         /// </summary>
         II = 3,
 
         /// <summary>
-        /// probability less than 1/3 of the signalling norm
+        /// probability less than 1/3 of the signaling norm
         /// </summary>
         I = 4,
 

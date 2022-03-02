@@ -48,10 +48,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
-        /// <param name="signallingNorm">The signalling norm.</param>
+        /// <param name="signalingNorm">The signaling norm.</param>
         public STBUCategoriesTester(MethodResultsListing methodResults,
                                     ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                    double signallingNorm,
+                                    double signalingNorm,
                                     double lowerBoundaryNorm)
         {
             failureMechanismResult = expectedFailureMechanismResult;
@@ -61,7 +61,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                 throw new ArgumentException();
             }
 
-            /*norm = failureMechanismResult.UseSignallingNorm ? signallingNorm : lowerBoundaryNorm;
+            /*norm = failureMechanismResult.UseSignalingNorm ? signalingNorm : lowerBoundaryNorm;
             if (double.IsNaN(norm))
             {
                 throw new ArgumentException();

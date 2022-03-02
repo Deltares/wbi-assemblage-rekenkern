@@ -57,7 +57,7 @@ namespace assembly.kernel.benchmark.tests
 
             // WBI-2-1
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(
-                new AssessmentSection((Probability) input.SignallingNorm, (Probability) input.LowerBoundaryNorm));
+                new AssessmentSection((Probability) input.SignalingNorm, (Probability) input.LowerBoundaryNorm));
             CategoriesList<AssessmentSectionCategory> expectedCategories =
                 input.ExpectedAssessmentSectionCategories;
 
@@ -72,10 +72,10 @@ namespace assembly.kernel.benchmark.tests
         /// </summary>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
-        /// <param name="signallingNorm">The signalling norm.</param>
+        /// <param name="signalingNorm">The signaling norm.</param>
         /// <param name="testResult">The test result.</param>
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                                        double lowerBoundaryNorm, double signallingNorm,
+                                                        double lowerBoundaryNorm, double signalingNorm,
                                                         BenchmarkTestResult testResult)
         {
             var failureMechanismTestResult =
@@ -84,7 +84,7 @@ namespace assembly.kernel.benchmark.tests
             failureMechanismTestResult.AreEqualCategoryBoundaries =
                 TesterFactory
                     .CreateCategoriesTester(testResult.MethodResults, expectedFailureMechanismResult, lowerBoundaryNorm,
-                                            signallingNorm)
+                                            signalingNorm)
                     ?.TestCategories();
 
             var failureMechanismTestHelper =
