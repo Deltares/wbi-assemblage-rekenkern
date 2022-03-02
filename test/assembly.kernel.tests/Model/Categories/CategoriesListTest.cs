@@ -36,7 +36,28 @@ namespace Assembly.Kernel.Tests.Model.Categories
     [TestFixture]
     public class CategoriesListTest
     {
-        private static IEnumerable InconsistantCategoryBoundariesTestCases
+        [Test,
+         TestCaseSource(
+             typeof(CategoriesListTest),
+             nameof(InconsistentCategoryBoundariesTestCases))]
+        public void CheckForInconsistentCategories(IEnumerable<TestCategory> categories)
+        {
+            try
+            {
+                var list = new CategoriesList<TestCategory>(categories.ToArray());
+            }
+            catch (AssemblyException e)
+            {
+                Assert.IsNotNull(e.Errors);
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.InvalidCategoryLimits, e.Errors.First().ErrorCode);
+                return;
+            }
+
+            Assert.Fail("Expected exception, but did not recieve one.");
+        }
+
+        private static IEnumerable InconsistentCategoryBoundariesTestCases
         {
             get
             {
@@ -100,29 +121,8 @@ namespace Assembly.Kernel.Tests.Model.Categories
             }
         }
 
-        [Test,
-         TestCaseSource(
-             typeof(CategoriesListTest),
-             nameof(InconsistantCategoryBoundariesTestCases))]
-        public void CheckForInconsistantCategories(IEnumerable<TestCategory> categories)
-        {
-            try
-            {
-                var list = new CategoriesList<TestCategory>(categories.ToArray());
-            }
-            catch (AssemblyException e)
-            {
-                Assert.IsNotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.InvalidCategoryLimits, e.Errors.First().ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception, but did not recieve one.");
-        }
-
         [Test]
-        public void CtorAcceptsCorrectListOfCategories()
+        public void ConstructorAcceptsCorrectListOfCategories()
         {
             var list = new CategoriesList<TestCategory>(new[]
             {
@@ -155,9 +155,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
         }
 
         [Test]
-        [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
-        public void GetCategoryForFailureProbabilityTestThrowsInInvalidProbability(double probability,
-                                                                                   EAssemblyErrors expectedMessage)
+        public void GetCategoryForFailureProbabilityTestThrowsOnInvalidProbability()
         {
             var list = new CategoriesList<TestCategory>(new[]
             {
@@ -167,13 +165,13 @@ namespace Assembly.Kernel.Tests.Model.Categories
 
             try
             {
-                var category = list.GetCategoryForFailureProbability((Probability) probability);
+                var category = list.GetCategoryForFailureProbability(Probability.NaN);
             }
             catch (AssemblyException e)
             {
                 Assert.IsNotNull(e.Errors);
                 Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(expectedMessage, e.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 

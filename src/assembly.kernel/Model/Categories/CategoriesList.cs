@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Model.Categories
         {
             if (double.IsNaN(failureProbability.Value))
             {
-                throw new AssemblyException("FailureProbability", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException("FailureProbability", EAssemblyErrors.ValueMayNotBeNaN);
             }
 
             return Categories.First(category => failureProbability <= category.UpperLimit);
@@ -72,22 +72,22 @@ namespace Assembly.Kernel.Model.Categories
 
         private TCategory[] CheckCategories(IEnumerable<TCategory> categoryLimits)
         {
-            var expectedCategoryBoundary = 0.0;
+            var lastKnownUpperBoundary = 0.0;
 
             var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
             foreach (var category in categories)
             {
-                if (CompareProbabilities(category.LowerLimit, expectedCategoryBoundary))
+                if (CompareProbabilities(category.LowerLimit, lastKnownUpperBoundary))
                 {
                     throw new AssemblyException(
                         "Categories are not subsequent and do not fully cover the probability range",
                         EAssemblyErrors.InvalidCategoryLimits);
                 }
 
-                expectedCategoryBoundary = category.UpperLimit;
+                lastKnownUpperBoundary = category.UpperLimit;
             }
 
-            if (Math.Abs(expectedCategoryBoundary - 1.0) > EpsilonFactor)
+            if (Math.Abs(lastKnownUpperBoundary - 1.0) > EpsilonFactor)
             {
                 throw new AssemblyException(
                     "Categories are not subsequent and do not fully cover the probability range",

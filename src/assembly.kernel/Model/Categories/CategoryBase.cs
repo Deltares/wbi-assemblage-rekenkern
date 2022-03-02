@@ -66,6 +66,11 @@ namespace Assembly.Kernel.Model.Categories
 
         private static void CheckInput(T category, Probability lowerLimit, Probability upperLimit)
         {
+            if (double.IsNaN(lowerLimit) || double.IsNaN(upperLimit))
+            {
+                throw new AssemblyException("Category: " + category, EAssemblyErrors.ValueMayNotBeNaN);
+            }
+
             if (lowerLimit > upperLimit)
             {
                 throw new AssemblyException("Category: " + category, EAssemblyErrors.LowerLimitIsAboveUpperLimit);

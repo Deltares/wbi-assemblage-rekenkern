@@ -36,7 +36,9 @@
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionResultTest.cs" />
+    <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
+    <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />
     <Compile Include="Model\ERefinementStatusTest.cs" />
     <Compile Include="Model\FailureMechanismAssemblyResultTest.cs" />
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
@@ -51,7 +53,6 @@
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssessmentSection\AssemblyResultTests.cs" />
     <Compile Include="Model\Categories\CategoriesListTest.cs" />
-    <Compile Include="Model\Categories\CategoryLimitsTests.cs" />
     <Compile Include="Model\Categories\TestCategory.cs" />
     <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTests.cs" />

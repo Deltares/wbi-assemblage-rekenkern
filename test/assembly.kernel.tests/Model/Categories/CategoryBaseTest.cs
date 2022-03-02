@@ -35,7 +35,26 @@ namespace Assembly.Kernel.Tests.Model.Categories
     public class CategoryBaseTest
     {
         [Test]
-        public void CategoryBasePerformsInputCheck()
+        [TestCase(double.NaN, 0.1)]
+        [TestCase(0.1, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
+        public void CategoryBasePerformsInputCheckOnNaNValues(double lowerBoundary, double upperBoundary)
+        {
+            try
+            {
+                var category = new TestCategoryBase(0.2, (Probability)lowerBoundary, (Probability)upperBoundary);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
+        }
+
+        [Test]
+        public void CategoryBasePerformsInputCheckOnValidValues()
         {
             try
             {
