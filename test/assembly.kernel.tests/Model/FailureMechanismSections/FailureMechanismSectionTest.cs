@@ -50,12 +50,31 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         {
             try
             {
-                var category = new FailureMechanismSection(start,end);
+                var section = new FailureMechanismSection(start,end);
             }
             catch (AssemblyException e)
             {
                 Assert.AreEqual(1, e.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
+        }
+
+        [Test,
+         TestCase(double.NaN, 30),
+         TestCase(10.0, double.NaN),
+         TestCase(double.NaN, double.NaN)]
+        public void ConstructorChecksForNaNValues(double start, double end)
+        {
+            try
+            {
+                var section = new FailureMechanismSection(start, end);
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
             Assert.Fail("Expected error was not thrown");

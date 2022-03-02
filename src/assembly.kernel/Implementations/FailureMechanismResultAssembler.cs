@@ -53,21 +53,9 @@ namespace Assembly.Kernel.Implementations
                     return new FailureMechanismAssemblyResult(new Probability(0), EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
-
-            var errors = new List<AssemblyErrorMessage>();
-            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Gr))
+            else
             {
-                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
-            }
-
-            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Dominant))
-            {
-                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.DominantSectionCannotBeAssembled));
-            }
-
-            if (errors.Any())
-            {
-                throw new AssemblyException(errors);
+                CheckForValidResults(sectionResults);
             }
 
             var noFailureProbProduct = 1.0;
@@ -94,6 +82,27 @@ namespace Assembly.Kernel.Implementations
             return highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
                 ? new FailureMechanismAssemblyResult(new Probability(highestFailureProbabilityProfile), EFailureMechanismAssemblyMethod.Correlated)
                 : new FailureMechanismAssemblyResult(new Probability(combinedFailureProbabilityUnCorrelated), EFailureMechanismAssemblyMethod.UnCorrelated);
+        }
+
+        private static void CheckForValidResults(FailureMechanismSectionAssemblyResult[] sectionResults)
+        {
+            var errors = new List<AssemblyErrorMessage>();
+            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Gr))
+            {
+                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults",
+                    EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
+            }
+
+            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Dominant))
+            {
+                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults",
+                    EAssemblyErrors.DominantSectionCannotBeAssembled));
+            }
+
+            if (errors.Any())
+            {
+                throw new AssemblyException(errors);
+            }
         }
 
         private static FailureMechanismSectionAssemblyResult[] CheckInput(

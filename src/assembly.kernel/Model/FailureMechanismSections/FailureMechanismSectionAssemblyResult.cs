@@ -47,7 +47,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     }
                     break;
                 default:
-                    // TODO: Write test for this situation
                     throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.InvalidCategoryValue);
             }
             

@@ -43,6 +43,11 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// when end is before the start</exception>
         public FailureMechanismSection(double sectionStart, double sectionEnd)
         {
+            if (double.IsNaN(sectionStart) | double.IsNaN(sectionEnd))
+            {
+                throw new AssemblyException("sectionStart or sectionEnd", EAssemblyErrors.ValueMayNotBeNaN);
+            }
+
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)
             {
                 throw new AssemblyException("FailureMechanismSection", EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);

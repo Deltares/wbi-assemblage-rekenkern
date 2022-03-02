@@ -58,6 +58,8 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// The failure mechanism to which the section results belong.
         /// </summary>
+        [Obsolete("This parameter is obsolete and won't be used in calculations anymore")]
+        // TODO: Remove this parameter
         public string FailureMechanismId { get; }
 
         /// <summary>

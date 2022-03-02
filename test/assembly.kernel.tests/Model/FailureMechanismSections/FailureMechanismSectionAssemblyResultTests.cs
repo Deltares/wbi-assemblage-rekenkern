@@ -128,6 +128,22 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [Test]
+        public void ConstructorChecksForValidCategory()
+        {
+            try
+            {
+                var result = new FailureMechanismSectionAssemblyResult((Probability)0.1, (Probability)0.2, (EInterpretationCategory)(-1));
+            }
+            catch (AssemblyException e)
+            {
+                Assert.AreEqual(1, e.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.InvalidCategoryValue, e.Errors.First().ErrorCode);
+                Assert.Pass();
+            }
+            Assert.Fail("Expected error was not thrown");
+        }
+
+        [Test]
         public void FailureMechanismSectionAssemblyResultToStringTest()
         {
             var result = new FailureMechanismSectionAssemblyResult((Probability)0.2,(Probability)0.4,EInterpretationCategory.III);
