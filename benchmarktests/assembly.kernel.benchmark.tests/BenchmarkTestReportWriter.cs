@@ -185,7 +185,7 @@ namespace assembly.kernel.benchmark.tests
             for (var index = 0; index < result.FailureMechanismResults.Count; index++)
             {
                 var m = result.FailureMechanismResults[index];
-                str += m.Name + " & " + m.Type.ToString("G") + " & " + m.Group + " & " +
+                str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffct + " & " +
                        ToResultText(m.AreEqualDetailedAssessmentResults) + " & " +
                        ToResultText(m.AreEqualTailorMadeAssessmentResults) + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +

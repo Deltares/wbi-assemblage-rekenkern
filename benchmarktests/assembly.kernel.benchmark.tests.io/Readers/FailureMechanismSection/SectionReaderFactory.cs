@@ -21,6 +21,7 @@
 // All rights reserved.
 #endregion
 
+using System;
 using System.ComponentModel;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -52,39 +53,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="mechanismType">The <see cref="MechanismType"/> to get the reader for.</param>
         /// <returns>The created <see cref="ISectionReader{TFailureMechanismSection}"/>.</returns>
-        public ISectionReader<IFailureMechanismSection> CreateReader(MechanismType mechanismType)
+        public ISectionReader<IFailureMechanismSection> CreateReader(bool hasLengthEffectWithinSection)
         {
-            switch (mechanismType)
-            {
-                case MechanismType.STBI:
-                case MechanismType.STPH:
-                case MechanismType.HTKW:
-                case MechanismType.BSKW:
-                case MechanismType.STKWp:
-                case MechanismType.GEKB:
-                case MechanismType.AGK:
-                case MechanismType.GEBU:
-                case MechanismType.ZST:
-                case MechanismType.DA:
-                case MechanismType.GABI:
-                case MechanismType.GABU:
-                case MechanismType.STMI:
-                case MechanismType.PKW:
-                case MechanismType.AWO:
-                case MechanismType.STKWl:
-                case MechanismType.INN:
-                case MechanismType.STBU:
-                case MechanismType.HAV:
-                case MechanismType.NWOkl:
-                case MechanismType.VLZV:
-                case MechanismType.VLAF:
-                case MechanismType.NWOoc:
-                case MechanismType.NWObe:
-                case MechanismType.NWObo:
-                case MechanismType.VLGA:
-                default:
-                    throw new InvalidEnumArgumentException();
-            }
+            throw new NotImplementedException();
         }
     }
 }

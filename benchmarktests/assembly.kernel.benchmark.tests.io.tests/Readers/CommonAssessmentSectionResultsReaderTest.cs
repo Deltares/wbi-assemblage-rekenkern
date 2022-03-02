@@ -38,28 +38,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     [TestFixture]
     public class CommonAssessmentSectionResultsReaderTest : TestFileReaderTestBase
     {
-        private readonly MechanismType[] directMechanismTypes =
-        {
-            MechanismType.STBI,
-            MechanismType.STBU,
-            MechanismType.STPH,
-            MechanismType.STMI,
-            MechanismType.AGK,
-            MechanismType.AWO,
-            MechanismType.GEBU,
-            MechanismType.GABU,
-            MechanismType.GEKB,
-            MechanismType.GABI,
-            MechanismType.ZST,
-            MechanismType.DA,
-            MechanismType.HTKW,
-            MechanismType.BSKW,
-            MechanismType.PKW,
-            MechanismType.STKWp,
-            MechanismType.STKWl,
-            MechanismType.INN
-        };
-
         [Test]
         public void ReaderReadsInformationCorrectly()
         {

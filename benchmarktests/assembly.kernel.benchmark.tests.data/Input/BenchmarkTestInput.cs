@@ -23,7 +23,6 @@
 
 using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace assembly.kernel.benchmark.tests.data.Input
@@ -43,7 +42,7 @@ namespace assembly.kernel.benchmark.tests.data.Input
         }
 
         /// <summary>
-        /// The file name that contains the benchmark testdefinition and expected results
+        /// The file name that contains the benchmark test definition and expected results
         /// </summary>
         public string FileName { get; set; }
 

@@ -25,7 +25,6 @@ using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.Readers;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
@@ -38,7 +37,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool - General information.xlsm");
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool - General information.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
@@ -51,9 +50,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 reader.Read(result);
 
-                Assert.AreEqual(17527, result.Length, 0.5);
                 Assert.AreEqual(1 / 3000.0, result.SignallingNorm, 1e-8);
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
+                Assert.AreEqual(10.4, result.Length, 1e-8);
 
                 var categories = result.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, categories.Length);

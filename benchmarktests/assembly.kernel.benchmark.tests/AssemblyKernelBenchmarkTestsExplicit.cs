@@ -39,7 +39,7 @@ namespace assembly.kernel.benchmark.tests
         public void RunBenchmarkTest()
         {
             var testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
-            var fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsm").First();
+            var fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsx").First();
             var testName = BenchmarkTestHelper.GetTestName(fileName);
 
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);

@@ -39,6 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\FailureMechanismSectionListWithFailureMechanismId.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismWithLengtEffect.cs" />
+    <Compile Include="Input\FailureMechanisms\FailureMechanismWithoutLengthEffect.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />
     <Compile Include="Input\BenchmarkTestInput.cs" />
     <Compile Include="Result\BenchmarkTestResult.cs" />
@@ -48,7 +50,6 @@
     <Compile Include="Input\FailureMechanisms\StbuExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanisms\IExpectedFailureMechanismResult.cs" />
     <Compile Include="Input\FailureMechanismSections\IFailureMechanismSection.cs" />
-    <Compile Include="Input\FailureMechanisms\MechanismType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\SafetyAssessmentAssemblyResult.cs" />
     <Compile Include="Result\BenchmarkTestFailureMechanismResultFactory.cs" />

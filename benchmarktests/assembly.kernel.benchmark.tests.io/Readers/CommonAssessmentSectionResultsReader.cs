@@ -25,8 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
@@ -73,36 +71,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             "AE"
         };
 
-        private readonly Dictionary<MechanismType, bool> failureMechanisms = new Dictionary<MechanismType, bool>
-        {
-            {MechanismType.STBI, true},
-            {MechanismType.STBU, true},
-            {MechanismType.STPH, true},
-            {MechanismType.STMI, true},
-            {MechanismType.AGK, true},
-            {MechanismType.AWO, true},
-            {MechanismType.GEBU, true},
-            {MechanismType.GABU, true},
-            {MechanismType.GEKB, true},
-            {MechanismType.GABI, true},
-            {MechanismType.ZST, true},
-            {MechanismType.DA, true},
-            {MechanismType.HTKW, true},
-            {MechanismType.BSKW, true},
-            {MechanismType.PKW, true},
-            {MechanismType.STKWp, true},
-            {MechanismType.STKWl, true},
-            {MechanismType.VLGA, false},
-            {MechanismType.VLAF, false},
-            {MechanismType.VLZV, false},
-            {MechanismType.NWObe, false},
-            {MechanismType.NWObo, false},
-            {MechanismType.NWOkl, false},
-            {MechanismType.NWOoc, false},
-            {MechanismType.HAV, false},
-            {MechanismType.INN, true}
-        };
-
         /// <summary>
         /// Creates a new instance of <see cref="CommonAssessmentSectionResultsReader"/>.
         /// </summary>
@@ -120,13 +88,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var commonSections = new List<FailureMechanismSectionWithCategory>();
             var commonSectionsTemporal = new List<FailureMechanismSectionWithCategory>();
 
-            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<MechanismType, List<FailureMechanismSectionWithCategory>>();
-            foreach (var failureMechanismsKey in failureMechanisms.Keys)
+            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
+            var mechanismIds = new string[] { }; // TODO: build strings of mechanism IDs or retrieve them from the tabs already read. Change below to select statement
+            foreach (var failureMechanismsKey in mechanismIds)
             {
-                if (failureMechanisms[failureMechanismsKey])
-                {
-                    failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
-                }
+                failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
             }
 
             var columnKeys = GetColumnKeys(3);
@@ -154,7 +120,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
             benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
-            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key.ToString("D"),kv.Value));
+            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key,kv.Value));
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
@@ -165,14 +131,14 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             list.Add(new FailureMechanismSectionWithCategory(startMeters, endMeters, EInterpretationCategory.Gr));
         }
 
-        private Dictionary<MechanismType, string> GetColumnKeys(int iRow)
+        private Dictionary<string, string> GetColumnKeys(int iRow)
         {
-            var dict = new Dictionary<MechanismType, string>();
+            var dict = new Dictionary<string, string>();
             foreach (var columnString in columnStrings.Skip(4))
             {
                 try
                 {
-                    var type = GetCellValueAsString(columnString, iRow).ToMechanismType();
+                    var type = GetCellValueAsString(columnString, iRow);
                     dict[type] = columnString;
                 }
                 catch (Exception e)

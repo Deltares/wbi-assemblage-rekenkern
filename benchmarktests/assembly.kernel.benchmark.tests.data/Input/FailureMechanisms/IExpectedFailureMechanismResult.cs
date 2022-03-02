@@ -37,14 +37,14 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         string Name { get; set; }
 
         /// <summary>
-        /// Type of the failure mechanism
+        /// MechanismId of the failure mechanism
         /// </summary>
-        MechanismType Type { get; }
+        string MechanismId { get; }
 
         /// <summary>
         /// Assembly group (1, 2, 3, 4 or 5)
         /// </summary>
-        int Group { get; }
+        bool HasLengthEffect { get; }
 
         /// <summary>
         /// Denotes whether the failure mechanism should be taken into account while performing assembly

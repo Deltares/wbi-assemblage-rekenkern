@@ -36,22 +36,6 @@ namespace assembly.kernel.benchmark.tests.io
     public static class StringExtensions
     {
         /// <summary>
-        /// Translate a string value to a specific <see cref="MechanismType"/>.
-        /// </summary>
-        /// <param name="str">string value to be translated.</param>
-        /// <returns>The translated <see cref="MechanismType"/>.</returns>
-        public static MechanismType ToMechanismType(this string str)
-        {
-            MechanismType mechanismType;
-            if (!Enum.TryParse(str, true, out mechanismType))
-            {
-                throw new InvalidEnumArgumentException(str);
-            }
-
-            return mechanismType;
-        }
-
-        /// <summary>
         /// Translate a string value to a specific <see cref="EAssessmentGrade"/>.
         /// </summary>
         /// <param name="str">string value to be translated.</param>

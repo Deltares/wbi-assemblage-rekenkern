@@ -34,13 +34,13 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// Create a new instance of <see cref="BenchmarkFailureMechanismTestResult"/>.
         /// </summary>
         /// <param name="name">The name of the failure mechanism.</param>
-        /// <param name="type">The type of the failure mechanism.</param>
-        /// <param name="group">The assembly group of the failure mechanism.</param>
-        public BenchmarkFailureMechanismTestResult(string name, MechanismType type, int group)
+        /// <param name="mechanismId">The Id of the failure mechanism.</param>
+        /// <param name="hasLengthEffect">The assembly hasLengthEffect of the failure mechanism.</param>
+        public BenchmarkFailureMechanismTestResult(string name, string mechanismId, bool hasLengthEffect)
         {
             Name = name;
-            Type = type;
-            Group = group;
+            MechanismId = mechanismId;
+            HasLengthEffct = hasLengthEffect;
         }
 
         /// <summary>
@@ -49,14 +49,14 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public string Name { get; }
 
         /// <summary>
-        /// Type / code of the failure mechanism.
+        /// MechanismId / code of the failure mechanism.
         /// </summary>
-        public MechanismType Type { get; }
+        public string MechanismId { get; }
 
         /// <summary>
-        /// Assembly group of the failure mechanism (1, 2, 3, 4 or 5).
+        /// Indicates whether this failure mechanism has length effect within a section.
         /// </summary>
-        public int Group { get; }
+        public bool HasLengthEffct { get; }
 
         /// <summary>
         /// Indicates whether category boundaries where calculated correctly.

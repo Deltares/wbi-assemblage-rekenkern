@@ -43,38 +43,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing methodResults,
                                                                                  IExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            switch (expectedFailureMechanismResult.Type)
-            {
-                case MechanismType.STBI:
-                case MechanismType.STPH:
-                case MechanismType.HTKW:
-                case MechanismType.BSKW:
-                case MechanismType.STKWp:
-                case MechanismType.GEKB:
-                case MechanismType.AGK:
-                case MechanismType.GEBU:
-                case MechanismType.ZST:
-                case MechanismType.DA:
-                case MechanismType.GABI:
-                case MechanismType.GABU:
-                case MechanismType.STMI:
-                case MechanismType.PKW:
-                case MechanismType.AWO:
-                case MechanismType.STKWl:
-                case MechanismType.INN:
-                case MechanismType.STBU:
-                    return new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
-                case MechanismType.HAV:
-                case MechanismType.NWOkl:
-                case MechanismType.VLZV:
-                case MechanismType.VLAF:
-                case MechanismType.NWOoc:
-                case MechanismType.NWObe:
-                case MechanismType.NWObo:
-                case MechanismType.VLGA:
-                default:
-                    throw new InvalidEnumArgumentException();
-            }
+            // TODO: Implement
+            return expectedFailureMechanismResult.HasLengthEffect
+                ? new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult)
+                : new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
         }
 
         /// <summary>
@@ -88,24 +60,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
                                                                IExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                                double lowerBoundaryNorm, double signallingNorm)
         {
-            switch (expectedFailureMechanismResult.Type)
-            {
-                case MechanismType.STBI:
-                case MechanismType.STPH:
-                case MechanismType.HTKW:
-                case MechanismType.BSKW:
-                case MechanismType.STKWp:
-                case MechanismType.GEKB:
-                case MechanismType.AGK:
-                case MechanismType.GEBU:
-                case MechanismType.ZST:
-                case MechanismType.DA:
-                case MechanismType.STBU:
-                    return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,
-                                                    lowerBoundaryNorm);
-                default:
-                    return null;
-            }
+            return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signallingNorm,
+                lowerBoundaryNorm);
         }
     }
 }

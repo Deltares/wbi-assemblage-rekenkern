@@ -78,7 +78,7 @@ namespace assembly.kernel.benchmark.tests
                                                         BenchmarkTestResult testResult)
         {
             var failureMechanismTestResult =
-                GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Type);
+                GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
             failureMechanismTestResult.AreEqualCategoryBoundaries =
                 TesterFactory
@@ -125,8 +125,8 @@ namespace assembly.kernel.benchmark.tests
             foreach (FailureMechanismSectionListWithFailureMechanismId failureMechanismsCombinedResult in input
                 .ExpectedCombinedSectionResultPerFailureMechanism)
             {
-                TestCombinedSectionsFailureMechanismResults(input, result,
-                                                            failureMechanismsCombinedResult.FailureMechanismId.ToMechanismType());
+                var mechanism = input.ExpectedFailureMechanismsResults.First(r => r.MechanismId == failureMechanismsCombinedResult.FailureMechanismId);
+                TestCombinedSectionsFailureMechanismResults(input, result, mechanism.Name, failureMechanismsCombinedResult.FailureMechanismId, mechanism.HasLengthEffect);
             }
         }
 
@@ -238,24 +238,22 @@ namespace assembly.kernel.benchmark.tests
         }
 
         private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input,
-                                                                        BenchmarkTestResult result, MechanismType type)
+                                                                        BenchmarkTestResult result, string mechanismName, string mechanismId, bool hasLengthEffect)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var combinedSections = new FailureMechanismSectionList(input.ExpectedCombinedSectionResult);
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
                 new FailureMechanismSectionList(
-                    input.ExpectedFailureMechanismsResults.First(fm => fm.Type == type).Sections
+                    input.ExpectedFailureMechanismsResults.First(fm => fm.MechanismId == mechanismId).Sections
                          .Select(CreateExpectedFailureMechanismSectionWithResult)),
                 combinedSections);
 
             var calculatedSections = calculatedSectionResults.Sections.ToArray();
-            var expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism.First(l =>
-                                                                                                    l.FailureMechanismId ==
-                                                                                                    type.ToString("D")).Sections
+            var expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism.First(l => l.FailureMechanismId == mechanismId).Sections
                                         .ToArray();
 
-            var failureMechanismResult = GetBenchmarkTestFailureMechanismResult(result, type);
+            var failureMechanismResult = GetBenchmarkTestFailureMechanismResult(result, mechanismName, mechanismId, hasLengthEffect);
 
             try
             {
@@ -292,13 +290,13 @@ namespace assembly.kernel.benchmark.tests
 
         private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(
             BenchmarkTestResult result,
-            MechanismType type)
+            string mechanismName, string mechanismId, bool hasLengthEffect)
         {
-            var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.Type == type);
+            var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.MechanismId == mechanismId);
             if (failureMechanismTestResult == null)
             {
                 failureMechanismTestResult =
-                    BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(type);
+                    BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(mechanismName,mechanismId,hasLengthEffect);
                 result.FailureMechanismResults.Add(failureMechanismTestResult);
             }
 

@@ -35,9 +35,10 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// Creates a new instance of <see cref="ExpectedFailureMechanismResultBase"/>.
         /// </summary>
         /// <param name="name">The name of the failure mechanism result.</param>
-        protected ExpectedFailureMechanismResultBase(string name)
+        protected ExpectedFailureMechanismResultBase(string name, string mechanismId)
         {
             Name = name;
+            MechanismId = mechanismId;
             Sections = new List<IFailureMechanismSection>();
         }
 
@@ -47,14 +48,11 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         public string Name { get; set; }
 
         /// <summary>
-        /// Type of the failure mechanism
+        /// MechanismId of the failure mechanism
         /// </summary>
-        public abstract MechanismType Type { get; }
+        public string MechanismId { get; }
 
-        /// <summary>
-        /// Assembly group (1, 2, 3, 4 or 5)
-        /// </summary>
-        public abstract int Group { get; }
+        public bool HasLengthEffect { get; }
 
         /// <summary>
         /// Denotes whether the failure mechanism should be taken into account while performing assembly

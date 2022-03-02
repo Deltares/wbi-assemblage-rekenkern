@@ -55,7 +55,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             IExpectedFailureMechanismResult expectedFailureMechanismResult =
                 FailureMechanismResultFactory.CreateFailureMechanism(
-                    GetCellValueAsString("B", "Toetsspoor").ToMechanismType());
+                    GetCellValueAsString("B", "Toetsspoor"));
 
             ReadGeneralInformation(expectedFailureMechanismResult);
             ReadGroup3FailureMechanismProperties(expectedFailureMechanismResult);
@@ -71,16 +71,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             expectedFailureMechanismResult.AccountForDuringAssembly = GetCellValueAsString("D", 1) == "Ja";
             var assessmentResultString = GetCellValueAsString("D", "Toetsoordeel per toetsspoor per traject");
             var temporalAssessmentResultString = GetCellValueAsString("D", "Tijdelijk Toetsoordeel per toetsspoor per traject");
-            if (expectedFailureMechanismResult.Group > 4)
-            {
-                /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToIndirectFailureMechanismSectionCategory();
-                expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToIndirectFailureMechanismSectionCategory();*/
-            }
-            else
-            {
-                /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
+            /*expectedFailureMechanismResult.ExpectedAssessmentResult = assessmentResultString.ToFailureMechanismCategory();
                 expectedFailureMechanismResult.ExpectedAssessmentResultTemporal = temporalAssessmentResultString.ToFailureMechanismCategory();*/
-            }
         }
 
         private void ReadSTBUFailureMechanismSpecificProperties(IExpectedFailureMechanismResult expectedFailureMechanismResult)
@@ -111,7 +103,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             var sections = new List<IFailureMechanismSection>();
             var startRow = GetRowId("Vakindeling") + 3;
-            var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.Type);
+            var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.HasLengthEffect);
 
             var iRow = startRow;
             while (iRow <= MaxRow)

@@ -48,18 +48,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("D", "Signaleringswaarde [terugkeertijd]");
-            benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("D", "Ondergrens [terugkeertijd]");
-            benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte [m]");
+            benchmarkTestInput.SignallingNorm = GetCellValueAsDouble("B", "Signaleringskans");
+            benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("B", "Ondergrens");
+            benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte");
 
             var list = new List<AssessmentSectionCategory>();
-            var startRowCategories = GetRowId("Categorie") + 1;
-            for (int iRow = startRowCategories; iRow <= startRowCategories + 4; iRow++)
+            for (int iRow = 4; iRow <= 8; iRow++)
             {
                 list.Add(new AssessmentSectionCategory(
-                             GetCellValueAsString("A", iRow).ToAssessmentGrade(),
-                             new Probability(GetCellValueAsDouble("B", iRow)),
-                             new Probability(GetCellValueAsDouble("C", iRow))));
+                             GetCellValueAsString("D", iRow).ToAssessmentGrade(),
+                             new Probability(GetCellValueAsDouble("F", iRow)),
+                             new Probability(GetCellValueAsDouble("E", iRow))));
             }
 
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedAssessmentSectionCategories =
