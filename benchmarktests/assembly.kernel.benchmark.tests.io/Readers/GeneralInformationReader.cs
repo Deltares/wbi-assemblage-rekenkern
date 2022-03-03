@@ -66,7 +66,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
             var interpretationCategories = new List<InterpretationCategory>();
             var lastKnownBoundary = new Probability(0);
-            for (int iRow = 13; iRow <= 21; iRow++)
+            for (int iRow = 13; iRow <= 19; iRow++)
             {
                 var newBoundary = new Probability(GetCellValueAsDouble("E", iRow));
                 interpretationCategories.Add(new InterpretationCategory(

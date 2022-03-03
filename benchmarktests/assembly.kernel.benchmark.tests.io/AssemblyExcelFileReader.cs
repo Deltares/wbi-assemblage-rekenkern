@@ -72,7 +72,7 @@ namespace assembly.kernel.benchmark.tests.io
                 }
 
                 ReadSafetyAssessmentFinalResult(workSheetParts["Veiligheidsoordeel"], workbookPart, assessmentSection);
-                //ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, assessmentSection);
+                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, assessmentSection);
 
                 return assessmentSection;
             }

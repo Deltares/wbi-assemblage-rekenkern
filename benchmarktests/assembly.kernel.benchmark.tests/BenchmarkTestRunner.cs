@@ -22,13 +22,11 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
-using assembly.kernel.benchmark.tests.io;
 using assembly.kernel.benchmark.tests.TestHelpers;
 using assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using Assembly.Kernel.Implementations;

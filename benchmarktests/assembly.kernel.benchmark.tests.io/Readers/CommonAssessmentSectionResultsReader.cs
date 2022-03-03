@@ -86,41 +86,41 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FailureMechanismSectionWithCategory>();
-            var commonSectionsTemporal = new List<FailureMechanismSectionWithCategory>();
+            // TODO: Add temporal combination of interpretation categories to benchmark tests
+            // var commonSectionsTemporal = new List<FailureMechanismSectionWithCategory>();
 
-            var failureMechanismSpecificCommonSectionsWithDirectResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
-            var mechanismIds = new string[] { }; // TODO: build strings of mechanism IDs or retrieve them from the tabs already read. Change below to select statement
-            foreach (var failureMechanismsKey in mechanismIds)
+            var failureMechanismSpecificCommonSectionsWithResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
+            foreach (var failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
             {
-                failureMechanismSpecificCommonSectionsWithDirectResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
+                failureMechanismSpecificCommonSectionsWithResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
             }
 
-            var columnKeys = GetColumnKeys(3);
+            var columnKeys = GetColumnKeys(2);
 
-            int iRow = 4;
+            int iRow = 3;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("A", iRow) * 1000.0;
-                var endMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
+                var endMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
                     break;
                 }
 
-                AddSectionToList(commonSections, "C", iRow, startMeters, endMeters);
-                AddSectionToList(commonSectionsTemporal, "D", iRow, startMeters, endMeters);
-                foreach (var directResultPair in failureMechanismSpecificCommonSectionsWithDirectResults)
+                AddSectionToList(commonSections, "D", iRow, startMeters, endMeters);
+                //AddSectionToList(commonSectionsTemporal, "D", iRow, startMeters, endMeters);
+                foreach (var keyValuePair in failureMechanismSpecificCommonSectionsWithResults)
                 {
-                    AddSectionToList(directResultPair.Value, columnKeys[directResultPair.Key], iRow, startMeters, endMeters);
+                    AddSectionToList(keyValuePair.Value, columnKeys[keyValuePair.Key], iRow, startMeters, endMeters);
                 }
 
                 iRow++;
             }
 
             benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
-            benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
+            //benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
-            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithDirectResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key,kv.Value));
+            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key,kv.Value));
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
         }
@@ -128,7 +128,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         private void AddSectionToList(List<FailureMechanismSectionWithCategory> list, string columnReference, int iRow,
                                       double startMeters, double endMeters)
         {
-            list.Add(new FailureMechanismSectionWithCategory(startMeters, endMeters, EInterpretationCategory.Gr));
+            list.Add(new FailureMechanismSectionWithCategory(startMeters, endMeters, GetCellValueAsString(columnReference, iRow).ToInterpretationCategory()));
         }
 
         private Dictionary<string, string> GetColumnKeys(int iRow)

@@ -54,22 +54,40 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
                 Assert.AreEqual(10.4, result.Length, 1e-8);
 
-                var categories = result.ExpectedAssessmentSectionCategories.Categories;
-                Assert.AreEqual(5, categories.Length);
-                AssertAreEqualCategories(EAssessmentGrade.APlus, 0.0, result.SignalingNorm / 30.0, categories[0]);
-                AssertAreEqualCategories(EAssessmentGrade.A, result.SignalingNorm / 30.0, result.SignalingNorm, categories[1]);
-                AssertAreEqualCategories(EAssessmentGrade.B, result.SignalingNorm, result.LowerBoundaryNorm, categories[2]);
-                AssertAreEqualCategories(EAssessmentGrade.C, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 30.0, categories[3]);
-                AssertAreEqualCategories(EAssessmentGrade.D, result.LowerBoundaryNorm * 30.0, 1.0, categories[4]);
+                var assessmentGradeCategories = result.ExpectedAssessmentSectionCategories.Categories;
+                Assert.AreEqual(5, assessmentGradeCategories.Length);
+                AssertAreEqualGradeCategories(EAssessmentGrade.APlus, 0.0, result.SignalingNorm / 30.0, assessmentGradeCategories[0]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.A, result.SignalingNorm / 30.0, result.SignalingNorm, assessmentGradeCategories[1]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.B, result.SignalingNorm, result.LowerBoundaryNorm, assessmentGradeCategories[2]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.C, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 30.0, assessmentGradeCategories[3]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.D, result.LowerBoundaryNorm * 30.0, 1.0, assessmentGradeCategories[4]);
+
+                var interpretationCategories = result.ExpectedInterpretationCategories.Categories;
+                Assert.AreEqual(7, interpretationCategories.Length);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.III, 0.0, result.SignalingNorm / 1000.0, interpretationCategories[0]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.II, result.SignalingNorm / 1000.0, result.SignalingNorm / 100.0, interpretationCategories[1]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.I, result.SignalingNorm / 100.0, result.SignalingNorm / 10.0, interpretationCategories[2]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.Zero, result.SignalingNorm / 10.0, result.SignalingNorm, interpretationCategories[3]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IMin, result.SignalingNorm, result.LowerBoundaryNorm, interpretationCategories[4]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIMin, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 10.0, interpretationCategories[5]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIIMin, result.LowerBoundaryNorm * 10.0, 1.0, interpretationCategories[6]);
             }
         }
 
-        private void AssertAreEqualCategories(EAssessmentGrade expectedCategory, double expectedLowerLimit,
+        private void AssertAreEqualGradeCategories(EAssessmentGrade expectedCategory, double expectedLowerLimit,
                                               double expectedUpperLimit, AssessmentSectionCategory assessmentSectionCategory)
         {
             Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
-            Assert.AreEqual(expectedLowerLimit, assessmentSectionCategory.LowerLimit);
-            Assert.AreEqual(expectedUpperLimit, assessmentSectionCategory.UpperLimit);
+            Assert.AreEqual(expectedLowerLimit, assessmentSectionCategory.LowerLimit, 1e-15);
+            Assert.AreEqual(expectedUpperLimit, assessmentSectionCategory.UpperLimit, 1e-15);
+        }
+
+        private void AssertAreEqualInterpretationCategories(EInterpretationCategory expectedCategory, double expectedLowerLimit,
+            double expectedUpperLimit, InterpretationCategory interpretationCategory)
+        {
+            Assert.AreEqual(expectedCategory, interpretationCategory.Category);
+            Assert.AreEqual(expectedLowerLimit, interpretationCategory.LowerLimit, 1e-15);
+            Assert.AreEqual(expectedUpperLimit, interpretationCategory.UpperLimit, 1e-15);
         }
     }
 }
