@@ -43,25 +43,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing methodResults,
                                                                                  ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            // TODO: Implement
             return expectedFailureMechanismResult.HasLengthEffect
-                ? new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult)
-                : new StbuFailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
-        }
-
-        /// <summary>
-        /// Creates instances of <see cref="ICategoriesTester"/>.
-        /// </summary>
-        /// <param name="methodResults">The method results.</param>
-        /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
-        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
-        /// <param name="signalingNorm">The signaling norm.</param>
-        public static ICategoriesTester CreateCategoriesTester(MethodResultsListing methodResults,
-                                                               ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                                               double lowerBoundaryNorm, double signalingNorm)
-        {
-            return new STBUCategoriesTester(methodResults, expectedFailureMechanismResult, signalingNorm,
-                lowerBoundaryNorm);
+                ? new FailureMechanismWithLengthEffectResultTester(methodResults, expectedFailureMechanismResult) as IFailureMechanismResultTester
+                : new FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
         }
     }
 }

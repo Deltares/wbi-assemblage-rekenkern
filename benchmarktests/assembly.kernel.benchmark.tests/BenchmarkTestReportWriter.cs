@@ -77,57 +77,11 @@ namespace assembly.kernel.benchmark.tests
             str += @"   \endhead" + "\n";
             str += @"   \T" + "\n";
 
-            str += "   " + @"WBI-0-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi01) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi02) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-1-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi11) +
+            str += "   " + @"WBI-0-3 " +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi03) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"WBI-2-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi21) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"WBI-0G-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G1) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0G-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G2) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0G-3 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G3) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0G-4 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G4) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0G-5 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G5) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0G-6 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0G6) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T1) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T2) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-3 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T3) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-4 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T4) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-5 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T5) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-6 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T6) +
-                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"WBI-0T-7 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0T7) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
             str += "   " + @"WBI-0A-1 " +
@@ -186,13 +140,10 @@ namespace assembly.kernel.benchmark.tests
             {
                 var m = result.FailureMechanismResults[index];
                 str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffct + " & " +
-                       ToResultText(m.AreEqualDetailedAssessmentResults) + " & " +
-                       ToResultText(m.AreEqualTailorMadeAssessmentResults) + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionTemporal) + " & " +
-                       ToResultText(m.AreEqualCombinedResultsCombinedSections) + " & " +
-                       ToResultText(m.AreEqualCategoryBoundaries);
+                       ToResultText(m.AreEqualCombinedResultsCombinedSections);
                 if (index != result.FailureMechanismResults.Count - 1)
                 {
                     str += @" \B \\ \T" + "\n";

@@ -29,21 +29,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     public interface IFailureMechanismResultTester
     {
         /// <summary>
-        /// Tests the detailed assessment.
-        /// </summary>
-        /// <returns><c>true</c> when the simple assessment is valid;
-        /// <c>false</c> otherwise or <c>null</c> when there is no
-        /// detailed assessment.</returns>
-        bool? TestDetailedAssessment();
-
-        /// <summary>
-        /// Tests the tailor made assessment.
-        /// </summary>
-        /// <returns><c>true</c> when the tailor made assessment is valid;
-        /// <c>false</c> otherwise.</returns>
-        bool TestTailorMadeAssessment();
-
-        /// <summary>
         /// Tests the combined assessment.
         /// </summary>
         /// <returns><c>true</c> when the combined assessment is valid;

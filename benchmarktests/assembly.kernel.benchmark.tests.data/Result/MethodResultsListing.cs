@@ -31,92 +31,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi01 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi02 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
         public bool Wbi03 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi11 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
         public bool? Wbi21 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G1 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G2 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G3 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G4 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G5 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0G6 { get; set; } // Not implemented in these tests as it is not included in the benchmark test descriptions.
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T1 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T2 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T3 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T4 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T5 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T6 { get; set; } // Not implemented in these tests as it is not included in the benchmark test descriptions.
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Wbi0T7 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).

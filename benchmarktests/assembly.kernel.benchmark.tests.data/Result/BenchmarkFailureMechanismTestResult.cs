@@ -59,21 +59,6 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool HasLengthEffct { get; }
 
         /// <summary>
-        /// Indicates whether category boundaries where calculated correctly.
-        /// </summary>
-        public bool? AreEqualCategoryBoundaries { get; set; }
-
-        /// <summary>
-        /// Indicates whether all detailed assessment results where translated correctly during assembly.
-        /// </summary>
-        public bool? AreEqualDetailedAssessmentResults { get; set; }
-
-        /// <summary>
-        /// Indicates whether all tailor made assessment results where translated correctly during assembly.
-        /// </summary>
-        public bool AreEqualTailorMadeAssessmentResults { get; set; }
-
-        /// <summary>
         /// Indicates whether all assessment results per section where translated correctly to a combined assesment result per mechanism section during assembly.
         /// </summary>
         public bool AreEqualCombinedAssessmentResultsPerSection { get; set; }

@@ -53,38 +53,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        public virtual bool? TestDetailedAssessment()
-        {
-            try
-            {
-                TestDetailedAssessmentInternal();
-                SetDetailedAssessmentMethodResult(true);
-                return true;
-            }
-            catch (AssertionException e)
-            {
-                Console.WriteLine("{0}: Gedetailleerde toets - {1}", ExpectedFailureMechanismResult.Name, e.Message);
-                SetDetailedAssessmentMethodResult(false);
-                return false;
-            }
-        }
-
-        public virtual bool TestTailorMadeAssessment()
-        {
-            try
-            {
-                TestTailorMadeAssessmentInternal();
-                SetTailorMadeAssessmentMethodResult(true);
-                return true;
-            }
-            catch (AssertionException e)
-            {
-                Console.WriteLine("{0}: Toets op maat - {1}", ExpectedFailureMechanismResult.Name, e.Message);
-                SetTailorMadeAssessmentMethodResult(false);
-                return false;
-            }
-        }
-
         public virtual bool TestCombinedAssessment()
         {
             try
@@ -135,14 +103,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 return false;
             }
         }
-
-        protected virtual void SetDetailedAssessmentMethodResult(bool result) {}
-
-        protected virtual void TestDetailedAssessmentInternal() { }
-
-        protected abstract void SetTailorMadeAssessmentMethodResult(bool result);
-
-        protected virtual void TestTailorMadeAssessmentInternal() { }
 
         protected abstract void SetCombinedAssessmentMethodResult(bool result);
 

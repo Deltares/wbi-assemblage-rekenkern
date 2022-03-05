@@ -99,18 +99,9 @@ namespace assembly.kernel.benchmark.tests
             var failureMechanismTestResult =
                 GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
-            failureMechanismTestResult.AreEqualCategoryBoundaries =
-                TesterFactory
-                    .CreateCategoriesTester(testResult.MethodResults, expectedFailureMechanismResult, lowerBoundaryNorm,
-                                            signalingNorm)
-                    ?.TestCategories();
-
             var failureMechanismTestHelper =
                 TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
 
-            failureMechanismTestResult.AreEqualDetailedAssessmentResults = failureMechanismTestHelper.TestDetailedAssessment();
-            failureMechanismTestResult.AreEqualTailorMadeAssessmentResults =
-                failureMechanismTestHelper.TestTailorMadeAssessment();
             failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
                 failureMechanismTestHelper.TestCombinedAssessment();
             failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection =
