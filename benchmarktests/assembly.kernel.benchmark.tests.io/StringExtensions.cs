@@ -23,6 +23,7 @@
 
 using System;
 using System.ComponentModel;
+using assembly.kernel.benchmark.tests.data.Input;
 using Assembly.Kernel.Model.Categories;
 
 namespace assembly.kernel.benchmark.tests.io
@@ -37,18 +38,22 @@ namespace assembly.kernel.benchmark.tests.io
         /// </summary>
         /// <param name="str">string value to be translated.</param>
         /// <returns>The translated <see cref="EAssessmentGrade"/>.</returns>
-        public static EAssessmentGrade ToAssessmentGrade(this string str)
+        public static EExpectedAssessmentGrade ToExpectedAssessmentGrade(this string str)
         {
-            EAssessmentGrade sectionCategory;
+            EExpectedAssessmentGrade sectionCategory;
             if (!Enum.TryParse(str, true, out sectionCategory))
             {
                 switch (str.ToLower())
                 {
                     case "a+":
-                        sectionCategory = EAssessmentGrade.APlus;
+                        sectionCategory = EExpectedAssessmentGrade.APlus;
+                        break;
+                    case "-":
+                    case "gr":
+                        sectionCategory = EExpectedAssessmentGrade.Exception;
                         break;
                     default:
-                        sectionCategory = (EAssessmentGrade) (-1);
+                        sectionCategory = (EExpectedAssessmentGrade) (-1);
                         break;
                 }
             }

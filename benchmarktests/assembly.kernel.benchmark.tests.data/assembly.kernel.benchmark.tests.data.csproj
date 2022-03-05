@@ -38,6 +38,8 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input\EExpectedAssessmentGrade.cs" />
+    <Compile Include="Input\EExpectedAssessmentGradeExtensions.cs" />
     <Compile Include="Input\FailureMechanismSectionListWithFailureMechanismId.cs" />
     <Compile Include="Input\FailureMechanismSections\ExpectedFailureMechanismSectionWithLengthEffect.cs" />
     <Compile Include="Result\BenchmarkFailureMechanismTestResult.cs" />

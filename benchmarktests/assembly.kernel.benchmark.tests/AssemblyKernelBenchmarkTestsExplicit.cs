@@ -46,6 +46,7 @@ namespace assembly.kernel.benchmark.tests
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
+            BenchmarkTestRunner.TestEqualInterpretationCategories(input, testResult);
 
             foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input
                 .ExpectedFailureMechanismsResults)

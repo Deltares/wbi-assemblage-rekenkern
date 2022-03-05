@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The expected assessment grade.
         /// </summary>
-        public EAssessmentGrade ExpectedCombinedAssessmentGrade { get; set; }
+        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGrade { get; set; }
 
         /// <summary>
         /// The expected estimated probability of flooding for the combined
@@ -51,6 +51,6 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The expected assessment grade as a result of temporal assessment.
         /// </summary>
-        public EAssessmentGrade ExpectedCombinedAssessmentGradeTemporal { get; set; }
+        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGradeTemporal { get; set; }
     }
 }

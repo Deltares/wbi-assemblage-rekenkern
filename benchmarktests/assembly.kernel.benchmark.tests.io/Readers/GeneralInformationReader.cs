@@ -55,8 +55,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var assessmentGradeCategories = new List<AssessmentSectionCategory>();
             for (int iRow = 4; iRow <= 8; iRow++)
             {
+                var expectedAssessmentGrade = GetCellValueAsString("D", iRow).ToExpectedAssessmentGrade();
                 assessmentGradeCategories.Add(new AssessmentSectionCategory(
-                             GetCellValueAsString("D", iRow).ToAssessmentGrade(),
+                             expectedAssessmentGrade.ToEAssessmentGrade(),
                              new Probability(GetCellValueAsDouble("F", iRow)),
                              new Probability(GetCellValueAsDouble("E", iRow))));
             }

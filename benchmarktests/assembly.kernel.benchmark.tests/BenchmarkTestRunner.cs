@@ -66,6 +66,26 @@ namespace assembly.kernel.benchmark.tests
         }
 
         /// <summary>
+        /// Tests the interpretation categories.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="result">The result.</param>
+        public static void TestEqualInterpretationCategories(BenchmarkTestInput input, BenchmarkTestResult result)
+        {
+            var calculator = new CategoryLimitsCalculator();
+
+            // WBI-2-1
+            CategoriesList<InterpretationCategory> categories = calculator.CalculateInterpretationCategoryLimitsWbi03(
+                new AssessmentSection((Probability)input.SignalingNorm, (Probability)input.LowerBoundaryNorm));
+            CategoriesList<InterpretationCategory> expectedCategories = input.ExpectedInterpretationCategories;
+
+            result.AreEqualCategoriesListAssessmentSection =
+                AssertHelper.AssertEqualCategoriesList<InterpretationCategory, EInterpretationCategory>(
+                    expectedCategories, categories);
+            result.MethodResults.Wbi03 = result.AreEqualCategoriesListAssessmentSection;
+        }
+
+        /// <summary>
         /// Test the failure mechanism assembly.
         /// </summary>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>

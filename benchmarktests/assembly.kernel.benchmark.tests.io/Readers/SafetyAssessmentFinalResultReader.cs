@@ -53,9 +53,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 new Probability(GetCellValueAsDouble("D", "Overstromingskans traject (tussetijds)"));
 
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade =
-                GetCellValueAsString("E", "Overstromingskans traject").ToAssessmentGrade();
+                GetCellValueAsString("E", "Overstromingskans traject").ToExpectedAssessmentGrade();
             benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal =
-                GetCellValueAsString("E", "Overstromingskans traject (tussetijds)").ToAssessmentGrade();
+                GetCellValueAsString("E", "Overstromingskans traject (tussentijds)").ToExpectedAssessmentGrade();
         }
     }
 }
