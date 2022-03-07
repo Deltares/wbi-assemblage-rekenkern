@@ -22,10 +22,12 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.io.Readers;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
@@ -38,53 +40,75 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     [TestFixture]
     public class CommonAssessmentSectionResultsReaderTest : TestFileReaderTestBase
     {
+        private readonly Dictionary<string, EInterpretationCategory> expectedDirectResults =
+            new Dictionary<string, EInterpretationCategory>
+            {
+                {"STPH", EInterpretationCategory.I},
+                {"STBI", EInterpretationCategory.III},
+                {"GEKB", EInterpretationCategory.II},
+                {"DA", EInterpretationCategory.III},
+                {"STKWp", EInterpretationCategory.III},
+                {"BSKW", EInterpretationCategory.III},
+                {"HTKW", EInterpretationCategory.III}
+            };
+
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool (v1_0_1_0) 0_03.xlsm");
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Gecombineerd totaal vakoordeel"];
+                var workSheetPart = workSheetParts["Gecombineerd vakoordeel"];
 
                 var reader = new CommonAssessmentSectionResultsReader(workSheetPart, workbookPart);
 
                 var result = new BenchmarkTestInput();
+                result.ExpectedFailureMechanismsResults.AddRange(new ExpectedFailureMechanismResult[]
+                {
+                    new ExpectedFailureMechanismResult("Piping", "STPH", true),
+                    new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true),
+                    new ExpectedFailureMechanismResult("Graserosie kruin en binnentalud", "GEKB", true),
+                    new ExpectedFailureMechanismResult("Duinafslag", "DA", true),
+                    new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true),
+                    new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true),
+                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true),
+                });
 
                 reader.Read(result);
 
-                Assert.AreEqual(40, result.ExpectedCombinedSectionResult.Count());
-                AssertResultsIsAsExpected(6700, 7100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(9));
-                AssertResultsIsAsExpected(11800,  12100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(18));
-                AssertResultsIsAsExpected(12100, 12700, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResult.ElementAt(19));
-
+                Assert.AreEqual(104, result.ExpectedCombinedSectionResult.Count());
+                AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResult.ElementAt(9));
+                AssertResultsIsAsExpected(2519.652041,  3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(18));
+                AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(19));
+                /*
                 AssertResultsIsAsExpected(6700, 7100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
                 AssertResultsIsAsExpected(11800, 12100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
                 AssertResultsIsAsExpected(12100, 12700, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
+                */
 
-                Assert.AreEqual(18, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
-                /*foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
+                Assert.AreEqual(7, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
+                foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
-                    Assert.AreEqual(40, failureMechanismSectionList.Sections.Count());
-                    ExpectedFailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(9);
-                    var type = failureMechanismSectionList.FailureMechanismId.ToMechanismType();
+                    Assert.AreEqual(104, failureMechanismSectionList.Sections.Count());
+                    FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(13);
+                    var mechanismId = failureMechanismSectionList.FailureMechanismId;
                     if (ninethSection is FailureMechanismSectionWithCategory)
                     {
                         var sectionWithDirectCategory = (FailureMechanismSectionWithCategory) ninethSection;
-                        AssertResultsIsAsExpected(6700, 7100, expectedDirectResults[Array.IndexOf(directMechanismTypes, type)],
-                                                  sectionWithDirectCategory);
+                        AssertResultsIsAsExpected(1440, 1545.093896, expectedDirectResults[mechanismId], sectionWithDirectCategory);
                     }
-                }*/
+                }
             }
         }
 
         private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
                                                FailureMechanismSectionWithCategory section)
         {
-            Assert.AreEqual(start, section.SectionStart);
-            Assert.AreEqual(end, section.SectionEnd);
+            Assert.AreEqual(start, section.SectionStart, 1e-8);
+            Assert.AreEqual(end, section.SectionEnd, 1e-8);
             Assert.AreEqual(category, section.Category);
         }
     }
