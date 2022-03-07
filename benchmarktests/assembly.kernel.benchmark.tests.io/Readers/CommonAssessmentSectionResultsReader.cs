@@ -86,8 +86,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var commonSections = new List<FailureMechanismSectionWithCategory>();
-            // TODO: Add temporal combination of interpretation categories to benchmark tests
-            // var commonSectionsTemporal = new List<FailureMechanismSectionWithCategory>();
+            var commonSectionsTemporal = new List<FailureMechanismSectionWithCategory>();
 
             var failureMechanismSpecificCommonSectionsWithResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
             foreach (var failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
@@ -108,7 +107,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 }
 
                 AddSectionToList(commonSections, "D", iRow, startMeters, endMeters);
-                //AddSectionToList(commonSectionsTemporal, "D", iRow, startMeters, endMeters);
+                AddSectionToList(commonSectionsTemporal, "E", iRow, startMeters, endMeters);
                 foreach (var keyValuePair in failureMechanismSpecificCommonSectionsWithResults)
                 {
                     AddSectionToList(keyValuePair.Value, columnKeys[keyValuePair.Key], iRow, startMeters, endMeters);
@@ -118,7 +117,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             }
 
             benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
-            //benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
+            benchmarkTestInput.ExpectedCombinedSectionResultTemporal = commonSectionsTemporal;
 
             var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key,kv.Value));
 

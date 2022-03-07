@@ -66,7 +66,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 var reader = new CommonAssessmentSectionResultsReader(workSheetPart, workbookPart);
 
                 var result = new BenchmarkTestInput();
-                result.ExpectedFailureMechanismsResults.AddRange(new ExpectedFailureMechanismResult[]
+                result.ExpectedFailureMechanismsResults.AddRange(new[]
                 {
                     new ExpectedFailureMechanismResult("Piping", "STPH", true),
                     new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true),
@@ -83,11 +83,10 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResult.ElementAt(9));
                 AssertResultsIsAsExpected(2519.652041,  3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(18));
                 AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(19));
-                /*
-                AssertResultsIsAsExpected(6700, 7100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
-                AssertResultsIsAsExpected(11800, 12100, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
-                AssertResultsIsAsExpected(12100, 12700, EInterpretationCategory.Gr, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
-                */
+
+                AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
+                AssertResultsIsAsExpected(2519.652041, 3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
+                AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
 
                 Assert.AreEqual(7, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
                 foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
