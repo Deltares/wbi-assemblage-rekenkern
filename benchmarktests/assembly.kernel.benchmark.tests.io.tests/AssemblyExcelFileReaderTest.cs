@@ -30,10 +30,10 @@ namespace assembly.kernel.benchmark.tests.io.tests
     [TestFixture]
     public class AssemblyExcelFileReaderTest : TestFileReaderTestBase
     {
-        [Test, Ignore("Reader is broken due to shift to new kernel")]
+        [Test]
         public void ReaderReads()
         {
-            var fileName = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool (v1_0_1_0) 0_03.xlsm");
+            var fileName = Path.Combine(GetTestDir(), "Benchmartktest - voorbeeld - 83-1.xlsx");
             var result = AssemblyExcelFileReader.Read(fileName, "Test");
             Assert.IsNotNull(result);
         }
