@@ -34,16 +34,16 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     [TestFixture]
     public class SafetyAssessmentResultReaderTest : TestFileReaderTestBase
     {
-        [Test, Ignore("Broken due to new version of the kernel")]
+        [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool (v1_0_1_0) 0_03.xlsm");
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Veiligheidsoordeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Gecombineerd veiligheidsoordeel"];
+                var workSheetPart = workSheetParts["Veiligheidsoordeel"];
 
                 var reader = new SafetyAssessmentFinalResultReader(workSheetPart, workbookPart);
 
@@ -52,15 +52,10 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
-                //Assert.AreEqual(0.58, assemblyResult.CombinedFailureMechanismProbabilitySpace, 0.001);
-                //Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups1and2);
-                //Assert.AreEqual(double.NaN, assemblyResult.ExpectedAssemblyResultGroups1and2Probability, 1e-6);
-                //Assert.AreEqual(EFailureMechanismCategory.VIIt, assemblyResult.ExpectedAssemblyResultGroups3and4);
-                //Assert.AreEqual(EAssessmentGrade.Ngo, assemblyResult.ExpectedSafetyAssessmentAssemblyResult);
-                //Assert.AreEqual(EFailureMechanismCategory.IIIt, assemblyResult.ExpectedAssemblyResultGroups1and2Temporal);
-                //Assert.AreEqual(4.24e-4, assemblyResult.ExpectedAssemblyResultGroups1and2ProbabilityTemporal, 1e-6);
-                //Assert.AreEqual(EFailureMechanismCategory.Vt, assemblyResult.ExpectedAssemblyResultGroups3and4Temporal);
-                //Assert.AreEqual(EAssessmentGrade.C, assemblyResult.ExpectedSafetyAssessmentAssemblyResultTemporal);
+                Assert.AreEqual(0.64, assemblyResult.ExpectedCombinedProbability,1e-2);
+                Assert.AreEqual(0.64, assemblyResult.ExpectedCombinedProbabilityTemporal, 1e-2);
+                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.ExpectedCombinedAssessmentGrade);
+                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.ExpectedCombinedAssessmentGradeTemporal);
             }
         }
     }
