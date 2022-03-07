@@ -26,147 +26,62 @@ using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.io.Readers;
-using Assembly.Kernel.Model;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.io.tests.Readers
 {
-    [TestFixture, Ignore("Broken due to shift to new kernel")]
+    [TestFixture]
     public class FailureMechanismsReaderTest : TestFileReaderTestBase
     {
-        private string testFile;
-
-        [SetUp]
-        public void Setup()
-        {
-            testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblagetool (v1_0_1_0) 0_03.xlsm");
-        }
-
         [Test]
-        public void ReaderReadsGroup3InformationCorrectly()
+        public void ReaderReadsFailureMechanismWithLengthEffectInformationCorrectly()
         {
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism with length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var aGKWorkSheetPart = workSheetParts["AGK"];
+                var workSheetPart = workSheetParts["Sheet1"];
 
-                var reader = new FailureMechanismsReader(aGKWorkSheetPart, workbookPart);
-
-                var result = new BenchmarkTestInput();
-
-                reader.Read(result, "AGK");
-
-                Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
-                Assert.AreEqual("AGK", expectedFailureMechanismResult.MechanismId);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
-                Assert.AreEqual(EFailureMechanismCategory.IVt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
-            }
-        }
-
-        [Test]
-        public void ReaderReadsGroup2InformationCorrectly()
-        {
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
-            {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var sTPHWorkSheetPart = workSheetParts["STPH"];
-
-                var reader = new FailureMechanismsReader(sTPHWorkSheetPart, workbookPart);
+                var reader = new FailureMechanismsReader(workSheetPart, workbookPart);
 
                 var result = new BenchmarkTestInput();
 
                 reader.Read(result, "STPH");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult =
-                    result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt,
-                    expectedFailureMechanismResult.ExpectedCombinedProbability);
-                Assert.AreEqual(EFailureMechanismCategory.IIt,
-                    expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
+                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbability,1e-4);
+                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal, 1e-4);
             }
         }
 
         [Test]
-        public void ReaderReadsGroup1InformationCorrectly()
+        public void ReaderReadsFailureMechanismWithoutLengthEffectInformationCorrectly()
         {
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism without length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var gEKBWorkSheetPart = workSheetParts["GEKB"];
+                var workSheetPart = workSheetParts["Sheet1"];
 
-                var reader = new FailureMechanismsReader(gEKBWorkSheetPart, workbookPart);
+                var reader = new FailureMechanismsReader(workSheetPart, workbookPart);
 
                 var result = new BenchmarkTestInput();
 
                 reader.Read(result, "GEKB");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                ExpectedFailureMechanismResult expectedFailureMechanismResult =
+                    result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
-            }
-        }
-
-        [Test]
-        public void ReaderReadsGroup4InformationCorrectly()
-        {
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
-            {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var sTKWlWorkSheetPart = workSheetParts["STKWl"];
-
-                var reader = new FailureMechanismsReader(sTKWlWorkSheetPart, workbookPart);
-
-                var result = new BenchmarkTestInput();
-
-                reader.Read(result, "STKWl");
-
-                Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
-                Assert.AreEqual("STKWl", expectedFailureMechanismResult.MechanismId);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
-                Assert.AreEqual(EFailureMechanismCategory.IIt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);*/
-            }
-        }
-
-        [Test]
-        public void ReaderReadsSTBUInformationCorrectly()
-        {
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
-            {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var sTBUWorkSheetPart = workSheetParts["STBU"];
-
-                var reader = new FailureMechanismsReader(sTBUWorkSheetPart, workbookPart);
-
-                var result = new BenchmarkTestInput();
-
-                reader.Read(result,"STBU");
-
-                Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
-                Assert.AreEqual("STBU", expectedFailureMechanismResult.MechanismId);
-                /*Assert.AreEqual(EFailureMechanismCategory.VIIt, expectedFailureMechanismResult.ExpectedCombinedProbability);
-                Assert.AreEqual(EFailureMechanismCategory.Vt, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal);
-                */
-
-                Assert.IsNotNull(expectedFailureMechanismResult);
-                Assert.AreEqual(13.7, expectedFailureMechanismResult.LengthEffectFactor, 9e-2);
+                Assert.AreEqual(4.46E-06, expectedFailureMechanismResult.ExpectedCombinedProbability, 1E-4);
+                Assert.AreEqual(4.46E-06, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal, 1E-4);
             }
         }
     }
