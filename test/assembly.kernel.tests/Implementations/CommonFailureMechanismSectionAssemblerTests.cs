@@ -466,7 +466,8 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             var sectionsList1 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
@@ -475,16 +476,18 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var sectionsList2 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.Zero),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotRelevant),
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.II)
             });
 
             var sectionsList3 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
@@ -501,7 +504,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var expectedResults = new List<FailureMechanismSectionWithCategory>
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),

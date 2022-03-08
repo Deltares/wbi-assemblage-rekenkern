@@ -163,7 +163,7 @@ namespace Assembly.Kernel.Implementations
             {
                 var newCombinedSection = new FailureMechanismSectionWithCategory(firstSectionsList[iSection].SectionStart,
                     firstSectionsList[iSection].SectionEnd,
-                    EInterpretationCategory.NotDominant);
+                    EInterpretationCategory.NotRelevant);
 
                 foreach (var failureMechanismSectionList in failureMechanismSectionLists)
                 {
