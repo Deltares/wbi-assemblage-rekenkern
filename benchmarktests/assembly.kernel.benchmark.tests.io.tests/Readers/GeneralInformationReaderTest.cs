@@ -52,7 +52,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 Assert.AreEqual(1 / 3000.0, result.SignalingNorm, 1e-8);
                 Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
-                Assert.AreEqual(10.4, result.Length, 1e-8);
+                Assert.AreEqual(10400, result.Length, 1e-8);
 
                 var assessmentGradeCategories = result.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, assessmentGradeCategories.Length);
