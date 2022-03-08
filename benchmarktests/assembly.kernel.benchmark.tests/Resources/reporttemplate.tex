@@ -1,24 +1,23 @@
 \section{Benchmarktest: $BenchmarkTestName$}
 	\label{ch:benchmarktTest$Order$}
-De volgende paragrafen geven een overzicht van de resultaten van het doorlopen van de benchmarktest \textit{$BenchmarkTestName$} per toetsspoor (\autoref{sec:$Order$:pertoetsspoor}) en per traject (\autoref{sec:$Order$:pertraject}).
+De volgende paragrafen geven een overzicht van de resultaten van het doorlopen van de benchmarktest \textit{$BenchmarkTestName$} per faalmechanisme (\autoref{sec:$Order$:pertoetsspoor}) en per traject (\autoref{sec:$Order$:pertraject}).
 
-\subsection{Assemblage per toetsspoor}
-	\label{sec:$Order$:pertoetsspoor}
+\subsection{Assemblage per faalmechanisme}
+	\label{sec:$Order$:perfaalmechanisme}
 Tijdens het assembleren worden voor ieder toetsspoor verschillende stappen doorlopen:
 \begin{itemize}
-	\item \textbf{Categoriegrenzen} - Ten eerste worden voor de toetssporen in groep 1, 2 fo 3 de categoriegrenzen bepaald die kunnen worden gebruikt om een overstromingskans per vak(door\-snede) of traject mee te vergelijken.
-	\item \textbf{Laag 0} - Vervolgens worden per vak de resultaten van een eventuele eenvoudige toets, gedetailleerde toets en toets op maat vertaald naar toets\-oordelen per vak. Als laatste stap wordt het toetsoordeel voor het betreffende vak bepaald op basis van deze drie toetsoordelen.
-	\item \textbf{Laag 1} - Met de toetsoordelen per vak wordt vervolgens het gecombineerde toetsoordeel per traject bepaald.
-	\item \textbf{Laag 3} - Om tot een toetsoordeel per deelvak te komen, wordt voor ieder individueel toetsspoor ook het juiste toetsoordeel gezocht per deelvak.
+	\item \textbf{Laag 0} - Per vak worden de resultaten van de analyse van de faalkans vertaald naar een faalkans per vak en doorsnede. Daarna wordt een duidingsklasse toegekend aan het betreffende vak bepaald op basis van de faalkans van dat vak.
+	\item \textbf{Laag 1} - Met de faalkansen per vak wordt vervolgens het gecombineerde faalkans per traject bepaald voor het betreffende faalmechanisme.
+	\item \textbf{Laag 3} - Om tot een duidingsklasse per deelvak te komen, wordt voor ieder individueel faalmechanisme ook de juiste duidingsklasse gezocht per deelvak.
 \end{itemize}
 
-De volgende tabel presenteert per toetsspoor het resultaat van de hierboven beschreven stappen:
+De volgende tabel presenteert het resultaat van de hierboven beschreven stappen per faalmechanisme:
 
 \begin{footnotesize}
 	\begin{longtable}[]{@{}l l l | c c c c c c c c@{}}
-		\caption{Resultaat per toetsspoor voor benchmarktest $BenchmarkTestName$.	\label{tab:$Order$:ResultatenPerToetsspoor}}\\
+		\caption{Resultaat per faalmechanisme voor benchmarktest $BenchmarkTestName$.	\label{tab:$Order$:ResultatenPerFaalmechanisme}}\\
 		\hline \T
-			Toetsspoor & Code & Groep & \rotatebox{90}{Test 0-1: Eenvoudige toets } & \rotatebox{90}{Test 0-1: Gedetailleerde toets } & \rotatebox{90}{Test 0-1: Toets op maat } & \rotatebox{90}{Test 0-2: Toetsoordeel per vak } & \rotatebox{90}{Test 1-1: Toetsoordeel per traject } & \rotatebox{90}{Test 1-1: Toetsoordeel per traject } \rotatebox{90}{(tijdelijk)} & \rotatebox{90}{Test 3: Toetsoordeel per deelvak } \rotatebox{90}{(vak met grootst gemene deler) } & \rotatebox{90}{Test 6-1: Bepaling } \rotatebox{90}{categoriegrenzen }\B \\
+			Faalmechanisme & Code & \rotatebox{90}{Lengte-effect binnen vak } & \rotatebox{90}{Test 0-2: Faalkans en duiding per vak } & \rotatebox{90}{Test 1-1: Faalkans per traject } & \rotatebox{90}{Test 1-1: Faalkans per traject } \rotatebox{90}{(tijdelijk)} & \rotatebox{90}{Test 3: Duidingsklasse per deelvak } \rotatebox{90}{(vak met grootst gemene deler) } \B \\
 		\endhead
 		\hline\T
 		$FailureMechanismResultsTable$
@@ -33,29 +32,27 @@ De tekens die in deze tabel zijn opgenomen hebben de volgende betekenis:
 	\item [\nmark] Testonderdeel is niet relevant voor dit toetsspoor
 \end{itemize}
 
-\subsection{Bepaling resultaten per traject}
+\subsection{Bepaling faalkansen per traject}
 	\label{sec:$Order$:pertraject}
-Tijdens het assembleren worden ook per traject stappen uitgevoerd om tot een veiligheidsoordeel te komen. Hieronder is het resultaat van de benchmarktest voor deze verschillende stappen weergegeven.
+Tijdens het assembleren worden ook per traject stappen uitgevoerd om tot een veiligheidsoordeel te komen. Dit wordt verkregen door het combineren van de faalkansbijdragen van alle faalmechanismen. Vervolgens wordt de verkregen faalkans voor het traject vergeleken met de veiligheidscategori\"en.
 
 Bepaling van het veiligheidsoordeel (laag 2):
 \begin{itemize}
-	\item [$AreEqualAssemblyResultGroup1and2$]Test 2-1: Bepaling toetsoordeel voor de gecombineerde toetssporen in de groepen 1 en 2.
-	\item [$AreEqualAssemblyResultGroup1and2Temporal$]Test 2-1: Bepaling toetsoordeel voor de gecombineerde toetssporen in de groepen 1 en 2 (tijdelijk).
-	\item [$AreEqualAssemblyResultGroup3and4$]Test 2-2: Bepaling toetsoordeel voor de gecombineerde toetssporen in de groepen 3 en 4.
-	\item [$AreEqualAssemblyResultGroup3and4Temporal$]Test 2-2: Bepaling toetsoordeel voor de gecombineerde toetssporen in de groepen 3 en 4 (tijdelijk).
-	\item [$AreEqualAssemblyResultFinalVerdict$]Test 2-3: Bepaling van het veiligheidsoordeel.
-	\item [$AreEqualAssemblyResultFinalVerdictTemporal$]Test 2-3: Bepaling van het veiligheidsoordeel (tijdelijk).
+	\item [$AreEqualAssemblyResultFinalVerdict$]Test 2-2: Bepaling van de overstromingskans van het traject.
+	\item [$AreEqualAssemblyResultFinalVerdictProbability$]Test 2-2: Bepaling van het veiligheidsoordeel.
+	\item [$AreEqualAssemblyResultFinalVerdictTemporal$]Test 2-2: Bepaling van de overstromingskans van het traject (tijdelijk).
+	\item [$AreEqualAssemblyResultFinalVerdictProbabilityTemporal$]Test 2-2: Bepaling van het veiligheidsoordeel (tijdelijk).
 \end{itemize}
 
-Bepaling van het toetsoordeel per deelvak (laag 3):
+Bepaling van de duidingsklasse per deelvak (laag 3):
 \begin{itemize}
 	\item [$AreEqualAssemblyResultCombinedSections$] Test 3-1: Bepaling van de gecombineerde deelvakken.
-	\item [$AreEqualAssemblyResultCombinedSectionsResults$] Test 3-2: Bepaling van het gecombineerde toetsoordeel per deelvak.
-	\item [$AreEqualAssemblyResultCombinedSectionsResultsTemporal$] Test 3-3: Bepaling van het gecombineerde toetsoordeel per deelvak (tijdelijk).
+	\item [$AreEqualAssemblyResultCombinedSectionsResults$] Test 3-2: Bepaling van de gecombineerde duidingsklasse per deelvak.
+	\item [$AreEqualAssemblyResultCombinedSectionsResultsTemporal$] Test 3-3: Bepaling van de gecombineerde duidingsklasse per deelvak (tijdelijk).
 \end{itemize}
 
 Bepaling categoriegrenzen:
 \begin{itemize}
 	\item [$AreEqualCategoriesListAssessmentSection$]Test 4-1: Bepaling van categoriegrenzen bij de norm van het dijktraject.
-	\item [$AreEqualCategoriesListGroup1and2$]Test 5-1: Bepaling van categoriegrenzen voor de gecombineerde toetssporen in de groepen 1 en 2.
+	\item [$AreEqualCategoriesListInterpretationCategories$]Test 5-1: Bepaling van categoriegrenzen voor de duidingsklassen.
 \end{itemize}

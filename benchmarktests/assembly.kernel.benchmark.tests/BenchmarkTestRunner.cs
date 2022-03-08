@@ -79,10 +79,10 @@ namespace assembly.kernel.benchmark.tests
                 new AssessmentSection((Probability)input.SignalingNorm, (Probability)input.LowerBoundaryNorm));
             CategoriesList<InterpretationCategory> expectedCategories = input.ExpectedInterpretationCategories;
 
-            result.AreEqualCategoriesListAssessmentSection =
+            result.AreEqualCategoriesListInterpretationCategories =
                 AssertHelper.AssertEqualCategoriesList<InterpretationCategory, EInterpretationCategory>(
                     expectedCategories, categories);
-            result.MethodResults.Wbi03 = result.AreEqualCategoriesListAssessmentSection;
+            result.MethodResults.Wbi03 = result.AreEqualCategoriesListInterpretationCategories;
         }
 
         /// <summary>
@@ -141,17 +141,19 @@ namespace assembly.kernel.benchmark.tests
         }
 
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
-                                                                              BenchmarkTestResult result)
+            BenchmarkTestResult result)
         {
-                result.AreEqualAssemblyResultGroup1and2Temporal = true;
-                result.MethodResults.Wbi2B1T = true;
+            result.AreEqualAssemblyResultFinalVerdictTemporal = true;
+            result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
+            result.MethodResults.Wbi2B1T = true;
         }
 
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
-                                                                      BenchmarkTestResult result)
+            BenchmarkTestResult result)
         {
-                result.AreEqualAssemblyResultGroup1and2 = true;
-                result.MethodResults.Wbi2B1 = true;
+            result.AreEqualAssemblyResultFinalVerdict = true;
+            result.AreEqualAssemblyResultFinalVerdictProbability = true;
+            result.MethodResults.Wbi2B1 = true;
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)

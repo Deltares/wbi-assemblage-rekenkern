@@ -88,25 +88,13 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A2) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"WBI-1A-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A1) + " & " +
-                                                         ToResultText(t.Value.MethodResults.Wbi1A1T))) + @" \\" + "\n";
-            str += "   " + @"WBI-1A-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1A2) + " & " +
-                                                         ToResultText(t.Value.MethodResults.Wbi1A2T))) + @" \\" + "\n";
             str += "   " + @"WBI-1B-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi1B1) + " & " +
                                                          ToResultText(t.Value.MethodResults.Wbi1B1T))) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
-            str += "   " + @"WBI-2A-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2A1) + " & " +
-                                                         ToResultText(t.Value.MethodResults.Wbi2A1T))) + @" \\" + "\n";
             str += "   " + @"WBI-2B-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2B1) + " & " +
                                                          ToResultText(t.Value.MethodResults.Wbi2B1T))) + @" \\" + "\n";
-            str += "   " + @"WBI-2C-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi2C1) + " & " +
-                                                         ToResultText(t.Value.MethodResults.Wbi2C1T))) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
             str += "   " + @"WBI-3A-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi3A1) +
@@ -157,25 +145,21 @@ namespace assembly.kernel.benchmark.tests
         {
             template = template.Replace("$AreEqualCategoriesListAssessmentSection$",
                                         ToResultText(result.AreEqualCategoriesListAssessmentSection));
-            template = template.Replace("$AreEqualCategoriesListGroup1and2$",
-                                        ToResultText(result.AreEqualCategoriesListGroup1and2));
+            template = template.Replace("$AreEqualCategoriesListInterpretationCategories$",
+                                        ToResultText(result.AreEqualCategoriesListInterpretationCategories));
             return template;
         }
 
         private static string ReplaceFinalVerdictKeywordsWithResult(string template, BenchmarkTestResult result)
         {
-            template = template.Replace("$AreEqualAssemblyResultGroup1and2$",
-                                        ToResultText(result.AreEqualAssemblyResultGroup1and2));
-            template = template.Replace("$AreEqualAssemblyResultGroup1and2Temporal$",
-                                        ToResultText(result.AreEqualAssemblyResultGroup1and2Temporal));
-            template = template.Replace("$AreEqualAssemblyResultGroup3and4$",
-                                        ToResultText(result.AreEqualAssemblyResultGroup3and4));
-            template = template.Replace("$AreEqualAssemblyResultGroup3and4Temporal$",
-                                        ToResultText(result.AreEqualAssemblyResultGroup3and4Temporal));
             template = template.Replace("$AreEqualAssemblyResultFinalVerdict$",
-                                        ToResultText(result.AreEqualAssemblyResultFinalVerdict));
+                ToResultText(result.AreEqualAssemblyResultFinalVerdict));
+            template = template.Replace("$AreEqualAssemblyResultFinalVerdictProbability$",
+                ToResultText(result.AreEqualAssemblyResultFinalVerdictProbability));
+            template = template.Replace("$AreEqualAssemblyResultFinalVerdictProbabilityTemporal$",
+                ToResultText(result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal));
             template = template.Replace("$AreEqualAssemblyResultFinalVerdictTemporal$",
-                                        ToResultText(result.AreEqualAssemblyResultFinalVerdictTemporal));
+                ToResultText(result.AreEqualAssemblyResultFinalVerdictTemporal));
             return template;
         }
 
