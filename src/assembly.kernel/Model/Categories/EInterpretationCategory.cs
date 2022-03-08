@@ -31,6 +31,11 @@ namespace Assembly.Kernel.Model.Categories
     public enum EInterpretationCategory
     {
         /// <summary>
+        /// Not relevant
+        /// </summary>
+        NotRelevant = 0,
+
+        /// <summary>
         /// Relevant but not dominant without probability estimation
         /// </summary>
         NotDominant = 1,

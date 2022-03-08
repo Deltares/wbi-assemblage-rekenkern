@@ -59,9 +59,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var relevanceInput = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
             var result = translator.TranslateAssessmentResultWbi0A2(
-                relevanceInput,
+                ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 Probability.NaN,
                 Probability.NaN,
                 ERefinementStatus.NotNecessary,
@@ -70,7 +69,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 categories);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
+            Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
             Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
@@ -87,9 +86,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var relevanceInput = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
             var result = translator.TranslateAssessmentResultWbi0A2(
-                relevanceInput,
+                ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 new Probability(0.1),
                 new Probability(0.01),
                 ERefinementStatus.Necessary,
@@ -98,7 +96,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 categories);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
+            Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
             Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
@@ -269,7 +267,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 categories);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
+            Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
             Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);

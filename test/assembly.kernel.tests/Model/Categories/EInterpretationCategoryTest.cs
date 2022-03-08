@@ -35,7 +35,8 @@ namespace Assembly.Kernel.Tests.Model.Categories
         [Test]
         public void TestEnumContract()
         {
-            Assert.AreEqual(10, Enum.GetValues(typeof(EInterpretationCategory)).Length);
+            Assert.AreEqual(11, Enum.GetValues(typeof(EInterpretationCategory)).Length);
+            Assert.AreEqual(0, (int)EInterpretationCategory.NotRelevant);
             Assert.AreEqual(1, (int)EInterpretationCategory.NotDominant);
             Assert.AreEqual(2, (int)EInterpretationCategory.III);
             Assert.AreEqual(3, (int)EInterpretationCategory.II);

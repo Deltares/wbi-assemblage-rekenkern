@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
@@ -46,6 +47,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             switch (category)
             {
+                case EInterpretationCategory.NotRelevant:
+                    if (Math.Abs(probabilityProfile - 0.0) > 1E-8 || Math.Abs(probabilitySection - 0.0) > 1E-8)
+                    {
+                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.NonMatchingProbabilityValues);
+                    }
+                    break;
                 case EInterpretationCategory.Dominant:
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.Gr:
@@ -74,7 +81,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 default:
                     throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.InvalidCategoryValue);
             }
-            
+
             InterpretationCategory = category;
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;

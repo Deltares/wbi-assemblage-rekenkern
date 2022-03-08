@@ -69,7 +69,7 @@ namespace Assembly.Kernel.Implementations
 
             if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
             {
-                return new FailureMechanismSectionAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.III);
+                return new FailureMechanismSectionAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.NotRelevant);
             }
 
             switch (refinementStatus)
