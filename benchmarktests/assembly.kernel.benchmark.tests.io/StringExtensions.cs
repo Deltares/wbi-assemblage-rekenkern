@@ -76,6 +76,9 @@ namespace assembly.kernel.benchmark.tests.io
             EInterpretationCategory interpretationCategory;
             switch (str.ToLower())
             {
+                case "nr":
+                    interpretationCategory = EInterpretationCategory.NotRelevant;
+                    break;
                 case "d":
                     interpretationCategory = EInterpretationCategory.Dominant;
                     break;

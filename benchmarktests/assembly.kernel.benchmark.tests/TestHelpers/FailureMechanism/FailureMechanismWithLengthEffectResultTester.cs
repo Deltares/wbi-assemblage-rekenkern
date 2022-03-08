@@ -3,6 +3,7 @@ using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
@@ -73,7 +74,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                     s.ExpectedInterpretationCategory)).ToArray(),
                         false);
                 }
-                catch (AssertionException e)
+                catch (AssemblyException e)
                 {
                     result = new FailureMechanismAssemblyResult(Probability.NaN, EFailureMechanismAssemblyMethod.Correlated);
                 }
@@ -101,7 +102,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                             new FailureMechanismSectionAssemblyResult(s.ExpectedCombinedProbabilityProfile,
                                 s.ExpectedCombinedProbabilitySection,
                                 s.ExpectedInterpretationCategory)).ToArray(),
-                    false);
+                    true);
 
                 Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
             }
