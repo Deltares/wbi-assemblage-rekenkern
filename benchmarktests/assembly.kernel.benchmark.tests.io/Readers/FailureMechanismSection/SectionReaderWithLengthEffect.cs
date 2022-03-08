@@ -15,8 +15,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         public ExpectedFailureMechanismSectionWithLengthEffect ReadSection(int iRow, double startMeters, double endMeters)
         {
             string sectionName = GetCellValueAsString("B", iRow);
-            double start = GetCellValueAsDouble("C", iRow);
-            double end = GetCellValueAsDouble("D", iRow);
             bool isRelevant = GetCellValueAsString("E", iRow) == "Ja";
             Probability probabilityInitialMechanismProfile = new Probability(GetCellValueAsDouble("G", iRow));
             Probability probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("H", iRow));
@@ -32,8 +30,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 double.IsNaN(refinedProbabilityProfile) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
 
             return new ExpectedFailureMechanismSectionWithLengthEffect(sectionName, 
-                start, 
-                end, 
+                startMeters, 
+                endMeters, 
                 isRelevant,
                 probabilityInitialMechanismProfile, 
                 probabilityInitialMechanismSection,

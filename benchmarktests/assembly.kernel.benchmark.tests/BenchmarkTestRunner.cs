@@ -253,10 +253,12 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var combinedSections = new FailureMechanismSectionList(input.ExpectedCombinedSectionResult);
+            var failureMechanismSectionList = new FailureMechanismSectionList(
+                input.ExpectedFailureMechanismsResults.First(fm => fm.MechanismId == mechanismId).Sections
+                    .Select(CreateExpectedFailureMechanismSectionWithResult));
+
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
-                new FailureMechanismSectionList(
-                    input.ExpectedFailureMechanismsResults.First(fm => fm.MechanismId == mechanismId).Sections
-                         .Select(CreateExpectedFailureMechanismSectionWithResult)),
+                failureMechanismSectionList,
                 combinedSections);
 
             var calculatedSections = calculatedSectionResults.Sections.ToArray();
@@ -288,14 +290,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IExpectedFailureMechanismSection section)
         {
-            /*var directMechanism = section as IExpectedFailureMechanismSection<EFmSectionCategory>;
-            if (directMechanism != null)
-            {
-                return new FailureMechanismSectionWithCategory(directMechanism.Start, directMechanism.End,
-                                                       EInterpretationCategory.Gr);
-            }*/
-
-            throw new InvalidOperationException();
+            return new FailureMechanismSectionWithCategory(section.Start, section.End, EInterpretationCategory.Gr);
         }
 
         private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(

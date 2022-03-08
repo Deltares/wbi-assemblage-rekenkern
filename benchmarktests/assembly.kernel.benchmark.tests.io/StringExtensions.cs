@@ -73,7 +73,6 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns>The translated <see cref="EInterpretationCategory"/>.</returns>
         public static EInterpretationCategory ToInterpretationCategory(this string str)
         {
-            // TODO: Test
             EInterpretationCategory interpretationCategory;
             switch (str.ToLower())
             {
@@ -93,6 +92,7 @@ namespace assembly.kernel.benchmark.tests.io
                     interpretationCategory = EInterpretationCategory.I;
                     break;
                 case "+0":
+                case "0":
                     interpretationCategory = EInterpretationCategory.Zero;
                     break;
                 case "-i":

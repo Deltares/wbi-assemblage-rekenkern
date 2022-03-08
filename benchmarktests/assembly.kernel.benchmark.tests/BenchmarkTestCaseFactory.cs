@@ -46,7 +46,7 @@ namespace assembly.kernel.benchmark.tests
         private static IEnumerable<string> AcquireAllBenchmarkTests()
         {
             string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
-            return Directory.GetFiles(testDirectory, "*.xlsm");
+            return Directory.GetFiles(testDirectory, "*.xlsx");
         }
     }
 }

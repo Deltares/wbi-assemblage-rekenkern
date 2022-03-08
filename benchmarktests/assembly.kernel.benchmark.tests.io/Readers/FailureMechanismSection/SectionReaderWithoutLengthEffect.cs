@@ -14,8 +14,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         public ExpectedFailureMechanismSection ReadSection(int iRow, double startMeters, double endMeters)
         {
             string sectionName = GetCellValueAsString("B", iRow);
-            double start = GetCellValueAsDouble("C", iRow);
-            double end = GetCellValueAsDouble("D", iRow);
             bool isRelevant = GetCellValueAsString("E", iRow) == "Ja";
             Probability probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("G", iRow));
             bool refinedAnalysisNecessary = GetCellValueAsString("H", iRow) == "Ja";
@@ -27,8 +25,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 double.IsNaN(refinedProbabilitySection) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
 
             return new ExpectedFailureMechanismSection(sectionName,
-                start,
-                end,
+                startMeters,
+                endMeters,
                 isRelevant,
                 probabilityInitialMechanismSection,
                 eRefinementStatus,

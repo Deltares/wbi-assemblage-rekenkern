@@ -47,7 +47,7 @@ namespace assembly.kernel.benchmark.tests.io
                 return null;
             }
 
-            var assessmentSection = new BenchmarkTestInput
+            var benchmarkTestInput = new BenchmarkTestInput
             {
                 FileName = excelFileName,
                 TestName = testName
@@ -58,7 +58,7 @@ namespace assembly.kernel.benchmark.tests.io
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ExcelReaderHelper.ReadWorkSheetParts(workbookPart);
 
-                ReadGeneralAssessmentSectionInformation(workSheetParts["Normen en duidingsklassen"], workbookPart, assessmentSection);
+                ReadGeneralAssessmentSectionInformation(workSheetParts["Normen en duidingsklassen"], workbookPart, benchmarkTestInput);
 
                 var tabsToIgnore = new[]
                 {
@@ -68,13 +68,13 @@ namespace assembly.kernel.benchmark.tests.io
 
                 foreach (var failureMechanismsTab in failureMechanismsTabs)
                 {
-                    ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab],workbookPart, assessmentSection);
+                    ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab],workbookPart, benchmarkTestInput);
                 }
 
-                ReadSafetyAssessmentFinalResult(workSheetParts["Veiligheidsoordeel"], workbookPart, assessmentSection);
-                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, assessmentSection);
+                ReadSafetyAssessmentFinalResult(workSheetParts["Veiligheidsoordeel"], workbookPart, benchmarkTestInput);
+                ReadCombinedAssessmentSectionResults(workSheetParts["Gecombineerd vakoordeel"], workbookPart, benchmarkTestInput);
 
-                return assessmentSection;
+                return benchmarkTestInput;
             }
         }
 

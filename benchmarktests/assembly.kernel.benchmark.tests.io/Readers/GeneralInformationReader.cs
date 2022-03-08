@@ -50,7 +50,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             benchmarkTestInput.SignalingNorm = GetCellValueAsDouble("B", "Signaleringskans");
             benchmarkTestInput.LowerBoundaryNorm = GetCellValueAsDouble("B", "Ondergrens");
-            benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte");
+            benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte") * 1000.0;
 
             var assessmentGradeCategories = new List<AssessmentSectionCategory>();
             for (int iRow = 4; iRow <= 8; iRow++)
