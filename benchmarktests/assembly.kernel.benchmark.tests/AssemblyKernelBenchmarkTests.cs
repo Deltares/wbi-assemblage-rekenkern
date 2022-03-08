@@ -53,7 +53,8 @@ namespace assembly.kernel.benchmark.tests
             {
                 BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
                                                                  input.LowerBoundaryNorm,
-                                                                 input.SignalingNorm, testResult);
+                                                                 input.SignalingNorm, testResult,
+                                                                 input.ExpectedInterpretationCategories);
             }
 
             BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);

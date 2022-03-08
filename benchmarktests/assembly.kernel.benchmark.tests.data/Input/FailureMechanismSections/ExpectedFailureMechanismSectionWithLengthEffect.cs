@@ -14,7 +14,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
             ERefinementStatus refinementStatus,
             Probability refinedProbabilityProfile,
             Probability refinedProbabilitySection,
-            Probability expectedProbabilityProfile,
+            Probability expectedCombinedProbabilityProfile,
             Probability expectedCombinedProbabilitySection, 
             EInterpretationCategory expectedInterpretationCategory, 
             double expectedLengthEffect) 
@@ -23,7 +23,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
             InitialMechanismProbabilityProfile = initialMechanismProbabilityProfile;
             RefinedProbabilityProfile = refinedProbabilityProfile;
             ExpectedLengthEffect = expectedLengthEffect;
-            ExpectedProbabilityProfile = expectedProbabilityProfile;
+            ExpectedCombinedProbabilityProfile = expectedCombinedProbabilityProfile;
         }
 
         public Probability InitialMechanismProbabilityProfile { get; }
@@ -32,6 +32,6 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 
         public double ExpectedLengthEffect { get; }
 
-        public Probability ExpectedProbabilityProfile { get; }
+        public Probability ExpectedCombinedProbabilityProfile { get; }
     }
 }

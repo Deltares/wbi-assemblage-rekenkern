@@ -84,8 +84,8 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi21) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"WBI-0A-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A1) +
+            str += "   " + @"WBI-0A-2 " +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A2) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
             str += "   " + @"WBI-1A-1 " +

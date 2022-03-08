@@ -26,6 +26,7 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
+using Assembly.Kernel.Model.Categories;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers
 {
@@ -39,13 +40,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         /// </summary>
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        /// <param name="interpretationCategories">Interpretation categories to be used to calculate indication categories with the results.</param>
         /// <returns>An instance of <see cref="IFailureMechanismResultTester"/>.</returns>
         public static IFailureMechanismResultTester CreateFailureMechanismTester(MethodResultsListing methodResults,
-                                                                                 ExpectedFailureMechanismResult expectedFailureMechanismResult)
+                                                                                 ExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                                                 CategoriesList<InterpretationCategory> interpretationCategories)
         {
             return expectedFailureMechanismResult.HasLengthEffect
-                ? new FailureMechanismWithLengthEffectResultTester(methodResults, expectedFailureMechanismResult) as IFailureMechanismResultTester
-                : new FailureMechanismResultTester(methodResults, expectedFailureMechanismResult);
+                ? new FailureMechanismWithLengthEffectResultTester(methodResults, expectedFailureMechanismResult, interpretationCategories) as IFailureMechanismResultTester
+                : new FailureMechanismResultTester(methodResults, expectedFailureMechanismResult, interpretationCategories);
         }
     }
 }

@@ -51,8 +51,11 @@ namespace assembly.kernel.benchmark.tests
             foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input
                 .ExpectedFailureMechanismsResults)
             {
-                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult, input.LowerBoundaryNorm,
-                                                                 input.SignalingNorm, testResult);
+                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
+                    input.LowerBoundaryNorm,
+                    input.SignalingNorm,
+                    testResult,
+                    input.ExpectedInterpretationCategories);
             }
 
             BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);

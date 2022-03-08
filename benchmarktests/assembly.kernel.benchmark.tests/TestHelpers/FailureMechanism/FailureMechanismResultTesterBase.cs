@@ -24,6 +24,7 @@
 using System;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
+using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
@@ -36,22 +37,27 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     {
         protected readonly ExpectedFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;
+        protected readonly CategoriesList<InterpretationCategory> InterpretationCategories;
 
         /// <summary>
         /// Creates a new instance of <see cref="FailureMechanismResultTesterBase{TFailureMechanismResult}"/>.
         /// </summary>
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
+        /// <param name="interpretationCategories"></param>
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
-                                                   ExpectedFailureMechanismResult expectedFailureMechanismResult)
+            ExpectedFailureMechanismResult expectedFailureMechanismResult,
+            CategoriesList<InterpretationCategory> interpretationCategories)
         {
             ExpectedFailureMechanismResult = expectedFailureMechanismResult;
             MethodResults = methodResults;
-            if (ExpectedFailureMechanismResult == null)
+            InterpretationCategories = interpretationCategories;
+            if (ExpectedFailureMechanismResult == null || InterpretationCategories == null)
             {
                 throw new ArgumentException();
             }
         }
+
 
         public virtual bool TestCombinedAssessment()
         {

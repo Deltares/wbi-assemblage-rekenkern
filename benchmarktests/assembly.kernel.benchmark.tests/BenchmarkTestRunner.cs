@@ -94,13 +94,13 @@ namespace assembly.kernel.benchmark.tests
         /// <param name="testResult">The test result.</param>
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                         double lowerBoundaryNorm, double signalingNorm,
-                                                        BenchmarkTestResult testResult)
+                                                        BenchmarkTestResult testResult, CategoriesList<InterpretationCategory> interpretationCategories)
         {
             var failureMechanismTestResult =
                 GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
             var failureMechanismTestHelper =
-                TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult);
+                TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
 
             failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
                 failureMechanismTestHelper.TestCombinedAssessment();

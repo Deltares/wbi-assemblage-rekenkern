@@ -84,8 +84,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var iRow = startRow;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
-                var endMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
+                var endMeters = GetCellValueAsDouble("D", iRow) * 1000.0;
 
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
