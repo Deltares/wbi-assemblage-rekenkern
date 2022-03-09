@@ -69,10 +69,16 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private void ReadGeneralInformation(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
             expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
-            expectedFailureMechanismResult.ExpectedIsSectionsCorrelated = GetCellValueAsString("C", "Vakken gecorreleerd?") == "Ja";
+            expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal = ToCorrelation(GetCellValueAsString("C", "Vakken gecorreleerd?") == "Ja");
+            expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
+            expectedFailureMechanismResult.ExpectedIsSectionsCorrelated = ToCorrelation(double.IsNaN(expectedFailureMechanismResult.ExpectedCombinedProbability) || expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal == EFailureMechanismAssemblyMethod.Correlated); 
             expectedFailureMechanismResult.LengthEffectFactor = GetCellValueAsDouble("C", "Ntraject");
+        }
+
+        private EFailureMechanismAssemblyMethod ToCorrelation(bool correlated)
+        {
+            return correlated ? EFailureMechanismAssemblyMethod.Correlated: EFailureMechanismAssemblyMethod.UnCorrelated;
         }
 
         private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)

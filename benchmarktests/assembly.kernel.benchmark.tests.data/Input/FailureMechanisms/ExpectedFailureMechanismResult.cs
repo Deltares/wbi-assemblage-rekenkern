@@ -67,9 +67,19 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         public Probability ExpectedCombinedProbability { get; set; }
 
         /// <summary>
+        /// Indicates whether we expect correlated sections or not when determining the combined probability.
+        /// </summary>
+        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelated { get; set; }
+
+        /// <summary>
         /// The expected result while performing partial assembly (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
         /// </summary>
         public Probability ExpectedCombinedProbabilityTemporal { get; set; }
+
+        /// <summary>
+        /// Indicates whether we expect correlated sections or not when determining the combined probability.
+        /// </summary>
+        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelatedTemporal { get; set; }
 
         /// <summary>
         /// A listing of all sections within the failure mechanism
@@ -81,9 +91,5 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// </summary>
         public double LengthEffectFactor { get; set; }
 
-        /// <summary>
-        /// Indicates whether we expect correlated sections or not when determining the combined probability.
-        /// </summary>
-        public bool ExpectedIsSectionsCorrelated { get; set; }
     }
 }

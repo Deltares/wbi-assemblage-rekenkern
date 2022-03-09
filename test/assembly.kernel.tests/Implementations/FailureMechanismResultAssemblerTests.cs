@@ -215,6 +215,22 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(0.00026, result.Probability,1e-8);
         }
 
+        [Test]
+        public void WbiOneSectionNeverCorrelated()
+        {
+            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                new[]
+                {
+                    new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                        EInterpretationCategory.III)
+                },
+                true);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(0.0, result.Probability, 1e-8);
+        }
+
         #endregion
 
         #region Error handling

@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Model.Categories;
@@ -58,7 +59,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-
         public virtual bool TestCombinedAssessment()
         {
             try
@@ -69,8 +69,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (AssertionException e)
             {
-                Console.WriteLine("{0}: Gecombineerd toetsoordeel per vak - {1}", ExpectedFailureMechanismResult.Name,
-                                  e.Message);
+                foreach (DictionaryEntry entry in e.Data)
+                {
+                    Console.WriteLine("{0}: Gecombineerde faalkans per vak - vaknaam '{1}' : {2}", ExpectedFailureMechanismResult.Name,
+                        entry.Key,((AssertionException)entry.Value).Message);
+                }
                 SetCombinedAssessmentMethodResult(false);
                 return false;
             }
@@ -86,7 +89,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (AssertionException e)
             {
-                Console.WriteLine("{0}: Toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
+                Console.WriteLine("{0}: Faalkans per traject - {1}", ExpectedFailureMechanismResult.Name,
                                   e.Message);
                 SetAssessmentSectionMethodResult(false);
                 return false;

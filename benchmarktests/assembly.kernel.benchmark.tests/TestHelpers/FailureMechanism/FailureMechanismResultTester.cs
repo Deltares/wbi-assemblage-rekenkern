@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -31,6 +32,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
+                var exception = new AssertionException("Errors occurred");
                 foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>())
                 {
                     // WBI-0A-1 (direct with probability)
@@ -45,8 +47,20 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         section.RefinedProbabilitySection,
                         this.InterpretationCategories);
 
-                    Assert.AreEqual(section.ExpectedCombinedProbabilitySection, result.ProbabilitySection);
-                    Assert.AreEqual(section.ExpectedInterpretationCategory, result.InterpretationCategory);
+                    try
+                    {
+                        Assert.AreEqual(section.ExpectedCombinedProbabilitySection.Value, result.ProbabilitySection.Value);
+                        Assert.AreEqual(section.ExpectedInterpretationCategory, result.InterpretationCategory);
+                    }
+                    catch (AssertionException e)
+                    {
+                        exception.Data.Add(section.SectionName,e);
+                    }
+                }
+
+                if (exception.Data.Count > 0)
+                {
+                    throw exception;
                 }
             }
         }
@@ -79,8 +93,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     result = new FailureMechanismAssemblyResult(Probability.NaN, EFailureMechanismAssemblyMethod.Correlated);
                 }
                 
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelated ? EFailureMechanismAssemblyMethod.Correlated : EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbability.Value, result.Probability.Value);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelated, result.AssemblyMethod);
             }
         }
 
@@ -104,7 +118,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                 s.ExpectedInterpretationCategory)).ToArray(),
                     true);
 
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal.Value, result.Probability.Value);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal, result.AssemblyMethod);
             }
         }
     }

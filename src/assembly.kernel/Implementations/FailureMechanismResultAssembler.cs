@@ -47,10 +47,13 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r => r.InterpretationCategory != EInterpretationCategory.Dominant && r.InterpretationCategory != EInterpretationCategory.Gr).ToArray();
+                sectionResults = sectionResults.Where(r =>
+                    r.InterpretationCategory != EInterpretationCategory.Dominant &&
+                    r.InterpretationCategory != EInterpretationCategory.Gr).ToArray();
                 if (sectionResults.Length == 0)
                 {
-                    return new FailureMechanismAssemblyResult(new Probability(0), EFailureMechanismAssemblyMethod.Correlated);
+                    return new FailureMechanismAssemblyResult(new Probability(0),
+                        EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
             else
@@ -79,9 +82,16 @@ namespace Assembly.Kernel.Implementations
             highestFailureProbabilityProfile *= lengthEffectFactor;
             var combinedFailureProbabilityUnCorrelated = 1 - noFailureProbProduct;
 
-            return highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
-                ? new FailureMechanismAssemblyResult(new Probability(highestFailureProbabilityProfile), EFailureMechanismAssemblyMethod.Correlated)
-                : new FailureMechanismAssemblyResult(new Probability(combinedFailureProbabilityUnCorrelated), EFailureMechanismAssemblyMethod.UnCorrelated);
+            var correlation = sectionResults.Length < 2
+                ? EFailureMechanismAssemblyMethod.UnCorrelated
+                : highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
+                    ? EFailureMechanismAssemblyMethod.Correlated
+                    : EFailureMechanismAssemblyMethod.UnCorrelated;
+            var probabilityValue = highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
+                ? highestFailureProbabilityProfile
+                : combinedFailureProbabilityUnCorrelated;
+
+            return new FailureMechanismAssemblyResult(new Probability(probabilityValue), correlation);
         }
 
         private static void CheckForValidResults(FailureMechanismSectionAssemblyResult[] sectionResults)

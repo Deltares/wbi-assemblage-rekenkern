@@ -63,6 +63,7 @@ namespace assembly.kernel.benchmark.tests
                 AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
                     expectedCategories, categories);
             result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
+            // TODO: Log result?
         }
 
         /// <summary>
@@ -99,15 +100,15 @@ namespace assembly.kernel.benchmark.tests
             var failureMechanismTestResult =
                 GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
-            var failureMechanismTestHelper =
+            var failureMechanismTester =
                 TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
 
             failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
-                failureMechanismTestHelper.TestCombinedAssessment();
+                failureMechanismTester.TestCombinedAssessment();
             failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection =
-                failureMechanismTestHelper.TestAssessmentSectionResult();
+                failureMechanismTester.TestAssessmentSectionResult();
             failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionTemporal =
-                failureMechanismTestHelper.TestAssessmentSectionResultTemporal();
+                failureMechanismTester.TestAssessmentSectionResultTemporal();
         }
 
         /// <summary>
