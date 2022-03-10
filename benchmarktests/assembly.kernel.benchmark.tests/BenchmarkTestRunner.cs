@@ -258,15 +258,16 @@ namespace assembly.kernel.benchmark.tests
             var combinedSections = new FailureMechanismSectionList(input.ExpectedCombinedSectionResult);
             var failureMechanismSectionList = new FailureMechanismSectionList(
                 input.ExpectedFailureMechanismsResults.First(fm => fm.MechanismId == mechanismId).Sections
+                    .OfType<ExpectedFailureMechanismSection>()
                     .Select(CreateExpectedFailureMechanismSectionWithResult));
 
             var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
                 failureMechanismSectionList,
                 combinedSections);
 
-            var calculatedSections = calculatedSectionResults.Sections.ToArray();
+            var calculatedSections = calculatedSectionResults.Sections.OfType<FailureMechanismSectionWithCategory>().ToArray();
             var expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism.First(l => l.FailureMechanismId == mechanismId).Sections
-                                        .ToArray();
+                                        .OfType<FailureMechanismSectionWithCategory>().ToArray();
 
             var failureMechanismResult = GetBenchmarkTestFailureMechanismResult(result, mechanismName, mechanismId, hasLengthEffect);
 
@@ -277,23 +278,24 @@ namespace assembly.kernel.benchmark.tests
                 {
                     Assert.AreEqual(expectedSections[i].SectionStart, calculatedSections[i].SectionStart, 0.01);
                     Assert.AreEqual(expectedSections[i].SectionEnd, calculatedSections[i].SectionEnd, 0.01);
-                    Assert.AreEqual(((FailureMechanismSectionWithCategory) expectedSections[i]).Category,
-                                        ((FailureMechanismSectionWithCategory) calculatedSections[i]).Category);
+                    Assert.AreEqual(expectedSections[i].Category, calculatedSections[i].Category);
                 }
 
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = true;
                 result.MethodResults.Wbi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
             }
-            catch (AssertionException)
+            catch (AssertionException e)
             {
+                Console.WriteLine("Error matching combined sections for {0}: {1}",failureMechanismResult.Name, e.Message);
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = false;
                 result.MethodResults.Wbi3B1 = false;
             }
         }
 
-        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(IExpectedFailureMechanismSection section)
+        private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(ExpectedFailureMechanismSection section)
         {
-            return new FailureMechanismSectionWithCategory(section.Start, section.End, EInterpretationCategory.Gr);
+
+            return new FailureMechanismSectionWithCategory(section.Start, section.End, section.ExpectedInterpretationCategory);
         }
 
         private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(
