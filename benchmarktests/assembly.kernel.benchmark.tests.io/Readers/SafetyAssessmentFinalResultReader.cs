@@ -21,7 +21,6 @@
 // All rights reserved.
 #endregion
 
-using System.Collections.Generic;
 using assembly.kernel.benchmark.tests.data.Input;
 using Assembly.Kernel.Model;
 using DocumentFormat.OpenXml.Packaging;
