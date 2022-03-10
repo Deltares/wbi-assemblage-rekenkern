@@ -5,6 +5,11 @@ namespace assembly.kernel.benchmark.tests.data.Input
 {
     public static class EExpectedAssessmentGradeExtensions
     {
+        /// <summary>
+        /// Translates an expected assessment grade into the actual <seealso cref="EAssessmentGrade"/>.
+        /// </summary>
+        /// <param name="expectedAssessmentGrade"></param>
+        /// <returns></returns>
         public static EAssessmentGrade ToEAssessmentGrade(this EExpectedAssessmentGrade expectedAssessmentGrade)
         {
             switch (expectedAssessmentGrade)

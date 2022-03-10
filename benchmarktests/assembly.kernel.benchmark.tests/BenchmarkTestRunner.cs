@@ -29,6 +29,7 @@ using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.TestHelpers;
 using assembly.kernel.benchmark.tests.TestHelpers.Categories;
+using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
@@ -93,6 +94,7 @@ namespace assembly.kernel.benchmark.tests
         /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
         /// <param name="signalingNorm">The signaling norm.</param>
         /// <param name="testResult">The test result.</param>
+        /// <param name="interpretationCategories">The interpretation categories needed to translate a probability to an interpretation category.</param>
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                         double lowerBoundaryNorm, double signalingNorm,
                                                         BenchmarkTestResult testResult, CategoriesList<InterpretationCategory> interpretationCategories)
@@ -101,7 +103,9 @@ namespace assembly.kernel.benchmark.tests
                 GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
             var failureMechanismTester =
-                TesterFactory.CreateFailureMechanismTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
+                expectedFailureMechanismResult.HasLengthEffect
+                    ? new FailureMechanismWithLengthEffectResultTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories) as IFailureMechanismResultTester
+                    : new FailureMechanismResultTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
 
             failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
                 failureMechanismTester.TestCombinedAssessment();
@@ -144,6 +148,7 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
+            // TODO: Implement
             result.AreEqualAssemblyResultFinalVerdictTemporal = true;
             result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
             result.MethodResults.Wbi2B1T = true;
@@ -152,6 +157,7 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
+            // TODO: Implement
             result.AreEqualAssemblyResultFinalVerdict = true;
             result.AreEqualAssemblyResultFinalVerdictProbability = true;
             result.MethodResults.Wbi2B1 = true;
@@ -294,7 +300,6 @@ namespace assembly.kernel.benchmark.tests
 
         private static FailureMechanismSection CreateExpectedFailureMechanismSectionWithResult(ExpectedFailureMechanismSection section)
         {
-
             return new FailureMechanismSectionWithCategory(section.Start, section.End, section.ExpectedInterpretationCategory);
         }
 

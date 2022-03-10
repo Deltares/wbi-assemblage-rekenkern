@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
+using assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
@@ -49,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
                     try
                     {
-                        Assert.AreEqual(section.ExpectedCombinedProbabilitySection.Value, result.ProbabilitySection.Value);
+                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, result.ProbabilitySection);
                         Assert.AreEqual(section.ExpectedInterpretationCategory, result.InterpretationCategory);
                     }
                     catch (AssertionException e)
@@ -92,8 +91,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 {
                     result = new FailureMechanismAssemblyResult(Probability.NaN, EFailureMechanismAssemblyMethod.Correlated);
                 }
-                
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbability.Value, result.Probability.Value);
+
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
                 Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelated, result.AssemblyMethod);
             }
         }
@@ -118,7 +117,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                 s.ExpectedInterpretationCategory)).ToArray(),
                     true);
 
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal.Value, result.Probability.Value);
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal, result.Probability);
                 Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal, result.AssemblyMethod);
             }
         }

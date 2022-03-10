@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
@@ -65,6 +66,23 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
         }
 
+        /// <summary>
+        /// Assert whether two probabilities are equal.
+        /// </summary>
+        /// <param name="expectedProbability">The expected probability</param>
+        /// <param name="actualProbability">The actual probability</param>
+        public static void AssertAreEqualProbabilities(Probability expectedProbability, Probability actualProbability)
+        {
+            try
+            {
+                AssertAreEqualProbabilities(expectedProbability.Value, actualProbability.Value);
+            }
+            catch (AssertionException)
+            {
+                throw new AssertionException($"Probabilities were not equal.\n Expected value: {expectedProbability.Value} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability.Value} (1/{actualProbability.ReturnPeriod})\n");
+            }
+        }
+
         private static void AssertAreEqualCategories<TCategory>(CategoryBase<TCategory> expectedCategory,
                                                                 CategoryBase<TCategory> calculatedCategory)
         {
@@ -75,8 +93,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
 
         private static void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
         {
-            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability),
-                            1e-3);
+            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         {
             Name = name;
             MechanismId = mechanismId;
-            HasLengthEffct = hasLengthEffect;
+            HasLengthEffect = hasLengthEffect;
         }
 
         /// <summary>
@@ -56,20 +56,20 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this failure mechanism has length effect within a section.
         /// </summary>
-        public bool HasLengthEffct { get; }
+        public bool HasLengthEffect { get; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assesment result per mechanism section during assembly.
+        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result per mechanism section during assembly.
         /// </summary>
         public bool AreEqualCombinedAssessmentResultsPerSection { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assesment result for the failure mechanism during assembly.
+        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result for the failure mechanism during assembly.
         /// </summary>
         public bool AreEqualAssessmentResultPerAssessmentSection { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assesment result for the failure mechanism during assembly while performing partial assembly.
+        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result for the failure mechanism during assembly while performing partial assembly.
         /// </summary>
         public bool AreEqualAssessmentResultPerAssessmentSectionTemporal { get; set; }
 

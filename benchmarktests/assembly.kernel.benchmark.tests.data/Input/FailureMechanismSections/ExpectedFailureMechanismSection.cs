@@ -49,20 +49,44 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// </summary>
         public string SectionName { get; }
 
+        /// <summary>
+        /// Start of the section along the assessment section (in meters).
+        /// </summary>
         public double Start { get; }
 
+        /// <summary>
+        /// End of the section along the assessment section (in meters).
+        /// </summary>
         public double End { get; }
 
+        /// <summary>
+        /// Indicates whether the specific failure mechanism is relevant along this section.
+        /// </summary>
         public bool IsRelevant { get; }
 
+        /// <summary>
+        /// Probability estimation of the initial mechanism for this section.
+        /// </summary>
         public Probability InitialMechanismProbabilitySection { get; }
 
+        /// <summary>
+        /// Refinement status of this section.
+        /// </summary>
         public ERefinementStatus RefinementStatus { get; }
 
+        /// <summary>
+        /// The estimated refined probability of the section.
+        /// </summary>
         public Probability RefinedProbabilitySection { get; }
 
+        /// <summary>
+        /// The expected combined probability of the section.
+        /// </summary>
         public Probability ExpectedCombinedProbabilitySection { get; }
 
+        /// <summary>
+        /// The expected interpretation category of the section.
+        /// </summary>
         public EInterpretationCategory ExpectedInterpretationCategory { get; }
     }
 }

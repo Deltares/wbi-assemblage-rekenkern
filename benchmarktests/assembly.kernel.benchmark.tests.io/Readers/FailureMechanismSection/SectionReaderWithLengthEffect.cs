@@ -24,7 +24,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
             Probability expectedCombinedProbabilityProfile = new Probability(GetCellValueAsDouble("L", iRow));
             Probability expectedCombinedProbabilitySection = new Probability(GetCellValueAsDouble("M", iRow));
             EInterpretationCategory expectedInterpretationCategory = GetCellValueAsString("O", iRow).ToInterpretationCategory();
-            double expectedLengthEffect = GetCellValueAsDouble("N", iRow);
 
             var eRefinementStatus = !refinedAnalysisNecessary ? ERefinementStatus.NotNecessary :
                 double.IsNaN(refinedProbabilityProfile) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
@@ -40,8 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
                 refinedProbabilitySection,
                 expectedCombinedProbabilityProfile,
                 expectedCombinedProbabilitySection, 
-                expectedInterpretationCategory, 
-                expectedLengthEffect);
+                expectedInterpretationCategory);
         }
     }
 }

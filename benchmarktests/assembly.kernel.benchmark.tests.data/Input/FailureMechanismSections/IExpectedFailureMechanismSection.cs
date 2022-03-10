@@ -21,9 +21,6 @@
 // All rights reserved.
 #endregion
 
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.Categories;
-
 namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
 {
     /// <summary>
@@ -40,20 +37,5 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// The end position of the section as a length along the assessment section in meters.
         /// </summary>
         double End { get; }
-
-        bool IsRelevant { get; } 
-
-        Probability InitialMechanismProbabilitySection { get; }
-
-        ERefinementStatus RefinementStatus { get; }
-
-        Probability RefinedProbabilitySection { get; }
-
-        /// <summary>
-        /// The expected combined result for the specific section as a result of method WBI-0A-1.
-        /// </summary>
-        Probability ExpectedCombinedProbabilitySection { get; }
-
-        EInterpretationCategory ExpectedInterpretationCategory { get; }
     }
 }

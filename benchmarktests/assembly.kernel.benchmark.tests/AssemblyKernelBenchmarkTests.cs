@@ -40,7 +40,6 @@ namespace assembly.kernel.benchmark.tests
         private Dictionary<string, BenchmarkTestResult> testResults;
 
         [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
-        //[Ignore("These tests can only be updated after several issues are implemented. Expected results are not correct anymore since it is not possible to adjust the benchmark test.")]
         public void RunBenchmarkTest(string testName, string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
@@ -76,6 +75,7 @@ namespace assembly.kernel.benchmark.tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            // TODO: Check making report
             // Report all testresults into a LaTeX file
             for (int i = 0; i < testResults.Count; i++)
             {

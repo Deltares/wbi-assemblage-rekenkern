@@ -47,7 +47,6 @@
     <Compile Include="Result\BenchmarkTestResult.cs" />
     <Compile Include="Input\FailureMechanismSections\ExpectedFailureMechanismSection.cs" />
     <Compile Include="Input\FailureMechanisms\ExpectedFailureMechanismResult.cs" />
-    <Compile Include="Input\FailureMechanisms\FailureMechanismResultFactory.cs" />
     <Compile Include="Input\FailureMechanismSections\IExpectedFailureMechanismSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Input\SafetyAssessmentAssemblyResult.cs" />

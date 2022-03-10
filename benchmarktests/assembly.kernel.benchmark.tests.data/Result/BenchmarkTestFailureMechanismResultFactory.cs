@@ -21,10 +21,7 @@
 // All rights reserved.
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 
 namespace assembly.kernel.benchmark.tests.data.Result
 {

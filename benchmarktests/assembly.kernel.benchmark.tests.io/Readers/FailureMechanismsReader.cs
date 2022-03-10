@@ -55,11 +55,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="mechanismId">String used to identify the failure mechanism.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput, string mechanismId)
         {
+            bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
             ExpectedFailureMechanismResult expectedFailureMechanismResult =
-                FailureMechanismResultFactory.CreateFailureMechanism(
-                    GetCellValueAsString("C", "Faalpad"),
-                    mechanismId,
-                    GetCellValueAsString("C", "Lengte-effect") == "Ja");
+                new ExpectedFailureMechanismResult(GetCellValueAsString("C", "Faalpad"), mechanismId, hasLengthEffect);
 
             ReadGeneralInformation(expectedFailureMechanismResult);
             ReadFailureMechanismSections(expectedFailureMechanismResult);
