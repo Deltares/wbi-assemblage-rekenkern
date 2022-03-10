@@ -117,7 +117,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                 s.ExpectedInterpretationCategory)).ToArray(),
                     true);
 
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal.Value, result.Probability.Value, 0.01 * ExpectedFailureMechanismResult.ExpectedCombinedProbability.Value);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal.Value, result.Probability.Value, 0.01 * ExpectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal.Value);
                 Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal, result.AssemblyMethod);
             }
         }
