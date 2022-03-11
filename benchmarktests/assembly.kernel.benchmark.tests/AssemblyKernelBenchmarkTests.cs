@@ -48,12 +48,11 @@ namespace assembly.kernel.benchmark.tests
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
+            BenchmarkTestRunner.TestEqualInterpretationCategories(input, testResult);
 
             foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
             {
-                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
-                                                                 input.LowerBoundaryNorm,
-                                                                 input.SignalingNorm, testResult,
+                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult, testResult,
                                                                  input.ExpectedInterpretationCategories);
             }
 

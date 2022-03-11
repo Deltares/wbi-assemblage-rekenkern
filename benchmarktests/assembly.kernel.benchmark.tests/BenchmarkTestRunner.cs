@@ -93,12 +93,9 @@ namespace assembly.kernel.benchmark.tests
         /// Test the failure mechanism assembly.
         /// </summary>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism result.</param>
-        /// <param name="lowerBoundaryNorm">The lower boundary norm.</param>
-        /// <param name="signalingNorm">The signaling norm.</param>
         /// <param name="testResult">The test result.</param>
         /// <param name="interpretationCategories">The interpretation categories needed to translate a probability to an interpretation category.</param>
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                                        double lowerBoundaryNorm, double signalingNorm,
                                                         BenchmarkTestResult testResult, CategoriesList<InterpretationCategory> interpretationCategories)
         {
             var failureMechanismTestResult =
@@ -184,6 +181,7 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
+            result.MethodResults.Wbi2B1 = false;
             AssessmentSectionResult assemblerResult = null;
             try
             {
