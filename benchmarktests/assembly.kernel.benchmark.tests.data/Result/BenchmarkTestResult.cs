@@ -73,13 +73,11 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether assembly of the final verdict was correctly.
         /// </summary>
-        /// TODO: Test and use this.
         public bool AreEqualAssemblyResultFinalVerdict { get; set; }
 
         /// <summary>
         /// Indicates whether assembly of the final verdict was correctly.
         /// </summary>
-        /// TODO: Test and use this.
         public bool AreEqualAssemblyResultFinalVerdictProbability { get; set; }
 
         /// <summary>

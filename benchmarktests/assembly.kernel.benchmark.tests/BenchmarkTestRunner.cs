@@ -32,6 +32,7 @@ using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.TestHelpers;
 using assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
@@ -66,7 +67,6 @@ namespace assembly.kernel.benchmark.tests
                 AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
                     expectedCategories, categories);
             result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
-            // TODO: Log result?
         }
 
         /// <summary>
@@ -150,7 +150,32 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
-            // TODO: Implement
+            AssessmentSectionResult assemblerResult = null;
+            try
+            {
+                var assembler = new AssessmentGradeAssembler();
+                assemblerResult = assembler.AssembleAssessmentSectionWbi2B1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityTemporal),
+                    input.ExpectedAssessmentSectionCategories, true);
+            }
+            catch (AssemblyException)
+            {
+                Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal ==
+                              EExpectedAssessmentGrade.Exception);
+                result.AreEqualAssemblyResultFinalVerdictTemporal = true;
+                result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
+                result.MethodResults.Wbi2B1T = true;
+                return;
+            }
+
+            Assert.IsNotNull(assemblerResult);
+            AssertHelper.AssertAreEqualProbabilities(
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityTemporal,
+                new Probability(assemblerResult.FailureProbability));
+            Assert.AreEqual(
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal.ToEAssessmentGrade(),
+                assemblerResult.Category);
+
             result.AreEqualAssemblyResultFinalVerdictTemporal = true;
             result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
             result.MethodResults.Wbi2B1T = true;
@@ -159,7 +184,32 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
-            // TODO: Implement
+            AssessmentSectionResult assemblerResult = null;
+            try
+            {
+                var assembler = new AssessmentGradeAssembler();
+                assemblerResult = assembler.AssembleAssessmentSectionWbi2B1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
+                    input.ExpectedAssessmentSectionCategories, false);
+            }
+            catch (AssemblyException)
+            {
+                Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade ==
+                              EExpectedAssessmentGrade.Exception);
+                result.AreEqualAssemblyResultFinalVerdict = true;
+                result.AreEqualAssemblyResultFinalVerdictProbability = true;
+                result.MethodResults.Wbi2B1 = true;
+                return;
+            }
+
+            Assert.IsNotNull(assemblerResult);
+            AssertHelper.AssertAreEqualProbabilities(
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability,
+                new Probability(assemblerResult.FailureProbability));
+            Assert.AreEqual(
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade.ToEAssessmentGrade(),
+                assemblerResult.Category);
+
             result.AreEqualAssemblyResultFinalVerdict = true;
             result.AreEqualAssemblyResultFinalVerdictProbability = true;
             result.MethodResults.Wbi2B1 = true;
