@@ -151,7 +151,7 @@ namespace assembly.kernel.benchmark.tests
             try
             {
                 var assembler = new AssessmentGradeAssembler();
-                assemblerResult = assembler.AssembleAssessmentSectionWbi2B1(
+                assemblerResult = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityTemporal),
                     input.ExpectedAssessmentSectionCategories, true);
             }
@@ -186,7 +186,7 @@ namespace assembly.kernel.benchmark.tests
             try
             {
                 var assembler = new AssessmentGradeAssembler();
-                assemblerResult = assembler.AssembleAssessmentSectionWbi2B1(
+                assemblerResult = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
                     input.ExpectedAssessmentSectionCategories, false);
             }

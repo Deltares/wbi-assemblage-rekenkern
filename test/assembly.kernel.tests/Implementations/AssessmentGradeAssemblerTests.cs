@@ -56,7 +56,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.0,0.1,0.1,EAssessmentGrade.C)]
         [TestCase(0.0005, 0.00005, 0.000549975, EAssessmentGrade.A)]
-        public void Wbi2B1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
+        public void Boi2B1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             var failureMechanismProbabilities = new[]
@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 (Probability) prob1,
                 (Probability) prob2,
             };
-            var result = assembler.AssembleAssessmentSectionWbi2B1(failureMechanismProbabilities, categories, false);
+            var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(failureMechanismProbabilities, categories, false);
 
             Assert.NotNull(result.FailureProbability);
             Assert.AreEqual(expectedProb, result.FailureProbability, 10);
@@ -75,11 +75,11 @@ namespace Assembly.Kernel.Tests.Implementations
         #region functional tests partial assembly
 
         [Test]
-        public void Wbi2B1PartialAssembly()
+        public void Boi2B1PartialAssembly()
         {
             var sectionFailureProbability = 0.00003;
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-            var result = assembler.AssembleAssessmentSectionWbi2B1(
+            var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                 new[]
                 {
                     new Probability(double.NaN),
@@ -98,12 +98,12 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Input handling
 
         [Test]
-        public void Wbi2B1ProbabilitiesNullTest()
+        public void Boi2B1ProbabilitiesNullTest()
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(null, categories, false);
+                assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(null, categories, false);
             }
             catch (AssemblyException e)
             {
@@ -115,12 +115,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1EmptyProbabilitiesList()
+        public void Boi2B1EmptyProbabilitiesList()
         {
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), categories, false);
+                assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(new List<Probability>(), categories, false);
             }
             catch (AssemblyException e)
             {
@@ -132,7 +132,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1CategoriesNullTest()
+        public void Boi2B1CategoriesNullTest()
         {
             try
             {
@@ -141,7 +141,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(0.003),
                     new Probability(0.003),
                 };
-                assembler.AssembleAssessmentSectionWbi2B1(results, null, false);
+                assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(results, null, false);
             }
             catch (AssemblyException e)
             {
@@ -153,11 +153,11 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1MultipleInputErrorsList()
+        public void Boi2B1MultipleInputErrorsList()
         {
             try
             {
-                assembler.AssembleAssessmentSectionWbi2B1(new List<Probability>(), null, false);
+                assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(new List<Probability>(), null, false);
             }
             catch (AssemblyException e)
             {
@@ -174,12 +174,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1PartialAssemblyNoResults()
+        public void Boi2B1PartialAssemblyNoResults()
         {
             try
             {
                 var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {
                         new Probability(double.NaN),
@@ -201,12 +201,12 @@ namespace Assembly.Kernel.Tests.Implementations
 
 
         [Test]
-        public void Wbi2B1NoResultSomeFailureMechanisms()
+        public void Boi2B1NoResultSomeFailureMechanisms()
         {
             try
             {
                 var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {
                         new Probability(double.NaN),
@@ -228,12 +228,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi2B1NoResultAtAll()
+        public void Boi2B1NoResultAtAll()
         {
             try
             {
                 var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
-                var result = assembler.AssembleAssessmentSectionWbi2B1(
+                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {
                         new Probability(double.NaN),

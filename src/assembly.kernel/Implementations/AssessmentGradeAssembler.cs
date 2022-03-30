@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
         /// <inheritdoc />
-        public AssessmentSectionResult AssembleAssessmentSectionWbi2B1(
+        public AssessmentSectionResult CalculateAssessmentSectionFailureProbabilityBoi2B1(
             IEnumerable<Probability> failureMechanismProbabilities,
             CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
