@@ -68,9 +68,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.IMin:
                 case EInterpretationCategory.IIMin:
                 case EInterpretationCategory.IIIMin:
-                    if (double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value))
+                    if (!probabilitySection.IsDefined || !probabilityProfile.IsDefined)
                     {
-                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ValueMayNotBeNaN);
+                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                     }
 
                     if (probabilitySection < probabilityProfile)
@@ -86,9 +86,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
 
-            NSection = double.IsNaN(probabilitySection.Value) || double.IsNaN(probabilityProfile.Value) || probabilitySection == probabilityProfile
+            NSection = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
                 ? 1.0
-                : probabilitySection.Value / probabilityProfile.Value;
+                : (double)probabilitySection / (double)probabilityProfile;
         }
 
         /// <summary>
@@ -115,8 +115,8 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         public override string ToString()
         {
             return "FailureMechanismSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
-                   ProbabilityProfile.Value.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
-                   ProbabilitySection.Value.ToString(CultureInfo.InvariantCulture) + "]";
+                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
+                   ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }
 }

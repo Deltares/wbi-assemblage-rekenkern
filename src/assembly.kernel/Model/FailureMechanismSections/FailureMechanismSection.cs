@@ -45,7 +45,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             if (double.IsNaN(sectionStart) | double.IsNaN(sectionEnd))
             {
-                throw new AssemblyException("sectionStart or sectionEnd", EAssemblyErrors.ValueMayNotBeNaN);
+                throw new AssemblyException("sectionStart or sectionEnd", EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }
 
             if (sectionStart < 0.0 || sectionEnd <= sectionStart)

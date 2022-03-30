@@ -77,11 +77,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         {
             try
             {
-                AssertAreEqualProbabilities(expectedProbability.Value, actualProbability.Value);
+                Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
             }
             catch (AssertionException)
             {
-                throw new AssertionException($"Probabilities were not equal.\n Expected value: {expectedProbability.Value} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability.Value} (1/{actualProbability.ReturnPeriod})\n");
+                throw new AssertionException($"Probabilities were not equal.\n Expected value: {expectedProbability} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability} (1/{actualProbability.ReturnPeriod})\n");
             }
         }
 
@@ -91,11 +91,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             Assert.AreEqual(expectedCategory.Category, calculatedCategory.Category);
             AssertAreEqualProbabilities(expectedCategory.LowerLimit, calculatedCategory.LowerLimit);
             AssertAreEqualProbabilities(expectedCategory.UpperLimit, calculatedCategory.UpperLimit);
-        }
-
-        private static void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
-        {
-            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
         }
 
         /// <summary>

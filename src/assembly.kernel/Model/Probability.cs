@@ -29,28 +29,39 @@ using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model
 {
+    /// <summary>
+    /// This struct represents a probability. It can be used similar to double, but has a limited value within the range [0,1]. Operations to add or subtract will result in an exception as it is not possible to add or subtract probabilities.
+    /// </summary>
     public struct Probability : IEquatable<Probability>, IEquatable<double>, IFormattable, IComparable, IComparable<Probability>, IComparable<double>
     {
         private static readonly double ToStringPrecision = 1e-100;
+        private readonly double value;
 
         /// <summary>
-        /// Represents a value that is not a number (NaN). This field is constant.
+        /// Represents an undefined probability.
         /// </summary>
-        /// <seealso cref="double.NaN"/>
-        public static readonly Probability NaN = new Probability(double.NaN);
-        
+        public static readonly Probability Undefined = new Probability(double.NaN);
+
+        /// <summary>
+        /// Constructs a <see cref="Probability"/> from a double representing the probability value.
+        /// </summary>
+        /// <param name="probabilityValue">The value of the probability.</param>
+        /// <exception cref="AssemblyException">An exception is thrown whenever <see cref="probabilityValue"/>&lt;0 or <see cref="probabilityValue"/>&gt;1 </exception>
         public Probability(double probabilityValue)
         {
             ValidateProbabilityValue(probabilityValue);
-            Value = probabilityValue;
+            value = probabilityValue;
         }
 
         /// <summary>
-        /// Gets the value.
+        /// Represents the return period of this probability.
         /// </summary>
-        public double Value { get; }
+        public int ReturnPeriod => (int) Math.Round(1 / value);
 
-        public int ReturnPeriod => (int) Math.Round(1 / Value);
+        /// <summary>
+        /// Specifies whether the probability is defined.
+        /// </summary>
+        public bool IsDefined => !double.IsNaN(value);
 
         /// <summary>
         /// Validates <paramref name="probability"/> for being a valid probability. This means a double within the range [0-1].
@@ -78,47 +89,47 @@ namespace Assembly.Kernel.Model
 
         public static Probability operator -(Probability left, Probability right)
         {
-            return new Probability(Math.Max(0,left.Value - right.Value));
+            return new Probability(Math.Max(0,left.value - right.value));
         }
 
         public static Probability operator +(Probability left, Probability right)
         {
-            return new Probability(Math.Min(1,left.Value + right.Value));
+            return new Probability(Math.Min(1,left.value + right.value));
         }
 
         public static Probability operator *(Probability left, double right)
         {
-            return new Probability(left.Value * right);
+            return new Probability(left.value * right);
         }
 
         public static Probability operator *(double left, Probability right)
         {
-            return new Probability(left * right.Value);
+            return new Probability(left * right.value);
         }
 
         public static Probability operator *(Probability left, Probability right)
         {
-            return new Probability(left.Value * right.Value);
+            return new Probability(left.value * right.value);
         }
 
         public static Probability operator /(Probability left, double right)
         {
-            return new Probability(left.Value / right);
+            return new Probability(left.value / right);
         }
 
         public static Probability operator /(double left, Probability right)
         {
-            return new Probability(left / right.Value);
+            return new Probability(left / right.value);
         }
 
         public static Probability operator /(Probability left, Probability right)
         {
-            return new Probability(left.Value / right.Value);
+            return new Probability(left.value / right.value);
         }
 
         public static implicit operator double(Probability d)
         {
-            return d.Value;
+            return d.value;
         }
 
         public static explicit operator Probability(double d)
@@ -128,42 +139,42 @@ namespace Assembly.Kernel.Model
 
         public static bool operator <(Probability left, Probability right)
         {
-            return left.Value < right.Value;
+            return left.value < right.value;
         }
 
         public static bool operator <=(Probability left, Probability right)
         {
-            return left.Value <= right.Value;
+            return left.value <= right.value;
         }
 
         public static bool operator >(Probability left, Probability right)
         {
-            return left.Value > right.Value;
+            return left.value > right.value;
         }
 
         public static bool operator >=(Probability left, Probability right)
         {
-            return left.Value >= right.Value;
+            return left.value >= right.value;
         }
 
         public static bool operator <(Probability left, double right)
         {
-            return left.Value < right;
+            return left.value < right;
         }
 
         public static bool operator <=(Probability left, double right)
         {
-            return left.Value <= right;
+            return left.value <= right;
         }
 
         public static bool operator >(Probability left, double right)
         {
-            return left.Value > right;
+            return left.value > right;
         }
 
         public static bool operator >=(Probability left, double right)
         {
-            return left.Value >= right;
+            return left.value >= right;
         }
 
         public override bool Equals(object obj)
@@ -181,17 +192,17 @@ namespace Assembly.Kernel.Model
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return value.GetHashCode();
         }
 
         public bool Equals(Probability other)
         {
-            return other.Value.Equals(Value);
+            return other.value.Equals(value);
         }
 
         public bool Equals(double other)
         {
-            return Value.Equals(other);
+            return value.Equals(other);
         }
 
         public override string ToString()
@@ -199,29 +210,34 @@ namespace Assembly.Kernel.Model
             return ToString(null, null);
         }
 
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
+        }
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (Math.Abs(Value) < ToStringPrecision)
+            if (Math.Abs(value) < ToStringPrecision)
             {
                 return "0";
             }
 
-            if (Math.Abs(Value - 1) < ToStringPrecision)
+            if (Math.Abs(value - 1) < ToStringPrecision)
             {
                 return "1";
             }
 
-            if (double.IsNaN(Value))
+            if (double.IsNaN(value))
             {
                 return "Onbekend";
             }
 
             if (format == null)
             {
-                return "1/" + (1 / Value).ToString("F0", formatProvider ?? CultureInfo.CurrentCulture);
+                return "1/" + (1 / value).ToString("F0", formatProvider ?? CultureInfo.CurrentCulture);
             }
 
-            return Value.ToString(format, formatProvider ?? CultureInfo.CurrentCulture);
+            return value.ToString(format, formatProvider ?? CultureInfo.CurrentCulture);
         }
 
         public int CompareTo(object obj)
@@ -246,12 +262,12 @@ namespace Assembly.Kernel.Model
 
         public int CompareTo(Probability other)
         {
-            return Value.CompareTo(other.Value);
+            return value.CompareTo(other.value);
         }
 
         public int CompareTo(double other)
         {
-            return Value.CompareTo(other);
+            return value.CompareTo(other);
         }
     }
 }

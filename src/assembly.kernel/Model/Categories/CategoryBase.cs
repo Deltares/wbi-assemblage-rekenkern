@@ -68,7 +68,7 @@ namespace Assembly.Kernel.Model.Categories
         {
             if (double.IsNaN(lowerLimit) || double.IsNaN(upperLimit))
             {
-                throw new AssemblyException("Category: " + category, EAssemblyErrors.ValueMayNotBeNaN);
+                throw new AssemblyException("Category: " + category, EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }
 
             if (lowerLimit > upperLimit)

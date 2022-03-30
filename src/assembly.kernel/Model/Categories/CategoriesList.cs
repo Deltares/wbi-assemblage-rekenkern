@@ -62,9 +62,9 @@ namespace Assembly.Kernel.Model.Categories
         /// <returns>The category based on the <paramref name="failureProbability"/>.</returns>
         public TCategory GetCategoryForFailureProbability(Probability failureProbability)
         {
-            if (double.IsNaN(failureProbability.Value))
+            if (!failureProbability.IsDefined)
             {
-                throw new AssemblyException("FailureProbability", EAssemblyErrors.ValueMayNotBeNaN);
+                throw new AssemblyException("FailureProbability", EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }
 
             return Categories.First(category => failureProbability <= category.UpperLimit);

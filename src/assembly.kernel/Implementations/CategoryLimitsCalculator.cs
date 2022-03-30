@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Implementations
         public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(AssessmentSection section)
         {
             var sigDiv30 = new Probability(section.FailureProbabilitySignalingLimit / 30.0);
-            var lowTimes30 = new Probability(CapToOne(section.FailureProbabilityLowerLimit.Value * 30.0));
+            var lowTimes30 = new Probability(CapToOne((double)section.FailureProbabilityLowerLimit * 30.0));
 
             return new CategoriesList<AssessmentSectionCategory>(new[]
             {
@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Implementations
             var sigDiv1000 = new Probability(section.FailureProbabilitySignalingLimit / 1000.0);
             var sigDiv100 = new Probability(section.FailureProbabilitySignalingLimit / 100.0);
             var sigDiv10 = new Probability(section.FailureProbabilitySignalingLimit / 10.0);
-            var lowTimes10 = new Probability(CapToOne(section.FailureProbabilityLowerLimit.Value * 10.0));
+            var lowTimes10 = new Probability(CapToOne((double)section.FailureProbabilityLowerLimit * 10.0));
 
             return new CategoriesList<InterpretationCategory>(new[]
             {

@@ -223,7 +223,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
             }
         }
 
@@ -248,7 +248,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
             }
         }
 

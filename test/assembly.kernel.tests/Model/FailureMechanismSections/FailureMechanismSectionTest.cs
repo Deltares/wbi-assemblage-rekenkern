@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             catch (AssemblyException e)
             {
                 Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
             Assert.Fail("Expected error was not thrown");

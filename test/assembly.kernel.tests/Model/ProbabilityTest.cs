@@ -34,12 +34,12 @@ namespace Assembly.Kernel.Tests.Model
     public class ProbabilityTest
     {
         [Test]
-        public void ProvidesNaNValue()
+        public void UndefinedProbabilityReturnsUndefinedProbability()
         {
-            var nanValue = Probability.NaN;
+            var nanValue = Probability.UndefinedProbability;
 
             Assert.IsAssignableFrom<Probability>(nanValue);
-            Assert.AreEqual(double.NaN,nanValue.Value);
+            Assert.IsFalse(nanValue.IsDefined);
         }
 
         [Test]
@@ -49,12 +49,15 @@ namespace Assembly.Kernel.Tests.Model
             var val = 1.0/returnPeriod;
             var probability = new Probability(val);
 
-            Assert.AreEqual(val, probability.Value);
+            Assert.AreEqual(val, probability);
             Assert.AreEqual(returnPeriod, probability.ReturnPeriod);
+        }
 
+        [Test]
+        public void ConstructorPassesUndefinedProbability()
+        {
             var probabilityNaN = new Probability(double.NaN);
-
-            Assert.IsNaN(probabilityNaN.Value);
+            Assert.IsFalse(probabilityNaN.IsDefined);
         }
 
         [Test]

@@ -47,8 +47,8 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         {
             var result = new FailureMechanismSectionAssemblyResult((Probability) probabilityProfile, (Probability) probabilitySection, interpretationCategory);
             Assert.AreEqual(expectedNValue, result.NSection);
-            Assert.AreEqual(probabilityProfile, result.ProbabilityProfile.Value);
-            Assert.AreEqual(probabilitySection, result.ProbabilitySection.Value);
+            Assert.AreEqual(probabilityProfile, result.ProbabilityProfile);
+            Assert.AreEqual(probabilitySection, result.ProbabilitySection);
             Assert.AreEqual(interpretationCategory, result.InterpretationCategory);
         }
 
@@ -146,7 +146,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             catch (AssemblyException e)
             {
                 Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
             Assert.Fail("Expected error was not thrown");
@@ -173,7 +173,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         {
             var result = new FailureMechanismSectionAssemblyResult((Probability)0.2,(Probability)0.4,EInterpretationCategory.III);
 
-            Assert.AreEqual("FailureMechanismSectionAssemblyResult [III Pprofile:0.2, Psection:0.4]", result.ToString());
+            Assert.AreEqual("FailureMechanismSectionAssemblyResult [III Pprofile:1/5, Psection:1/3]", result.ToString());
         }
     }
 }

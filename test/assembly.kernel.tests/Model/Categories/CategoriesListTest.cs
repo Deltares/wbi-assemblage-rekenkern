@@ -165,13 +165,13 @@ namespace Assembly.Kernel.Tests.Model.Categories
 
             try
             {
-                var category = list.GetCategoryForFailureProbability(Probability.NaN);
+                var category = list.GetCategoryForFailureProbability(Probability.Undefined);
             }
             catch (AssemblyException e)
             {
                 Assert.IsNotNull(e.Errors);
                 Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, e.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
                 Assert.Pass();
             }
 

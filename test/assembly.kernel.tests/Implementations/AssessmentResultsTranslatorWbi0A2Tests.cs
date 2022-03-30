@@ -61,11 +61,11 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
-                Probability.NaN,
-                Probability.NaN,
+                Probability.Undefined,
+                Probability.Undefined,
                 ERefinementStatus.NotNecessary,
-                Probability.NaN,
-                Probability.NaN,
+                Probability.Undefined,
+                Probability.Undefined,
                 categories);
 
             Assert.IsNotNull(result);
@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new Probability(0.01),
                 ERefinementStatus.Necessary,
                 new Probability(0.1),
-                Probability.NaN,
+                Probability.Undefined,
                 categories);
 
             Assert.IsNotNull(result);
@@ -120,8 +120,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 probabilityProfile, 
                 probabilitySection,
                 ERefinementStatus.NotNecessary, 
-                Probability.NaN, 
-                Probability.NaN, 
+                Probability.Undefined, 
+                Probability.Undefined, 
                 categories);
 
             Assert.IsNotNull(result);
@@ -152,14 +152,14 @@ namespace Assembly.Kernel.Tests.Implementations
                 probabilityProfile,
                 probabilitySection,
                 ERefinementStatus.NotNecessary,
-                Probability.NaN,
-                Probability.NaN,
+                Probability.Undefined,
+                Probability.Undefined,
                 categories);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
-            Assert.AreEqual(Probability.NaN, result.ProbabilityProfile);
-            Assert.AreEqual(Probability.NaN, result.ProbabilitySection);
+            Assert.AreEqual(Probability.Undefined, result.ProbabilityProfile);
+            Assert.AreEqual(Probability.Undefined, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
         }
 
@@ -261,9 +261,9 @@ namespace Assembly.Kernel.Tests.Implementations
 
             var result = translator.TranslateAssessmentResultWbi0A2(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
-                Probability.NaN,
+                Probability.Undefined,
                 ERefinementStatus.NotNecessary,
-                Probability.NaN,
+                Probability.Undefined,
                 categories);
 
             Assert.IsNotNull(result);
@@ -320,13 +320,13 @@ namespace Assembly.Kernel.Tests.Implementations
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilitySection,
                 ERefinementStatus.NotNecessary,
-                Probability.NaN,
+                Probability.Undefined,
                 categories);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
-            Assert.AreEqual(Probability.NaN, result.ProbabilityProfile);
-            Assert.AreEqual(Probability.NaN, result.ProbabilitySection);
+            Assert.AreEqual(Probability.Undefined, result.ProbabilityProfile);
+            Assert.AreEqual(Probability.Undefined, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
         }
 
@@ -410,8 +410,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     (Probability)0.1, 
                     (Probability)0.01,
                     ERefinementStatus.NotNecessary,
-                    Probability.NaN, 
-                    Probability.NaN, 
+                    Probability.Undefined, 
+                    Probability.Undefined, 
                     categories);
             }
             catch (AssemblyException e)
@@ -441,8 +441,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
-                    Probability.NaN, 
-                    Probability.NaN,
+                    Probability.Undefined, 
+                    Probability.Undefined,
                     ERefinementStatus.Performed,
                     (Probability) 0.1, 
                     (Probability) 0.01, 
@@ -481,8 +481,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(probabilityProfile),
                     new Probability(probabilitySection),
                     ERefinementStatus.NotNecessary,
-                    Probability.NaN,
-                    Probability.NaN,
+                    Probability.Undefined,
+                    Probability.Undefined,
                     categories);
             }
             catch (AssemblyException e)
@@ -490,7 +490,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -512,7 +512,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
-                    Probability.NaN,
+                    Probability.Undefined,
                     new Probability(1/50.0),
                     ERefinementStatus.NotNecessary,
                     new Probability(1/50.0),
@@ -524,7 +524,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -549,8 +549,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
-                    Probability.NaN,
-                    Probability.NaN,
+                    Probability.Undefined,
+                    Probability.Undefined,
                     ERefinementStatus.Performed,
                     new Probability(probabilityProfile),
                     new Probability(probabilitySection),
@@ -561,7 +561,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -611,7 +611,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
                 var result = translator.TranslateAssessmentResultWbi0A2(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
-                    Probability.NaN,
+                    Probability.Undefined,
                     ERefinementStatus.NotNecessary,
                     (Probability)0.01,
                     categories);
@@ -621,7 +621,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -645,7 +645,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability)0.01,
                     ERefinementStatus.Performed,
-                    Probability.NaN,
+                    Probability.Undefined,
                     categories);
             }
             catch (AssemblyException e)
@@ -653,7 +653,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNaN, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 

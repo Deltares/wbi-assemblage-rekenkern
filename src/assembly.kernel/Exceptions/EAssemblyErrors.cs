@@ -117,9 +117,9 @@ namespace Assembly.Kernel.Exceptions
         ProfileProbabilityGreaterThanSectionProbability,
 
         /// <summary>
-        /// The provided probability may not be NaN
+        /// The provided probability may not be undefined.
         /// </summary>
-        ValueMayNotBeNaN,
+        ProbabilityMayNotBeUndefined,
 
         /// <summary>
         /// This message is issued whenever an AssemblyException could not be created

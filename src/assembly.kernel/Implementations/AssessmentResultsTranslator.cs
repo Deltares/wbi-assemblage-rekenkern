@@ -75,25 +75,25 @@ namespace Assembly.Kernel.Implementations
             switch (refinementStatus)
             {
                 case ERefinementStatus.Performed:
-                    if (double.IsNaN(refinedProbabilitySection.Value) || double.IsNaN(refinedProbabilityProfile.Value))
+                    if (!refinedProbabilitySection.IsDefined || !refinedProbabilityProfile.IsDefined)
                     {
-                        throw new AssemblyException("refinedProbability", EAssemblyErrors.ValueMayNotBeNaN);
+                        throw new AssemblyException("refinedProbability", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                     }
                     CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
 
                     var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
                     return new FailureMechanismSectionAssemblyResult(refinedProbabilityProfile, refinedProbabilitySection, refinedCategory);
                 case ERefinementStatus.Necessary:
-                    return new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.Dominant);
+                    return new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant);
                 default:
                     switch (relevance)
                     {
                         case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
-                            return new FailureMechanismSectionAssemblyResult(Probability.NaN, Probability.NaN, EInterpretationCategory.NotDominant);
+                            return new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant);
                         default:
                             if (double.IsNaN(probabilityInitialMechanismSection) || double.IsNaN(probabilityInitialMechanismProfile))
                             {
-                                throw new AssemblyException("probabilityInitialMechanism", EAssemblyErrors.ValueMayNotBeNaN);
+                                throw new AssemblyException("probabilityInitialMechanism", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                             }
 
                             CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);

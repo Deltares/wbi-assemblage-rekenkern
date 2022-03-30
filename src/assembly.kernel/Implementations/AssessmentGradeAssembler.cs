@@ -46,9 +46,7 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                failureMechanismProbabilitiesArray = failureMechanismProbabilitiesArray.Where(probability =>
-                        !double.IsNaN(probability.Value))
-                    .ToArray();
+                failureMechanismProbabilitiesArray = failureMechanismProbabilitiesArray.Where(probability => probability.IsDefined).ToArray();
 
                 if (failureMechanismProbabilitiesArray.Length == 0)
                 {
@@ -59,9 +57,9 @@ namespace Assembly.Kernel.Implementations
             var failureProbabilityProduct = 1.0;
             foreach (var probability in failureMechanismProbabilitiesArray)
             {
-                if (double.IsNaN(probability.Value))
+                if (!probability.IsDefined)
                 {
-                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.ValueMayNotBeNaN);
+                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                 }
 
                 failureProbabilityProduct *= 1.0 - probability;

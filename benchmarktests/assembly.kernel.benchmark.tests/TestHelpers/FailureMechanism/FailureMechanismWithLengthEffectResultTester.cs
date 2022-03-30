@@ -115,7 +115,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 }
                 catch (AssemblyException e)
                 {
-                    result = new FailureMechanismAssemblyResult(Probability.NaN, EFailureMechanismAssemblyMethod.Correlated);
+                    result = new FailureMechanismAssemblyResult(Probability.Undefined, EFailureMechanismAssemblyMethod.Correlated);
                 }
 
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
