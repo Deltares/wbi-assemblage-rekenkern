@@ -47,11 +47,11 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// The expected estimated probability of flooding for the combined
         /// failure mechanisms as a result of temporal assessment.
         /// </summary>
-        public Probability ExpectedCombinedProbabilityTemporal { get; set; }
+        public Probability ExpectedCombinedProbabilityPartial { get; set; }
 
         /// <summary>
         /// The expected assessment grade as a result of temporal assessment.
         /// </summary>
-        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGradeTemporal { get; set; }
+        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGradePartial { get; set; }
     }
 }

@@ -44,6 +44,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <c>false</c> otherwise.</returns>
         bool TestAssessmentSectionResult();
 
-        bool TestAssessmentSectionResultTemporal();
+        bool TestAssessmentSectionResultPartial();
     }
 }

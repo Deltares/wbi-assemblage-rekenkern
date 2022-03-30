@@ -83,12 +83,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether assembly of the final verdict was correctly during partial assembly.
         /// </summary>
-        public bool AreEqualAssemblyResultFinalVerdictTemporal { get; set; }
+        public bool AreEqualAssemblyResultFinalVerdictPartial { get; set; }
 
         /// <summary>
         /// Indicates whether assembly of the final verdict was correctly during partial assembly.
         /// </summary>
-        public bool AreEqualAssemblyResultFinalVerdictProbabilityTemporal { get; set; }
+        public bool AreEqualAssemblyResultFinalVerdictProbabilityPartial { get; set; }
 
         /// <summary>
         /// Indicates whether the combined sections where determined correctly

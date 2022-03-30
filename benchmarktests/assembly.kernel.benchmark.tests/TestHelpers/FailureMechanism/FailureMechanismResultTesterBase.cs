@@ -98,7 +98,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        public virtual bool TestAssessmentSectionResultTemporal()
+        public virtual bool TestAssessmentSectionResultPartial()
         {
             try
             {

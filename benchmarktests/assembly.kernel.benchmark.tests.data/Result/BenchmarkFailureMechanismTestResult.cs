@@ -73,7 +73,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether all assessment results per section where translated correctly to a combined assessment result for the failure mechanism during assembly while performing partial assembly.
         /// </summary>
-        public bool AreEqualAssessmentResultPerAssessmentSectionTemporal { get; set; }
+        public bool AreEqualAssessmentResultPerAssessmentSectionPartial { get; set; }
 
         /// <summary>
         /// Indicates whether all combined results for the combined sections where translated correctly during assembly.

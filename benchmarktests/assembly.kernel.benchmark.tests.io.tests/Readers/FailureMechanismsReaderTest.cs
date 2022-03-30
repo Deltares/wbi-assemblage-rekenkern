@@ -57,7 +57,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
                 Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbability,1e-4);
-                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal, 1e-4);
+                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
             }
         }
 
@@ -83,7 +83,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
                 Assert.AreEqual(4.46E-06, expectedFailureMechanismResult.ExpectedCombinedProbability, 1E-4);
-                Assert.AreEqual(4.46E-06, expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal, 1E-4);
+                Assert.AreEqual(4.46E-06, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1E-4);
             }
         }
     }

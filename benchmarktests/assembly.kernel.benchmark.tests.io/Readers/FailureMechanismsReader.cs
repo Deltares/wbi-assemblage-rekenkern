@@ -69,7 +69,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private void ReadGeneralInformation(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            expectedFailureMechanismResult.ExpectedCombinedProbabilityTemporal = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
+            expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
             expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal = ToCorrelation(GetCellValueAsString("C", "Vakken gecorreleerd?") == "Ja");
             expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
             expectedFailureMechanismResult.ExpectedIsSectionsCorrelated = ToCorrelation(double.IsNaN(expectedFailureMechanismResult.ExpectedCombinedProbability) || expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal == EFailureMechanismAssemblyMethod.Correlated); 

@@ -97,6 +97,9 @@ namespace assembly.kernel.benchmark.tests
             str += "   " + @"BOI-2A-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2A1) + " & " +
                                                          ToResultText(t.Value.MethodResults.Boi2A1P))) + @" \\" + "\n";
+            str += "   " + @"BOI-2B-1 " +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2B1) +
+                                                         ToResultText(t.Value.MethodResults.Boi2B1P))) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
             str += "   " + @"BOI-3A-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3A1) +
@@ -132,7 +135,7 @@ namespace assembly.kernel.benchmark.tests
                 str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
-                       ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionTemporal) + " & " +
+                       ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionPartial) + " & " +
                        ToResultText(m.AreEqualCombinedResultsCombinedSections);
                 if (index != result.FailureMechanismResults.Count - 1)
                 {
@@ -158,10 +161,10 @@ namespace assembly.kernel.benchmark.tests
                 ToResultText(result.AreEqualAssemblyResultFinalVerdict));
             template = template.Replace("$AreEqualAssemblyResultFinalVerdictProbability$",
                 ToResultText(result.AreEqualAssemblyResultFinalVerdictProbability));
-            template = template.Replace("$AreEqualAssemblyResultFinalVerdictProbabilityTemporal$",
-                ToResultText(result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal));
-            template = template.Replace("$AreEqualAssemblyResultFinalVerdictTemporal$",
-                ToResultText(result.AreEqualAssemblyResultFinalVerdictTemporal));
+            template = template.Replace("$AreEqualAssemblyResultFinalVerdictProbabilityPartial$",
+                ToResultText(result.AreEqualAssemblyResultFinalVerdictProbabilityPartial));
+            template = template.Replace("$AreEqualAssemblyResultFinalVerdictPartial$",
+                ToResultText(result.AreEqualAssemblyResultFinalVerdictPartial));
             return template;
         }
 

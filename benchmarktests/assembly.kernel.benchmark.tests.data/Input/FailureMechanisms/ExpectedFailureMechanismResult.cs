@@ -76,7 +76,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// <summary>
         /// The expected result while performing partial assembly (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
         /// </summary>
-        public Probability ExpectedCombinedProbabilityTemporal { get; set; }
+        public Probability ExpectedCombinedProbabilityPartial { get; set; }
 
         /// <summary>
         /// Indicates whether we expect correlated sections or not when determining the combined probability.
