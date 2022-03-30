@@ -145,13 +145,14 @@ namespace assembly.kernel.benchmark.tests
         private static void TestProbabilisticFailureMechanismsResultsTemporal(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
-            AssessmentSectionResult assemblerResult = null;
+            EAssessmentGrade assessmentGrade;
+            Probability probability = Probability.Undefined;
             try
             {
                 var assembler = new AssessmentGradeAssembler();
-                assemblerResult = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityTemporal),
-                    input.ExpectedAssessmentSectionCategories, true);
+                probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityTemporal), true);
+                assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(probability, input.ExpectedAssessmentSectionCategories);
             }
             catch (AssemblyException)
             {
@@ -163,13 +164,12 @@ namespace assembly.kernel.benchmark.tests
                 return;
             }
 
-            Assert.IsNotNull(assemblerResult);
+            Assert.IsNotNull(assessmentGrade);
             AssertHelper.AssertAreEqualProbabilities(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityTemporal,
-                new Probability(assemblerResult.FailureProbability));
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityTemporal,probability);
             Assert.AreEqual(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal.ToEAssessmentGrade(),
-                assemblerResult.Category);
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradeTemporal
+                    .ToEAssessmentGrade(), assessmentGrade);
 
             result.AreEqualAssemblyResultFinalVerdictTemporal = true;
             result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
@@ -180,13 +180,15 @@ namespace assembly.kernel.benchmark.tests
             BenchmarkTestResult result)
         {
             result.MethodResults.Boi2A1 = false;
-            AssessmentSectionResult assemblerResult = null;
+            EAssessmentGrade assessmentGrade;
+            Probability probability = Probability.Undefined;
             try
             {
                 var assembler = new AssessmentGradeAssembler();
-                assemblerResult = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
-                    input.ExpectedAssessmentSectionCategories, false);
+                probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),false);
+                assessmentGrade =
+                    assembler.DetermineAssessmentGradeBoi2B1(probability, input.ExpectedAssessmentSectionCategories);
             }
             catch (AssemblyException)
             {
@@ -198,13 +200,11 @@ namespace assembly.kernel.benchmark.tests
                 return;
             }
 
-            Assert.IsNotNull(assemblerResult);
             AssertHelper.AssertAreEqualProbabilities(
-                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability,
-                new Probability(assemblerResult.FailureProbability));
+                input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability, probability);
             Assert.AreEqual(
                 input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade.ToEAssessmentGrade(),
-                assemblerResult.Category);
+                assessmentGrade);
 
             result.AreEqualAssemblyResultFinalVerdict = true;
             result.AreEqualAssemblyResultFinalVerdictProbability = true;

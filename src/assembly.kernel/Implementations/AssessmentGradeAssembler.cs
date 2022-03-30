@@ -37,58 +37,62 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
         /// <inheritdoc />
-        public AssessmentSectionResult CalculateAssessmentSectionFailureProbabilityBoi2A1(
+        public Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
             IEnumerable<Probability> failureMechanismProbabilities,
-            CategoriesList<AssessmentSectionCategory> categories,
             bool partialAssembly)
         {
-            Probability[] failureMechanismProbabilitiesArray = CheckFailureMechanismAssemblyResults(failureMechanismProbabilities, categories);
+            if (failureMechanismProbabilities == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.ValueMayNotBeNull);
+            }
 
+            var failureProbabilitiesArray = failureMechanismProbabilities as Probability[] ??
+                                            failureMechanismProbabilities.ToArray();
+
+            CheckForProbabilities(failureProbabilitiesArray);
             if (partialAssembly)
             {
-                failureMechanismProbabilitiesArray = failureMechanismProbabilitiesArray.Where(probability => probability.IsDefined).ToArray();
-
-                if (failureMechanismProbabilitiesArray.Length == 0)
-                {
-                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.EmptyResultsList);
-                }
+                failureProbabilitiesArray = failureProbabilitiesArray.Where(probability => probability.IsDefined).ToArray();
+                CheckForProbabilities(failureProbabilitiesArray);
             }
 
             var failureProbabilityProduct = (Probability)1.0;
-            foreach (var probability in failureMechanismProbabilitiesArray)
+            foreach (var probability in failureProbabilitiesArray)
             {
                 if (!probability.IsDefined)
                 {
-                    throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                    throw new AssemblyException(nameof(Probability), EAssemblyErrors.ProbabilityMayNotBeUndefined);
                 }
 
                 failureProbabilityProduct *= probability.Complement;
             }
 
-            var probabilityOfFailure = failureProbabilityProduct.Complement;
-            var category = categories.GetCategoryForFailureProbability(probabilityOfFailure);
-            return new AssessmentSectionResult(probabilityOfFailure, category.Category);
+            return failureProbabilityProduct.Complement;
         }
 
-        private static Probability[] CheckFailureMechanismAssemblyResults(IEnumerable<Probability> probabilities,
-            CategoriesList<AssessmentSectionCategory> categories)
+        /// <inheritdoc />
+        public EAssessmentGrade DetermineAssessmentGradeBoi2B1(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
+        {
+            CheckForDefinedProbabilityAndCategories(failureProbability, categories);
+            var category = categories.GetCategoryForFailureProbability(failureProbability);
+            return category.Category;
+        }
+
+        private static void CheckForProbabilities(Probability[] probabilities)
+        {
+            if (probabilities.Length == 0)
+            {
+                throw new AssemblyException(nameof(probabilities), EAssemblyErrors.EmptyResultsList);
+            }
+        }
+
+        private static void CheckForDefinedProbabilityAndCategories(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
             var errors = new List<AssemblyErrorMessage>();
-
-            Probability[] probabilitiesArray = null;
-            if (probabilities == null)
+            if (!failureProbability.IsDefined)
             {
-                errors.Add(new AssemblyErrorMessage("AssembleFailureMechanismResult", EAssemblyErrors.ValueMayNotBeNull));
+                errors.Add(new AssemblyErrorMessage(nameof(Probability), EAssemblyErrors.ProbabilityMayNotBeUndefined));
             }
-            else
-            {
-                probabilitiesArray = probabilities as Probability[] ?? probabilities.ToArray();
-                if (probabilitiesArray.Length == 0)
-                {
-                    errors.Add(new AssemblyErrorMessage("AssembleFailureMechanismResult", EAssemblyErrors.EmptyResultsList));
-                }
-            }
-
             if (categories == null)
             {
                 errors.Add(new AssemblyErrorMessage("Categories", EAssemblyErrors.ValueMayNotBeNull));
@@ -98,8 +102,6 @@ namespace Assembly.Kernel.Implementations
             {
                 throw new AssemblyException(errors);
             }
-
-            return probabilitiesArray;
         }
     }
 }

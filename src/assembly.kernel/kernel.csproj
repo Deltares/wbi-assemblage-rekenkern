@@ -36,7 +36,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\AssessmentSection\AssessmentSectionResult.cs" />
     <Compile Include="Model\Categories\CategoriesList.cs" />
     <Compile Include="Model\Categories\ICategoryLimits.cs" />
     <Compile Include="Model\Categories\InterpretationCategory.cs" />
