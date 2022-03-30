@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Tests
             }
 
             // assembly step 2
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
             var assessmentGradeWithFailureProb =
                 assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), categories, false);
 

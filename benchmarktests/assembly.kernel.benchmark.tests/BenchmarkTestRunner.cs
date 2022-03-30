@@ -57,8 +57,7 @@ namespace assembly.kernel.benchmark.tests
         {
             var calculator = new CategoryLimitsCalculator();
 
-            // WBI-2-1
-            CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsWbi21(
+            CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsBoi21(
                 new AssessmentSection((Probability) input.SignalingNorm, (Probability) input.LowerBoundaryNorm));
             CategoriesList<AssessmentSectionCategory> expectedCategories =
                 input.ExpectedAssessmentSectionCategories;
@@ -78,8 +77,7 @@ namespace assembly.kernel.benchmark.tests
         {
             var calculator = new CategoryLimitsCalculator();
 
-            // WBI-2-1
-            CategoriesList<InterpretationCategory> categories = calculator.CalculateInterpretationCategoryLimitsWbi03(
+            CategoriesList<InterpretationCategory> categories = calculator.CalculateInterpretationCategoryLimitsBoi01(
                 new AssessmentSection((Probability)input.SignalingNorm, (Probability)input.LowerBoundaryNorm));
             CategoriesList<InterpretationCategory> expectedCategories = input.ExpectedInterpretationCategories;
 

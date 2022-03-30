@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.0005, 0.00005, 0.000549975, EAssessmentGrade.A)]
         public void Boi2B1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
         {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
             var failureMechanismProbabilities = new[]
             {
                 (Probability) prob1,
@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi2B1PartialAssembly()
         {
             var sectionFailureProbability = 0.00003;
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
             var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                 new[]
                 {
@@ -100,7 +100,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi2B1ProbabilitiesNullTest()
         {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
             try
             {
                 assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(null, categories, false);
@@ -117,7 +117,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi2B1EmptyProbabilitiesList()
         {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
             try
             {
                 assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(new List<Probability>(), categories, false);
@@ -178,7 +178,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
                 var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {
@@ -205,7 +205,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
                 var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {
@@ -232,7 +232,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(assessmentSection);
+                var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
                 var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(
                     new[]
                     {

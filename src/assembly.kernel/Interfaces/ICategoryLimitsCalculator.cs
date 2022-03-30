@@ -38,13 +38,13 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
         /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(AssessmentSection section);
+        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
 
         /// <summary>
         /// Calculate the interpretation category limits for a section as specified in WBI-0-3.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
         /// <returns>A list of all the categories with their lower and upper limits.</returns>
-        CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(AssessmentSection section);
+        CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection section);
     }
 }

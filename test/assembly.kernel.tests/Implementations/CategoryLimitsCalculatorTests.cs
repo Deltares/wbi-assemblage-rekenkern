@@ -47,12 +47,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
-        public void CalculateWbi03FunctionalTest(double signalingLimit, double lowerLimit)
+        public void CalculateBoi01FunctionalTest(double signalingLimit, double lowerLimit)
         {
             var section = new AssessmentSection((Probability) signalingLimit, (Probability) lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
-                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
+                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
 
             Assert.AreEqual(7, results.Categories.Length);
 
@@ -96,14 +96,14 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateWbi03CapToOneTest()
+        public void CalculateBoi01CapToOneTest()
         {
             var signalingLimit = 0.001;
             var lowerLimit = 0.5;
             var section = new AssessmentSection((Probability)signalingLimit, (Probability)lowerLimit);
 
             CategoriesList<InterpretationCategory> results =
-                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsWbi03(section);
+                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
 
             Assert.AreEqual(7, results.Categories.Length);
 
@@ -151,7 +151,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region WBI-2-1
 
         [Test]
-        public void CalculateWbi21FunctionalTest()
+        public void CalculateBoi21FunctionalTest()
         {
             var signalingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.03);
@@ -159,7 +159,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var section = new AssessmentSection(signalingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
-                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
+                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
 
             Assert.AreEqual(5, results.Categories.Length);
 
@@ -195,7 +195,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateWbi21CapToOneTest()
+        public void CalculateBoi21CapToOneTest()
         {
             var signalingLimit = new Probability(0.003);
             var lowerLimit = new Probability(0.034);
@@ -203,7 +203,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var section = new AssessmentSection(signalingLimit, lowerLimit);
 
             CategoriesList<AssessmentSectionCategory> results =
-                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsWbi21(section);
+                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
 
             Assert.AreEqual(5, results.Categories.Length);
 

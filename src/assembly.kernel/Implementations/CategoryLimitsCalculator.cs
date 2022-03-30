@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Implementations
     public class CategoryLimitsCalculator : ICategoryLimitsCalculator
     {
         /// <inheritdoc />
-        public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsWbi21(AssessmentSection section)
+        public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section)
         {
             var sigDiv30 = new Probability(section.FailureProbabilitySignalingLimit / 30.0);
             var lowTimes30 = new Probability(CapToOne((double)section.FailureProbabilityLowerLimit * 30.0));
@@ -68,7 +68,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsWbi03(
+        public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(
             AssessmentSection section)
         {
             var sigDiv1000 = new Probability(section.FailureProbabilitySignalingLimit / 1000.0);
