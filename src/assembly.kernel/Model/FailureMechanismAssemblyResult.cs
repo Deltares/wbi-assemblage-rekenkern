@@ -26,7 +26,7 @@
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Result class for the WBI-1B-1 method.
+    /// Result class for the BOI-1A-1 method.
     /// </summary>
     public class FailureMechanismAssemblyResult
     {

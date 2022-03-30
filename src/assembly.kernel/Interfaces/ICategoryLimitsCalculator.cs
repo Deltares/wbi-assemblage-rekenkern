@@ -34,14 +34,14 @@ namespace Assembly.Kernel.Interfaces
     public interface ICategoryLimitsCalculator
     {
         /// <summary>
-        /// Calculate the category limits for an assessment section as specified in WBI-2-1.
+        /// Calculate the category limits for an assessment section as specified in BOI-2-1.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
         /// <returns>A list of all the categories with their lower and upper limits.</returns>
         CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
 
         /// <summary>
-        /// Calculate the interpretation category limits for a section as specified in WBI-0-3.
+        /// Calculate the interpretation category limits for a section as specified in BOI-0-1.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
         /// <returns>A list of all the categories with their lower and upper limits.</returns>

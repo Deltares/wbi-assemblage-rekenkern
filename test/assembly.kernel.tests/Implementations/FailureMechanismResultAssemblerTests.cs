@@ -216,7 +216,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void WbiOneSectionNeverCorrelated()
+        public void Boi1A1OneSectionNeverCorrelated()
         {
             var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]

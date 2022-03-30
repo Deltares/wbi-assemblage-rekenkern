@@ -46,26 +46,26 @@ namespace Assembly.Kernel.Implementations
 
             // step 1: create greatest common denominator list of the failure mechanism sections in the list.
             FailureMechanismSectionList commonSections =
-                FindGreatestCommonDenominatorSectionsWbi3A1(failureMechanismSections, assessmentSectionLength);
+                FindGreatestCommonDenominatorSectionsBoi3A1(failureMechanismSections, assessmentSectionLength);
 
             // step 2: determine assessment results per section for each failure mechanism.
             var failureMechanismResults = new List<FailureMechanismSectionList>();
             foreach (FailureMechanismSectionList failureMechanismSectionList in failureMechanismSections)
             {
                 failureMechanismResults.Add(
-                    TranslateFailureMechanismResultsToCommonSectionsWbi3B1(failureMechanismSectionList,
+                    TranslateFailureMechanismResultsToCommonSectionsBoi3B1(failureMechanismSectionList,
                         commonSections));
             }
 
             // step 3: determine combined result per common section
             var combinedSectionResult =
-                DetermineCombinedResultPerCommonSectionWbi3C1(failureMechanismResults, partialAssembly);
+                DetermineCombinedResultPerCommonSectionBoi3C1(failureMechanismResults, partialAssembly);
 
             return new AssemblyResult(failureMechanismResults, combinedSectionResult);
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi3A1(
+        public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
@@ -122,7 +122,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+        public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections)
         {
@@ -151,10 +151,10 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
+        public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly)
         {
-            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = CheckInputWbi3C1(failureMechanismResults);
+            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = CheckInputBoi3C1(failureMechanismResults);
 
             FailureMechanismSectionWithCategory[] firstSectionsList = failureMechanismSectionLists.First();
             var combinedSectionResults = new List<FailureMechanismSectionWithCategory>();
@@ -188,7 +188,7 @@ namespace Assembly.Kernel.Implementations
             return combinedSectionResults;
         }
 
-        private static FailureMechanismSectionWithCategory[][] CheckInputWbi3C1(
+        private static FailureMechanismSectionWithCategory[][] CheckInputBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResults)
         {
             if (failureMechanismResults == null)

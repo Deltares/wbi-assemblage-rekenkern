@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
         /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
-        FailureMechanismSectionList FindGreatestCommonDenominatorSectionsWbi3A1(
+        FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength);
 
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionList">This list needs to have also categories.</param>
         /// <param name="commonSections">The of all common failure mechanism sections.</param>
         /// <returns>The assembly result per common denominator section for the specified failure mechanism.</returns>
-        FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+        FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections);
 
@@ -85,7 +85,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
         /// <returns>The greatest common denominator assembly result.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections.</exception>
-        IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionWbi3C1(
+        IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly);
     }
 }

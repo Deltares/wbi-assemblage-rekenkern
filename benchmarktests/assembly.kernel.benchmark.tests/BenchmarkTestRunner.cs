@@ -65,7 +65,7 @@ namespace assembly.kernel.benchmark.tests
             result.AreEqualCategoriesListAssessmentSection =
                 AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
                     expectedCategories, categories);
-            result.MethodResults.Wbi21 = result.AreEqualCategoriesListAssessmentSection;
+            result.MethodResults.Boi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace assembly.kernel.benchmark.tests
             result.AreEqualCategoriesListInterpretationCategories =
                 AssertHelper.AssertEqualCategoriesList<InterpretationCategory, EInterpretationCategory>(
                     expectedCategories, categories);
-            result.MethodResults.Wbi03 = result.AreEqualCategoriesListInterpretationCategories;
+            result.MethodResults.Boi01 = result.AreEqualCategoriesListInterpretationCategories;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace assembly.kernel.benchmark.tests
                               EExpectedAssessmentGrade.Exception);
                 result.AreEqualAssemblyResultFinalVerdictTemporal = true;
                 result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
-                result.MethodResults.Wbi2B1T = true;
+                result.MethodResults.Boi2A1P = true;
                 return;
             }
 
@@ -173,13 +173,13 @@ namespace assembly.kernel.benchmark.tests
 
             result.AreEqualAssemblyResultFinalVerdictTemporal = true;
             result.AreEqualAssemblyResultFinalVerdictProbabilityTemporal = true;
-            result.MethodResults.Wbi2B1T = true;
+            result.MethodResults.Boi2A1P = true;
         }
 
         private static void TestProbabilisticFailureMechanismsResults(BenchmarkTestInput input,
             BenchmarkTestResult result)
         {
-            result.MethodResults.Wbi2B1 = false;
+            result.MethodResults.Boi2A1 = false;
             AssessmentSectionResult assemblerResult = null;
             try
             {
@@ -194,7 +194,7 @@ namespace assembly.kernel.benchmark.tests
                               EExpectedAssessmentGrade.Exception);
                 result.AreEqualAssemblyResultFinalVerdict = true;
                 result.AreEqualAssemblyResultFinalVerdictProbability = true;
-                result.MethodResults.Wbi2B1 = true;
+                result.MethodResults.Boi2A1 = true;
                 return;
             }
 
@@ -208,14 +208,14 @@ namespace assembly.kernel.benchmark.tests
 
             result.AreEqualAssemblyResultFinalVerdict = true;
             result.AreEqualAssemblyResultFinalVerdictProbability = true;
-            result.MethodResults.Wbi2B1 = true;
+            result.MethodResults.Boi2A1 = true;
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
-            // WBI-3A-1
-            var combinedSections = assembler.FindGreatestCommonDenominatorSectionsWbi3A1(
+            // BOI-3A-1
+            var combinedSections = assembler.FindGreatestCommonDenominatorSectionsBoi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
                          fm => new FailureMechanismSectionListWithFailureMechanismId(fm.Name,
                                                                fm.Sections.Select(
@@ -236,12 +236,12 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSections = true;
-                result.MethodResults.Wbi3A1 = true;
+                result.MethodResults.Boi3A1 = true;
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSections = false;
-                result.MethodResults.Wbi3A1 = false;
+                result.MethodResults.Boi3A1 = false;
             }
         }
 
@@ -250,7 +250,7 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var calculatedResults = assembler
-                                    .DetermineCombinedResultPerCommonSectionWbi3C1(
+                                    .DetermineCombinedResultPerCommonSectionBoi3C1(
                                         input.ExpectedCombinedSectionResultPerFailureMechanism,
                                         false).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResult.ToArray();
@@ -265,12 +265,12 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSectionsResults = true;
-                result.MethodResults.Wbi3C1 = true;
+                result.MethodResults.Boi3C1 = true;
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResults = false;
-                result.MethodResults.Wbi3C1 = false;
+                result.MethodResults.Boi3C1 = false;
             }
         }
 
@@ -280,7 +280,7 @@ namespace assembly.kernel.benchmark.tests
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var calculatedResults = assembler
-                                    .DetermineCombinedResultPerCommonSectionWbi3C1(
+                                    .DetermineCombinedResultPerCommonSectionBoi3C1(
                                         input.ExpectedCombinedSectionResultPerFailureMechanism,
                                         true).ToArray();
             var expectedResults = input.ExpectedCombinedSectionResultTemporal.ToArray();
@@ -295,12 +295,12 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = true;
-                result.MethodResults.Wbi3C1T = true;
+                result.MethodResults.Boi3C1P = true;
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = false;
-                result.MethodResults.Wbi3C1T = false;
+                result.MethodResults.Boi3C1P = false;
             }
         }
 
@@ -315,7 +315,7 @@ namespace assembly.kernel.benchmark.tests
                     .OfType<ExpectedFailureMechanismSection>()
                     .Select(CreateExpectedFailureMechanismSectionWithResult));
 
-            var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(
+            var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
                 failureMechanismSectionList,
                 combinedSections);
 
@@ -336,13 +336,13 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = true;
-                result.MethodResults.Wbi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Wbi3B1, true);
+                result.MethodResults.Boi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi3B1, true);
             }
             catch (AssertionException e)
             {
                 Console.WriteLine("Error matching combined sections for {0}: {1}",failureMechanismResult.Name, e.Message);
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = false;
-                result.MethodResults.Wbi3B1 = false;
+                result.MethodResults.Boi3B1 = false;
             }
         }
 

@@ -40,10 +40,10 @@ namespace Assembly.Kernel.Tests.Implementations
         private readonly ICommonFailureMechanismSectionAssembler assembler =
             new CommonFailureMechanismSectionAssembler();
 
-        #region WBI-3A-1
+        #region BOI-3A-1
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ReturnsCorrectSections()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ReturnsCorrectSections()
         {
             const double assessmentSectionLength = 30.0;
             var list1 = new FailureMechanismSectionList(new[]
@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
                     {
                         list1,
                         list2,
@@ -93,7 +93,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1IgnoresSmallSectionBoundaryDifferences()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1IgnoresSmallSectionBoundaryDifferences()
         {
             var delta = 1e-6;
             var assessmentSectionLength = 30.0;
@@ -118,7 +118,7 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
                                                                       {
                                                                           list1,
                                                                           list2,
@@ -149,12 +149,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnEmptySectionLists()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnEmptySectionLists()
         {
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new FailureMechanismSectionList[]
+                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new FailureMechanismSectionList[]
                                                                               {}, 10.0);
             }
             catch (AssemblyException exception)
@@ -169,12 +169,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnNullSectionLists()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnNullSectionLists()
         {
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(null, 10.0);
+                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, 10.0);
             }
             catch (AssemblyException exception)
             {
@@ -188,12 +188,12 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsMultipleErrors()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsMultipleErrors()
         {
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(null, -10.0);
+                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, -10.0);
             }
             catch (AssemblyException exception)
             {
@@ -212,7 +212,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(-2.3, EAssemblyErrors.SectionLengthOutOfRange)]
         [TestCase(0.0, EAssemblyErrors.SectionLengthOutOfRange)]
         [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
                                                                                                EAssemblyErrors expectedError)
         {
             var list1 = new FailureMechanismSectionList(new[]
@@ -224,7 +224,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
                                                                           {
                                                                               list1
                                                                           },
@@ -242,7 +242,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsWbi3A1ThrowsOnInvalidSectionList()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnInvalidSectionList()
         {
             var assessmentSectionLength = 30.0;
             var list1 = new FailureMechanismSectionList(new[]
@@ -261,7 +261,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsWbi3A1(new[]
+                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
                                                                           {
                                                                               list1,
                                                                               list2
@@ -281,10 +281,10 @@ namespace Assembly.Kernel.Tests.Implementations
 
         #endregion
 
-        #region WBI-3B-1
+        #region BOI-3B-1
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1TranslatesCorrectly()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1TranslatesCorrectly()
         {
             var resultSectionsList = new FailureMechanismSectionList(new[]
             {
@@ -299,7 +299,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(7.5, 10.0)
             });
             var commonSectionsWithResults =
-                assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
                     commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
@@ -315,7 +315,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnIncorrectListType()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1ThrowsOnIncorrectListType()
         {
             var resultSectionsList = new FailureMechanismSectionList(new[]
             {
@@ -334,7 +334,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                    assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
                                                                                      commonSectionsList);
             }
             catch (AssemblyException exception)
@@ -349,7 +349,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnInvalidSectionLengthsEmpty()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1ThrowsOnInvalidSectionLengthsEmpty()
         {
             var list = new FailureMechanismSectionList(new[]
             {
@@ -364,7 +364,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(longList, list);
+                    assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(longList, list);
             }
             catch (AssemblyException exception)
             {
@@ -379,7 +379,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1ThrowsOnNullLists()
         {
             var list = new FailureMechanismSectionList(new[]
             {
@@ -389,7 +389,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(null, list);
+                    assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(null, list);
             }
             catch (AssemblyException exception)
             {
@@ -403,7 +403,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1ThrowsOnNullLists2()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1ThrowsOnNullLists2()
         {
             var list = new FailureMechanismSectionList(new[]
             {
@@ -413,7 +413,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(list, null);
+                    assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(list, null);
             }
             catch (AssemblyException exception)
             {
@@ -427,7 +427,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsWbi3B1WithRoundingTranslatesCorrectly()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1WithRoundingTranslatesCorrectly()
         {
             var resultSectionsList = new FailureMechanismSectionList(new[]
             {
@@ -442,7 +442,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(7.5, 10.000000001)
             });
             var commonSectionsWithResults =
-                assembler.TranslateFailureMechanismResultsToCommonSectionsWbi3B1(resultSectionsList,
+                assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
                                                                                  commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
@@ -459,7 +459,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         #endregion
 
-        #region WBI-3C-1
+        #region BOI-3C-1
 
         [Test]
         public void DetermineCombinedResultPerCommonSectionReturnsCorrectResults()
@@ -495,7 +495,7 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSectionsWithResults =
-                assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
                 {
                     sectionsList1,
                     sectionsList2,
@@ -543,7 +543,7 @@ namespace Assembly.Kernel.Tests.Implementations
             });
 
             var commonSectionsWithResults =
-                assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
                 {
                     sectionsList1,
                     sectionsList2,
@@ -567,7 +567,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new FailureMechanismSectionList[] {},
+                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[] {},
                                                                             false);
             }
             catch (AssemblyException exception)
@@ -598,7 +598,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
                     {
                         sectionsList1,
                         sectionsList2
@@ -637,7 +637,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionWbi3C1(new[]
+                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
                     {
                         sectionsList1,
                         sectionsList2
@@ -660,7 +660,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionWbi3C1(null, false);
+                var commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(null, false);
             }
             catch (AssemblyException exception)
             {

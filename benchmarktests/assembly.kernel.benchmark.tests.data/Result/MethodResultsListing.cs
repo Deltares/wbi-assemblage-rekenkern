@@ -33,12 +33,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool Wbi03 { get; set; }
+        public bool Boi01 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool Wbi21 { get; set; }
+        public bool Boi21 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
@@ -58,32 +58,32 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi2B1 { get; set; }
+        public bool? Boi2A1 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi2B1T { get; set; }
+        public bool? Boi2A1P { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool Wbi3A1 { get; set; }
+        public bool Boi3A1 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Wbi3B1 { get; set; }
+        public bool? Boi3B1 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool Wbi3C1 { get; set; }
+        public bool Boi3C1 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool Wbi3C1T { get; set; }
+        public bool Boi3C1P { get; set; }
 
     }
 }

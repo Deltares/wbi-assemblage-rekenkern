@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Tests.Implementations
             categoryLimitsCalculator = new CategoryLimitsCalculator();
         }
 
-        #region WBI-0-3
+        #region BOI-0-1
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
@@ -148,7 +148,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         #endregion
 
-        #region WBI-2-1
+        #region BOI-2-1
 
         [Test]
         public void CalculateBoi21FunctionalTest()

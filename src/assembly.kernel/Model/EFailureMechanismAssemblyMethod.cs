@@ -26,7 +26,7 @@
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Enum that specifies the followed calculation method in WBI-1B-1
+    /// Enum that specifies the followed calculation method in BOI-1A-1
     /// </summary>
     public enum EFailureMechanismAssemblyMethod
     {
