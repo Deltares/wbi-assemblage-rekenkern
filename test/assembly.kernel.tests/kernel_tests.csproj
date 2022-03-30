@@ -34,7 +34,7 @@
     <Compile Include="Exceptions\AssemblyErrorMessageTest.cs" />
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
-    <Compile Include="Implementations\AssessmentResultsTranslatorWbi0A2Tests.cs" />
+    <Compile Include="Implementations\AssessmentResultsTranslatorMainMethodTests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionResultTest.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />

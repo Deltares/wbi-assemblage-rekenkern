@@ -36,7 +36,7 @@ using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Implementations
 {
-    public class AssessmentResultsTranslatorWbi0A2Tests
+    public class AssessmentResultsTranslatorMainMethodTests
     {
         private IAssessmentResultsTranslator translator;
 
@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Functional tests with lengtheffect
 
         [Test]
-        public void Wbi0A2NotRelevantTest()
+        public void NotRelevantTest()
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 Probability.Undefined,
                 Probability.Undefined,
@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2NotRelevantIgnoresOtherInputTest()
+        public void NotRelevantIgnoresOtherInputTest()
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -86,7 +86,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 new Probability(0.1),
                 new Probability(0.01),
@@ -103,7 +103,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2InitialMechanismPrevailsTest()
+        public void InitialMechanismPrevailsTest()
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -115,7 +115,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Probability probabilityProfile = new Probability(0.01);
             Probability probabilitySection = new Probability(0.02);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                 probabilityProfile, 
                 probabilitySection,
@@ -135,7 +135,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.01, 0.02)]
         [TestCase(double.NaN, 0.02)]
         [TestCase(double.NaN, double.NaN)]
-        public void Wbi0A2RelevantNoProbabilityEstimationTest(double probabilityProfileValue, double probabilitySectionValue)
+        public void RelevantNoProbabilityEstimationTest(double probabilityProfileValue, double probabilitySectionValue)
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -147,7 +147,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Probability probabilityProfile = new Probability(probabilityProfileValue);
             Probability probabilitySection = new Probability(probabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilityProfile,
                 probabilitySection,
@@ -169,7 +169,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, 0.01, 0.03, 0.04, EInterpretationCategory.II, 0.03, 0.04)]
         [TestCase(0.5, double.NaN, 0.03, 0.04, EInterpretationCategory.II, 0.03, 0.04)]
         [TestCase(double.NaN, double.NaN, 0.03, 0.04, EInterpretationCategory.II, 0.03, 0.04)]
-        public void Wbi0A2RefinedProbabilityEstimationTest(double probabilityProfileValue, double probabilitySectionValue,
+        public void RefinedProbabilityEstimationTest(double probabilityProfileValue, double probabilitySectionValue,
             double refinedProbabilityProfileValue, double refinedProbabilitySectionValue,
             EInterpretationCategory expectedCategory, double expectedProbabilityProfileValue, double expectedProbabilitySectionValue)
         {
@@ -185,7 +185,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
             Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismProfile,
                 probabilityInitialMechanismSection,
@@ -213,7 +213,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, double.NaN, double.NaN, 0.04)]
         [TestCase(double.NaN, double.NaN, 0.03, double.NaN)]
         [TestCase(double.NaN, double.NaN, double.NaN, double.NaN)]
-        public void Wbi0A2RefinedProbabilityNecessaryTest(double probabilityProfileValue, double probabilitySectionValue,
+        public void RefinedProbabilityNecessaryTest(double probabilityProfileValue, double probabilitySectionValue,
             double refinedProbabilityProfileValue, double refinedProbabilitySectionValue)
         {
             var categories = new CategoriesList<InterpretationCategory>(
@@ -228,7 +228,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
             Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismProfile,
                 probabilityInitialMechanismSection,
@@ -249,7 +249,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Functional tests no lengtheffect
 
         [Test]
-        public void Wbi0A2NotRelevantNoLengthEffectTest()
+        public void NotRelevantNoLengthEffectTest()
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -259,7 +259,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 Probability.Undefined,
                 ERefinementStatus.NotNecessary,
@@ -276,7 +276,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.02, EInterpretationCategory.III, 0.02)]
         [TestCase(0.02, EInterpretationCategory.III, 0.02)]
-        public void Wbi0A2InitialMechanismPrevailsNoLengthEffectTest(double probabilitySectionValue, EInterpretationCategory expectedCategory, double expectedProbabilityValues)
+        public void InitialMechanismPrevailsNoLengthEffectTest(double probabilitySectionValue, EInterpretationCategory expectedCategory, double expectedProbabilityValues)
         {
             var random = new Random(10);
             var categories = new CategoriesList<InterpretationCategory>(
@@ -288,7 +288,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 });
 
             Probability probabilitySection = new Probability(probabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilitySection,
                 ERefinementStatus.NotNecessary,
@@ -305,7 +305,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.01)]
         [TestCase(double.NaN)]
-        public void Wbi0A2RelevantNoProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue)
+        public void RelevantNoProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue)
         {
             var categories = new CategoriesList<InterpretationCategory>(
                 new[]
@@ -316,7 +316,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 });
 
             Probability probabilitySection = new Probability(probabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilitySection,
                 ERefinementStatus.NotNecessary,
@@ -334,7 +334,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.02, 0.04, EInterpretationCategory.II, 0.04)]
         [TestCase(0.01, 0.04, EInterpretationCategory.II, 0.04)]
         [TestCase(0.02, 0.04, EInterpretationCategory.II, 0.04)]
-        public void Wbi0A2RefinedProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue, double refinedProbabilitySectionValue,
+        public void RefinedProbabilityEstimationNoLengthEffectTest(double probabilitySectionValue, double refinedProbabilitySectionValue,
             EInterpretationCategory expectedCategory, double expectedProbabilityValue)
         {
             var categories = new CategoriesList<InterpretationCategory>(
@@ -347,7 +347,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultWbi0A2(
+            var result = translator.TranslateAssessmentResultAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismSection,
                 ERefinementStatus.Performed,
@@ -367,11 +367,11 @@ namespace Assembly.Kernel.Tests.Implementations
         #region input handling with length effect
 
         [Test]
-        public void Wbi0A2ThrowsOnNullCategoriesTest()
+        public void ThrowsOnNullCategoriesTest()
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability) 0.1,
                     (Probability) 0.1,
@@ -393,7 +393,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2ThrowsOnLargeProfileProbabilityInitialMechanism()
+        public void ThrowsOnLargeProfileProbabilityInitialMechanism()
         {
             try
             {
@@ -405,7 +405,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     (Probability)0.1, 
                     (Probability)0.01,
@@ -427,7 +427,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2ThrowsOnLargeProfileRefinedProbability()
+        public void ThrowsOnLargeProfileRefinedProbability()
         {
             try
             {
@@ -439,7 +439,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     Probability.Undefined, 
                     Probability.Undefined,
@@ -464,7 +464,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.01, double.NaN)]
         [TestCase(double.NaN, 0.01)]
         [TestCase(double.NaN, double.NaN)]
-        public void Wbi0A2ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection)
+        public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection)
         {
             try
             {
@@ -476,7 +476,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     new Probability(probabilityProfile),
                     new Probability(probabilitySection),
@@ -498,7 +498,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2ThrowsInCaseOfMissingProbabilitiesInitialMechanism2()
+        public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism2()
         {
             try
             {
@@ -510,7 +510,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     new Probability(1/50.0),
@@ -535,7 +535,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(0.01,double.NaN)]
         [TestCase(double.NaN, 0.01)]
         [TestCase(double.NaN, double.NaN)]
-        public void Wbi0A2ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection)
+        public void ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection)
         {
             try
             {
@@ -547,7 +547,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     Probability.Undefined,
@@ -573,11 +573,11 @@ namespace Assembly.Kernel.Tests.Implementations
         #region input handleing no length effect
 
         [Test]
-        public void Wbi0A2NoLengthEffectThrowsOnNullCategoriesTest()
+        public void NoLengthEffectThrowsOnNullCategoriesTest()
         {
             try
             {
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability)0.1,
                     ERefinementStatus.Performed,
@@ -597,7 +597,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2NoLengthEffectThrowsOnNaNSectionProbabilityInitialMechanism()
+        public void NoLengthEffectThrowsOnNaNSectionProbabilityInitialMechanism()
         {
             try
             {
@@ -609,7 +609,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     ERefinementStatus.NotNecessary,
@@ -629,7 +629,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi0A2NoLengthEffectThrowsOnNaNRefinedSectionProbability()
+        public void NoLengthEffectThrowsOnNaNRefinedSectionProbability()
         {
             try
             {
@@ -641,7 +641,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultWbi0A2(
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability)0.01,
                     ERefinementStatus.Performed,

@@ -35,14 +35,14 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance, 
             Probability probabilityInitialMechanismSection,
             ERefinementStatus refinementStatus, 
             Probability refinedProbabilitySection, 
             CategoriesList<InterpretationCategory> categories)
         {
-            return TranslateAssessmentResultWbi0A2(
+            return TranslateAssessmentResultAggregatedMethod(
                 relevance,
                 probabilityInitialMechanismSection,
                 probabilityInitialMechanismSection,
@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultWbi0A2(
+        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,

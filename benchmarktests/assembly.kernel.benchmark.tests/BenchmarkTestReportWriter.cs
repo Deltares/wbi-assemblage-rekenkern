@@ -86,8 +86,8 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi21) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"WBI-0A-2 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Wbi0A2) +
+            str += "   " + @"Stap 0 methodes" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.StepZeroAggregationMethod) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
             str += "   " + @"BOI-1A-1 " +

@@ -46,7 +46,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
-            MethodResults.Wbi0A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi0A2, result);
+            MethodResults.StepZeroAggregationMethod = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.StepZeroAggregationMethod, result);
         }
 
         protected override void TestCombinedAssessmentInternal()
@@ -58,8 +58,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 var exception = new AssertionException("Errors occurred");
                 foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>())
                 {
-                    // WBI-0A-1 (direct with probability)
-                    var result = assembler.TranslateAssessmentResultWbi0A2(
+                    var result = assembler.TranslateAssessmentResultAggregatedMethod(
                         section.IsRelevant
                             ? double.IsNaN(section.InitialMechanismProbabilitySection) || double.IsNaN(section.InitialMechanismProbabilityProfile)
                                 ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification

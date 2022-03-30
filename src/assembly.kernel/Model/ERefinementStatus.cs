@@ -26,7 +26,7 @@
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Enum as input for method WBI-0A-2 that indicates the status of the refined probability per section.
+    /// Enum that indicates the status of the refined probability per section.
     /// </summary>
     public enum ERefinementStatus
     {
