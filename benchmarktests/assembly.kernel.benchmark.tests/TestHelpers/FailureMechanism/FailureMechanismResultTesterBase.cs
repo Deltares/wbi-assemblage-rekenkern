@@ -102,15 +102,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         {
             try
             {
-                TestAssessmentSectionResultTemporalInternal();
-                SetAssessmentSectionMethodResultTemporal(true);
+                TestAssessmentSectionResultPartialInternal();
+                SetAssessmentSectionMethodResultPartial(true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
                                   e.Message);
-                SetAssessmentSectionMethodResultTemporal(false);
+                SetAssessmentSectionMethodResultPartial(false);
                 return false;
             }
         }
@@ -123,8 +123,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected virtual void TestAssessmentSectionResultInternal() { }
 
-        protected abstract void SetAssessmentSectionMethodResultTemporal(bool result);
+        protected abstract void SetAssessmentSectionMethodResultPartial(bool result);
 
-        protected virtual void TestAssessmentSectionResultTemporalInternal() { }
+        protected virtual void TestAssessmentSectionResultPartialInternal() { }
     }
 }

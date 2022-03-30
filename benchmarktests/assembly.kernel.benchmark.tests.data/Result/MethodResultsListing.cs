@@ -48,12 +48,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Boi1A1 { get; set; }
+        public bool? Boi1A2 { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Boi1A1P { get; set; }
+        public bool? Boi1A2P { get; set; }
 
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).

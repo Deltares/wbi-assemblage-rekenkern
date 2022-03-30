@@ -90,7 +90,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+            MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
         }
 
         protected override void TestAssessmentSectionResultInternal()
@@ -102,7 +102,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 FailureMechanismAssemblyResult result = null;
                 try
                 {
-                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
+                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                             .Select(s =>
@@ -121,18 +121,18 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void SetAssessmentSectionMethodResultTemporal(bool result)
+        protected override void SetAssessmentSectionMethodResultPartial(bool result)
         {
-            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+            MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
         }
 
-        protected override void TestAssessmentSectionResultTemporalInternal()
+        protected override void TestAssessmentSectionResultPartialInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                         .Select(s =>

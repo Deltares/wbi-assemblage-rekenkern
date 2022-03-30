@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Implementations
     public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
+        public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A2(
             double lengthEffectFactor,
             IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
