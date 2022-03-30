@@ -91,7 +91,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Wbi1B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1, result);
+            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
         }
 
         protected override void TestAssessmentSectionResultInternal()
@@ -103,7 +103,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 FailureMechanismAssemblyResult result = null;
                 try
                 {
-                    result = assembler.AssembleFailureMechanismWbi1B1(
+                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                             .Select(s =>
@@ -124,7 +124,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetAssessmentSectionMethodResultTemporal(bool result)
         {
-            MethodResults.Wbi1B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Wbi1B1, result);
+            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
         }
 
         protected override void TestAssessmentSectionResultTemporalInternal()
@@ -133,7 +133,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                         .Select(s =>

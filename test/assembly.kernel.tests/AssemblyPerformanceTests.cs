@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Tests
             var categoriesCalculator = new CategoryLimitsCalculator();
             foreach (var failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                var result = failureMechanismResultAssembler.AssembleFailureMechanismWbi1B1(
+                var result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                     failureMechanismSectionResults.Key,
                     failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Result),
                     false);
@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Tests
             // assembly step 2
             var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
             var assessmentGradeWithFailureProb =
-                assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2B1(failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), categories, false);
+                assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), categories, false);
 
             // assembly step 3
             combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, sectionLength,false);

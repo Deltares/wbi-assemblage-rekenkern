@@ -53,11 +53,11 @@ namespace Assembly.Kernel.Tests.Implementations
 
         #region Functional tests
 
-        [Test, TestCaseSource(typeof(AssembleFailureMechanismTestData), nameof(AssembleFailureMechanismTestData.Wbi1B1))]
-        public void Wbi1B1FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
+        [Test, TestCaseSource(typeof(AssembleFailureMechanismTestData), nameof(AssembleFailureMechanismTestData.Boi1A1))]
+        public void Boi1A1FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
         {
             // Use correct probabilities
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor1,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor1,
                 failureProbabilities.Select(sectionResultTuple =>
                     new
                         FailureMechanismSectionAssemblyResult(
@@ -70,9 +70,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1LengthEffectFactor()
+        public void Boi1A1LengthEffectFactor()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(5,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(5,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
@@ -96,9 +96,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1AllNotApplicable()
+        public void Boi1A1AllNotApplicable()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
@@ -116,9 +116,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1Partial()
+        public void Boi1A1Partial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -144,9 +144,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1DominantPartial()
+        public void Boi1A1DominantPartial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -164,9 +164,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1AllDominantPartial()
+        public void Boi1A1AllDominantPartial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -180,9 +180,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1DominantAndNotDominantPartial()
+        public void Boi1A1DominantAndNotDominantPartial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -196,9 +196,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1DominantAndSectionWithoutResultPartial()
+        public void Boi1A1DominantAndSectionWithoutResultPartial()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -218,7 +218,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void WbiOneSectionNeverCorrelated()
         {
-            var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
@@ -236,11 +236,11 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Error handling
 
         [Test]
-        public void Wbi1B1AllDominant()
+        public void Boi1A1AllDominant()
         {
             try
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -259,11 +259,11 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1SectionWithoutResult()
+        public void Boi1A1SectionWithoutResult()
         {
             try
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                     new[]
                     {
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
@@ -286,11 +286,11 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1DominantAndSectionWithoutResult()
+        public void Boi1A1DominantAndSectionWithoutResult()
         {
             try
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                     new[]
                     {
                         new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -317,11 +317,11 @@ namespace Assembly.Kernel.Tests.Implementations
         #region Input handling
 
         [Test]
-        public void Wbi1B1EmptyResults()
+        public void Boi1A1EmptyResults()
         {
             try
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                     new FailureMechanismSectionAssemblyResult[]{}, 
                     false);
             }
@@ -338,11 +338,11 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Wbi1B1NullResults()
+        public void Boi1A1NullResults()
         {
             try
             {
-                var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor2,
                     null,
                     false);
             }
@@ -364,7 +364,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor,
+                assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(lengthEffectFactor,
                     new[] { new FailureMechanismSectionAssemblyResult((Probability)0.0001, (Probability) 0.001, EInterpretationCategory.II) },
                     false);
             }
@@ -408,7 +408,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
         private class AssembleFailureMechanismTestData
         {
-            public static IEnumerable Wbi1B1
+            public static IEnumerable Boi1A1
             {
                 get
                 {
