@@ -121,9 +121,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
                     new FailureMechanismSectionAssemblyResult((Probability) 0.000010, (Probability) 0.000010,
                         EInterpretationCategory.II),
@@ -133,7 +133,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         EInterpretationCategory.II),
                     new FailureMechanismSectionAssemblyResult((Probability) 0.000009, (Probability) 0.000009,
                         EInterpretationCategory.III),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
                     new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.IIIMin)
                 },
                 true);
@@ -149,11 +149,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
                     new FailureMechanismSectionAssemblyResult((Probability)0.01, (Probability)0.1,
                         EInterpretationCategory.IMin),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant)
                 },
                 true);
@@ -169,9 +169,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant)
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 true);
             Assert.IsNotNull(result);
@@ -185,9 +185,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant)
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant)
                 },
                 true);
             Assert.IsNotNull(result);
@@ -201,9 +201,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Gr),
                     new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                         EInterpretationCategory.II)
@@ -243,9 +243,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant)
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 false);
             }
@@ -268,7 +268,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     {
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II),
-                        new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                        new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.
                                 Gr),
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
@@ -293,9 +293,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.AssembleFailureMechanismWbi1B1(lengthEffectFactor2,
                     new[]
                     {
-                        new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                        new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.Dominant),
-                        new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability,
+                        new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.Gr),
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II)
@@ -445,7 +445,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new[]
                         {
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1234.0, (Probability) 1.0/23.0, EInterpretationCategory.IIIMin),
-                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant),
+                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1820.0, (Probability) 1.0/781.0, EInterpretationCategory.IIIMin)
                         },
                         false,
@@ -454,7 +454,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant),
+                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
                         },

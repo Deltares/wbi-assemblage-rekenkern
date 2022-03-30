@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            var failureProbabilityProduct = 1.0;
+            var failureProbabilityProduct = (Probability)1.0;
             foreach (var probability in failureMechanismProbabilitiesArray)
             {
                 if (!probability.IsDefined)
@@ -62,12 +62,12 @@ namespace Assembly.Kernel.Implementations
                     throw new AssemblyException("failureMechanismProbabilities", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                 }
 
-                failureProbabilityProduct *= 1.0 - probability;
+                failureProbabilityProduct *= probability.Complement;
             }
 
-            var probabilityOfFailure = 1.0 - failureProbabilityProduct;
-            var category = categories.GetCategoryForFailureProbability(new Probability(probabilityOfFailure));
-            return new AssessmentSectionResult(new Probability(probabilityOfFailure), category.Category);
+            var probabilityOfFailure = failureProbabilityProduct.Complement;
+            var category = categories.GetCategoryForFailureProbability(probabilityOfFailure);
+            return new AssessmentSectionResult(probabilityOfFailure, category.Category);
         }
 
         private static Probability[] CheckFailureMechanismAssemblyResults(IEnumerable<Probability> probabilities,

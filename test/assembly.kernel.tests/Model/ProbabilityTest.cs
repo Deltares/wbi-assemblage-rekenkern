@@ -36,7 +36,7 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void UndefinedProbabilityReturnsUndefinedProbability()
         {
-            var nanValue = Probability.UndefinedProbability;
+            var nanValue = Probability.Undefined;
 
             Assert.IsAssignableFrom<Probability>(nanValue);
             Assert.IsFalse(nanValue.IsDefined);
@@ -85,7 +85,7 @@ namespace Assembly.Kernel.Tests.Model
             Assert.AreEqual((Probability)0.2, (Probability)0.1 / (Probability)0.5, precision);
             Assert.AreEqual((Probability)0.05, (Probability)0.1 / 2.0, precision);
             Assert.AreEqual((Probability)0.2, 0.1 / (Probability)0.5, precision);
-            Assert.AreEqual(0.3, (double)((Probability)0.3), precision);
+            Assert.AreEqual(0.3, (Probability)0.3, precision);
 
             Assert.AreEqual((Probability)1.0, (Probability)0.2 + (Probability)0.9, precision);
             Assert.AreEqual((Probability)0.0, (Probability)0.2 - (Probability)0.5, precision);

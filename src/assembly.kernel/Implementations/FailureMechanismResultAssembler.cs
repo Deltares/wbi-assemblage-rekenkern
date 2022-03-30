@@ -61,7 +61,7 @@ namespace Assembly.Kernel.Implementations
                 CheckForValidResults(sectionResults);
             }
 
-            var noFailureProbProduct = 1.0;
+            var noFailureProbProduct = (Probability)1.0;
             var highestFailureProbabilityProfile = 0.0;
 
             foreach (var sectionResult in sectionResults)
@@ -76,22 +76,20 @@ namespace Assembly.Kernel.Implementations
                     highestFailureProbabilityProfile = sectionResult.ProbabilityProfile;
                 }
 
-                noFailureProbProduct *= 1.0 - sectionResult.ProbabilitySection;
+                noFailureProbProduct *= sectionResult.ProbabilitySection.Complement;
             }
 
             highestFailureProbabilityProfile *= lengthEffectFactor;
-            var combinedFailureProbabilityUnCorrelated = 1 - noFailureProbProduct;
+            var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Complement;
 
             var correlation = sectionResults.Length < 2
                 ? EFailureMechanismAssemblyMethod.UnCorrelated
                 : highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
                     ? EFailureMechanismAssemblyMethod.Correlated
                     : EFailureMechanismAssemblyMethod.UnCorrelated;
-            var probabilityValue = highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
-                ? highestFailureProbabilityProfile
-                : combinedFailureProbabilityUnCorrelated;
+            var probabilityValue = (Probability)Math.Min(highestFailureProbabilityProfile,combinedFailureProbabilityUnCorrelated);
 
-            return new FailureMechanismAssemblyResult(new Probability(probabilityValue), correlation);
+            return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
         private static void CheckForValidResults(FailureMechanismSectionAssemblyResult[] sectionResults)

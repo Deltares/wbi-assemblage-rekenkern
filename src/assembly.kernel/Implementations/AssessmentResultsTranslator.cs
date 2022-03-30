@@ -84,12 +84,12 @@ namespace Assembly.Kernel.Implementations
                     var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
                     return new FailureMechanismSectionAssemblyResult(refinedProbabilityProfile, refinedProbabilitySection, refinedCategory);
                 case ERefinementStatus.Necessary:
-                    return new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.Dominant);
+                    return new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant);
                 default:
                     switch (relevance)
                     {
                         case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
-                            return new FailureMechanismSectionAssemblyResult(Probability.UndefinedProbability, Probability.UndefinedProbability, EInterpretationCategory.NotDominant);
+                            return new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant);
                         default:
                             if (double.IsNaN(probabilityInitialMechanismSection) || double.IsNaN(probabilityInitialMechanismProfile))
                             {

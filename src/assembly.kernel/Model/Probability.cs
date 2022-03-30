@@ -59,6 +59,11 @@ namespace Assembly.Kernel.Model
         public int ReturnPeriod => (int) Math.Round(1 / value);
 
         /// <summary>
+        /// Returns a new probability that represents the complementary value of this probability.
+        /// </summary>
+        public Probability Complement => new Probability(1-value);
+
+        /// <summary>
         /// Specifies whether the probability is defined.
         /// </summary>
         public bool IsDefined => !double.IsNaN(value);
