@@ -31,9 +31,9 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Class that holds the results for a section of a failure mechanism
+    /// Class that holds the results for a section of a failure mechanism.
     /// </summary>
-    public class FailureMechanismSectionAssemblyResult
+    public class FailureMechanismSectionAssemblyResult : IFailureMechanismSectionWithProbabilities
     {
         /// <summary>
         /// Constructor for the FailureMechanismSectionAssemblyResult class
@@ -47,6 +47,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             switch (category)
             {
+                case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
                     if (Math.Abs(probabilityProfile - 0.0) > 1E-8 || Math.Abs(probabilitySection - 0.0) > 1E-8)
                     {
@@ -54,9 +55,8 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     }
                     break;
                 case EInterpretationCategory.Dominant:
-                case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.Gr:
-                    if (!double.IsNaN(probabilityProfile) || !double.IsNaN(probabilitySection))
+                    if (probabilityProfile.IsDefined || probabilitySection.IsDefined)
                     {
                         throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.NonMatchingProbabilityValues);
                     }

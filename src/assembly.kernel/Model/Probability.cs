@@ -61,7 +61,7 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// Returns a new probability that represents the complementary value of this probability.
         /// </summary>
-        public Probability Complement => new Probability(1-value);
+        public Probability Inverse => new Probability(1-value);
 
         /// <summary>
         /// Specifies whether the probability is defined.

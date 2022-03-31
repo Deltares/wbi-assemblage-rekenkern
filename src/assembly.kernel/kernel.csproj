@@ -45,6 +45,7 @@
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs" />
     <Compile Include="Model\FailureMechanismAssemblyResult.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResult.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithProbabilities.cs" />
     <Compile Include="Model\Probability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\EAssemblyErrors.cs" />

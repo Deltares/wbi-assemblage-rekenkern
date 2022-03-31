@@ -64,10 +64,10 @@ namespace Assembly.Kernel.Implementations
                     throw new AssemblyException(nameof(Probability), EAssemblyErrors.ProbabilityMayNotBeUndefined);
                 }
 
-                failureProbabilityProduct *= probability.Complement;
+                failureProbabilityProduct *= probability.Inverse;
             }
 
-            return failureProbabilityProduct.Complement;
+            return failureProbabilityProduct.Inverse;
         }
 
         /// <inheritdoc />

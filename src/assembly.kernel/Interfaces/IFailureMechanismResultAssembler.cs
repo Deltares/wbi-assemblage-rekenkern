@@ -39,20 +39,28 @@ namespace Assembly.Kernel.Interfaces
         /// Assemble a list of failure mechanism section assembly results with failure probability to
         /// a single failure mechanism assembly result.
         /// </summary>
-        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for</param>
+        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for.</param>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
-        /// <param name="partialAssembly">true if the assembly input is part of a partial assembly</param>
-        /// <returns>An assembled Failure mechanism result</returns>
-        /// /// <exception cref="AssemblyException">Thrown when:<br/>
+        /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
+        /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:<br/>
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
-            IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
+            IEnumerable<IFailureMechanismSectionWithProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly);
 
+        /// <summary>
+        /// Assemble a list of section failure probabilities to a single <seealso cref="FailureMechanismAssemblyResult"/>.
+        /// </summary>
+        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for.</param>
+        /// <param name="failureMechanismSectionProbabilities">The list of failure probabilities
+        /// to use for this assembly step.</param>
+        /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
+        /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
             double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionProbabilities,

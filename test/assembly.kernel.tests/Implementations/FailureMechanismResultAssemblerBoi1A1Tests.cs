@@ -315,6 +315,27 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.Fail("Expected exception did not occur");
         }
 
+        [Test]
+        public void Boi1A1MultipleErrorsTest()
+        {
+            try
+            {
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(0.2,
+                    new List<Probability>(), 
+                    false);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(2, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.LengthEffectFactorOutOfRange, exception.Errors.ElementAt(1).ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
+        }
+
         [TestCaseSource(typeof(LengthEffectTestData), nameof(LengthEffectTestData.TestCases))]
         public List<EAssemblyErrors> LengthEffectCheckTest(double lengthEffectFactor)
         {
@@ -331,33 +352,6 @@ namespace Assembly.Kernel.Tests.Implementations
             }
 
             return null;
-        }
-
-        private class LengthEffectTestData
-        {
-            public static IEnumerable TestCases
-            {
-                get
-                {
-                    yield return new TestCaseData(1).Returns(null);
-                    yield return new TestCaseData(10).Returns(null);
-                    yield return new TestCaseData(0.9).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.LengthEffectFactorOutOfRange
-                        });
-                    yield return new TestCaseData(0).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.LengthEffectFactorOutOfRange
-                        });
-                    yield return new TestCaseData(-2).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.LengthEffectFactorOutOfRange
-                        });
-                }
-            }
         }
 
         #endregion
@@ -432,6 +426,33 @@ namespace Assembly.Kernel.Tests.Implementations
                         },
                         false,
                         (Probability)0.0, EFailureMechanismAssemblyMethod.Correlated);
+                }
+            }
+        }
+
+        private class LengthEffectTestData
+        {
+            public static IEnumerable TestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(1).Returns(null);
+                    yield return new TestCaseData(10).Returns(null);
+                    yield return new TestCaseData(0.9).Returns(
+                        new List<EAssemblyErrors>
+                        {
+                            EAssemblyErrors.LengthEffectFactorOutOfRange
+                        });
+                    yield return new TestCaseData(0).Returns(
+                        new List<EAssemblyErrors>
+                        {
+                            EAssemblyErrors.LengthEffectFactorOutOfRange
+                        });
+                    yield return new TestCaseData(-2).Returns(
+                        new List<EAssemblyErrors>
+                        {
+                            EAssemblyErrors.LengthEffectFactorOutOfRange
+                        });
                 }
             }
         }

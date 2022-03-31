@@ -29,7 +29,6 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Implementations
@@ -40,47 +39,45 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
-            IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
+            IEnumerable<IFailureMechanismSectionWithProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
-            var sectionResults = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor);
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var sectionResults = failureMechanismSectionAssemblyResults.ToArray();
+
+            CheckInput(sectionResults, lengthEffectFactor);
 
             if (partialAssembly)
             {
-                sectionResults = sectionResults.Where(r =>
-                    r.InterpretationCategory != EInterpretationCategory.Dominant &&
-                    r.InterpretationCategory != EInterpretationCategory.Gr).ToArray();
+                sectionResults = sectionResults.Where(r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined).ToArray();
                 if (sectionResults.Length == 0)
                 {
-                    return new FailureMechanismAssemblyResult(new Probability(0),
-                        EFailureMechanismAssemblyMethod.Correlated);
+                    return new FailureMechanismAssemblyResult(new Probability(0),  EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
             else
             {
-                CheckForValidResults(sectionResults);
+                CheckForDefinedProbabilities(sectionResults);
             }
 
             var noFailureProbProduct = (Probability)1.0;
             var highestFailureProbabilityProfile = 0.0;
-
             foreach (var sectionResult in sectionResults)
             {
-                if (sectionResult.InterpretationCategory == EInterpretationCategory.NotDominant)
-                {
-                    continue;
-                }
-
                 if (sectionResult.ProbabilityProfile > highestFailureProbabilityProfile)
                 {
                     highestFailureProbabilityProfile = sectionResult.ProbabilityProfile;
                 }
 
-                noFailureProbProduct *= sectionResult.ProbabilitySection.Complement;
+                noFailureProbProduct *= sectionResult.ProbabilitySection.Inverse;
             }
 
             highestFailureProbabilityProfile *= lengthEffectFactor;
-            var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Complement;
+            var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Inverse;
 
             var correlation = sectionResults.Length < 2
                 ? EFailureMechanismAssemblyMethod.Uncorrelated
@@ -129,11 +126,11 @@ namespace Assembly.Kernel.Implementations
                     highestProbabilityValue = sectionProbability;
                 }
 
-                noFailureProbProduct *= sectionProbability.Complement;
+                noFailureProbProduct *= sectionProbability.Inverse;
             }
 
             highestProbabilityValue *= lengthEffectFactor;
-            var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Complement;
+            var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Inverse;
 
             var correlation = sectionResults.Length < 2
                 ? EFailureMechanismAssemblyMethod.Uncorrelated
@@ -145,24 +142,11 @@ namespace Assembly.Kernel.Implementations
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
-        private static void CheckForValidResults(FailureMechanismSectionAssemblyResult[] sectionResults)
+        private static void CheckForDefinedProbabilities(IFailureMechanismSectionWithProbabilities[] sectionResults)
         {
-            var errors = new List<AssemblyErrorMessage>();
-            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Gr))
+            if (sectionResults.Any(r => !r.ProbabilityProfile.IsDefined || !r.ProbabilitySection.IsDefined))
             {
-                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults",
-                    EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
-            }
-
-            if (sectionResults.Any(r => r.InterpretationCategory == EInterpretationCategory.Dominant))
-            {
-                errors.Add(new AssemblyErrorMessage("failureMechanismSectionAssemblyResults",
-                    EAssemblyErrors.DominantSectionCannotBeAssembled));
-            }
-
-            if (errors.Any())
-            {
-                throw new AssemblyException(errors);
+                throw new AssemblyException(nameof(FailureMechanismResultAssembler), EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
             }
         }
 
@@ -174,46 +158,42 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static FailureMechanismSectionAssemblyResult[] CheckInput(
-            IEnumerable<FailureMechanismSectionAssemblyResult> results, double lengthEffectFactor)
+        private static void CheckInput(IFailureMechanismSectionWithProbabilities[] results, double lengthEffectFactor)
         {
-            if (results == null)
+            var errors = new List<AssemblyErrorMessage>();
+            if (results.Length == 0)
             {
-                throw new AssemblyException("results", EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            var sectionResults = results.ToArray();
-
-            // result list should not be empty
-            if (sectionResults.Length == 0)
-            {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.EmptyResultsList);
+                errors.Add(new AssemblyErrorMessage(nameof(FailureMechanismResultAssembler), EAssemblyErrors.EmptyResultsList));
             }
 
             if (lengthEffectFactor < 1)
             {
-                throw new AssemblyException("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange);
+                errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
-            return sectionResults;
+            if (errors.Count > 0)
+            {
+                throw new AssemblyException(errors);
+            }
         }
 
         private static void CheckInput(
-            IEnumerable<Probability> results, double lengthEffectFactor)
+            Probability[] results, double lengthEffectFactor)
         {
-            
-
-            var sectionResults = results.ToArray();
-
-            // result list should not be empty
-            if (sectionResults.Length == 0)
+            var errors = new List<AssemblyErrorMessage>();
+            if (results.Length == 0)
             {
-                throw new AssemblyException("AssembleFailureMechanismResult", EAssemblyErrors.EmptyResultsList);
+                errors.Add(new AssemblyErrorMessage(nameof(FailureMechanismResultAssembler), EAssemblyErrors.EmptyResultsList));
             }
 
             if (lengthEffectFactor < 1)
             {
-                throw new AssemblyException("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange);
+                errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new AssemblyException(errors);
             }
         }
     }

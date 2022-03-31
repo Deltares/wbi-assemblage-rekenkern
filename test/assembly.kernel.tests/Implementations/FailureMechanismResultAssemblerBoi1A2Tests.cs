@@ -253,7 +253,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 Assert.IsNotNull(exception.Errors);
                 Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.DominantSectionCannotBeAssembled, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
                 Assert.Pass();
             }
         }
@@ -305,9 +305,8 @@ namespace Assembly.Kernel.Tests.Implementations
             catch (AssemblyException exception)
             {
                 Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(2, exception.Errors.Count());
+                Assert.AreEqual(1, exception.Errors.Count());
                 Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
-                Assert.AreEqual(EAssemblyErrors.DominantSectionCannotBeAssembled, exception.Errors.ElementAt(1).ErrorCode);
                 Assert.Pass();
             }
         }
@@ -358,6 +357,28 @@ namespace Assembly.Kernel.Tests.Implementations
 
         }
 
+        [Test]
+        public void Boi1A2MultipleErrorsTest()
+        {
+            try
+            {
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(0.1,
+                    new IFailureMechanismSectionWithProbabilities[] { }, 
+                    false);
+            }
+            catch (AssemblyException exception)
+            {
+                Assert.IsNotNull(exception.Errors);
+                Assert.AreEqual(2, exception.Errors.Count());
+                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, exception.Errors.First().ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.LengthEffectFactorOutOfRange, exception.Errors.ElementAt(1).ErrorCode);
+                Assert.Pass();
+            }
+
+            Assert.Fail("Expected exception did not occur");
+
+        }
+
         [Test,
          TestCaseSource(typeof(LengthEffectTestData), nameof(LengthEffectTestData.TestCases))]
         public List<EAssemblyErrors> LengthEffectCheckTest(double lengthEffectFactor)
@@ -376,6 +397,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
             return null;
         }
+
+        #endregion
 
         private class LengthEffectTestData
         {
@@ -403,8 +426,6 @@ namespace Assembly.Kernel.Tests.Implementations
                 }
             }
         }
-
-        #endregion
 
         private class AssembleFailureMechanismTestData
         {
@@ -445,7 +466,6 @@ namespace Assembly.Kernel.Tests.Implementations
                         new[]
                         {
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1234.0, (Probability) 1.0/23.0, EInterpretationCategory.IIIMin),
-                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 1.0/1820.0, (Probability) 1.0/781.0, EInterpretationCategory.IIIMin)
                         },
                         false,
@@ -454,7 +474,6 @@ namespace Assembly.Kernel.Tests.Implementations
                     yield return new TestCaseData(
                         new[]
                         {
-                            new Tuple<Probability, Probability, EInterpretationCategory>(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
                         },
