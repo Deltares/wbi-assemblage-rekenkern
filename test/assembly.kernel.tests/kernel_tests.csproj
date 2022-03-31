@@ -35,6 +35,7 @@
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorMainMethodTests.cs" />
+    <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A1Tests.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
     <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />
@@ -47,7 +48,7 @@
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssemblerTests.cs" />
+    <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
     <Compile Include="Model\AssessmentSection\AssemblyResultTests.cs" />

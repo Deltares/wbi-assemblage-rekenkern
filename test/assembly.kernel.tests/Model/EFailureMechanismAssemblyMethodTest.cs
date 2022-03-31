@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Tests.Model
         {
             Assert.AreEqual(2, Enum.GetValues(typeof(EFailureMechanismAssemblyMethod)).Length);
             Assert.AreEqual(1, (int)EFailureMechanismAssemblyMethod.Correlated);
-            Assert.AreEqual(2, (int)EFailureMechanismAssemblyMethod.UnCorrelated);
+            Assert.AreEqual(2, (int)EFailureMechanismAssemblyMethod.Uncorrelated);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Tests
             var categoriesCalculator = new CategoryLimitsCalculator();
             foreach (var failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                var result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
+                var result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                     failureMechanismSectionResults.Key,
                     failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Result),
                     false);

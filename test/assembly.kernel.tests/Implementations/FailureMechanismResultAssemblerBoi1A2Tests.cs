@@ -39,7 +39,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class FailureMechanismResultAssemblerTests
+    public class FailureMechanismResultAssemblerBoi1A2Tests
     {
         private readonly double lengthEffectFactor1 = 14.4;
         private readonly double lengthEffectFactor2 = 10;
@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi1A2FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
         {
             // Use correct probabilities
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor1,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor1,
                 failureProbabilities.Select(sectionResultTuple =>
                     new
                         FailureMechanismSectionAssemblyResult(
@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi1A2LengthEffectFactor()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(5,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(5,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.001, (Probability) 0.001,
@@ -98,7 +98,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi1A2AllNotApplicable()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
@@ -118,7 +118,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi1A2Partial()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -139,14 +139,14 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.NotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
             Assert.AreEqual(0.9, result.Probability, 1e-4);
         }
 
         [Test]
         public void Boi1A2DominantPartial()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -159,14 +159,14 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
             Assert.AreEqual(0.1, result.Probability, 1E-10);
         }
 
         [Test]
         public void Boi1A2AllDominantPartial()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -182,7 +182,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi1A2DominantAndNotDominantPartial()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -198,7 +198,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi1A2DominantAndSectionWithoutResultPartial()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -211,14 +211,14 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
             Assert.AreEqual(0.00026, result.Probability,1e-8);
         }
 
         [Test]
         public void Boi1A2OneSectionNeverCorrelated()
         {
-            var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+            var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0,
@@ -227,7 +227,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 true);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.UnCorrelated, result.AssemblyMethod);
+            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
             Assert.AreEqual(0.0, result.Probability, 1e-8);
         }
 
@@ -240,7 +240,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
@@ -263,7 +263,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
                     {
                         new FailureMechanismSectionAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
@@ -290,7 +290,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
                     {
                         new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined,
@@ -321,7 +321,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new FailureMechanismSectionAssemblyResult[]{}, 
                     false);
             }
@@ -342,7 +342,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor2,
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     null,
                     false);
             }
@@ -364,7 +364,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(lengthEffectFactor,
+                assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor,
                     new[] { new FailureMechanismSectionAssemblyResult((Probability)0.0001, (Probability) 0.001, EInterpretationCategory.II) },
                     false);
             }
@@ -419,7 +419,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.1, (Probability) 0.1, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.1, EFailureMechanismAssemblyMethod.UnCorrelated);
+                        (Probability) 0.1, EFailureMechanismAssemblyMethod.Uncorrelated);
 
                     yield return new TestCaseData(
                         new[]
@@ -430,7 +430,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0007, (Probability) 0.0008, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.006790204, EFailureMechanismAssemblyMethod.UnCorrelated);
+                        (Probability) 0.006790204, EFailureMechanismAssemblyMethod.Uncorrelated);
 
                     yield return new TestCaseData(
                         new[]
@@ -439,7 +439,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.00005, (Probability) 0.00005, EInterpretationCategory.III)
                         },
                         false,
-                        (Probability) 0.000549975, EFailureMechanismAssemblyMethod.UnCorrelated);
+                        (Probability) 0.000549975, EFailureMechanismAssemblyMethod.Uncorrelated);
 
                     yield return new TestCaseData(
                         new[]

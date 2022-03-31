@@ -48,9 +48,14 @@ namespace Assembly.Kernel.Interfaces
         /// - result input is null or empty<br/>
         /// - one or more of the results doesn't have a failure probability<br/>
         /// </exception>
-        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A2(
+        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
             IEnumerable<FailureMechanismSectionAssemblyResult> failureMechanismSectionAssemblyResults,
+            bool partialAssembly);
+
+        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
+            double lengthEffectFactor,
+            IEnumerable<Probability> failureMechanismSectionProbabilities,
             bool partialAssembly);
     }
 }

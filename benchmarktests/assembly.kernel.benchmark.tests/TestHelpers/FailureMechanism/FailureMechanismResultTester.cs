@@ -102,7 +102,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 FailureMechanismAssemblyResult result = null;
                 try
                 {
-                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
+                    result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                             .Select(s =>
@@ -132,7 +132,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
+                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
                         .Select(s =>

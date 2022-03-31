@@ -78,7 +78,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
         private EFailureMechanismAssemblyMethod ToCorrelation(bool correlated)
         {
-            return correlated ? EFailureMechanismAssemblyMethod.Correlated: EFailureMechanismAssemblyMethod.UnCorrelated;
+            return correlated ? EFailureMechanismAssemblyMethod.Correlated: EFailureMechanismAssemblyMethod.Uncorrelated;
         }
 
         private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)

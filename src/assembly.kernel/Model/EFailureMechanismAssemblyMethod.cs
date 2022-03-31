@@ -38,6 +38,6 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// Method for fully uncorrelated probabilities was used (product of all 1-probabilities of failure)
         /// </summary>
-        UnCorrelated = 2
+        Uncorrelated = 2
     }
 }

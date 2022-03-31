@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Tests.Model
         public void ConstructorPassesArguments()
         {
             var probability = new Probability(0.5);
-            var method = EFailureMechanismAssemblyMethod.UnCorrelated;
+            var method = EFailureMechanismAssemblyMethod.Uncorrelated;
             var result = new FailureMechanismAssemblyResult(probability, method);
 
             Assert.IsNotNull(result);
