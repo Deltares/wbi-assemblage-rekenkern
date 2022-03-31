@@ -32,7 +32,6 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
-using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
@@ -90,7 +89,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
-            MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
+            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
         }
 
         protected override void TestAssessmentSectionResultInternal()
@@ -102,13 +101,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 FailureMechanismAssemblyResult result = null;
                 try
                 {
-                    result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
-                            .Select(s =>
-                                new FailureMechanismSectionAssemblyResult(s.ExpectedCombinedProbabilitySection,
-                                    s.ExpectedCombinedProbabilitySection,
-                                    s.ExpectedInterpretationCategory)).ToArray(),
+                            .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
                         false);
                 }
                 catch (AssemblyException e)
@@ -123,7 +119,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetAssessmentSectionMethodResultPartial(bool result)
         {
-            MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
+            MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
         }
 
         protected override void TestAssessmentSectionResultPartialInternal()
@@ -132,13 +128,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
-                        .Select(s =>
-                            new FailureMechanismSectionAssemblyResult(s.ExpectedCombinedProbabilitySection,
-                                s.ExpectedCombinedProbabilitySection,
-                                s.ExpectedInterpretationCategory)).ToArray(),
+                        .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
                     true);
 
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
