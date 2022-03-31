@@ -158,8 +158,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
-            Assert.AreEqual(Probability.Undefined, result.ProbabilityProfile);
-            Assert.AreEqual(Probability.Undefined, result.ProbabilitySection);
+            Assert.AreEqual((Probability)0.0, result.ProbabilityProfile);
+            Assert.AreEqual((Probability)0.0, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
         }
 
@@ -325,8 +325,8 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
-            Assert.AreEqual(Probability.Undefined, result.ProbabilityProfile);
-            Assert.AreEqual(Probability.Undefined, result.ProbabilitySection);
+            Assert.AreEqual((Probability)0.0, result.ProbabilityProfile);
+            Assert.AreEqual((Probability)0.0, result.ProbabilitySection);
             Assert.AreEqual(1.0, result.NSection);
         }
 

@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (categories == null)
             {
-                throw new AssemblyException("AssemblyResultsTranslator", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
@@ -75,10 +75,15 @@ namespace Assembly.Kernel.Implementations
             switch (refinementStatus)
             {
                 case ERefinementStatus.Performed:
-                    if (!refinedProbabilitySection.IsDefined || !refinedProbabilityProfile.IsDefined)
+                    if (!refinedProbabilitySection.IsDefined)
                     {
-                        throw new AssemblyException("refinedProbability", EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                        throw new AssemblyException(nameof(refinedProbabilitySection), EAssemblyErrors.ProbabilityMayNotBeUndefined);
                     }
+                    if (!refinedProbabilityProfile.IsDefined)
+                    {
+                        throw new AssemblyException(nameof(refinedProbabilityProfile), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                    }
+
                     CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
 
                     var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
@@ -89,7 +94,7 @@ namespace Assembly.Kernel.Implementations
                     switch (relevance)
                     {
                         case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
-                            return new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant);
+                            return new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.NotDominant);
                         default:
                             if (double.IsNaN(probabilityInitialMechanismSection) || double.IsNaN(probabilityInitialMechanismProfile))
                             {

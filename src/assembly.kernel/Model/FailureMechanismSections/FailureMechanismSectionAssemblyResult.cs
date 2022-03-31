@@ -36,12 +36,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class FailureMechanismSectionAssemblyResult : IFailureMechanismSectionWithProbabilities
     {
         /// <summary>
-        /// Constructor for the FailureMechanismSectionAssemblyResult class
+        /// Constructor for the FailureMechanismSectionAssemblyResult class.
         /// </summary>
-        /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section</param>
-        /// <param name="probabilitySection">Estimated probability of failure of the section</param>
-        /// <param name="category">The resulting interpretation category</param>
-        /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0)</exception>
+        /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section.</param>
+        /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
+        /// <param name="category">The resulting interpretation category.</param>
+        /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0).</exception>
         public FailureMechanismSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
             EInterpretationCategory category)
         {
@@ -92,22 +92,22 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         }
 
         /// <summary>
-        /// The resulting interpretation category
+        /// The resulting interpretation category.
         /// </summary>
         public EInterpretationCategory InterpretationCategory { get; }
 
         /// <summary>
-        /// The length-effect factor
+        /// The length-effect factor.
         /// </summary>
         public double NSection { get; }
 
         /// <summary>
-        /// Estimated probability of failure for a representative profile in the section
+        /// Estimated probability of failure for a representative profile in the section.
         /// </summary>
         public Probability ProbabilityProfile { get; }
 
         /// <summary>
-        /// Estimated probability of failure of the section
+        /// Estimated probability of failure of the section.
         /// </summary>
         public Probability ProbabilitySection { get; }
 
