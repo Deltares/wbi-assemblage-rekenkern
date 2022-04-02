@@ -35,10 +35,12 @@
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorMainMethodTests.cs" />
+    <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A1Tests.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
     <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />
+    <Compile Include="Model\EAnalysisStateTest.cs" />
     <Compile Include="Model\ERefinementStatusTest.cs" />
     <Compile Include="Model\FailureMechanismAssemblyResultTest.cs" />
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTests.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategoryTest.cs" />
+    <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilitiesTest.cs" />
     <Compile Include="Model\ProbabilityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

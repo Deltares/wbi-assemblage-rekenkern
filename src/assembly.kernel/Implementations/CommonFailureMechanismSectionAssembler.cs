@@ -176,7 +176,7 @@ namespace Assembly.Kernel.Implementations
 
                     newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category,
                         section.Category, partialAssembly);
-                    if (newCombinedSection.Category == EInterpretationCategory.Gr)
+                    if (newCombinedSection.Category == EInterpretationCategory.NoResult)
                     {
                         break;
                     }
@@ -298,7 +298,7 @@ namespace Assembly.Kernel.Implementations
             EInterpretationCategory currentCategory,
             bool partialAssembly)
         {
-            if (partialAssembly && (currentCategory == EInterpretationCategory.Dominant || currentCategory == EInterpretationCategory.Gr))
+            if (partialAssembly && (currentCategory == EInterpretationCategory.Dominant || currentCategory == EInterpretationCategory.NoResult))
             {
                 return combinedCategory;
             }

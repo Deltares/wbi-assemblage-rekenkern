@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
-            IEnumerable<IFailureMechanismSectionWithProbabilities> failureMechanismSectionAssemblyResults,
+            IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
             if (failureMechanismSectionAssemblyResults == null)
@@ -142,7 +142,7 @@ namespace Assembly.Kernel.Implementations
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
-        private static void CheckForDefinedProbabilities(IFailureMechanismSectionWithProbabilities[] sectionResults)
+        private static void CheckForDefinedProbabilities(IProfileAndSectionProbabilities[] sectionResults)
         {
             if (sectionResults.Any(r => !r.ProbabilityProfile.IsDefined || !r.ProbabilitySection.IsDefined))
             {
@@ -158,7 +158,7 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static void CheckInput(IFailureMechanismSectionWithProbabilities[] results, double lengthEffectFactor)
+        private static void CheckInput(IProfileAndSectionProbabilities[] results, double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
             if (results.Length == 0)

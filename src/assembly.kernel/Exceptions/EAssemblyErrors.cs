@@ -127,11 +127,6 @@ namespace Assembly.Kernel.Exceptions
         ErrorConstructingErrorMessage,
 
         /// <summary>
-        /// List contains a dominant section and cannot be assembled any further.
-        /// </summary>
-        DominantSectionCannotBeAssembled,
-
-        /// <summary>
         /// The provided list with section results contains one or more sections without result. Assembly cannot be performed.
         /// </summary>
         EncounteredOneOrMoreSectionsWithoutResult,
@@ -144,6 +139,16 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// Thrown in case of an incorrect category value
         /// </summary>
-        InvalidCategoryValue
+        InvalidCategoryValue,
+
+        /// <summary>
+        /// Thrown in case probabilities for a profile and section are specified but only one is defined.
+        /// </summary>
+        ProbabilitiesShouldEitherBothBeDefinedOrUndefined,
+
+        /// <summary>
+        /// An invalid enum value was specified.
+        /// </summary>
+        InvalidEnumValue
     }
 }

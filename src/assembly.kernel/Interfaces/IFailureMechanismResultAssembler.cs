@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Interfaces
         /// </exception>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
-            IEnumerable<IFailureMechanismSectionWithProbabilities> failureMechanismSectionAssemblyResults,
+            IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly);
 
         /// <summary>

@@ -107,7 +107,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                             .Select(s =>
-                                new FailureMechanismSectionAssemblyResult(s.ExpectedCombinedProbabilityProfile,
+                                new FailureMechanismSectionWithAssemblyResult(s.ExpectedCombinedProbabilityProfile,
                                     s.ExpectedCombinedProbabilitySection,
                                     s.ExpectedInterpretationCategory)).ToArray(),
                         false);
@@ -137,7 +137,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                         .Select(s =>
-                            new FailureMechanismSectionAssemblyResult(s.ExpectedCombinedProbabilityProfile,
+                            new FailureMechanismSectionWithAssemblyResult(s.ExpectedCombinedProbabilityProfile,
                                 s.ExpectedCombinedProbabilitySection,
                                 s.ExpectedInterpretationCategory)).ToArray(),
                     true);

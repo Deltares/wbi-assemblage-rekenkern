@@ -23,19 +23,31 @@
 
 #endregion
 
-using System;
-using Assembly.Kernel.Exceptions;
-using NUnit.Framework;
+using Assembly.Kernel.Interfaces;
 
-namespace Assembly.Kernel.Tests.Exceptions
+namespace Assembly.Kernel.Model
 {
-    [TestFixture]
-    public class EAssemblyErrorsTest
+    /// <summary>
+    /// Input for <seealso cref="IAssessmentResultsTranslator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1"/>.
+    /// This enum describes the state of the failure probability analysis.
+    /// </summary>
+    public enum EAnalysisState
     {
-        [Test]
-        public void MemberCount()
-        {
-            Assert.AreEqual(23, Enum.GetValues(typeof(EAssemblyErrors)).Length);
-        }
+        /// <summary>
+        /// The section is not relevant for the failure probability of the assessment section.
+        /// </summary>
+        NotRelevant,
+
+        /// <summary>
+        /// The section is relevant, but not dominant for the failure probability of the
+        /// assessment section. No further probability estimation is needed. 
+        /// </summary>
+        NoProbabilityEstimationNecessary,
+
+        /// <summary>
+        /// The section is dominant for the failure probability of the assessment section.
+        /// Further analysis is necessary, but has not (yet) lead to a probability estimation.
+        /// </summary>
+        ProbabilityEstimationNecessary
     }
 }

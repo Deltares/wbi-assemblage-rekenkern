@@ -61,7 +61,7 @@ namespace assembly.kernel.benchmark.tests
         /// Writes the summary.
         /// </summary>
         /// <param name="destinationFileName">The name of the destination file.</param>
-        /// <param name="testResults">the test results.</param>
+        /// <param name="testResults">The test results.</param>
         public static void WriteSummary(string destinationFileName, Dictionary<string, BenchmarkTestResult> testResults)
         {
             string str =

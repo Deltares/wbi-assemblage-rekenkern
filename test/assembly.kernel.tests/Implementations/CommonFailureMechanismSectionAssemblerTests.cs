@@ -469,7 +469,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
                 new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
-                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
+                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
@@ -507,7 +507,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
                 new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
-                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
+                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
             };
@@ -522,7 +522,7 @@ namespace Assembly.Kernel.Tests.Implementations
 {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
-                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.Gr),
+                new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
                 new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
             });
 
@@ -687,7 +687,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(20, 30, EInterpretationCategory.IIMin),
                     new FailureMechanismSectionWithCategory(30, 40, EInterpretationCategory.I),
-                    new FailureMechanismSectionWithCategory(40, 50, EInterpretationCategory.Gr)
+                    new FailureMechanismSectionWithCategory(40, 50, EInterpretationCategory.NoResult)
                 }),
                 new FailureMechanismSectionList(new[]
                 {
@@ -708,8 +708,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
                     new FailureMechanismSectionWithCategory(20.0, 30.0, EInterpretationCategory.IIMin),
                     new FailureMechanismSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
-                    new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
-                    new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
+                    new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.NoResult),
+                    new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.NoResult)
                 }),
                 new FailureMechanismSectionList(new[]
                 {
@@ -730,8 +730,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.I),
                 new FailureMechanismSectionWithCategory(20.0, 30.0, EInterpretationCategory.IIMin),
                 new FailureMechanismSectionWithCategory(30.0, 40.0, EInterpretationCategory.I),
-                new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.Gr),
-                new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.Gr)
+                new FailureMechanismSectionWithCategory(40.0, 45.0, EInterpretationCategory.NoResult),
+                new FailureMechanismSectionWithCategory(45.0, 50.0, EInterpretationCategory.NoResult)
             };
 
             TestCombinedFailureMechanismSectionAssembler(

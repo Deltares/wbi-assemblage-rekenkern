@@ -23,19 +23,21 @@
 
 #endregion
 
-using System;
-using Assembly.Kernel.Exceptions;
-using NUnit.Framework;
-
-namespace Assembly.Kernel.Tests.Exceptions
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
-    [TestFixture]
-    public class EAssemblyErrorsTest
+    /// <summary>
+    /// Interface that defines the profile and section probabilities of a failure mechanism section.
+    /// </summary>
+    public interface IProfileAndSectionProbabilities
     {
-        [Test]
-        public void MemberCount()
-        {
-            Assert.AreEqual(23, Enum.GetValues(typeof(EAssemblyErrors)).Length);
-        }
+        /// <summary>
+        /// Estimated probability of failure for a representative profile in the section.
+        /// </summary>
+        Probability ProbabilityProfile { get; }
+
+        /// <summary>
+        /// Estimated probability of failure of the section.
+        /// </summary>
+        Probability ProbabilitySection { get; }
     }
 }

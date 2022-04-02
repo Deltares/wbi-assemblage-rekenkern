@@ -83,6 +83,6 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// No result
         /// </summary>
-        Gr = 10
+        NoResult = 10
     }
 }

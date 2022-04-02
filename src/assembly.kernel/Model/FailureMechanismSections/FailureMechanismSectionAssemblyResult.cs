@@ -33,17 +33,24 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     /// <summary>
     /// Class that holds the results for a section of a failure mechanism.
     /// </summary>
-    public class FailureMechanismSectionAssemblyResult : IFailureMechanismSectionWithProbabilities
+    public class FailureMechanismSectionWithAssemblyResult : ResultWithProfileAndSectionProbabilities
     {
         /// <summary>
-        /// Constructor for the FailureMechanismSectionAssemblyResult class.
+        /// Constructor for the FailureMechanismSectionWithAssemblyResult class.
         /// </summary>
         /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section.</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
         /// <param name="category">The resulting interpretation category.</param>
-        /// <exception cref="AssemblyException">In case probabilityProfile or probabilitySection is not within the range 0.0 - 1.0 (or exactly 0.0 or 1.0).</exception>
-        public FailureMechanismSectionAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
-            EInterpretationCategory category)
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.NotRelevant"/> or <seealso cref="EInterpretationCategory.NotDominant"/>
+        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> do not equal 0.0.</exception>
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.Dominant"/> or <seealso cref="EInterpretationCategory.NoResult"/>
+        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> are defined (<seealso cref="Probability.Undefined"/> equals False).</exception>
+        ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<seealso cref="EInterpretationCategory.III"/>
+        /// to <seealso cref="EInterpretationCategory.IIIMin"/>) and either <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> is undefined (<seealso cref="Probability.IsDefined"/> equals false).</exception>
+        /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
+        /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
+        public FailureMechanismSectionWithAssemblyResult(Probability probabilityProfile, Probability probabilitySection,
+            EInterpretationCategory category) : base(probabilityProfile, probabilitySection)
         {
             switch (category)
             {
@@ -51,14 +58,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.NotRelevant:
                     if (Math.Abs(probabilityProfile - 0.0) > 1E-8 || Math.Abs(probabilitySection - 0.0) > 1E-8)
                     {
-                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.NonMatchingProbabilityValues);
+                        throw new AssemblyException(nameof(FailureMechanismSectionWithAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
                     break;
                 case EInterpretationCategory.Dominant:
-                case EInterpretationCategory.Gr:
+                case EInterpretationCategory.NoResult:
                     if (probabilityProfile.IsDefined || probabilitySection.IsDefined)
                     {
-                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.NonMatchingProbabilityValues);
+                        throw new AssemblyException(nameof(FailureMechanismSectionWithAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
                     break;
                 case EInterpretationCategory.III:
@@ -70,22 +77,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.IIIMin:
                     if (!probabilitySection.IsDefined || !probabilityProfile.IsDefined)
                     {
-                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ProbabilityMayNotBeUndefined);
-                    }
-
-                    if (probabilitySection < probabilityProfile)
-                    {
-                        throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                        throw new AssemblyException(nameof(FailureMechanismSectionWithAssemblyResult), EAssemblyErrors.ProbabilityMayNotBeUndefined);
                     }
                     break;
                 default:
-                    throw new AssemblyException("FailureMechanismSectionAssemblyResult", EAssemblyErrors.InvalidCategoryValue);
+                    throw new AssemblyException(nameof(category), EAssemblyErrors.InvalidCategoryValue);
             }
 
             InterpretationCategory = category;
-            ProbabilityProfile = probabilityProfile;
-            ProbabilitySection = probabilitySection;
-
             NSection = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
                 ? 1.0
                 : (double)probabilitySection / (double)probabilityProfile;
@@ -101,20 +100,10 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </summary>
         public double NSection { get; }
 
-        /// <summary>
-        /// Estimated probability of failure for a representative profile in the section.
-        /// </summary>
-        public Probability ProbabilityProfile { get; }
-
-        /// <summary>
-        /// Estimated probability of failure of the section.
-        /// </summary>
-        public Probability ProbabilitySection { get; }
-
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FailureMechanismSectionAssemblyResult [" + InterpretationCategory + " Pprofile:" +
+            return "FailureMechanismSectionWithAssemblyResult [" + InterpretationCategory + " Pprofile:" +
                    ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
                    ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }

@@ -23,6 +23,8 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -35,7 +37,7 @@ namespace Assembly.Kernel.Implementations
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         /// <inheritdoc />
-        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
+        public FailureMechanismSectionWithAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance, 
             Probability probabilityInitialMechanismSection,
             ERefinementStatus refinementStatus, 
@@ -53,7 +55,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
+        public FailureMechanismSectionWithAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
@@ -69,7 +71,7 @@ namespace Assembly.Kernel.Implementations
 
             if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
             {
-                return new FailureMechanismSectionAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.NotRelevant);
+                return new FailureMechanismSectionWithAssemblyResult(new Probability(0.0), new Probability(0.0), EInterpretationCategory.NotRelevant);
             }
 
             switch (refinementStatus)
@@ -87,16 +89,16 @@ namespace Assembly.Kernel.Implementations
                     CheckProbabilityRatio(refinedProbabilityProfile, refinedProbabilitySection);
 
                     var refinedCategory = categories.GetCategoryForFailureProbability(refinedProbabilitySection).Category;
-                    return new FailureMechanismSectionAssemblyResult(refinedProbabilityProfile, refinedProbabilitySection, refinedCategory);
+                    return new FailureMechanismSectionWithAssemblyResult(refinedProbabilityProfile, refinedProbabilitySection, refinedCategory);
                 case ERefinementStatus.Necessary:
-                    return new FailureMechanismSectionAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant);
+                    return new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant);
                 default:
                     switch (relevance)
                     {
                         case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
-                            return new FailureMechanismSectionAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.NotDominant);
+                            return new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.NotDominant);
                         default:
-                            if (double.IsNaN(probabilityInitialMechanismSection) || double.IsNaN(probabilityInitialMechanismProfile))
+                            if (!probabilityInitialMechanismSection.IsDefined || !probabilityInitialMechanismProfile.IsDefined)
                             {
                                 throw new AssemblyException("probabilityInitialMechanism", EAssemblyErrors.ProbabilityMayNotBeUndefined);
                             }
@@ -104,8 +106,100 @@ namespace Assembly.Kernel.Implementations
                             CheckProbabilityRatio(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
 
                             var categoryInitialMechanism = categories.GetCategoryForFailureProbability(probabilityInitialMechanismSection).Category;
-                            return new FailureMechanismSectionAssemblyResult(probabilityInitialMechanismProfile, probabilityInitialMechanismSection, categoryInitialMechanism);
+                            return new FailureMechanismSectionWithAssemblyResult(probabilityInitialMechanismProfile, probabilityInitialMechanismSection, categoryInitialMechanism);
                     }
+            }
+        }
+
+        /// <inheritdoc />
+        public Probability DetermineRepresentativeProbabilityBoi0A1(bool refinementNecessary,
+            Probability probabilityInitialMechanismSection, Probability refinedProbabilitySection)
+        {
+            return refinementNecessary ? refinedProbabilitySection : probabilityInitialMechanismSection;
+        }
+
+        /// <inheritdoc />
+        public IProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(bool refinementNecessary,
+            Probability probabilityInitialMechanismProfile, 
+            Probability probabilityInitialMechanismSection,
+            Probability refinedProbabilityProfile, 
+            Probability refinedProbabilitySection)
+        {
+            var errors = new List<AssemblyErrorMessage>();
+            if (probabilityInitialMechanismProfile.IsDefined != probabilityInitialMechanismSection.IsDefined)
+            {
+                errors.Add(new AssemblyErrorMessage("probabilitiesInitialMechanism", EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined));
+            }
+
+            if (probabilityInitialMechanismProfile.IsDefined &&
+                probabilityInitialMechanismProfile > probabilityInitialMechanismSection)
+            {
+                errors.Add(new AssemblyErrorMessage("probabilitiesInitialMechanism", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
+            }
+
+            if (refinedProbabilityProfile.IsDefined != refinedProbabilitySection.IsDefined)
+            {
+                errors.Add(new AssemblyErrorMessage("refinedProbabilities", EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined));
+            }
+
+            if (refinedProbabilityProfile.IsDefined &&
+                refinedProbabilityProfile > refinedProbabilitySection)
+            {
+                errors.Add(new AssemblyErrorMessage("refinedProbabilities", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability));
+            }
+
+            if (errors.Any())
+            {
+                throw new AssemblyException(errors);
+            }
+
+            return refinementNecessary ? 
+                new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection) :
+                new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
+        }
+
+        /// <inheritdoc />
+        public EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+            Probability sectionProbability, CategoriesList<InterpretationCategory> categories)
+        {
+            if (categories == null)
+            {
+                throw new AssemblyException(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            return categories.GetCategoryForFailureProbability(sectionProbability).Category;
+        }
+
+        /// <inheritdoc />
+        public EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
+            EAnalysisState analysisState)
+        {
+            switch (analysisState)
+            {
+                case EAnalysisState.NotRelevant:
+                    return EInterpretationCategory.NotRelevant;
+                case EAnalysisState.ProbabilityEstimationNecessary:
+                    return EInterpretationCategory.Dominant;
+                case EAnalysisState.NoProbabilityEstimationNecessary:
+                    return EInterpretationCategory.NotDominant;
+                default:
+                    throw new AssemblyException(nameof(analysisState), EAssemblyErrors.InvalidEnumValue);
+            }
+        }
+
+        /// <inheritdoc />
+        public Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category)
+        {
+            switch (category)
+            {
+                case EInterpretationCategory.NotDominant:
+                case EInterpretationCategory.NotRelevant:
+                    return new Probability(0.0);
+                case EInterpretationCategory.Dominant:
+                case EInterpretationCategory.NoResult:
+                    return Probability.Undefined;
+                default:
+                    throw new AssemblyException(nameof(category), EAssemblyErrors.InvalidCategoryValue);
             }
         }
 

@@ -24,30 +24,21 @@
 #endregion
 
 using System;
-using Assembly.Kernel.Model.Categories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Assembly.Kernel.Model;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class EInterpretationCategoryTest
+    public class EAnalysisStateTest
     {
         [Test]
-        public void TestEnumContract()
+        public void TestContract()
         {
-            Assert.AreEqual(11, Enum.GetValues(typeof(EInterpretationCategory)).Length);
-            Assert.AreEqual(0, (int)EInterpretationCategory.NotRelevant);
-            Assert.AreEqual(1, (int)EInterpretationCategory.NotDominant);
-            Assert.AreEqual(2, (int)EInterpretationCategory.III);
-            Assert.AreEqual(3, (int)EInterpretationCategory.II);
-            Assert.AreEqual(4, (int)EInterpretationCategory.I);
-            Assert.AreEqual(5, (int)EInterpretationCategory.Zero);
-            Assert.AreEqual(6, (int)EInterpretationCategory.IMin);
-            Assert.AreEqual(7, (int)EInterpretationCategory.IIMin);
-            Assert.AreEqual(8, (int)EInterpretationCategory.IIIMin);
-            Assert.AreEqual(9, (int)EInterpretationCategory.Dominant);
-            Assert.AreEqual(10, (int)EInterpretationCategory.NoResult);
-            Assert.Greater(EInterpretationCategory.IIMin, EInterpretationCategory.II);
+            Assert.AreEqual(3, Enum.GetValues(typeof(EAnalysisState)).Length);
         }
     }
 }
