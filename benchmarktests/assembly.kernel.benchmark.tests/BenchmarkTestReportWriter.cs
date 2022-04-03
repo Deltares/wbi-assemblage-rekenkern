@@ -86,8 +86,20 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi21) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"Stap 0 methodes" +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.StepZeroAggregationMethod) +
+            str += "   " + @"BOI-0A-1" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A1) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0A-2" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A2) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0B-1" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0B1) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0C-1" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C1) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0C-2" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C2) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
             str += "   " + @"BOI-1A-1 " +

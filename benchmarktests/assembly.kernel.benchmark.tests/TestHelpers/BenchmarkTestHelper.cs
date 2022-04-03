@@ -41,11 +41,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         /// <param name="currentResult">The current result.</param>
         /// <param name="newResult">The new result.</param>
         /// <returns>The updated result.</returns>
-        public static bool GetUpdatedMethodResult(bool? currentResult, bool newResult)
+        public static bool? GetUpdatedMethodResult(bool? currentResult, bool? newResult)
         {
-            return currentResult.HasValue
-                       ? currentResult.Value && newResult
-                       : newResult;
+            return !newResult.HasValue
+                ? currentResult
+                : currentResult.HasValue
+                    ? currentResult.Value && newResult.Value
+                    : newResult;
         }
 
         /// <summary>

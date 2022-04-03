@@ -38,6 +38,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
     public class FailureMechanismResultTester : FailureMechanismResultTesterBase
     {
+        private bool? boi0A1TestResult;
+        private bool? boi0B1TestResult;
+        private bool? boi0C1TestResult;
+        private bool? boi0C2TestResult;
+
         public FailureMechanismResultTester(MethodResultsListing methodResults,
             ExpectedFailureMechanismResult expectedFailureMechanismResult,
             CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories)
@@ -46,37 +51,77 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
-            MethodResults.StepZeroAggregationMethod = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.StepZeroAggregationMethod, result);
+            MethodResults.Boi0A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0A1, boi0A1TestResult);
+            MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
+            MethodResults.Boi0C1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C1, boi0C1TestResult);
+            MethodResults.Boi0C2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C2, boi0C2TestResult);
+            ResetTestResults();
         }
 
         protected override void TestCombinedAssessmentInternal()
         {
             var assembler = new AssessmentResultsTranslator();
+            ResetTestResults();
 
             if (ExpectedFailureMechanismResult != null)
             {
                 var exception = new AssertionException("Errors occurred");
+
                 foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>())
                 {
-                    var result = assembler.TranslateAssessmentResultAggregatedMethod(
-                        section.IsRelevant
-                            ? double.IsNaN(section.InitialMechanismProbabilitySection)
-                                ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                                : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
-                            : ESectionInitialMechanismProbabilitySpecification.NotRelevant,
-                        section.InitialMechanismProbabilitySection,
-                        section.RefinementStatus,
-                        section.RefinedProbabilitySection,
-                        this.InterpretationCategories);
+                    var relevance = section.IsRelevant
+                        ? double.IsNaN(section.InitialMechanismProbabilitySection)
+                            ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                            : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
+                        : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+                    var refinementStatus = section.RefinementStatus;
+                    Probability probability;
+                    EInterpretationCategory category;
+
+                    var analysisState = GetAnalysisState(relevance, refinementStatus);
+                    if (analysisState == EAnalysisState.ProbabilityEstimated)
+                    {
+                        probability = assembler.DetermineRepresentativeProbabilityBoi0A1(refinementStatus == ERefinementStatus.Performed,
+                            section.InitialMechanismProbabilitySection,
+                            section.RefinedProbabilitySection);
+                        category =
+                            assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                                probability, InterpretationCategories);
+                    }
+                    else
+                    {
+                        category = assembler.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+                        probability = assembler.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+                    }
 
                     try
                     {
-                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, result.ProbabilitySection);
-                        Assert.AreEqual(section.ExpectedInterpretationCategory, result.InterpretationCategory);
+                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, probability);
+                        Assert.AreEqual(section.ExpectedInterpretationCategory, category);
+                        if (analysisState == EAnalysisState.ProbabilityEstimated)
+                        {
+                            boi0A1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A1TestResult, true);
+                            boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, true);
+                        }
+                        else
+                        {
+                            boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, true);
+                            boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, true);
+                        }
                     }
                     catch (AssertionException e)
                     {
                         exception.Data.Add(section.SectionName,e);
+                        if (analysisState == EAnalysisState.ProbabilityEstimated)
+                        {
+                            boi0A1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A1TestResult, false);
+                            boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, false);
+                        }
+                        else
+                        {
+                            boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, false);
+                            boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, false);
+                        }
                     }
                 }
 
@@ -85,6 +130,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     throw exception;
                 }
             }
+        }
+
+        private void ResetTestResults()
+        {
+            boi0A1TestResult = null;
+            boi0B1TestResult = null;
+            boi0C1TestResult = null;
+            boi0C2TestResult = null;
         }
 
         protected override void SetAssessmentSectionMethodResult(bool result)

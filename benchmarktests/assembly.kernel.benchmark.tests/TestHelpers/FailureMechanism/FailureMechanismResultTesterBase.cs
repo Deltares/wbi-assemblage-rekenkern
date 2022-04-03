@@ -27,6 +27,8 @@ using System;
 using System.Collections;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
+using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
@@ -35,7 +37,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
     /// <summary>
     /// Base class for failure mechanism result tester.
     /// </summary>
-    /// <typeparam name="TFailureMechanismResult">The type of failure mechanism result.</typeparam>
     public abstract class FailureMechanismResultTesterBase : IFailureMechanismResultTester
     {
         protected readonly ExpectedFailureMechanismResult ExpectedFailureMechanismResult;
@@ -43,7 +44,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         protected readonly CategoriesList<InterpretationCategory> InterpretationCategories;
 
         /// <summary>
-        /// Creates a new instance of <see cref="FailureMechanismResultTesterBase{TFailureMechanismResult}"/>.
+        /// Creates a new instance of <see cref="FailureMechanismResultTesterBase"/>.
         /// </summary>
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
@@ -126,5 +127,28 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         protected abstract void SetAssessmentSectionMethodResultPartial(bool result);
 
         protected virtual void TestAssessmentSectionResultPartialInternal() { }
+
+        protected EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
+        {
+            if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
+            {
+                return EAnalysisState.NotRelevant;
+            }
+
+            switch (refinementStatus)
+            {
+                case ERefinementStatus.NotNecessary:
+                    return relevance == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                        ? EAnalysisState.NoProbabilityEstimationNecessary
+                        : EAnalysisState.ProbabilityEstimated;
+                case ERefinementStatus.Necessary:
+                    return EAnalysisState.ProbabilityEstimationNecessary;
+                case ERefinementStatus.Performed:
+                    return EAnalysisState.ProbabilityEstimated;
+                default:
+                    throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
+            }
+        }
+
     }
 }

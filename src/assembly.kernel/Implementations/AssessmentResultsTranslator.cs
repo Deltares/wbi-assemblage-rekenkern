@@ -94,28 +94,6 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
-        {
-            if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
-            {
-                return EAnalysisState.NotRelevant;
-            }
-
-            switch (refinementStatus)
-            {
-                case ERefinementStatus.NotNecessary:
-                    return relevance == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                        ? EAnalysisState.NoProbabilityEstimationNecessary
-                        : EAnalysisState.ProbabilityEstimated;
-                case ERefinementStatus.Necessary:
-                    return EAnalysisState.ProbabilityEstimationNecessary;
-                case ERefinementStatus.Performed:
-                    return EAnalysisState.ProbabilityEstimated;
-                default:
-                    throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
-            }
-        }
-
         /// <inheritdoc />
         public Probability DetermineRepresentativeProbabilityBoi0A1(bool refinementNecessary,
             Probability probabilityInitialMechanismSection, Probability refinedProbabilitySection)
@@ -202,6 +180,28 @@ namespace Assembly.Kernel.Implementations
                     return Probability.Undefined;
                 default:
                     throw new AssemblyException(nameof(category), EAssemblyErrors.InvalidCategoryValue);
+            }
+        }
+
+        private EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
+        {
+            if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
+            {
+                return EAnalysisState.NotRelevant;
+            }
+
+            switch (refinementStatus)
+            {
+                case ERefinementStatus.NotNecessary:
+                    return relevance == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                        ? EAnalysisState.NoProbabilityEstimationNecessary
+                        : EAnalysisState.ProbabilityEstimated;
+                case ERefinementStatus.Necessary:
+                    return EAnalysisState.ProbabilityEstimationNecessary;
+                case ERefinementStatus.Performed:
+                    return EAnalysisState.ProbabilityEstimated;
+                default:
+                    throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
             }
         }
     }
