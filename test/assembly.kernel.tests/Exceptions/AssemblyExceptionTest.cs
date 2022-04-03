@@ -78,5 +78,14 @@ namespace Assembly.Kernel.Tests.Exceptions
             Assert.AreEqual(1, exception.Errors.Count());
             Assert.AreEqual(EAssemblyErrors.ErrorConstructingErrorMessage, exception.Errors.First().ErrorCode);
         }
+
+        [Test]
+        public void ToStringWorks()
+        {
+            var exception = new AssemblyException("Test",EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
+
+            Assert.AreEqual("One or more errors occured during the assembly process:\n" + EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult + "\n",
+                exception.Message);
+        }
     }
 }

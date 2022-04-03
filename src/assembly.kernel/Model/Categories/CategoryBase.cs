@@ -68,12 +68,12 @@ namespace Assembly.Kernel.Model.Categories
         {
             if (double.IsNaN(lowerLimit) || double.IsNaN(upperLimit))
             {
-                throw new AssemblyException("Category: " + category, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }
 
             if (lowerLimit > upperLimit)
             {
-                throw new AssemblyException("Category: " + category, EAssemblyErrors.LowerLimitIsAboveUpperLimit);
+                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.LowerLimitIsAboveUpperLimit);
             }
         }
     }

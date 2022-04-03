@@ -112,13 +112,13 @@ namespace Assembly.Kernel.Implementations
             {
                 if (refinedProbabilityProfile.IsDefined != refinedProbabilitySection.IsDefined)
                 {
-                    throw new AssemblyException("refinedProbabilities", EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+                    throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
                 }
 
                 if (refinedProbabilityProfile.IsDefined &&
                     refinedProbabilityProfile > refinedProbabilitySection)
                 {
-                    throw new AssemblyException("refinedProbabilities", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                    throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
                 }
 
                 return new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection);
@@ -126,13 +126,13 @@ namespace Assembly.Kernel.Implementations
             
             if (probabilityInitialMechanismProfile.IsDefined != probabilityInitialMechanismSection.IsDefined)
             {
-                throw new AssemblyException("probabilitiesInitialMechanism", EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+                throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
             }
 
             if (probabilityInitialMechanismProfile.IsDefined &&
                 probabilityInitialMechanismProfile > probabilityInitialMechanismSection)
             {
-                throw new AssemblyException("probabilitiesInitialMechanism", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
 
             return new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);

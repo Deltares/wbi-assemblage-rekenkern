@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Model.Categories
         {
             if (!failureProbability.IsDefined)
             {
-                throw new AssemblyException("FailureProbability", EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(failureProbability), EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }
 
             return Categories.First(category => failureProbability <= category.UpperLimit);
@@ -79,9 +79,7 @@ namespace Assembly.Kernel.Model.Categories
             {
                 if (CompareProbabilities(category.LowerLimit, lastKnownUpperBoundary))
                 {
-                    throw new AssemblyException(
-                        "Categories are not subsequent and do not fully cover the probability range",
-                        EAssemblyErrors.InvalidCategoryLimits);
+                    throw new AssemblyException(nameof(categoryLimits), EAssemblyErrors.InvalidCategoryLimits);
                 }
 
                 lastKnownUpperBoundary = category.UpperLimit;
@@ -89,9 +87,7 @@ namespace Assembly.Kernel.Model.Categories
 
             if (Math.Abs(lastKnownUpperBoundary - 1.0) > EpsilonFactor)
             {
-                throw new AssemblyException(
-                    "Categories are not subsequent and do not fully cover the probability range",
-                    EAssemblyErrors.InvalidCategoryLimits);
+                throw new AssemblyException(nameof(categoryLimits), EAssemblyErrors.InvalidCategoryLimits);
             }
 
             return categories;

@@ -40,8 +40,8 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             var sectionEnd = 20.0;
             var section = new FailureMechanismSection(sectionStart,sectionEnd);
 
-            Assert.AreEqual(sectionStart,section.SectionStart);
-            Assert.AreEqual(sectionEnd, section.SectionEnd);
+            Assert.AreEqual(sectionStart,section.Start);
+            Assert.AreEqual(sectionEnd, section.End);
         }
 
         [Test,

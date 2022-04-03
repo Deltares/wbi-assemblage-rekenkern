@@ -296,8 +296,8 @@ namespace assembly.kernel.benchmark.tests
                 Assert.AreEqual(expectedSections.Length, calculatedSections.Length);
                 for (int i = 0; i < expectedSections.Length; i++)
                 {
-                    Assert.AreEqual(expectedSections[i].SectionStart, calculatedSections[i].SectionStart, 0.01);
-                    Assert.AreEqual(expectedSections[i].SectionEnd, calculatedSections[i].SectionEnd, 0.01);
+                    Assert.AreEqual(expectedSections[i].Start, calculatedSections[i].Start, 0.01);
+                    Assert.AreEqual(expectedSections[i].End, calculatedSections[i].End, 0.01);
                 }
 
                 result.AreEqualAssemblyResultCombinedSections = true;
@@ -324,8 +324,8 @@ namespace assembly.kernel.benchmark.tests
                 Assert.AreEqual(expectedResults.Length, calculatedResults.Length);
                 for (int i = 0; i < expectedResults.Length; i++)
                 {
-                    Assert.AreEqual(expectedResults[i].SectionStart, calculatedResults[i].SectionStart, 0.01);
-                    Assert.AreEqual(expectedResults[i].SectionEnd, calculatedResults[i].SectionEnd, 0.01);
+                    Assert.AreEqual(expectedResults[i].Start, calculatedResults[i].Start, 0.01);
+                    Assert.AreEqual(expectedResults[i].End, calculatedResults[i].End, 0.01);
                     Assert.AreEqual(expectedResults[i].Category, calculatedResults[i].Category);
                 }
 
@@ -354,8 +354,8 @@ namespace assembly.kernel.benchmark.tests
                 Assert.AreEqual(expectedResults.Length, calculatedResults.Length);
                 for (int i = 0; i < expectedResults.Length; i++)
                 {
-                    Assert.AreEqual(expectedResults[i].SectionStart, calculatedResults[i].SectionStart, 0.01);
-                    Assert.AreEqual(expectedResults[i].SectionEnd, calculatedResults[i].SectionEnd, 0.01);
+                    Assert.AreEqual(expectedResults[i].Start, calculatedResults[i].Start, 0.01);
+                    Assert.AreEqual(expectedResults[i].End, calculatedResults[i].End, 0.01);
                     Assert.AreEqual(expectedResults[i].Category, calculatedResults[i].Category);
                 }
 
@@ -395,8 +395,8 @@ namespace assembly.kernel.benchmark.tests
                 Assert.AreEqual(expectedSections.Length, calculatedSections.Length);
                 for (int i = 0; i < expectedSections.Length; i++)
                 {
-                    Assert.AreEqual(expectedSections[i].SectionStart, calculatedSections[i].SectionStart, 0.01);
-                    Assert.AreEqual(expectedSections[i].SectionEnd, calculatedSections[i].SectionEnd, 0.01);
+                    Assert.AreEqual(expectedSections[i].Start, calculatedSections[i].Start, 0.01);
+                    Assert.AreEqual(expectedSections[i].End, calculatedSections[i].End, 0.01);
                     Assert.AreEqual(expectedSections[i].Category, calculatedSections[i].Category);
                 }
 

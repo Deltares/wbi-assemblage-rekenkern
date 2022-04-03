@@ -33,9 +33,9 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// Error message.
         /// </summary>
-        /// <param name="entityId">The id of the entity on which the error occurred</param>
-        /// <param name="errorCode">The code of the error which occurred</param>
-        public AssemblyErrorMessage(string entityId, EAssemblyErrors errorCode)
+        /// <param name="entityId">The id of the entity on which the error occurred.</param>
+        /// <param name="errorCode">The code of the error which occurred.</param>
+        internal AssemblyErrorMessage(string entityId, EAssemblyErrors errorCode)
         {
             EntityId = entityId;
             ErrorCode = errorCode;
@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Exceptions
         public string EntityId { get; }
 
         /// <summary>
-        /// The code of the error which occurred
+        /// The code of the error which occurred.
         /// </summary>
         public EAssemblyErrors ErrorCode { get; }
     }

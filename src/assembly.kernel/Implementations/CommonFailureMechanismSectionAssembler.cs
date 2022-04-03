@@ -79,22 +79,22 @@ namespace Assembly.Kernel.Implementations
             {
                 foreach (var failureMechanismSection in failureMechanismSectionList.Sections)
                 {
-                    var sectionEnd = failureMechanismSection.SectionEnd;
+                    var sectionEnd = failureMechanismSection.End;
                     if (!sectionLimits.Contains(sectionEnd))
                     {
                         sectionLimits.Add(sectionEnd);
                     }
                 }
 
-                if (failureMechanismSectionList.Sections.Last().SectionEnd < minimumAssessmentSectionLength)
+                if (failureMechanismSectionList.Sections.Last().End < minimumAssessmentSectionLength)
                 {
-                    minimumAssessmentSectionLength = failureMechanismSectionList.Sections.Last().SectionEnd;
+                    minimumAssessmentSectionLength = failureMechanismSectionList.Sections.Last().End;
                 }
 
                 // compare calculated assessment section length with the provided length with a margin of 1 cm.
                 if (Math.Abs(minimumAssessmentSectionLength - assessmentSectionLength) > 0.01)
                 {
-                    throw new AssemblyException("AssembleCommonFailureMechanismSection",
+                    throw new AssemblyException(nameof(CommonFailureMechanismSectionAssembler),
                         EAssemblyErrors.FailureMechanismSectionLengthInvalid);
                 }
             }
@@ -135,14 +135,14 @@ namespace Assembly.Kernel.Implementations
             foreach (var commonSection in commonSectionsArray)
             {
                 var section = failureMechanismSectionList.GetSectionAtPoint(
-                    commonSection.SectionEnd - (commonSection.SectionEnd - commonSection.SectionStart) / 2.0);
+                    commonSection.End - (commonSection.End - commonSection.Start) / 2.0);
 
                 var sectionWithCategory = section as FailureMechanismSectionWithCategory;
                 if (sectionWithCategory != null)
                 {
                     resultsToCommonSections.Add(new FailureMechanismSectionWithCategory(
-                        commonSection.SectionStart,
-                        commonSection.SectionEnd,
+                        commonSection.Start,
+                        commonSection.End,
                         sectionWithCategory.Category));
                 }
             }
@@ -161,8 +161,8 @@ namespace Assembly.Kernel.Implementations
 
             for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
             {
-                var newCombinedSection = new FailureMechanismSectionWithCategory(firstSectionsList[iSection].SectionStart,
-                    firstSectionsList[iSection].SectionEnd,
+                var newCombinedSection = new FailureMechanismSectionWithCategory(firstSectionsList[iSection].Start,
+                    firstSectionsList[iSection].End,
                     EInterpretationCategory.NotRelevant);
 
                 foreach (var failureMechanismSectionList in failureMechanismSectionLists)
@@ -170,7 +170,7 @@ namespace Assembly.Kernel.Implementations
                     var section = failureMechanismSectionList[iSection];
                     if (!AreEqualSections(section, newCombinedSection))
                     {
-                        throw new AssemblyException("FailureMechanismSectionList",
+                        throw new AssemblyException(nameof(failureMechanismResults),
                             EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
 
@@ -193,7 +193,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (failureMechanismResults == null)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(failureMechanismResults),
                     EAssemblyErrors.ValueMayNotBeNull);
             }
 
@@ -206,13 +206,13 @@ namespace Assembly.Kernel.Implementations
 
             if (!failureMechanismSectionLists.Any())
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(failureMechanismResults),
                     EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (failureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(failureMechanismResults),
                     EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
@@ -222,8 +222,8 @@ namespace Assembly.Kernel.Implementations
         private static bool AreEqualSections(FailureMechanismSection section1,
             FailureMechanismSection section2)
         {
-            return Math.Abs(section1.SectionStart - section2.SectionStart) < 1e-8 &&
-                   Math.Abs(section1.SectionEnd - section2.SectionEnd) < 1e-8;
+            return Math.Abs(section1.Start - section2.Start) < 1e-8 &&
+                   Math.Abs(section1.End - section2.End) < 1e-8;
         }
 
         private static void CheckResultsToCommonSectionsInput(FailureMechanismSectionList commonSections,
@@ -231,21 +231,21 @@ namespace Assembly.Kernel.Implementations
         {
             if (commonSections == null || failureMechanismSectionList == null)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(FailureMechanismSectionList),
                     EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            if (Math.Abs(commonSections.Sections.Last().SectionEnd -
-                         failureMechanismSectionList.Sections.Last().SectionEnd) > 1e-8)
+            if (Math.Abs(commonSections.Sections.Last().End -
+                         failureMechanismSectionList.Sections.Last().End) > 1e-8)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(FailureMechanismSectionList),
                     EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             var firstResult = failureMechanismSectionList.Sections.First();
             if (!(firstResult is FailureMechanismSectionWithCategory))
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(failureMechanismSectionList),
                     EAssemblyErrors.SectionsWithoutCategory);
             }
         }
@@ -260,19 +260,19 @@ namespace Assembly.Kernel.Implementations
 
             if (double.IsNaN(assessmentSectionLength))
             {
-                errors.Add(new AssemblyErrorMessage("AssessmentSectionLength",
+                errors.Add(new AssemblyErrorMessage(nameof(assessmentSectionLength),
                     EAssemblyErrors.ValueMayNotBeNull));
             }
 
             if (assessmentSectionLength <= 0.0)
             {
-                errors.Add(new AssemblyErrorMessage("AssessmentSectionLength",
+                errors.Add(new AssemblyErrorMessage(nameof(assessmentSectionLength),
                     EAssemblyErrors.SectionLengthOutOfRange));
             }
 
             if (failureMechanismSectionLists == null)
             {
-                errors.Add(new AssemblyErrorMessage("FailureMechanismSectionList",
+                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionLists),
                     EAssemblyErrors.ValueMayNotBeNull));
             }
             else
@@ -281,7 +281,7 @@ namespace Assembly.Kernel.Implementations
                                                             failureMechanismSectionLists.ToArray();
                 if (!mechanismSectionLists.Any())
                 {
-                    errors.Add(new AssemblyErrorMessage("FailureMechanismSectionList",
+                    errors.Add(new AssemblyErrorMessage(nameof(mechanismSectionLists),
                         EAssemblyErrors.EmptyResultsList));
                 }
             }

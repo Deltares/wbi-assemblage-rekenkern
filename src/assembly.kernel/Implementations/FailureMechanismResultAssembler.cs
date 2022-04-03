@@ -154,7 +154,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (sectionResults.Any(r => !r.IsDefined))
             {
-                throw new AssemblyException("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
+                throw new AssemblyException(nameof(sectionResults), EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Assembly.Kernel.Implementations
 
             if (lengthEffectFactor < 1)
             {
-                errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
+                errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
             if (errors.Count > 0)
@@ -188,7 +188,7 @@ namespace Assembly.Kernel.Implementations
 
             if (lengthEffectFactor < 1)
             {
-                errors.Add(new AssemblyErrorMessage("FailureMechanism", EAssemblyErrors.LengthEffectFactorOutOfRange));
+                errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
             if (errors.Count > 0)

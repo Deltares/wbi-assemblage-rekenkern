@@ -35,36 +35,41 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Failure mechanism with category constructor.
         /// </summary>
-        /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
+        /// <param name="start">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>
-        /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
+        /// <param name="end">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
         /// when end is before the start</exception>
-        public FailureMechanismSection(double sectionStart, double sectionEnd)
+        public FailureMechanismSection(double start, double end)
         {
-            if (double.IsNaN(sectionStart) | double.IsNaN(sectionEnd))
+            if (double.IsNaN(start))
             {
-                throw new AssemblyException("sectionStart or sectionEnd", EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(start), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }
+            if (double.IsNaN(end))
+            {
+                throw new AssemblyException(nameof(end), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }
+            
+
+            if (start < 0.0 || end <= start)
+            {
+                throw new AssemblyException(nameof(FailureMechanismSection), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }
 
-            if (sectionStart < 0.0 || sectionEnd <= sectionStart)
-            {
-                throw new AssemblyException("FailureMechanismSection", EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
-            }
-
-            SectionStart = sectionStart;
-            SectionEnd = sectionEnd;
+            Start = start;
+            End = end;
         }
 
         /// <summary>
         /// The start of the section in meters from the beginning of the assessment section.
         /// </summary>
-        public double SectionStart { get; }
+        public double Start { get; }
 
         /// <summary>
         /// The end of the section in meters from the beginning of the assessment section.
         /// </summary>
-        public double SectionEnd { get; }
+        public double End { get; }
     }
 }

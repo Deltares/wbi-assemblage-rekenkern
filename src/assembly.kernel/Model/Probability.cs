@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Model
         {
             if (!double.IsNaN(probability) && probability < 0 || !double.IsNaN(probability) && probability > 1)
             {
-                throw new AssemblyException("Probability",EAssemblyErrors.FailureProbabilityOutOfRange);
+                throw new AssemblyException(nameof(probability),EAssemblyErrors.FailureProbabilityOutOfRange);
             }
         }
 

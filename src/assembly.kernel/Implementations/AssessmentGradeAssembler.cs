@@ -95,7 +95,7 @@ namespace Assembly.Kernel.Implementations
             }
             if (categories == null)
             {
-                errors.Add(new AssemblyErrorMessage("Categories", EAssemblyErrors.ValueMayNotBeNull));
+                errors.Add(new AssemblyErrorMessage(nameof(categories), EAssemblyErrors.ValueMayNotBeNull));
             }
 
             if (errors.Count > 0)

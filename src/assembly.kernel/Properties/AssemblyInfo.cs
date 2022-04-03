@@ -24,10 +24,12 @@
 #endregion
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("Assembly.kernel")]
 [assembly: AssemblyProduct("Assembly Kernel")]
 [assembly: AssemblyCompany("Rijkswaterstaat")]
-[assembly: AssemblyCopyright("Copyright © 2019, All rights reserved")]
-[assembly: AssemblyVersion("20.1.1.0")]
-[assembly: AssemblyInformationalVersion("20.1.1.0 - snapshot")]
+[assembly: AssemblyCopyright("Copyright © 2022, All rights reserved")]
+[assembly: AssemblyVersion("22.1.1.0")]
+[assembly: AssemblyInformationalVersion("22.1.1.0 - snapshot")]
+[assembly: InternalsVisibleTo("Assembly.Kernel.Tests")]

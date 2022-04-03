@@ -108,8 +108,8 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
                                                FailureMechanismSectionWithCategory section)
         {
-            Assert.AreEqual(start, section.SectionStart, 1e-8);
-            Assert.AreEqual(end, section.SectionEnd, 1e-8);
+            Assert.AreEqual(start, section.Start, 1e-8);
+            Assert.AreEqual(end, section.End, 1e-8);
             Assert.AreEqual(category, section.Category);
         }
     }

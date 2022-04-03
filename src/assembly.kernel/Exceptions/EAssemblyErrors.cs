@@ -53,13 +53,13 @@ namespace Assembly.Kernel.Exceptions
         LowerLimitIsAboveUpperLimit,
 
         /// <summary>
-        /// The value passed may not be null
+        /// The value passed may not be null.
         /// </summary>
         ValueMayNotBeNull,
 
         /// <summary>
-        /// The length field of the failure mechanism section &lt;=0.
-        /// Or the calculated section length isn't the same as the provided length.
+        /// The length field of the failure mechanism section &lt;=0
+        /// or the calculated section length isn't the same as the provided length.
         /// </summary>
         FailureMechanismSectionLengthInvalid,
 

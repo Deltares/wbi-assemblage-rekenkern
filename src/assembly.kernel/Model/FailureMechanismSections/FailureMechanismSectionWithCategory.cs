@@ -35,14 +35,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Failure mechanism with category
         /// </summary>
-        /// <param name="sectionStart">The start of the section in meters from the beginning of the assessment section.
+        /// <param name="start">The start of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0</param>
-        /// <param name="sectionEnd">The end of the section in meters from the beginning of the assessment section.
+        /// <param name="end">The end of the section in meters from the beginning of the assessment section.
         ///  Must be greater than 0 and greater than the start of the section</param>
         /// <param name="category">The assessment result of the failure mechanism section</param>
-        public FailureMechanismSectionWithCategory(double sectionStart, double sectionEnd,
+        public FailureMechanismSectionWithCategory(double start, double end,
             EInterpretationCategory category) :
-            base(sectionStart, sectionEnd)
+            base(start, end)
         {
             Category = category;
         }

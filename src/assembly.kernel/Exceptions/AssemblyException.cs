@@ -25,20 +25,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
-    /// This exception is returned when an exception occured during the execution of a method in the Assembly kernel.
+    /// This exception is returned when an exception occurred during the execution of a method in the Assembly kernel.
     /// </summary>
     public class AssemblyException : Exception
     {
         /// <summary>
-        /// Assembly exception constructor for a single error message
+        /// Assembly exception constructor for a single error message.
         /// </summary>
-        /// <param name="entityId">The id of the entity on which the error occurred</param>
-        /// <param name="error">The code of the error which occurred</param>
-        public AssemblyException(string entityId, EAssemblyErrors error)
+        /// <param name="entityId">The id of the entity on which the error occurred.</param>
+        /// <param name="error">The code of the error which occurred.</param>
+        internal AssemblyException(string entityId, EAssemblyErrors error)
         {
             Errors = new List<AssemblyErrorMessage>
             {
@@ -47,16 +48,16 @@ namespace Assembly.Kernel.Exceptions
         }
 
         /// <summary>
-        /// Assembly exception constructor for multiple error messages
+        /// Assembly exception constructor for multiple error messages.
         /// </summary>
-        /// <param name="errorMessages">A list of error messages</param>
-        public AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
+        /// <param name="errorMessages">A list of error messages.</param>
+        internal AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
         {
             if (errorMessages == null)
             {
                 errorMessages = new List<AssemblyErrorMessage>
                 {
-                    new AssemblyErrorMessage("AssemblyException",EAssemblyErrors.ErrorConstructingErrorMessage)
+                    new AssemblyErrorMessage(nameof(AssemblyException),EAssemblyErrors.ErrorConstructingErrorMessage)
                 };
             }
 
@@ -64,10 +65,15 @@ namespace Assembly.Kernel.Exceptions
         }
 
         /// <summary>
-        /// The default exception text.
+        /// The exception text.
         /// </summary>
-        public override string Message => "One or more errors occured during the assembly process!" +
-                                          " See containing error message objects for more details.";
+        public override string Message
+        {
+            get
+            {
+                return Errors.Aggregate("One or more errors occured during the assembly process:\n", (current, error) => current + (error.ErrorCode + "\n"));
+            }
+        }
 
         /// <summary>
         /// This property contains one or more error messages containing more detail of the occured error(s).

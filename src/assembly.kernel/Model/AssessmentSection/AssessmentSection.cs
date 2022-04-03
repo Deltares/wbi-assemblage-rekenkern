@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         {
             if (signalFloodingProbability > maximumAllowableFloodingProbability)
             {
-                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
+                throw new AssemblyException(nameof(AssessmentSection), EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
             }
             
             SignalFloodingProbability = signalFloodingProbability;

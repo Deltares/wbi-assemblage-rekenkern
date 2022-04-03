@@ -158,8 +158,8 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                     new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.II)
                 });
             var s = failureMechanismSectionList.GetSectionAtPoint(15.0);
-            Assert.AreEqual(10,s.SectionStart);
-            Assert.AreEqual(20, s.SectionEnd);
+            Assert.AreEqual(10,s.Start);
+            Assert.AreEqual(20, s.End);
             var sectionWithCategory = s as FailureMechanismSectionWithCategory;
             Assert.IsNotNull(sectionWithCategory);
             Assert.AreEqual(EInterpretationCategory.II, sectionWithCategory.Category);

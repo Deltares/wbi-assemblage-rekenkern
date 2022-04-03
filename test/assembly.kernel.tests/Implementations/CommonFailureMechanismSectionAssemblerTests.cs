@@ -78,17 +78,17 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     0.0
                 }
-                .Concat(list1.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list2.Sections.Select(r => r.SectionEnd).ToArray())
-                .Concat(list3.Sections.Select(r => r.SectionEnd).ToArray())
+                .Concat(list1.Sections.Select(r => r.End).ToArray())
+                .Concat(list2.Sections.Select(r => r.End).ToArray())
+                .Concat(list3.Sections.Select(r => r.End).ToArray())
                 .Distinct().OrderBy(v => v).ToArray();
 
             var calculatedCommonSections = commonSections.Sections.ToArray();
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
             for (int i = 0; i < calculatedCommonSections.Length; i++)
             {
-                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].SectionStart);
-                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].SectionEnd);
+                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].Start);
+                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].End);
             }
         }
 
@@ -143,8 +143,8 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
             for (int i = 0; i < calculatedCommonSections.Length; i++)
             {
-                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].SectionStart);
-                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].SectionEnd);
+                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].Start);
+                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].End);
             }
         }
 
@@ -924,8 +924,8 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedCombinedResult.Count, combinedResult.Count);
             for (var i = 0; i < expectedCombinedResult.Count; i++)
             {
-                Assert.AreEqual(expectedCombinedResult[i].SectionStart, combinedResult[i].SectionStart);
-                Assert.AreEqual(expectedCombinedResult[i].SectionEnd, combinedResult[i].SectionEnd);
+                Assert.AreEqual(expectedCombinedResult[i].Start, combinedResult[i].Start);
+                Assert.AreEqual(expectedCombinedResult[i].End, combinedResult[i].End);
                 Assert.AreEqual(expectedCombinedResult[i].Category, combinedResult[i].Category);
             }
         }
@@ -952,8 +952,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     Assert.NotNull(expectedResult);
                     Assert.NotNull(sectionResult);
 
-                    Assert.AreEqual(expectedResult.SectionStart, sectionResult.SectionStart);
-                    Assert.AreEqual(expectedResult.SectionEnd, sectionResult.SectionEnd);
+                    Assert.AreEqual(expectedResult.Start, sectionResult.Start);
+                    Assert.AreEqual(expectedResult.End, sectionResult.End);
 
                     Assert.AreEqual(
                             ((FailureMechanismSectionWithCategory) expectedResult).Category,

@@ -63,13 +63,13 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             foreach (var section in Sections)
             {
-                if (section.SectionEnd >= pointInAssessmentSection)
+                if (section.End >= pointInAssessmentSection)
                 {
                     return section;
                 }
             }
 
-            throw new AssemblyException("GetSectionAtPoint", EAssemblyErrors.RequestedPointOutOfRange);
+            throw new AssemblyException(nameof(pointInAssessmentSection), EAssemblyErrors.RequestedPointOutOfRange);
         }
 
         private static IEnumerable<FailureMechanismSection> CheckSectionResults(
@@ -77,26 +77,26 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             if (sectionResults == null)
             {
-                throw new AssemblyException("FailureMechanismSectionList", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(nameof(sectionResults), EAssemblyErrors.ValueMayNotBeNull);
             }
 
             var sectionResultsArray = sectionResults.ToArray();
 
             if (sectionResultsArray.Length == 0)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(sectionResults),
                     EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             // Check if all entries are of the same type.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
-                throw new AssemblyException("FailureMechanismSectionList",
+                throw new AssemblyException(nameof(sectionResults),
                     EAssemblyErrors.InputNotTheSameType);
             }
 
             var orderedResults = sectionResultsArray
-                .OrderBy(sectionResult => sectionResult.SectionStart)
+                .OrderBy(sectionResult => sectionResult.Start)
                 .ToArray();
 
             FailureMechanismSection previousFailureMechanismSection = null;
@@ -105,18 +105,18 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 if (previousFailureMechanismSection == null)
                 {
                     // The current section start should be 0 when no previous section is present.
-                    if (section.SectionStart > 0.0)
+                    if (section.Start > 0.0)
                     {
-                        throw new AssemblyException("FailureMechanismSectionList",
+                        throw new AssemblyException(nameof(sectionResults),
                             EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
                 }
                 else
                 {
                     // check if sections are consecutive with a margin of 1 cm
-                    if (Math.Abs(previousFailureMechanismSection.SectionEnd - section.SectionStart) > 0.01)
+                    if (Math.Abs(previousFailureMechanismSection.End - section.Start) > 0.01)
                     {
-                        throw new AssemblyException("FailureMechanismSectionList",
+                        throw new AssemblyException(nameof(sectionResults),
                             EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                     }
                 }

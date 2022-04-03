@@ -47,7 +47,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
-                throw new AssemblyException("AssemblyResult", EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(nameof(AssemblyResult), EAssemblyErrors.ValueMayNotBeNull);
             }
 
             ResultPerFailureMechanism = resultPerFailureMechanism;

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using Assembly.Kernel.Exceptions;
@@ -146,9 +147,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 case ERefinementStatus.Performed:
                     return EAnalysisState.ProbabilityEstimated;
                 default:
-                    throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
+                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int)refinementStatus, typeof(ERefinementStatus));
             }
         }
-
     }
 }
