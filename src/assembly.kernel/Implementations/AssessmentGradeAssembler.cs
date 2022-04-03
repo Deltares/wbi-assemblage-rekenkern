@@ -28,7 +28,6 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Implementations
@@ -46,6 +45,22 @@ namespace Assembly.Kernel.Implementations
                 throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.ValueMayNotBeNull);
             }
 
+            var failureProbabilitiesArray = PrepareResultsList(failureMechanismProbabilities, partialAssembly);
+            var failureProbability = CalculateFailureProbabilityFromListOfProbabilities(failureProbabilitiesArray);
+
+            return failureProbability;
+        }
+
+        /// <inheritdoc />
+        public EAssessmentGrade DetermineAssessmentGradeBoi2B1(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
+        {
+            CheckForDefinedProbabilityAndCategories(failureProbability, categories);
+            var category = categories.GetCategoryForFailureProbability(failureProbability);
+            return category.Category;
+        }
+
+        private static Probability[] PrepareResultsList(IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly)
+        {
             var failureProbabilitiesArray = failureMechanismProbabilities as Probability[] ??
                                             failureMechanismProbabilities.ToArray();
 
@@ -56,7 +71,12 @@ namespace Assembly.Kernel.Implementations
                 CheckForProbabilities(failureProbabilitiesArray);
             }
 
-            var failureProbabilityProduct = (Probability)1.0;
+            return failureProbabilitiesArray;
+        }
+
+        private static Probability CalculateFailureProbabilityFromListOfProbabilities(Probability[] failureProbabilitiesArray)
+        {
+            var failureProbabilityProduct = (Probability) 1.0;
             foreach (var probability in failureProbabilitiesArray)
             {
                 if (!probability.IsDefined)
@@ -67,15 +87,8 @@ namespace Assembly.Kernel.Implementations
                 failureProbabilityProduct *= probability.Inverse;
             }
 
-            return failureProbabilityProduct.Inverse;
-        }
-
-        /// <inheritdoc />
-        public EAssessmentGrade DetermineAssessmentGradeBoi2B1(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
-        {
-            CheckForDefinedProbabilityAndCategories(failureProbability, categories);
-            var category = categories.GetCategoryForFailureProbability(failureProbability);
-            return category.Category;
+            var failureProbability = failureProbabilityProduct.Inverse;
+            return failureProbability;
         }
 
         private static void CheckForProbabilities(Probability[] probabilities)

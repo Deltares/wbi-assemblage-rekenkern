@@ -42,13 +42,7 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
-            if (failureMechanismSectionAssemblyResults == null)
-            {
-                throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            var sectionResults = failureMechanismSectionAssemblyResults.ToArray();
-
+            var sectionResults = FailureMechanismSectionAssemblyResultsToArray(failureMechanismSectionAssemblyResults);
             CheckInput(sectionResults, lengthEffectFactor);
 
             if (partialAssembly)
@@ -79,11 +73,7 @@ namespace Assembly.Kernel.Implementations
             highestFailureProbabilityProfile *= lengthEffectFactor;
             var combinedFailureProbabilityUnCorrelated = noFailureProbProduct.Inverse;
 
-            var correlation = sectionResults.Length < 2
-                ? EFailureMechanismAssemblyMethod.Uncorrelated
-                : highestFailureProbabilityProfile <= combinedFailureProbabilityUnCorrelated
-                    ? EFailureMechanismAssemblyMethod.Correlated
-                    : EFailureMechanismAssemblyMethod.Uncorrelated;
+            var correlation = FindCorrelation(sectionResults, highestFailureProbabilityProfile, combinedFailureProbabilityUnCorrelated);
             var probabilityValue = (Probability)Math.Min(highestFailureProbabilityProfile,combinedFailureProbabilityUnCorrelated);
 
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
@@ -93,13 +83,7 @@ namespace Assembly.Kernel.Implementations
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionProbabilities, bool partialAssembly)
         {
-            if (failureMechanismSectionProbabilities == null)
-            {
-                throw new AssemblyException(nameof(failureMechanismSectionProbabilities), EAssemblyErrors.ValueMayNotBeNull);
-            }
-            var sectionResults = failureMechanismSectionProbabilities as Probability[] ??
-                                 failureMechanismSectionProbabilities.ToArray();
-
+            var sectionResults = FailureMechanismSectionProbabilitiesToProbabilityArray(failureMechanismSectionProbabilities);
             CheckInput(sectionResults, lengthEffectFactor);
 
             if (partialAssembly)
@@ -140,6 +124,39 @@ namespace Assembly.Kernel.Implementations
             var probabilityValue = (Probability)Math.Min(highestProbabilityValue, combinedFailureProbabilityUnCorrelated);
 
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
+        }
+
+        private static EFailureMechanismAssemblyMethod FindCorrelation(IProfileAndSectionProbabilities[] sectionResults,
+            double highestFailureProbabilityProfile, Probability combinedFailureProbabilityUnCorrelated)
+        {
+            var correlation = (sectionResults.Length < 2 || highestFailureProbabilityProfile > combinedFailureProbabilityUnCorrelated)
+                ? EFailureMechanismAssemblyMethod.Uncorrelated
+                : EFailureMechanismAssemblyMethod.Correlated;
+            return correlation;
+        }
+
+        private static IProfileAndSectionProbabilities[] FailureMechanismSectionAssemblyResultsToArray(
+            IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            return failureMechanismSectionAssemblyResults as IProfileAndSectionProbabilities[] ??
+                   failureMechanismSectionAssemblyResults.ToArray();
+        }
+
+        private static Probability[] FailureMechanismSectionProbabilitiesToProbabilityArray(
+            IEnumerable<Probability> failureMechanismSectionProbabilities)
+        {
+            if (failureMechanismSectionProbabilities == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionProbabilities), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            return failureMechanismSectionProbabilities as Probability[] ??
+                   failureMechanismSectionProbabilities.ToArray();
         }
 
         private static void CheckForDefinedProbabilities(IProfileAndSectionProbabilities[] sectionResults)

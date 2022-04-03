@@ -27,7 +27,7 @@ namespace Assembly.Kernel.Model.Categories
 {
     /// <inheritdoc />
     /// <summary>
-    /// Category limits for an failure mechanism section
+    /// Category limits for a failure mechanism section
     /// </summary>
     public class InterpretationCategory : CategoryBase<EInterpretationCategory>
     {

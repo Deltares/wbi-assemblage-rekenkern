@@ -70,7 +70,7 @@ namespace Assembly.Kernel.Exceptions
         FailureMechanismSectionSectionStartEndInvalid,
 
         /// <summary>
-        /// The failure probability is greater than one or below zero. Which is an invalid value.
+        /// The failure probability is $gt; 1 or $lt; 0. Which is an invalid value.
         /// </summary>
         FailureProbabilityOutOfRange,
 
@@ -80,14 +80,19 @@ namespace Assembly.Kernel.Exceptions
         InputNotTheSameType,
 
         /// <summary>
-        /// Input for the assemble failure mechanism method are invalid. This means the list of Failure mechanism Section assembly results is empty.
+        /// The specified result list is empty.
         /// </summary>
         EmptyResultsList,
 
         /// <summary>
-        /// The list of failure mechanism sections is empty or incomplete. 
+        /// The list of failure mechanism sections is incomplete. 
         /// </summary>
         CommonFailureMechanismSectionsInvalid,
+
+        /// <summary>
+        /// The section limits of two lists of common sections are not equal.
+        /// </summary>
+        CommonFailureMechanismSectionsDoNotHaveEqualSections,
 
         /// <summary>
         /// Start and end positions of consecutive sections do not match.
@@ -148,6 +153,16 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// An invalid enum value was specified.
         /// </summary>
-        InvalidEnumValue
+        InvalidEnumValue,
+
+        /// <summary>
+        /// The specified lists of common sections were not equal (one contained more sections that the other).
+        /// </summary>
+        UnequalCommonFailureMechanismSectionLists,
+
+        /// <summary>
+        /// The specified common sections did not have interpretation categories.
+        /// </summary>
+        CommonSectionsDidNotHaveCategoryValues
     }
 }

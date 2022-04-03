@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Tests.Exceptions
         [Test]
         public void MemberCount()
         {
-            Assert.AreEqual(23, Enum.GetValues(typeof(EAssemblyErrors)).Length);
+            Assert.AreEqual(26, Enum.GetValues(typeof(EAssemblyErrors)).Length);
         }
     }
 }

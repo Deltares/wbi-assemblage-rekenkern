@@ -71,5 +71,10 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// The end of the section in meters from the beginning of the assessment section.
         /// </summary>
         public double End { get; }
+
+        /// <summary>
+        /// Represents the center of the section (average between <seealso cref="Start"/> and <seealso cref="End"/>.
+        /// </summary>
+        public double Center => End - (End - Start) / 2.0;
     }
 }

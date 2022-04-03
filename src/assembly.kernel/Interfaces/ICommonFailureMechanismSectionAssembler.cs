@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
         /// <returns>The greatest common denominator assembly result.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
+        /// or when the sum of failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
         AssemblyResult AssembleCommonFailureMechanismSections(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Interfaces
         /// The sum of the section lengths must be equal to this length.</param>
         /// <returns>The greatest common denominator sections spanning the complete assessment section length.</returns>
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of the failure mechanism sections is not the same as the total assessment section 
+        /// or when the sum of failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
         FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,

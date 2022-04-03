@@ -31,7 +31,7 @@ using Assembly.Kernel.Model.FailureMechanismSections;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Translate assessment results to an failure mechanism section assessment result.
+    /// Translate assessment results to a failure mechanism section assessment result.
     /// </summary>
     public interface IAssessmentResultsTranslator
     {

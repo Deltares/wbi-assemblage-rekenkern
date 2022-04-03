@@ -34,17 +34,17 @@ namespace Assembly.Kernel.Interfaces
     public interface ICategoryLimitsCalculator
     {
         /// <summary>
-        /// Calculate the category limits for an assessment section as specified in BOI-2-1.
+        /// Calculate the category limits for an assessment section.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
+        /// <returns>A list of <see cref="AssessmentSectionCategory"/> based on the maximum allowable flooding probability and the signal flooding probability.</returns>
         CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
 
         /// <summary>
-        /// Calculate the interpretation category limits for a section as specified in BOI-0-1.
+        /// Calculate the interpretation category limits for a section.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
-        /// <returns>A list of all the categories with their lower and upper limits.</returns>
+        /// <returns>A list of <see cref="InterpretationCategory"/> based on the maximum allowable flooding probability and the signal flooding probability.</returns>
         CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection section);
     }
 }

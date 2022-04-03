@@ -44,9 +44,10 @@ namespace Assembly.Kernel.Interfaces
         /// with failure probability to use for this assembly step.</param>
         /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
         /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
-        /// <exception cref="AssemblyException">Thrown when:<br/>
-        /// - result input is null or empty<br/>
-        /// - one or more of the results doesn't have a failure probability<br/>
+        /// <exception cref="AssemblyException">Thrown when: <list type="bullet">
+        /// <item>result input is null or empty.</item>
+        /// <item>one or more of the results doesn't have a failure probability</item>
+        /// </list>
         /// </exception>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,

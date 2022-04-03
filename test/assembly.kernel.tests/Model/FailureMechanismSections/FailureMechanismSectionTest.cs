@@ -44,6 +44,16 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             Assert.AreEqual(sectionEnd, section.End);
         }
 
+        [Test]
+        public void CenterIsCalculatedCorrectly()
+        {
+            var sectionStart = 2.0;
+            var sectionEnd = 3.0;
+            var section = new FailureMechanismSection(sectionStart, sectionEnd);
+
+            Assert.AreEqual(2.5, section.Center);
+        }
+
         [Test,
         TestCase(-0.1,30),
         TestCase(10.0, 4.0),

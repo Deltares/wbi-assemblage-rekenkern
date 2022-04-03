@@ -38,7 +38,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Failure mechanism section list constructor.
         /// </summary>
-        /// <param name="failureMechanismId">The failure mechanism to which the section results belong</param>
         /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start</param>
         /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
         /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
