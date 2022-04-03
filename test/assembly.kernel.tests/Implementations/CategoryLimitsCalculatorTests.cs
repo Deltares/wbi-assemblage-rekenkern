@@ -47,9 +47,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
-        public void CalculateBoi01FunctionalTest(double signalingLimit, double lowerLimit)
+        public void CalculateBoi01FunctionalTest(double signalFloodingProbability, double maximumAllowableFloodingProbability)
         {
-            var section = new AssessmentSection((Probability) signalingLimit, (Probability) lowerLimit);
+            var section = new AssessmentSection((Probability) signalFloodingProbability, (Probability) maximumAllowableFloodingProbability);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
@@ -62,30 +62,30 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit / 100.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signalingLimit / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signalingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signalingLimit, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(lowerLimit*10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability*10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIIMin:
-                        Assert.AreEqual(lowerLimit*10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability*10.0, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
                         break;
                     default:
@@ -98,9 +98,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateBoi01CapToOneTest()
         {
-            var signalingLimit = 0.001;
-            var lowerLimit = 0.5;
-            var section = new AssessmentSection((Probability)signalingLimit, (Probability)lowerLimit);
+            var signalFloodingProbability = 0.001;
+            var maximumAllowableFloodingProbability = 0.5;
+            var section = new AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodingProbability);
 
             CategoriesList<InterpretationCategory> results =
                 categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
@@ -113,26 +113,26 @@ namespace Assembly.Kernel.Tests.Implementations
                 {
                     case EInterpretationCategory.III:
                         Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.II:
-                        Assert.AreEqual(signalingLimit / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit / 100.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.I:
-                        Assert.AreEqual(signalingLimit / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit / 10.0, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signalingLimit / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalingLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signalingLimit, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(lowerLimit, limitResults.UpperLimit, 1e-6);
+                        Assert.AreEqual(signalFloodingProbability, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(lowerLimit, limitResults.LowerLimit, 1e-6);
+                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.LowerLimit, 1e-6);
                         Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
                         break;
                     case EInterpretationCategory.IIIMin:
@@ -153,10 +153,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateBoi21FunctionalTest()
         {
-            var signalingLimit = new Probability(0.003);
-            var lowerLimit = new Probability(0.03);
+            var signalFloodingProbability = new Probability(0.003);
+            var maximumAllowableFloodingProbability = new Probability(0.03);
 
-            var section = new AssessmentSection(signalingLimit, lowerLimit);
+            var section = new AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
@@ -197,10 +197,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateBoi21CapToOneTest()
         {
-            var signalingLimit = new Probability(0.003);
-            var lowerLimit = new Probability(0.034);
+            var signalFloodingProbability = new Probability(0.003);
+            var maximumAllowableFloodingProbability = new Probability(0.034);
 
-            var section = new AssessmentSection(signalingLimit, lowerLimit);
+            var section = new AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
 
             CategoriesList<AssessmentSectionCategory> results =
                 categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);

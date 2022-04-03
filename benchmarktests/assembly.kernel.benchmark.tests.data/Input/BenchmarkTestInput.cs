@@ -45,29 +45,29 @@ namespace assembly.kernel.benchmark.tests.data.Input
         }
 
         /// <summary>
-        /// The file name that contains the benchmark test definition and expected results
+        /// The file name that contains the benchmark test definition and expected results.
         /// </summary>
         public string FileName { get; set; }
 
         /// <summary>
-        /// Name of the benchmark test
+        /// Name of the benchmark test.
         /// </summary>
         public string TestName { get; set; }
 
         /// <summary>
-        /// Total length of the assessment section. Make sure this length equals the combined length of all sections per failure mechanism
+        /// Total length of the assessment section. Make sure this length equals the combined length of all sections per failure mechanism.
         /// </summary>
         public double Length { get; set; }
 
         /// <summary>
-        /// The signaling norm for this assessment section
+        /// The signal flooding probability for this assessment section.
         /// </summary>
-        public double SignalingNorm { get; set; }
+        public double SignalFloodingProbability { get; set; }
 
         /// <summary>
-        /// The lower boundary norm for this assessment section
+        /// The maximum allowable flooding probability for this assessment section.
         /// </summary>
-        public double LowerBoundaryNorm { get; set; }
+        public double MaximumAllowableFloodingProbability { get; set; }
 
         /// <summary>
         /// The expected section categories (A+ to D) on the highest (assessment section) level.

@@ -52,27 +52,27 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 reader.Read(result);
 
-                Assert.AreEqual(1 / 3000.0, result.SignalingNorm, 1e-8);
-                Assert.AreEqual(1 / 1000.0, result.LowerBoundaryNorm, 1e-8);
+                Assert.AreEqual(1 / 3000.0, result.SignalFloodingProbability, 1e-8);
+                Assert.AreEqual(1 / 1000.0, result.MaximumAllowableFloodingProbability, 1e-8);
                 Assert.AreEqual(10400, result.Length, 1e-8);
 
                 var assessmentGradeCategories = result.ExpectedAssessmentSectionCategories.Categories;
                 Assert.AreEqual(5, assessmentGradeCategories.Length);
-                AssertAreEqualGradeCategories(EAssessmentGrade.APlus, 0.0, result.SignalingNorm / 30.0, assessmentGradeCategories[0]);
-                AssertAreEqualGradeCategories(EAssessmentGrade.A, result.SignalingNorm / 30.0, result.SignalingNorm, assessmentGradeCategories[1]);
-                AssertAreEqualGradeCategories(EAssessmentGrade.B, result.SignalingNorm, result.LowerBoundaryNorm, assessmentGradeCategories[2]);
-                AssertAreEqualGradeCategories(EAssessmentGrade.C, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 30.0, assessmentGradeCategories[3]);
-                AssertAreEqualGradeCategories(EAssessmentGrade.D, result.LowerBoundaryNorm * 30.0, 1.0, assessmentGradeCategories[4]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.APlus, 0.0, result.SignalFloodingProbability / 30.0, assessmentGradeCategories[0]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.A, result.SignalFloodingProbability / 30.0, result.SignalFloodingProbability, assessmentGradeCategories[1]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.B, result.SignalFloodingProbability, result.MaximumAllowableFloodingProbability, assessmentGradeCategories[2]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.C, result.MaximumAllowableFloodingProbability, result.MaximumAllowableFloodingProbability * 30.0, assessmentGradeCategories[3]);
+                AssertAreEqualGradeCategories(EAssessmentGrade.D, result.MaximumAllowableFloodingProbability * 30.0, 1.0, assessmentGradeCategories[4]);
 
                 var interpretationCategories = result.ExpectedInterpretationCategories.Categories;
                 Assert.AreEqual(7, interpretationCategories.Length);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.III, 0.0, result.SignalingNorm / 1000.0, interpretationCategories[0]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.II, result.SignalingNorm / 1000.0, result.SignalingNorm / 100.0, interpretationCategories[1]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.I, result.SignalingNorm / 100.0, result.SignalingNorm / 10.0, interpretationCategories[2]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.Zero, result.SignalingNorm / 10.0, result.SignalingNorm, interpretationCategories[3]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.IMin, result.SignalingNorm, result.LowerBoundaryNorm, interpretationCategories[4]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIMin, result.LowerBoundaryNorm, result.LowerBoundaryNorm * 10.0, interpretationCategories[5]);
-                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIIMin, result.LowerBoundaryNorm * 10.0, 1.0, interpretationCategories[6]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.III, 0.0, result.SignalFloodingProbability / 1000.0, interpretationCategories[0]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.II, result.SignalFloodingProbability / 1000.0, result.SignalFloodingProbability / 100.0, interpretationCategories[1]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.I, result.SignalFloodingProbability / 100.0, result.SignalFloodingProbability / 10.0, interpretationCategories[2]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.Zero, result.SignalFloodingProbability / 10.0, result.SignalFloodingProbability, interpretationCategories[3]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IMin, result.SignalFloodingProbability, result.MaximumAllowableFloodingProbability, interpretationCategories[4]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIMin, result.MaximumAllowableFloodingProbability, result.MaximumAllowableFloodingProbability * 10.0, interpretationCategories[5]);
+                AssertAreEqualInterpretationCategories(EInterpretationCategory.IIIMin, result.MaximumAllowableFloodingProbability * 10.0, 1.0, interpretationCategories[6]);
             }
         }
 

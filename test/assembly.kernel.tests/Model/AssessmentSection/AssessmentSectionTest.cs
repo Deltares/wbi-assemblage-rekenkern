@@ -36,13 +36,13 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
     public class AssessmentSectionTest
     {
         [Test, TestCaseSource(typeof(AssessmentSectionTestData), nameof(AssessmentSectionTestData.TestCases))]
-        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signalingLimit, double lowerLimit)
+        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signalFloodingProbability, double maximumAllowableFloodngProbability)
         {
             try
             {
-                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalingLimit, (Probability)lowerLimit);
-                Assert.AreEqual(signalingLimit,section.FailureProbabilitySignalingLimit);
-                Assert.AreEqual(lowerLimit, section.FailureProbabilityLowerLimit);
+                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodngProbability);
+                Assert.AreEqual(signalFloodingProbability,section.SignalFloodingProbability);
+                Assert.AreEqual(maximumAllowableFloodngProbability, section.MaximumAllowableFloodingProbability);
             }
             catch (AssemblyException e)
             {
@@ -65,13 +65,13 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
                     yield return new TestCaseData(0.1, 0.05).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SignalingLimitAboveLowerLimit
+                            EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability
                         });
                     yield return new TestCaseData(0.1, 0.2).Returns(null);
                     yield return new TestCaseData(0.2, 0.1).Returns(
                         new List<EAssemblyErrors>
                         {
-                            EAssemblyErrors.SignalingLimitAboveLowerLimit
+                            EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability
                         });
                 }
             }

@@ -32,28 +32,27 @@ namespace Assembly.Kernel.Model.Categories
     {
         /// <summary>
         /// Highest rating
-        /// Assessment section is well above standard
+        /// Assessment section is well above the signal flooding probability.
         /// </summary>
         APlus = 1,
 
         /// <summary>
-        /// Assessment section complies with standard
+        /// Assessment section complies with the signal flooding probability.
         /// </summary>
         A = 2,
 
         /// <summary>
-        /// Assessment section complies with lower limit but fails signaling limit
+        /// Assessment section complies with maximum flooding probability but fails the signal flooding probability.
         /// </summary>
         B = 3,
 
         /// <summary>
-        /// Assessment section fails both signaling and lower limits
+        /// Assessment section fails both the signal flooding probability and maximum flooding probability.
         /// </summary>
         C = 4,
 
         /// <summary>
-        /// Lowest rating
-        /// Assessment section fails both limits well
+        /// Lowest rating. Assessment section fails both the signal flooding probability and maximum flooding probability.
         /// </summary>
         D = 5
     }

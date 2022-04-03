@@ -58,7 +58,7 @@ namespace assembly.kernel.benchmark.tests
             var calculator = new CategoryLimitsCalculator();
 
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsBoi21(
-                new AssessmentSection((Probability) input.SignalingNorm, (Probability) input.LowerBoundaryNorm));
+                new AssessmentSection((Probability) input.SignalFloodingProbability, (Probability) input.MaximumAllowableFloodingProbability));
             CategoriesList<AssessmentSectionCategory> expectedCategories =
                 input.ExpectedAssessmentSectionCategories;
 
@@ -78,7 +78,7 @@ namespace assembly.kernel.benchmark.tests
             var calculator = new CategoryLimitsCalculator();
 
             CategoriesList<InterpretationCategory> categories = calculator.CalculateInterpretationCategoryLimitsBoi01(
-                new AssessmentSection((Probability)input.SignalingNorm, (Probability)input.LowerBoundaryNorm));
+                new AssessmentSection((Probability)input.SignalFloodingProbability, (Probability)input.MaximumAllowableFloodingProbability));
             CategoriesList<InterpretationCategory> expectedCategories = input.ExpectedInterpretationCategories;
 
             result.AreEqualCategoriesListInterpretationCategories =

@@ -41,47 +41,47 @@ namespace Assembly.Kernel.Model.Categories
         NotDominant = 1,
 
         /// <summary>
-        /// probability less than 1/30 of the signaling norm
+        /// probability &lt; 1/1000 of the signal flooding probability.
         /// </summary>
         III = 2,
 
         /// <summary>
-        /// probability less than 1/10 of the signaling norm
+        /// probability &lt; 1/100 of the signal flooding probability.
         /// </summary>
         II = 3,
 
         /// <summary>
-        /// probability less than 1/3 of the signaling norm
+        /// probability &lt; 1/10 of the signal flooding probability.
         /// </summary>
         I = 4,
 
         /// <summary>
-        /// probability less than the lower boundary norm
+        /// probability &lt; the signal flooding probability.
         /// </summary>
         Zero = 5,
 
         /// <summary>
-        /// probability less than the lower boundary norm
+        /// probability &lt; the maximum allowable flooding probability.
         /// </summary>
         IMin = 6,
 
         /// <summary>
-        /// probability less than the 3 times the lower boundary norm
+        /// probability $lt; 10 times the maximum allowable flooding probability.
         /// </summary>
         IIMin = 7,
 
         /// <summary>
-        /// probability less than the 10 times the lower boundary norm
+        /// probability $gt; 10 times the maximum allowable flooding probability.
         /// </summary>
         IIIMin = 8,
 
         /// <summary>
-        /// Dominant without probability estimation
+        /// Dominant without probability estimation.
         /// </summary>
         Dominant = 9,
 
         /// <summary>
-        /// No result
+        /// No result.
         /// </summary>
         NoResult = 10
     }

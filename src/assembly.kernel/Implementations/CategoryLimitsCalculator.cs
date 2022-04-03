@@ -39,8 +39,8 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section)
         {
-            var sigDiv30 = new Probability(section.FailureProbabilitySignalingLimit / 30.0);
-            var lowTimes30 = new Probability(CapToOne((double)section.FailureProbabilityLowerLimit * 30.0));
+            var sigDiv30 = new Probability(section.SignalFloodingProbability / 30.0);
+            var lowTimes30 = new Probability(CapToOne((double)section.MaximumAllowableFloodingProbability * 30.0));
 
             return new CategoriesList<AssessmentSectionCategory>(new[]
             {
@@ -51,14 +51,14 @@ namespace Assembly.Kernel.Implementations
                 new AssessmentSectionCategory(
                     EAssessmentGrade.A,
                     sigDiv30,
-                    section.FailureProbabilitySignalingLimit),
+                    section.SignalFloodingProbability),
                 new AssessmentSectionCategory(
                     EAssessmentGrade.B,
-                    section.FailureProbabilitySignalingLimit,
-                    section.FailureProbabilityLowerLimit),
+                    section.SignalFloodingProbability,
+                    section.MaximumAllowableFloodingProbability),
                 new AssessmentSectionCategory(
                     EAssessmentGrade.C,
-                    section.FailureProbabilityLowerLimit,
+                    section.MaximumAllowableFloodingProbability,
                     lowTimes30),
                 new AssessmentSectionCategory(
                     EAssessmentGrade.D,
@@ -71,10 +71,10 @@ namespace Assembly.Kernel.Implementations
         public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(
             AssessmentSection section)
         {
-            var sigDiv1000 = new Probability(section.FailureProbabilitySignalingLimit / 1000.0);
-            var sigDiv100 = new Probability(section.FailureProbabilitySignalingLimit / 100.0);
-            var sigDiv10 = new Probability(section.FailureProbabilitySignalingLimit / 10.0);
-            var lowTimes10 = new Probability(CapToOne((double)section.FailureProbabilityLowerLimit * 10.0));
+            var sigDiv1000 = new Probability(section.SignalFloodingProbability / 1000.0);
+            var sigDiv100 = new Probability(section.SignalFloodingProbability / 100.0);
+            var sigDiv10 = new Probability(section.SignalFloodingProbability / 10.0);
+            var lowTimes10 = new Probability(CapToOne((double)section.MaximumAllowableFloodingProbability * 10.0));
 
             return new CategoriesList<InterpretationCategory>(new[]
             {
@@ -93,14 +93,14 @@ namespace Assembly.Kernel.Implementations
                 new InterpretationCategory(
                     EInterpretationCategory.Zero,
                     sigDiv10,
-                    section.FailureProbabilitySignalingLimit),
+                    section.SignalFloodingProbability),
                 new InterpretationCategory(
                     EInterpretationCategory.IMin,
-                    section.FailureProbabilitySignalingLimit,
-                    section.FailureProbabilityLowerLimit),
+                    section.SignalFloodingProbability,
+                    section.MaximumAllowableFloodingProbability),
                 new InterpretationCategory(
                     EInterpretationCategory.IIMin,
-                    section.FailureProbabilityLowerLimit,
+                    section.MaximumAllowableFloodingProbability,
                     lowTimes10),
                 new InterpretationCategory(
                     EInterpretationCategory.IIIMin,

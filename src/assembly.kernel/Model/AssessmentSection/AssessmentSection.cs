@@ -35,32 +35,31 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// AssessmentSection Constructor
         /// </summary>
-        /// <param name="failureProbabilitySignalingLimit">signaling limit for failure 
-        ///     probability of the section in 1/years. Has to be between 0 and 1</param>
-        /// <param name="failureProbabilityLowerLimit">lower limit for failure probability of the section in 1/years. 
+        /// <param name="signalFloodingProbability">Signal flooding probability of the section in 1/years. Has to be between 0 and 1</param>
+        /// <param name="maximumAllowableFloodingProbability">Maximum allowable flooding probability of the section in 1/years. 
         ///     Has to be between 0 and 1</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
-        public AssessmentSection(Probability failureProbabilitySignalingLimit,
-            Probability failureProbabilityLowerLimit)
+        public AssessmentSection(Probability signalFloodingProbability,
+            Probability maximumAllowableFloodingProbability)
         {
-            if (failureProbabilitySignalingLimit > failureProbabilityLowerLimit)
+            if (signalFloodingProbability > maximumAllowableFloodingProbability)
             {
-                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignalingLimitAboveLowerLimit);
+                throw new AssemblyException("AssessmentSection", EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
             }
             
-            FailureProbabilitySignalingLimit = failureProbabilitySignalingLimit;
-            FailureProbabilityLowerLimit = failureProbabilityLowerLimit;
+            SignalFloodingProbability = signalFloodingProbability;
+            MaximumAllowableFloodingProbability = maximumAllowableFloodingProbability;
         }
 
         /// <summary>
-        /// signaling limit for failure probability of the section in 1/years.
+        /// Signal flooding probability of the section in 1/years.
         /// </summary>
-        public Probability FailureProbabilitySignalingLimit { get; }
+        public Probability SignalFloodingProbability { get; }
 
         /// <summary>
-        /// lower limit for failure probability of the section in 1/years. 
+        /// Maximum allowable flooding probability of the section in 1/years. 
         /// </summary>
-        public Probability FailureProbabilityLowerLimit { get; }
+        public Probability MaximumAllowableFloodingProbability { get; }
 
         /// <summary>
         /// Generates string from assessment section object.
@@ -69,8 +68,8 @@ namespace Assembly.Kernel.Model.AssessmentSection
         public override string ToString()
         {
             return
-                $"Failure prob signaling limit: {FailureProbabilitySignalingLimit}, " +
-                $"Failure prob lower limit: {FailureProbabilityLowerLimit}";
+                $"Signal flooding probability: {SignalFloodingProbability}, " +
+                $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
         }
     }
 }
