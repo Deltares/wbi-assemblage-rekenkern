@@ -196,7 +196,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     true);
 
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedTemporal, result.AssemblyMethod);
+                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial, result.AssemblyMethod);
             }
         }
     }

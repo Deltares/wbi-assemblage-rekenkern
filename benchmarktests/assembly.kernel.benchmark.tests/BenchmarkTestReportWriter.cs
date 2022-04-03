@@ -189,8 +189,8 @@ namespace assembly.kernel.benchmark.tests
                                         ToResultText(result.AreEqualAssemblyResultCombinedSections));
             template = template.Replace("$AreEqualAssemblyResultCombinedSectionsResults$",
                                         ToResultText(result.AreEqualAssemblyResultCombinedSectionsResults));
-            template = template.Replace("$AreEqualAssemblyResultCombinedSectionsResultsTemporal$",
-                                        ToResultText(result.AreEqualAssemblyResultCombinedSectionsResultsTemporal));
+            template = template.Replace("$AreEqualAssemblyResultCombinedSectionsResultsPartial$",
+                                        ToResultText(result.AreEqualAssemblyResultCombinedSectionsResultsPartial));
             return template;
         }
 

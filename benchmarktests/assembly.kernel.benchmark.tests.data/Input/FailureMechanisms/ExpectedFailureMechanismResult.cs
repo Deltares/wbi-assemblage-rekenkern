@@ -81,7 +81,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// <summary>
         /// Indicates whether we expect correlated sections or not when determining the combined probability.
         /// </summary>
-        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelatedTemporal { get; set; }
+        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelatedPartial { get; set; }
 
         /// <summary>
         /// A listing of all sections within the failure mechanism

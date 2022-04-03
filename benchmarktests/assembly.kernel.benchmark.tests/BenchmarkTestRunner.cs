@@ -134,7 +134,7 @@ namespace assembly.kernel.benchmark.tests
         {
             TestGeneratedCombinedSections(input, result);
             TestCombinedSectionsFinalResults(input, result);
-            TestCombinedSectionsFinalResultsTemporal(input, result);
+            TestCombinedSectionsFinalResultsPartial(input, result);
 
             foreach (FailureMechanismSectionListWithFailureMechanismId failureMechanismsCombinedResult in input
                 .ExpectedCombinedSectionResultPerFailureMechanism)
@@ -339,7 +339,7 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCombinedSectionsFinalResultsTemporal(BenchmarkTestInput input,
+        private static void TestCombinedSectionsFinalResultsPartial(BenchmarkTestInput input,
                                                                      BenchmarkTestResult result)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -348,7 +348,7 @@ namespace assembly.kernel.benchmark.tests
                                     .DetermineCombinedResultPerCommonSectionBoi3C1(
                                         input.ExpectedCombinedSectionResultPerFailureMechanism,
                                         true).ToArray();
-            var expectedResults = input.ExpectedCombinedSectionResultTemporal.ToArray();
+            var expectedResults = input.ExpectedCombinedSectionResultPartial.ToArray();
             try
             {
                 Assert.AreEqual(expectedResults.Length, calculatedResults.Length);
@@ -359,12 +359,12 @@ namespace assembly.kernel.benchmark.tests
                     Assert.AreEqual(expectedResults[i].Category, calculatedResults[i].Category);
                 }
 
-                result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = true;
+                result.AreEqualAssemblyResultCombinedSectionsResultsPartial = true;
                 result.MethodResults.Boi3C1P = true;
             }
             catch (AssertionException)
             {
-                result.AreEqualAssemblyResultCombinedSectionsResultsTemporal = false;
+                result.AreEqualAssemblyResultCombinedSectionsResultsPartial = false;
                 result.MethodResults.Boi3C1P = false;
             }
         }

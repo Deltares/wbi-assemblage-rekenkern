@@ -86,9 +86,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 AssertResultsIsAsExpected(2519.652041,  3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(18));
                 AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(19));
 
-                AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResultTemporal.ElementAt(9));
-                AssertResultsIsAsExpected(2519.652041, 3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResultTemporal.ElementAt(18));
-                AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResultTemporal.ElementAt(19));
+                AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResultPartial.ElementAt(9));
+                AssertResultsIsAsExpected(2519.652041, 3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResultPartial.ElementAt(18));
+                AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResultPartial.ElementAt(19));
 
                 Assert.AreEqual(7, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
                 foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)

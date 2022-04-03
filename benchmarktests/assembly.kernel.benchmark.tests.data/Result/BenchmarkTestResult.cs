@@ -103,7 +103,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// <summary>
         /// Indicates whether the assessment results per combined section were calculated correctly during partial assembly.
         /// </summary>
-        public bool AreEqualAssemblyResultCombinedSectionsResultsTemporal { get; set; }
+        public bool AreEqualAssemblyResultCombinedSectionsResultsPartial { get; set; }
 
         /// <summary>
         /// Provides a list of benchmark test results per assembly method.

@@ -102,6 +102,6 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultTemporal { get; set; }
+        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultPartial { get; set; }
     }
 }
