@@ -101,7 +101,7 @@ namespace Assembly.Kernel.Tests
                     var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
                     failureMechanismSections.Add(
                         new FailureMechanismSection(
-                            new FailureMechanismSectionWithAssemblyResult((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
+                            new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
                             $"TEST{i}F",
                             sectionStart,
                             sectionEnd));
@@ -126,7 +126,7 @@ namespace Assembly.Kernel.Tests
 
         private sealed class FailureMechanismSection
         {
-            public FailureMechanismSection(FailureMechanismSectionWithAssemblyResult result, string failureMechanismType, double sectionStart,
+            public FailureMechanismSection(FailureMechanismSectionAssemblyResultWithLengthEffect result, string failureMechanismType, double sectionStart,
                              double sectionEnd)
             {
                 Result = result;
@@ -135,7 +135,7 @@ namespace Assembly.Kernel.Tests
                 SectionEnd = sectionEnd;
             }
 
-            public FailureMechanismSectionWithAssemblyResult Result { get; }
+            public FailureMechanismSectionAssemblyResultWithLengthEffect Result { get; }
 
             public string FailureMechanismType { get; }
 

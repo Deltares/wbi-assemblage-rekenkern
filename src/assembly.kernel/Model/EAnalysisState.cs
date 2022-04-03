@@ -48,6 +48,12 @@ namespace Assembly.Kernel.Model
         /// The section is dominant for the failure probability of the assessment section.
         /// Further analysis is necessary, but has not (yet) lead to a probability estimation.
         /// </summary>
-        ProbabilityEstimationNecessary
+        ProbabilityEstimationNecessary,
+
+        /// <summary>
+        /// A probability estimation has been made (either based on the initial mechanism or
+        /// after refinement.
+        /// </summary>
+        ProbabilityEstimated
     }
 }

@@ -59,7 +59,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 Probability.Undefined,
                 Probability.Undefined,
@@ -86,7 +86,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                 });
 
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.NotRelevant,
                 new Probability(0.1),
                 new Probability(0.01),
@@ -115,7 +115,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Probability probabilityProfile = new Probability(0.01);
             Probability probabilitySection = new Probability(0.02);
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                 probabilityProfile, 
                 probabilitySection,
@@ -147,7 +147,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Probability probabilityProfile = new Probability(probabilityProfileValue);
             Probability probabilitySection = new Probability(probabilitySectionValue);
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification,
                 probabilityProfile,
                 probabilitySection,
@@ -185,7 +185,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
             Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismProfile,
                 probabilityInitialMechanismSection,
@@ -228,7 +228,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Probability probabilityInitialMechanismSection = new Probability(probabilitySectionValue);
             Probability refinedProbabilityProfile = new Probability(refinedProbabilityProfileValue);
             Probability refinedProbabilitySection = new Probability(refinedProbabilitySectionValue);
-            var result = translator.TranslateAssessmentResultAggregatedMethod(
+            var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                 ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                 probabilityInitialMechanismProfile,
                 probabilityInitialMechanismSection,
@@ -268,9 +268,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
-            Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
         }
 
         [Test]
@@ -297,9 +295,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCategory, result.InterpretationCategory);
-            Assert.AreEqual(expectedProbabilityValues, result.ProbabilityProfile);
             Assert.AreEqual(expectedProbabilityValues, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
         }
 
         [Test]
@@ -325,9 +321,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
-            Assert.AreEqual((Probability)0.0, result.ProbabilityProfile);
             Assert.AreEqual((Probability)0.0, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
         }
 
         [Test]
@@ -356,9 +350,7 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCategory, result.InterpretationCategory);
-            Assert.AreEqual(expectedProbabilityValue, result.ProbabilityProfile);
             Assert.AreEqual(expectedProbabilityValue, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
         }
 
         #endregion
@@ -371,7 +363,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             try
             {
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     (Probability) 0.1,
                     (Probability) 0.1,
@@ -405,7 +397,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     (Probability)0.1, 
                     (Probability)0.01,
@@ -439,7 +431,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
                     Probability.Undefined, 
                     Probability.Undefined,
@@ -461,10 +453,10 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.01, double.NaN)]
-        [TestCase(double.NaN, 0.01)]
-        [TestCase(double.NaN, double.NaN)]
-        public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection)
+        [TestCase(0.01, double.NaN, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
+        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
+        [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
+        public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
             try
             {
@@ -476,7 +468,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     new Probability(probabilityProfile),
                     new Probability(probabilitySection),
@@ -490,7 +482,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
+                Assert.AreEqual(expectedError, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -510,7 +502,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     new Probability(1/50.0),
@@ -524,7 +516,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
+                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
                 Assert.Pass();
             }
 
@@ -532,10 +524,10 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.01,double.NaN)]
-        [TestCase(double.NaN, 0.01)]
-        [TestCase(double.NaN, double.NaN)]
-        public void ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection)
+        [TestCase(0.01,double.NaN, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
+        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
+        [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
+        public void ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
             try
             {
@@ -547,7 +539,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
                     });
 
-                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     Probability.Undefined,
@@ -561,7 +553,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.NotNull(e.Errors);
                 var message = e.Errors.FirstOrDefault();
                 Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
+                Assert.AreEqual(expectedError, message.ErrorCode);
                 Assert.Pass();
             }
 

@@ -31,38 +31,39 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Class that holds the results for a section of a failure mechanism.
+    /// Class that holds the results for a section of a failure mechanism including length effect.
     /// </summary>
-    public class FailureMechanismSectionAssemblyResult
+    public class FailureMechanismSectionAssemblyResultWithLengthEffect : ResultWithProfileAndSectionProbabilities
     {
         /// <summary>
-        /// Constructor for the FailureMechanismSectionWithAssemblyResult class.
+        /// Constructor for the FailureMechanismSectionAssemblyResultWithLengthEffect class.
         /// </summary>
+        /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section.</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
         /// <param name="category">The resulting interpretation category.</param>
         /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.NotRelevant"/> or <seealso cref="EInterpretationCategory.NotDominant"/>
-        /// and <paramref name="probabilitySection"/> does not equal 0.0.</exception>
+        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> do not equal 0.0.</exception>
         /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.Dominant"/> or <seealso cref="EInterpretationCategory.NoResult"/>
-        /// and <paramref name="probabilitySection"/> is defined (<seealso cref="Probability.Undefined"/> equals False).</exception>
+        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> are defined (<seealso cref="Probability.Undefined"/> equals False).</exception>
         ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<seealso cref="EInterpretationCategory.III"/>
-        /// to <seealso cref="EInterpretationCategory.IIIMin"/>) and <paramref name="probabilitySection"/> is undefined (<seealso cref="Probability.IsDefined"/> equals false).</exception>
+        /// to <seealso cref="EInterpretationCategory.IIIMin"/>) and either <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> is undefined (<seealso cref="Probability.IsDefined"/> equals false).</exception>
         /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
         /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
-        public FailureMechanismSectionAssemblyResult(Probability probabilitySection,
-            EInterpretationCategory category)
+        public FailureMechanismSectionAssemblyResultWithLengthEffect(Probability probabilityProfile, Probability probabilitySection,
+            EInterpretationCategory category) : base(probabilityProfile, probabilitySection)
         {
             switch (category)
             {
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
-                    if (Math.Abs(probabilitySection - 0.0) > 1E-8)
+                    if (Math.Abs(probabilityProfile - 0.0) > 1E-8 || Math.Abs(probabilitySection - 0.0) > 1E-8)
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
                     break;
                 case EInterpretationCategory.Dominant:
                 case EInterpretationCategory.NoResult:
-                    if (probabilitySection.IsDefined)
+                    if (probabilityProfile.IsDefined || probabilitySection.IsDefined)
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
@@ -74,7 +75,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.IMin:
                 case EInterpretationCategory.IIMin:
                 case EInterpretationCategory.IIIMin:
-                    if (!probabilitySection.IsDefined)
+                    if (!probabilitySection.IsDefined || !probabilityProfile.IsDefined)
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.ProbabilityMayNotBeUndefined);
                     }
@@ -84,7 +85,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             }
 
             InterpretationCategory = category;
-            ProbabilitySection = probabilitySection;
+            NSection = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
+                ? 1.0
+                : (double)probabilitySection / (double)probabilityProfile;
         }
 
         /// <summary>
@@ -93,14 +96,15 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         public EInterpretationCategory InterpretationCategory { get; }
 
         /// <summary>
-        /// Estimated probability of failure of the section.
+        /// The length-effect factor.
         /// </summary>
-        public Probability ProbabilitySection { get; }
+        public double NSection { get; }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FailureMechanismSectionAssemblyResult [" + InterpretationCategory + ", Psection:" +
+            return "FailureMechanismSectionAssemblyResultWithLengthEffect [" + InterpretationCategory + " Pprofile:" +
+                   ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
                    ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }

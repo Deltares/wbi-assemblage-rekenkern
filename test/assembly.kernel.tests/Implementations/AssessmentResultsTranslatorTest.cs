@@ -26,6 +26,7 @@
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
+using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
@@ -35,6 +36,14 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class AssessmentResultsTranslatorTest
     {
+        private IAssessmentResultsTranslator translator;
+
+        [SetUp]
+        public void Init()
+        {
+            translator = new AssessmentResultsTranslator();
+        }
+
         #region BOI-0A-1 functional tests
 
         [TestCase(0.1, 0.2, true, 0.2)]
@@ -50,7 +59,6 @@ namespace Assembly.Kernel.Tests.Implementations
             double expectedProbabilityValue
         )
         {
-            var translator = new AssessmentResultsTranslator();
             var calculatedProbability = translator.DetermineRepresentativeProbabilityBoi0A1(
                 refinementNecessary,
                 new Probability(initialMechanismProbabilityValue),
@@ -84,7 +92,6 @@ namespace Assembly.Kernel.Tests.Implementations
             double expectedSectionProbabilityValue
         )
         {
-            var translator = new AssessmentResultsTranslator();
             var calculatedProbabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(
                 refinementNecessary,
                 new Probability(initialMechanismProfileProbabilityValue),
@@ -110,11 +117,10 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityInitialMechanism()
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    true,
+                    false,
                     new Probability(0.3),
                     new Probability(0.04),
                     new Probability(0.1),
@@ -135,7 +141,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityRefinedProbability()
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
@@ -161,7 +166,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, 0.04)]
         public void Boi0A2ChecksIsDefinedInitialMechanism(double profileProbability, double sectionProbability)
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
@@ -186,7 +190,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, 0.04)]
         public void Boi0A2ChecksIsDefinedRefinedProbability(double profileProbability, double sectionProbability)
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
@@ -205,7 +208,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
                 Assert.Pass();
             }
+            Assert.Fail("No expected exception not thrown");
+        }
 
+        [Test]
+        public void Boi0A2ChecksIsDefinedRefinedProbability2()
+        {
             try
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
@@ -228,35 +236,6 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.Fail("No expected exception not thrown");
         }
 
-        [Test]
-        public void Boi0A2ReturnMultipleErrors()
-        {
-            var translator = new AssessmentResultsTranslator();
-            try
-            {
-                var calculatedProbabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    true,
-                    Probability.Undefined,
-                    new Probability(0.1),
-                    new Probability(0.2),
-                    new Probability(0.01)
-                );
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(2, e.Errors.Count());
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                var secondMessage = e.Errors.ElementAt(1);
-                Assert.NotNull(secondMessage);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, secondMessage.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
-        }
         #endregion
 
         #region BOI-0B-1 functional tests
@@ -279,7 +258,6 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.IIMin,new Probability(0.5), new Probability(0.6)),
                     new InterpretationCategory(EInterpretationCategory.IIIMin,new Probability(0.6), new Probability(1)),
                 });
-            var translator = new AssessmentResultsTranslator();
             var category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                 new Probability(probabilityValue),
                 categories);
@@ -293,7 +271,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void Boi0B1HandlesNullCategories()
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
@@ -322,7 +299,6 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi0C1TranslatesAnalysisStateToInterpretationCategory(EAnalysisState state,
             EInterpretationCategory expectedCategory)
         {
-            var translator = new AssessmentResultsTranslator();
             var category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state);
 
             Assert.AreEqual(expectedCategory, category);
@@ -334,7 +310,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase((EAnalysisState)(-1))]
         public void Boi0C1HandlesInvalidStates(EAnalysisState state)
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state);
@@ -360,7 +335,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(EInterpretationCategory.NoResult, double.NaN)]
         public void Boi0C2TranslatesToProbabilityCorrectly(EInterpretationCategory category, double expectedProbability)
         {
-            var translator = new AssessmentResultsTranslator();
             var calculatedProbability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
 
             if (double.IsNaN(expectedProbability))
@@ -386,7 +360,6 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase((EInterpretationCategory)(-1))]
         public void Boi0C2HandlesInvalidCategoryValues(EInterpretationCategory category)
         {
-            var translator = new AssessmentResultsTranslator();
             try
             {
                 translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);

@@ -46,6 +46,7 @@
     <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
     <Compile Include="Model\EFailureMechanismAssemblyMethodTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultTests.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultWithLengthEffectTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />

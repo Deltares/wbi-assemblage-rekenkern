@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void TestContract()
         {
-            Assert.AreEqual(3, Enum.GetValues(typeof(EAnalysisState)).Length);
+            Assert.AreEqual(4, Enum.GetValues(typeof(EAnalysisState)).Length);
         }
     }
 }

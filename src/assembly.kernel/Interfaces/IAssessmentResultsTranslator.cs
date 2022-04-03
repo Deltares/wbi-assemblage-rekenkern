@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
         /// <seealso cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
         /// and <seealso cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> is true.</exception>
-        FailureMechanismSectionWithAssemblyResult TranslateAssessmentResultAggregatedMethod(
+        FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismSection,
             ERefinementStatus refinementStatus,
@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Interfaces
         /// <seealso cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
         /// and <seealso cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> or
         /// <paramref name="probabilityInitialMechanismProfile"/> is true.</exception>
-        FailureMechanismSectionWithAssemblyResult TranslateAssessmentResultAggregatedMethod(
+        FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,

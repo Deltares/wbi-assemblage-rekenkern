@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor1,
                 failureProbabilities.Select(sectionResultTuple =>
                     new
-                        FailureMechanismSectionWithAssemblyResult(
+                        FailureMechanismSectionAssemblyResultWithLengthEffect(
                             sectionResultTuple.Item1, sectionResultTuple.Item2, sectionResultTuple.Item3)),
                 partialAssembly);
 
@@ -75,17 +75,17 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(5,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.II),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.II),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.IIIMin),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.IMin),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.IIMin),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.001, (Probability) 0.001,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.001, (Probability) 0.001,
                         EInterpretationCategory.IIIMin)
                 },
                 false);
@@ -101,11 +101,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0, (Probability) 0.0,
                         EInterpretationCategory.III),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0, (Probability) 0.0,
                         EInterpretationCategory.III),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0, (Probability) 0.0,
                         EInterpretationCategory.III)
                 },
                 false);
@@ -121,20 +121,20 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.000010, (Probability) 0.000010,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.000010, (Probability) 0.000010,
                         EInterpretationCategory.II),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0000011, (Probability) 0.0000011,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0000011, (Probability) 0.0000011,
                         EInterpretationCategory.II),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.9, (Probability) 0.9,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.9, (Probability) 0.9,
                         EInterpretationCategory.II),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.000009, (Probability) 0.000009,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.000009, (Probability) 0.000009,
                         EInterpretationCategory.III),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.IIIMin)
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.IIIMin)
                 },
                 true);
 
@@ -149,11 +149,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult((Probability)0.01, (Probability)0.1,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0.01, (Probability)0.1,
                         EInterpretationCategory.IMin),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant)
                 },
                 true);
@@ -169,9 +169,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 true);
             Assert.IsNotNull(result);
@@ -185,9 +185,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant)
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant)
                 },
                 true);
             Assert.IsNotNull(result);
@@ -201,11 +201,11 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                         EInterpretationCategory.NoResult),
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.00026, (Probability) 0.00026,
                         EInterpretationCategory.II)
                 },
                 true);
@@ -221,7 +221,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult((Probability) 0.0, (Probability) 0.0,
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.0, (Probability) 0.0,
                         EInterpretationCategory.III)
                 },
                 true);
@@ -243,9 +243,9 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
                 {
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 false);
             }
@@ -266,12 +266,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
                     {
-                        new FailureMechanismSectionWithAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II),
-                        new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.
                                 NoResult),
-                        new FailureMechanismSectionWithAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II)
                     },
                     false);
@@ -293,11 +293,11 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
                     {
-                        new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.Dominant),
-                        new FailureMechanismSectionWithAssemblyResult(Probability.Undefined, Probability.Undefined,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined,
                             EInterpretationCategory.NoResult),
-                        new FailureMechanismSectionWithAssemblyResult((Probability) 0.00026, (Probability) 0.00026,
+                        new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) 0.00026, (Probability) 0.00026,
                             EInterpretationCategory.II)
                     },
                     false);
@@ -321,7 +321,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
-                    new FailureMechanismSectionWithAssemblyResult[]{}, 
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect[]{}, 
                     false);
             }
             catch (AssemblyException exception)
@@ -386,7 +386,7 @@ namespace Assembly.Kernel.Tests.Implementations
             try
             {
                 assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor,
-                    new[] { new FailureMechanismSectionWithAssemblyResult((Probability)0.0001, (Probability) 0.001, EInterpretationCategory.II) },
+                    new[] { new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0.0001, (Probability) 0.001, EInterpretationCategory.II) },
                     false);
             }
             catch (AssemblyException e)

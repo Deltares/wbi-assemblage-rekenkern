@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
 
             if (probabilitySection < probabilityProfile)
             {
-                throw new AssemblyException("FailureMechanismSectionWithAssemblyResult", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                throw new AssemblyException("FailureMechanismSectionAssemblyResultWithLengthEffect", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }
 
             ProbabilityProfile = probabilityProfile;

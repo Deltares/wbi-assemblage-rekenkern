@@ -58,7 +58,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 var exception = new AssertionException("Errors occurred");
                 foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>())
                 {
-                    var result = assembler.TranslateAssessmentResultAggregatedMethod(
+                    var result = assembler.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                         section.IsRelevant
                             ? double.IsNaN(section.InitialMechanismProbabilitySection) || double.IsNaN(section.InitialMechanismProbabilityProfile)
                                 ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
@@ -107,7 +107,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                             .Select(s =>
-                                new FailureMechanismSectionWithAssemblyResult(s.ExpectedCombinedProbabilityProfile,
+                                new FailureMechanismSectionAssemblyResultWithLengthEffect(s.ExpectedCombinedProbabilityProfile,
                                     s.ExpectedCombinedProbabilitySection,
                                     s.ExpectedInterpretationCategory)).ToArray(),
                         false);
@@ -137,7 +137,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                         .Select(s =>
-                            new FailureMechanismSectionWithAssemblyResult(s.ExpectedCombinedProbabilityProfile,
+                            new FailureMechanismSectionAssemblyResultWithLengthEffect(s.ExpectedCombinedProbabilityProfile,
                                 s.ExpectedCombinedProbabilitySection,
                                 s.ExpectedInterpretationCategory)).ToArray(),
                     true);
