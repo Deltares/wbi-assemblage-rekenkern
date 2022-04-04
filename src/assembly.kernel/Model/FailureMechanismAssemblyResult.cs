@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Model
     public class FailureMechanismAssemblyResult
     {
         /// <summary>
-        /// Constructor of the FailureMechanismAssemblyResult class
+        /// Constructor of the <see cref="FailureMechanismAssemblyResult"/> class.
         /// </summary>
         public FailureMechanismAssemblyResult(Probability probability, EFailureMechanismAssemblyMethod mechanismAssemblyMethod)
         {
@@ -45,9 +45,7 @@ namespace Assembly.Kernel.Model
         public Probability Probability { get; }
 
         /// <summary>
-        /// The method that was used to calculate the acquired probability:
-        /// * Correlated -> The highest probability of all section (profiles) was taken and multiplied by the length effect factor.
-        /// * Uncorrelated -> Probability equals the 1-product(1-probability of failure of all individual sections).
+        /// The method that was used to calculate the acquired probability.
         /// </summary>
         public EFailureMechanismAssemblyMethod AssemblyMethod { get; }
     }

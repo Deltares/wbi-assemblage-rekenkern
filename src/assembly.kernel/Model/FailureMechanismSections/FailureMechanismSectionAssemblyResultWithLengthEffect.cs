@@ -56,7 +56,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
-                    if (Math.Abs(probabilityProfile - 0.0) > 1E-8 || Math.Abs(probabilitySection - 0.0) > 1E-8)
+                    if (probabilityProfile.IsNegligibleDifference((Probability)0) || probabilitySection.IsNegligibleDifference((Probability)0))
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
@@ -85,7 +85,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             }
 
             InterpretationCategory = category;
-            NSection = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
+            LengthEffectFactor = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
                 ? 1.0
                 : (double)probabilitySection / (double)probabilityProfile;
         }
@@ -98,7 +98,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// The length-effect factor.
         /// </summary>
-        public double NSection { get; }
+        public double LengthEffectFactor { get; }
 
         /// <inheritdoc />
         public override string ToString()

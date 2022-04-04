@@ -25,14 +25,13 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.FailureMechanismSections;
 
-namespace Assembly.Kernel.Model.AssessmentSection
+namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
     /// The assessment section result per greatest common denominator section.
     /// </summary>
-    public class AssemblyResult
+    public class GreatestCommonDenominatorAssemblyResult
     {
         /// <summary>
         /// Assembly result constructor
@@ -42,12 +41,12 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <param name="combinedSectionResult">The greatest common denominator section results for 
         /// all failure mechanisms combined.</param>
         /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
-        public AssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
+        public GreatestCommonDenominatorAssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
             IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
-                throw new AssemblyException(nameof(AssemblyResult), EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(nameof(GreatestCommonDenominatorAssemblyResult), EAssemblyErrors.ValueMayNotBeNull);
             }
 
             ResultPerFailureMechanism = resultPerFailureMechanism;

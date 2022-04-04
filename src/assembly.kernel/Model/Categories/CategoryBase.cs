@@ -28,7 +28,7 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// /// Base category limits class.
+    /// Base category limits class.
     /// </summary>
     /// <typeparam name="T">The category type of the limits</typeparam>
     public abstract class CategoryBase<T> : ICategoryLimits
@@ -36,10 +36,12 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// Category limits constructor
         /// </summary>
-        /// <param name="category">category for which the limits are valid</param>
-        /// <param name="lowerLimit"> the lower limit of the category</param>
-        /// <param name="upperLimit"> the upper limit of the category</param>
-        /// <exception cref="AssemblyException">Thrown when input is not valid</exception>
+        /// <param name="category">Category for which the limits are valid.</param>
+        /// <param name="lowerLimit">The lower limit of the category.</param>
+        /// <param name="upperLimit">The upper limit of the category.</param>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="lowerLimit"/> is undefined (<see cref="Probability.Undefined"/> equals true).</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="upperLimit"/> is undefined (<see cref="Probability.Undefined"/> equals true).</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/>.</exception>
         protected CategoryBase(T category, Probability lowerLimit, Probability upperLimit)
         {
             CheckInput(category, lowerLimit, upperLimit);
@@ -55,18 +57,18 @@ namespace Assembly.Kernel.Model.Categories
         public T Category { get; }
 
         /// <summary>
-        /// The upper limit of the category
+        /// The upper limit of the category.
         /// </summary>
         public Probability UpperLimit { get; }
 
         /// <summary>
-        /// The lower limit of the category
+        /// The lower limit of the category.
         /// </summary>
         public Probability LowerLimit { get; }
 
         private static void CheckInput(T category, Probability lowerLimit, Probability upperLimit)
         {
-            if (double.IsNaN(lowerLimit) || double.IsNaN(upperLimit))
+            if (!lowerLimit.IsDefined || !upperLimit.IsDefined)
             {
                 throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.ProbabilityMayNotBeUndefined);
             }

@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         {
             try
             {
-                new AssemblyResult(new List<FailureMechanismSectionList>(), null);
+                new GreatestCommonDenominatorAssemblyResult(new List<FailureMechanismSectionList>(), null);
             }
             catch (AssemblyException e)
             {
@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         {
             try
             {
-                new AssemblyResult(null, new List<FailureMechanismSectionWithCategory>());
+                new GreatestCommonDenominatorAssemblyResult(null, new List<FailureMechanismSectionWithCategory>());
             }
             catch (AssemblyException e)
             {
@@ -87,7 +87,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
             {
                 new FailureMechanismSectionWithCategory(0,10,EInterpretationCategory.I)
             };
-            var result = new AssemblyResult(resultPerFailureMechanism, combinedSectionResult);
+            var result = new GreatestCommonDenominatorAssemblyResult(resultPerFailureMechanism, combinedSectionResult);
 
             Assert.AreEqual(resultPerFailureMechanism,result.ResultPerFailureMechanism);
             Assert.AreEqual(combinedSectionResult, result.CombinedSectionResult);

@@ -48,7 +48,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
         /// or when the sum of failure mechanism sections is not the same as the total assessment section 
         /// length.</exception>
-        AssemblyResult AssembleCommonFailureMechanismSections(
+        GreatestCommonDenominatorAssemblyResult AssembleCommonFailureMechanismSections(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly);
 

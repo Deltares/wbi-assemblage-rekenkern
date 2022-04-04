@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -31,14 +30,16 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// This object us used to validate category boundaries once and remove this validation from all methods that use category boundaries.
+    /// This object is used to obtain a category from a list of categories for a given probability.
     /// </summary>
     public class CategoriesList<TCategory> where TCategory : ICategoryLimits
     {
+        private readonly Probability requiredMaximumProbability = new Probability(1.0);
+
         /// <summary>
-        /// The epsilon that is used when comparing category boundaries. Gaps between category boundaries smaller than EpsilonFactor will not be taken into account.
+        /// The maximum allowed difference between reliabilities of probabilities that is used when comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
         /// </summary>
-        private static readonly double EpsilonFactor = 1e-40;
+        private static readonly double Epsilon = 1e-10;
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
@@ -46,7 +47,9 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="categoryLimits">An IEnumerable with categories. This list assumes the categories are already sorted from bad (low) to good (high)</param>
         public CategoriesList(IEnumerable<TCategory> categoryLimits)
         {
-            Categories = CheckCategories(categoryLimits);
+            var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
+            CheckCategories(categories);
+            Categories = categories;
         }
 
         /// <summary>
@@ -70,33 +73,24 @@ namespace Assembly.Kernel.Model.Categories
             return Categories.First(category => failureProbability <= category.UpperLimit);
         }
 
-        private TCategory[] CheckCategories(IEnumerable<TCategory> categoryLimits)
+        private void CheckCategories(TCategory[] categories)
         {
-            var lastKnownUpperBoundary = 0.0;
+            Probability lastKnownUpperBoundary = (Probability) 0.0;
 
-            var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
             foreach (var category in categories)
             {
-                if (CompareProbabilities(category.LowerLimit, lastKnownUpperBoundary))
+                if (category.LowerLimit.IsNegligibleDifference(lastKnownUpperBoundary, Epsilon))
                 {
-                    throw new AssemblyException(nameof(categoryLimits), EAssemblyErrors.InvalidCategoryLimits);
+                    throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
                 }
 
                 lastKnownUpperBoundary = category.UpperLimit;
             }
 
-            if (Math.Abs(lastKnownUpperBoundary - 1.0) > EpsilonFactor)
+            if (lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability,Epsilon))
             {
-                throw new AssemblyException(nameof(categoryLimits), EAssemblyErrors.InvalidCategoryLimits);
+                throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
             }
-
-            return categories;
-        }
-
-        private static bool CompareProbabilities(double firstProbability, double secondProbability)
-        {
-            var epsilon = Math.Max(firstProbability, secondProbability) * EpsilonFactor;
-            return Math.Abs(firstProbability - secondProbability) > epsilon;
         }
     }
 }

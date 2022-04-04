@@ -31,17 +31,17 @@ namespace Assembly.Kernel.Model
     public enum ERefinementStatus
     {
         /// <summary>
-        /// No further refinement is necessary (Probability estimation based on the initial mechanism is sufficient).
+        /// No further refinement is necessary. Probability estimation based on the initial mechanism is sufficient.
         /// </summary>
         NotNecessary = 1,
 
         /// <summary>
-        /// Further refinement is necessary (Probability estimation based on the initial mechanism is not sufficient).
+        /// Further refinement is necessary. Probability estimation based on the initial mechanism is not sufficient.
         /// </summary>
         Necessary = 2,
 
         /// <summary>
-        /// Further refinement is already performed. This means the refined probabilites are also specified as input.
+        /// Further refinement is already performed. This means the refined probabilities are also specified as input.
         /// </summary>
         Performed = 3
     }

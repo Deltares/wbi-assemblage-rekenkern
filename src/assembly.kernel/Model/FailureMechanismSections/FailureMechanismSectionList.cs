@@ -39,12 +39,19 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Failure mechanism section list constructor.
         /// </summary>
         /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start</param>
-        /// <exception cref="AssemblyException">Thrown when:<br/>- Any of the inputs are null<br/>- The list is empty 
-        /// <br/>- The sections aren't consecutive<br/>- Duplicate sections are present<br/>
-        ///  - All the sectionResults are of the same type</exception>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item>Any of the inputs are null.</item>
+        /// <item>The list is empty.</item>
+        /// <item>The list is empty.</item>
+        /// <item>The sections aren't consecutive.</item>
+        /// <item>Duplicate sections are present.</item>
+        /// <item>The various sectionResults are not of the same type.</item>
+        /// </list>
+        /// </exception>
         public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sectionResults)
         {
-            Sections = CheckSectionResults(sectionResults);
+            Sections = OrderAndCheckSectionResults(sectionResults);
         }
 
         /// <summary>
@@ -57,21 +64,21 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </summary>
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
         /// from the beginning of the assessment section</param>
+        /// <exception cref="AssemblyException">Thrown when the requested point in the assessment section is $gt; the end of the last section.</exception>
         /// <returns>The section with category belonging to the point in the assessment section</returns>
         public FailureMechanismSection GetSectionAtPoint(double pointInAssessmentSection)
         {
-            foreach (var section in Sections)
+            var section = Sections.FirstOrDefault(s => s.End >= pointInAssessmentSection);
+
+            if (section == null)
             {
-                if (section.End >= pointInAssessmentSection)
-                {
-                    return section;
-                }
+                throw new AssemblyException(nameof(pointInAssessmentSection), EAssemblyErrors.RequestedPointOutOfRange);
             }
 
-            throw new AssemblyException(nameof(pointInAssessmentSection), EAssemblyErrors.RequestedPointOutOfRange);
+            return section;
         }
 
-        private static IEnumerable<FailureMechanismSection> CheckSectionResults(
+        private static IEnumerable<FailureMechanismSection> OrderAndCheckSectionResults(
             IEnumerable<FailureMechanismSection> sectionResults)
         {
             if (sectionResults == null)

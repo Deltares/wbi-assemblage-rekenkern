@@ -32,8 +32,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MathNet.Numerics.4.9.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Categories\CategoriesList.cs" />
@@ -60,7 +65,7 @@
     <Compile Include="Interfaces\ICommonFailureMechanismSectionAssembler.cs" />
     <Compile Include="Interfaces\IFailureMechanismResultAssembler.cs" />
     <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
-    <Compile Include="Model\AssessmentSection\AssemblyResult.cs" />
+    <Compile Include="Model\FailureMechanismSections\GreatestCommonDenominatorAssemblyResult.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSection.cs" />
     <Compile Include="Model\Categories\EAssessmentGrade.cs" />
     <Compile Include="Model\Categories\CategoryBase.cs" />
@@ -77,6 +82,7 @@
     <None Include="..\..\build\Assembly.Kernel.licenseheader">
       <Link>Assembly.Kernel.licenseheader</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

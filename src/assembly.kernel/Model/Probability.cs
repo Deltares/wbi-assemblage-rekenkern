@@ -26,16 +26,19 @@
 using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
+using MathNet.Numerics.Distributions;
 
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// This struct represents a probability. It can be used similar to double, but has a limited value within the range [0,1]. Operations to add or subtract will result in an exception as it is not possible to add or subtract probabilities.
+    /// This struct represents a probability. It can be used similar to double, but has a limited
+    /// value within the range [0,1].
     /// </summary>
     public struct Probability : IEquatable<Probability>, IEquatable<double>, IFormattable, IComparable, IComparable<Probability>, IComparable<double>
     {
         private static readonly double ToStringPrecision = 1e-100;
         private readonly double value;
+        private readonly double reliability;
 
         /// <summary>
         /// Represents an undefined probability.
@@ -46,11 +49,12 @@ namespace Assembly.Kernel.Model
         /// Constructs a <see cref="Probability"/> from a double representing the probability value.
         /// </summary>
         /// <param name="probabilityValue">The value of the probability.</param>
-        /// <exception cref="AssemblyException">An exception is thrown whenever <see cref="probabilityValue"/>&lt;0 or <see cref="probabilityValue"/>&gt;1 </exception>
+        /// <exception cref="AssemblyException">An exception is thrown whenever <paramref name="probabilityValue"/>&lt;0 or <paramref name="probabilityValue"/>&gt;1 .</exception>
         public Probability(double probabilityValue)
         {
-            ValidateProbabilityValue(probabilityValue);
+            ValidateProbabilityValueWithinAllowedRange(probabilityValue);
             value = probabilityValue;
+            reliability = ProbabilityToReliability(probabilityValue);
         }
 
         /// <summary>
@@ -69,12 +73,33 @@ namespace Assembly.Kernel.Model
         public bool IsDefined => !double.IsNaN(value);
 
         /// <summary>
+        /// Returns whether the difference between two probabilities is negligible based on their reliability indices.
+        /// </summary>
+        /// <param name="other">The probability to compare with.</param>
+        /// <param name="deltaReliability">The maximum allowed difference in terms of reliability.</param>
+        /// <returns></returns>
+        public bool IsNegligibleDifference(Probability other, double deltaReliability = 1E-5)
+        {
+            return Math.Abs(reliability - other.reliability) > deltaReliability;
+        }
+
+        /// <summary>
+        /// Calculates the reliability from a probability.
+        /// </summary>
+        /// <param name="probability">The probability to convert.</param>
+        /// <returns>The reliability.</returns>
+        private static double ProbabilityToReliability(double probability)
+        {
+            return Normal.InvCDF(0, 1, 1 - probability);
+        }
+
+        /// <summary>
         /// Validates <paramref name="probability"/> for being a valid probability. This means a double within the range [0-1].
         /// </summary>
         /// <param name="probability">The probability to validate</param>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> is smaller than 0</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> exceeds 1</exception>
-        private static void ValidateProbabilityValue(double probability)
+        private static void ValidateProbabilityValueWithinAllowedRange(double probability)
         {
             if (!double.IsNaN(probability) && probability < 0 || !double.IsNaN(probability) && probability > 1)
             {
@@ -82,106 +107,223 @@ namespace Assembly.Kernel.Model
             }
         }
 
+        /// <summary>
+        /// Specifies the == operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>A bool indicating whether the two specified <see cref="Probability"/> are equal.</returns>
         public static bool operator ==(Probability left, Probability right)
         {
             return Equals(left, right);
         }
 
+        /// <summary>
+        /// Specifies the != operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>A bool indicating whether the two specified <see cref="Probability"/> are unequal.</returns>
         public static bool operator !=(Probability left, Probability right)
         {
             return !Equals(left, right);
         }
 
+        /// <summary>
+        /// Specifies the - operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator -(Probability left, Probability right)
         {
             return new Probability(Math.Max(0,left.value - right.value));
         }
 
+        /// <summary>
+        /// Specifies the + operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator +(Probability left, Probability right)
         {
             return new Probability(Math.Min(1,left.value + right.value));
         }
 
+        /// <summary>
+        /// Specifies the * operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator *(Probability left, double right)
         {
             return new Probability(left.value * right);
         }
 
+        /// <summary>
+        /// Specifies the * operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator *(double left, Probability right)
         {
             return new Probability(left * right.value);
         }
 
+        /// <summary>
+        /// Specifies the * operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator *(Probability left, Probability right)
         {
             return new Probability(left.value * right.value);
         }
 
+        /// <summary>
+        /// Specifies the / operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator /(Probability left, double right)
         {
             return new Probability(left.value / right);
         }
 
+        /// <summary>
+        /// Specifies the / operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator /(double left, Probability right)
         {
             return new Probability(left / right.value);
         }
 
+        /// <summary>
+        /// Specifies the / operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>The result of the operation.</returns>
         public static Probability operator /(Probability left, Probability right)
         {
             return new Probability(left.value / right.value);
         }
 
+        /// <summary>
+        /// Facilitates implicit conversion between <see cref="Probability"/> and double.
+        /// </summary>
+        /// <param name="d">The <see cref="Probability"/> to convert from.</param>
         public static implicit operator double(Probability d)
         {
             return d.value;
         }
 
+        /// <summary>
+        /// Facilitates explicit conversion between double and <see cref="Probability"/>.
+        /// </summary>
+        /// <param name="d">The double to convert from.</param>
         public static explicit operator Probability(double d)
         {
             return new Probability(d);
         }
 
+        /// <summary>
+        /// Specifies the $lt; operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left $lt; right.</returns>
         public static bool operator <(Probability left, Probability right)
         {
             return left.value < right.value;
         }
 
+        /// <summary>
+        /// Specifies the <= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $lt; right.</returns>
         public static bool operator <=(Probability left, Probability right)
         {
             return left.value <= right.value;
         }
 
+        /// <summary>
+        /// Specifies the > operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left $gt; right.</returns>
         public static bool operator >(Probability left, Probability right)
         {
             return left.value > right.value;
         }
 
+        /// <summary>
+        /// Specifies the >= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $gt; right.</returns>
         public static bool operator >=(Probability left, Probability right)
         {
             return left.value >= right.value;
         }
 
+        /// <summary>
+        /// Specifies the $lt; operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left $lt; right.</returns>
         public static bool operator <(Probability left, double right)
         {
             return left.value < right;
         }
 
+        /// <summary>
+        /// Specifies the <= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $lt; right.</returns>
         public static bool operator <=(Probability left, double right)
         {
             return left.value <= right;
         }
 
+        /// <summary>
+        /// Specifies the > operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left $gt; right.</returns>
         public static bool operator >(Probability left, double right)
         {
             return left.value > right;
         }
 
+        /// <summary>
+        /// Specifies the >= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $gt; right.</returns>
         public static bool operator >=(Probability left, double right)
         {
             return left.value >= right;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -195,31 +337,57 @@ namespace Assembly.Kernel.Model
             return Equals((Probability)obj);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return value.GetHashCode();
         }
 
+        /// <summary>
+        /// Check equality of the probability with the specified double.
+        /// </summary>
+        /// <param name="other">The probability value to compare with.</param>
+        /// <returns>A boolean indicating whether the values are equal.</returns>
         public bool Equals(Probability other)
         {
             return other.value.Equals(value);
         }
 
+        /// <summary>
+        /// Check equality of the probability with the specified double.
+        /// </summary>
+        /// <param name="other">The probability value to compare with.</param>
+        /// <returns>A boolean indicating whether the values are equal.</returns>
         public bool Equals(double other)
         {
             return value.Equals(other);
         }
 
+        /// <summary>
+        /// Translates the probability to a string representation.
+        /// </summary>
+        /// <returns>A string representation of the probability.</returns>
         public override string ToString()
         {
             return ToString(null, null);
         }
 
+        /// <summary>
+        /// Translates the probability to a string representation.
+        /// </summary>
+        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
+        /// <returns>A string representation of the probability.</returns>
         public string ToString(IFormatProvider formatProvider)
         {
             return ToString(null, formatProvider);
         }
 
+        /// <summary>
+        /// Translates the probability to a string representation.
+        /// </summary>
+        /// <param name="format">The string format used to represent the value.</param>
+        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
+        /// <returns>A string representation of the probability.</returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (Math.Abs(value) < ToStringPrecision)
@@ -234,7 +402,7 @@ namespace Assembly.Kernel.Model
 
             if (double.IsNaN(value))
             {
-                return "Onbekend";
+                return "Unknown";
             }
 
             if (format == null)
@@ -245,6 +413,18 @@ namespace Assembly.Kernel.Model
             return value.ToString(format, formatProvider ?? CultureInfo.CurrentCulture);
         }
 
+        /// <summary>
+        /// Compares this probability with another object.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other object equals null of a probability or double $gt; this probability.</item>
+        /// <item>0 in case the other object is a Probability or double with equal value.</item>
+        /// <item>-1 in case the other object is a Probability or double $lt; this probability.</item>
+        /// </list>
+        /// </returns>
+        /// <exception cref="ArgumentException">Thrown in case the <paramref name="obj"/> is not a double or <see cref="Probability"/>.</exception>
         public int CompareTo(object obj)
         {
             if (obj == null)
@@ -265,11 +445,33 @@ namespace Assembly.Kernel.Model
             throw new ArgumentException("Argument must be double or Probability");
         }
 
+        /// <summary>
+        /// Compares this probability with another <see cref="Probability"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="Probability"/> to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other probability $gt; this probability.</item>
+        /// <item>0 in case the other probability and this probability are equal.</item>
+        /// <item>-1 in case the other probability $lt; this probability.</item>
+        /// </list>
+        /// </returns>
         public int CompareTo(Probability other)
         {
             return value.CompareTo(other.value);
         }
 
+        /// <summary>
+        /// Compares this probability with another double.
+        /// </summary>
+        /// <param name="other">The value to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other value $gt; this probability.</item>
+        /// <item>0 in case the other value and this probability are equal.</item>
+        /// <item>-1 in case the other value $lt; this probability.</item>
+        /// </list>
+        /// </returns>
         public int CompareTo(double other)
         {
             return value.CompareTo(other);

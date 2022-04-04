@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
             Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
+            Assert.AreEqual(1.0, result.LengthEffectFactor);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.NotRelevant, result.InterpretationCategory);
             Assert.AreEqual(0.0, result.ProbabilityProfile);
             Assert.AreEqual(0.0, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
+            Assert.AreEqual(1.0, result.LengthEffectFactor);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.III, result.InterpretationCategory);
             Assert.AreEqual(0.01, result.ProbabilityProfile);
             Assert.AreEqual(0.02, result.ProbabilitySection);
-            Assert.AreEqual(2.0, result.NSection);
+            Assert.AreEqual(2.0, result.LengthEffectFactor);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.NotDominant, result.InterpretationCategory);
             Assert.AreEqual((Probability)0.0, result.ProbabilityProfile);
             Assert.AreEqual((Probability)0.0, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
+            Assert.AreEqual(1.0, result.LengthEffectFactor);
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var expectedN = double.IsNaN(expectedProbabilityProfileValue) | double.IsNaN(expectedProbabilityProfileValue)
                 ? 1.0
                 : expectedProbabilitySectionValue / expectedProbabilityProfileValue;
-            Assert.AreEqual(expectedN, result.NSection);
+            Assert.AreEqual(expectedN, result.LengthEffectFactor);
         }
 
         [Test]
@@ -241,7 +241,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.Dominant, result.InterpretationCategory);
             Assert.AreEqual(double.NaN, result.ProbabilityProfile);
             Assert.AreEqual(double.NaN, result.ProbabilitySection);
-            Assert.AreEqual(1.0, result.NSection);
+            Assert.AreEqual(1.0, result.LengthEffectFactor);
         }
 
         #endregion

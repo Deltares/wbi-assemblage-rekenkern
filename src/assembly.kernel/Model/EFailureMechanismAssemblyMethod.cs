@@ -23,20 +23,23 @@
 
 #endregion
 
+using Assembly.Kernel.Interfaces;
+
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Enum that specifies the followed calculation method in BOI-1A-1
+    /// Enum that specifies the followed calculation method in <seealso cref="IFailureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A1"/>
+    /// to combine probabilities of failure mechanism sections to a failure probability of the failure mechanism.
     /// </summary>
     public enum EFailureMechanismAssemblyMethod
     {
         /// <summary>
-        /// Method for fully correlated probabilities was used (maximum of the probabilities times the length effect)
+        /// Method for fully correlated probabilities was used (maximum of the probabilities times the length effect).
         /// </summary>
         Correlated = 1,
 
         /// <summary>
-        /// Method for fully uncorrelated probabilities was used (product of all 1-probabilities of failure)
+        /// Method for fully uncorrelated probabilities was used (product of all 1-probabilities of failure).
         /// </summary>
         Uncorrelated = 2
     }

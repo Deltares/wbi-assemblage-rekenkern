@@ -36,11 +36,11 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Failure mechanism with category constructor.
         /// </summary>
         /// <param name="start">The start of the section in meters from the beginning of the assessment section.
-        ///  Must be greater than 0</param>
+        ///  Must not be &lt; 0.</param>
         /// <param name="end">The end of the section in meters from the beginning of the assessment section.
-        ///  Must be greater than 0 and greater than the start of the section</param>
+        ///  Must be $gt; the start of the section.</param>
         /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
-        /// when end is before the start</exception>
+        /// when end is before the start.</exception>
         public FailureMechanismSection(double start, double end)
         {
             if (double.IsNaN(start))

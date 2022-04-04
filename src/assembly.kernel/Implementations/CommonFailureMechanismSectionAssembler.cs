@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Implementations
         private const double VerySmallLengthDifference = 1e-8;
 
         /// <inheritdoc />
-        public AssemblyResult AssembleCommonFailureMechanismSections(
+        public GreatestCommonDenominatorAssemblyResult AssembleCommonFailureMechanismSections(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly)
         {
@@ -60,7 +60,7 @@ namespace Assembly.Kernel.Implementations
 
             var combinedSectionResult = DetermineCombinedResultPerCommonSectionBoi3C1(failureMechanismResults, partialAssembly);
 
-            return new AssemblyResult(failureMechanismResults, combinedSectionResult);
+            return new GreatestCommonDenominatorAssemblyResult(failureMechanismResults, combinedSectionResult);
         }
 
         /// <inheritdoc />

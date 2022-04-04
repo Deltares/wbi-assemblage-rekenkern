@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         public void FailureMechanismSectionAssemblyResultConstructorChecksValidProbabilities(double probabilityProfile, double probabilitySection, EInterpretationCategory interpretationCategory, double expectedNValue)
         {
             var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability) probabilityProfile, (Probability) probabilitySection, interpretationCategory);
-            Assert.AreEqual(expectedNValue, result.NSection);
+            Assert.AreEqual(expectedNValue, result.LengthEffectFactor);
             Assert.AreEqual(probabilityProfile, result.ProbabilityProfile);
             Assert.AreEqual(probabilitySection, result.ProbabilitySection);
             Assert.AreEqual(interpretationCategory, result.InterpretationCategory);

@@ -78,8 +78,8 @@ namespace Assembly.Kernel.Tests.Model.Categories
                 yield return new TestCaseData(
                     new List<TestCategory>
                     {
-                        new TestCategory(0.0, 2e-40),
-                        new TestCategory(2e-41, 0.2),
+                        new TestCategory(0.0, 2e-3),
+                        new TestCategory(2e-4, 0.2),
                         new TestCategory(0.2, 0.5),
                         new TestCategory(0.5, 1.0)
                     });
@@ -108,7 +108,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
                         new TestCategory(0.0, 0.1),
                         new TestCategory(0.1, 0.2),
                         new TestCategory(0.2, 0.5),
-                        new TestCategory(0.5 + 1e-16, 1.0)
+                        new TestCategory(0.5 + 1e-7, 1.0)
                     });
 
                 yield return new TestCaseData(

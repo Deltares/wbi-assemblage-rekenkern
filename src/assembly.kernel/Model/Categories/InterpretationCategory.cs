@@ -40,7 +40,6 @@ namespace Assembly.Kernel.Model.Categories
         public InterpretationCategory(EInterpretationCategory category, Probability lowerLimit, Probability upperLimit) :
             base(category, lowerLimit, upperLimit)
         {
-            // Construct super class
         }
     }
 }

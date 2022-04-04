@@ -40,7 +40,6 @@ namespace Assembly.Kernel.Model.Categories
         public AssessmentSectionCategory(EAssessmentGrade category, Probability lowerLimit, Probability upperLimit)
             : base(category, lowerLimit, upperLimit)
         {
-            // Construct super class
         }
     }
 }
