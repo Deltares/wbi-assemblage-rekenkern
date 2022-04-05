@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Failure mechanism section list constructor.
         /// </summary>
-        /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start</param>
+        /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item>Any of the inputs are null.</item>
@@ -63,9 +63,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Get the section with category which belongs to the point in the assessment section.
         /// </summary>
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
-        /// from the beginning of the assessment section</param>
+        /// from the beginning of the assessment section.</param>
         /// <exception cref="AssemblyException">Thrown when the requested point in the assessment section is $gt; the end of the last section.</exception>
-        /// <returns>The section with category belonging to the point in the assessment section</returns>
+        /// <returns>The section with category belonging to the point in the assessment section.</returns>
         public FailureMechanismSection GetSectionAtPoint(double pointInAssessmentSection)
         {
             var section = Sections.FirstOrDefault(s => s.End >= pointInAssessmentSection);
@@ -110,7 +110,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 if (previousFailureMechanismSection == null)
                 {
-                    // The current section start should be 0 when no previous section is present.
                     if (section.Start > 0.0)
                     {
                         throw new AssemblyException(nameof(sectionResults),
@@ -119,7 +118,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 }
                 else
                 {
-                    // check if sections are consecutive with a margin of 1 cm
                     if (Math.Abs(previousFailureMechanismSection.End - section.Start) > 0.01)
                     {
                         throw new AssemblyException(nameof(sectionResults),

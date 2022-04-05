@@ -32,11 +32,11 @@ namespace Assembly.Kernel.Model.Categories
     public class AssessmentSectionCategory : CategoryBase<EAssessmentGrade>
     {
         /// <summary>
-        /// AssessmentSectionCategory constructor
+        /// <see cref="AssessmentSectionCategory"/> constructor.
         /// </summary>
-        /// <param name="category">category for which the limits are valid</param>
-        /// <param name="lowerLimit">lower limit of the category</param>
-        /// <param name="upperLimit">upper limit of the category</param>
+        /// <param name="category">Category for which the limits are valid.</param>
+        /// <param name="lowerLimit">Lower limit of the category.</param>
+        /// <param name="upperLimit">Upper limit of the category.</param>
         public AssessmentSectionCategory(EAssessmentGrade category, Probability lowerLimit, Probability upperLimit)
             : base(category, lowerLimit, upperLimit)
         {

@@ -100,7 +100,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FailureMechanismSectionAssemblyResult [" + InterpretationCategory + ", Psection:" +
+            return nameof(FailureMechanismSectionAssemblyResult) + " [" + InterpretationCategory + ", Psection:" +
                    ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }
     }

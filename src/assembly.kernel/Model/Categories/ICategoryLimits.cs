@@ -26,17 +26,17 @@
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// Interface for a category with upper and lower limit
+    /// Interface for a category with upper and lower limit.
     /// </summary>
     public interface ICategoryLimits
     {
         /// <summary>
-        /// The upper limit of the category
+        /// The upper limit of the category.
         /// </summary>
         Probability UpperLimit { get; }
 
         /// <summary>
-        /// The lower limit of the category
+        /// The lower limit of the category.
         /// </summary>
         Probability LowerLimit { get; }
     }

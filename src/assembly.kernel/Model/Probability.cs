@@ -27,7 +27,6 @@ using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using MathNet.Numerics;
-using MathNet.Numerics.Distributions;
 
 namespace Assembly.Kernel.Model
 {
@@ -49,7 +48,7 @@ namespace Assembly.Kernel.Model
         /// Constructs a <see cref="Probability"/> from a double representing the probability value.
         /// </summary>
         /// <param name="probabilityValue">The value of the probability.</param>
-        /// <exception cref="AssemblyException">An exception is thrown whenever <paramref name="probabilityValue"/>&lt;0 or <paramref name="probabilityValue"/>&gt;1 .</exception>
+        /// <exception cref="AssemblyException">Thrown whenever <paramref name="probabilityValue"/>&lt;0 or <paramref name="probabilityValue"/>&gt;1 .</exception>
         public Probability(double probabilityValue)
         {
             ValidateProbabilityValueWithinAllowedRange(probabilityValue);
@@ -62,7 +61,7 @@ namespace Assembly.Kernel.Model
         public int ReturnPeriod => (int) Math.Round(1 / value);
 
         /// <summary>
-        /// Returns a new probability that represents the complementary value of this probability.
+        /// Returns a new probability that represents the inverse value of this probability (1-probability).
         /// </summary>
         public Probability Inverse => new Probability(1-value);
 
@@ -75,7 +74,7 @@ namespace Assembly.Kernel.Model
         /// Returns whether the difference between two probabilities is negligible based on their reliability indices.
         /// </summary>
         /// <param name="other">The probability to compare with.</param>
-        /// <param name="maximumRelativeDifference">The maximum allowed difference in terms of reliability.</param>
+        /// <param name="maximumRelativeDifference">The maximum allowed relative difference.</param>
         /// <returns></returns>
         public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
         {
@@ -394,7 +393,7 @@ namespace Assembly.Kernel.Model
 
             if (double.IsNaN(value))
             {
-                return "Unknown";
+                return "Undefined";
             }
 
             if (format == null)
@@ -424,14 +423,14 @@ namespace Assembly.Kernel.Model
                 return 1;
             }
 
-            if (obj is Probability)
+            if (obj is Probability probability)
             {
-                return CompareTo((Probability)obj);
+                return CompareTo(probability);
             }
 
-            if (obj is double)
+            if (obj is double d)
             {
-                return CompareTo((double)obj);
+                return CompareTo(d);
             }
 
             throw new ArgumentException("Argument must be double or Probability");

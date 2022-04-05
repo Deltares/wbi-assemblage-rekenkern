@@ -23,10 +23,13 @@
 
 #endregion
 
+using Assembly.Kernel.Interfaces;
+
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Result class for the BOI-1A-1 method.
+    /// Result class for <seealso cref="IAssessmentResultsTranslator.DetermineRepresentativeProbabilityBoi0A1"/>.
+    /// This class holds a combination of the calculated probability and the method that was used to obtain the probability.
     /// </summary>
     public class FailureMechanismAssemblyResult
     {

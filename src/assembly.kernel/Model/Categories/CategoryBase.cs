@@ -28,13 +28,13 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// Base category limits class.
+    /// Base class for the category limits classes.
     /// </summary>
-    /// <typeparam name="T">The category type of the limits</typeparam>
+    /// <typeparam name="T">The category type.</typeparam>
     public abstract class CategoryBase<T> : ICategoryLimits
     {
         /// <summary>
-        /// Category limits constructor
+        /// Constructor for <see cref="CategoryBase{T}"/>
         /// </summary>
         /// <param name="category">Category for which the limits are valid.</param>
         /// <param name="lowerLimit">The lower limit of the category.</param>

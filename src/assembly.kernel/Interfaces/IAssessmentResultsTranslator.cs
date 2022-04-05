@@ -40,10 +40,13 @@ namespace Assembly.Kernel.Interfaces
         /// single normative result.
         /// </summary>
         /// <param name="relevance">Relevance state for the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism for the failure mechanism section that is being analyzed.</param>
+        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism
+        /// for the failure mechanism section that is being analyzed.</param>
         /// <param name="refinementStatus">Refinement status of the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to an <seealso cref="EInterpretationCategory"/>.</param>
+        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
+        /// mechanism section that is being analyzed.</param>
+        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to
+        /// an <seealso cref="EInterpretationCategory"/>.</param>
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
@@ -64,12 +67,17 @@ namespace Assembly.Kernel.Interfaces
         /// single normative result.
         /// </summary>
         /// <param name="relevance">Relevance state for the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismProfile">Probability of failure estimation of the initial mechanism for a representative profile in the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism for the failure mechanism section that is being analyzed.</param>
+        /// <param name="probabilityInitialMechanismProfile">Probability of failure estimation of the initial mechanism
+        /// for a representative profile in the failure mechanism section that is being analyzed.</param>
+        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism
+        /// for the failure mechanism section that is being analyzed.</param>
         /// <param name="refinementStatus">Refinement status of the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilityProfile">Probability of failure estimation after refinement for a representative profile in the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to an <seealso cref="EInterpretationCategory"/>.</param>
+        /// <param name="refinedProbabilityProfile">Probability of failure estimation after refinement for a representative
+        /// profile in the failure mechanism section that is being analyzed.</param>
+        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
+        /// mechanism section that is being analyzed.</param>
+        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to an
+        /// <seealso cref="EInterpretationCategory"/>.</param>
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals

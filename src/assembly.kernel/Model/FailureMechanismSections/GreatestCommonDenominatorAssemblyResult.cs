@@ -25,6 +25,7 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Interfaces;
 
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
@@ -34,13 +35,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class GreatestCommonDenominatorAssemblyResult
     {
         /// <summary>
-        /// Assembly result constructor
+        /// Constructor for the result of <seealso cref="ICommonFailureMechanismSectionAssembler.AssembleCommonFailureMechanismSections"/>.
+        /// This class holds the results per failure mechanism, but also the combined results.
         /// </summary>
         /// <param name="resultPerFailureMechanism">The greatest common denominator section results per 
         /// Failure mechanism.</param>
         /// <param name="combinedSectionResult">The greatest common denominator section results for 
         /// all failure mechanisms combined.</param>
-        /// <exception cref="AssemblyException">Thrown when any of the inputs is null</exception>
+        /// <exception cref="AssemblyException">Thrown when any of the inputs is null.</exception>
         public GreatestCommonDenominatorAssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
             IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
         {

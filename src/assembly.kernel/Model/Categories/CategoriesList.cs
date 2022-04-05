@@ -37,14 +37,16 @@ namespace Assembly.Kernel.Model.Categories
         private readonly Probability requiredMaximumProbability = new Probability(1.0);
 
         /// <summary>
-        /// The maximum allowed difference between reliabilities of probabilities that is used when comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
+        /// The maximum allowed difference between reliabilities of probabilities that is used when
+        /// comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
         /// </summary>
         private static readonly double Epsilon = 1e-10;
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
         /// </summary>
-        /// <param name="categoryLimits">An IEnumerable with categories. This list assumes the categories are already sorted from bad (low) to good (high)</param>
+        /// <param name="categoryLimits">An IEnumerable with categories. This list assumes
+        /// the categories are already sorted from bad (low) to good (high).</param>
         public CategoriesList(IEnumerable<TCategory> categoryLimits)
         {
             var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();

@@ -28,17 +28,17 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.AssessmentSection
 {
     /// <summary>
-    /// Assessment Section data object
+    /// Assessment Section data object.
     /// </summary>
     public class AssessmentSection
     {
         /// <summary>
-        /// AssessmentSection Constructor
+        /// <see cref="AssessmentSection"/> Constructor.
         /// </summary>
-        /// <param name="signalFloodingProbability">Signal flooding probability of the section in 1/years. Has to be between 0 and 1</param>
+        /// <param name="signalFloodingProbability">Signal flooding probability of the section in 1/years. Has to be between 0 and 1.</param>
         /// <param name="maximumAllowableFloodingProbability">Maximum allowable flooding probability of the section in 1/years. 
-        ///     Has to be between 0 and 1</param>
-        /// <exception cref="AssemblyException">Thrown when one of the input values is not valid</exception>
+        ///     Has to be between 0 and 1.</param>
+        /// <exception cref="AssemblyException">Thrown when one of the input values is not valid.</exception>
         public AssessmentSection(Probability signalFloodingProbability,
             Probability maximumAllowableFloodingProbability)
         {
@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// <summary>
         /// Generates string from assessment section object.
         /// </summary>
-        /// <returns>Text representation of the assessment section object</returns>
+        /// <returns>Text representation of the assessment section object.</returns>
         public override string ToString()
         {
             return

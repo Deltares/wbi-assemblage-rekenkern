@@ -33,7 +33,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class FailureMechanismSectionWithCategory : FailureMechanismSection
     {
         /// <summary>
-        /// Failure mechanism with category
+        /// Failure mechanism with category.
         /// </summary>
         /// <param name="start">The start of the section in meters from the beginning of the assessment section.
         ///  Must not be $lt; 0.</param>

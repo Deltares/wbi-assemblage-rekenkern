@@ -126,7 +126,7 @@ namespace Assembly.Kernel.Exceptions
         ProbabilityMayNotBeUndefined,
 
         /// <summary>
-        /// This message is issued whenever an AssemblyException could not be created
+        /// This message is issued whenever an AssemblyException could not be created.
         /// </summary>
         ErrorConstructingErrorMessage,
 
@@ -141,7 +141,7 @@ namespace Assembly.Kernel.Exceptions
         NonMatchingProbabilityValues,
 
         /// <summary>
-        /// Thrown in case of an incorrect category value
+        /// Thrown in case of an incorrect category value.
         /// </summary>
         InvalidCategoryValue,
 

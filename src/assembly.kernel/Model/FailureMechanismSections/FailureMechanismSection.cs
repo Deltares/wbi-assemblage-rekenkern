@@ -39,8 +39,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         ///  Must not be &lt; 0.</param>
         /// <param name="end">The end of the section in meters from the beginning of the assessment section.
         ///  Must be $gt; the start of the section.</param>
-        /// <exception cref="AssemblyException">Thrown when start of end are below zero and 
-        /// when end is before the start.</exception>
+        /// <exception cref="AssemblyException">Thrown when start or end are equal to NaN.</exception>
+        /// <exception cref="AssemblyException">Thrown when start $lt; 0.</exception>
+        /// <exception cref="AssemblyException">Thrown when start $gt; end.</exception>
         public FailureMechanismSection(double start, double end)
         {
             if (double.IsNaN(start))

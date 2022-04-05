@@ -31,16 +31,16 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure mechanism assembly results into one AssessmentResult
+    /// Assemble Failure mechanism assembly results into one AssessmentResult.
     /// </summary>
     public interface IAssessmentGradeAssembler
     {
         /// <summary>
         /// Assembles Failure mechanism results with failure probability into one assembly section result.
         /// </summary>
-        /// <param name="failureMechanismProbabilities">failure mechanism assembly result with failure probability</param>
-        /// <param name="partialAssembly">true if partial assembly is required (ignoring all undefined probabilities)</param>
-        /// <returns>An assembled assessment section result</returns>
+        /// <param name="failureMechanismProbabilities">failure mechanism assembly result with failure probability.</param>
+        /// <param name="partialAssembly">true if partial assembly is required (ignoring all undefined probabilities).</param>
+        /// <returns>An assembled assessment section result.</returns>
         /// <exception cref="AssemblyException">Thrown when the list of probabilities is either null, or the list is empty
         /// (after filtering out undefined probabilities when <paramref name="partialAssembly"/> is true).</exception>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Interfaces
         /// Determine the assessment grade given the failure probability of an assessment section.
         /// </summary>
         /// <param name="failureProbability">The failure probability of the assessment section.</param>
-        /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category</param>
+        /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category.</param>
         /// <returns>An <seealso cref="EAssessmentGrade"/> representing the assessment grade for the assessment section.</returns>
         /// <exception cref="AssemblyException">In case the probability was undefined.</exception>
         /// <exception cref="AssemblyException">In case the categories equal null.</exception>

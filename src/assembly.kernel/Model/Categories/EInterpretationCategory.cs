@@ -26,17 +26,17 @@
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// Failure mechanism section categories
+    /// Failure mechanism section categories.
     /// </summary>
     public enum EInterpretationCategory
     {
         /// <summary>
-        /// Not relevant
+        /// Not relevant.
         /// </summary>
         NotRelevant = 0,
 
         /// <summary>
-        /// Relevant but not dominant without probability estimation
+        /// Relevant but not dominant without probability estimation.
         /// </summary>
         NotDominant = 1,
 

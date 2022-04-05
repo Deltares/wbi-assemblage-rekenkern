@@ -103,7 +103,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <inheritdoc />
         public override string ToString()
         {
-            return "FailureMechanismSectionAssemblyResultWithLengthEffect [" + InterpretationCategory + " Pprofile:" +
+            return nameof(FailureMechanismSectionAssemblyResultWithLengthEffect) + " [" + InterpretationCategory + " Pprofile:" +
                    ProbabilityProfile.ToString(CultureInfo.InvariantCulture) + ", Psection:" +
                    ProbabilitySection.ToString(CultureInfo.InvariantCulture) + "]";
         }

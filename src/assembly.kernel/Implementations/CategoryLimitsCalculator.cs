@@ -112,8 +112,8 @@ namespace Assembly.Kernel.Implementations
         /// <summary>
         /// Caps the input value to one. So every value above one will return one.
         /// </summary>
-        /// <param name="d">The value to cap</param>
-        /// <returns>The capped value</returns>
+        /// <param name="d">The value to cap.</param>
+        /// <returns>The capped value.</returns>
         private static double CapToOne(double d)
         {
             return d > 1.0 ? 1.0 : d;

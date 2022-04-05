@@ -111,11 +111,14 @@ namespace Assembly.Kernel.Tests.Model
             Assert.IsFalse(Probability.Undefined.IsDefined);
         }
 
-        [Test]
-        public void ToStringWorks()
+        [TestCase(0.01,"1/100")]
+        [TestCase(double.NaN, "Undefined")]
+        [TestCase(1E-101, "0")]
+        [TestCase(1-1E-101, "1")]
+        public void ToStringWorks(double value, string expectedString)
         {
-            var probability = new Probability(0.01);
-            Assert.AreEqual("1/100", probability.ToString());
+            var probability = new Probability(value);
+            Assert.AreEqual(expectedString, probability.ToString());
         }
 
         [Test]
