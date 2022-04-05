@@ -758,6 +758,15 @@ namespace Assembly.Kernel.Tests.Implementations
                 false);
         }
 
+        [Test]
+        public void FailureMechanismSectionsListsShouldNotBeNull()
+        {
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var result = assembler.AssembleCommonFailureMechanismSections(null, 50.0, false);
+            }, EAssemblyErrors.ValueMayNotBeNull);
+        }
+
         private void TestCombinedFailureMechanismSectionAssembler(
             IEnumerable<FailureMechanismSectionList> failureMechanismSections,
             IList<FailureMechanismSectionList> expectedFailureMechanismResults,

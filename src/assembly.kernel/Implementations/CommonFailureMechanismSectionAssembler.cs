@@ -45,7 +45,13 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly)
         {
-            FailureMechanismSectionList[] failureMechanismSections = failureMechanismSectionLists.ToArray();
+            if (failureMechanismSectionLists == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionLists), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            FailureMechanismSectionList[] failureMechanismSections =
+                failureMechanismSectionLists as FailureMechanismSectionList[] ?? failureMechanismSectionLists.ToArray();
 
             FailureMechanismSectionList commonSections = FindGreatestCommonDenominatorSectionsBoi3A1(failureMechanismSections, assessmentSectionLength);
 
@@ -95,8 +101,7 @@ namespace Assembly.Kernel.Implementations
             {
                 var section = failureMechanismSectionList.GetSectionAtPoint(commonSection.Center);
 
-                var sectionWithCategory = section as FailureMechanismSectionWithCategory;
-                if (sectionWithCategory != null)
+                if (section is FailureMechanismSectionWithCategory sectionWithCategory)
                 {
                     resultsToCommonSections.Add(new FailureMechanismSectionWithCategory(
                         commonSection.Start,

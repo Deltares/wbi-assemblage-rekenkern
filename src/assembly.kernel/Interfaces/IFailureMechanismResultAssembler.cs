@@ -45,8 +45,9 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
         /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
         /// <exception cref="AssemblyException">Thrown when: <list type="bullet">
-        /// <item>result input is null or empty.</item>
-        /// <item>one or more of the results doesn't have a failure probability</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is null or empty.</item>
+        /// <item><paramref name="lengthEffectFactor"/> $lt; 1</item>
+        /// <item><paramref name="partialAssembly"/> equals false and one or more of the results in <paramref name="failureMechanismSectionAssemblyResults"/> has an undefined probability.</item>
         /// </list>
         /// </exception>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
@@ -62,6 +63,10 @@ namespace Assembly.Kernel.Interfaces
         /// to use for this assembly step.</param>
         /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
         /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> equals null or is empty.</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> $lt;1.</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="partialAssembly"/> equals false and one or more of the
+        /// probabilities in <paramref name="failureMechanismSectionProbabilities"/> is undefined.</exception>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
             double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionProbabilities,

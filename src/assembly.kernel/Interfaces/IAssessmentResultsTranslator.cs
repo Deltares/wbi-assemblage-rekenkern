@@ -139,7 +139,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="sectionProbability">The probability for which an interpretation category needs to be found.</param>
         /// <param name="categories">The list of categories and category boundaries.</param>
         /// <returns>The interpretation category associated with the specified probability.</returns>
-        /// <exception cref="AssemblyException">Thrown if categories equals null.</exception>
+        /// <exception cref="AssemblyException">Thrown if <paramref name="categories"/> equals null.</exception>
         EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
             Probability sectionProbability, 
             CategoriesList<InterpretationCategory> categories
@@ -150,7 +150,7 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="analysisState">The state of the analysis.</param>
         /// <returns>The associated interpretation category.</returns>
-        /// <exception cref="AssemblyException">Thrown in case of an invalid enum value for <paramref name="analysisState"/>.</exception>
+        /// <exception cref="AssemblyException">Thrown in case of an invalid or unsupported enum value for <paramref name="analysisState"/>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState
             );
