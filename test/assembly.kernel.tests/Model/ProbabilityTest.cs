@@ -58,7 +58,8 @@ namespace Assembly.Kernel.Tests.Model
         [TestCase(0, 0.2, false)]
         [TestCase(0.2, 0, false)]
         [TestCase(1, 1, true)]
-        [TestCase(0.001, 0.001+1E-40, true)]
+        [TestCase(0.001, 0.001 + 1E-40, true)]
+        [TestCase(0.001, 0.001 + 1E-8, false)]
         [TestCase(2E-40, 2E-40, true)]
         [TestCase(2E-10, 3E-10, false)]
         public void IsNegligibleDifferenceWorks(double x, double y, bool expectedResult)
@@ -77,12 +78,12 @@ namespace Assembly.Kernel.Tests.Model
             }
         }
 
-        [TestCase(9E-2, true)]
-        [TestCase(1E-25, false)]
+        [TestCase(1E-3, true)]
+        [TestCase(1E-4, false)]
         public void IsNegligibleDifferenceTakesPrecision(double precision, bool expectedResult)
         {
-            var probability = new Probability(1E-16);
-            var other = new Probability(2E-16);
+            var probability = new Probability(1E-20);
+            var other = new Probability(1.001E-20);
 
             if (expectedResult)
             {

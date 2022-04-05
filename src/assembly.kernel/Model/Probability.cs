@@ -39,7 +39,6 @@ namespace Assembly.Kernel.Model
     {
         private static readonly double ToStringPrecision = 1e-100;
         private readonly double value;
-        private readonly double reliability;
 
         /// <summary>
         /// Represents an undefined probability.
@@ -55,7 +54,6 @@ namespace Assembly.Kernel.Model
         {
             ValidateProbabilityValueWithinAllowedRange(probabilityValue);
             value = probabilityValue;
-            reliability = ProbabilityToReliability(probabilityValue);
         }
 
         /// <summary>
@@ -77,22 +75,14 @@ namespace Assembly.Kernel.Model
         /// Returns whether the difference between two probabilities is negligible based on their reliability indices.
         /// </summary>
         /// <param name="other">The probability to compare with.</param>
-        /// <param name="deltaReliability">The maximum allowed difference in terms of reliability.</param>
+        /// <param name="maximumRelativeDifference">The maximum allowed difference in terms of reliability.</param>
         /// <returns></returns>
-        public bool IsNegligibleDifference(Probability other, double deltaReliability = 1E-5)
+        public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
         {
-            var absoluteDifference = Math.Abs(reliability - other.reliability);
-            return double.IsNaN(absoluteDifference) || absoluteDifference < deltaReliability;
-        }
-
-        /// <summary>
-        /// Calculates the reliability from a probability.
-        /// </summary>
-        /// <param name="probability">The probability to convert.</param>
-        /// <returns>The reliability.</returns>
-        private static double ProbabilityToReliability(double probability)
-        {
-            return Normal.InvCDF(0, 1, 1 - probability);
+            var average = ((double)this + (double)other) * 0.5;
+            var absoluteDifference = Math.Abs((double) this - (double) other);
+            var relativeDifference = absoluteDifference / average;
+            return !relativeDifference.IsFinite() | relativeDifference <= maximumRelativeDifference;
         }
 
         /// <summary>
