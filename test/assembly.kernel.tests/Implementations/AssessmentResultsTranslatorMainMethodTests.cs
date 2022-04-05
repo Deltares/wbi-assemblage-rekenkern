@@ -32,8 +32,6 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-// ReSharper disable UnusedMember.Local
-
 namespace Assembly.Kernel.Tests.Implementations
 {
     public class AssessmentResultsTranslatorMainMethodTests
@@ -45,8 +43,6 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             translator = new AssessmentResultsTranslator();
         }
-
-        #region Functional tests with lengtheffect
 
         [Test]
         public void NotRelevantTest()
@@ -244,10 +240,6 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(1.0, result.LengthEffectFactor);
         }
 
-        #endregion
-
-        #region Functional tests no lengtheffect
-
         [Test]
         public void NotRelevantNoLengthEffectTest()
         {
@@ -353,103 +345,72 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedProbabilityValue, result.ProbabilitySection);
         }
 
-        #endregion
-
-
-        #region input handling with length effect
-
         [Test]
         public void ThrowsOnNullCategoriesTest()
         {
-            try
-            {
-                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
-                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
-                    (Probability) 0.1,
-                    (Probability) 0.1,
-                    ERefinementStatus.Performed,
-                    (Probability) 0.1,
-                    (Probability) 0.1,
-                    null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            TestHelper.AssertExpectedErrorMessage(
+                () =>
+                {
+                    var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
+                        ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                        (Probability) 0.1,
+                        (Probability) 0.1,
+                        ERefinementStatus.Performed,
+                        (Probability) 0.1,
+                        (Probability) 0.1,
+                        null);
+                }, EAssemblyErrors.ValueMayNotBeNull
+            );
         }
 
         [Test]
         public void ThrowsOnLargeProfileProbabilityInitialMechanism()
         {
-            try
-            {
-                var categories = new CategoriesList<InterpretationCategory>(
-                    new[]
-                    {
-                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
-                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
-                    });
+            TestHelper.AssertExpectedErrorMessage(
+                () =>
+                {
+                    var categories = new CategoriesList<InterpretationCategory>(
+                        new[]
+                        {
+                            new InterpretationCategory(EInterpretationCategory.III, (Probability) 0, (Probability) 0.02),
+                            new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02, (Probability) 0.04),
+                            new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04, (Probability) 1.0)
+                        });
 
-                var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
-                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
-                    (Probability)0.1, 
-                    (Probability)0.01,
-                    ERefinementStatus.NotNecessary,
-                    Probability.Undefined, 
-                    Probability.Undefined, 
-                    categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+                    var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
+                        ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                        (Probability) 0.1,
+                        (Probability) 0.01,
+                        ERefinementStatus.NotNecessary,
+                        Probability.Undefined,
+                        Probability.Undefined,
+                        categories);
+                }
+                , EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
         [Test]
         public void ThrowsOnLargeProfileRefinedProbability()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
                     {
-                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
-                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability) 0, (Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02, (Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04, (Probability) 1.0)
                     });
 
                 var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
-                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification, 
-                    Probability.Undefined, 
+                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                    Probability.Undefined,
                     Probability.Undefined,
                     ERefinementStatus.Performed,
-                    (Probability) 0.1, 
-                    (Probability) 0.01, 
+                    (Probability) 0.1,
+                    (Probability) 0.01,
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
         [Test]
@@ -458,14 +419,14 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
         public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
                     {
-                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
-                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability) 0, (Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02, (Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04, (Probability) 1.0)
                     });
 
                 var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
@@ -476,51 +437,31 @@ namespace Assembly.Kernel.Tests.Implementations
                     Probability.Undefined,
                     Probability.Undefined,
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(expectedError, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, expectedError);
         }
 
         [Test]
         public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism2()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
                     {
-                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
-                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability) 0, (Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02, (Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04, (Probability) 1.0)
                     });
 
                 var result = translator.TranslateAssessmentResultWithLengthEffectAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
-                    new Probability(1/50.0),
+                    new Probability(1 / 50.0),
                     ERefinementStatus.NotNecessary,
-                    new Probability(1/50.0),
+                    new Probability(1 / 50.0),
                     new Probability(1 / 50.0),
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [Test]
@@ -529,7 +470,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
         public void ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
@@ -547,83 +488,49 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(probabilityProfile),
                     new Probability(probabilitySection),
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(expectedError, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            },expectedError);
         }
-
-        #endregion
-
-        #region input handleing no length effect
 
         [Test]
         public void NoLengthEffectThrowsOnNullCategoriesTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
-                    (Probability)0.1,
+                    (Probability) 0.1,
                     ERefinementStatus.Performed,
-                    (Probability)0.1,
+                    (Probability) 0.1,
                     null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
         public void NoLengthEffectThrowsOnNaNSectionProbabilityInitialMechanism()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
                     {
-                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
-                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
-                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability) 0, (Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02, (Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04, (Probability) 1.0)
                     });
 
                 var result = translator.TranslateAssessmentResultAggregatedMethod(
                     ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
                     Probability.Undefined,
                     ERefinementStatus.NotNecessary,
-                    (Probability)0.01,
+                    (Probability) 0.01,
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
 
         [Test]
         public void NoLengthEffectThrowsOnNaNRefinedSectionProbability()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var categories = new CategoriesList<InterpretationCategory>(
                     new[]
@@ -639,18 +546,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     ERefinementStatus.Performed,
                     Probability.Undefined,
                     categories);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            },EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
-        #endregion
     }
 }

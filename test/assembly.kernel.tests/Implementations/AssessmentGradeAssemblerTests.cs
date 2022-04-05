@@ -34,8 +34,6 @@ using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-// ReSharper disable UnusedMember.Local
-
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
@@ -52,7 +50,6 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new AssessmentGradeAssembler();
         }
 
-        #region functional tests BOI-2A-1
         [Test]
         [TestCase(0.0,0.1,0.1,EAssessmentGrade.C)]
         [TestCase(0.0005, 0.00005, 0.000549975, EAssessmentGrade.A)]
@@ -66,11 +63,9 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(failureMechanismProbabilities, false);
 
             Assert.IsTrue(result.IsDefined);
-            Assert.AreEqual(expectedProb, result,1E-8); // TODO: How to compare properly?
+            Assert.IsTrue(result.IsNegligibleDifference((Probability)expectedProb));
         }
-        #endregion
 
-        #region functional tests BOI-2B-1
         [Test]
         [TestCase(0.1, EAssessmentGrade.C)]
         [TestCase(0.000549975, EAssessmentGrade.A)]
@@ -82,9 +77,6 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.NotNull(result);
             Assert.AreEqual(expectedGrade, result);
         }
-        #endregion
-
-        #region functional tests BOI-2A-1 partial assembly
 
         [Test]
         public void Boi2A1PartialAssembly()
@@ -103,78 +95,47 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedProbability, result);
         }
 
-        #endregion
-
-        #region Input handling BOI-2A-1
-
         [Test]
         public void Boi2A1ProbabilitiesNullTest()
         {
-            try
-            {
-                assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-            }
+            TestHelper.AssertExpectedErrorMessage(
+                () => { assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false); },
+                EAssemblyErrors.ValueMayNotBeNull
+            );
         }
 
         [Test]
         public void Boi2A1EmptyProbabilitiesList()
         {
-            try
-            {
-                assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new List<Probability>(), false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            TestHelper.AssertExpectedErrorMessage(
+                () => { assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new List<Probability>(), false); },
+                EAssemblyErrors.EmptyResultsList
+            );
         }
 
         [Test]
         public void Boi2A1PartialAssemblyNoResults()
         {
-            try
-            {
-                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    new[]
-                    {
-                        new Probability(double.NaN),
-                        new Probability(double.NaN),
-                        new Probability(double.NaN)
-                    },
-                    true);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, message.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            TestHelper.AssertExpectedErrorMessage(
+                () =>
+                {
+                    var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                        new[]
+                        {
+                            new Probability(double.NaN),
+                            new Probability(double.NaN),
+                            new Probability(double.NaN)
+                        },
+                        true);
+                }, EAssemblyErrors.EmptyResultsList
+            );
         }
 
 
         [Test]
         public void Boi2A1NoResultSomeFailureMechanisms()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                     new[]
@@ -185,95 +146,40 @@ namespace Assembly.Kernel.Tests.Implementations
                         new Probability(0.00003)
                     },
                     false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
 
         [Test]
         public void Boi2A1NoResultAtAll()
         {
-            try
-            {
-                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    new[]
-                    {
-                        new Probability(double.NaN),
-                        new Probability(double.NaN)
-                    }, false);
-
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            TestHelper.AssertExpectedErrorMessage(() =>
+                {
+                    var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                        new[]
+                        {
+                            new Probability(double.NaN),
+                            new Probability(double.NaN)
+                        }, false);
+                }, EAssemblyErrors.ProbabilityMayNotBeUndefined
+            );
         }
 
-        #endregion
-
-        #region Input handling BOI-2B-1
         [Test]
         public void Boi2B1CategoriesNullTest()
         {
-            try
-            {
-                assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.003), null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            TestHelper.AssertExpectedErrorMessage(
+                () => { assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.003), null); },
+                EAssemblyErrors.ValueMayNotBeNull
+            );
         }
 
         [Test]
         public void Boi2B1MultipleInputErrorsList()
         {
-            try
-            {
-                assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                Assert.AreEqual(2, e.Errors.Count());
-
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, message.ErrorCode);
-                var message2 = e.Errors.ElementAt(1);
-                Assert.NotNull(message2);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message2.ErrorCode);
-                return;
-            }
-
-            Assert.Fail("Expected exception did not occur.");
+            TestHelper.AssertExpectedErrorMessage(
+                () => { assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null); },
+                new[] {EAssemblyErrors.ProbabilityMayNotBeUndefined, EAssemblyErrors.ValueMayNotBeNull}
+            );
         }
-
-
-        #endregion
     }
 }

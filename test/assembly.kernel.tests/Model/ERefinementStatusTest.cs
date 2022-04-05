@@ -36,9 +36,9 @@ namespace Assembly.Kernel.Tests.Model
         public void TestEnumContract()
         {
             Assert.AreEqual(3, Enum.GetValues(typeof(ERefinementStatus)).Length);
-            Assert.AreEqual(1, (int) ERefinementStatus.NotNecessary);
-            Assert.AreEqual(2, (int) ERefinementStatus.Necessary);
-            Assert.AreEqual(3, (int) ERefinementStatus.Performed);
+            Assert.AreEqual(0, (int) ERefinementStatus.NotNecessary);
+            Assert.AreEqual(1, (int) ERefinementStatus.Necessary);
+            Assert.AreEqual(2, (int) ERefinementStatus.Performed);
         }
     }
 }

@@ -40,8 +40,6 @@ namespace Assembly.Kernel.Tests.Implementations
         private readonly ICommonFailureMechanismSectionAssembler assembler =
             new CommonFailureMechanismSectionAssembler();
 
-        #region BOI-3A-1
-
         [Test]
         public void FindGreatestCommonDenominatorSectionsBoi3A1ReturnsCorrectSections()
         {
@@ -151,61 +149,32 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnEmptySectionLists()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new FailureMechanismSectionList[]
-                                                                              {}, 10.0);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+                        { }, 10.0);
+            }, EAssemblyErrors.EmptyResultsList);
         }
 
         [Test]
         public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnNullSectionLists()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, 10.0);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
         public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsMultipleErrors()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, -10.0);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(2, exception.Errors.Count());
-
-                Assert.AreEqual(EAssemblyErrors.SectionLengthOutOfRange, exception.Errors.ElementAt(0).ErrorCode);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.ElementAt(1).ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, new[] {EAssemblyErrors.SectionLengthOutOfRange, EAssemblyErrors.ValueMayNotBeNull});
         }
 
         [Test]
@@ -221,24 +190,15 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(10.0, 20.0),
                 new FailureMechanismSection(20.0, 30.0)
             });
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                                                                          {
-                                                                              list1
-                                                                          },
-                                                                          assessmentLength);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(expectedError, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+                        {
+                            list1
+                        },
+                        assessmentLength);
+            }, expectedError);
         }
 
         [Test]
@@ -258,30 +218,17 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(25.0, assessmentSectionLength - 1.0)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                                                                          {
-                                                                              list1,
-                                                                              list2
-                                                                          },
-                                                                          assessmentSectionLength);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismSectionLengthInvalid, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+                        {
+                            list1,
+                            list2
+                        },
+                        assessmentSectionLength);
+            }, EAssemblyErrors.FailureMechanismSectionLengthInvalid);
         }
-
-        #endregion
-
-        #region BOI-3B-1
 
         [Test]
         public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1TranslatesCorrectly()
@@ -331,21 +278,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(7.5, 10.0)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
-                                                                                     commonSectionsList);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.SectionsWithoutCategory, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+                        commonSectionsList);
+            }, EAssemblyErrors.SectionsWithoutCategory);
         }
 
         [Test]
@@ -361,21 +299,11 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 10.0, EInterpretationCategory.III)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(longList, list);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.CommonFailureMechanismSectionsInvalid,
-                                exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
         }
 
         [Test]
@@ -386,20 +314,11 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(0.0, 2.5)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(null, list);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            },EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
@@ -410,20 +329,11 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(0.0, 2.5)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() => 
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(list, null);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
@@ -456,10 +366,6 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(EInterpretationCategory.I,
                             ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
-
-        #endregion
-
-        #region BOI-3C-1
 
         [Test]
         public void DetermineCombinedResultPerCommonSectionReturnsCorrectResults()
@@ -519,7 +425,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void DetermineCombinedResultPerCommonSectionPartialReturnsCorrectResults()
         {
             var sectionsList1 = new FailureMechanismSectionList(new[]
-{
+            {
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
@@ -564,21 +470,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineCombinedResultPerCommonSectionThrowsOnEmptyList()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[] {},
                                                                             false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.CommonSectionsDidNotHaveCategoryValues, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.CommonSectionsDidNotHaveCategoryValues);
         }
 
         [Test]
@@ -595,7 +492,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
@@ -603,17 +500,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         sectionsList1,
                         sectionsList2
                     }, false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.UnequalCommonFailureMechanismSectionLists,
-                                exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            },EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
         }
 
         [Test]
@@ -634,7 +521,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
@@ -642,40 +529,18 @@ namespace Assembly.Kernel.Tests.Implementations
                         sectionsList1,
                         sectionsList2
                     }, false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.UnequalCommonFailureMechanismSectionLists,
-                                exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
         }
 
         [Test]
         public void DetermineCombinedResultPerCommonSectionThrowsOnNullValue()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(null, false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
-        #endregion
-
-        #region AssembleCommonFailureMechanismSections
         [Test]
         public void NoResultFailureMechanismTest()
         {
@@ -757,20 +622,10 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 assembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, 50.0, false);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismSectionLengthInvalid, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.FailureMechanismSectionLengthInvalid);
         }
 
         [Test]
@@ -961,7 +816,5 @@ namespace Assembly.Kernel.Tests.Implementations
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -36,25 +36,62 @@ namespace Assembly.Kernel.Tests.Model.Categories
     [TestFixture]
     public class CategoriesListTest
     {
-        [Test,
-         TestCaseSource(
+        [TestCaseSource(
              typeof(CategoriesListTest),
              nameof(InconsistentCategoryBoundariesTestCases))]
         public void CheckForInconsistentCategories(IEnumerable<TestCategory> categories)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var list = new CategoriesList<TestCategory>(categories.ToArray());
-            }
-            catch (AssemblyException e)
-            {
-                Assert.IsNotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.InvalidCategoryLimits, e.Errors.First().ErrorCode);
-                return;
-            }
+            }, EAssemblyErrors.InvalidCategoryLimits);
+        }
 
-            Assert.Fail("Expected exception, but did not recieve one.");
+        [Test]
+        public void ConstructorAcceptsCorrectListOfCategories()
+        {
+            var list = new CategoriesList<TestCategory>(new[]
+            {
+                new TestCategory(0.0, 0.5),
+                new TestCategory(0.5, 1.0)
+            });
+
+            Assert.IsNotNull(list);
+            Assert.AreEqual(2, list.Categories.Length);
+        }
+
+        [TestCase(0.0, "A")]
+        [TestCase(0.2, "A")]
+        [TestCase(0.3, "A")]
+        [TestCase(0.4, "B")]
+        [TestCase(1.0, "B")]
+        public void GetCategoryForFailureProbabilityTest(double probability, string expectedCategory)
+        {
+            var list = new CategoriesList<TestCategory>(new[]
+            {
+                new TestCategory(0.0, 0.3, "A"),
+                new TestCategory(0.3, 1.0, "B")
+            });
+
+            var category = list.GetCategoryForFailureProbability((Probability) probability);
+
+            Assert.IsNotNull(category);
+            Assert.AreEqual(expectedCategory, category.CategoryIdentifier);
+        }
+
+        [Test]
+        public void GetCategoryForFailureProbabilityTestThrowsOnInvalidProbability()
+        {
+            var list = new CategoriesList<TestCategory>(new[]
+            {
+                new TestCategory(0.0, 0.3),
+                new TestCategory(0.3, 1.0)
+            });
+
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var category = list.GetCategoryForFailureProbability(Probability.Undefined);
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
 
         private static IEnumerable InconsistentCategoryBoundariesTestCases
@@ -119,63 +156,6 @@ namespace Assembly.Kernel.Tests.Model.Categories
                         new TestCategory(0.5, 1.0)
                     });
             }
-        }
-
-        [Test]
-        public void ConstructorAcceptsCorrectListOfCategories()
-        {
-            var list = new CategoriesList<TestCategory>(new[]
-            {
-                new TestCategory(0.0, 0.5),
-                new TestCategory(0.5, 1.0)
-            });
-
-            Assert.IsNotNull(list);
-            Assert.AreEqual(2, list.Categories.Length);
-        }
-
-        [Test]
-        [TestCase(0.0, "A")]
-        [TestCase(0.2, "A")]
-        [TestCase(0.3, "A")]
-        [TestCase(0.4, "B")]
-        [TestCase(1.0, "B")]
-        public void GetCategoryForFailureProbabilityTest(double probability, string expectedCategory)
-        {
-            var list = new CategoriesList<TestCategory>(new[]
-            {
-                new TestCategory(0.0, 0.3, "A"),
-                new TestCategory(0.3, 1.0, "B")
-            });
-
-            var category = list.GetCategoryForFailureProbability((Probability) probability);
-
-            Assert.IsNotNull(category);
-            Assert.AreEqual(expectedCategory, category.CategoryIdentifier);
-        }
-
-        [Test]
-        public void GetCategoryForFailureProbabilityTestThrowsOnInvalidProbability()
-        {
-            var list = new CategoriesList<TestCategory>(new[]
-            {
-                new TestCategory(0.0, 0.3),
-                new TestCategory(0.3, 1.0)
-            });
-
-            try
-            {
-                var category = list.GetCategoryForFailureProbability(Probability.Undefined);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.IsNotNull(e.Errors);
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected error did not occur.");
         }
     }
 }

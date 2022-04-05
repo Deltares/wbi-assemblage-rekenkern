@@ -60,17 +60,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         TestCase(10.0, 10.0)]
         public void ConstructorChecksIncorrectInput(double start, double end)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var section = new FailureMechanismSection(start,end);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
         }
 
         [Test,
@@ -79,17 +72,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
          TestCase(double.NaN, double.NaN)]
         public void ConstructorChecksForNaNValues(double start, double end)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var section = new FailureMechanismSection(start, end);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
     }
 }

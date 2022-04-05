@@ -56,7 +56,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
-                    if (probabilityProfile.IsNegligibleDifference((Probability)0) || probabilitySection.IsNegligibleDifference((Probability)0))
+                    if (!probabilityProfile.IsNegligibleDifference((Probability)0) || !probabilitySection.IsNegligibleDifference((Probability)0))
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }

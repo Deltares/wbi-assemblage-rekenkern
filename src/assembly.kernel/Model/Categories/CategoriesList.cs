@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Model.Categories
 
             foreach (var category in categories)
             {
-                if (category.LowerLimit.IsNegligibleDifference(lastKnownUpperBoundary, Epsilon))
+                if (!category.LowerLimit.IsNegligibleDifference(lastKnownUpperBoundary, Epsilon))
                 {
                     throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
                 }
@@ -87,7 +87,7 @@ namespace Assembly.Kernel.Model.Categories
                 lastKnownUpperBoundary = category.UpperLimit;
             }
 
-            if (lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability,Epsilon))
+            if (!lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability,Epsilon))
             {
                 throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
             }

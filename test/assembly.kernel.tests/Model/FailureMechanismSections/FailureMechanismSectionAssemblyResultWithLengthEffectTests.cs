@@ -29,6 +29,7 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
@@ -56,17 +57,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.05, 0.01, EInterpretationCategory.III)]
         public void ConstructorChecksInputForInconsistentProbabilities(double profileProbability, double sectionProbability, EInterpretationCategory interpretationCategory)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileProbability, (Probability)sectionProbability, interpretationCategory);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
         [Test]
@@ -77,17 +71,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.01, 0.0, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
         public void ConstructorChecksInputForInconsistentProbabilitiesNotRelevantCategory(double profileProbability, double sectionProbability, EInterpretationCategory interpretationCategory, EAssemblyErrors expectedError)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileProbability, (Probability)sectionProbability, interpretationCategory);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(expectedError, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, expectedError);
         }
 
         [Test]
@@ -96,17 +83,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.1, 0.2, EInterpretationCategory.NoResult)]
         public void ConstructorChecksInputForNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.NonMatchingProbabilityValues, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.NonMatchingProbabilityValues);
         }
 
         [TestCase(double.NaN, 0.4, EInterpretationCategory.NotDominant)]
@@ -117,17 +97,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.4, double.NaN, EInterpretationCategory.NoResult)]
         public void ConstructorChecksInputForNonMatchingNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [Test]
@@ -147,17 +120,10 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.4, double.NaN, EInterpretationCategory.IIIMin)]
         public void ConstructorChecksInputForNotMatchingNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [TestCase(double.NaN, double.NaN, EInterpretationCategory.III)]
@@ -169,33 +135,19 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(double.NaN, double.NaN, EInterpretationCategory.IIIMin)]
         public void ConstructorChecksInputForNotNaNValuesWithCorrespondingCategories(double profileValue, double sectionValue, EInterpretationCategory category)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
 
         [Test]
         public void ConstructorChecksForValidCategory()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0.1, (Probability)0.2, (EInterpretationCategory)(-1));
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.InvalidCategoryValue, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.InvalidCategoryValue);
         }
 
         [Test]

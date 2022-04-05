@@ -26,6 +26,7 @@
 using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
+using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model
@@ -51,6 +52,69 @@ namespace Assembly.Kernel.Tests.Model
 
             Assert.AreEqual(val, probability);
             Assert.AreEqual(returnPeriod, probability.ReturnPeriod);
+        }
+
+        [TestCase(0,0,true)]
+        [TestCase(0, 0.2, false)]
+        [TestCase(0.2, 0, false)]
+        [TestCase(1, 1, true)]
+        [TestCase(0.001, 0.001+1E-40, true)]
+        [TestCase(2E-40, 2E-40, true)]
+        [TestCase(2E-10, 3E-10, false)]
+        public void IsNegligibleDifferenceWorks(double x, double y, bool expectedResult)
+        {
+            var probabilityX = (Probability) x;
+            var probabilityY = (Probability)y;
+            if (expectedResult)
+            {
+                Assert.IsTrue(probabilityX.IsNegligibleDifference(probabilityY));
+                Assert.IsTrue(probabilityY.IsNegligibleDifference(probabilityX));
+            }
+            else
+            {
+                Assert.IsFalse(probabilityX.IsNegligibleDifference(probabilityY));
+                Assert.IsFalse(probabilityY.IsNegligibleDifference(probabilityX));
+            }
+        }
+
+        [TestCase(9E-2, true)]
+        [TestCase(1E-25, false)]
+        public void IsNegligibleDifferenceTakesPrecision(double precision, bool expectedResult)
+        {
+            var probability = new Probability(1E-16);
+            var other = new Probability(2E-16);
+
+            if (expectedResult)
+            {
+                Assert.IsTrue(probability.IsNegligibleDifference(other,precision));
+            }
+            else
+            {
+                Assert.IsFalse(probability.IsNegligibleDifference(other, precision));
+            }
+        }
+
+        [Test]
+        public void InverseWorks()
+        {
+            var probability = new Probability(0.9);
+            Assert.AreEqual(0.1, probability.Inverse,1E-10);
+        } 
+
+        [Test]
+        public void IsDefinedReturnsCorrectValue()
+        {
+            Assert.IsTrue(new Probability(0.2).IsDefined);
+            Assert.IsFalse(new Probability(double.NaN).IsDefined);
+            Assert.IsFalse(((Probability)double.NaN).IsDefined);
+            Assert.IsFalse(Probability.Undefined.IsDefined);
+        }
+
+        [Test]
+        public void ToStringWorks()
+        {
+            var probability = new Probability(0.01);
+            Assert.AreEqual("1/100", probability.ToString());
         }
 
         [Test]

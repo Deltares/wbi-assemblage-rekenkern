@@ -36,9 +36,9 @@ namespace Assembly.Kernel.Tests.Model
         public void TestEnumContract()
         {
             Assert.AreEqual(3, Enum.GetValues(typeof(ESectionInitialMechanismProbabilitySpecification)).Length);
-            Assert.AreEqual(1, (int)ESectionInitialMechanismProbabilitySpecification.NotRelevant);
-            Assert.AreEqual(2, (int)ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
-            Assert.AreEqual(3, (int)ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
+            Assert.AreEqual(0, (int)ESectionInitialMechanismProbabilitySpecification.NotRelevant);
+            Assert.AreEqual(1, (int)ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
+            Assert.AreEqual(2, (int)ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
         }
     }
 }

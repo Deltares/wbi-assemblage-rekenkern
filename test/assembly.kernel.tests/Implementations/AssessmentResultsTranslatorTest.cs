@@ -44,8 +44,6 @@ namespace Assembly.Kernel.Tests.Implementations
             translator = new AssessmentResultsTranslator();
         }
 
-        #region BOI-0A-1 functional tests
-
         [TestCase(0.1, 0.2, true, 0.2)]
         [TestCase(0.2, 0.1, true, 0.1)]
         [TestCase(0.2, 0.1, false, 0.2)]
@@ -73,9 +71,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.AreEqual(expectedProbabilityValue, calculatedProbability);
             }
         }
-        #endregion
 
-        #region BOI-0A-2 functional tests
         [TestCase(0.1, 0.2, 0.3, 0.4, true, 0.3, 0.4)]
         [TestCase(0.3, 0.4, 0.1, 0.2, true, 0.1, 0.2)]
         [TestCase(0.3, 0.4, 0.1, 0.2, false, 0.3, 0.4)]
@@ -110,14 +106,11 @@ namespace Assembly.Kernel.Tests.Implementations
                 Assert.AreEqual(expectedSectionProbabilityValue, calculatedProbabilities.ProbabilitySection);
             }
         }
-        #endregion
-
-        #region BOI-0A-2 Exception handling
 
         [Test]
         public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityInitialMechanism()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
                     false,
@@ -125,23 +118,13 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(0.04),
                     new Probability(0.1),
                     new Probability(0.2));
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
         [Test]
         public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityRefinedProbability()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
                     true,
@@ -149,24 +132,14 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(0.4),
                     new Probability(0.1),
                     new Probability(0.02));
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
         [TestCase(0.04,double.NaN)]
         [TestCase(double.NaN, 0.04)]
         public void Boi0A2ChecksIsDefinedInitialMechanism(double profileProbability, double sectionProbability)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
                     false,
@@ -174,23 +147,14 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(sectionProbability),
                     new Probability(0.1),
                     new Probability(0.2));
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [TestCase(0.04, double.NaN)]
         [TestCase(double.NaN, 0.04)]
         public void Boi0A2ChecksIsDefinedRefinedProbability(double profileProbability, double sectionProbability)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
                     true,
@@ -199,22 +163,13 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(profileProbability),
                     new Probability(sectionProbability)
                 );
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [Test]
         public void Boi0A2ChecksIsDefinedRefinedProbability2()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
                     true,
@@ -223,22 +178,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(0.2),
                     Probability.Undefined
                 );
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
-
-        #endregion
-
-        #region BOI-0B-1 functional tests
 
         [TestCase(0.01, EInterpretationCategory.III)]
         [TestCase(0.2, EInterpretationCategory.II)]
@@ -264,34 +205,17 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.AreEqual(expectedCategory, category);
         }
-        #endregion
-
-        #region BOI-0B-1 Exception handling
 
         [Test]
         public void Boi0B1HandlesNullCategories()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                     new Probability(0.3),
                     null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
-
-        #endregion
-
-        #region BOI-0C-1 functional tests
 
         [TestCase(EAnalysisState.NotRelevant, EInterpretationCategory.NotRelevant)]
         [TestCase(EAnalysisState.NoProbabilityEstimationNecessary, EInterpretationCategory.NotDominant)]
@@ -304,30 +228,13 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedCategory, category);
         }
 
-        #endregion
-
-        #region BOI-0C-1 Exception handling
         [TestCase((EAnalysisState)(-1))]
         public void Boi0C1HandlesInvalidStates(EAnalysisState state)
         {
-            try
-            {
-                translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.InvalidEnumValue, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            TestHelper.AssertExpectedErrorMessage(
+                () => { translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state); },
+                EAssemblyErrors.InvalidEnumValue);
         }
-        #endregion
-
-        #region BOI-0C-2 functional tests
 
         [TestCase(EInterpretationCategory.NotDominant, 0)]
         [TestCase(EInterpretationCategory.NotRelevant, 0)]
@@ -347,9 +254,6 @@ namespace Assembly.Kernel.Tests.Implementations
             }
         }
 
-        #endregion
-
-        #region BOI-0C-2 Exception handling
         [TestCase(EInterpretationCategory.III)]
         [TestCase(EInterpretationCategory.II)]
         [TestCase(EInterpretationCategory.I)]
@@ -357,24 +261,12 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(EInterpretationCategory.IMin)]
         [TestCase(EInterpretationCategory.IIMin)]
         [TestCase(EInterpretationCategory.IIIMin)]
-        [TestCase((EInterpretationCategory)(-1))]
+        [TestCase((EInterpretationCategory) (-1))]
         public void Boi0C2HandlesInvalidCategoryValues(EInterpretationCategory category)
         {
-            try
-            {
-                translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.InvalidCategoryValue, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("No expected exception not thrown");
+            TestHelper.AssertExpectedErrorMessage(
+                () => { translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category); },
+                EAssemblyErrors.InvalidCategoryValue);
         }
-        #endregion
     }
 }

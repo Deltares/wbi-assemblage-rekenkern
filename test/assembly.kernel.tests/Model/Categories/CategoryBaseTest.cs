@@ -40,33 +40,19 @@ namespace Assembly.Kernel.Tests.Model.Categories
         [TestCase(double.NaN, double.NaN)]
         public void CategoryBasePerformsInputCheckOnNaNValues(double lowerBoundary, double upperBoundary)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var category = new TestCategoryBase(0.2, (Probability)lowerBoundary, (Probability)upperBoundary);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1, e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ProbabilityMayNotBeUndefined, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
 
         [Test]
         public void CategoryBasePerformsInputCheckOnValidValues()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var category = new TestCategoryBase(0.2, (Probability)0.02, (Probability)0.01);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.AreEqual(1,e.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.LowerLimitIsAboveUpperLimit, e.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected error was not thrown");
+            }, EAssemblyErrors.LowerLimitIsAboveUpperLimit);
         }
 
         [Test]

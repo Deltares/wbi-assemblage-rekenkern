@@ -34,16 +34,16 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// Mechanism is not relevant for this section.
         /// </summary>
-        NotRelevant = 1,
+        NotRelevant = 0,
 
         /// <summary>
         /// Mechanism is relevant, but no probability specification is provided.
         /// </summary>
-        RelevantNoProbabilitySpecification = 2,
+        RelevantNoProbabilitySpecification = 1,
 
         /// <summary>
         /// Mechanism is relevant and a probability specification is provided.
         /// </summary>
-        RelevantWithProbabilitySpecification = 3
+        RelevantWithProbabilitySpecification = 2
     }
 }

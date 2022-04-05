@@ -43,56 +43,26 @@ namespace Assembly.Kernel.Tests.Implementations
             categoryLimitsCalculator = new CategoryLimitsCalculator();
         }
 
-        #region BOI-0-1
         [Test]
         [TestCase(0.0003,0.034)]
         [TestCase(0.00003, 0.0003)]
         public void CalculateBoi01FunctionalTest(double signalFloodingProbability, double maximumAllowableFloodingProbability)
         {
             var section = new AssessmentSection((Probability) signalFloodingProbability, (Probability) maximumAllowableFloodingProbability);
-
-            CategoriesList<InterpretationCategory> results =
-                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
+            var results = categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
 
             Assert.AreEqual(7, results.Categories.Length);
-
-            foreach (var limitResults in results.Categories)
+            InterpretationCategory[] expectedCategories = 
             {
-                switch (limitResults.Category)
-                {
-                    case EInterpretationCategory.III:
-                        Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.II:
-                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.I:
-                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signalFloodingProbability, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(maximumAllowableFloodingProbability*10.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IIIMin:
-                        Assert.AreEqual(maximumAllowableFloodingProbability*10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    default:
-                        Assert.Fail("Unexpected category received");
-                        break;
-                }
-            }
+                new InterpretationCategory(EInterpretationCategory.III, (Probability) 0.0, (Probability) (signalFloodingProbability / 1000.0)),
+                new InterpretationCategory(EInterpretationCategory.II, (Probability) (signalFloodingProbability / 1000.0), (Probability) (signalFloodingProbability / 100.0)),
+                new InterpretationCategory(EInterpretationCategory.I, (Probability) (signalFloodingProbability / 100.0), (Probability) (signalFloodingProbability / 10.0)),
+                new InterpretationCategory(EInterpretationCategory.Zero, (Probability) (signalFloodingProbability / 10.0), (Probability) signalFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IMin, (Probability) signalFloodingProbability, (Probability) maximumAllowableFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IIMin, (Probability) maximumAllowableFloodingProbability, (Probability) maximumAllowableFloodingProbability*10.0),
+                new InterpretationCategory(EInterpretationCategory.IIIMin, (Probability) maximumAllowableFloodingProbability*10.0, (Probability)1.0)
+            };
+            CollectionAssert.AreEqual(results.Categories, expectedCategories,new CategoryLimitsEqualityComparer());
         }
 
         [Test]
@@ -101,97 +71,41 @@ namespace Assembly.Kernel.Tests.Implementations
             var signalFloodingProbability = 0.001;
             var maximumAllowableFloodingProbability = 0.5;
             var section = new AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodingProbability);
-
-            CategoriesList<InterpretationCategory> results =
-                categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
+            var results = categoryLimitsCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
 
             Assert.AreEqual(7, results.Categories.Length);
 
-            foreach (var limitResults in results.Categories)
+            InterpretationCategory[] expectedCategories =
             {
-                switch (limitResults.Category)
-                {
-                    case EInterpretationCategory.III:
-                        Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.II:
-                        Assert.AreEqual(signalFloodingProbability / 1000.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.I:
-                        Assert.AreEqual(signalFloodingProbability / 100.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.Zero:
-                        Assert.AreEqual(signalFloodingProbability / 10.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(signalFloodingProbability, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IMin:
-                        Assert.AreEqual(signalFloodingProbability, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IIMin:
-                        Assert.AreEqual(maximumAllowableFloodingProbability, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    case EInterpretationCategory.IIIMin:
-                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-6);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-6);
-                        break;
-                    default:
-                        Assert.Fail("Unexpected category received");
-                        break;
-                }
-            }
+                new InterpretationCategory(EInterpretationCategory.III, (Probability) 0.0, (Probability) (signalFloodingProbability / 1000.0)),
+                new InterpretationCategory(EInterpretationCategory.II, (Probability) (signalFloodingProbability / 1000.0), (Probability) (signalFloodingProbability / 100.0)),
+                new InterpretationCategory(EInterpretationCategory.I, (Probability) (signalFloodingProbability / 100.0), (Probability) (signalFloodingProbability / 10.0)),
+                new InterpretationCategory(EInterpretationCategory.Zero, (Probability) (signalFloodingProbability / 10.0), (Probability) signalFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IMin, (Probability) signalFloodingProbability, (Probability) maximumAllowableFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IIMin, (Probability) maximumAllowableFloodingProbability, (Probability)1.0),
+                new InterpretationCategory(EInterpretationCategory.IIIMin, (Probability)1.0, (Probability)1.0)
+            };
+            CollectionAssert.AreEqual(results.Categories, expectedCategories, new CategoryLimitsEqualityComparer());
         }
-
-        #endregion
-
-        #region BOI-2-1
 
         [Test]
         public void CalculateBoi21FunctionalTest()
         {
-            var signalFloodingProbability = new Probability(0.003);
-            var maximumAllowableFloodingProbability = new Probability(0.03);
-
-            var section = new AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
-
-            CategoriesList<AssessmentSectionCategory> results =
-                categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
+            var section = new AssessmentSection(new Probability(0.003), new Probability(0.03));
+            var results = categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
 
             Assert.AreEqual(5, results.Categories.Length);
 
-            foreach (var limitResults in results.Categories)
+            AssessmentSectionCategory[] expectedCategories =
             {
-                switch (limitResults.Category)
-                {
-                    case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
-                        break;
-                    case EAssessmentGrade.A:
-                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
-                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.B:
-                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
-                        Assert.AreEqual(0.03, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.C:
-                        Assert.AreEqual(0.03, limitResults.LowerLimit, 1e-2);
-                        Assert.AreEqual(0.9, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.D:
-                        Assert.AreEqual(0.9, limitResults.LowerLimit, 1e-1);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit);
-                        break;
-                    default:
-                        Assert.Fail("Unexpected category received");
-                        break;
-                }
-            }
+                new AssessmentSectionCategory(EAssessmentGrade.APlus, (Probability) 0.0, (Probability) 0.0001 ),
+                new AssessmentSectionCategory(EAssessmentGrade.A, (Probability) 0.0001 , (Probability) 0.003 ),
+                new AssessmentSectionCategory(EAssessmentGrade.B, (Probability) 0.003, (Probability) 0.03),
+                new AssessmentSectionCategory(EAssessmentGrade.C, (Probability) 0.03, (Probability) 0.9),
+                new AssessmentSectionCategory(EAssessmentGrade.D, (Probability) 0.9, (Probability) 1.0)
+            };
+
+            CollectionAssert.AreEqual(results.Categories, expectedCategories, new CategoryLimitsEqualityComparer());
         }
 
         [Test]
@@ -207,37 +121,16 @@ namespace Assembly.Kernel.Tests.Implementations
 
             Assert.AreEqual(5, results.Categories.Length);
 
-            foreach (var limitResults in results.Categories)
+            AssessmentSectionCategory[] expectedCategories =
             {
-                switch (limitResults.Category)
-                {
-                    case EAssessmentGrade.APlus:
-                        Assert.AreEqual(0.0, limitResults.LowerLimit);
-                        Assert.AreEqual(0.0001, limitResults.UpperLimit, 1e-4);
-                        break;
-                    case EAssessmentGrade.A:
-                        Assert.AreEqual(0.0001, limitResults.LowerLimit, 1e-4);
-                        Assert.AreEqual(0.003, limitResults.UpperLimit, 1e-3);
-                        break;
-                    case EAssessmentGrade.B:
-                        Assert.AreEqual(0.003, limitResults.LowerLimit, 1e-3);
-                        Assert.AreEqual(0.034, limitResults.UpperLimit, 1e-4);
-                        break;
-                    case EAssessmentGrade.C:
-                        Assert.AreEqual(0.034, limitResults.LowerLimit, 1e-4);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
-                        break;
-                    case EAssessmentGrade.D:
-                        Assert.AreEqual(1.0, limitResults.LowerLimit, 1e-1);
-                        Assert.AreEqual(1.0, limitResults.UpperLimit, 1e-1);
-                        break;
-                    default:
-                        Assert.Fail("Unexpected category received");
-                        break;
-                }
-            }
-        }
+                new AssessmentSectionCategory(EAssessmentGrade.APlus, (Probability) 0.0, (Probability) 0.0001 ),
+                new AssessmentSectionCategory(EAssessmentGrade.A, (Probability) 0.0001 , (Probability) 0.003 ),
+                new AssessmentSectionCategory(EAssessmentGrade.B, (Probability) 0.003, (Probability) 0.034),
+                new AssessmentSectionCategory(EAssessmentGrade.C, (Probability) 0.034, (Probability) 1.0),
+                new AssessmentSectionCategory(EAssessmentGrade.D, (Probability) 1.0, (Probability) 1.0)
+            };
 
-        #endregion
+            CollectionAssert.AreEqual(results.Categories, expectedCategories, new CategoryLimitsEqualityComparer());
+        }
     }
 }

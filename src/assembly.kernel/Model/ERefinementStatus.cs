@@ -33,16 +33,16 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// No further refinement is necessary. Probability estimation based on the initial mechanism is sufficient.
         /// </summary>
-        NotNecessary = 1,
+        NotNecessary = 0,
 
         /// <summary>
         /// Further refinement is necessary. Probability estimation based on the initial mechanism is not sufficient.
         /// </summary>
-        Necessary = 2,
+        Necessary = 1,
 
         /// <summary>
         /// Further refinement is already performed. This means the refined probabilities are also specified as input.
         /// </summary>
-        Performed = 3
+        Performed = 2
     }
 }

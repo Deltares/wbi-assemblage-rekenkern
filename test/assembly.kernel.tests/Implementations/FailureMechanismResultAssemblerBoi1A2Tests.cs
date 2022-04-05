@@ -51,12 +51,9 @@ namespace Assembly.Kernel.Tests.Implementations
             assembler = new FailureMechanismResultAssembler();
         }
 
-        #region Functional tests
-
         [Test, TestCaseSource(typeof(AssembleFailureMechanismTestData), nameof(AssembleFailureMechanismTestData.Boi1A2))]
         public void Boi1A2FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
         {
-            // Use correct probabilities
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor1,
                 failureProbabilities.Select(sectionResultTuple =>
                     new
@@ -186,8 +183,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new[]
                 {
                     new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant),
-                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant),
-                    new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.NotDominant)
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0, (Probability)0, EInterpretationCategory.NotDominant),
+                    new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0, (Probability)0, EInterpretationCategory.NotDominant)
                 },
                 true);
             Assert.IsNotNull(result);
@@ -231,14 +228,10 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(0.0, result.Probability, 1e-8);
         }
 
-        #endregion
-
-        #region Error handling
-
         [Test]
         public void Boi1A2AllDominant()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                 new[]
@@ -248,20 +241,13 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
+            }, EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
         }
 
         [Test]
         public void Boi1A2SectionWithoutResult()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
@@ -275,20 +261,13 @@ namespace Assembly.Kernel.Tests.Implementations
                             EInterpretationCategory.II)
                     },
                     false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
+            }, EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
         }
 
         [Test]
         public void Boi1A2DominantAndSectionWithoutResult()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new[]
@@ -301,82 +280,40 @@ namespace Assembly.Kernel.Tests.Implementations
                             EInterpretationCategory.II)
                     },
                     false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
+            }, EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
         }
-
-        #endregion
-
-        #region Input handling
 
         [Test]
         public void Boi1A2EmptyResults()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     new FailureMechanismSectionAssemblyResultWithLengthEffect[]{}, 
                     false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
-
+            }, EAssemblyErrors.EmptyResultsList);
         }
 
         [Test]
         public void Boi1A2NullResults()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor2,
                     null,
                     false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(1, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, exception.Errors.First().ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
-
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
         public void Boi1A2MultipleErrorsTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(0.1,
                     new IProfileAndSectionProbabilities[] { }, 
                     false);
-            }
-            catch (AssemblyException exception)
-            {
-                Assert.IsNotNull(exception.Errors);
-                Assert.AreEqual(2, exception.Errors.Count());
-                Assert.AreEqual(EAssemblyErrors.EmptyResultsList, exception.Errors.First().ErrorCode);
-                Assert.AreEqual(EAssemblyErrors.LengthEffectFactorOutOfRange, exception.Errors.ElementAt(1).ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception did not occur");
-
+            }, new []{ EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange });
         }
 
         [Test,
@@ -397,8 +334,6 @@ namespace Assembly.Kernel.Tests.Implementations
 
             return null;
         }
-
-        #endregion
 
         private class LengthEffectTestData
         {

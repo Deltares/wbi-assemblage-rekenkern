@@ -49,37 +49,19 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.1, double.NaN)]
         public void ConstructorChecksEquallyDefinedProbabilities(double profileProbability, double sectionProbability)
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new ResultWithProfileAndSectionProbabilities((Probability) profileProbability, (Probability) sectionProbability);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
         [Test]
         public void ConstructorChecksForSmallerProfileProbabilities()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new ResultWithProfileAndSectionProbabilities((Probability)0.1, (Probability)0.002);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability, message.ErrorCode);
-                Assert.Pass();
-            }
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
     }
 }

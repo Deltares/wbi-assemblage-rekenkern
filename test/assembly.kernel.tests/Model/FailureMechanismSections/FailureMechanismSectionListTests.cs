@@ -30,8 +30,6 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-// ReSharper disable ObjectCreationAsStatement
-
 namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
     [TestFixture]
@@ -40,37 +38,25 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [Test]
         public void ResultListNullInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(null);
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
         public void EmptyListInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(new List<FailureMechanismSection>());
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
         }
 
         [Test]
         public void DifferentSectionTypesInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -78,19 +64,13 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSection(1, 5),
                         new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
                     });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.InputNotTheSameType);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.InputNotTheSameType);
         }
 
         [Test]
         public void FirstSectionStartNotZeroInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -98,19 +78,13 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSectionWithCategory(1, 5, EInterpretationCategory.I),
                         new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
         }
 
         [Test]
         public void GapBetweenSectionsInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -118,19 +92,13 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.I),
                         new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
                     });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
         }
 
         [Test]
         public void GetCategoryOfSectionOutsideOfRange()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var failureMechanismSectionList = new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -139,13 +107,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I)
                     });
                 failureMechanismSectionList.GetSectionAtPoint(25.0);
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.RequestedPointOutOfRange);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.RequestedPointOutOfRange);
         }
 
         [Test]
@@ -168,7 +130,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [Test]
         public void OverlappingSectionsInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -176,19 +138,13 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                         new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
                     });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+            }, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
         }
 
         [Test]
         public void ZeroLengthSectionInputTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 new FailureMechanismSectionList(
                     new List<FailureMechanismSection>
@@ -196,22 +152,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
                         new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
                         new FailureMechanismSectionWithCategory(10, 10, EInterpretationCategory.I)
                     });
-            }
-            catch (AssemblyException e)
-            {
-                CheckException(e, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
-            }
-
-            Assert.Fail("Expected exception was not thrown");
-        }
-
-        private static void CheckException(AssemblyException e, EAssemblyErrors expectedError)
-        {
-            Assert.NotNull(e.Errors);
-            var message = e.Errors.FirstOrDefault();
-            Assert.NotNull(message);
-            Assert.AreEqual(expectedError, message.ErrorCode);
-            Assert.Pass();
+            }, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
         }
     }
 }

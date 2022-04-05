@@ -26,6 +26,7 @@
 using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
+using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 
 namespace Assembly.Kernel.Model
@@ -80,7 +81,8 @@ namespace Assembly.Kernel.Model
         /// <returns></returns>
         public bool IsNegligibleDifference(Probability other, double deltaReliability = 1E-5)
         {
-            return Math.Abs(reliability - other.reliability) > deltaReliability;
+            var absoluteDifference = Math.Abs(reliability - other.reliability);
+            return double.IsNaN(absoluteDifference) || absoluteDifference < deltaReliability;
         }
 
         /// <summary>

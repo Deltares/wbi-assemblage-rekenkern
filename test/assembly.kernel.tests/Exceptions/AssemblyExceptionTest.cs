@@ -51,22 +51,23 @@ namespace Assembly.Kernel.Tests.Exceptions
         [Test]
         public void ConstructorMultipleExceptionPassesArguments()
         {
-            var messages = new List<AssemblyErrorMessage>
+            var expectedMessages = new List<AssemblyErrorMessage>
             {
                 new AssemblyErrorMessage("TestId1", EAssemblyErrors.FailureMechanismSectionLengthInvalid),
                 new AssemblyErrorMessage("TestId2", EAssemblyErrors.LengthEffectFactorOutOfRange)
             };
 
-            var exception = new AssemblyException(messages);
+            var exception = new AssemblyException(expectedMessages);
 
-            Assert.AreEqual(messages.Count, exception.Errors.Count());
-            Assert.AreEqual(messages, exception.Errors);
+            Assert.AreEqual(expectedMessages.Count, exception.Errors.Count());
+            Assert.AreEqual(expectedMessages, exception.Errors);
 
-            for (int i = 0; i < messages.Count; i++)
+            for (int i = 0; i < expectedMessages.Count; i++)
             {
                 var message = exception.Errors.ElementAt(i);
-                Assert.AreEqual(messages.ElementAt(i).EntityId, message.EntityId);
-                Assert.AreEqual(messages.ElementAt(i).ErrorCode, message.ErrorCode);
+                var expectedErrorMessage = expectedMessages.ElementAt(i);
+                Assert.AreEqual(expectedErrorMessage.EntityId, message.EntityId);
+                Assert.AreEqual(expectedErrorMessage.ErrorCode, message.ErrorCode);
             }
         }
 

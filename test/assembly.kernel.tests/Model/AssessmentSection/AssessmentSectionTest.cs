@@ -23,9 +23,6 @@
 
 #endregion
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
@@ -35,46 +32,28 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
     [TestFixture]
     public class AssessmentSectionTest
     {
-        [Test, TestCaseSource(typeof(AssessmentSectionTestData), nameof(AssessmentSectionTestData.TestCases))]
-        public List<EAssemblyErrors> AssessmentSectionInputValidationTest(double signalFloodingProbability, double maximumAllowableFloodngProbability)
+        [TestCase(0,0 )]
+        [TestCase(1, 1)]
+        [TestCase(0.1, 0.2)]
+        public void AssessmentSectionInputValidationTest(double signalFloodingProbability,
+            double maximumAllowableFloodingProbability)
         {
-            try
-            {
-                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodngProbability);
-                Assert.AreEqual(signalFloodingProbability,section.SignalFloodingProbability);
-                Assert.AreEqual(maximumAllowableFloodngProbability, section.MaximumAllowableFloodingProbability);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                return e.Errors.Select(message => message.ErrorCode).ToList();
-            }
-
-            return null;
+            var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability) signalFloodingProbability,
+                (Probability) maximumAllowableFloodingProbability);
+            Assert.AreEqual(signalFloodingProbability, section.SignalFloodingProbability);
+            Assert.AreEqual(maximumAllowableFloodingProbability, section.MaximumAllowableFloodingProbability);
         }
 
-        private class AssessmentSectionTestData
+        [TestCase(0.1, 0.05)]
+        [TestCase(0.2, 0.1)]
+        public void AssessmentSectionInputValidationTestWithException(double signalFloodingProbability, double maximumAllowableFloodingProbability)
         {
-            public static IEnumerable TestCases
+            TestHelper.AssertExpectedErrorMessage(() => 
             {
-                // ReSharper disable once UnusedMember.Local
-                get
-                {
-                    yield return new TestCaseData(0, 0).Returns(null);
-                    yield return new TestCaseData(1, 1).Returns(null);
-                    yield return new TestCaseData(0.1, 0.05).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability
-                        });
-                    yield return new TestCaseData(0.1, 0.2).Returns(null);
-                    yield return new TestCaseData(0.2, 0.1).Returns(
-                        new List<EAssemblyErrors>
-                        {
-                            EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability
-                        });
-                }
-            }
+                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodingProbability);
+                Assert.AreEqual(signalFloodingProbability, section.SignalFloodingProbability);
+                Assert.AreEqual(maximumAllowableFloodingProbability, section.MaximumAllowableFloodingProbability);
+            }, EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
         }
     }
 }

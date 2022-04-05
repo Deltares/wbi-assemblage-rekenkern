@@ -24,56 +24,32 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-// ReSharper disable ObjectCreationAsStatement
-
-namespace Assembly.Kernel.Tests.Model.AssessmentSection
+namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
     [TestFixture]
-    public class AssemblyResultTests
+    public class GreatestCommonDenominatorAssemblyResultTests
     {
         [Test]
         public void CombinedSectionResultNullTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
-                new GreatestCommonDenominatorAssemblyResult(new List<FailureMechanismSectionList>(), null);
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+                var result = new GreatestCommonDenominatorAssemblyResult(new List<FailureMechanismSectionList>(), null);
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
         public void ResultPerFailureMechanismNullTest()
         {
-            try
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
-                new GreatestCommonDenominatorAssemblyResult(null, new List<FailureMechanismSectionWithCategory>());
-            }
-            catch (AssemblyException e)
-            {
-                Assert.NotNull(e.Errors);
-                var message = e.Errors.FirstOrDefault();
-                Assert.NotNull(message);
-                Assert.AreEqual(EAssemblyErrors.ValueMayNotBeNull, message.ErrorCode);
-                Assert.Pass();
-            }
-
-            Assert.Fail("Expected exception was not thrown");
+                var result = new GreatestCommonDenominatorAssemblyResult(null, new List<FailureMechanismSectionWithCategory>());
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
