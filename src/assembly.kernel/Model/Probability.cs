@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Model
         /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> exceeds 1</exception>
         private static void ValidateProbabilityValueWithinAllowedRange(double probability)
         {
-            if (!double.IsNaN(probability) && probability < 0 || !double.IsNaN(probability) && probability > 1)
+            if (!double.IsNaN(probability) && (probability < 0 || probability > 1))
             {
                 throw new AssemblyException(nameof(probability),EAssemblyErrors.FailureProbabilityOutOfRange);
             }

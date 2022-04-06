@@ -39,16 +39,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Failure mechanism section list constructor.
         /// </summary>
         /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start.</param>
-        /// <exception cref="AssemblyException">Thrown when:
-        /// <list type="bullet">
-        /// <item>Any of the inputs are null.</item>
-        /// <item>The list is empty.</item>
-        /// <item>The list is empty.</item>
-        /// <item>The sections aren't consecutive.</item>
-        /// <item>Duplicate sections are present.</item>
-        /// <item>The various sectionResults are not of the same type.</item>
-        /// </list>
-        /// </exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> equals null.</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> is empty.</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> contains a mix of results of different type.</exception>
+        /// <exception cref="AssemblyException">Thrown when <seealso cref="FailureMechanismSection.Start"/> of the first section does not equal 0.0.</exception>
+        /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="sectionResults"/> are consecutive
+        /// (<seealso cref="FailureMechanismSection.Start"/> of a section equals <seealso cref="FailureMechanismSection.End"/> of the previous section.</exception>
         public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sectionResults)
         {
             Sections = OrderAndCheckSectionResults(sectionResults);

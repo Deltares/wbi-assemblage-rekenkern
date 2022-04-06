@@ -38,7 +38,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </summary>
         /// <param name="probabilityProfile">Probability of failure of a profile.</param>
         /// <param name="probabilitySection">Probability of failure of a section.</param>
-        /// <exception cref="AssemblyException">Thrown in case just one of the probabilities is defined.</exception>
+        /// <exception cref="AssemblyException">Thrown in case just one of <paramref name="probabilityProfile"/> and <paramref name="probabilitySection"/> is defined.</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</exception>
         public ResultWithProfileAndSectionProbabilities(Probability probabilityProfile, Probability probabilitySection)
         {

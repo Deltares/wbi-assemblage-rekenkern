@@ -42,9 +42,10 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Failure mechanism.</param>
         /// <param name="combinedSectionResult">The greatest common denominator section results for 
         /// all failure mechanisms combined.</param>
-        /// <exception cref="AssemblyException">Thrown when any of the inputs is null.</exception>
+        /// <exception cref="AssemblyException">Thrown in case <paramref name="resultPerFailureMechanism"/> equals null.</exception>
+        /// <exception cref="AssemblyException">Thrown in case <paramref name="combinedSectionResult"/> equals null.</exception>
         public GreatestCommonDenominatorAssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
-            IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
+        IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {
