@@ -47,6 +47,9 @@ namespace Assembly.Kernel.Model.Categories
         /// </summary>
         /// <param name="categoryLimits">An IEnumerable with categories. This list assumes
         /// the categories are already sorted from bad (low) to good (high).</param>
+        /// <exception cref="AssemblyException">Thrown in case the limits of the specified categories are not consecutive.</exception>
+        /// <exception cref="AssemblyException">Thrown in case the first category lower limit does not equal 0.</exception>
+        /// <exception cref="AssemblyException">Thrown in case the last category upper limit does not equal 1.</exception>
         public CategoriesList(IEnumerable<TCategory> categoryLimits)
         {
             var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
