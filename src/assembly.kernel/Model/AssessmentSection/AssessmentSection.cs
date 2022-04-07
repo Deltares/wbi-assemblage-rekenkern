@@ -68,7 +68,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         public override string ToString()
         {
             return
-                $"Signal flooding probability: {SignalFloodingProbability}, " +
+                $"Signal flooding probability: {SignalFloodingProbability}, \n" +
                 $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
         }
     }

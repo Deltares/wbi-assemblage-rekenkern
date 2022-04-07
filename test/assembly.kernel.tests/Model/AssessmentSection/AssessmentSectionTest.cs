@@ -55,5 +55,12 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
                 Assert.AreEqual(maximumAllowableFloodingProbability, section.MaximumAllowableFloodingProbability);
             }, EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
         }
+
+        [Test]
+        public void ToStringWorks()
+        {
+            var section = new Kernel.Model.AssessmentSection.AssessmentSection(Probability.Undefined, new Probability(0.001));
+            Assert.AreEqual("Signal flooding probability: Undefined, \nMaximum allowable flooding probability: 1/1000", section.ToString());
+        }
     }
 }

@@ -26,7 +26,6 @@
 using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
-using MathNet.Numerics;
 
 namespace Assembly.Kernel.Model
 {
@@ -81,7 +80,8 @@ namespace Assembly.Kernel.Model
             var average = ((double)this + (double)other) * 0.5;
             var absoluteDifference = Math.Abs((double) this - (double) other);
             var relativeDifference = absoluteDifference / average;
-            return !relativeDifference.IsFinite() | relativeDifference <= maximumRelativeDifference;
+            
+            return !(relativeDifference < double.PositiveInfinity) | relativeDifference <= maximumRelativeDifference;
         }
 
         /// <summary>

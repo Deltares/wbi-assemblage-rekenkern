@@ -55,13 +55,13 @@ namespace Assembly.Kernel.Tests
         }
 
         [Test]
-        [Timeout(100)]
+        [Timeout(1000)]
         public void FullAssembly()
         {
+            var watch = Stopwatch.StartNew();
+
             var section = new AssessmentSection((Probability) 1.0E-3, (Probability) (1.0 / 300.0));
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
-
-            var watch = Stopwatch.StartNew();
 
             var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
 
@@ -73,8 +73,7 @@ namespace Assembly.Kernel.Tests
 
             watch.Stop();
 
-            var elapsedMs = watch.Elapsed.TotalMilliseconds;
-            Console.Out.WriteLine($"Elapsed time since start of assembly: {elapsedMs} ms (max: 100 ms)");
+            Console.Out.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms (max: 1000 ms)");
         }
 
         private void CalculateAssessmentGrade(AssessmentSection section, List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb)
