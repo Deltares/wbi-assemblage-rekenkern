@@ -548,5 +548,50 @@ namespace Assembly.Kernel.Tests.Implementations
                     categories);
             },EAssemblyErrors.ProbabilityMayNotBeUndefined);
         }
+
+        [Test]
+        public void ThrowsInCaseOfInvalidRefinementStatus()
+        {
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                    ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification,
+                    (Probability)0.01,
+                    (ERefinementStatus)(-1),
+                    Probability.Undefined,
+                    categories);
+            }, EAssemblyErrors.InvalidEnumValue);
+        }
+
+        [Test]
+        public void ThrowsInCaseOfInvalidInitialProbabilitySpecification()
+        {
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var categories = new CategoriesList<InterpretationCategory>(
+                    new[]
+                    {
+                        new InterpretationCategory(EInterpretationCategory.III, (Probability)0,(Probability) 0.02),
+                        new InterpretationCategory(EInterpretationCategory.II, (Probability) 0.02,(Probability) 0.04),
+                        new InterpretationCategory(EInterpretationCategory.I, (Probability) 0.04,(Probability) 1.0)
+                    });
+
+                var result = translator.TranslateAssessmentResultAggregatedMethod(
+                    (ESectionInitialMechanismProbabilitySpecification)(-1),
+                    (Probability)0.01,
+                    ERefinementStatus.Necessary,
+                    Probability.Undefined,
+                    categories);
+            }, EAssemblyErrors.InvalidEnumValue);
+        }
+
     }
 }

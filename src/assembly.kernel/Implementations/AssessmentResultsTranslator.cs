@@ -185,21 +185,26 @@ namespace Assembly.Kernel.Implementations
 
         private EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
         {
-            if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
+            switch (relevance)
             {
-                return EAnalysisState.NotRelevant;
-            }
-
-            switch (refinementStatus)
-            {
-                case ERefinementStatus.NotNecessary:
-                    return relevance == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                        ? EAnalysisState.NoProbabilityEstimationNecessary
-                        : EAnalysisState.ProbabilityEstimated;
-                case ERefinementStatus.Necessary:
-                    return EAnalysisState.ProbabilityEstimationNecessary;
-                case ERefinementStatus.Performed:
-                    return EAnalysisState.ProbabilityEstimated;
+                case ESectionInitialMechanismProbabilitySpecification.NotRelevant:
+                    return EAnalysisState.NotRelevant;
+                case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
+                case ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification:
+                    switch (refinementStatus)
+                    {
+                        case ERefinementStatus.NotNecessary:
+                            return relevance == ESectionInitialMechanismProbabilitySpecification
+                                .RelevantNoProbabilitySpecification
+                                ? EAnalysisState.NoProbabilityEstimationNecessary
+                                : EAnalysisState.ProbabilityEstimated;
+                        case ERefinementStatus.Necessary:
+                            return EAnalysisState.ProbabilityEstimationNecessary;
+                        case ERefinementStatus.Performed:
+                            return EAnalysisState.ProbabilityEstimated;
+                        default:
+                            throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
+                    }
                 default:
                     throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
             }
