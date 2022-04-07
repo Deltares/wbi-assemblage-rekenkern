@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using MathNet.Numerics.Distributions;
@@ -119,6 +120,20 @@ namespace Assembly.Kernel.Tests.Model
         {
             var probability = new Probability(value);
             Assert.AreEqual(expectedString, probability.ToString());
+        }
+
+        [Test]
+        public void ToStringWorksWithFormatProvider()
+        {
+            var probability = new Probability(1.425E-15);
+            Assert.AreEqual("1/701754385964912", probability.ToString(CultureInfo.InvariantCulture));
+        }
+
+        [Test]
+        public void ToStringWorksWithFormat()
+        {
+            var probability = new Probability(1.425E-15);
+            Assert.AreEqual("1.42500E-015", probability.ToString("E5", CultureInfo.InvariantCulture));
         }
 
         [Test]
@@ -222,6 +237,53 @@ namespace Assembly.Kernel.Tests.Model
             }
 
             Assert.Throws<AssemblyException>(new TestDelegate(target));
+        }
+
+        [Test]
+        public void EqualsReturnsExpectedValue()
+        {
+            var probability = new Probability(0.1);
+
+            Assert.IsFalse(probability.Equals(null));
+            Assert.IsFalse(probability.Equals(3));
+            Assert.IsTrue(probability.Equals(probability));
+            Assert.IsTrue(probability.Equals(new Probability(0.1)));
+        }
+
+        [Test]
+        public void GetHashCodeReturnsHashCodeUnderlyingDouble()
+        {
+            var probabilityValue = 0.0012345;
+            var probability = new Probability(probabilityValue);
+            Assert.AreEqual(probabilityValue.GetHashCode(), probability.GetHashCode());
+        }
+
+        [Test]
+        public void CompareToThrowsOnInvalidInput()
+        {
+            var probability = new Probability(0.31);
+
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var compareTo = probability.CompareTo(null);
+            }, EAssemblyErrors.ValueMayNotBeNull);
+
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var compareTo = probability.CompareTo("string");
+            }, EAssemblyErrors.InvalidArgumentType);
+        }
+
+        [TestCase(0.2, 1)]
+        [TestCase(0.3, 0)]
+        [TestCase(0.4, -1)]
+        public void CompareToReturnsCorrectValues(double inputValue, int expectedResult)
+        {
+            var probability = new Probability(0.3);
+            Assert.AreEqual(expectedResult,probability.CompareTo(inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo((Probability)inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo((object)inputValue)); 
+            Assert.AreEqual(expectedResult, probability.CompareTo((object)(Probability)inputValue));
         }
     }
 }

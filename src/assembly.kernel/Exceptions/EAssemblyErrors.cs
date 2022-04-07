@@ -163,6 +163,11 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The specified common sections did not have interpretation categories.
         /// </summary>
-        CommonSectionsDidNotHaveCategoryValues
+        CommonSectionsDidNotHaveCategoryValues,
+
+        /// <summary>
+        /// The specified argument has an invalid type.
+        /// </summary>
+        InvalidArgumentType
     }
 }

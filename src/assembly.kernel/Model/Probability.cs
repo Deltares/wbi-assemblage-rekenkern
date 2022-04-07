@@ -420,7 +420,7 @@ namespace Assembly.Kernel.Model
         {
             if (obj == null)
             { 
-                return 1;
+                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
             }
 
             if (obj is Probability probability)
@@ -433,7 +433,7 @@ namespace Assembly.Kernel.Model
                 return CompareTo(d);
             }
 
-            throw new ArgumentException("Argument must be double or Probability");
+            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
         }
 
         /// <summary>
