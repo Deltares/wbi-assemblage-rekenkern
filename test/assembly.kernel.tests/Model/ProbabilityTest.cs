@@ -246,6 +246,7 @@ namespace Assembly.Kernel.Tests.Model
 
             Assert.IsFalse(probability.Equals(null));
             Assert.IsFalse(probability.Equals(3));
+            Assert.IsFalse(probability.Equals("string"));
             Assert.IsTrue(probability.Equals(probability));
             Assert.IsTrue(probability.Equals(new Probability(0.1)));
         }
