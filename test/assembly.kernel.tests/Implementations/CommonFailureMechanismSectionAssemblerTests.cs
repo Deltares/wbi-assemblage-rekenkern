@@ -91,6 +91,56 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1IgnoresSmallCombinedSections()
+        {
+            var assessmentSectionLength = 30.0;
+            var list1 = new FailureMechanismSectionList(new[]
+            {
+                new FailureMechanismSection(0.0, 10.0),
+                new FailureMechanismSection(10.0, 20.0),
+                new FailureMechanismSection(20.0, assessmentSectionLength)
+            });
+            var list2 = new FailureMechanismSectionList(new[]
+            {
+                new FailureMechanismSection(0.0, 10.001),
+                new FailureMechanismSection(10.001, 20.0),
+                new FailureMechanismSection(20.0, assessmentSectionLength)
+            });
+            var list3 = new FailureMechanismSectionList(new[]
+            {
+                new FailureMechanismSection(0.0, 10.0),
+                new FailureMechanismSection(10.0, 20.0+1E-6),
+                new FailureMechanismSection(20.0+1E-6, assessmentSectionLength)
+            });
+
+            var commonSections =
+                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
+                                                                      {
+                                                                          list1,
+                                                                          list2,
+                                                                          list3
+                                                                      },
+                                                                      assessmentSectionLength);
+
+            var expectedSectionLimits = new[]
+            {
+                0.0,
+                10.0,
+                10.001,
+                20.0,
+                assessmentSectionLength
+            };
+
+            var calculatedCommonSections = commonSections.Sections.ToArray();
+            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
+            for (int i = 0; i < calculatedCommonSections.Length; i++)
+            {
+                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].Start);
+                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].End);
+            }
+        }
+
+        [Test]
         public void FindGreatestCommonDenominatorSectionsBoi3A1IgnoresSmallSectionBoundaryDifferences()
         {
             var delta = 1e-6;
@@ -530,6 +580,34 @@ namespace Assembly.Kernel.Tests.Implementations
                         sectionsList2
                     }, false);
             }, EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections3()
+        {
+            var sectionsList1 = new FailureMechanismSectionList(new[]
+            {
+                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
+            });
+
+            var sectionsList2 = new FailureMechanismSectionList(new[]
+            {
+                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(1.0, 2.5, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
+            });
+
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                var commonSectionsWithResults =
+                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+                    {
+                        sectionsList1,
+                        sectionsList2
+                    }, false);
+            }, EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
         }
 
         [Test]
