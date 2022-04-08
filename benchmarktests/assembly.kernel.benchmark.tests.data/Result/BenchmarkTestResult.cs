@@ -91,7 +91,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool AreEqualAssemblyResultFinalVerdictProbabilityPartial { get; set; }
 
         /// <summary>
-        /// Indicates whether the combined sections where determined correctly
+        /// Indicates whether the combined sections were determined correctly
         /// </summary>
         public bool AreEqualAssemblyResultCombinedSections { get; set; }
 

@@ -23,7 +23,6 @@
 
 #endregion
 
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.FailureMechanismSections;

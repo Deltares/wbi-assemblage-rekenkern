@@ -40,19 +40,12 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// </summary>
         public BenchmarkTestInput()
         {
-            ExpectedSafetyAssessmentAssemblyResult = new SafetyAssessmentAssemblyResult();
+            ExpectedCombinedSectionResultPartial = new List<FailureMechanismSectionWithCategory>();
+            ExpectedCombinedSectionResultPerFailureMechanism = new List<FailureMechanismSectionListWithFailureMechanismId>();
+            ExpectedCombinedSectionResult = new List<FailureMechanismSectionWithCategory>();
+            ExpectedSafetyAssessmentAssemblyResult = new ExpectedSafetyAssessmentAssemblyResult();
             ExpectedFailureMechanismsResults = new List<ExpectedFailureMechanismResult>();
         }
-
-        /// <summary>
-        /// The file name that contains the benchmark test definition and expected results.
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// Name of the benchmark test.
-        /// </summary>
-        public string TestName { get; set; }
 
         /// <summary>
         /// Total length of the assessment section. Make sure this length equals the combined length of all sections per failure mechanism.
@@ -87,21 +80,21 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// The expected safety assessment result on assessment section level.
         /// </summary>
-        public SafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
+        public ExpectedSafetyAssessmentAssemblyResult ExpectedSafetyAssessmentAssemblyResult { get; }
 
         /// <summary>
         /// The greatest common denominator section results per Failure mechanism.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionListWithFailureMechanismId> ExpectedCombinedSectionResultPerFailureMechanism { get; set; }
+        public List<FailureMechanismSectionListWithFailureMechanismId> ExpectedCombinedSectionResultPerFailureMechanism { get; }
 
         /// <summary>
         /// The greatest common denominator section results for all failure mechanisms combined.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResult { get; set; }
+        public List<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResult { get; }
 
         /// <summary>
-        /// The greatest common denominator section results for all failure mechanisms combined.
+        /// The greatest common denominator section results for all failure mechanisms combined after partial assembly.
         /// </summary>
-        public IEnumerable<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultPartial { get; set; }
+        public List<FailureMechanismSectionWithCategory> ExpectedCombinedSectionResultPartial { get; }
     }
 }

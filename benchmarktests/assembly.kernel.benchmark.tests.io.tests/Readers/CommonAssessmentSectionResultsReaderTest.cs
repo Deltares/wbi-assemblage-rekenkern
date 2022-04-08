@@ -23,15 +23,12 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.io.Readers;
-using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
@@ -42,6 +39,8 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
     [TestFixture]
     public class CommonAssessmentSectionResultsReaderTest : TestFileReaderTestBase
     {
+        private const double MaximumAllowedSmallLengthDifference = 1e-8;
+
         private readonly Dictionary<string, EInterpretationCategory> expectedDirectResults =
             new Dictionary<string, EInterpretationCategory>
             {
@@ -57,7 +56,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeeel.xlsx");
+            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
@@ -94,22 +93,22 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(104, failureMechanismSectionList.Sections.Count());
-                    FailureMechanismSection ninethSection = failureMechanismSectionList.Sections.ElementAt(13);
+                    FailureMechanismSection fourteenthSection = failureMechanismSectionList.Sections.ElementAt(13);
                     var mechanismId = failureMechanismSectionList.FailureMechanismId;
-                    if (ninethSection is FailureMechanismSectionWithCategory)
+                    if (fourteenthSection is FailureMechanismSectionWithCategory)
                     {
-                        var sectionWithDirectCategory = (FailureMechanismSectionWithCategory) ninethSection;
-                        AssertResultsIsAsExpected(1440, 1545.093896, expectedDirectResults[mechanismId], sectionWithDirectCategory);
+                        var sectionWithCategory = (FailureMechanismSectionWithCategory) fourteenthSection;
+                        AssertResultsIsAsExpected(1440, 1545.093896, expectedDirectResults[mechanismId], sectionWithCategory);
                     }
                 }
             }
         }
 
-        private void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
+        private static void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
                                                FailureMechanismSectionWithCategory section)
         {
-            Assert.AreEqual(start, section.Start, 1e-8);
-            Assert.AreEqual(end, section.End, 1e-8);
+            Assert.AreEqual(start, section.Start, MaximumAllowedSmallLengthDifference);
+            Assert.AreEqual(end, section.End, MaximumAllowedSmallLengthDifference);
             Assert.AreEqual(category, section.Category);
         }
     }

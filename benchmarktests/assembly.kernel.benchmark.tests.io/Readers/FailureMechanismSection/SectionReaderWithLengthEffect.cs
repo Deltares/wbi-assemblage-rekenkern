@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;

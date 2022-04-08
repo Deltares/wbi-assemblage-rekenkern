@@ -33,8 +33,9 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// Translates an expected assessment grade into the actual <seealso cref="EAssessmentGrade"/>.
         /// </summary>
-        /// <param name="expectedAssessmentGrade"></param>
-        /// <returns></returns>
+        /// <param name="expectedAssessmentGrade">The expected assessment grade to translate.</param>
+        /// <returns>The <seealso cref="EAssessmentGrade"/> that is expected.</returns>
+        /// <exception cref="InvalidEnumArgumentException">Thrown in case of an invalid enum value for <paramref name="expectedAssessmentGrade"/>.</exception>
         public static EAssessmentGrade ToEAssessmentGrade(this EExpectedAssessmentGrade expectedAssessmentGrade)
         {
             switch (expectedAssessmentGrade)

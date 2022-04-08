@@ -23,13 +23,11 @@
 
 #endregion
 
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {

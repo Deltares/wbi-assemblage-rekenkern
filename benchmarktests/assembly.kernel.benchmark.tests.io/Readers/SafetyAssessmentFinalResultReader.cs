@@ -48,14 +48,14 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability =
                 new Probability(GetCellValueAsDouble("D", "Overstromingskans traject"));
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityPartial =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial =
                 new Probability(GetCellValueAsDouble("D", "Overstromingskans traject (tussentijds)"));
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade =
                 GetCellValueAsString("E", "Overstromingskans traject").ToExpectedAssessmentGrade();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradePartial =
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial =
                 GetCellValueAsString("E", "Overstromingskans traject (tussentijds)").ToExpectedAssessmentGrade();
         }
     }

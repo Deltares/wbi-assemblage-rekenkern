@@ -26,8 +26,6 @@
 using System.IO;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.Readers;
-using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
 
@@ -54,10 +52,10 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
-                Assert.AreEqual(0.64, assemblyResult.ExpectedCombinedProbability,1e-2);
-                Assert.AreEqual(0.64, assemblyResult.ExpectedCombinedProbabilityPartial, 1e-2);
-                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.ExpectedCombinedAssessmentGrade);
-                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.ExpectedCombinedAssessmentGradePartial);
+                Assert.AreEqual(0.64, assemblyResult.CombinedProbability,1e-2);
+                Assert.AreEqual(0.64, assemblyResult.CombinedProbabilityPartial, 1e-2);
+                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.CombinedAssessmentGrade);
+                Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.CombinedAssessmentGradePartial);
             }
         }
     }

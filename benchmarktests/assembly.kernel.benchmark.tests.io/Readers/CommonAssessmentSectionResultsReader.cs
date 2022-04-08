@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
-using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -87,9 +86,6 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The input to set the results on.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            var commonSections = new List<FailureMechanismSectionWithCategory>();
-            var commonSectionsPartial = new List<FailureMechanismSectionWithCategory>();
-
             var failureMechanismSpecificCommonSectionsWithResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
             foreach (var failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
             {
@@ -108,8 +104,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                     break;
                 }
 
-                AddSectionToList(commonSections, "D", iRow, startMeters, endMeters);
-                AddSectionToList(commonSectionsPartial, "E", iRow, startMeters, endMeters);
+                AddSectionToList(benchmarkTestInput.ExpectedCombinedSectionResult, "D", iRow, startMeters, endMeters);
+                AddSectionToList(benchmarkTestInput.ExpectedCombinedSectionResultPartial, "E", iRow, startMeters, endMeters);
                 foreach (var keyValuePair in failureMechanismSpecificCommonSectionsWithResults)
                 {
                     AddSectionToList(keyValuePair.Value, columnKeys[keyValuePair.Key], iRow, startMeters, endMeters);
@@ -118,12 +114,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 iRow++;
             }
 
-            benchmarkTestInput.ExpectedCombinedSectionResult = commonSections;
-            benchmarkTestInput.ExpectedCombinedSectionResultPartial = commonSectionsPartial;
-
-            var resultsPerFailureMechanism = failureMechanismSpecificCommonSectionsWithResults.Select(kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key,kv.Value));
-
-            benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism = resultsPerFailureMechanism;
+            benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism.AddRange(
+                failureMechanismSpecificCommonSectionsWithResults.Select(kv =>
+                    new FailureMechanismSectionListWithFailureMechanismId(kv.Key, kv.Value)));
         }
 
         private void AddSectionToList(List<FailureMechanismSectionWithCategory> list, string columnReference, int iRow,

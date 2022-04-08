@@ -27,10 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assembly.Kernel.Model.Categories;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
@@ -54,20 +52,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             }
 
             return workSheetParts;
-        }
-
-        protected void AssertAreEqualCategories<TCategory>(TCategory expectedCategory, double expectedLowerLimit,
-                                                           double expectedUpperLimit,
-                                                           CategoryBase<TCategory> assessmentSectionCategory)
-        {
-            Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
-            AssertAreEqualProbabilities(expectedLowerLimit, assessmentSectionCategory.LowerLimit);
-            AssertAreEqualProbabilities(expectedUpperLimit, assessmentSectionCategory.UpperLimit);
-        }
-
-        protected void AssertAreEqualProbabilities(double expectedProbability, double actualProbability)
-        {
-            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
         }
 
         private static string GetSolutionRoot()
@@ -95,16 +79,6 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
             IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
             return sheets.FirstOrDefault(s => s.Id.HasValue && s.Id.Value == relationshipId);
-        }
-
-        /// <summary>
-        /// Calculates the reliability from a probability.
-        /// </summary>
-        /// <param name="probability">The probability to convert.</param>
-        /// <returns>The reliability.</returns>
-        private static double ProbabilityToReliability(double probability)
-        {
-            return Normal.InvCDF(0, 1, 1 - probability);
         }
     }
 }

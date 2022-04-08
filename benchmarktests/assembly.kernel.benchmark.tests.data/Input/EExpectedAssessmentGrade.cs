@@ -33,31 +33,31 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// <summary>
         /// A+ expected.
         /// </summary>
-        APlus = 1,
+        APlus = 0,
 
         /// <summary>
         /// A expected.
         /// </summary>
-        A = 2,
+        A = 1,
 
         /// <summary>
         /// B expected.
         /// </summary>
-        B = 3,
+        B = 2,
 
         /// <summary>
         /// C expected.
         /// </summary>
-        C = 4,
+        C = 3,
 
         /// <summary>
         /// D expected.
         /// </summary>
-        D = 5,
+        D = 4,
 
         /// <summary>
         /// Exception expected.
         /// </summary>
-        Exception = 6
+        Exception = 5
     }
 }

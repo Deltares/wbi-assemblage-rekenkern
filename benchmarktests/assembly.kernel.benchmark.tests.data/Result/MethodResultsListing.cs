@@ -31,12 +31,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
     public class MethodResultsListing
     {
         /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
+        /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi01 { get; set; }
 
         /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
+        /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi21 { get; set; }
 
@@ -106,7 +106,7 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool? Boi2B1P { get; set; }
 
         /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
+        /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi3A1 { get; set; }
 
@@ -116,12 +116,12 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool? Boi3B1 { get; set; }
 
         /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
+        /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi3C1 { get; set; }
 
         /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
+        /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi3C1P { get; set; }
 

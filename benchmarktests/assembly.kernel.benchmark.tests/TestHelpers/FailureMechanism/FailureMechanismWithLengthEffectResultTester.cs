@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;

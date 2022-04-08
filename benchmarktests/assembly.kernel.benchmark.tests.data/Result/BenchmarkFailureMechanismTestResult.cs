@@ -23,8 +23,6 @@
 
 #endregion
 
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-
 namespace assembly.kernel.benchmark.tests.data.Result
 {
     /// <summary>
@@ -61,22 +59,22 @@ namespace assembly.kernel.benchmark.tests.data.Result
         public bool HasLengthEffect { get; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result per mechanism section during assembly.
+        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result per mechanism section during assembly.
         /// </summary>
         public bool AreEqualCombinedAssessmentResultsPerSection { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result for the failure mechanism during assembly.
+        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result for the failure mechanism during assembly.
         /// </summary>
         public bool AreEqualAssessmentResultPerAssessmentSection { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section where translated correctly to a combined assessment result for the failure mechanism during assembly while performing partial assembly.
+        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result for the failure mechanism during assembly while performing partial assembly.
         /// </summary>
         public bool AreEqualAssessmentResultPerAssessmentSectionPartial { get; set; }
 
         /// <summary>
-        /// Indicates whether all combined results for the combined sections where translated correctly during assembly.
+        /// Indicates whether all combined results for the combined sections were translated correctly during assembly.
         /// </summary>
         public bool AreEqualCombinedResultsCombinedSections { get; set; }
     }

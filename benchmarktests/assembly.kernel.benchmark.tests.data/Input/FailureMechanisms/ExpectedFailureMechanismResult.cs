@@ -38,8 +38,8 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// Creates a new instance of <see cref="ExpectedFailureMechanismResult"/>.
         /// </summary>
         /// <param name="name">The name of the failure mechanism result.</param>
-        /// <param name="mechanismId">(Unique) Identifier of the mechanism</param>
-        /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism</param>
+        /// <param name="mechanismId">Unique identifier of the mechanism.</param>
+        /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism.</param>
         public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect)
         {
             Name = name;
@@ -64,7 +64,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         public bool HasLengthEffect { get; }
 
         /// <summary>
-        /// The expected result (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
+        /// The expected combined probability.
         /// </summary>
         public Probability ExpectedCombinedProbability { get; set; }
 
@@ -74,7 +74,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelated { get; set; }
 
         /// <summary>
-        /// The expected result while performing partial assembly (EIndirectAssessmentResult in case of group 5, EFailureMechanismCategory in other cases)
+        /// The expected result while performing partial assembly.
         /// </summary>
         public Probability ExpectedCombinedProbabilityPartial { get; set; }
 

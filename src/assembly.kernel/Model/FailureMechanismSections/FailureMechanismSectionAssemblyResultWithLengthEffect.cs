@@ -23,7 +23,6 @@
 
 #endregion
 
-using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;

@@ -39,7 +39,6 @@ using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
-using FailureMechanismSection = Assembly.Kernel.Model.FailureMechanismSections.FailureMechanismSection;
 
 namespace assembly.kernel.benchmark.tests
 {
@@ -158,14 +157,14 @@ namespace assembly.kernel.benchmark.tests
                 }
                 catch (AssemblyException)
                 {
-                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability.IsDefined);
+                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined);
                     result.AreEqualAssemblyResultFinalVerdictProbability = true;
                     result.MethodResults.Boi2A1 = true;
                     return;
                 }
 
                 AssertHelper.AssertAreEqualProbabilities(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability, probability);
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
                 result.AreEqualAssemblyResultFinalVerdictProbability = true;
                 result.MethodResults.Boi2A1 = true;
             }
@@ -190,14 +189,14 @@ namespace assembly.kernel.benchmark.tests
                 }
                 catch (AssemblyException)
                 {
-                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityPartial.IsDefined);
+                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined);
                     result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
                     result.MethodResults.Boi2A1P = true;
                     return;
                 }
 
                 AssertHelper.AssertAreEqualProbabilities(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityPartial, probability);
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
 
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
                 result.MethodResults.Boi2A1P = true;
@@ -218,11 +217,11 @@ namespace assembly.kernel.benchmark.tests
                 {
                     var assembler = new AssessmentGradeAssembler();
                     assessmentGrade =
-                        assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbability, input.ExpectedAssessmentSectionCategories);
+                        assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, input.ExpectedAssessmentSectionCategories);
                 }
                 catch (AssemblyException)
                 {
-                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade ==
+                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade ==
                                   EExpectedAssessmentGrade.Exception);
                     result.AreEqualAssemblyResultFinalVerdict = true;
                     result.MethodResults.Boi2B1 = true;
@@ -230,7 +229,7 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 Assert.AreEqual(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGrade.ToEAssessmentGrade(),
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
                     assessmentGrade);
                 result.AreEqualAssemblyResultFinalVerdict = true;
                 result.MethodResults.Boi2B1 = true;
@@ -251,11 +250,11 @@ namespace assembly.kernel.benchmark.tests
                 try
                 {
                     var assembler = new AssessmentGradeAssembler();
-                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedProbabilityPartial, input.ExpectedAssessmentSectionCategories);
+                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, input.ExpectedAssessmentSectionCategories);
                 }
                 catch (AssemblyException)
                 {
-                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradePartial ==
+                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial ==
                                   EExpectedAssessmentGrade.Exception);
                     result.AreEqualAssemblyResultFinalVerdictPartial = true;
                     result.MethodResults.Boi2B1P = true;
@@ -263,7 +262,7 @@ namespace assembly.kernel.benchmark.tests
                 }
 
                 Assert.AreEqual(
-                    input.ExpectedSafetyAssessmentAssemblyResult.ExpectedCombinedAssessmentGradePartial
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial
                         .ToEAssessmentGrade(), assessmentGrade);
 
                 result.AreEqualAssemblyResultFinalVerdictPartial = true;
@@ -423,8 +422,7 @@ namespace assembly.kernel.benchmark.tests
             var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.MechanismId == mechanismId);
             if (failureMechanismTestResult == null)
             {
-                failureMechanismTestResult =
-                    BenchmarkTestFailureMechanismResultFactory.CreateFailureMechanismTestResult(mechanismName,mechanismId,hasLengthEffect);
+                failureMechanismTestResult = new BenchmarkFailureMechanismTestResult(mechanismName, mechanismId, hasLengthEffect);
                 result.FailureMechanismResults.Add(failureMechanismTestResult);
             }
 

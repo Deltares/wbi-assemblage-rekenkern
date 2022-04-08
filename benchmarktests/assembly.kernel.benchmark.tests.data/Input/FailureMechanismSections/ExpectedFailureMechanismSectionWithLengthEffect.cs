@@ -36,7 +36,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// <summary>
         /// Constructor for the <seealso cref="ExpectedFailureMechanismSectionWithLengthEffect"/>.
         /// </summary>
-        /// <param name="sectionName">Custom of the section.</param>
+        /// <param name="sectionName">Custom name of the section.</param>
         /// <param name="start">Start of the section in meters along the assessment section.</param>
         /// <param name="end">End of the section in meters along the assessment section.</param>
         /// <param name="isRelevant">Relevance of the section for a specific failure mechanism.</param>

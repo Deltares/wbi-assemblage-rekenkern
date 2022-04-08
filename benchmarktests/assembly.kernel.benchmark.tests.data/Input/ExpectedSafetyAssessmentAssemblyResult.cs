@@ -30,28 +30,28 @@ namespace assembly.kernel.benchmark.tests.data.Input
     /// <summary>
     /// The safety assessment assembly result.
     /// </summary>
-    public class SafetyAssessmentAssemblyResult
+    public class ExpectedSafetyAssessmentAssemblyResult
     {
         /// <summary>
         /// The expected estimated probability of flooding for the combined
         /// failure mechanisms.
         /// </summary>
-        public Probability ExpectedCombinedProbability { get; set; }
+        public Probability CombinedProbability { get; set; }
 
         /// <summary>
         /// The expected assessment grade.
         /// </summary>
-        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGrade { get; set; }
+        public EExpectedAssessmentGrade CombinedAssessmentGrade { get; set; }
 
         /// <summary>
         /// The expected estimated probability of flooding for the combined
         /// failure mechanisms as a result of partial assessment.
         /// </summary>
-        public Probability ExpectedCombinedProbabilityPartial { get; set; }
+        public Probability CombinedProbabilityPartial { get; set; }
 
         /// <summary>
         /// The expected assessment grade as a result of partial assessment.
         /// </summary>
-        public EExpectedAssessmentGrade ExpectedCombinedAssessmentGradePartial { get; set; }
+        public EExpectedAssessmentGrade CombinedAssessmentGradePartial { get; set; }
     }
 }

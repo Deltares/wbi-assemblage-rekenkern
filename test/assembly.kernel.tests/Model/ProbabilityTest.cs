@@ -27,7 +27,6 @@ using System;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
-using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Model

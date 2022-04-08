@@ -23,7 +23,6 @@
 
 #endregion
 
-using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.Readers;
@@ -44,19 +43,10 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns>A <see cref="BenchmarkTestInput"/>.</returns>
         public static BenchmarkTestInput Read(string excelFileName, string testName)
         {
-            if (!File.Exists(excelFileName))
-            {
-                return null;
-            }
-
-            var benchmarkTestInput = new BenchmarkTestInput
-            {
-                FileName = excelFileName,
-                TestName = testName
-            };
-
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(excelFileName, false))
             {
+                var benchmarkTestInput = new BenchmarkTestInput();
+
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 var workSheetParts = ExcelReaderHelper.ReadWorkSheetParts(workbookPart);
 
@@ -70,7 +60,7 @@ namespace assembly.kernel.benchmark.tests.io
 
                 foreach (var failureMechanismsTab in failureMechanismsTabs)
                 {
-                    ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab],workbookPart, benchmarkTestInput);
+                    ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab], workbookPart, benchmarkTestInput);
                 }
 
                 ReadSafetyAssessmentFinalResult(workSheetParts["Veiligheidsoordeel"], workbookPart, benchmarkTestInput);
