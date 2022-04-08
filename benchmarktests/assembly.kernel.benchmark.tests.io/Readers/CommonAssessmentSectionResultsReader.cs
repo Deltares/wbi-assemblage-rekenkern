@@ -37,6 +37,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
     /// </summary>
     public class CommonAssessmentSectionResultsReader : ExcelSheetReaderBase
     {
+        private const int CommonSectionsHeaderRowId = 2;
+        private const double KilometersToMeters = 1000.0;
+
         private readonly string[] columnStrings =
         {
             "A",
@@ -92,13 +95,13 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 failureMechanismSpecificCommonSectionsWithResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
             }
 
-            var columnKeys = GetColumnKeys(2);
+            var columnKeys = MatchColumnNamesWithFailureMechanismCodes();
 
             int iRow = 3;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("B", iRow) * 1000.0;
-                var endMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("B", iRow) * KilometersToMeters;
+                var endMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
                     break;
@@ -125,22 +128,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             list.Add(new FailureMechanismSectionWithCategory(startMeters, endMeters, GetCellValueAsString(columnReference, iRow).ToInterpretationCategory()));
         }
 
-        private Dictionary<string, string> GetColumnKeys(int iRow)
+        private Dictionary<string, string> MatchColumnNamesWithFailureMechanismCodes()
         {
             var dict = new Dictionary<string, string>();
             foreach (var columnString in columnStrings.Skip(4))
             {
-                try
-                {
-                    var type = GetCellValueAsString(columnString, iRow);
-                    dict[type] = columnString;
-                }
-                catch (Exception e)
-                {
-                    // Skip column. Not important
-                }
-            }
+                var type = GetCellValueAsString(columnString, CommonSectionsHeaderRowId);
+                dict[type] = columnString;
 
+            }
             return dict;
         }
     }

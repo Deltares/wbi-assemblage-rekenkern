@@ -196,7 +196,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static void WriteReportToDestination(string template, string reportDirectory, string fileName)
         {
-            var destinationFileName = Path.Combine(reportDirectory, fileName.Replace(" ", "_"));
+            var destinationFileName = Path.Combine(reportDirectory, Path.GetFileName(fileName).Replace(" ", "_"));
             if (File.Exists(destinationFileName))
             {
                 throw new ArgumentException();
@@ -207,7 +207,7 @@ namespace assembly.kernel.benchmark.tests
 
         private static string GetTargetFileNameFromInputName(string resultFileName)
         {
-            return Path.GetFileNameWithoutExtension(resultFileName) + ".tex";
+            return Path.ChangeExtension(resultFileName, "tex");
         }
 
         private static string GetReportTemplate()

@@ -38,13 +38,14 @@ namespace assembly.kernel.benchmark.tests.io.Readers
     /// </summary>
     public class FailureMechanismsReader : ExcelSheetReaderBase
     {
+        private const double KilometersToMeters = 1000.0;
         private readonly SectionReaderFactory sectionReaderFactory;
 
         /// <summary>
         /// Creates a new instance of <see cref="FailureMechanismsReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
+        /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet</param>
         public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B")
         {
             sectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
@@ -90,8 +91,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             var iRow = startRow;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("C", iRow) * 1000.0;
-                var endMeters = GetCellValueAsDouble("D", iRow) * 1000.0;
+                var startMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
+                var endMeters = GetCellValueAsDouble("D", iRow) * KilometersToMeters;
 
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {

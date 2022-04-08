@@ -38,7 +38,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// Creates a new instance of <see cref="SafetyAssessmentFinalResultReader"/>.
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
+        /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet</param>
         public SafetyAssessmentFinalResultReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
             : base(worksheetPart, workbookPart, "B") {}
 

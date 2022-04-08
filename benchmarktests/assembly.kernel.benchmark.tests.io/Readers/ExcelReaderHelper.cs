@@ -37,11 +37,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
     public static class ExcelReaderHelper
     {
         /// <summary>
-        /// Creates a dictionary of keywords and row numbers based on column A.
+        /// Creates a dictionary of keywords and row numbers based on the specified column.
         /// </summary>
-        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
-        /// <param name="column">The column that contains the keywords</param>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary.</param>
+        /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet.</param>
+        /// <param name="column">The column that contains the keywords.</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
         /// <returns>The created dictionary.</returns>
         public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,string column, int maxRow)
@@ -64,7 +64,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Reads cell contain and translates the result to a double
+        /// Reads cell contain and translates the result to a double.
         /// </summary>
         /// <param name="worksheet">The worksheet.</param>
         /// <param name="cellReference">the cell reference.</param>
@@ -89,7 +89,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Reads cell contain and translates the result to a string
+        /// Reads cell contain and translates the result to a string.
         /// </summary>
         /// <param name="worksheet">The worksheet.</param>
         /// <param name="cellReference">the cell reference.</param>
@@ -107,7 +107,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets te number of rows in an Excel-sheet
+        /// Gets te number of rows in an Excel-sheet.
         /// </summary>
         /// <param name="worksheetPart">The worksheet part.</param>
         /// <returns>The row count.</returns>
@@ -137,8 +137,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// Creates a dictionary of all worksheet parts associated with the name of the tab in Excel.
         /// </summary>
         /// <param name="workbookPart">The workbook part.</param>
-        /// <returns>A dictionary with all worksheet parts
-        /// associated with the name of the tab in Excel</returns>
+        /// <returns>A dictionary with all worksheet parts associated with the name of the tab in Excel.</returns>
         public static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();

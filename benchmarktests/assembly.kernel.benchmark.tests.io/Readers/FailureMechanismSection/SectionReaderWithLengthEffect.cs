@@ -50,7 +50,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <param name="iRow">Row index of the row in Excel that must be read.</param>
         /// <param name="startMeters">Already read start of the section in meters along the assessment section.</param>
         /// <param name="endMeters">Already read end of the section in meters along the assessment section.</param>
-        /// <returns></returns>
+        /// <returns>The expected input and output for the specified section.</returns>
         public ExpectedFailureMechanismSectionWithLengthEffect ReadSection(int iRow, double startMeters, double endMeters)
         {
             string sectionName = GetCellValueAsString("B", iRow);

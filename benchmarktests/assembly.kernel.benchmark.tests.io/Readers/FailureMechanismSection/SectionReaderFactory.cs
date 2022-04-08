@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// Creates a new instance of <see cref="SectionReaderFactory"/>.
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
+        /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet</param>
         public SectionReaderFactory(WorksheetPart worksheetPart, WorkbookPart workbookPart)
         {
             this.worksheetPart = worksheetPart;
@@ -48,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         }
 
         /// <summary>
-        /// Creates a reader for the specified mechanism type.
+        /// Creates a reader for the failure mechanism based on the length effect within a section being present.
         /// </summary>
         /// <param name="hasLengthEffectWithinSection">Indicates whether the sections that need to be read have length effect.</param>
         /// <returns>The created <see cref="ISectionReader{TFailureMechanismSection}"/>.</returns>

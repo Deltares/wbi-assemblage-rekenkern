@@ -42,9 +42,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Creates a new instance of <see cref="ExcelSheetReaderBase"/>.
         /// </summary>
-        /// <param name="worksheetPart">The worksheet for which to create a dictionary</param>
-        /// <param name="workbookPart">Thw workbook part of the workbook that contains this worksheet</param>
-        /// <param name="column">"String indicating the column that contains keywords</param>
+        /// <param name="worksheetPart">The worksheet for which to create a dictionary.</param>
+        /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet.</param>
+        /// <param name="column">"String indicating the column that contains keywords.</param>
         protected ExcelSheetReaderBase(WorksheetPart worksheetPart, WorkbookPart workbookPart, string column)
         {
             this.workbookPart = workbookPart;
@@ -54,7 +54,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the row number given a specific keyword (Column A)
+        /// Gets the row number given a specific keyword.
         /// </summary>
         /// <param name="keyword">The keyword to get te row number for.</param>
         /// <returns>The row number that belongs to the key; or -1 when
@@ -65,7 +65,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the string value of a cell in the specified column at the row that is associated with the specified keyword (Column A)
+        /// Gets the string value of a cell in the specified column at the row that is associated with the specified keyword.
         /// </summary>
         /// <param name="columnReference">The column reference.</param>
         /// <param name="keyword">The keyword to get the cell value from.</param>
@@ -76,7 +76,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the string value of a cell in the specified column at the specified row
+        /// Gets the string value of a cell in the specified column at the specified row.
         /// </summary>
         /// <param name="columnReference">The column reference.</param>
         /// <param name="rowId">The row id to get the cell value from.</param>
@@ -87,7 +87,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the double value of a cell in the specified column at the row that is associated with the specified keyword (Column A)
+        /// Gets the double value of a cell in the specified column at the row that is associated with the specified keyword.
         /// </summary>
         /// <param name="columnReference">The column reference.</param>
         /// <param name="keyword">The keyword to get the cell value from.</param>
@@ -98,7 +98,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         }
 
         /// <summary>
-        /// Gets the double value of a cell in the specified column at the specified row
+        /// Gets the double value of a cell in the specified column at the specified row.
         /// </summary>
         /// <param name="columnReference">The column reference.</param>
         /// <param name="rowId">The row id to get the cell value from.</param>

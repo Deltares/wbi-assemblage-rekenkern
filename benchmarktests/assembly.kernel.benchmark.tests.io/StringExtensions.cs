@@ -51,18 +51,12 @@ namespace assembly.kernel.benchmark.tests.io
                         sectionCategory = EExpectedAssessmentGrade.APlus;
                         break;
                     case "-":
-                    case "gr":
+                    case "gr": // no result, but abbreviated in Dutch.
                         sectionCategory = EExpectedAssessmentGrade.Exception;
                         break;
                     default:
-                        sectionCategory = (EExpectedAssessmentGrade) (-1);
-                        break;
+                        throw new InvalidEnumArgumentException(str);
                 }
-            }
-
-            if (sectionCategory < 0)
-            {
-                throw new InvalidEnumArgumentException(str);
             }
 
             return sectionCategory;
@@ -110,13 +104,7 @@ namespace assembly.kernel.benchmark.tests.io
                     interpretationCategory = EInterpretationCategory.IIIMin;
                     break;
                 default:
-                    interpretationCategory = (EInterpretationCategory)(-1);
-                    break;
-            }
-
-            if (interpretationCategory < 0)
-            {
-                throw new InvalidEnumArgumentException(str);
+                    throw new InvalidEnumArgumentException(str);
             }
 
             return interpretationCategory;

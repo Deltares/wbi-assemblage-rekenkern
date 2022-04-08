@@ -38,8 +38,10 @@ namespace assembly.kernel.benchmark.tests
     [TestFixture]
     public class AssemblyKernelBenchmarkTests
     {
+        private const string NameOfSummaryTex = "Summary.tex";
         private string reportDirectory;
         private Dictionary<string, BenchmarkTestResult> testResults;
+        private string summaryTargetFileName;
 
         [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
         public void RunBenchmarkTest(string testName, string fileName)
@@ -66,24 +68,20 @@ namespace assembly.kernel.benchmark.tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            // Clear results directory
             reportDirectory = PrepareReportDirectory();
+            summaryTargetFileName = Path.Combine(reportDirectory, NameOfSummaryTex);
 
-            // initialize testresults
             testResults = new Dictionary<string, BenchmarkTestResult>();
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            // TODO: Check making report
-            // Report all testresults into a LaTeX file
             for (int i = 0; i < testResults.Count; i++)
             {
                 BenchmarkTestReportWriter.WriteReport(i, testResults.ElementAt(i).Value, reportDirectory);
             }
-
-            BenchmarkTestReportWriter.WriteSummary(Path.Combine(reportDirectory, "Summary.tex"), testResults);
+            BenchmarkTestReportWriter.WriteSummary(summaryTargetFileName, testResults);
         }
 
         private static string PrepareReportDirectory()
