@@ -183,6 +183,30 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
+        /// <inheritdoc />
+        public Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor)
+        {
+            if (lengthEffectFactor < 1)
+            {
+                throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
+            }
+
+            var sectionProbabilityValue = (double) profileProbability * lengthEffectFactor;
+            return new Probability(sectionProbabilityValue > 1 ? 1 : sectionProbabilityValue);
+        }
+
+        /// <inheritdoc />
+        public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability,
+            double lengthEffectFactor)
+        {
+            if (lengthEffectFactor < 1)
+            {
+                throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
+            }
+
+            return sectionProbability / lengthEffectFactor;
+        }
+
         private EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
         {
             switch (relevance)

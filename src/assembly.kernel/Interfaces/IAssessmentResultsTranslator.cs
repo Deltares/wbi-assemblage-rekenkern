@@ -163,5 +163,22 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown in case of an unsupported value for <paramref name="category"/>
         /// (a category that is associated with a probability range or an invalid enum value).</exception>
         Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category);
+
+        /// <summary>
+        /// Calculates a section failure probability given the failure probability of a representative profile and the length effect factor.
+        /// </summary>
+        /// <param name="profileProbability">The failure probability of a representative profile.</param>
+        /// <param name="lengthEffectFactor">Length effect factor.</param>
+        /// <returns>The calculated probability of failure of the failure mechanism section.</returns>
+        Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor);
+
+        /// <summary>
+        /// Calculates a failure probability of a representative profile given the failure probability of a failure mechanism section and the length effect factor.
+        /// </summary>
+        /// <param name="sectionProbability">The failure probability of a failure mechanism section.</param>
+        /// <param name="lengthEffectFactor">Length effect factor.</param>
+        /// <returns>The calculated probability of failure of the representative profile for a failure mechanism section.</returns>
+        Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor);
+
     }
 }

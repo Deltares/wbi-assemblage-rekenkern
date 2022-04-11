@@ -267,5 +267,47 @@ namespace Assembly.Kernel.Tests.Implementations
                 () => { translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category); },
                 EAssemblyErrors.InvalidCategoryValue);
         }
+
+        [TestCase(0.01, 1, 0.01)]
+        [TestCase(0.01, 2, 0.02)]
+        [TestCase(0.02, 1.5, 0.03)]
+        [TestCase(0.02, 1000, 1.0)]
+        public void Boi0D1TranslatesProfileProbabilitiesToSectionProbabilities(double profileProbabilityValue,
+            double lengthEffectFactor, double expectedSectionProbability)
+        {
+            var profileProbability = new Probability(profileProbabilityValue);
+            var sectionProbability =
+                translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(profileProbability, lengthEffectFactor);
+            Assert.AreEqual(expectedSectionProbability, sectionProbability);
+        }
+
+        [Test]
+        public void Boi0D1ThrowsInCaseOfInvalidLengthEffect()
+        {
+            TestHelper.AssertExpectedErrorMessage(() =>
+                {
+                    translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(new Probability(0.1), 0.2);
+                }, EAssemblyErrors.LengthEffectFactorOutOfRange);
+        }
+
+        [TestCase(0.2, 2.0, 0.1)]
+        [TestCase(0.52, 5.2, 0.1)]
+        public void Boi0D2TranslatesSectionProbabilitiesToProfileProbabilities(double sectionProbabilityValue,
+            double lengthEffectFactor, double expectedProfileProbability)
+        {
+            var sectionProbability = new Probability(sectionProbabilityValue);
+            var profileProbability =
+                translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(sectionProbability, lengthEffectFactor);
+            Assert.AreEqual(expectedProfileProbability, profileProbability);
+        }
+
+        [Test]
+        public void Boi0D2ThrowsInCaseOfInvalidLengthEffect()
+        {
+            TestHelper.AssertExpectedErrorMessage(() =>
+            {
+                translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(new Probability(0.1), 0.2);
+            }, EAssemblyErrors.LengthEffectFactorOutOfRange);
+        }
     }
 }
