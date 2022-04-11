@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{2925251D-96CC-4A66-8AC6-2B4D39DFD399}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Assembly.Kernel</RootNamespace>
     <AssemblyName>Assembly.Kernel</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
