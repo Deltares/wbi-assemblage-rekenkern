@@ -49,12 +49,12 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         }
 
         /// <summary>
-        /// Name of the failure mechanism
+        /// Name of the failure mechanism.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// MechanismId of the failure mechanism
+        /// MechanismId of the failure mechanism.
         /// </summary>
         public string MechanismId { get; }
 
@@ -84,12 +84,12 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelatedPartial { get; set; }
 
         /// <summary>
-        /// A listing of all sections within the failure mechanism
+        /// A listing of all sections within the failure mechanism.
         /// </summary>
         public IEnumerable<IExpectedFailureMechanismSection> Sections { get; set; }
 
         /// <summary>
-        /// Length-effect factor for this failure mechanism
+        /// Length-effect factor for this failure mechanism.
         /// </summary>
         public double LengthEffectFactor { get; set; }
 

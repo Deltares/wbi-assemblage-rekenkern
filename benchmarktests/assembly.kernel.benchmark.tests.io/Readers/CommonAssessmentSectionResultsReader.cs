@@ -78,8 +78,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <summary>
         /// Creates a new instance of <see cref="CommonAssessmentSectionResultsReader"/>.
         /// </summary>
-        /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections</param>
-        /// <param name="workbookPart">The workbook containing the specified worksheet</param>
+        /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections.</param>
+        /// <param name="workbookPart">The workbook containing the specified worksheet.</param>
         public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
             worksheetPart, workbookPart,"B") {}
 

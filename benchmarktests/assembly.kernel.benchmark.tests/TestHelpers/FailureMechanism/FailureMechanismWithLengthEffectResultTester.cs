@@ -37,6 +37,9 @@ using NUnit.Framework;
 
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
+    /// <summary>
+    /// Tester for the methods related to a failure mechanism.
+    /// </summary>
     public class FailureMechanismWithLengthEffectResultTester : FailureMechanismResultTesterBase
     {
         private bool? boi0A2TestResult;
@@ -44,6 +47,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         private bool? boi0C1TestResult;
         private bool? boi0C2TestResult;
 
+        /// <inheritdoc />
         public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults, ExpectedFailureMechanismResult expectedFailureMechanismResult, CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories)
         {
         }
@@ -133,14 +137,6 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
-        private void ResetTestResults()
-        {
-            boi0A2TestResult = null;
-            boi0B1TestResult = null;
-            boi0C1TestResult = null;
-            boi0C2TestResult = null;
-        }
-
         protected override void SetAssessmentSectionMethodResult(bool result)
         {
             MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
@@ -197,6 +193,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
                 Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial, result.AssemblyMethod);
             }
+        }
+
+        private void ResetTestResults()
+        {
+            boi0A2TestResult = null;
+            boi0B1TestResult = null;
+            boi0C1TestResult = null;
+            boi0C2TestResult = null;
         }
     }
 }

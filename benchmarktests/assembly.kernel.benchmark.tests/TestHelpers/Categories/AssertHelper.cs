@@ -71,8 +71,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         /// <summary>
         /// Assert whether two probabilities are equal.
         /// </summary>
-        /// <param name="expectedProbability">The expected probability</param>
-        /// <param name="actualProbability">The actual probability</param>
+        /// <param name="expectedProbability">The expected probability.</param>
+        /// <param name="actualProbability">The actual probability.</param>
         public static void AssertAreEqualProbabilities(Probability expectedProbability, Probability actualProbability)
         {
             try

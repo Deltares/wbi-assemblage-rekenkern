@@ -34,13 +34,25 @@ using NUnit.Framework.Internal;
 
 namespace assembly.kernel.benchmark.tests.io.tests.Readers
 {
+    /// <summary>
+    /// Base class for al tests that need to read files.
+    /// </summary>
     public class TestFileReaderTestBase
     {
+        /// <summary>
+        /// Find the location of the test-data.
+        /// </summary>
+        /// <returns>Location of the test-data folder.</returns>
         protected string GetTestDir()
         {
             return Path.Combine(GetSolutionRoot(), "benchmarktests", "assembly.kernel.benchmark.tests.io.tests", "test-data");
         }
 
+        /// <summary>
+        /// Read all <seealso cref="WorksheetPart"/> from a <seealso cref="WorkbookPart"/>.
+        /// </summary>
+        /// <param name="workbookPart"></param>
+        /// <returns>A dictionary of worksheet parts (values) stored by their name (key).</returns>
         protected static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();

@@ -48,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// </summary>
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
-        /// <param name="interpretationCategories"></param>
+        /// <param name="interpretationCategories">The interpretation categories needed as input for the calculations.</param>
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
             ExpectedFailureMechanismResult expectedFailureMechanismResult,
             CategoriesList<InterpretationCategory> interpretationCategories)
@@ -62,6 +62,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
+        /// <summary>
+        /// Test assembly of the probabilities and interpretation categories per failure mechanism section.
+        /// </summary>
+        /// <returns>Whether the tests were a success or not.</returns>
         public virtual bool TestCombinedAssessment()
         {
             try
@@ -82,6 +86,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
+        /// <summary>
+        /// Test calculation of the combined assessment result (probability) for this failure mechanism.
+        /// </summary>
+        /// <returns>Whether the tests were a success or not.</returns>
         public virtual bool TestAssessmentSectionResult()
         {
             try
@@ -99,6 +107,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
         }
 
+        /// <summary>
+        /// Test calculation of the combined assessment result (probability) for this failure mechanism using partial assembly.
+        /// </summary>
+        /// <returns>Whether the tests were a success or not.</returns>
         public virtual bool TestAssessmentSectionResultPartial()
         {
             try
