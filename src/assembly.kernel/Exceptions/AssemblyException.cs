@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Exceptions
         /// </summary>
         /// <param name="entityId">The id of the entity on which the error occurred.</param>
         /// <param name="error">The code of the error which occurred.</param>
-        public AssemblyException(string entityId, EAssemblyErrors error)
+        internal AssemblyException(string entityId, EAssemblyErrors error)
         {
             Errors = new List<AssemblyErrorMessage>
             {
@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Exceptions
         /// Assembly exception constructor for multiple error messages.
         /// </summary>
         /// <param name="errorMessages">A list of error messages.</param>
-        public AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
+        internal AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
         {
             if (errorMessages == null)
             {
