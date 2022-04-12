@@ -65,6 +65,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
             InitialMechanismProbabilityProfile = initialMechanismProbabilityProfile;
             RefinedProbabilityProfile = refinedProbabilityProfile;
             ExpectedCombinedProbabilityProfile = expectedCombinedProbabilityProfile;
+            LengthEffectFactorCombinedProbability = (double)expectedCombinedProbabilitySection / (double)expectedCombinedProbabilityProfile;
         }
 
         /// <summary>
@@ -81,5 +82,10 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// The expected combined probability for a single profile.
         /// </summary>
         public Probability ExpectedCombinedProbabilityProfile { get; }
+
+        /// <summary>
+        /// The length-effect factor
+        /// </summary>
+        public double LengthEffectFactorCombinedProbability { get; }
     }
 }

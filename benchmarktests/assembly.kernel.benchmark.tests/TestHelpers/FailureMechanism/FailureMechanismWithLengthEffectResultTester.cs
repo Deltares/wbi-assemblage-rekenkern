@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -46,6 +47,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         private bool? boi0B1TestResult;
         private bool? boi0C1TestResult;
         private bool? boi0C2TestResult;
+        private bool? boi0D1TestResult;
+        private bool? boi0D2TestResult;
 
         /// <inheritdoc />
         public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults, ExpectedFailureMechanismResult expectedFailureMechanismResult, CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories)
@@ -58,6 +61,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
             MethodResults.Boi0C1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C1, boi0C1TestResult);
             MethodResults.Boi0C2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C2, boi0C2TestResult);
+            MethodResults.Boi0D1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D1, boi0D1TestResult);
+            MethodResults.Boi0D2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D2, boi0D2TestResult);
             ResetTestResults();
         }
 
@@ -71,6 +76,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 var exception = new AssertionException("Errors occurred");
                 foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>())
                 {
+                    var calculatedCombinedSectionProbability =
+                        assembler.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
+                            section.ExpectedCombinedProbabilityProfile, section.LengthEffectFactorCombinedProbability);
+                    var calculatedCombinedProfileProbability =
+                        assembler.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
+                            section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
+
                     var relevance = section.IsRelevant
                         ? double.IsNaN(section.InitialMechanismProbabilitySection)
                             ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
@@ -100,6 +112,28 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
                     try
                     {
+                        Assert.IsTrue(calculatedCombinedSectionProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilitySection));
+                        boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, true);
+                    }
+                    catch (AssertionException e)
+                    {
+                        exception.Data.Add(section.SectionName + " (BOI-0D-1)", e);
+                        boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, false);
+                    }
+
+                    try
+                    {
+                        Assert.IsTrue(calculatedCombinedProfileProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilityProfile));
+                        boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, true);
+                    }
+                    catch (AssertionException e)
+                    {
+                        exception.Data.Add(section.SectionName + " (BOI-0D-2)", e);
+                        boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, false);
+                    }
+
+                    try
+                    {
                         AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilityProfile, probabilitiesResult.ProbabilityProfile); 
                         AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, probabilitiesResult.ProbabilitySection);
                         Assert.AreEqual(section.ExpectedInterpretationCategory, category);
@@ -116,14 +150,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     }
                     catch (AssertionException e)
                     {
-                        exception.Data.Add(section.SectionName, e);
                         if (analysisState == EAnalysisState.ProbabilityEstimated)
                         {
+                            exception.Data.Add(section.SectionName + " (BOI-0A-2 / BOI-0B-1)", e);
                             boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, false);
                             boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, false);
                         }
                         else
                         {
+                            exception.Data.Add(section.SectionName + " (BOI-0C-*)", e);
                             boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, false);
                             boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, false);
                         }

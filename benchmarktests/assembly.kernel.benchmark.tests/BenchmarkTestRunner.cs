@@ -224,7 +224,7 @@ namespace assembly.kernel.benchmark.tests
                     Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade ==
                                   EExpectedAssessmentGrade.Exception);
                     result.AreEqualAssemblyResultFinalVerdict = true;
-                    result.MethodResults.Boi2B1 = true;
+                    result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
                     return;
                 }
 
@@ -232,12 +232,12 @@ namespace assembly.kernel.benchmark.tests
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
                     assessmentGrade);
                 result.AreEqualAssemblyResultFinalVerdict = true;
-                result.MethodResults.Boi2B1 = true;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
             }
             catch (Exception )
             {
                 result.AreEqualAssemblyResultFinalVerdict = false;
-                result.MethodResults.Boi2B1 = false;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
             }
         }
 
@@ -257,7 +257,7 @@ namespace assembly.kernel.benchmark.tests
                     Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial ==
                                   EExpectedAssessmentGrade.Exception);
                     result.AreEqualAssemblyResultFinalVerdictPartial = true;
-                    result.MethodResults.Boi2B1P = true;
+                    result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1,true);
                     return;
                 }
 
@@ -266,12 +266,12 @@ namespace assembly.kernel.benchmark.tests
                         .ToEAssessmentGrade(), assessmentGrade);
 
                 result.AreEqualAssemblyResultFinalVerdictPartial = true;
-                result.MethodResults.Boi2B1P = true;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
             }
             catch (Exception)
             {
                 result.AreEqualAssemblyResultFinalVerdictPartial = false;
-                result.MethodResults.Boi2B1P = false;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
             }
         }
 

@@ -101,6 +101,12 @@ namespace assembly.kernel.benchmark.tests
             str += "   " + @"BOI-0C-2" +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C2) +
                                                          @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0D-1" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D1) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0D-2" +
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D2) +
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
             str += "   " + @"BOI-1A-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A1) + " & " +
@@ -113,8 +119,8 @@ namespace assembly.kernel.benchmark.tests
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2A1) + " & " +
                                                          ToResultText(t.Value.MethodResults.Boi2A1P))) + @" \\" + "\n";
             str += "   " + @"BOI-2B-1 " +
-                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2B1) +
-                                                         ToResultText(t.Value.MethodResults.Boi2B1P))) + @" \\" + "\n";
+                   string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2B1) + 
+                                                         @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
             str += "   " + @"BOI-3A-1 " +
                    string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3A1) +
