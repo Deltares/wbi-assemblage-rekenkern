@@ -102,7 +102,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public IProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(bool refinementNecessary,
+        public ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(bool refinementNecessary,
             Probability probabilityInitialMechanismProfile, 
             Probability probabilityInitialMechanismSection,
             Probability refinedProbabilityProfile, 

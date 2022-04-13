@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
-            IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
             var sectionResults = FailureMechanismSectionAssemblyResultsToArray(failureMechanismSectionAssemblyResults);
@@ -126,7 +126,7 @@ namespace Assembly.Kernel.Implementations
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
-        private static EFailureMechanismAssemblyMethod FindCorrelation(IProfileAndSectionProbabilities[] sectionResults,
+        private static EFailureMechanismAssemblyMethod FindCorrelation(ResultWithProfileAndSectionProbabilities[] sectionResults,
             double highestFailureProbabilityProfile, Probability combinedFailureProbabilityUnCorrelated)
         {
             var correlation = (sectionResults.Length < 2 || highestFailureProbabilityProfile > combinedFailureProbabilityUnCorrelated)
@@ -135,15 +135,15 @@ namespace Assembly.Kernel.Implementations
             return correlation;
         }
 
-        private static IProfileAndSectionProbabilities[] FailureMechanismSectionAssemblyResultsToArray(
-            IEnumerable<IProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults)
+        private static ResultWithProfileAndSectionProbabilities[] FailureMechanismSectionAssemblyResultsToArray(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults)
         {
             if (failureMechanismSectionAssemblyResults == null)
             {
                 throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            return failureMechanismSectionAssemblyResults as IProfileAndSectionProbabilities[] ??
+            return failureMechanismSectionAssemblyResults as ResultWithProfileAndSectionProbabilities[] ??
                    failureMechanismSectionAssemblyResults.ToArray();
         }
 
@@ -159,7 +159,7 @@ namespace Assembly.Kernel.Implementations
                    failureMechanismSectionProbabilities.ToArray();
         }
 
-        private static void CheckForDefinedProbabilities(IProfileAndSectionProbabilities[] sectionResults)
+        private static void CheckForDefinedProbabilities(ResultWithProfileAndSectionProbabilities[] sectionResults)
         {
             if (sectionResults.Any(r => !r.ProbabilityProfile.IsDefined || !r.ProbabilitySection.IsDefined))
             {
@@ -175,7 +175,7 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static void CheckInput(IProfileAndSectionProbabilities[] results, double lengthEffectFactor)
+        private static void CheckInput(ResultWithProfileAndSectionProbabilities[] results, double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
             if (results.Length == 0)

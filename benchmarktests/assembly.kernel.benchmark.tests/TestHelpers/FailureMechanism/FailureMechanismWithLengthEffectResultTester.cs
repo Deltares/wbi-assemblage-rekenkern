@@ -89,7 +89,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                             : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
                         : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
                     var refinementStatus = section.RefinementStatus;
-                    IProfileAndSectionProbabilities probabilitiesResult;
+                    ResultWithProfileAndSectionProbabilities probabilitiesResult;
                     EInterpretationCategory category;
 
                     var analysisState = GetAnalysisState(relevance, refinementStatus);

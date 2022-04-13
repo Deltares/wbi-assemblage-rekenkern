@@ -34,7 +34,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     [TestFixture]
     public class FailureMechanismSectionAssemblyResultWithLengthEffectTests
     {
-        [Test]
         [TestCase(0.2,0.4, EInterpretationCategory.IMin, 2.0)]
         [TestCase(0.01, 0.1, EInterpretationCategory.IIIMin, 10.0)]
         [TestCase(double.NaN, double.NaN, EInterpretationCategory.Dominant, 1.0)]
@@ -51,7 +50,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             Assert.AreEqual(interpretationCategory, result.InterpretationCategory);
         }
 
-        [Test]
         [TestCase(0.05, 0.01, EInterpretationCategory.III)]
         public void ConstructorChecksInputForInconsistentProbabilities(double profileProbability, double sectionProbability, EInterpretationCategory interpretationCategory)
         {
@@ -61,7 +59,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
 
-        [Test]
         [TestCase(0.05, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
         [TestCase(double.NaN, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
         [TestCase(0.01, double.NaN, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
@@ -75,7 +72,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             }, expectedError);
         }
 
-        [Test]
         [TestCase(0.1, 0.2, EInterpretationCategory.NotDominant)]
         [TestCase(0.1, 0.2, EInterpretationCategory.Dominant)]
         [TestCase(0.1, 0.2, EInterpretationCategory.NoResult)]
@@ -101,7 +97,6 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
         }
 
-        [Test]
         [TestCase(double.NaN, 0.4, EInterpretationCategory.III)]
         [TestCase(0.4, double.NaN, EInterpretationCategory.III)]
         [TestCase(double.NaN, 0.4, EInterpretationCategory.II)]

@@ -125,7 +125,7 @@ namespace Assembly.Kernel.Interfaces
         /// <paramref name="refinedProbabilitySection"/> is undefined.</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="refinedProbabilityProfile"/> &gt; <paramref name="refinedProbabilitySection"/>.</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="probabilityInitialMechanismProfile"/> &gt; <paramref name="probabilityInitialMechanismSection"/>.</exception>
-        IProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(
+        ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(
             bool refinementNecessary,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,

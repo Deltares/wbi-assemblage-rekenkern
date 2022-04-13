@@ -310,7 +310,7 @@ namespace Assembly.Kernel.Tests.Implementations
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(0.1,
-                    new IProfileAndSectionProbabilities[] { }, 
+                    new ResultWithProfileAndSectionProbabilities[] { }, 
                     false);
             }, new []{ EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange });
         }

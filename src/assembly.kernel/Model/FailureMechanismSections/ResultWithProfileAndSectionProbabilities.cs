@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     /// Class that holds two probabilities for a profile and section. As both
     /// probabilities are connected they should be both defined or both undefined.
     /// </summary>
-    public class ResultWithProfileAndSectionProbabilities : IProfileAndSectionProbabilities
+    public class ResultWithProfileAndSectionProbabilities
     {
         /// <summary>
         /// Constructs the result with profile and section probability.
@@ -53,6 +53,10 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
 
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
+
+            LengthEffectFactor = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
+                ? 1.0
+                : (double)probabilitySection / (double)probabilityProfile;
         }
 
         /// <summary>
@@ -65,6 +69,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </summary>
         public Probability ProbabilitySection { get; }
 
-
+        /// <summary>
+        /// The length-effect factor.
+        /// </summary>
+        public double LengthEffectFactor { get; }
     }
 }

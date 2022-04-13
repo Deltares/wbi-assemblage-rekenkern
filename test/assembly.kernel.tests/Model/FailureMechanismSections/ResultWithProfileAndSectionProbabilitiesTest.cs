@@ -33,15 +33,21 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     [TestFixture]
     public class ResultWithProfileAndSectionProbabilitiesTest
     {
-        [Test]
-        public void ConstructorPassesArguments()
+        [TestCase(0.2, 0.4, 2.0)]
+        [TestCase(0.01, 0.1, 10.0)]
+        [TestCase(double.NaN, double.NaN, 1.0)]
+        [TestCase(0.0, 0.0, 1.0)]
+        [TestCase(1E-5, 1E-5, 1.0)]
+
+        public void ConstructorPassesArguments(double probabilityProfileValue, double probabilitySectionValue, double expectedLengthEffectFactor)
         {
-            var probabilityProfile = new Probability(0.01);
-            var probabilitySection = new Probability(0.01);
+            var probabilityProfile = new Probability(probabilityProfileValue);
+            var probabilitySection = new Probability(probabilitySectionValue);
             var result = new ResultWithProfileAndSectionProbabilities(probabilityProfile, probabilitySection);
 
             Assert.AreEqual(probabilityProfile, result.ProbabilityProfile);
             Assert.AreEqual(probabilitySection, result.ProbabilitySection);
+            Assert.AreEqual(expectedLengthEffectFactor, result.LengthEffectFactor);
         }
 
         [TestCase(double.NaN, 0.1)]

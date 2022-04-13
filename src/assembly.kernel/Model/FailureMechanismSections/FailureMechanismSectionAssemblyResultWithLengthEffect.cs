@@ -84,20 +84,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             }
 
             InterpretationCategory = category;
-            LengthEffectFactor = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
-                ? 1.0
-                : (double)probabilitySection / (double)probabilityProfile;
         }
 
         /// <summary>
         /// The resulting interpretation category.
         /// </summary>
         public EInterpretationCategory InterpretationCategory { get; }
-
-        /// <summary>
-        /// The length-effect factor.
-        /// </summary>
-        public double LengthEffectFactor { get; }
 
         /// <inheritdoc />
         public override string ToString()
