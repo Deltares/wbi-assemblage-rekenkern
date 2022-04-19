@@ -28,7 +28,7 @@ using Assembly.Kernel.Interfaces;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Input for <seealso cref="IAssessmentResultsTranslator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1"/>.
+    /// Input for <see cref="IAssessmentResultsTranslator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1"/>.
     /// This enum describes the state of the failure probability analysis.
     /// </summary>
     public enum EAnalysisState

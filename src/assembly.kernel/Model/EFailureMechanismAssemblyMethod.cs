@@ -28,7 +28,7 @@ using Assembly.Kernel.Interfaces;
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Enum that specifies the followed calculation method in <seealso cref="IFailureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A1"/>
+    /// Enum that specifies the followed calculation method in <see cref="IFailureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A1"/>
     /// to combine probabilities of failure mechanism sections to a failure probability of the failure mechanism.
     /// </summary>
     public enum EFailureMechanismAssemblyMethod

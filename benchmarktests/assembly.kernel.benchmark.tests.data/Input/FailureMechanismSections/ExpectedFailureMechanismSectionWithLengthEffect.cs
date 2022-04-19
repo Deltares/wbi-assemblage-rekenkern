@@ -34,7 +34,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
     public class ExpectedFailureMechanismSectionWithLengthEffect :ExpectedFailureMechanismSection
     {
         /// <summary>
-        /// Constructor for the <seealso cref="ExpectedFailureMechanismSectionWithLengthEffect"/>.
+        /// Constructor for the <see cref="ExpectedFailureMechanismSectionWithLengthEffect"/>.
         /// </summary>
         /// <param name="sectionName">Custom name of the section.</param>
         /// <param name="start">Start of the section in meters along the assessment section.</param>

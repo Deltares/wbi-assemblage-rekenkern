@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Interfaces
         /// length.</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="failureMechanismSectionLists" /> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="failureMechanismSectionLists"/>
-        /// are not of type <seealso cref="FailureMechanismSectionWithCategory"/>.</exception>
+        /// are not of type <see cref="FailureMechanismSectionWithCategory"/>.</exception>
         GreatestCommonDenominatorAssemblyResult AssembleCommonFailureMechanismSections(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
             bool partialAssembly);
@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when the length of the combined sections in <paramref name="commonSections"/>
         /// does not equal the length of the sections in <paramref name="failureMechanismSectionList"/>.</exception>
         /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="failureMechanismSectionList"/>
-        /// are not of type <seealso cref="FailureMechanismSectionWithCategory"/>.</exception>
+        /// are not of type <see cref="FailureMechanismSectionWithCategory"/>.</exception>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections);

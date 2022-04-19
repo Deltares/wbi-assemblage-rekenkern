@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class GreatestCommonDenominatorAssemblyResult
     {
         /// <summary>
-        /// Constructor for the result of <seealso cref="ICommonFailureMechanismSectionAssembler.AssembleCommonFailureMechanismSections"/>.
+        /// Constructor for the result of <see cref="ICommonFailureMechanismSectionAssembler.AssembleCommonFailureMechanismSections"/>.
         /// This class holds the results per failure mechanism, but also the combined results.
         /// </summary>
         /// <param name="resultPerFailureMechanism">The greatest common denominator section results per 

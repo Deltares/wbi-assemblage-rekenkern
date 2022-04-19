@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results 
         /// with failure probability to use for this assembly step.</param>
         /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
-        /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <returns>The combined probability together with the used method in a <see cref="FailureMechanismAssemblyResult"/>.</returns>
         /// <exception cref="AssemblyException">Thrown when: <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is null or empty.</item>
         /// <item><paramref name="lengthEffectFactor"/> $lt; 1</item>
@@ -56,13 +56,13 @@ namespace Assembly.Kernel.Interfaces
             bool partialAssembly);
 
         /// <summary>
-        /// Assemble a list of section failure probabilities to a single <seealso cref="FailureMechanismAssemblyResult"/>.
+        /// Assemble a list of section failure probabilities to a single <see cref="FailureMechanismAssemblyResult"/>.
         /// </summary>
         /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for.</param>
         /// <param name="failureMechanismSectionProbabilities">The list of failure probabilities
         /// to use for this assembly step.</param>
         /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
-        /// <returns>The combined probability together with the used method in a <seealso cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <returns>The combined probability together with the used method in a <see cref="FailureMechanismAssemblyResult"/>.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> equals null or is empty.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> $lt;1.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="partialAssembly"/> equals false and one or more of the

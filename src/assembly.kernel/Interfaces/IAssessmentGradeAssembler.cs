@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="failureProbability">The failure probability of the assessment section.</param>
         /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category.</param>
-        /// <returns>An <seealso cref="EAssessmentGrade"/> representing the assessment grade for the assessment section.</returns>
+        /// <returns>An <see cref="EAssessmentGrade"/> representing the assessment grade for the assessment section.</returns>
         /// <exception cref="AssemblyException">In case the probability was undefined.</exception>
         /// <exception cref="AssemblyException">In case the categories equal null.</exception>
         EAssessmentGrade DetermineAssessmentGradeBoi2B1(

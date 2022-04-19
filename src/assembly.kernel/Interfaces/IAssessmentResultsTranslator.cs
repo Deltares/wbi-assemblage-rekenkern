@@ -45,16 +45,16 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="refinementStatus">Refinement status of the failure mechanism section that is being analyzed.</param>
         /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
         /// mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to
-        /// an <seealso cref="EInterpretationCategory"/>.</param>
+        /// <param name="categories">List of <see cref="InterpretationCategory"/> to translate a probability to
+        /// an <see cref="EInterpretationCategory"/>.</param>
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
-        /// <seealso cref="ERefinementStatus.Performed"/> and <seealso cref="Probability.Undefined"/> of
+        /// <see cref="ERefinementStatus.Performed"/> and <see cref="Probability.Undefined"/> of
         /// <paramref name="refinedProbabilitySection"/> is true.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
-        /// <seealso cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
-        /// and <seealso cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> is true.</exception>
+        /// <see cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
+        /// and <see cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> is true.</exception>
         FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismSection,
@@ -76,16 +76,16 @@ namespace Assembly.Kernel.Interfaces
         /// profile in the failure mechanism section that is being analyzed.</param>
         /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
         /// mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <seealso cref="InterpretationCategory"/> to translate a probability to an
-        /// <seealso cref="EInterpretationCategory"/>.</param>
+        /// <param name="categories">List of <see cref="InterpretationCategory"/> to translate a probability to an
+        /// <see cref="EInterpretationCategory"/>.</param>
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
-        /// <seealso cref="ERefinementStatus.Performed"/> and <seealso cref="Probability.Undefined"/> of
+        /// <see cref="ERefinementStatus.Performed"/> and <see cref="Probability.Undefined"/> of
         /// <paramref name="refinedProbabilitySection"/> or <paramref name="refinedProbabilityProfile"/> is true.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
-        /// <seealso cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
-        /// and <seealso cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> or
+        /// <see cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
+        /// and <see cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> or
         /// <paramref name="probabilityInitialMechanismProfile"/> is true.</exception>
         FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,

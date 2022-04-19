@@ -38,8 +38,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// <summary>
         /// Constructor of the section reader.
         /// </summary>
-        /// <param name="worksheetPart">Required <seealso cref="WorksheetPart"/>.</param>
-        /// <param name="workbookPart">Required <seealso cref="WorkbookPart"/>.</param>
+        /// <param name="worksheetPart">Required <see cref="WorksheetPart"/>.</param>
+        /// <param name="workbookPart">Required <see cref="WorkbookPart"/>.</param>
         public SectionReaderWithoutLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B")
         {
         }

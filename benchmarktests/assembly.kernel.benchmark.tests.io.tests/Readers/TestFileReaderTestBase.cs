@@ -49,9 +49,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         /// <summary>
-        /// Read all <seealso cref="WorksheetPart"/> from a <seealso cref="WorkbookPart"/>.
+        /// Read all <see cref="WorksheetPart"/> from a <see cref="WorkbookPart"/>.
         /// </summary>
-        /// <param name="workbookPart"></param>
+        /// <param name="workbookPart">The <see cref="WorkbookPart"/> that needs to be read.</param>
         /// <returns>A dictionary of worksheet parts (values) stored by their name (key).</returns>
         protected static Dictionary<string, WorksheetPart> ReadWorkSheetParts(WorkbookPart workbookPart)
         {

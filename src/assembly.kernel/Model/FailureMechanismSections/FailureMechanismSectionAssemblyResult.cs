@@ -39,12 +39,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </summary>
         /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
         /// <param name="category">The resulting interpretation category.</param>
-        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.NotRelevant"/> or <seealso cref="EInterpretationCategory.NotDominant"/>
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <see cref="EInterpretationCategory.NotRelevant"/> or <see cref="EInterpretationCategory.NotDominant"/>
         /// and <paramref name="probabilitySection"/> does not equal 0.0.</exception>
-        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.Dominant"/> or <seealso cref="EInterpretationCategory.NoResult"/>
-        /// and <paramref name="probabilitySection"/> is defined (<seealso cref="Probability.Undefined"/> equals False).</exception>
-        ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<seealso cref="EInterpretationCategory.III"/>
-        /// to <seealso cref="EInterpretationCategory.IIIMin"/>) and <paramref name="probabilitySection"/> is undefined (<seealso cref="Probability.IsDefined"/> equals false).</exception>
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <see cref="EInterpretationCategory.Dominant"/> or <see cref="EInterpretationCategory.NoResult"/>
+        /// and <paramref name="probabilitySection"/> is defined (<see cref="Probability.Undefined"/> equals False).</exception>
+        ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<see cref="EInterpretationCategory.III"/>
+        /// to <see cref="EInterpretationCategory.IIIMin"/>) and <paramref name="probabilitySection"/> is undefined (<see cref="Probability.IsDefined"/> equals false).</exception>
         /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
         /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
         public FailureMechanismSectionAssemblyResult(Probability probabilitySection,

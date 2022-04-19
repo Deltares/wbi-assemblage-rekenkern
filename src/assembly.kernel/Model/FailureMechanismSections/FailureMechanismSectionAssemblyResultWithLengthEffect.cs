@@ -35,17 +35,17 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class FailureMechanismSectionAssemblyResultWithLengthEffect : ResultWithProfileAndSectionProbabilities
     {
         /// <summary>
-        /// Constructor for the FailureMechanismSectionAssemblyResultWithLengthEffect class.
+        /// Constructor for the <see cref="FailureMechanismSectionAssemblyResultWithLengthEffect"/> class.
         /// </summary>
         /// <param name="probabilityProfile">Estimated probability of failure for a representative profile in the section.</param>
         /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
         /// <param name="category">The resulting interpretation category.</param>
-        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.NotRelevant"/> or <seealso cref="EInterpretationCategory.NotDominant"/>
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <see cref="EInterpretationCategory.NotRelevant"/> or <see cref="EInterpretationCategory.NotDominant"/>
         /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> do not equal 0.0.</exception>
-        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <seealso cref="EInterpretationCategory.Dominant"/> or <seealso cref="EInterpretationCategory.NoResult"/>
-        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> are defined (<seealso cref="Probability.Undefined"/> equals False).</exception>
-        ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<seealso cref="EInterpretationCategory.III"/>
-        /// to <seealso cref="EInterpretationCategory.IIIMin"/>) and either <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> is undefined (<seealso cref="Probability.IsDefined"/> equals false).</exception>
+        /// <exception cref="AssemblyException">In case <paramref name="category"/> equals <see cref="EInterpretationCategory.Dominant"/> or <see cref="EInterpretationCategory.NoResult"/>
+        /// and <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> are defined (<see cref="Probability.Undefined"/> equals False).</exception>
+        ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<see cref="EInterpretationCategory.III"/>
+        /// to <see cref="EInterpretationCategory.IIIMin"/>) and either <paramref name="probabilityProfile"/> or <paramref name="probabilitySection"/> is undefined (<see cref="Probability.IsDefined"/> equals false).</exception>
         /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
         /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
         public FailureMechanismSectionAssemblyResultWithLengthEffect(Probability probabilityProfile, Probability probabilitySection,

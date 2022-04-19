@@ -31,10 +31,10 @@ namespace assembly.kernel.benchmark.tests.data.Input
     public static class EExpectedAssessmentGradeExtensions
     {
         /// <summary>
-        /// Translates an expected assessment grade into the actual <seealso cref="EAssessmentGrade"/>.
+        /// Translates an expected assessment grade into the actual <see cref="EAssessmentGrade"/>.
         /// </summary>
         /// <param name="expectedAssessmentGrade">The expected assessment grade to translate.</param>
-        /// <returns>The <seealso cref="EAssessmentGrade"/> that is expected.</returns>
+        /// <returns>The <see cref="EAssessmentGrade"/> that is expected.</returns>
         /// <exception cref="InvalidEnumArgumentException">Thrown in case of an invalid enum value for <paramref name="expectedAssessmentGrade"/>.</exception>
         public static EAssessmentGrade ToEAssessmentGrade(this EExpectedAssessmentGrade expectedAssessmentGrade)
         {

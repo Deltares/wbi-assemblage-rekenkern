@@ -42,9 +42,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> is empty.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> contains a mix of results of different type.</exception>
-        /// <exception cref="AssemblyException">Thrown when <seealso cref="FailureMechanismSection.Start"/> of the first section does not equal 0.0.</exception>
+        /// <exception cref="AssemblyException">Thrown when <see cref="FailureMechanismSection.Start"/> of the first section does not equal 0.0.</exception>
         /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="sectionResults"/> are consecutive
-        /// (<seealso cref="FailureMechanismSection.Start"/> of a section equals <seealso cref="FailureMechanismSection.End"/> of the previous section.</exception>
+        /// (<see cref="FailureMechanismSection.Start"/> of a section equals <see cref="FailureMechanismSection.End"/> of the previous section.</exception>
         public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sectionResults)
         {
             Sections = OrderAndCheckSectionResults(sectionResults);

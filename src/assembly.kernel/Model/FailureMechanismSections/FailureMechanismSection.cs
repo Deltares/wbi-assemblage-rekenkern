@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         public double End { get; }
 
         /// <summary>
-        /// Represents the center of the section (average between <seealso cref="Start"/> and <seealso cref="End"/>.
+        /// Represents the center of the section (average between <see cref="Start"/> and <see cref="End"/>.
         /// </summary>
         public double Center => End - (End - Start) / 2.0;
     }
