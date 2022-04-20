@@ -81,7 +81,7 @@ namespace Assembly.Kernel.Implementations
             {
                 if (!probability.IsDefined)
                 {
-                    throw new AssemblyException(nameof(Probability), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                    throw new AssemblyException(nameof(Probability), EAssemblyErrors.UndefinedProbability);
                 }
 
                 failureProbabilityProduct *= probability.Inverse;
@@ -104,7 +104,7 @@ namespace Assembly.Kernel.Implementations
             var errors = new List<AssemblyErrorMessage>();
             if (!failureProbability.IsDefined)
             {
-                errors.Add(new AssemblyErrorMessage(nameof(Probability), EAssemblyErrors.ProbabilityMayNotBeUndefined));
+                errors.Add(new AssemblyErrorMessage(nameof(Probability), EAssemblyErrors.UndefinedProbability));
             }
             if (categories == null)
             {

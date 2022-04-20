@@ -50,9 +50,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.0,0.1,0.1,EAssessmentGrade.C)]
-        [TestCase(0.0005, 0.00005, 0.000549975, EAssessmentGrade.A)]
-        public void Boi2A1FailureProbabilityTests(double prob1, double prob2, double expectedProb, EAssessmentGrade expectedGrade)
+        [TestCase(0.0,0.1,0.1)]
+        [TestCase(0.0005, 0.00005, 0.000549975)]
+        public void Boi2A1FailureProbabilityTests(double prob1, double prob2, double expectedProb)
         {
             var failureMechanismProbabilities = new[]
             {
@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                 new[]
                 {
-                    new Probability(double.NaN),
+                    Probability.Undefined,
                     new Probability(sectionFailureProbability),
                     new Probability(sectionFailureProbability)
                 },
@@ -98,7 +98,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi2A1ProbabilitiesNullTest()
         {
             TestHelper.AssertExpectedErrorMessage(
-                () => { assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false); },
+                () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false),
                 EAssemblyErrors.ValueMayNotBeNull
             );
         }
@@ -107,7 +107,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi2A1EmptyProbabilitiesList()
         {
             TestHelper.AssertExpectedErrorMessage(
-                () => { assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new List<Probability>(), false); },
+                () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new List<Probability>(), false),
                 EAssemblyErrors.EmptyResultsList
             );
         }
@@ -121,9 +121,9 @@ namespace Assembly.Kernel.Tests.Implementations
                     var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                         new[]
                         {
-                            new Probability(double.NaN),
-                            new Probability(double.NaN),
-                            new Probability(double.NaN)
+                            Probability.Undefined,
+                            Probability.Undefined,
+                            Probability.Undefined
                         },
                         true);
                 }, EAssemblyErrors.EmptyResultsList
@@ -139,13 +139,13 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                     new[]
                     {
-                        new Probability(double.NaN),
-                        new Probability(double.NaN),
+                        Probability.Undefined,
+                        Probability.Undefined,
                         new Probability(0.00003),
                         new Probability(0.00003)
                     },
                     false);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
 
         [Test]
@@ -156,10 +156,10 @@ namespace Assembly.Kernel.Tests.Implementations
                     var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                         new[]
                         {
-                            new Probability(double.NaN),
-                            new Probability(double.NaN)
+                            Probability.Undefined,
+                            Probability.Undefined
                         }, false);
-                }, EAssemblyErrors.ProbabilityMayNotBeUndefined
+                }, EAssemblyErrors.UndefinedProbability
             );
         }
 
@@ -167,7 +167,7 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi2B1CategoriesNullTest()
         {
             TestHelper.AssertExpectedErrorMessage(
-                () => { assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.003), null); },
+                () => assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.003), null),
                 EAssemblyErrors.ValueMayNotBeNull
             );
         }
@@ -176,8 +176,8 @@ namespace Assembly.Kernel.Tests.Implementations
         public void Boi2B1MultipleInputErrorsList()
         {
             TestHelper.AssertExpectedErrorMessage(
-                () => { assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null); },
-                new[] {EAssemblyErrors.ProbabilityMayNotBeUndefined, EAssemblyErrors.ValueMayNotBeNull}
+                () => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null),
+                new[] { EAssemblyErrors.UndefinedProbability, EAssemblyErrors.ValueMayNotBeNull }
             );
         }
     }

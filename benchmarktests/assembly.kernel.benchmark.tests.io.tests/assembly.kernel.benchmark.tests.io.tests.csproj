@@ -55,7 +55,6 @@
     <None Include="..\..\build\Assembly.Kernel.licenseheader">
       <Link>Assembly.Kernel.licenseheader</Link>
     </None>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

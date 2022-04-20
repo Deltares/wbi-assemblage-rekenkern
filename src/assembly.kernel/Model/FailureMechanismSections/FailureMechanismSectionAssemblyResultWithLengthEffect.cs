@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.IIIMin:
                     if (!probabilitySection.IsDefined || !probabilityProfile.IsDefined)
                     {
-                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.UndefinedProbability);
                     }
                     break;
                 default:

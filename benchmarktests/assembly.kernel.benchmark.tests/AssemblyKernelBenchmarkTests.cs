@@ -46,7 +46,7 @@ namespace assembly.kernel.benchmark.tests
         [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
         public void RunBenchmarkTest(string testName, string fileName)
         {
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
+            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);

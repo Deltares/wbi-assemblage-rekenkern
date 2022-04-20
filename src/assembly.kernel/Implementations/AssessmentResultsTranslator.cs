@@ -108,34 +108,9 @@ namespace Assembly.Kernel.Implementations
             Probability refinedProbabilityProfile, 
             Probability refinedProbabilitySection)
         {
-            if (refinementNecessary)
-            {
-                if (refinedProbabilityProfile.IsDefined != refinedProbabilitySection.IsDefined)
-                {
-                    throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
-                }
-
-                if (refinedProbabilityProfile.IsDefined &&
-                    refinedProbabilityProfile > refinedProbabilitySection)
-                {
-                    throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-                }
-
-                return new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection);
-            }
-            
-            if (probabilityInitialMechanismProfile.IsDefined != probabilityInitialMechanismSection.IsDefined)
-            {
-                throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
-            }
-
-            if (probabilityInitialMechanismProfile.IsDefined &&
-                probabilityInitialMechanismProfile > probabilityInitialMechanismSection)
-            {
-                throw new AssemblyException(nameof(DetermineRepresentativeProbabilitiesBoi0A2), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-            }
-
-            return new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
+            return refinementNecessary
+                ? new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection)
+                : new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
         }
 
         /// <inheritdoc />
@@ -186,10 +161,7 @@ namespace Assembly.Kernel.Implementations
         /// <inheritdoc />
         public Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor)
         {
-            if (lengthEffectFactor < 1)
-            {
-                throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
-            }
+            CheckValidLengthEffectFactor(lengthEffectFactor);
 
             var sectionProbabilityValue = (double) profileProbability * lengthEffectFactor;
             return new Probability(sectionProbabilityValue > 1 ? 1 : sectionProbabilityValue);
@@ -199,11 +171,7 @@ namespace Assembly.Kernel.Implementations
         public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability,
             double lengthEffectFactor)
         {
-            if (lengthEffectFactor < 1)
-            {
-                throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
-            }
-
+            CheckValidLengthEffectFactor(lengthEffectFactor);
             return sectionProbability / lengthEffectFactor;
         }
 
@@ -231,6 +199,14 @@ namespace Assembly.Kernel.Implementations
                     }
                 default:
                     throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
+            }
+        }
+
+        private static void CheckValidLengthEffectFactor(double lengthEffectFactor)
+        {
+            if (lengthEffectFactor < 1)
+            {
+                throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
             }
         }
     }

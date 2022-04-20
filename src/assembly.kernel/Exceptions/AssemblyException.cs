@@ -71,7 +71,8 @@ namespace Assembly.Kernel.Exceptions
         {
             get
             {
-                return Errors.Aggregate("One or more errors occured during the assembly process:\n", (current, error) => current + (error.ErrorCode + "\n"));
+                return Errors.Aggregate("One or more errors occured during the assembly process:" + Environment.NewLine, 
+                    (current, error) => current + (error.ErrorCode + Environment.NewLine));
             }
         }
 

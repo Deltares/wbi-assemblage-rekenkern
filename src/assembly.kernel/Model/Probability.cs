@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Model
         /// </summary>
         /// <param name="other">The probability to compare with.</param>
         /// <param name="maximumRelativeDifference">The maximum allowed relative difference.</param>
-        /// <returns></returns>
+        /// <returns>True in case there is a negligible difference with the specified other probability.</returns>
         public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
         {
             var average = ((double)this + (double)other) * 0.5;
@@ -148,6 +148,7 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>The result of the operation.</returns>
+        /// <exception cref="AssemblyException">Thrown in case the resulting probability &lt; 0 or &gt;1.</exception>
         public static Probability operator *(Probability left, double right)
         {
             return new Probability(left.value * right);
@@ -159,6 +160,7 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>The result of the operation.</returns>
+        /// <exception cref="AssemblyException">Thrown in case the resulting probability &lt; 0 or &gt;1.</exception>
         public static Probability operator *(double left, Probability right)
         {
             return new Probability(left * right.value);
@@ -181,6 +183,7 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>The result of the operation.</returns>
+        /// <exception cref="AssemblyException">Thrown in case the resulting probability &lt; 0 or &gt;1.</exception>
         public static Probability operator /(Probability left, double right)
         {
             return new Probability(left.value / right);
@@ -192,6 +195,7 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>The result of the operation.</returns>
+        /// <exception cref="AssemblyException">Thrown in case the resulting probability &lt; 0 or &gt;1.</exception>
         public static Probability operator /(double left, Probability right)
         {
             return new Probability(left / right.value);
@@ -203,6 +207,7 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>The result of the operation.</returns>
+        /// <exception cref="AssemblyException">Thrown in case the resulting probability &lt; 0 or &gt;1.</exception>
         public static Probability operator /(Probability left, Probability right)
         {
             return new Probability(left.value / right.value);
@@ -221,6 +226,7 @@ namespace Assembly.Kernel.Model
         /// Facilitates explicit conversion between double and <see cref="Probability"/>.
         /// </summary>
         /// <param name="d">The double to convert from.</param>
+        /// <exception cref="AssemblyException">Thrown in case the probability &lt; 0 or &gt;1.</exception>
         public static explicit operator Probability(double d)
         {
             return new Probability(d);

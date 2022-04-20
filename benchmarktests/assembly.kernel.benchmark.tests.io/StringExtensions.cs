@@ -35,6 +35,8 @@ namespace assembly.kernel.benchmark.tests.io
     /// </summary>
     public static class StringExtensions
     {
+        private const string NoResultCategoryRepresentation = "gr";
+
         /// <summary>
         /// Translate a string value to a specific <see cref="EAssessmentGrade"/>.
         /// </summary>
@@ -51,7 +53,7 @@ namespace assembly.kernel.benchmark.tests.io
                         sectionCategory = EExpectedAssessmentGrade.APlus;
                         break;
                     case "-":
-                    case "gr": // no result, but abbreviated in Dutch.
+                    case NoResultCategoryRepresentation:
                         sectionCategory = EExpectedAssessmentGrade.Exception;
                         break;
                     default:

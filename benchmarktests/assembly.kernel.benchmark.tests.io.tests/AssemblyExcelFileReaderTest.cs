@@ -36,7 +36,7 @@ namespace assembly.kernel.benchmark.tests.io.tests
         public void ReaderReads()
         {
             var fileName = Path.Combine(GetTestDir(), "Benchmartktest - voorbeeld - 83-1.xlsx");
-            var result = AssemblyExcelFileReader.Read(fileName, "Test");
+            var result = AssemblyExcelFileReader.Read(fileName);
             Assert.IsNotNull(result);
         }
     }

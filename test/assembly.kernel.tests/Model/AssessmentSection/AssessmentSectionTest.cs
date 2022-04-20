@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
@@ -60,7 +61,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         public void ToStringWorks()
         {
             var section = new Kernel.Model.AssessmentSection.AssessmentSection(Probability.Undefined, new Probability(0.001));
-            Assert.AreEqual("Signal flooding probability: Undefined, \nMaximum allowable flooding probability: 1/1000", section.ToString());
+            Assert.AreEqual("Signal flooding probability: Undefined, " + Environment.NewLine + "Maximum allowable flooding probability: 1/1000", section.ToString());
         }
     }
 }

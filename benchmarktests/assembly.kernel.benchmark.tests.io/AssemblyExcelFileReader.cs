@@ -39,9 +39,8 @@ namespace assembly.kernel.benchmark.tests.io
         /// Creates a new instance of <see cref="BenchmarkTestInput"/>.
         /// </summary>
         /// <param name="excelFileName">The name of the excel file.</param>
-        /// <param name="testName">The test name.</param>
         /// <returns>A <see cref="BenchmarkTestInput"/>.</returns>
-        public static BenchmarkTestInput Read(string excelFileName, string testName)
+        public static BenchmarkTestInput Read(string excelFileName)
         {
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(excelFileName, false))
             {

@@ -39,7 +39,7 @@ using NUnit.Framework;
 namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 {
     /// <summary>
-    /// Tester for the methods related to a failure mechanism.
+    /// Tester for the methods related to a failure mechanism with length-effect.
     /// </summary>
     public class FailureMechanismWithLengthEffectResultTester : FailureMechanismResultTesterBase
     {

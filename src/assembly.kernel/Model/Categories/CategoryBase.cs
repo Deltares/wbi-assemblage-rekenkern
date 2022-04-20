@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <exception cref="AssemblyException">Thrown when <paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/>.</exception>
         protected CategoryBase(T category, Probability lowerLimit, Probability upperLimit)
         {
-            CheckInput(category, lowerLimit, upperLimit);
+            CheckInput(lowerLimit, upperLimit);
 
             Category = category;
             LowerLimit = lowerLimit;
@@ -66,11 +66,11 @@ namespace Assembly.Kernel.Model.Categories
         /// </summary>
         public Probability LowerLimit { get; }
 
-        private static void CheckInput(T category, Probability lowerLimit, Probability upperLimit)
+        private static void CheckInput(Probability lowerLimit, Probability upperLimit)
         {
             if (!lowerLimit.IsDefined || !upperLimit.IsDefined)
             {
-                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.UndefinedProbability);
             }
 
             if (lowerLimit > upperLimit)

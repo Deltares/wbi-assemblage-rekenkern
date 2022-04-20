@@ -72,7 +72,7 @@ namespace Assembly.Kernel.Model.Categories
         {
             if (!failureProbability.IsDefined)
             {
-                throw new AssemblyException(nameof(failureProbability), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(failureProbability), EAssemblyErrors.UndefinedProbability);
             }
 
             return Categories.First(category => failureProbability <= category.UpperLimit);

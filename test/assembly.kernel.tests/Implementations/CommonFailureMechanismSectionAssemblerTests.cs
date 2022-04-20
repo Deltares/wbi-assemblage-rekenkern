@@ -85,8 +85,7 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
             for (int i = 0; i < calculatedCommonSections.Length; i++)
             {
-                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].Start);
-                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].End);
+                AssertAreEqualSections(calculatedCommonSections[i], expectedSectionLimits[i], expectedSectionLimits[i + 1]);
             }
         }
 
@@ -135,9 +134,14 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
             for (int i = 0; i < calculatedCommonSections.Length; i++)
             {
-                Assert.AreEqual(expectedSectionLimits[i], calculatedCommonSections[i].Start);
-                Assert.AreEqual(expectedSectionLimits[i + 1], calculatedCommonSections[i].End);
+                AssertAreEqualSections(calculatedCommonSections[i], expectedSectionLimits[i], expectedSectionLimits[i + 1]);
             }
+        }
+
+        private static void AssertAreEqualSections(FailureMechanismSection calculatedCommonSection, double expectedSectionStart, double expectedSectionEnd)
+        {
+            Assert.AreEqual(expectedSectionStart, calculatedCommonSection.Start);
+            Assert.AreEqual(expectedSectionEnd, calculatedCommonSection.End);
         }
 
         [Test]
@@ -525,7 +529,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var commonSectionsWithResults =
                     assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[] {},
                                                                             false);
-            }, EAssemblyErrors.CommonSectionsDidNotHaveCategoryValues);
+            }, EAssemblyErrors.CommonSectionsWithoutCategoryValues);
         }
 
         [Test]

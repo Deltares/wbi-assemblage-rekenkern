@@ -29,7 +29,7 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Tests.Implementations
 {
     /// <summary>
-    /// Defines an equality comparer for ICategory limits.
+    /// Defines an equality comparer for <see cref="ICategoryLimits"/>.
     /// </summary>
     public class CategoryLimitsEqualityComparer : IComparer
     {

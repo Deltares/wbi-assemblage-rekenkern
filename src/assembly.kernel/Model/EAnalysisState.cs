@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Model
 
         /// <summary>
         /// A probability estimation has been made (either based on the initial mechanism or
-        /// after refinement.
+        /// after refinement).
         /// </summary>
         ProbabilityEstimated
     }

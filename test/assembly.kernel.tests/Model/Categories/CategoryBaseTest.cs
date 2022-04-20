@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var category = new TestCategoryBase(0.2, (Probability)lowerBoundary, (Probability)upperBoundary);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
 
         [Test]

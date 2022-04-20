@@ -35,15 +35,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Failure mechanism with category.
         /// </summary>
-        /// <param name="start">The start of the section in meters from the beginning of the assessment section.
-        ///  Must not be $lt; 0.</param>
-        /// <param name="end">The end of the section in meters from the beginning of the assessment section.
-        ///  Must be $gt; the start of the section.</param>
         /// <param name="category">The interpretation category of the failure mechanism section.</param>
-        /// <inheritdoc cref="FailureMechanismSection"/>
-        public FailureMechanismSectionWithCategory(double start, double end,
-            EInterpretationCategory category) :
-            base(start, end)
+        /// <inheritdoc/>
+        public FailureMechanismSectionWithCategory(double start, double end, EInterpretationCategory category) : base(start, end)
         {
             Category = category;
         }

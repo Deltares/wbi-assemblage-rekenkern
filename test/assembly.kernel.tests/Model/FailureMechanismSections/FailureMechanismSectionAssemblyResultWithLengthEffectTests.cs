@@ -60,8 +60,8 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [TestCase(0.05, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
-        [TestCase(double.NaN, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
-        [TestCase(0.01, double.NaN, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
+        [TestCase(double.NaN, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(0.01, double.NaN, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
         [TestCase(0.0, 0.01, EInterpretationCategory.NotRelevant, EAssemblyErrors.NonMatchingProbabilityValues)]
         [TestCase(0.01, 0.0, EInterpretationCategory.NotRelevant, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
         public void ConstructorChecksInputForInconsistentProbabilitiesNotRelevantCategory(double profileProbability, double sectionProbability, EInterpretationCategory interpretationCategory, EAssemblyErrors expectedError)
@@ -94,7 +94,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+            }, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
         }
 
         [TestCase(double.NaN, 0.4, EInterpretationCategory.III)]
@@ -116,7 +116,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+            }, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
         }
 
         [TestCase(double.NaN, double.NaN, EInterpretationCategory.III)]
@@ -131,7 +131,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)profileValue, (Probability)sectionValue, category);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
 
         [Test]

@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model.AssessmentSection
@@ -68,7 +69,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         public override string ToString()
         {
             return
-                $"Signal flooding probability: {SignalFloodingProbability}, \n" +
+                $"Signal flooding probability: {SignalFloodingProbability}, " + Environment.NewLine + 
                 $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
         }
     }

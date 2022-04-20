@@ -413,9 +413,9 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.01, double.NaN, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
-        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
-        [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
+        [TestCase(0.01, double.NaN, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(double.NaN, double.NaN, EAssemblyErrors.UndefinedProbability)]
         public void ThrowsInCaseOfMissingProbabilitiesInitialMechanism(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
             TestHelper.AssertExpectedErrorMessage(() =>
@@ -460,13 +460,13 @@ namespace Assembly.Kernel.Tests.Implementations
                     new Probability(1 / 50.0),
                     new Probability(1 / 50.0),
                     categories);
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+            }, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
         }
 
         [Test]
-        [TestCase(0.01,double.NaN, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
-        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined)]
-        [TestCase(double.NaN, double.NaN, EAssemblyErrors.ProbabilityMayNotBeUndefined)]
+        [TestCase(0.01,double.NaN, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(double.NaN, 0.01, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(double.NaN, double.NaN, EAssemblyErrors.UndefinedProbability)]
         public void ThrowsInCaseOfMissingRefinedProbabilities(double probabilityProfile, double probabilitySection, EAssemblyErrors expectedError)
         {
             TestHelper.AssertExpectedErrorMessage(() =>
@@ -505,7 +505,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void NoLengthEffectThrowsOnNaNSectionProbabilityInitialMechanism()
+        public void NoLengthEffectThrowsOnUndefinedSectionProbabilityInitialMechanism()
         {
             TestHelper.AssertExpectedErrorMessage(() =>
             {
@@ -523,11 +523,11 @@ namespace Assembly.Kernel.Tests.Implementations
                     ERefinementStatus.NotNecessary,
                     (Probability) 0.01,
                     categories);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
 
         [Test]
-        public void NoLengthEffectThrowsOnNaNRefinedSectionProbability()
+        public void NoLengthEffectThrowsOnUndefinedRefinedSectionProbability()
         {
             TestHelper.AssertExpectedErrorMessage(() =>
             {
@@ -545,7 +545,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     ERefinementStatus.Performed,
                     Probability.Undefined,
                     categories);
-            },EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            },EAssemblyErrors.UndefinedProbability);
         }
 
         [Test]

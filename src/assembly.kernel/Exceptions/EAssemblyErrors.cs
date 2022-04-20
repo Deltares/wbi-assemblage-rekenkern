@@ -53,7 +53,7 @@ namespace Assembly.Kernel.Exceptions
         LowerLimitIsAboveUpperLimit,
 
         /// <summary>
-        /// The value passed may not be null.
+        /// The value was null.
         /// </summary>
         ValueMayNotBeNull,
 
@@ -121,12 +121,12 @@ namespace Assembly.Kernel.Exceptions
         ProfileProbabilityGreaterThanSectionProbability,
 
         /// <summary>
-        /// The provided probability may not be undefined.
+        /// The provided probability is undefined.
         /// </summary>
-        ProbabilityMayNotBeUndefined,
+        UndefinedProbability,
 
         /// <summary>
-        /// This message is issued whenever an AssemblyException could not be created.
+        /// An AssemblyException could not be created.
         /// </summary>
         ErrorConstructingErrorMessage,
 
@@ -136,34 +136,34 @@ namespace Assembly.Kernel.Exceptions
         EncounteredOneOrMoreSectionsWithoutResult,
 
         /// <summary>
-        /// Thrown when specified probabilities do not match the provided category value.
+        /// Probabilities do not match the provided category value.
         /// </summary>
         NonMatchingProbabilityValues,
 
         /// <summary>
-        /// Thrown in case of an incorrect category value.
+        /// Incorrect category value is provided.
         /// </summary>
         InvalidCategoryValue,
 
         /// <summary>
-        /// Thrown in case probabilities for a profile and section are specified but only one is defined.
+        /// Probabilities for both a profile and section are specified but only one is defined.
         /// </summary>
-        ProbabilitiesShouldEitherBothBeDefinedOrUndefined,
+        ProbabilitiesNotBothDefinedOrUndefined,
 
         /// <summary>
-        /// An invalid enum value was specified.
+        /// An invalid enum value is specified.
         /// </summary>
         InvalidEnumValue,
 
         /// <summary>
-        /// The specified lists of common sections were not equal (one contained more sections that the other).
+        /// One of the specified lists contains more sections than the other specified list(s).
         /// </summary>
         UnequalCommonFailureMechanismSectionLists,
 
         /// <summary>
-        /// The specified common sections did not have interpretation categories.
+        /// The specified common sections do not have interpretation categories.
         /// </summary>
-        CommonSectionsDidNotHaveCategoryValues,
+        CommonSectionsWithoutCategoryValues,
 
         /// <summary>
         /// The specified argument has an invalid type.

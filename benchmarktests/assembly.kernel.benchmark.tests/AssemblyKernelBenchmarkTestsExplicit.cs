@@ -44,7 +44,7 @@ namespace assembly.kernel.benchmark.tests
             var fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsx").First();
             var testName = BenchmarkTestHelper.GetTestName(fileName);
 
-            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName, testName);
+            BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
             BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);

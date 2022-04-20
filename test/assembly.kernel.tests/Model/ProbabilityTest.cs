@@ -138,8 +138,8 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void ConstructorPassesUndefinedProbability()
         {
-            var probabilityNaN = new Probability(double.NaN);
-            Assert.IsFalse(probabilityNaN.IsDefined);
+            var undefinedProbability = new Probability(double.NaN);
+            Assert.IsFalse(undefinedProbability.IsDefined);
         }
 
         [Test]

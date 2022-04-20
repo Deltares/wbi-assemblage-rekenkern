@@ -44,9 +44,9 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         {
             if (probabilitySection.IsDefined != probabilityProfile.IsDefined)
             {
-                throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+                throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
             }
-            if (probabilitySection < probabilityProfile)
+            if (probabilitySection.IsDefined && probabilitySection < probabilityProfile)
             {
                 throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
             }

@@ -129,7 +129,6 @@ namespace Assembly.Kernel.Tests
                     failureMechanismSections.Add(
                         new FailureMechanismSection(
                             new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
-                            $"TEST{i}F",
                             sectionStart,
                             sectionEnd));
 
@@ -142,7 +141,7 @@ namespace Assembly.Kernel.Tests
 
         private sealed class FailureMechanismSection
         {
-            public FailureMechanismSection(FailureMechanismSectionAssemblyResultWithLengthEffect result, string failureMechanismType, double sectionStart,
+            public FailureMechanismSection(FailureMechanismSectionAssemblyResultWithLengthEffect result, double sectionStart,
                              double sectionEnd)
             {
                 Result = result;

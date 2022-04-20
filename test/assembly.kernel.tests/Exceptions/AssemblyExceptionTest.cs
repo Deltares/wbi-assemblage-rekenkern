@@ -23,6 +23,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -85,7 +86,7 @@ namespace Assembly.Kernel.Tests.Exceptions
         {
             var exception = new AssemblyException("Test",EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
 
-            Assert.AreEqual("One or more errors occured during the assembly process:\n" + EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult + "\n",
+            Assert.AreEqual("One or more errors occured during the assembly process:" + Environment.NewLine + EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult + Environment.NewLine ,
                 exception.Message);
         }
     }

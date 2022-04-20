@@ -81,12 +81,12 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>A new result resembling the normative result of the input parameters.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
-        /// <see cref="ERefinementStatus.Performed"/> and <see cref="Probability.Undefined"/> of
-        /// <paramref name="refinedProbabilitySection"/> or <paramref name="refinedProbabilityProfile"/> is true.</exception>
+        /// <see cref="ERefinementStatus.Performed"/> in combination with <paramref name="refinedProbabilitySection"/> equals
+        /// <see cref="Probability.Undefined"/> or when <paramref name="refinedProbabilityProfile"/> equals true.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
         /// <see cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
-        /// and <see cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> or
-        /// <paramref name="probabilityInitialMechanismProfile"/> is true.</exception>
+        /// in combination with <paramref name="probabilityInitialMechanismSection"/> equals <see cref="Probability.Undefined"/> or when
+        /// <paramref name="probabilityInitialMechanismProfile"/> equalsfixed true.</exception>
         FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
@@ -150,7 +150,13 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="analysisState">The state of the analysis.</param>
         /// <returns>The associated interpretation category.</returns>
-        /// <exception cref="AssemblyException">Thrown in case of an invalid or unsupported enum value for <paramref name="analysisState"/>.</exception>
+        /// <exception cref="AssemblyException">Thrown in case of an invalid or unsupported enum value for <paramref name="analysisState"/>.
+        /// This method only supports values of <list type="bullet">
+        /// <item><see cref="EAnalysisState.NotRelevant"/>.</item>
+        /// <item><see cref="EAnalysisState.ProbabilityEstimationNecessary"/>.</item>
+        /// <item><see cref="EAnalysisState.NoProbabilityEstimationNecessary"/>.</item>
+        /// </list>
+        /// For <see cref="EAnalysisState.ProbabilityEstimated"/>, use method <see cref="DetermineRepresentativeProbabilityBoi0A1"/> or <see cref="DetermineRepresentativeProbabilitiesBoi0A2"/>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState
             );

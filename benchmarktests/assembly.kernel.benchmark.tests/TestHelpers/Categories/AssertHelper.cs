@@ -81,7 +81,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
             catch (AssertionException)
             {
-                throw new AssertionException($"Probabilities were not equal.\n Expected value: {expectedProbability} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability} (1/{actualProbability.ReturnPeriod})\n");
+                throw new AssertionException($"Probabilities were not equal." + Environment.NewLine + " Expected value: {expectedProbability} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability} (1/{actualProbability.ReturnPeriod})" + Environment.NewLine);
             }
         }
 

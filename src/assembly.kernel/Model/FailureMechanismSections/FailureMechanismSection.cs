@@ -38,19 +38,19 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <param name="start">The start of the section in meters from the beginning of the assessment section.
         ///  Must not be &lt; 0.</param>
         /// <param name="end">The end of the section in meters from the beginning of the assessment section.
-        ///  Must be $gt; the start of the section.</param>
+        ///  Must be &gt; the start of the section.</param>
         /// <exception cref="AssemblyException">Thrown when start or end are equal to NaN.</exception>
-        /// <exception cref="AssemblyException">Thrown when start $lt; 0.</exception>
-        /// <exception cref="AssemblyException">Thrown when start $gt; end.</exception>
+        /// <exception cref="AssemblyException">Thrown when start &lt; 0.</exception>
+        /// <exception cref="AssemblyException">Thrown when start &gt; end.</exception>
         public FailureMechanismSection(double start, double end)
         {
             if (double.IsNaN(start))
             {
-                throw new AssemblyException(nameof(start), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(start), EAssemblyErrors.UndefinedProbability);
             }
             if (double.IsNaN(end))
             {
-                throw new AssemblyException(nameof(end), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                throw new AssemblyException(nameof(end), EAssemblyErrors.UndefinedProbability);
             }
             
 
@@ -61,6 +61,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
 
             Start = start;
             End = end;
+            Center = End - (End - Start) / 2.0;
         }
 
         /// <summary>
@@ -76,6 +77,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <summary>
         /// Represents the center of the section (average between <see cref="Start"/> and <see cref="End"/>.
         /// </summary>
-        public double Center => End - (End - Start) / 2.0;
+        public double Center { get; }
     }
 }

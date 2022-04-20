@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
     public class FailureMechanismSectionAssemblyResult
     {
         /// <summary>
-        /// Constructor for the FailureMechanismSectionWithAssemblyResult class.
+        /// Constructor for the <see cref="FailureMechanismSectionAssemblyResult"/> class.
         /// </summary>
         /// <param name="probabilitySection">Estimated probability of failure of the section.</param>
         /// <param name="category">The resulting interpretation category.</param>
@@ -46,9 +46,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         ///<exception cref="AssemblyException">Thrown when <paramref name="category"/> equals one of the categories associated with a probability range (<see cref="EInterpretationCategory.III"/>
         /// to <see cref="EInterpretationCategory.IIIMin"/>) and <paramref name="probabilitySection"/> is undefined (<see cref="Probability.IsDefined"/> equals false).</exception>
         /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
-        /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
-        public FailureMechanismSectionAssemblyResult(Probability probabilitySection,
-            EInterpretationCategory category)
+        public FailureMechanismSectionAssemblyResult(Probability probabilitySection, EInterpretationCategory category)
         {
             switch (category)
             {
@@ -56,14 +54,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.NotRelevant:
                     if (!probabilitySection.IsNegligibleDifference((Probability)0))
                     {
-                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
+                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
                     break;
                 case EInterpretationCategory.Dominant:
                 case EInterpretationCategory.NoResult:
                     if (probabilitySection.IsDefined)
                     {
-                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
+                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
                     break;
                 case EInterpretationCategory.III:
@@ -75,7 +73,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 case EInterpretationCategory.IIIMin:
                     if (!probabilitySection.IsDefined)
                     {
-                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.ProbabilityMayNotBeUndefined);
+                        throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.UndefinedProbability);
                     }
                     break;
                 default:

@@ -221,7 +221,7 @@ namespace Assembly.Kernel.Implementations
 
             if (!failureMechanismSectionLists.Any())
             {
-                throw new AssemblyException(nameof(failureMechanismResults), EAssemblyErrors.CommonSectionsDidNotHaveCategoryValues);
+                throw new AssemblyException(nameof(failureMechanismResults), EAssemblyErrors.CommonSectionsWithoutCategoryValues);
             }
 
             if (failureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)

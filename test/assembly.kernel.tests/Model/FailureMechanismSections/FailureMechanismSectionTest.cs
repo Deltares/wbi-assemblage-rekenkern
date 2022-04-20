@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var section = new FailureMechanismSection(start, end);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
     }
 }

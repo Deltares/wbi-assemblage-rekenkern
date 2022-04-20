@@ -91,7 +91,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var category = list.GetCategoryForFailureProbability(Probability.Undefined);
-            }, EAssemblyErrors.ProbabilityMayNotBeUndefined);
+            }, EAssemblyErrors.UndefinedProbability);
         }
 
         private static IEnumerable InconsistentCategoryBoundariesTestCases

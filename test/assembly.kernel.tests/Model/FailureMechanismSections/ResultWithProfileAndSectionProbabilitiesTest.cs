@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = new ResultWithProfileAndSectionProbabilities((Probability) profileProbability, (Probability) sectionProbability);
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+            }, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
         }
 
         [Test]

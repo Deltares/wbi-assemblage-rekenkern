@@ -121,63 +121,28 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityRefinedProbability()
+        [TestCase(true, 0.3, 0.4, 0.1, 0.02, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
+        [TestCase(false, 0.3, 0.04, 0.01, 0.02, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
+        [TestCase(false, 0.04, double.NaN, 0.1, 0.02, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(false, double.NaN, 0.04, 0.1, 0.02, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(true, 0.04, 0.1, double.NaN, 0.04, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        [TestCase(true, 0.04, 0.1, 0.04, double.NaN, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
+        public void Boi0A2ChecksInputProbabilities(bool refinementNecessary,
+            double profileProbabilityInitialMechanism,
+            double sectionProbabilityInitialMechanism,
+            double profileRefinedProbability,
+            double sectionRefinedProbability,
+            EAssemblyErrors expectedError)
         {
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    true,
-                    new Probability(0.3),
-                    new Probability(0.4),
-                    new Probability(0.1),
-                    new Probability(0.02));
-            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-        }
-
-        [TestCase(0.04,double.NaN)]
-        [TestCase(double.NaN, 0.04)]
-        public void Boi0A2ChecksIsDefinedInitialMechanism(double profileProbability, double sectionProbability)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    false,
-                    new Probability(profileProbability),
-                    new Probability(sectionProbability),
-                    new Probability(0.1),
-                    new Probability(0.2));
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
-        }
-
-        [TestCase(0.04, double.NaN)]
-        [TestCase(double.NaN, 0.04)]
-        public void Boi0A2ChecksIsDefinedRefinedProbability(double profileProbability, double sectionProbability)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    true,
-                    new Probability(0.04),
-                    new Probability(0.1),
-                    new Probability(profileProbability),
-                    new Probability(sectionProbability)
-                );
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
-        }
-
-        [Test]
-        public void Boi0A2ChecksIsDefinedRefinedProbability2()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    true,
-                    new Probability(0.04),
-                    new Probability(0.1),
-                    new Probability(0.2),
-                    Probability.Undefined
-                );
-            }, EAssemblyErrors.ProbabilitiesShouldEitherBothBeDefinedOrUndefined);
+                    refinementNecessary,
+                    new Probability(profileProbabilityInitialMechanism),
+                    new Probability(sectionProbabilityInitialMechanism),
+                    new Probability(profileRefinedProbability),
+                    new Probability(sectionRefinedProbability));
+            }, expectedError);
         }
 
         [TestCase(0.01, EInterpretationCategory.III)]
@@ -227,11 +192,11 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.AreEqual(expectedCategory, category);
         }
 
-        [TestCase((EAnalysisState)(-1))]
-        public void Boi0C1HandlesInvalidStates(EAnalysisState state)
+        [Test]
+        public void Boi0C1HandlesInvalidStates()
         {
             TestHelper.AssertExpectedErrorMessage(
-                () => { translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state); },
+                () => { translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1((EAnalysisState)(-1)); },
                 EAssemblyErrors.InvalidEnumValue);
         }
 

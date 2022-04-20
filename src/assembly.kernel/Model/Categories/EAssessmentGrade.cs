@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Model.Categories
         C = 3,
 
         /// <summary>
-        /// Lowest rating. Assessment section fails both the signal flooding probability and maximum flooding probability.
+        /// Lowest rating. Assessment section fails and has a much higher probability than both the signal flooding probability and maximum flooding probability.
         /// </summary>
         D = 4
     }
