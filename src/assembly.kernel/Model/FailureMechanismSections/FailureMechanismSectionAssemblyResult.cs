@@ -52,10 +52,11 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
-                    if (!probabilitySection.IsNegligibleDifference((Probability)0))
+                    if (!probabilitySection.IsNegligibleDifference((Probability) 0))
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
+
                     break;
                 case EInterpretationCategory.Dominant:
                 case EInterpretationCategory.NoResult:
@@ -63,6 +64,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
+
                     break;
                 case EInterpretationCategory.III:
                 case EInterpretationCategory.II:
@@ -75,6 +77,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResult), EAssemblyErrors.UndefinedProbability);
                     }
+
                     break;
                 default:
                     throw new AssemblyException(nameof(category), EAssemblyErrors.InvalidCategoryValue);

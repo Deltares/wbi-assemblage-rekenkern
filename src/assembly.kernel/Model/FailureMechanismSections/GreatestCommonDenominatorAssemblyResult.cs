@@ -45,7 +45,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <exception cref="AssemblyException">Thrown in case <paramref name="resultPerFailureMechanism"/> equals null.</exception>
         /// <exception cref="AssemblyException">Thrown in case <paramref name="combinedSectionResult"/> equals null.</exception>
         public GreatestCommonDenominatorAssemblyResult(IEnumerable<FailureMechanismSectionList> resultPerFailureMechanism,
-        IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
+                                                       IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult)
         {
             if (resultPerFailureMechanism == null || combinedSectionResult == null)
             {

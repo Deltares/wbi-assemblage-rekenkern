@@ -34,13 +34,13 @@ namespace Assembly.Kernel.Model.Categories
     /// </summary>
     public class CategoriesList<TCategory> where TCategory : ICategoryLimits
     {
-        private readonly Probability requiredMaximumProbability = new Probability(1.0);
-
         /// <summary>
         /// The maximum allowed difference between reliabilities of probabilities that is used when
         /// comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
         /// </summary>
         private static readonly double Epsilon = 1e-10;
+
+        private readonly Probability requiredMaximumProbability = new Probability(1.0);
 
         /// <summary>
         /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Model.Categories
                 lastKnownUpperBoundary = category.UpperLimit;
             }
 
-            if (!lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability,Epsilon))
+            if (!lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability, Epsilon))
             {
                 throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
             }

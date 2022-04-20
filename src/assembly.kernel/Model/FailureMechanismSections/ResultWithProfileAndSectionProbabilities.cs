@@ -46,6 +46,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
             }
+
             if (probabilitySection.IsDefined && probabilitySection < probabilityProfile)
             {
                 throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
@@ -55,8 +56,8 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             ProbabilitySection = probabilitySection;
 
             LengthEffectFactor = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
-                ? 1.0
-                : (double)probabilitySection / (double)probabilityProfile;
+                                     ? 1.0
+                                     : (double) probabilitySection / (double) probabilityProfile;
         }
 
         /// <summary>

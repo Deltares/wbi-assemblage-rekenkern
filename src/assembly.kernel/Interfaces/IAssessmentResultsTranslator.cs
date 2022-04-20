@@ -108,7 +108,7 @@ namespace Assembly.Kernel.Interfaces
             bool refinementNecessary,
             Probability probabilityInitialMechanismSection,
             Probability refinedProbabilitySection
-            );
+        );
 
         /// <summary>
         /// This method determines the representative probabilities of a failure mechanism section.
@@ -131,7 +131,7 @@ namespace Assembly.Kernel.Interfaces
             Probability probabilityInitialMechanismSection,
             Probability refinedProbabilityProfile,
             Probability refinedProbabilitySection
-            );
+        );
 
         /// <summary>
         /// Returns the correct interpretation category that is associated with the specified probability (based on the specified categories).
@@ -141,9 +141,9 @@ namespace Assembly.Kernel.Interfaces
         /// <returns>The interpretation category associated with the specified probability.</returns>
         /// <exception cref="AssemblyException">Thrown if <paramref name="categories"/> equals null.</exception>
         EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-            Probability sectionProbability, 
+            Probability sectionProbability,
             CategoriesList<InterpretationCategory> categories
-            );
+        );
 
         /// <summary>
         /// Translates the analysis state to the associated interpretation category.
@@ -159,7 +159,7 @@ namespace Assembly.Kernel.Interfaces
         /// For <see cref="EAnalysisState.ProbabilityEstimated"/>, use method <see cref="DetermineRepresentativeProbabilityBoi0A1"/> or <see cref="DetermineRepresentativeProbabilitiesBoi0A2"/>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState
-            );
+        );
 
         /// <summary>
         /// Translates interpretation categories without association with a probability range to default probabilities.
@@ -185,6 +185,5 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="lengthEffectFactor">Length effect factor.</param>
         /// <returns>The calculated probability of failure of the representative profile for a failure mechanism section.</returns>
         Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor);
-
     }
 }

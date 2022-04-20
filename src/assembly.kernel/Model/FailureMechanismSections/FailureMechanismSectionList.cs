@@ -87,19 +87,19 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             if (sectionResultsArray.Length == 0)
             {
                 throw new AssemblyException(nameof(sectionResults),
-                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
             // Check if all entries are of the same type.
             if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
             {
                 throw new AssemblyException(nameof(sectionResults),
-                    EAssemblyErrors.InputNotTheSameType);
+                                            EAssemblyErrors.InputNotTheSameType);
             }
 
             var orderedResults = sectionResultsArray
-                .OrderBy(sectionResult => sectionResult.Start)
-                .ToArray();
+                                 .OrderBy(sectionResult => sectionResult.Start)
+                                 .ToArray();
 
             FailureMechanismSection previousFailureMechanismSection = null;
             foreach (var section in orderedResults)
@@ -109,7 +109,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     if (section.Start > 0.0)
                     {
                         throw new AssemblyException(nameof(sectionResults),
-                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
                     }
                 }
                 else
@@ -117,7 +117,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     if (Math.Abs(previousFailureMechanismSection.End - section.Start) > 0.01)
                     {
                         throw new AssemblyException(nameof(sectionResults),
-                            EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                                                    EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                     }
                 }
 

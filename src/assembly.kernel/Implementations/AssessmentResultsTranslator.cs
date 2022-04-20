@@ -36,10 +36,10 @@ namespace Assembly.Kernel.Implementations
     {
         /// <inheritdoc />
         public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
-            ESectionInitialMechanismProbabilitySpecification relevance, 
+            ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismSection,
-            ERefinementStatus refinementStatus, 
-            Probability refinedProbabilitySection, 
+            ERefinementStatus refinementStatus,
+            Probability refinedProbabilitySection,
             CategoriesList<InterpretationCategory> categories)
         {
             var translator = new AssessmentResultsTranslator();
@@ -47,8 +47,8 @@ namespace Assembly.Kernel.Implementations
             if (analysisState == EAnalysisState.ProbabilityEstimated)
             {
                 var probability = translator.DetermineRepresentativeProbabilityBoi0A1(refinementStatus == ERefinementStatus.Performed,
-                    probabilityInitialMechanismSection,
-                    refinedProbabilitySection);
+                                                                                      probabilityInitialMechanismSection,
+                                                                                      refinedProbabilitySection);
                 var category =
                     translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                         probability, categories);
@@ -77,10 +77,10 @@ namespace Assembly.Kernel.Implementations
             if (analysisState == EAnalysisState.ProbabilityEstimated)
             {
                 var probabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(refinementStatus == ERefinementStatus.Performed,
-                    probabilityInitialMechanismProfile,
-                    probabilityInitialMechanismSection,
-                    refinedProbabilityProfile,
-                    refinedProbabilitySection);
+                                                                                          probabilityInitialMechanismProfile,
+                                                                                          probabilityInitialMechanismSection,
+                                                                                          refinedProbabilityProfile,
+                                                                                          refinedProbabilitySection);
                 var category =
                     translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                         probabilities.ProbabilitySection, categories);
@@ -96,21 +96,21 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public Probability DetermineRepresentativeProbabilityBoi0A1(bool refinementNecessary,
-            Probability probabilityInitialMechanismSection, Probability refinedProbabilitySection)
+                                                                    Probability probabilityInitialMechanismSection, Probability refinedProbabilitySection)
         {
             return refinementNecessary ? refinedProbabilitySection : probabilityInitialMechanismSection;
         }
 
         /// <inheritdoc />
         public ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(bool refinementNecessary,
-            Probability probabilityInitialMechanismProfile, 
-            Probability probabilityInitialMechanismSection,
-            Probability refinedProbabilityProfile, 
-            Probability refinedProbabilitySection)
+                                                                                                   Probability probabilityInitialMechanismProfile,
+                                                                                                   Probability probabilityInitialMechanismSection,
+                                                                                                   Probability refinedProbabilityProfile,
+                                                                                                   Probability refinedProbabilitySection)
         {
             return refinementNecessary
-                ? new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection)
-                : new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
+                       ? new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection)
+                       : new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
         }
 
         /// <inheritdoc />
@@ -169,7 +169,7 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability,
-            double lengthEffectFactor)
+                                                                                 double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
             return sectionProbability / lengthEffectFactor;
@@ -187,9 +187,9 @@ namespace Assembly.Kernel.Implementations
                     {
                         case ERefinementStatus.NotNecessary:
                             return relevance == ESectionInitialMechanismProbabilitySpecification
-                                .RelevantNoProbabilitySpecification
-                                ? EAnalysisState.NoProbabilityEstimationNecessary
-                                : EAnalysisState.ProbabilityEstimated;
+                                       .RelevantNoProbabilitySpecification
+                                       ? EAnalysisState.NoProbabilityEstimationNecessary
+                                       : EAnalysisState.ProbabilityEstimated;
                         case ERefinementStatus.Necessary:
                             return EAnalysisState.ProbabilityEstimationNecessary;
                         case ERefinementStatus.Performed:

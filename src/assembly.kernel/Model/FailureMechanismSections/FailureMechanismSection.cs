@@ -48,11 +48,11 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 throw new AssemblyException(nameof(start), EAssemblyErrors.UndefinedProbability);
             }
+
             if (double.IsNaN(end))
             {
                 throw new AssemblyException(nameof(end), EAssemblyErrors.UndefinedProbability);
             }
-            
 
             if (start < 0.0 || end <= start)
             {

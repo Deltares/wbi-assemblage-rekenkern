@@ -38,8 +38,6 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="lowerLimit">Lower limit of the category.</param>
         /// <param name="upperLimit">Upper limit of the category.</param>
         public AssessmentSectionCategory(EAssessmentGrade category, Probability lowerLimit, Probability upperLimit)
-            : base(category, lowerLimit, upperLimit)
-        {
-        }
+            : base(category, lowerLimit, upperLimit) {}
     }
 }

@@ -35,13 +35,13 @@ namespace Assembly.Kernel.Model
     /// </summary>
     public struct Probability : IEquatable<Probability>, IEquatable<double>, IFormattable, IComparable, IComparable<Probability>, IComparable<double>
     {
-        private static readonly double ToStringPrecision = 1e-100;
-        private readonly double value;
-
         /// <summary>
         /// Represents an undefined probability.
         /// </summary>
         public static readonly Probability Undefined = new Probability(double.NaN);
+
+        private static readonly double ToStringPrecision = 1e-100;
+        private readonly double value;
 
         /// <summary>
         /// Constructs a <see cref="Probability"/> from a double representing the probability value.
@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Model
         /// <summary>
         /// Returns a new probability that represents the inverse value of this probability (1-probability).
         /// </summary>
-        public Probability Inverse => new Probability(1-value);
+        public Probability Inverse => new Probability(1 - value);
 
         /// <summary>
         /// Specifies whether the probability is defined.
@@ -77,25 +77,11 @@ namespace Assembly.Kernel.Model
         /// <returns>True in case there is a negligible difference with the specified other probability.</returns>
         public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
         {
-            var average = ((double)this + (double)other) * 0.5;
-            var absoluteDifference = Math.Abs((double) this - (double) other);
+            var average = (this + (double) other) * 0.5;
+            var absoluteDifference = Math.Abs(this - (double) other);
             var relativeDifference = absoluteDifference / average;
-            
-            return !(relativeDifference < double.PositiveInfinity) | relativeDifference <= maximumRelativeDifference;
-        }
 
-        /// <summary>
-        /// Validates <paramref name="probability"/> for being a valid probability. This means a double within the range [0-1].
-        /// </summary>
-        /// <param name="probability">The probability to validate</param>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> is smaller than 0</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> exceeds 1</exception>
-        private static void ValidateProbabilityValueWithinAllowedRange(double probability)
-        {
-            if (!double.IsNaN(probability) && (probability < 0 || probability > 1))
-            {
-                throw new AssemblyException(nameof(probability),EAssemblyErrors.FailureProbabilityOutOfRange);
-            }
+            return !(relativeDifference < double.PositiveInfinity) | relativeDifference <= maximumRelativeDifference;
         }
 
         /// <summary>
@@ -128,7 +114,7 @@ namespace Assembly.Kernel.Model
         /// <returns>The result of the operation.</returns>
         public static Probability operator -(Probability left, Probability right)
         {
-            return new Probability(Math.Max(0,left.value - right.value));
+            return new Probability(Math.Max(0, left.value - right.value));
         }
 
         /// <summary>
@@ -139,7 +125,7 @@ namespace Assembly.Kernel.Model
         /// <returns>The result of the operation.</returns>
         public static Probability operator +(Probability left, Probability right)
         {
-            return new Probability(Math.Min(1,left.value + right.value));
+            return new Probability(Math.Min(1, left.value + right.value));
         }
 
         /// <summary>
@@ -320,6 +306,16 @@ namespace Assembly.Kernel.Model
             return left.value >= right;
         }
 
+        /// <summary>
+        /// Translates the probability to a string representation.
+        /// </summary>
+        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
+        /// <returns>A string representation of the probability.</returns>
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
+        }
+
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
@@ -327,11 +323,13 @@ namespace Assembly.Kernel.Model
             {
                 return false;
             }
+
             if (obj.GetType() != GetType())
             {
                 return false;
             }
-            return Equals((Probability)obj);
+
+            return Equals((Probability) obj);
         }
 
         /// <inheritdoc />
@@ -341,13 +339,76 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Check equality of the probability with the specified double.
+        /// Translates the probability to a string representation.
         /// </summary>
-        /// <param name="other">The probability value to compare with.</param>
-        /// <returns>A boolean indicating whether the values are equal.</returns>
-        public bool Equals(Probability other)
+        /// <returns>A string representation of the probability.</returns>
+        public override string ToString()
         {
-            return other.value.Equals(value);
+            return ToString(null, null);
+        }
+
+        /// <summary>
+        /// Compares this probability with another object.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other object equals null of a probability or double $gt; this probability.</item>
+        /// <item>0 in case the other object is a Probability or double with equal value.</item>
+        /// <item>-1 in case the other object is a Probability or double $lt; this probability.</item>
+        /// </list>
+        /// </returns>
+        /// <exception cref="ArgumentException">Thrown in case the <paramref name="obj"/> is not a double or <see cref="Probability"/>.</exception>
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+            {
+                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (obj is Probability probability)
+            {
+                return CompareTo(probability);
+            }
+
+            if (obj is double d)
+            {
+                return CompareTo(d);
+            }
+
+            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
+        }
+
+        /// <summary>
+        /// Compares this probability with another double.
+        /// </summary>
+        /// <param name="other">The value to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other value $gt; this probability.</item>
+        /// <item>0 in case the other value and this probability are equal.</item>
+        /// <item>-1 in case the other value $lt; this probability.</item>
+        /// </list>
+        /// </returns>
+        public int CompareTo(double other)
+        {
+            return value.CompareTo(other);
+        }
+
+        /// <summary>
+        /// Compares this probability with another <see cref="Probability"/>.
+        /// </summary>
+        /// <param name="other">The <see cref="Probability"/> to compare with.</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item>1 in case the other probability $gt; this probability.</item>
+        /// <item>0 in case the other probability and this probability are equal.</item>
+        /// <item>-1 in case the other probability $lt; this probability.</item>
+        /// </list>
+        /// </returns>
+        public int CompareTo(Probability other)
+        {
+            return value.CompareTo(other.value);
         }
 
         /// <summary>
@@ -361,22 +422,13 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Translates the probability to a string representation.
+        /// Check equality of the probability with the specified double.
         /// </summary>
-        /// <returns>A string representation of the probability.</returns>
-        public override string ToString()
+        /// <param name="other">The probability value to compare with.</param>
+        /// <returns>A boolean indicating whether the values are equal.</returns>
+        public bool Equals(Probability other)
         {
-            return ToString(null, null);
-        }
-
-        /// <summary>
-        /// Translates the probability to a string representation.
-        /// </summary>
-        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
-        /// <returns>A string representation of the probability.</returns>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
+            return other.value.Equals(value);
         }
 
         /// <summary>
@@ -411,67 +463,17 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Compares this probability with another object.
+        /// Validates <paramref name="probability"/> for being a valid probability. This means a double within the range [0-1].
         /// </summary>
-        /// <param name="obj">The object to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other object equals null of a probability or double $gt; this probability.</item>
-        /// <item>0 in case the other object is a Probability or double with equal value.</item>
-        /// <item>-1 in case the other object is a Probability or double $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        /// <exception cref="ArgumentException">Thrown in case the <paramref name="obj"/> is not a double or <see cref="Probability"/>.</exception>
-        public int CompareTo(object obj)
+        /// <param name="probability">The probability to validate</param>
+        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> is smaller than 0</exception>
+        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> exceeds 1</exception>
+        private static void ValidateProbabilityValueWithinAllowedRange(double probability)
         {
-            if (obj == null)
-            { 
-                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (obj is Probability probability)
+            if (!double.IsNaN(probability) && (probability < 0 || probability > 1))
             {
-                return CompareTo(probability);
+                throw new AssemblyException(nameof(probability), EAssemblyErrors.FailureProbabilityOutOfRange);
             }
-
-            if (obj is double d)
-            {
-                return CompareTo(d);
-            }
-
-            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
-        }
-
-        /// <summary>
-        /// Compares this probability with another <see cref="Probability"/>.
-        /// </summary>
-        /// <param name="other">The <see cref="Probability"/> to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other probability $gt; this probability.</item>
-        /// <item>0 in case the other probability and this probability are equal.</item>
-        /// <item>-1 in case the other probability $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        public int CompareTo(Probability other)
-        {
-            return value.CompareTo(other.value);
-        }
-
-        /// <summary>
-        /// Compares this probability with another double.
-        /// </summary>
-        /// <param name="other">The value to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other value $gt; this probability.</item>
-        /// <item>0 in case the other value and this probability are equal.</item>
-        /// <item>-1 in case the other value $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        public int CompareTo(double other)
-        {
-            return value.CompareTo(other);
         }
     }
 }

@@ -41,13 +41,13 @@ namespace Assembly.Kernel.Model.AssessmentSection
         ///     Has to be between 0 and 1.</param>
         /// <exception cref="AssemblyException">Thrown when one of the input values is not valid.</exception>
         public AssessmentSection(Probability signalFloodingProbability,
-            Probability maximumAllowableFloodingProbability)
+                                 Probability maximumAllowableFloodingProbability)
         {
             if (signalFloodingProbability > maximumAllowableFloodingProbability)
             {
                 throw new AssemblyException(nameof(AssessmentSection), EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
             }
-            
+
             SignalFloodingProbability = signalFloodingProbability;
             MaximumAllowableFloodingProbability = maximumAllowableFloodingProbability;
         }
@@ -69,7 +69,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         public override string ToString()
         {
             return
-                $"Signal flooding probability: {SignalFloodingProbability}, " + Environment.NewLine + 
+                $"Signal flooding probability: {SignalFloodingProbability}, " + Environment.NewLine +
                 $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
         }
     }

@@ -49,16 +49,17 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <exception cref="AssemblyException">In case of an invalid value for <paramref name="category"/>.</exception>
         /// <inheritdoc cref="ResultWithProfileAndSectionProbabilities"/>
         public FailureMechanismSectionAssemblyResultWithLengthEffect(Probability probabilityProfile, Probability probabilitySection,
-            EInterpretationCategory category) : base(probabilityProfile, probabilitySection)
+                                                                     EInterpretationCategory category) : base(probabilityProfile, probabilitySection)
         {
             switch (category)
             {
                 case EInterpretationCategory.NotDominant:
                 case EInterpretationCategory.NotRelevant:
-                    if (!probabilityProfile.IsNegligibleDifference((Probability)0) || !probabilitySection.IsNegligibleDifference((Probability)0))
+                    if (!probabilityProfile.IsNegligibleDifference((Probability) 0) || !probabilitySection.IsNegligibleDifference((Probability) 0))
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
+
                     break;
                 case EInterpretationCategory.Dominant:
                 case EInterpretationCategory.NoResult:
@@ -66,6 +67,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.NonMatchingProbabilityValues);
                     }
+
                     break;
                 case EInterpretationCategory.III:
                 case EInterpretationCategory.II:
@@ -78,6 +80,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                     {
                         throw new AssemblyException(nameof(FailureMechanismSectionAssemblyResultWithLengthEffect), EAssemblyErrors.UndefinedProbability);
                     }
+
                     break;
                 default:
                     throw new AssemblyException(nameof(category), EAssemblyErrors.InvalidCategoryValue);

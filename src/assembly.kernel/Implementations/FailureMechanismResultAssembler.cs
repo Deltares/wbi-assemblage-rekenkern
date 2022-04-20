@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Implementations
                 sectionResults = sectionResults.Where(r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined).ToArray();
                 if (sectionResults.Length == 0)
                 {
-                    return new FailureMechanismAssemblyResult(new Probability(0),  EFailureMechanismAssemblyMethod.Correlated);
+                    return new FailureMechanismAssemblyResult(new Probability(0), EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
             else
@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Implementations
                 CheckForDefinedProbabilities(sectionResults);
             }
 
-            var noFailureProbProduct = (Probability)1.0;
+            var noFailureProbProduct = (Probability) 1.0;
             var highestFailureProbabilityProfile = 0.0;
             foreach (var sectionResult in sectionResults)
             {
@@ -74,14 +74,14 @@ namespace Assembly.Kernel.Implementations
             var combinedFailureProbabilityUncorrelated = noFailureProbProduct.Inverse;
 
             var correlation = FindCorrelation(sectionResults, highestFailureProbabilityProfile, combinedFailureProbabilityUncorrelated);
-            var probabilityValue = (Probability)Math.Min(highestFailureProbabilityProfile,combinedFailureProbabilityUncorrelated);
+            var probabilityValue = (Probability) Math.Min(highestFailureProbabilityProfile, combinedFailureProbabilityUncorrelated);
 
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
         /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(double lengthEffectFactor,
-            IEnumerable<Probability> failureMechanismSectionProbabilities, bool partialAssembly)
+                                                                                                IEnumerable<Probability> failureMechanismSectionProbabilities, bool partialAssembly)
         {
             var sectionResults = FailureMechanismSectionProbabilitiesToProbabilityArray(failureMechanismSectionProbabilities);
             CheckInput(sectionResults, lengthEffectFactor);
@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Implementations
                 if (sectionResults.Length == 0)
                 {
                     return new FailureMechanismAssemblyResult(new Probability(0),
-                        EFailureMechanismAssemblyMethod.Correlated);
+                                                              EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
             else
@@ -100,7 +100,7 @@ namespace Assembly.Kernel.Implementations
                 CheckForDefinedProbabilities(sectionResults);
             }
 
-            var noFailureProbProduct = (Probability)1.0;
+            var noFailureProbProduct = (Probability) 1.0;
             var highestProbabilityValue = 0.0;
 
             foreach (var sectionProbability in sectionResults)
@@ -117,21 +117,21 @@ namespace Assembly.Kernel.Implementations
             var combinedFailureProbabilityUncorrelated = noFailureProbProduct.Inverse;
 
             var correlation = sectionResults.Length < 2
-                ? EFailureMechanismAssemblyMethod.Uncorrelated
-                : highestProbabilityValue <= combinedFailureProbabilityUncorrelated
-                    ? EFailureMechanismAssemblyMethod.Correlated
-                    : EFailureMechanismAssemblyMethod.Uncorrelated;
-            var probabilityValue = (Probability)Math.Min(highestProbabilityValue, combinedFailureProbabilityUncorrelated);
+                                  ? EFailureMechanismAssemblyMethod.Uncorrelated
+                                  : highestProbabilityValue <= combinedFailureProbabilityUncorrelated
+                                      ? EFailureMechanismAssemblyMethod.Correlated
+                                      : EFailureMechanismAssemblyMethod.Uncorrelated;
+            var probabilityValue = (Probability) Math.Min(highestProbabilityValue, combinedFailureProbabilityUncorrelated);
 
             return new FailureMechanismAssemblyResult(probabilityValue, correlation);
         }
 
         private static EFailureMechanismAssemblyMethod FindCorrelation(ResultWithProfileAndSectionProbabilities[] sectionResults,
-            double highestFailureProbabilityProfile, Probability combinedFailureProbabilityUncorrelated)
+                                                                       double highestFailureProbabilityProfile, Probability combinedFailureProbabilityUncorrelated)
         {
-            var correlation = (sectionResults.Length < 2 || highestFailureProbabilityProfile > combinedFailureProbabilityUncorrelated)
-                ? EFailureMechanismAssemblyMethod.Uncorrelated
-                : EFailureMechanismAssemblyMethod.Correlated;
+            var correlation = sectionResults.Length < 2 || highestFailureProbabilityProfile > combinedFailureProbabilityUncorrelated
+                                  ? EFailureMechanismAssemblyMethod.Uncorrelated
+                                  : EFailureMechanismAssemblyMethod.Correlated;
             return correlation;
         }
 

@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Exceptions
             {
                 errorMessages = new List<AssemblyErrorMessage>
                 {
-                    new AssemblyErrorMessage(nameof(AssemblyException),EAssemblyErrors.ErrorConstructingErrorMessage)
+                    new AssemblyErrorMessage(nameof(AssemblyException), EAssemblyErrors.ErrorConstructingErrorMessage)
                 };
             }
 
@@ -71,8 +71,8 @@ namespace Assembly.Kernel.Exceptions
         {
             get
             {
-                return Errors.Aggregate("One or more errors occured during the assembly process:" + Environment.NewLine, 
-                    (current, error) => current + (error.ErrorCode + Environment.NewLine));
+                return Errors.Aggregate("One or more errors occured during the assembly process:" + Environment.NewLine,
+                                        (current, error) => current + (error.ErrorCode + Environment.NewLine));
             }
         }
 

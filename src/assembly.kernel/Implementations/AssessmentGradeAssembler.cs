@@ -106,6 +106,7 @@ namespace Assembly.Kernel.Implementations
             {
                 errors.Add(new AssemblyErrorMessage(nameof(Probability), EAssemblyErrors.UndefinedProbability));
             }
+
             if (categories == null)
             {
                 errors.Add(new AssemblyErrorMessage(nameof(categories), EAssemblyErrors.ValueMayNotBeNull));
