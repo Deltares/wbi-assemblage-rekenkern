@@ -51,7 +51,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test, TestCaseSource(typeof(AssembleFailureMechanismTestData), nameof(AssembleFailureMechanismTestData.Boi1A2))]
-        public void Boi1A2FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedResult, EFailureMechanismAssemblyMethod expectedMethod)
+        public void Boi1A2FailureProbabilityTests(Tuple<Probability, Probability, EInterpretationCategory>[] failureProbabilities, bool partialAssembly, Probability expectedProbability, EFailureMechanismAssemblyMethod expectedMethod)
         {
             var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(lengthEffectFactor1,
                 failureProbabilities.Select(sectionResultTuple =>
@@ -60,9 +60,7 @@ namespace Assembly.Kernel.Tests.Implementations
                             sectionResultTuple.Item1, sectionResultTuple.Item2, sectionResultTuple.Item3)),
                 partialAssembly);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(expectedMethod, result.AssemblyMethod);
-            Assert.AreEqual(expectedResult, result.Probability, 1e-10);
+            AssertResultAsExpected(result, expectedMethod, expectedProbability);
         }
 
         [Test]
@@ -86,9 +84,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 false);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
-            Assert.AreEqual(0.005, result.Probability, 1e-4);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Correlated, 0.005);
         }
 
         [Test]
@@ -106,9 +102,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 false);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
-            Assert.AreEqual(0.0, result.Probability);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Correlated, 0.0); 
         }
 
         [Test]
@@ -134,9 +128,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
-            Assert.AreEqual(0.9, result.Probability, 1e-4);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Uncorrelated, 0.90000201);
         }
 
         [Test]
@@ -154,9 +146,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
-            Assert.AreEqual(0.1, result.Probability, 1E-10);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Uncorrelated, 0.1);
         }
 
         [Test]
@@ -170,9 +160,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionAssemblyResultWithLengthEffect(Probability.Undefined, Probability.Undefined, EInterpretationCategory.Dominant)
                 },
                 true);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
-            Assert.AreEqual(0.0, result.Probability);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Correlated, 0.0);
         }
 
         [Test]
@@ -186,9 +174,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)0, (Probability)0, EInterpretationCategory.NotDominant)
                 },
                 true);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Correlated, result.AssemblyMethod);
-            Assert.AreEqual(0.0, result.Probability);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Correlated, 0.0);
         }
 
         [Test]
@@ -206,9 +192,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
-            Assert.AreEqual(0.00026, result.Probability,1e-8);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Uncorrelated, 0.00026);
         }
 
         [Test]
@@ -222,9 +206,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 },
                 true);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(EFailureMechanismAssemblyMethod.Uncorrelated, result.AssemblyMethod);
-            Assert.AreEqual(0.0, result.Probability, 1e-8);
+            AssertResultAsExpected(result, EFailureMechanismAssemblyMethod.Uncorrelated, 0.0);
         }
 
         [Test]
@@ -332,6 +314,13 @@ namespace Assembly.Kernel.Tests.Implementations
             }
 
             return null;
+        }
+
+        private static void AssertResultAsExpected(FailureMechanismAssemblyResult result, EFailureMechanismAssemblyMethod expectedAssemblyMethod, double expectedProbabilityValue)
+        {
+            Assert.NotNull(result);
+            Assert.AreEqual(expectedAssemblyMethod, result.AssemblyMethod);
+            Assert.IsTrue(result.Probability.IsNegligibleDifference((Probability)expectedProbabilityValue));
         }
 
         private class LengthEffectTestData
