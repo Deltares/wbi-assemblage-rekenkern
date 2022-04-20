@@ -29,14 +29,9 @@ using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests
 {
-    public class TestHelper
+    public static class TestHelper
     {
-        public static void AssertExpectedErrorMessage(TestDelegate testDelegate, EAssemblyErrors expectedError)
-        {
-            AssertExpectedErrorMessage(testDelegate, new[] { expectedError });
-        }
-
-        public static void AssertExpectedErrorMessage(TestDelegate testDelegate, EAssemblyErrors[] expectedErrors)
+        public static void AssertExpectedErrorMessage(TestDelegate testDelegate, params EAssemblyErrors[] expectedErrors)
         {
             var errors = Assert.Throws<AssemblyException>(testDelegate).Errors.ToArray();
 

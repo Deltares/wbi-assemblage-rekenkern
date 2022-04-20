@@ -294,7 +294,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(0.1,
                     new ResultWithProfileAndSectionProbabilities[] { }, 
                     false);
-            }, new []{ EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange });
+            }, EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange );
         }
 
         [Test,

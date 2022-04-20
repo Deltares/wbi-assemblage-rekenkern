@@ -221,7 +221,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 var commonSections =
                     assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, -10.0);
-            }, new[] {EAssemblyErrors.SectionLengthOutOfRange, EAssemblyErrors.ValueMayNotBeNull});
+            }, EAssemblyErrors.SectionLengthOutOfRange, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]

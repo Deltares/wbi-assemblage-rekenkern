@@ -177,7 +177,7 @@ namespace Assembly.Kernel.Tests.Implementations
         {
             TestHelper.AssertExpectedErrorMessage(
                 () => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null),
-                new[] { EAssemblyErrors.UndefinedProbability, EAssemblyErrors.ValueMayNotBeNull }
+                EAssemblyErrors.UndefinedProbability, EAssemblyErrors.ValueMayNotBeNull
             );
         }
     }

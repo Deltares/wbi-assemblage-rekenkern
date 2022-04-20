@@ -60,29 +60,32 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         }
 
         [Test]
-        [TestCase(0.2, EInterpretationCategory.NotDominant)]
-        [TestCase(0.2, EInterpretationCategory.Dominant)]
-        [TestCase(0.2, EInterpretationCategory.NoResult)]
-        public void ConstructorChecksInputForNaNValuesWithCorrespondingCategories(double sectionValue, EInterpretationCategory category)
+        [TestCase(EInterpretationCategory.NotDominant)]
+        [TestCase(EInterpretationCategory.Dominant)]
+        [TestCase(EInterpretationCategory.NoResult)]
+        public void ConstructorChecksInputForUndefinedProbabilityWithCorrespondingCategories(EInterpretationCategory category)
         {
+            var definedProbability = (Probability)0.2;
+
             TestHelper.AssertExpectedErrorMessage(() =>
             {
-                var result = new FailureMechanismSectionAssemblyResult((Probability)sectionValue, category);
+                var result = new FailureMechanismSectionAssemblyResult(definedProbability, category);
             }, EAssemblyErrors.NonMatchingProbabilityValues);
         }
 
-        [TestCase(double.NaN, EInterpretationCategory.III)]
-        [TestCase(double.NaN, EInterpretationCategory.II)]
-        [TestCase(double.NaN, EInterpretationCategory.I)]
-        [TestCase(double.NaN, EInterpretationCategory.Zero)]
-        [TestCase(double.NaN, EInterpretationCategory.IMin)]
-        [TestCase(double.NaN, EInterpretationCategory.IIMin)]
-        [TestCase(double.NaN, EInterpretationCategory.IIIMin)]
-        public void ConstructorChecksInputForNotNaNValuesWithCorrespondingCategories(double sectionValue, EInterpretationCategory category)
+        [TestCase(EInterpretationCategory.III)]
+        [TestCase(EInterpretationCategory.II)]
+        [TestCase(EInterpretationCategory.I)]
+        [TestCase(EInterpretationCategory.Zero)]
+        [TestCase(EInterpretationCategory.IMin)]
+        [TestCase(EInterpretationCategory.IIMin)]
+        [TestCase(EInterpretationCategory.IIIMin)]
+        public void ConstructorChecksInputForDefinedProbabilityWithCorrespondingCategories(EInterpretationCategory category)
         {
+            var undefinedProbability = Probability.Undefined;
             TestHelper.AssertExpectedErrorMessage(() =>
             {
-                var result = new FailureMechanismSectionAssemblyResult((Probability)sectionValue, category);
+                var result = new FailureMechanismSectionAssemblyResult(undefinedProbability, category);
             }, EAssemblyErrors.UndefinedProbability);
         }
 

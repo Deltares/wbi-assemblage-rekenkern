@@ -258,7 +258,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(0.2,
                     new List<Probability>(),
                     false);
-            }, new[] {EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange});
+            }, EAssemblyErrors.EmptyResultsList, EAssemblyErrors.LengthEffectFactorOutOfRange);
         }
 
         [TestCaseSource(typeof(LengthEffectTestData), nameof(LengthEffectTestData.TestCases))]

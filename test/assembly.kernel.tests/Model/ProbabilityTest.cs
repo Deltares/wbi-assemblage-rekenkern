@@ -66,16 +66,9 @@ namespace Assembly.Kernel.Tests.Model
         {
             var probabilityX = (Probability) x;
             var probabilityY = (Probability)y;
-            if (expectedResult)
-            {
-                Assert.IsTrue(probabilityX.IsNegligibleDifference(probabilityY));
-                Assert.IsTrue(probabilityY.IsNegligibleDifference(probabilityX));
-            }
-            else
-            {
-                Assert.IsFalse(probabilityX.IsNegligibleDifference(probabilityY));
-                Assert.IsFalse(probabilityY.IsNegligibleDifference(probabilityX));
-            }
+
+            Assert.AreEqual(expectedResult, probabilityX.IsNegligibleDifference(probabilityY));
+            Assert.AreEqual(expectedResult, probabilityY.IsNegligibleDifference(probabilityX));
         }
 
         [TestCase(1E-3, true)]
@@ -85,14 +78,7 @@ namespace Assembly.Kernel.Tests.Model
             var probability = new Probability(1E-20);
             var other = new Probability(1.001E-20);
 
-            if (expectedResult)
-            {
-                Assert.IsTrue(probability.IsNegligibleDifference(other,precision));
-            }
-            else
-            {
-                Assert.IsFalse(probability.IsNegligibleDifference(other, precision));
-            }
+            Assert.AreEqual(expectedResult, probability.IsNegligibleDifference(other, precision));
         }
 
         [Test]
@@ -111,7 +97,7 @@ namespace Assembly.Kernel.Tests.Model
             Assert.IsFalse(Probability.Undefined.IsDefined);
         }
 
-        [TestCase(0.01,"1/100")]
+        [TestCase(0.0002516, "1/3975")]
         [TestCase(double.NaN, "Undefined")]
         [TestCase(1E-101, "0")]
         [TestCase(1-1E-101, "1")]

@@ -49,11 +49,9 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         [TestCase(0.2, 0.1)]
         public void AssessmentSectionInputValidationTestWithException(double signalFloodingProbability, double maximumAllowableFloodingProbability)
         {
-            TestHelper.AssertExpectedErrorMessage(() => 
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodingProbability);
-                Assert.AreEqual(signalFloodingProbability, section.SignalFloodingProbability);
-                Assert.AreEqual(maximumAllowableFloodingProbability, section.MaximumAllowableFloodingProbability);
             }, EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
         }
 
