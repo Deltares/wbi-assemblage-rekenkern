@@ -47,71 +47,39 @@ namespace Assembly.Kernel.Tests.Model
         public void ConstructorPassesValue()
         {
             var returnPeriod = 1000.0;
-            var val = 1.0/returnPeriod;
+            var val = 1.0 / returnPeriod;
             var probability = new Probability(val);
 
             Assert.AreEqual(val, probability);
             Assert.AreEqual(returnPeriod, probability.ReturnPeriod);
         }
 
-        [TestCase(0,0,true)]
-        [TestCase(0, 0.2, false)]
-        [TestCase(0.2, 0, false)]
-        [TestCase(1, 1, true)]
-        [TestCase(0.001, 0.001 + 1E-40, true)]
-        [TestCase(0.001, 0.001 + 1E-8, false)]
-        [TestCase(2E-40, 2E-40, true)]
-        [TestCase(2E-10, 3E-10, false)]
-        public void IsNegligibleDifferenceWorks(double x, double y, bool expectedResult)
-        {
-            var probabilityX = (Probability) x;
-            var probabilityY = (Probability)y;
-
-            Assert.AreEqual(expectedResult, probabilityX.IsNegligibleDifference(probabilityY));
-            Assert.AreEqual(expectedResult, probabilityY.IsNegligibleDifference(probabilityX));
-        }
-
-        [TestCase(1E-3, true)]
-        [TestCase(1E-4, false)]
-        public void IsNegligibleDifferenceTakesPrecision(double precision, bool expectedResult)
-        {
-            var probability = new Probability(1E-20);
-            var other = new Probability(1.001E-20);
-
-            Assert.AreEqual(expectedResult, probability.IsNegligibleDifference(other, precision));
-        }
-
         [Test]
         public void InverseWorks()
         {
             var probability = new Probability(0.9);
-            Assert.AreEqual(0.1, probability.Inverse,1E-10);
-        } 
+            Assert.AreEqual(0.1, probability.Inverse, 1E-10);
+        }
 
         [Test]
         public void IsDefinedReturnsCorrectValue()
         {
             Assert.IsTrue(new Probability(0.2).IsDefined);
             Assert.IsFalse(new Probability(double.NaN).IsDefined);
-            Assert.IsFalse(((Probability)double.NaN).IsDefined);
+            Assert.IsFalse(((Probability) double.NaN).IsDefined);
             Assert.IsFalse(Probability.Undefined.IsDefined);
         }
 
-        [TestCase(0.0002516, "1/3975")]
-        [TestCase(double.NaN, "Undefined")]
-        [TestCase(1E-101, "0")]
-        [TestCase(1-1E-101, "1")]
-        public void ToStringWorks(double value, string expectedString)
-        {
-            var probability = new Probability(value);
-            Assert.AreEqual(expectedString, probability.ToString());
-        }
-
         [Test]
+        [SetUICulture("nl-NL")]
+        [SetCulture("nl-NL")]
         public void ToStringWorksWithFormatProvider()
         {
             var probability = new Probability(1.425E-15);
-            Assert.AreEqual("1/701754385964912", probability.ToString(CultureInfo.InvariantCulture));
+
+            Assert.AreEqual("1.4250E-015", probability.ToString("E4", CultureInfo.InvariantCulture));
+            Assert.AreEqual("1.4250E-015", probability.ToString("E4", new CultureInfo("en-US")));
+            Assert.AreEqual("1,4250E-015", probability.ToString("E4", new CultureInfo("nl-NL")));
         }
 
         [Test]
@@ -141,58 +109,58 @@ namespace Assembly.Kernel.Tests.Model
         {
             var precision = 1E-10;
 
-            Assert.IsTrue(new Probability(0.1) == (Probability)0.1);
-            Assert.IsFalse((Probability)0.01 == (Probability)0.1);
-            Assert.IsTrue((Probability)0.01 != (Probability)0.1);
-            Assert.IsFalse(new Probability(0.1) != (Probability)0.1);
-            Assert.AreEqual((Probability)0.1, (Probability)0.2 - (Probability)0.1);
-            Assert.AreEqual((Probability)0.3, (Probability)0.2 + (Probability)0.1,precision);
-            Assert.AreEqual((Probability)0.01, (Probability)0.1 * (Probability)0.1, precision);
-            Assert.AreEqual((Probability)0.01, (Probability)0.1 * 0.1, precision);
-            Assert.AreEqual((Probability)0.01, 0.1 * (Probability)0.1, precision);
-            Assert.AreEqual((Probability)0.2, (Probability)0.1 / (Probability)0.5, precision);
-            Assert.AreEqual((Probability)0.05, (Probability)0.1 / 2.0, precision);
-            Assert.AreEqual((Probability)0.2, 0.1 / (Probability)0.5, precision);
-            Assert.AreEqual(0.3, (Probability)0.3, precision);
+            Assert.IsTrue(new Probability(0.1) == (Probability) 0.1);
+            Assert.IsFalse((Probability) 0.01 == (Probability) 0.1);
+            Assert.IsTrue((Probability) 0.01 != (Probability) 0.1);
+            Assert.IsFalse(new Probability(0.1) != (Probability) 0.1);
+            Assert.AreEqual((Probability) 0.1, (Probability) 0.2 - (Probability) 0.1);
+            Assert.AreEqual((Probability) 0.3, (Probability) 0.2 + (Probability) 0.1, precision);
+            Assert.AreEqual((Probability) 0.01, (Probability) 0.1 * (Probability) 0.1, precision);
+            Assert.AreEqual((Probability) 0.01, (Probability) 0.1 * 0.1, precision);
+            Assert.AreEqual((Probability) 0.01, 0.1 * (Probability) 0.1, precision);
+            Assert.AreEqual((Probability) 0.2, (Probability) 0.1 / (Probability) 0.5, precision);
+            Assert.AreEqual((Probability) 0.05, (Probability) 0.1 / 2.0, precision);
+            Assert.AreEqual((Probability) 0.2, 0.1 / (Probability) 0.5, precision);
+            Assert.AreEqual(0.3, (Probability) 0.3, precision);
 
-            Assert.AreEqual((Probability)1.0, (Probability)0.2 + (Probability)0.9, precision);
-            Assert.AreEqual((Probability)0.0, (Probability)0.2 - (Probability)0.5, precision);
+            Assert.AreEqual((Probability) 1.0, (Probability) 0.2 + (Probability) 0.9, precision);
+            Assert.AreEqual((Probability) 0.0, (Probability) 0.2 - (Probability) 0.5, precision);
 
-            Assert.IsTrue((Probability)0.2 > (Probability)0.1);
-            Assert.IsFalse((Probability)0.01 > (Probability)0.1);
-            Assert.IsTrue((Probability)0.2 >= (Probability)0.1);
-            Assert.IsFalse((Probability)0.01 >= (Probability)0.1);
-            Assert.IsTrue(new Probability(0.1) >= (Probability)0.1);
-            Assert.IsTrue((Probability)0.2 > 0.1);
-            Assert.IsFalse((Probability)0.01 > 0.1);
-            Assert.IsTrue((Probability)0.2 >= 0.1);
-            Assert.IsFalse((Probability)0.01 >= 0.1);
-            Assert.IsTrue((Probability)0.1 >= 0.1);
-            Assert.IsTrue(0.2 > (Probability)0.1);
-            Assert.IsFalse(0.01 > (Probability)0.1);
-            Assert.IsTrue(0.2 >= (Probability)0.1);
-            Assert.IsFalse(0.01 >= (Probability)0.1);
-            Assert.IsTrue(0.1 >= (Probability)0.1);
+            Assert.IsTrue((Probability) 0.2 > (Probability) 0.1);
+            Assert.IsFalse((Probability) 0.01 > (Probability) 0.1);
+            Assert.IsTrue((Probability) 0.2 >= (Probability) 0.1);
+            Assert.IsFalse((Probability) 0.01 >= (Probability) 0.1);
+            Assert.IsTrue(new Probability(0.1) >= (Probability) 0.1);
+            Assert.IsTrue((Probability) 0.2 > 0.1);
+            Assert.IsFalse((Probability) 0.01 > 0.1);
+            Assert.IsTrue((Probability) 0.2 >= 0.1);
+            Assert.IsFalse((Probability) 0.01 >= 0.1);
+            Assert.IsTrue((Probability) 0.1 >= 0.1);
+            Assert.IsTrue(0.2 > (Probability) 0.1);
+            Assert.IsFalse(0.01 > (Probability) 0.1);
+            Assert.IsTrue(0.2 >= (Probability) 0.1);
+            Assert.IsFalse(0.01 >= (Probability) 0.1);
+            Assert.IsTrue(0.1 >= (Probability) 0.1);
 
-            Assert.IsFalse((Probability)0.2 < (Probability)0.1);
-            Assert.IsTrue((Probability)0.01 < (Probability)0.1);
-            Assert.IsFalse((Probability)0.2 <= (Probability)0.1);
-            Assert.IsTrue((Probability)0.01 <= (Probability)0.1);
-            Assert.IsTrue(new Probability(0.1) <= (Probability)0.1);
-            Assert.IsFalse(0.2 < (Probability)0.1);
-            Assert.IsTrue(0.01 < (Probability)0.1);
-            Assert.IsFalse(0.2 <= (Probability)0.1);
-            Assert.IsTrue(0.01 <= (Probability)0.1);
-            Assert.IsTrue(0.1 <= (Probability)0.1);
-            Assert.IsFalse((Probability)0.2 < 0.1);
-            Assert.IsTrue((Probability)0.01 < 0.1);
-            Assert.IsFalse((Probability)0.2 <= 0.1);
-            Assert.IsTrue((Probability)0.01 <= 0.1);
-            Assert.IsTrue((Probability)0.1 <= 0.1);
+            Assert.IsFalse((Probability) 0.2 < (Probability) 0.1);
+            Assert.IsTrue((Probability) 0.01 < (Probability) 0.1);
+            Assert.IsFalse((Probability) 0.2 <= (Probability) 0.1);
+            Assert.IsTrue((Probability) 0.01 <= (Probability) 0.1);
+            Assert.IsTrue(new Probability(0.1) <= (Probability) 0.1);
+            Assert.IsFalse(0.2 < (Probability) 0.1);
+            Assert.IsTrue(0.01 < (Probability) 0.1);
+            Assert.IsFalse(0.2 <= (Probability) 0.1);
+            Assert.IsTrue(0.01 <= (Probability) 0.1);
+            Assert.IsTrue(0.1 <= (Probability) 0.1);
+            Assert.IsFalse((Probability) 0.2 < 0.1);
+            Assert.IsTrue((Probability) 0.01 < 0.1);
+            Assert.IsFalse((Probability) 0.2 <= 0.1);
+            Assert.IsTrue((Probability) 0.01 <= 0.1);
+            Assert.IsTrue((Probability) 0.1 <= 0.1);
         }
 
         [Test]
-        [TestCase(10.0,"*")]
+        [TestCase(10.0, "*")]
         [TestCase(-10.0, "*")]
         [TestCase(-1.0, "*")]
         [TestCase(0.00001, "/")]
@@ -201,19 +169,19 @@ namespace Assembly.Kernel.Tests.Model
         public void OperatorThrowsOnInvalidOutcome(double factor, string operation)
         {
             Action target;
-            
+
             switch (operation)
             {
                 case "*":
                     target = () =>
                     {
-                        var a = (new Probability(0.5)) * factor;
+                        var a = new Probability(0.5) * factor;
                     };
                     break;
                 case "/":
                     target = () =>
                     {
-                        var a = (new Probability(0.5)) / factor;
+                        var a = new Probability(0.5) / factor;
                     };
                     break;
                 default:
@@ -234,6 +202,8 @@ namespace Assembly.Kernel.Tests.Model
             Assert.IsFalse(probability.Equals("string"));
             Assert.IsTrue(probability.Equals(probability));
             Assert.IsTrue(probability.Equals(new Probability(0.1)));
+
+            Assert.IsFalse(probability.Equals(0.4 - 0.3));
         }
 
         [Test]
@@ -260,16 +230,53 @@ namespace Assembly.Kernel.Tests.Model
             }, EAssemblyErrors.InvalidArgumentType);
         }
 
+        [TestCase(0, 0, true)]
+        [TestCase(0, 0.2, false)]
+        [TestCase(0.2, 0, false)]
+        [TestCase(1, 1, true)]
+        [TestCase(0.001, 0.001 + 1E-40, true)]
+        [TestCase(0.001, 0.001 + 1E-8, false)]
+        [TestCase(2E-40, 2E-40, true)]
+        [TestCase(2E-10, 3E-10, false)]
+        public void IsNegligibleDifferenceWorks(double x, double y, bool expectedResult)
+        {
+            var probabilityX = (Probability) x;
+            var probabilityY = (Probability) y;
+
+            Assert.AreEqual(expectedResult, probabilityX.IsNegligibleDifference(probabilityY));
+            Assert.AreEqual(expectedResult, probabilityY.IsNegligibleDifference(probabilityX));
+        }
+
+        [TestCase(1E-3, true)]
+        [TestCase(1E-4, false)]
+        public void IsNegligibleDifferenceTakesPrecision(double precision, bool expectedResult)
+        {
+            var probability = new Probability(1E-20);
+            var other = new Probability(1.001E-20);
+
+            Assert.AreEqual(expectedResult, probability.IsNegligibleDifference(other, precision));
+        }
+
+        [TestCase(0.0002516, "1/3975")]
+        [TestCase(double.NaN, "Undefined")]
+        [TestCase(1E-101, "0")]
+        [TestCase(1 - 1E-101, "1")]
+        public void ToStringWorks(double value, string expectedString)
+        {
+            var probability = new Probability(value);
+            Assert.AreEqual(expectedString, probability.ToString());
+        }
+
         [TestCase(0.2, 1)]
         [TestCase(0.3, 0)]
         [TestCase(0.4, -1)]
         public void CompareToReturnsCorrectValues(double inputValue, int expectedResult)
         {
             var probability = new Probability(0.3);
-            Assert.AreEqual(expectedResult,probability.CompareTo(inputValue));
-            Assert.AreEqual(expectedResult, probability.CompareTo((Probability)inputValue));
-            Assert.AreEqual(expectedResult, probability.CompareTo((object)inputValue)); 
-            Assert.AreEqual(expectedResult, probability.CompareTo((object)(Probability)inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo(inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo((Probability) inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo((object) inputValue));
+            Assert.AreEqual(expectedResult, probability.CompareTo((object) (Probability) inputValue));
         }
     }
 }
