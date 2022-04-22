@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("assembly.kernel.benchmark.tests.io.tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rijkswaterstaat")]
 [assembly: AssemblyProduct("assembly.kernel.benchmark.tests.io.tests")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
