@@ -59,6 +59,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("22.1.1.0")]
 [assembly: AssemblyFileVersion("22.1.1.0")]
-[assembly: AssemblyInformationalVersion("22.1.1.0 - snapshot")]
+[assembly: AssemblyInformationalVersion("22.1.1.0")]
 
 [assembly: InternalsVisibleTo("Assembly.Kernel.Tests")]
