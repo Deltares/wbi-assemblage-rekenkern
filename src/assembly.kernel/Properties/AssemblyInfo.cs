@@ -57,8 +57,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("22.1.1.0")]
-[assembly: AssemblyFileVersion("22.1.1.0")]
-[assembly: AssemblyInformationalVersion("22.1.1.0 - snapshot")]
+[assembly: AssemblyVersion("22.2.1.0")]
+[assembly: AssemblyFileVersion("22.2.1.0")]
+[assembly: AssemblyInformationalVersion("22.2.1.0 - snapshot")]
 
 [assembly: InternalsVisibleTo("Assembly.Kernel.Tests")]
