@@ -66,7 +66,7 @@
     </ProjectReference>
     <ProjectReference Include="..\assembly.kernel.benchmark.tests.data\assembly.kernel.benchmark.tests.data.csproj">
       <Project>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</Project>
-      <Name>assembly.kernel.acceptance.tests.data</Name>
+      <Name>assembly.kernel.benchmark.tests.data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

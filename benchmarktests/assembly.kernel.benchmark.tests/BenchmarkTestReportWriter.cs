@@ -155,6 +155,7 @@ namespace assembly.kernel.benchmark.tests
                 var m = result.FailureMechanismResults[index];
                 str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
+                       ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionPartial) + " & " +
                        ToResultText(m.AreEqualCombinedResultsCombinedSections);

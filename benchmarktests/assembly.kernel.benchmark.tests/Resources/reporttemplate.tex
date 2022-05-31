@@ -1,10 +1,10 @@
 \section{Benchmarktest: $BenchmarkTestName$}
 	\label{ch:benchmarktTest$Order$}
-De volgende paragrafen geven een overzicht van de resultaten van het doorlopen van de benchmarktest \textit{$BenchmarkTestName$} per faalmechanisme (\autoref{sec:$Order$:pertoetsspoor}) en per traject (\autoref{sec:$Order$:pertraject}).
+De volgende paragrafen geven een overzicht van de resultaten van het doorlopen van de benchmarktest \textit{$BenchmarkTestName$} per faalmechanisme (\autoref{sec:$Order$:perfaalmechanisme}) en per traject (\autoref{sec:$Order$:pertraject}).
 
 \subsection{Assemblage per faalmechanisme}
 	\label{sec:$Order$:perfaalmechanisme}
-Tijdens het assembleren worden voor ieder toetsspoor verschillende stappen doorlopen:
+Tijdens het assembleren worden voor ieder faalmechanisme verschillende stappen doorlopen:
 \begin{itemize}
 	\item \textbf{Laag 0} - Per vak worden de resultaten van de analyse van de faalkans vertaald naar een faalkans per vak en doorsnede. Daarna wordt een duidingsklasse toegekend aan het betreffende vak bepaald op basis van de faalkans van dat vak.
 	\item \textbf{Laag 1} - Met de faalkansen per vak wordt vervolgens het gecombineerde faalkans per traject bepaald voor het betreffende faalmechanisme.
@@ -14,10 +14,10 @@ Tijdens het assembleren worden voor ieder toetsspoor verschillende stappen doorl
 De volgende tabel presenteert het resultaat van de hierboven beschreven stappen per faalmechanisme:
 
 \begin{footnotesize}
-	\begin{longtable}[]{@{}l l l | c c c c c c c c@{}}
+	\begin{longtable}[]{@{}l l l | c c c c c c c c c@{}}
 		\caption{Resultaat per faalmechanisme voor benchmarktest $BenchmarkTestName$.	\label{tab:$Order$:ResultatenPerFaalmechanisme}}\\
 		\hline \T
-			Faalmechanisme & Code & \rotatebox{90}{Lengte-effect binnen vak } & \rotatebox{90}{Test 0-2: Faalkans en duiding per vak } & \rotatebox{90}{Test 1-1: Faalkans per traject } & \rotatebox{90}{Test 1-1: Faalkans per traject } \rotatebox{90}{(tussentijds)} & \rotatebox{90}{Test 3: Duidingsklasse per deelvak } \rotatebox{90}{(vak met grootst gemene deler) } \B \\
+			Faalmechanisme & Code & \rotatebox{90}{Lengte-effect binnen vak } & \rotatebox{90}{Test 0-2: Faalkans per vak } & \rotatebox{90}{Test 0-2: Duiding per vak } & \rotatebox{90}{Test 1-1: Faalkans per traject } & \rotatebox{90}{Test 1-1: Faalkans per traject } \rotatebox{90}{(tussentijds)} & \rotatebox{90}{Test 3-2: Duidingsklasse per deelvak } \rotatebox{90}{(vak met grootst gemene deler) } \B \\
 		\endhead
 		\hline\T
 		$FailureMechanismResultsTable$
@@ -29,7 +29,7 @@ De tekens die in deze tabel zijn opgenomen hebben de volgende betekenis:
 \begin{itemize}
 	\item [\cmark] Testonderdeel is succesvol uitgevoerd
 	\item [\xmark] Testonderdeel is niet succesvol uitgevoerd
-	\item [\nmark] Testonderdeel is niet relevant voor dit toetsspoor
+	\item [\nmark] Testonderdeel is niet relevant voor dit faalmechanisme
 \end{itemize}
 
 \subsection{Bepaling faalkansen per traject}
@@ -38,9 +38,9 @@ Tijdens het assembleren worden ook per traject stappen uitgevoerd om tot een vei
 
 Bepaling van het veiligheidsoordeel (laag 2):
 \begin{itemize}
-	\item [$AreEqualAssemblyResultFinalVerdict$]Test 2-2: Bepaling van de overstromingskans van het traject.
+	\item [$AreEqualAssemblyResultFinalVerdict$]Test 2-1: Bepaling van de overstromingskans van het traject.
 	\item [$AreEqualAssemblyResultFinalVerdictProbability$]Test 2-2: Bepaling van het veiligheidsoordeel.
-	\item [$AreEqualAssemblyResultFinalVerdictPartial$]Test 2-2: Bepaling van de overstromingskans van het traject (tussentijds).
+	\item [$AreEqualAssemblyResultFinalVerdictPartial$]Test 2-1: Bepaling van de overstromingskans van het traject (tussentijds).
 	\item [$AreEqualAssemblyResultFinalVerdictProbabilityPartial$]Test 2-2: Bepaling van het veiligheidsoordeel (tussentijds).
 \end{itemize}
 
