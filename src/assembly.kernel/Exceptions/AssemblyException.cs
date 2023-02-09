@@ -26,25 +26,22 @@ using System.Linq;
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
-    /// This exception is returned when an exception occurred during the execution of a method in the Assembly kernel.
+    /// Exception that is thrown when performing an assembly has failed.
     /// </summary>
     public class AssemblyException : Exception
     {
         /// <summary>
-        /// Assembly exception constructor for a single error message.
+        /// Creates a new instance of <see cref="AssemblyException"/> with a single error message.
         /// </summary>
         /// <param name="entityId">The id of the entity on which the error occurred.</param>
         /// <param name="error">The code of the error which occurred.</param>
-        internal AssemblyException(string entityId, EAssemblyErrors error)
+        internal AssemblyException(string entityId, EAssemblyErrors error) : this(new[]
         {
-            Errors = new List<AssemblyErrorMessage>
-            {
-                new AssemblyErrorMessage(entityId, error)
-            };
-        }
+            new AssemblyErrorMessage(entityId, error)
+        }) {}
 
         /// <summary>
-        /// Assembly exception constructor for multiple error messages.
+        /// Creates a new instance of <see cref="AssemblyException"/> with multiple error messages.
         /// </summary>
         /// <param name="errorMessages">A list of error messages.</param>
         internal AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
@@ -61,19 +58,19 @@ namespace Assembly.Kernel.Exceptions
         }
 
         /// <summary>
-        /// The exception text.
+        /// Gets the exception message.
         /// </summary>
         public override string Message
         {
             get
             {
-                return Errors.Aggregate("One or more errors occured during the assembly process:" + Environment.NewLine,
-                                        (current, error) => current + (error.ErrorCode + Environment.NewLine));
+                return Errors.Aggregate("One or more errors occured during the assembly process:",
+                                        (current, error) => current + (Environment.NewLine + error.ErrorCode));
             }
         }
 
         /// <summary>
-        /// This property contains one or more error messages containing more detail of the occured error(s).
+        /// Gets the list of error messages.
         /// </summary>
         public IEnumerable<AssemblyErrorMessage> Errors { get; }
     }

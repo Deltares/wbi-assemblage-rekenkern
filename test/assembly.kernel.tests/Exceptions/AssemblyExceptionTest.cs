@@ -31,59 +31,99 @@ namespace Assembly.Kernel.Tests.Exceptions
     public class AssemblyExceptionTest
     {
         [Test]
-        public void ConstructorSingleExceptionPassesArguments()
+        public void ConstructorWithSingleError_Always_ExpectedValues()
         {
-            var id = "TestId";
-            var error = EAssemblyErrors.FailureMechanismSectionLengthInvalid;
+            // Setup
+            const string id = "TestId";
+            const EAssemblyErrors error = EAssemblyErrors.FailureMechanismSectionLengthInvalid;
 
-            var exception = new AssemblyException(id,error);
+            // Call
+            var exception = new AssemblyException(id, error);
 
+            // Assert
             Assert.AreEqual(1, exception.Errors.Count());
 
-            var firstError = exception.Errors.First();
-            Assert.AreEqual(id, firstError.EntityId);
-            Assert.AreEqual(error, firstError.ErrorCode);
+            AssemblyErrorMessage errorMessage = exception.Errors.First();
+            Assert.AreEqual(id, errorMessage.EntityId);
+            Assert.AreEqual(error, errorMessage.ErrorCode);
         }
 
         [Test]
-        public void ConstructorMultipleExceptionPassesArguments()
+        public void ConstructorWithMultipleErrors_WithErrors_ExpectedValues()
         {
+            // Setup
             var expectedMessages = new List<AssemblyErrorMessage>
             {
                 new AssemblyErrorMessage("TestId1", EAssemblyErrors.FailureMechanismSectionLengthInvalid),
                 new AssemblyErrorMessage("TestId2", EAssemblyErrors.LengthEffectFactorOutOfRange)
             };
 
+            // Call
             var exception = new AssemblyException(expectedMessages);
 
+            // Assert
             Assert.AreEqual(expectedMessages.Count, exception.Errors.Count());
             Assert.AreEqual(expectedMessages, exception.Errors);
 
-            for (int i = 0; i < expectedMessages.Count; i++)
+            for (var i = 0; i < expectedMessages.Count; i++)
             {
-                var message = exception.Errors.ElementAt(i);
-                var expectedErrorMessage = expectedMessages.ElementAt(i);
-                Assert.AreEqual(expectedErrorMessage.EntityId, message.EntityId);
-                Assert.AreEqual(expectedErrorMessage.ErrorCode, message.ErrorCode);
+                AssemblyErrorMessage expectedErrorMessage = expectedMessages.ElementAt(i);
+                AssemblyErrorMessage actualErrorMessage = exception.Errors.ElementAt(i);
+
+                Assert.AreEqual(expectedErrorMessage.EntityId, actualErrorMessage.EntityId);
+                Assert.AreEqual(expectedErrorMessage.ErrorCode, actualErrorMessage.ErrorCode);
             }
         }
 
         [Test]
-        public void ConstructorConsumesNullMessage()
+        public void ConstructorWithMultipleErrors_ErrorsNull_ExpectedValues()
         {
+            // Call
             var exception = new AssemblyException(null);
 
+            // Assert
             Assert.AreEqual(1, exception.Errors.Count());
-            Assert.AreEqual(EAssemblyErrors.ErrorConstructingErrorMessage, exception.Errors.First().ErrorCode);
+            AssemblyErrorMessage errorMessage = exception.Errors.First();
+            Assert.AreEqual(nameof(AssemblyException), errorMessage.EntityId);
+            Assert.AreEqual(EAssemblyErrors.ErrorConstructingErrorMessage, errorMessage.ErrorCode);
         }
 
         [Test]
-        public void ToStringWorks()
+        public void Message_ExceptionWithSingleError_ReturnsExpectedMessage()
         {
-            var exception = new AssemblyException("Test",EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
+            // Setup
+            var exception = new AssemblyException("Test", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
 
-            Assert.AreEqual("One or more errors occured during the assembly process:" + Environment.NewLine + EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult + Environment.NewLine ,
-                exception.Message);
+            // Call
+            string message = exception.Message;
+
+            // Assert
+            string expectedMessage = "One or more errors occured during the assembly process:"
+                                     + Environment.NewLine
+                                     + EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult;
+            Assert.AreEqual(expectedMessage, message);
+        }
+
+        [Test]
+        public void Message_ExceptionWithMultipleErros_ReturnsExpectedMessage()
+        {
+            // Setup
+            var exception = new AssemblyException(new[]
+            {
+                new AssemblyErrorMessage("Test1", EAssemblyErrors.InvalidCategoryValue),
+                new AssemblyErrorMessage("Test2", EAssemblyErrors.LengthEffectFactorOutOfRange)
+            });
+
+            // Call
+            string message = exception.Message;
+
+            // Assert
+            string expectedMessage = "One or more errors occured during the assembly process:"
+                                     + Environment.NewLine
+                                     + EAssemblyErrors.InvalidCategoryValue
+                                     + Environment.NewLine
+                                     + EAssemblyErrors.LengthEffectFactorOutOfRange;
+            Assert.AreEqual(expectedMessage, message);
         }
     }
 }

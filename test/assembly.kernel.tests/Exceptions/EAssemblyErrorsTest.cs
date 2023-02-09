@@ -29,9 +29,13 @@ namespace Assembly.Kernel.Tests.Exceptions
     public class EAssemblyErrorsTest
     {
         [Test]
-        public void MemberCount()
+        public void EAssemblyErrors_Always_ExpectedValues()
         {
-            Assert.AreEqual(27, Enum.GetValues(typeof(EAssemblyErrors)).Length);
+            // Call
+            Array assemblyErrors = Enum.GetValues(typeof(EAssemblyErrors));
+            
+            // Assert
+            Assert.AreEqual(27, assemblyErrors.Length);
         }
     }
 }

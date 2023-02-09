@@ -27,7 +27,7 @@ namespace Assembly.Kernel.Exceptions
     public class AssemblyErrorMessage
     {
         /// <summary>
-        /// Error message.
+        /// Creates a new instance of <see cref="AssemblyErrorMessage"/>.
         /// </summary>
         /// <param name="entityId">The id of the entity on which the error occurred.</param>
         /// <param name="errorCode">The code of the error which occurred.</param>
@@ -38,12 +38,12 @@ namespace Assembly.Kernel.Exceptions
         }
 
         /// <summary>
-        /// Id of the entity on which the error occurred.
+        /// Gets the id of the entity on which the error occurred.
         /// </summary>
         public string EntityId { get; }
 
         /// <summary>
-        /// The code of the error which occurred.
+        /// Gets the code of the error which occurred.
         /// </summary>
         public EAssemblyErrors ErrorCode { get; }
     }

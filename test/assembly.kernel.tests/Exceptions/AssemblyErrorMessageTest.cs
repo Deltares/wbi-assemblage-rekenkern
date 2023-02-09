@@ -28,14 +28,17 @@ namespace Assembly.Kernel.Tests.Exceptions
     public class AssemblyErrorMessageTest
     {
         [Test]
-        public void ConstructorPassesArguments()
+        public void Constructor_Always_ExpectedValues()
         {
-            string id = "TestID";
-            EAssemblyErrors error = EAssemblyErrors.FailureProbabilityOutOfRange;
+            // Setup
+            const string id = "TestID";
+            const EAssemblyErrors error = EAssemblyErrors.FailureProbabilityOutOfRange;
 
-            var message = new AssemblyErrorMessage(id,error);
+            // Call
+            var message = new AssemblyErrorMessage(id, error);
 
-            Assert.AreEqual(id,message.EntityId);
+            // Assert
+            Assert.AreEqual(id, message.EntityId);
             Assert.AreEqual(error, message.ErrorCode);
         }
     }
