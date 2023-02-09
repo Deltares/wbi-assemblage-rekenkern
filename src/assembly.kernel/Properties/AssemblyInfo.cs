@@ -1,6 +1,4 @@
-﻿#region Copyright (C) Rijkswaterstaat 2022. All rights reserved.
-
-// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+﻿// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -20,8 +18,6 @@
 // All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
-
-#endregion
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
