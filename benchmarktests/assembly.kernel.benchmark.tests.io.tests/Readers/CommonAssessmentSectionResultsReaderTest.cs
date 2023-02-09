@@ -75,7 +75,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                     new ExpectedFailureMechanismResult("Duinafslag", "DA", true),
                     new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true),
                     new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true),
-                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true),
+                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true)
                 });
 
                 reader.Read(result);

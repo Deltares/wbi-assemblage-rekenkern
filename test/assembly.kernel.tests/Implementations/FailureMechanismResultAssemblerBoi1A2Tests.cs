@@ -398,7 +398,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         new[]
                         {
                             new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
-                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III),
+                            new Tuple<Probability, Probability, EInterpretationCategory>((Probability) 0.0, (Probability) 0.0, EInterpretationCategory.III)
                         },
                         false,
                         (Probability)0.0, EFailureMechanismAssemblyMethod.Correlated);

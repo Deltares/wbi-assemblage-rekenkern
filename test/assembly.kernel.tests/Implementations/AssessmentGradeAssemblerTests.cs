@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Tests.Implementations
             var failureMechanismProbabilities = new[]
             {
                 (Probability) prob1,
-                (Probability) prob2,
+                (Probability) prob2
             };
             var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(failureMechanismProbabilities, false);
 

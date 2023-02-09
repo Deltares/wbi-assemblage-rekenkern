@@ -161,7 +161,7 @@ namespace Assembly.Kernel.Tests.Implementations
                     new InterpretationCategory(EInterpretationCategory.Zero,new Probability(0.3), new Probability(0.4)),
                     new InterpretationCategory(EInterpretationCategory.IMin,new Probability(0.4), new Probability(0.5)),
                     new InterpretationCategory(EInterpretationCategory.IIMin,new Probability(0.5), new Probability(0.6)),
-                    new InterpretationCategory(EInterpretationCategory.IIIMin,new Probability(0.6), new Probability(1)),
+                    new InterpretationCategory(EInterpretationCategory.IIIMin,new Probability(0.6), new Probability(1))
                 });
             var category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                 new Probability(probabilityValue),
