@@ -27,7 +27,7 @@ using Assembly.Kernel.Model.FailureMechanismSections;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Translate assessment results to a failure mechanism section assessment result.
+    /// Interface to translate assessment results to a failure mechanism section assembly result.
     /// </summary>
     public interface IAssessmentResultsTranslator
     {
@@ -93,41 +93,42 @@ namespace Assembly.Kernel.Interfaces
             CategoriesList<InterpretationCategory> categories);
 
         /// <summary>
-        /// Determines the representative probability for a section based on estimations
-        /// of the initial mechanism and further analysis.
+        /// Determines the representative probability for a section.
         /// </summary>
-        /// <param name="refinementNecessary">Indicates whether further refinement was necessary.</param>
+        /// <param name="refinementNecessary">Indicator whether refinement is necessary.</param>
         /// <param name="probabilityInitialMechanismSection">The probability estimation of the initial mechanism.</param>
-        /// <param name="refinedProbabilitySection">The probability estimation after further refinement.</param>
+        /// <param name="refinedProbabilitySection">The refined probability estimation.</param>
         /// <returns>The representative probability.</returns>
         Probability DetermineRepresentativeProbabilityBoi0A1(
             bool refinementNecessary,
             Probability probabilityInitialMechanismSection,
-            Probability refinedProbabilitySection
-        );
+            Probability refinedProbabilitySection);
 
         /// <summary>
-        /// This method determines the representative probabilities of a failure mechanism section.
+        /// Determines the representative probabilities of a failure mechanism section.
         /// </summary>
-        /// <param name="refinementNecessary">Indicates whether refinement of the failure probability was/is necessary.</param>
-        /// <param name="probabilityInitialMechanismProfile">The probability estimation based on the initial mechanism for a profile.</param>
-        /// <param name="probabilityInitialMechanismSection">The probability estimation based on the initial mechanism for a section.</param>
+        /// <param name="refinementNecessary">Indicator whether refinement is necessary.</param>
+        /// <param name="probabilityInitialMechanismProfile">The probability estimation of the initial mechanism for a profile.</param>
+        /// <param name="probabilityInitialMechanismSection">The probability estimation of the initial mechanism for a section.</param>
         /// <param name="refinedProbabilityProfile">The refined probability estimation for a profile.</param>
-        /// <param name="refinedProbabilitySection">The refined probability estimation for a profile.</param>
-        /// <returns>The representative probabilities for a profile and section.</returns>
-        /// <exception cref="AssemblyException">Thrown in case just one of <paramref name="probabilityInitialMechanismProfile"/> and
-        /// <paramref name="probabilityInitialMechanismSection"/> is undefined.</exception>
-        /// <exception cref="AssemblyException">Thrown in case just one of <paramref name="refinedProbabilityProfile"/> or
-        /// <paramref name="refinedProbabilitySection"/> is undefined.</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="refinedProbabilityProfile"/> &gt; <paramref name="refinedProbabilitySection"/>.</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probabilityInitialMechanismProfile"/> &gt; <paramref name="probabilityInitialMechanismSection"/>.</exception>
+        /// <param name="refinedProbabilitySection">The refined probability estimation for a section.</param>
+        /// <returns>A <see cref="ResultWithProfileAndSectionProbabilities"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="probabilityInitialMechanismProfile"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="probabilityInitialMechanismSection"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="refinedProbabilityProfile"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="refinedProbabilityProfile"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="refinedProbabilityProfile"/> &gt; <paramref name="refinedProbabilitySection"/>;</item>
+        /// <item><paramref name="probabilityInitialMechanismProfile"/> &gt; <paramref name="probabilityInitialMechanismSection"/>.</item>
+        /// </list>
+        /// </exception>
         ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(
             bool refinementNecessary,
             Probability probabilityInitialMechanismProfile,
             Probability probabilityInitialMechanismSection,
             Probability refinedProbabilityProfile,
-            Probability refinedProbabilitySection
-        );
+            Probability refinedProbabilitySection);
 
         /// <summary>
         /// Returns the correct interpretation category that is associated with the specified probability (based on the specified categories).
@@ -138,8 +139,7 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown if <paramref name="categories"/> equals null.</exception>
         EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
             Probability sectionProbability,
-            CategoriesList<InterpretationCategory> categories
-        );
+            CategoriesList<InterpretationCategory> categories);
 
         /// <summary>
         /// Translates the analysis state to the associated interpretation category.
@@ -154,8 +154,7 @@ namespace Assembly.Kernel.Interfaces
         /// </list>
         /// For <see cref="EAnalysisState.ProbabilityEstimated"/>, use method <see cref="DetermineRepresentativeProbabilityBoi0A1"/> or <see cref="DetermineRepresentativeProbabilitiesBoi0A2"/>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
-            EAnalysisState analysisState
-        );
+            EAnalysisState analysisState);
 
         /// <summary>
         /// Translates interpretation categories without association with a probability range to default probabilities.

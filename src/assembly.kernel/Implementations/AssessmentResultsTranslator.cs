@@ -27,10 +27,9 @@ using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Implementations
 {
-    /// <inheritdoc />
+    /// Translate assessment results to a failure mechanism section assembly result.
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
-        /// <inheritdoc />
         public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismSection,
@@ -58,7 +57,6 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        /// <inheritdoc />
         public FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
             ESectionInitialMechanismProbabilitySpecification relevance,
             Probability probabilityInitialMechanismProfile,
@@ -90,19 +88,22 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        /// <inheritdoc />
-        public Probability DetermineRepresentativeProbabilityBoi0A1(bool refinementNecessary,
-                                                                    Probability probabilityInitialMechanismSection, Probability refinedProbabilitySection)
+        public Probability DetermineRepresentativeProbabilityBoi0A1(
+            bool refinementNecessary,
+            Probability probabilityInitialMechanismSection,
+            Probability refinedProbabilitySection)
         {
-            return refinementNecessary ? refinedProbabilitySection : probabilityInitialMechanismSection;
+            return refinementNecessary
+                       ? refinedProbabilitySection
+                       : probabilityInitialMechanismSection;
         }
 
-        /// <inheritdoc />
-        public ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(bool refinementNecessary,
-                                                                                                   Probability probabilityInitialMechanismProfile,
-                                                                                                   Probability probabilityInitialMechanismSection,
-                                                                                                   Probability refinedProbabilityProfile,
-                                                                                                   Probability refinedProbabilitySection)
+        public ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(
+            bool refinementNecessary,
+            Probability probabilityInitialMechanismProfile,
+            Probability probabilityInitialMechanismSection,
+            Probability refinedProbabilityProfile,
+            Probability refinedProbabilitySection)
         {
             return refinementNecessary
                        ? new ResultWithProfileAndSectionProbabilities(refinedProbabilityProfile, refinedProbabilitySection)
