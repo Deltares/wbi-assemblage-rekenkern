@@ -25,7 +25,6 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
@@ -34,17 +33,22 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class AssessmentGradeAssemblerTest
     {
-        private IAssessmentGradeAssembler assembler;
-
-        [SetUp]
-        public void SetUp()
+        [Test]
+        public void Constructor_ExpectedValues()
         {
-            assembler = new AssessmentGradeAssembler();
+            // Call
+            var assembler = new AssessmentGradeAssembler();
+
+            // Assert
+            Assert.IsInstanceOf<IAssessmentGradeAssembler>(assembler);
         }
 
         [Test]
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesNull_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false);
 
@@ -58,6 +62,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesEmpty_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(Array.Empty<Probability>(), false);
 
@@ -71,6 +78,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_PartialAssemblyFalseAndFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
             {
@@ -87,6 +97,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_PartialAssemblyTrueAndFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
             {
@@ -105,6 +118,9 @@ namespace Assembly.Kernel.Tests.Implementations
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_WithFailureMechanismProbabilities_ReturnsExpectedResult(
             bool partialAssembly, Probability probability1, Probability probability2, Probability expectedProbability)
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             Probability actualProbability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
             {
@@ -119,6 +135,9 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void DetermineAssessmentGradeBoi2B1_ProbabilityUndefinedAndCategoriesNull_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
             // Call
             void Call() => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null);
 
@@ -131,16 +150,22 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(0.1, EAssessmentGrade.C)]
-        [TestCase(0.000549975, EAssessmentGrade.A)]
+        [TestCase(0.3582, EAssessmentGrade.C)]
+        [TestCase(0.000549975, EAssessmentGrade.APlus)]
         public void DetermineAssessmentGradeBoi2B1_WithValidData_ReturnsExpectedResult
             (double failureProbability, EAssessmentGrade expectedAssessmentGrade)
         {
             // Setup
-            var assessmentSection = new AssessmentSection(new Probability(1.0 / 1000.0), new Probability(1.0 / 300.0));
-            var categoryLimitsCalculator = new CategoryLimitsCalculator();
-            CategoriesList<AssessmentSectionCategory> categories = categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(
-                assessmentSection);
+            var categories = new CategoriesList<AssessmentSectionCategory>(new []
+            {
+                new AssessmentSectionCategory(EAssessmentGrade.APlus, new Probability(0), new Probability(0.1)),
+                new AssessmentSectionCategory(EAssessmentGrade.A, new Probability(0.1), new Probability(0.2)),
+                new AssessmentSectionCategory(EAssessmentGrade.B, new Probability(0.2), new Probability(0.3)),
+                new AssessmentSectionCategory(EAssessmentGrade.C, new Probability(0.3), new Probability(0.4)),
+                new AssessmentSectionCategory(EAssessmentGrade.D, new Probability(0.4), new Probability(1))
+            });
+
+            var assembler = new AssessmentGradeAssembler();
 
             // Call
             EAssessmentGrade assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(new Probability(failureProbability), categories);
