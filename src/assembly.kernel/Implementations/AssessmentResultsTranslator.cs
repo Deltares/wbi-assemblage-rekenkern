@@ -110,9 +110,9 @@ namespace Assembly.Kernel.Implementations
                        : new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
         }
 
-        /// <inheritdoc />
         public EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-            Probability sectionProbability, CategoriesList<InterpretationCategory> categories)
+            Probability sectionProbability,
+            CategoriesList<InterpretationCategory> categories)
         {
             if (categories == null)
             {
@@ -122,7 +122,6 @@ namespace Assembly.Kernel.Implementations
             return categories.GetCategoryForFailureProbability(sectionProbability).Category;
         }
 
-        /// <inheritdoc />
         public EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState)
         {
@@ -139,7 +138,6 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        /// <inheritdoc />
         public Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category)
         {
             switch (category)
@@ -155,24 +153,21 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        /// <inheritdoc />
         public Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
 
-            var sectionProbabilityValue = (double) profileProbability * lengthEffectFactor;
+            double sectionProbabilityValue = (double) profileProbability * lengthEffectFactor;
             return new Probability(sectionProbabilityValue > 1 ? 1 : sectionProbabilityValue);
         }
 
-        /// <inheritdoc />
-        public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability,
-                                                                                 double lengthEffectFactor)
+        public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
             return sectionProbability / lengthEffectFactor;
         }
 
-        private EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
+        private static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
         {
             switch (relevance)
             {

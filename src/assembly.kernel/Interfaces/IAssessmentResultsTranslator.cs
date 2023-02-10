@@ -131,54 +131,58 @@ namespace Assembly.Kernel.Interfaces
             Probability refinedProbabilitySection);
 
         /// <summary>
-        /// Returns the correct interpretation category that is associated with the specified probability (based on the specified categories).
+        /// Determines the interpretation category that is associated with the section probability (based on the specified categories).
         /// </summary>
-        /// <param name="sectionProbability">The probability for which an interpretation category needs to be found.</param>
-        /// <param name="categories">The list of categories and category boundaries.</param>
-        /// <returns>The interpretation category associated with the specified probability.</returns>
-        /// <exception cref="AssemblyException">Thrown if <paramref name="categories"/> equals null.</exception>
+        /// <param name="sectionProbability">The section probability.</param>
+        /// <param name="categories">The categories to use.</param>
+        /// <returns>The <see cref="EInterpretationCategory"/> of the failure mechanism section.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionProbability"/> is
+        /// <see cref="Probability.Undefined"/> or <paramref name="categories"/> is <c>null</c>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
             Probability sectionProbability,
             CategoriesList<InterpretationCategory> categories);
 
         /// <summary>
-        /// Translates the analysis state to the associated interpretation category.
+        /// Determines the interpretation category.
         /// </summary>
         /// <param name="analysisState">The state of the analysis.</param>
-        /// <returns>The associated interpretation category.</returns>
-        /// <exception cref="AssemblyException">Thrown in case of an invalid or unsupported enum value for <paramref name="analysisState"/>.
-        /// This method only supports values of <list type="bullet">
-        /// <item><see cref="EAnalysisState.NotRelevant"/>.</item>
-        /// <item><see cref="EAnalysisState.ProbabilityEstimationNecessary"/>.</item>
-        /// <item><see cref="EAnalysisState.NoProbabilityEstimationNecessary"/>.</item>
-        /// </list>
-        /// For <see cref="EAnalysisState.ProbabilityEstimated"/>, use method <see cref="DetermineRepresentativeProbabilityBoi0A1"/> or <see cref="DetermineRepresentativeProbabilitiesBoi0A2"/>.</exception>
+        /// <returns>An <see cref="EInterpretationCategory"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="analysisState"/> is not
+        /// <see cref="EAnalysisState.NotRelevant"/>, <see cref="EAnalysisState.ProbabilityEstimationNecessary"/>
+        /// or <see cref="EAnalysisState.NoProbabilityEstimationNecessary"/>.</exception>
+        /// <remarks>
+        /// Use method <c>DetermineRepresentativeProbabilityBoi0A1</c> or <c>DetermineRepresentativeProbabilitiesBoi0A2</c>
+        /// when <paramref name="analysisState"/> is <see cref="EAnalysisState.ProbabilityEstimated"/>.
+        /// </remarks>
+        /// <seealso cref="DetermineRepresentativeProbabilityBoi0A1"/>
+        /// <seealso cref="DetermineRepresentativeProbabilitiesBoi0A2"/>
         EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState);
 
         /// <summary>
-        /// Translates interpretation categories without association with a probability range to default probabilities.
+        /// Translates interpretation categories to a probability.
         /// </summary>
-        /// <param name="category">The interpretation category to translate.</param>
+        /// <param name="category">The interpretation category.</param>
         /// <returns>The failure probability associated with the interpretation category.</returns>
-        /// <exception cref="AssemblyException">Thrown in case of an unsupported value for <paramref name="category"/>
-        /// (a category that is associated with a probability range or an invalid enum value).</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="category"/> is invalid or unsupported.exception>
         Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category);
 
         /// <summary>
-        /// Calculates a section failure probability given the failure probability of a representative profile and the length effect factor.
+        /// Calculates a section failure probability.
         /// </summary>
         /// <param name="profileProbability">The failure probability of a representative profile.</param>
-        /// <param name="lengthEffectFactor">Length effect factor.</param>
-        /// <returns>The calculated probability of failure of the failure mechanism section.</returns>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <returns>The failure probability of the failure mechanism section.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="lengthEffectFactor"/> &lt; 1.</exception>
         Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor);
 
         /// <summary>
-        /// Calculates a failure probability of a representative profile given the failure probability of a failure mechanism section and the length effect factor.
+        /// Calculates a profile failure probability.
         /// </summary>
         /// <param name="sectionProbability">The failure probability of a failure mechanism section.</param>
-        /// <param name="lengthEffectFactor">Length effect factor.</param>
-        /// <returns>The calculated probability of failure of the representative profile for a failure mechanism section.</returns>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <returns>The failure probability of the representative profile for a failure mechanism section.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="lengthEffectFactor"/> &lt; 1.</exception>
         Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor);
     }
 }
