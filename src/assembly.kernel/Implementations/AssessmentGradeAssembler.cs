@@ -28,90 +28,85 @@ using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Implementations
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Assemble failure mechanism assembly results into one assessment result.
+    /// </summary>
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
-        /// <inheritdoc />
         public Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
-            IEnumerable<Probability> failureMechanismProbabilities,
-            bool partialAssembly)
+            IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly)
         {
             if (failureMechanismProbabilities == null)
             {
                 throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            var failureProbabilitiesArray = PrepareResultsList(failureMechanismProbabilities, partialAssembly);
-            var failureProbability = CalculateFailureProbabilityFromListOfProbabilities(failureProbabilitiesArray);
-
-            return failureProbability;
-        }
-
-        /// <inheritdoc />
-        public EAssessmentGrade DetermineAssessmentGradeBoi2B1(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
-        {
-            CheckForDefinedProbabilityAndCategories(failureProbability, categories);
-            var category = categories.GetCategoryForFailureProbability(failureProbability);
-            return category.Category;
-        }
-
-        private static Probability[] PrepareResultsList(IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly)
-        {
-            var failureProbabilitiesArray = failureMechanismProbabilities as Probability[] ??
-                                            failureMechanismProbabilities.ToArray();
-
-            CheckForProbabilities(failureProbabilitiesArray);
             if (partialAssembly)
             {
-                failureProbabilitiesArray = failureProbabilitiesArray.Where(probability => probability.IsDefined).ToArray();
-                CheckForProbabilities(failureProbabilitiesArray);
+                failureMechanismProbabilities = failureMechanismProbabilities.Where(p => p.IsDefined);
             }
 
-            return failureProbabilitiesArray;
+            ValidateProbabilities(failureMechanismProbabilities);
+            return CalculateFailureProbability(failureMechanismProbabilities);
         }
 
-        private static Probability CalculateFailureProbabilityFromListOfProbabilities(Probability[] failureProbabilitiesArray)
+        public EAssessmentGrade DetermineAssessmentGradeBoi2B1(
+            Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
-            var failureProbabilityProduct = (Probability) 1.0;
-            foreach (var probability in failureProbabilitiesArray)
+            AssemblyErrorMessage[] validationErrors = ValidateProbabilityAndCategories(failureProbability, categories).ToArray();
+
+            if (validationErrors.Any())
             {
-                if (!probability.IsDefined)
+                throw new AssemblyException(validationErrors);
+            }
+
+            return categories.GetCategoryForFailureProbability(failureProbability).Category;
+        }
+
+        /// <summary>
+        /// Validates the <paramref name="failureMechanismProbabilities"/>.
+        /// </summary>
+        /// <param name="failureMechanismProbabilities">The <see cref="IEnumerable{T}"/> of <see cref="Probability"/> to validate.</param>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismProbabilities"/> is <c>empty</c>
+        /// or has undefined probabilities.</exception>
+        private static void ValidateProbabilities(IEnumerable<Probability> failureMechanismProbabilities)
+        {
+            if (!failureMechanismProbabilities.Any())
+            {
+                throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.EmptyResultsList);
+            }
+
+            foreach (Probability failureMechanismProbability in failureMechanismProbabilities)
+            {
+                if (!failureMechanismProbability.IsDefined)
                 {
-                    throw new AssemblyException(nameof(Probability), EAssemblyErrors.UndefinedProbability);
+                    throw new AssemblyException(nameof(failureMechanismProbability), EAssemblyErrors.UndefinedProbability);
                 }
-
-                failureProbabilityProduct *= probability.Inverse;
-            }
-
-            var failureProbability = failureProbabilityProduct.Inverse;
-            return failureProbability;
-        }
-
-        private static void CheckForProbabilities(Probability[] probabilities)
-        {
-            if (probabilities.Length == 0)
-            {
-                throw new AssemblyException(nameof(probabilities), EAssemblyErrors.EmptyResultsList);
             }
         }
-
-        private static void CheckForDefinedProbabilityAndCategories(Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
+        
+        private static IEnumerable<AssemblyErrorMessage> ValidateProbabilityAndCategories(
+            Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
-            var errors = new List<AssemblyErrorMessage>();
             if (!failureProbability.IsDefined)
             {
-                errors.Add(new AssemblyErrorMessage(nameof(Probability), EAssemblyErrors.UndefinedProbability));
+                yield return new AssemblyErrorMessage(nameof(failureProbability), EAssemblyErrors.UndefinedProbability);
             }
 
             if (categories == null)
             {
-                errors.Add(new AssemblyErrorMessage(nameof(categories), EAssemblyErrors.ValueMayNotBeNull));
+                yield return new AssemblyErrorMessage(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
             }
+        }
 
-            if (errors.Count > 0)
-            {
-                throw new AssemblyException(errors);
-            }
+        private static Probability CalculateFailureProbability(IEnumerable<Probability> failureMechanismProbabilities)
+        {
+            var assessmentSectionFailureProbability = (Probability) 1.0;
+
+            assessmentSectionFailureProbability = failureMechanismProbabilities.Aggregate(
+                assessmentSectionFailureProbability, (current, fmp) => current * fmp.Inverse);
+
+            return assessmentSectionFailureProbability.Inverse;
         }
     }
 }

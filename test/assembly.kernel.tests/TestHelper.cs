@@ -19,17 +19,21 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests
 {
+    /// <summary>
+    /// Class containing helper functions which can be used for unit tests.
+    /// </summary>
     public static class TestHelper
     {
         public static void AssertExpectedErrorMessage(TestDelegate testDelegate, params EAssemblyErrors[] expectedErrors)
         {
-            var errors = Assert.Throws<AssemblyException>(testDelegate).Errors.ToArray();
+            AssemblyErrorMessage[] errors = Assert.Throws<AssemblyException>(testDelegate).Errors.ToArray();
 
             Assert.AreEqual(expectedErrors.Length, errors.Length);
 
@@ -38,6 +42,37 @@ namespace Assembly.Kernel.Tests
                 var message = errors.ElementAt(i);
                 Assert.NotNull(message);
                 Assert.AreEqual(expectedErrors.ElementAt(i), message.ErrorCode);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="AssemblyException"/> is thrown and that it contains the <paramref name="expectedErrorMessages"/>.
+        /// </summary>
+        /// <param name="call">The call to execute.</param>
+        /// <param name="expectedErrorMessages">The expected error messages.</param>
+        /// <exception cref="AssertionException">Thrown when:
+        /// <list type="bullet">
+        /// <item>no <see cref="AssemblyException"/> is thrown;</item>
+        /// <item>The number of messages are not equal;</item>
+        /// <item>The <see cref="AssemblyErrorMessage.EntityId"/> of the elements are not equal;</item>
+        /// <item>The <see cref="AssemblyErrorMessage.ErrorCode"/> of the elements are not equal.</item>
+        /// </list></exception>
+        public static void AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(
+            TestDelegate call,
+            IEnumerable<AssemblyErrorMessage> expectedErrorMessages)
+        {
+            var exception = Assert.Throws<AssemblyException>(call);
+            IEnumerable<AssemblyErrorMessage> actualErrorMessages = exception.Errors; 
+            
+            Assert.AreEqual(expectedErrorMessages.Count(), actualErrorMessages.Count());
+
+            for (var i = 0; i < expectedErrorMessages.Count(); i++)
+            {
+                AssemblyErrorMessage expectedErrorMessage = expectedErrorMessages.ElementAt(i);
+                AssemblyErrorMessage actualErrorMessage = actualErrorMessages.ElementAt(i);
+                
+                Assert.AreEqual(expectedErrorMessage.EntityId, actualErrorMessage.EntityId);
+                Assert.AreEqual(expectedErrorMessage.ErrorCode, actualErrorMessage.ErrorCode);
             }
         }
 

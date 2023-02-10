@@ -36,145 +36,124 @@ namespace Assembly.Kernel.Tests.Implementations
     {
         private IAssessmentGradeAssembler assembler;
 
-        private readonly AssessmentSection assessmentSection = new AssessmentSection((Probability) (1.0 / 1000.0), (Probability) (1.0 / 300.0));
-        private readonly CategoryLimitsCalculator categoriesCalculator = new CategoryLimitsCalculator();
-
         [SetUp]
-        public void Init()
+        public void SetUp()
         {
             assembler = new AssessmentGradeAssembler();
         }
 
         [Test]
-        [TestCase(0.0,0.1,0.1)]
-        [TestCase(0.0005, 0.00005, 0.000549975)]
-        public void Boi2A1FailureProbabilityTests(double prob1, double prob2, double expectedProb)
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesNull_ThrowsAssemblyException()
         {
-            var failureMechanismProbabilities = new[]
-            {
-                (Probability) prob1,
-                (Probability) prob2
-            };
-            var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(failureMechanismProbabilities, false);
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false);
 
-            Assert.IsTrue(result.IsDefined);
-            Assert.IsTrue(result.IsNegligibleDifference((Probability)expectedProb));
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismProbabilities", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesEmpty_ThrowsAssemblyException()
+        {
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(Array.Empty<Probability>(), false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismProbabilities", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_PartialAssemblyFalseAndFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
+        {
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
+            {
+                Probability.Undefined
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismProbability", EAssemblyErrors.UndefinedProbability)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_PartialAssemblyTrueAndFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
+        {
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
+            {
+                Probability.Undefined
+            }, true);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismProbabilities", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetFailureMechanismProbabilities))]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_WithFailureMechanismProbabilities_ReturnsExpectedResult(
+            bool partialAssembly, Probability probability1, Probability probability2, Probability expectedProbability)
+        {
+            // Call
+            Probability actualProbability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new[]
+            {
+                probability1,
+                probability2
+            }, partialAssembly);
+
+            // Assert
+            Assert.AreEqual(expectedProbability, actualProbability, 1e-6);
+        }
+
+        [Test]
+        public void DetermineAssessmentGradeBoi2B1_ProbabilityUndefinedAndCategoriesNull_ThrowsAssemblyException()
+        {
+            // Call
+            void Call() => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureProbability", EAssemblyErrors.UndefinedProbability),
+                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
+            });
         }
 
         [Test]
         [TestCase(0.1, EAssessmentGrade.C)]
         [TestCase(0.000549975, EAssessmentGrade.A)]
-        public void Boi2B1AssessmentGradeTests(double failureProbability, EAssessmentGrade expectedGrade)
+        public void DetermineAssessmentGradeBoi2B1_WithValidData_ReturnsExpectedResult
+            (double failureProbability, EAssessmentGrade expectedAssessmentGrade)
         {
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
-            var result = assembler.DetermineAssessmentGradeBoi2B1((Probability)failureProbability, categories);
+            // Setup
+            var assessmentSection = new AssessmentSection(new Probability(1.0 / 1000.0), new Probability(1.0 / 300.0));
+            var categoryLimitsCalculator = new CategoryLimitsCalculator();
+            CategoriesList<AssessmentSectionCategory> categories = categoryLimitsCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(
+                assessmentSection);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(expectedGrade, result);
+            // Call
+            EAssessmentGrade assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(new Probability(failureProbability), categories);
+
+            // Assert
+            Assert.AreEqual(expectedAssessmentGrade, assessmentGrade);
         }
 
-        [Test]
-        public void Boi2A1PartialAssembly()
+        private static IEnumerable<TestCaseData> GetFailureMechanismProbabilities()
         {
-            var sectionFailureProbability = 0.00003;
-            var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                new[]
-                {
-                    Probability.Undefined,
-                    new Probability(sectionFailureProbability),
-                    new Probability(sectionFailureProbability)
-                },
-                true);
-
-            var expectedProbability = 1 - Math.Pow(1 - sectionFailureProbability, 2);
-            Assert.AreEqual(expectedProbability, result);
-        }
-
-        [Test]
-        public void Boi2A1ProbabilitiesNullTest()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false),
-                EAssemblyErrors.ValueMayNotBeNull
-            );
-        }
-
-        [Test]
-        public void Boi2A1EmptyProbabilitiesList()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(new List<Probability>(), false),
-                EAssemblyErrors.EmptyResultsList
-            );
-        }
-
-        [Test]
-        public void Boi2A1PartialAssemblyNoResults()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () =>
-                {
-                    var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                        new[]
-                        {
-                            Probability.Undefined,
-                            Probability.Undefined,
-                            Probability.Undefined
-                        },
-                        true);
-                }, EAssemblyErrors.EmptyResultsList
-            );
-        }
-
-
-        [Test]
-        public void Boi2A1NoResultSomeFailureMechanisms()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    new[]
-                    {
-                        Probability.Undefined,
-                        Probability.Undefined,
-                        new Probability(0.00003),
-                        new Probability(0.00003)
-                    },
-                    false);
-            }, EAssemblyErrors.UndefinedProbability);
-        }
-
-        [Test]
-        public void Boi2A1NoResultAtAll()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-                {
-                    var result = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                        new[]
-                        {
-                            Probability.Undefined,
-                            Probability.Undefined
-                        }, false);
-                }, EAssemblyErrors.UndefinedProbability
-            );
-        }
-
-        [Test]
-        public void Boi2B1CategoriesNullTest()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () => assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.003), null),
-                EAssemblyErrors.ValueMayNotBeNull
-            );
-        }
-
-        [Test]
-        public void Boi2B1MultipleInputErrorsList()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null),
-                EAssemblyErrors.UndefinedProbability, EAssemblyErrors.ValueMayNotBeNull
-            );
+            yield return new TestCaseData(false, new Probability(0.0), new Probability(0.1), new Probability(0.1));
+            yield return new TestCaseData(false, new Probability(0.0005), new Probability(0.00005), new Probability(0.000549975));
+            yield return new TestCaseData(true, new Probability(0.00003), Probability.Undefined, new Probability(0.00003));
         }
     }
 }

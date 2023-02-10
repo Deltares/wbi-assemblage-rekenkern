@@ -27,32 +27,30 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure mechanism assembly results into one AssessmentResult.
+    /// Interface to assemble failure mechanism assembly results into one assessment result.
     /// </summary>
     public interface IAssessmentGradeAssembler
     {
         /// <summary>
-        /// Assembles Failure mechanism results with failure probability into one assembly section result.
+        /// Assembles failure mechanism results with failure probability into one assessment section result.
         /// </summary>
-        /// <param name="failureMechanismProbabilities">failure mechanism assembly result with failure probability.</param>
-        /// <param name="partialAssembly">true if partial assembly is required (ignoring all undefined probabilities).</param>
+        /// <param name="failureMechanismProbabilities">The failure mechanism assembly results with failure probability.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required (ignoring all undefined probabilities).</param>
         /// <returns>An assembled assessment section result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the list of probabilities is either null, or the list is empty
-        /// (after filtering out undefined probabilities when <paramref name="partialAssembly"/> is true).</exception>
+        /// <exception cref="AssemblyException">Thrown when the list of probabilities is either <c>null</c>, or the list is <c>empty</c>
+        /// (after filtering out undefined probabilities when <paramref name="partialAssembly"/> is <c>true</c>).</exception>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
-            IEnumerable<Probability> failureMechanismProbabilities,
-            bool partialAssembly);
+            IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly);
 
         /// <summary>
         /// Determine the assessment grade given the failure probability of an assessment section.
         /// </summary>
         /// <param name="failureProbability">The failure probability of the assessment section.</param>
-        /// <param name="categories">Categories list that should be used to translate the combined probability of failure to the correct category.</param>
-        /// <returns>An <see cref="EAssessmentGrade"/> representing the assessment grade for the assessment section.</returns>
-        /// <exception cref="AssemblyException">In case the probability was undefined.</exception>
-        /// <exception cref="AssemblyException">In case the categories equal null.</exception>
+        /// <param name="categories">The categories to use.</param>
+        /// <returns>The <see cref="EAssessmentGrade"/> of the assessment section.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> is <c>null</c>
+        /// or <paramref name="failureProbability"/> is undefined.</exception>
         EAssessmentGrade DetermineAssessmentGradeBoi2B1(
-            Probability failureProbability,
-            CategoriesList<AssessmentSectionCategory> categories);
+            Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories);
     }
 }
