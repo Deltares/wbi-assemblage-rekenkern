@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -38,21 +39,23 @@ namespace Assembly.Kernel.Implementations
             CategoriesList<InterpretationCategory> categories)
         {
             var translator = new AssessmentResultsTranslator();
-            var analysisState = GetAnalysisState(relevance, refinementStatus);
+            EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
             if (analysisState == EAnalysisState.ProbabilityEstimated)
             {
-                var probability = translator.DetermineRepresentativeProbabilityBoi0A1(refinementStatus == ERefinementStatus.Performed,
-                                                                                      probabilityInitialMechanismSection,
-                                                                                      refinedProbabilitySection);
-                var category =
-                    translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                Probability probability = translator.DetermineRepresentativeProbabilityBoi0A1(
+                    refinementStatus == ERefinementStatus.Performed,
+                    probabilityInitialMechanismSection,
+                    refinedProbabilitySection);
+                
+                EInterpretationCategory category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                         probability, categories);
+                
                 return new FailureMechanismSectionAssemblyResult(probability, category);
             }
             else
             {
-                var category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                var probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+                EInterpretationCategory category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+                Probability probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
                 return new FailureMechanismSectionAssemblyResult(probability, category);
             }
         }
@@ -67,23 +70,25 @@ namespace Assembly.Kernel.Implementations
             CategoriesList<InterpretationCategory> categories)
         {
             var translator = new AssessmentResultsTranslator();
-            var analysisState = GetAnalysisState(relevance, refinementStatus);
+            EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
             if (analysisState == EAnalysisState.ProbabilityEstimated)
             {
-                var probabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(refinementStatus == ERefinementStatus.Performed,
-                                                                                          probabilityInitialMechanismProfile,
-                                                                                          probabilityInitialMechanismSection,
-                                                                                          refinedProbabilityProfile,
-                                                                                          refinedProbabilitySection);
-                var category =
-                    translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                ResultWithProfileAndSectionProbabilities probabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(
+                    refinementStatus == ERefinementStatus.Performed,
+                    probabilityInitialMechanismProfile,
+                    probabilityInitialMechanismSection,
+                    refinedProbabilityProfile,
+                    refinedProbabilitySection);
+                
+                EInterpretationCategory category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                         probabilities.ProbabilitySection, categories);
+                
                 return new FailureMechanismSectionAssemblyResultWithLengthEffect(probabilities.ProbabilityProfile, probabilities.ProbabilitySection, category);
             }
             else
             {
-                var category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                var probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+                EInterpretationCategory category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+                Probability probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
                 return new FailureMechanismSectionAssemblyResultWithLengthEffect(probability, probability, category);
             }
         }
@@ -158,12 +163,13 @@ namespace Assembly.Kernel.Implementations
             CheckValidLengthEffectFactor(lengthEffectFactor);
 
             double sectionProbabilityValue = (double) profileProbability * lengthEffectFactor;
-            return new Probability(sectionProbabilityValue > 1 ? 1 : sectionProbabilityValue);
+            return new Probability(Math.Min(sectionProbabilityValue, 1.0));
         }
 
         public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
+            
             return sectionProbability / lengthEffectFactor;
         }
 
@@ -196,7 +202,7 @@ namespace Assembly.Kernel.Implementations
 
         private static void CheckValidLengthEffectFactor(double lengthEffectFactor)
         {
-            if (lengthEffectFactor < 1)
+            if (lengthEffectFactor < 1.0)
             {
                 throw new AssemblyException(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange);
             }
