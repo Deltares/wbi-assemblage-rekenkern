@@ -32,7 +32,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class AssessmentGradeAssemblerTests
+    public class AssessmentGradeAssemblerTest
     {
         private IAssessmentGradeAssembler assembler;
 

@@ -52,7 +52,7 @@
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultWithLengthEffectTests.cs" />
     <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
     <Compile Include="AssemblyPerformanceTests.cs" />
-    <Compile Include="Implementations\AssessmentGradeAssemblerTests.cs" />
+    <Compile Include="Implementations\AssessmentGradeAssemblerTest.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
