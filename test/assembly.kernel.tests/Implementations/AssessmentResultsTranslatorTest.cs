@@ -24,6 +24,7 @@ using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Tests.Implementations
@@ -31,189 +32,109 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class AssessmentResultsTranslatorTest
     {
-        private IAssessmentResultsTranslator translator;
-
-        [SetUp]
-        public void Init()
+        [Test]
+        public void Constructor_ExpectedValues()
         {
-            translator = new AssessmentResultsTranslator();
+            // Call
+            var translator = new AssessmentResultsTranslator();
+
+            // Assert
+            Assert.IsInstanceOf<IAssessmentResultsTranslator>(translator);
         }
 
-        [TestCase(0.1, 0.2, true, 0.2)]
-        [TestCase(0.2, 0.1, true, 0.1)]
-        [TestCase(0.2, 0.1, false, 0.2)]
-        [TestCase(double.NaN, 0.1, false, double.NaN)]
-        [TestCase(0.2, double.NaN, false, 0.2)]
-        [TestCase(double.NaN, 0.2, true, 0.2)]
-        public void Boi0A1DetermineRepresentativeProbability(
-            double initialMechanismProbabilityValue,
-            double refinedProbabilityValue,
+        [Test]
+        [TestCase(true, 0.2)]
+        [TestCase(false, 0.1)]
+        public void DetermineRepresentativeProbabilityBoi0A1_Always_ReturnsExpectedProbability(
             bool refinementNecessary,
-            double expectedProbabilityValue
-        )
+            double expectedProbability)
         {
-            var calculatedProbability = translator.DetermineRepresentativeProbabilityBoi0A1(
-                refinementNecessary,
-                new Probability(initialMechanismProbabilityValue),
-                new Probability(refinedProbabilityValue));
+            // Setup
+            var translator = new AssessmentResultsTranslator();
 
-            if (double.IsNaN(expectedProbabilityValue))
-            {
-                Assert.IsFalse(calculatedProbability.IsDefined);
-            }
-            else
-            {
-                Assert.AreEqual(expectedProbabilityValue, calculatedProbability);
-            }
+            // Call
+            Probability probability = translator.DetermineRepresentativeProbabilityBoi0A1(
+                refinementNecessary, new Probability(0.1), new Probability(0.2));
+
+            // Assert
+            Assert.AreEqual(expectedProbability, probability, 1e-6);
         }
 
-        [TestCase(0.1, 0.2, 0.3, 0.4, true, 0.3, 0.4)]
-        [TestCase(0.3, 0.4, 0.1, 0.2, true, 0.1, 0.2)]
-        [TestCase(0.3, 0.4, 0.1, 0.2, false, 0.3, 0.4)]
-        [TestCase(double.NaN, double.NaN, 0.1, 0.2 , false, double.NaN, double.NaN)]
-        [TestCase(0.3, 0.4, double.NaN, double.NaN, false, 0.3, 0.4)]
-        [TestCase(double.NaN, double.NaN, 0.3, 0.4, true, 0.3, 0.4)]
-        public void Boi0A2DetermineRepresentativeProbability(
-            double initialMechanismProfileProbabilityValue,
-            double initialMechanismSectionProbabilityValue,
-            double refinedProfileProbabilityValue,
-            double refinedSectionProbabilityValue,
+        [Test]
+        [TestCase(false, 0.1, 0.2)]
+        [TestCase(true, 0.3, 0.4)]
+        public void DetermineRepresentativeProbabilitiesBoi0A2_Always_ReturnsExpectedProbabilities(
             bool refinementNecessary,
-            double expectedProfileProbabilityValue,
-            double expectedSectionProbabilityValue
-        )
+            double expectedProbabilityProfile,
+            double expectedProbabilitySection)
         {
-            var calculatedProbabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                refinementNecessary,
-                new Probability(initialMechanismProfileProbabilityValue),
-                new Probability(initialMechanismSectionProbabilityValue),
-                new Probability(refinedProfileProbabilityValue),
-                new Probability(refinedSectionProbabilityValue));
+            // Setup
+            var translator = new AssessmentResultsTranslator();
 
-            if (double.IsNaN(expectedProfileProbabilityValue))
-            {
-                Assert.IsFalse(calculatedProbabilities.ProbabilitySection.IsDefined);
-                Assert.IsFalse(calculatedProbabilities.ProbabilityProfile.IsDefined);
-            }
-            else
-            {
-                Assert.AreEqual(expectedProfileProbabilityValue, calculatedProbabilities.ProbabilityProfile);
-                Assert.AreEqual(expectedSectionProbabilityValue, calculatedProbabilities.ProbabilitySection);
-            }
+            // Call
+            ResultWithProfileAndSectionProbabilities result = translator.DetermineRepresentativeProbabilitiesBoi0A2(
+                refinementNecessary, new Probability(0.1), new Probability(0.2), new Probability(0.3), new Probability(0.4));
+
+            // Assert
+            Assert.AreEqual(expectedProbabilityProfile, result.ProbabilityProfile, 1e-6);
+            Assert.AreEqual(expectedProbabilitySection, result.ProbabilitySection, 1e-6);
         }
 
         [Test]
-        public void Boi0A2ChecksProfileProbabilityDoesNotExceedSectionProbabilityInitialMechanism()
+        public void DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1_CategoriesNull_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            void Call() => translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                new Probability(0.1), null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    false,
-                    new Probability(0.3),
-                    new Probability(0.04),
-                    new Probability(0.1),
-                    new Probability(0.2));
-            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
+            });
         }
 
         [Test]
-        [TestCase(true, 0.3, 0.4, 0.1, 0.02, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
-        [TestCase(false, 0.3, 0.04, 0.01, 0.02, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)]
-        [TestCase(false, 0.04, double.NaN, 0.1, 0.02, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
-        [TestCase(false, double.NaN, 0.04, 0.1, 0.02, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
-        [TestCase(true, 0.04, 0.1, double.NaN, 0.04, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
-        [TestCase(true, 0.04, 0.1, 0.04, double.NaN, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)]
-        public void Boi0A2ChecksInputProbabilities(bool refinementNecessary,
-            double profileProbabilityInitialMechanism,
-            double sectionProbabilityInitialMechanism,
-            double profileRefinedProbability,
-            double sectionRefinedProbability,
-            EAssemblyErrors expectedError)
+        [TestCase(EAnalysisState.ProbabilityEstimated)]
+        [TestCase(99)]
+        public void DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1_InvalidValue_ThrowsAssemblyException(
+            EAnalysisState analysisState)
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            void Call() => translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    refinementNecessary,
-                    new Probability(profileProbabilityInitialMechanism),
-                    new Probability(sectionProbabilityInitialMechanism),
-                    new Probability(profileRefinedProbability),
-                    new Probability(sectionRefinedProbability));
-            }, expectedError);
-        }
-
-        [TestCase(0.01, EInterpretationCategory.III)]
-        [TestCase(0.2, EInterpretationCategory.II)]
-        [TestCase(0.45, EInterpretationCategory.IMin)]
-        [TestCase(0.0, EInterpretationCategory.III)]
-        [TestCase(1.0, EInterpretationCategory.IIIMin)]
-        public void Boi0B1DeterminesCorrectCategory(double probabilityValue, EInterpretationCategory expectedCategory)
-        {
-            var categories = new CategoriesList<InterpretationCategory>(
-                new []
-                {
-                    new InterpretationCategory(EInterpretationCategory.III,new Probability(0), new Probability(0.1)),
-                    new InterpretationCategory(EInterpretationCategory.II,new Probability(0.1), new Probability(0.2)),
-                    new InterpretationCategory(EInterpretationCategory.I,new Probability(0.2), new Probability(0.3)),
-                    new InterpretationCategory(EInterpretationCategory.Zero,new Probability(0.3), new Probability(0.4)),
-                    new InterpretationCategory(EInterpretationCategory.IMin,new Probability(0.4), new Probability(0.5)),
-                    new InterpretationCategory(EInterpretationCategory.IIMin,new Probability(0.5), new Probability(0.6)),
-                    new InterpretationCategory(EInterpretationCategory.IIIMin,new Probability(0.6), new Probability(1))
-                });
-            var category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-                new Probability(probabilityValue),
-                categories);
-
-            Assert.AreEqual(expectedCategory, category);
+                new AssemblyErrorMessage("analysisState", EAssemblyErrors.InvalidEnumValue)
+            });
         }
 
         [Test]
-        public void Boi0B1HandlesNullCategories()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-                    new Probability(0.3),
-                    null);
-            }, EAssemblyErrors.ValueMayNotBeNull);
-        }
-
         [TestCase(EAnalysisState.NotRelevant, EInterpretationCategory.NotRelevant)]
         [TestCase(EAnalysisState.NoProbabilityEstimationNecessary, EInterpretationCategory.NotDominant)]
         [TestCase(EAnalysisState.ProbabilityEstimationNecessary, EInterpretationCategory.Dominant)]
-        public void Boi0C1TranslatesAnalysisStateToInterpretationCategory(EAnalysisState state,
-            EInterpretationCategory expectedCategory)
+        public void DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1_ValidAnalysisState_ReturnsExpectedInterpretationCategory(
+            EAnalysisState analysisState, EInterpretationCategory expectedInterpretationCategory)
         {
-            var category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(state);
+            // Setup
+            var translator = new AssessmentResultsTranslator();
 
-            Assert.AreEqual(expectedCategory, category);
+            // Call
+            EInterpretationCategory category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+
+            // Assert
+            Assert.AreEqual(expectedInterpretationCategory, category);
         }
 
         [Test]
-        public void Boi0C1HandlesInvalidStates()
-        {
-            TestHelper.AssertExpectedErrorMessage(
-                () => { translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1((EAnalysisState)(-1)); },
-                EAssemblyErrors.InvalidEnumValue);
-        }
-
-        [TestCase(EInterpretationCategory.NotDominant, 0)]
-        [TestCase(EInterpretationCategory.NotRelevant, 0)]
-        [TestCase(EInterpretationCategory.Dominant, double.NaN)]
-        [TestCase(EInterpretationCategory.NoResult, double.NaN)]
-        public void Boi0C2TranslatesToProbabilityCorrectly(EInterpretationCategory category, double expectedProbability)
-        {
-            var calculatedProbability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
-
-            if (double.IsNaN(expectedProbability))
-            {
-                Assert.IsFalse(calculatedProbability.IsDefined);
-            }
-            else
-            {
-                Assert.AreEqual(expectedProbability, calculatedProbability);
-            }
-        }
-
+        [TestCase(EInterpretationCategory.Zero)]
         [TestCase(EInterpretationCategory.III)]
         [TestCase(EInterpretationCategory.II)]
         [TestCase(EInterpretationCategory.I)]
@@ -221,54 +142,135 @@ namespace Assembly.Kernel.Tests.Implementations
         [TestCase(EInterpretationCategory.IMin)]
         [TestCase(EInterpretationCategory.IIMin)]
         [TestCase(EInterpretationCategory.IIIMin)]
-        [TestCase((EInterpretationCategory) (-1))]
-        public void Boi0C2HandlesInvalidCategoryValues(EInterpretationCategory category)
+        public void TranslateInterpretationCategoryToProbabilityBoi0C2_InvalidValue_ThrowsAssemblyException(
+            EInterpretationCategory interpretationCategory)
         {
-            TestHelper.AssertExpectedErrorMessage(
-                () => { translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category); },
-                EAssemblyErrors.InvalidCategoryValue);
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            void Call() => translator.TranslateInterpretationCategoryToProbabilityBoi0C2(interpretationCategory);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("category", EAssemblyErrors.InvalidCategoryValue)
+            });
         }
 
+        [Test]
+        public void CalculateProfileProbabilityToSectionProbabilityBoi0D1_InvalidLengthEffectFactory_ThrowsAssemblyException()
+        {
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            void Call() => translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(new Probability(0.1), 0.99);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("lengthEffectFactor", EAssemblyErrors.LengthEffectFactorOutOfRange)
+            });
+        }
+
+        [Test]
         [TestCase(0.01, 1, 0.01)]
         [TestCase(0.01, 2, 0.02)]
         [TestCase(0.02, 1.5, 0.03)]
         [TestCase(0.02, 1000, 1.0)]
-        public void Boi0D1TranslatesProfileProbabilitiesToSectionProbabilities(double profileProbabilityValue,
-            double lengthEffectFactor, double expectedSectionProbability)
+        public void CalculateProfileProbabilityToSectionProbabilityBoi0D1_ValidData_ReturnsExpectedProbability(
+            double profileProbability, double lengthEffectFactor, double expectedSectionProbability)
         {
-            var profileProbability = new Probability(profileProbabilityValue);
-            var sectionProbability =
-                translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(profileProbability, lengthEffectFactor);
-            Assert.AreEqual(expectedSectionProbability, sectionProbability);
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            Probability probability = translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
+                new Probability(profileProbability), lengthEffectFactor);
+
+            // Assert
+            Assert.AreEqual(expectedSectionProbability, probability, 1e-6);
         }
 
         [Test]
-        public void Boi0D1ThrowsInCaseOfInvalidLengthEffect()
+        public void CalculateSectionProbabilityToProfileProbabilityBoi0D2_InvalidLengthEffectFactory_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
-                {
-                    translator.CalculateProfileProbabilityToSectionProbabilityBoi0D1(new Probability(0.1), 0.2);
-                }, EAssemblyErrors.LengthEffectFactorOutOfRange);
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            void Call() => translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(new Probability(0.1), 0.99);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("lengthEffectFactor", EAssemblyErrors.LengthEffectFactorOutOfRange)
+            });
         }
 
+        [Test]
         [TestCase(0.2, 2.0, 0.1)]
         [TestCase(0.52, 5.2, 0.1)]
-        public void Boi0D2TranslatesSectionProbabilitiesToProfileProbabilities(double sectionProbabilityValue,
-            double lengthEffectFactor, double expectedProfileProbability)
+        public void CalculateSectionProbabilityToProfileProbabilityBoi0D2_ValidData_ReturnsExpectedProbability(
+            double sectionProbabilityValue, double lengthEffectFactor, double expectedProfileProbability)
         {
-            var sectionProbability = new Probability(sectionProbabilityValue);
-            var profileProbability =
-                translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(sectionProbability, lengthEffectFactor);
-            Assert.AreEqual(expectedProfileProbability, profileProbability);
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            Probability profileProbability = translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
+                new Probability(sectionProbabilityValue), lengthEffectFactor);
+
+            // Assert
+            Assert.AreEqual(expectedProfileProbability, profileProbability, 1e-6);
         }
 
-        [Test]
-        public void Boi0D2ThrowsInCaseOfInvalidLengthEffect()
+        [TestCase(0.01, EInterpretationCategory.III)]
+        [TestCase(0.2, EInterpretationCategory.II)]
+        [TestCase(0.45, EInterpretationCategory.IMin)]
+        [TestCase(0.0, EInterpretationCategory.III)]
+        [TestCase(1.0, EInterpretationCategory.IIIMin)]
+        public void DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1_WithValidData_ReturnsExpectedCategory(
+            double probabilityValue, EInterpretationCategory expectedCategory)
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Setup
+            var categories = new CategoriesList<InterpretationCategory>(new[]
             {
-                translator.CalculateSectionProbabilityToProfileProbabilityBoi0D2(new Probability(0.1), 0.2);
-            }, EAssemblyErrors.LengthEffectFactorOutOfRange);
+                new InterpretationCategory(EInterpretationCategory.III, new Probability(0), new Probability(0.1)),
+                new InterpretationCategory(EInterpretationCategory.II, new Probability(0.1), new Probability(0.2)),
+                new InterpretationCategory(EInterpretationCategory.I, new Probability(0.2), new Probability(0.3)),
+                new InterpretationCategory(EInterpretationCategory.Zero, new Probability(0.3), new Probability(0.4)),
+                new InterpretationCategory(EInterpretationCategory.IMin, new Probability(0.4), new Probability(0.5)),
+                new InterpretationCategory(EInterpretationCategory.IIMin, new Probability(0.5), new Probability(0.6)),
+                new InterpretationCategory(EInterpretationCategory.IIIMin, new Probability(0.6), new Probability(1))
+            });
+
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            EInterpretationCategory category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                new Probability(probabilityValue), categories);
+
+            // Assert
+            Assert.AreEqual(expectedCategory, category);
+        }
+
+        [TestCase(EInterpretationCategory.NotDominant, 0)]
+        [TestCase(EInterpretationCategory.NotRelevant, 0)]
+        [TestCase(EInterpretationCategory.Dominant, double.NaN)]
+        [TestCase(EInterpretationCategory.NoResult, double.NaN)]
+        public void TranslateInterpretationCategoryToProbabilityBoi0C2_ValidValue_ReturnsExpectedProbability(
+            EInterpretationCategory category, double expectedProbability)
+        {
+            // Setup
+            var translator = new AssessmentResultsTranslator();
+
+            // Call
+            Probability probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+
+            // Assert
+            Assert.AreEqual(expectedProbability, probability, 1e-6);
         }
     }
 }
