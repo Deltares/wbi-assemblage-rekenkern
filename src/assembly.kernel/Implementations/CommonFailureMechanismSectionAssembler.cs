@@ -74,23 +74,16 @@ namespace Assembly.Kernel.Implementations
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections)
         {
-            CheckResultsToCommonSectionsInput(commonSections, failureMechanismSectionList);
-
-            FailureMechanismSection[] commonSectionsArray = commonSections.Sections as FailureMechanismSection[] ??
-                                                            commonSections.Sections.ToArray();
+            ValidateFailureMechanismResultsToCommonSectionsInput(failureMechanismSectionList, commonSections);
 
             var resultsToCommonSections = new List<FailureMechanismSection>();
-            foreach (FailureMechanismSection commonSection in commonSectionsArray)
+            foreach (FailureMechanismSection commonSection in commonSections.Sections)
             {
-                FailureMechanismSection section = failureMechanismSectionList.GetSectionAtPoint(commonSection.Center);
+                var section = (FailureMechanismSectionWithCategory) failureMechanismSectionList.GetSectionAtPoint(commonSection.Center);
 
-                if (section is FailureMechanismSectionWithCategory sectionWithCategory)
-                {
-                    resultsToCommonSections.Add(new FailureMechanismSectionWithCategory(
-                                                    commonSection.Start,
-                                                    commonSection.End,
-                                                    sectionWithCategory.Category));
-                }
+                resultsToCommonSections.Add(
+                    new FailureMechanismSectionWithCategory(
+                        commonSection.Start, commonSection.End, section.Category));
             }
 
             return new FailureMechanismSectionList(resultsToCommonSections);
@@ -132,6 +125,54 @@ namespace Assembly.Kernel.Implementations
 
             return combinedSectionResults;
         }
+
+        #region 3B1
+
+        /// <summary>
+        /// Validates the failure mechanism results to common sections input. 
+        /// </summary>
+        /// <param name="failureMechanismSectionLists">The list of failure mechanism sections.</param>
+        /// <param name="commonSections">The list of common failure mechanism sections.</param>
+        /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionList"/> is <c>null</c>;</item>
+        /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
+        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSectionList"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismSectionList"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateFailureMechanismResultsToCommonSectionsInput(
+            FailureMechanismSectionList failureMechanismSectionList, FailureMechanismSectionList commonSections)
+        {
+            if (failureMechanismSectionList == null)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionList),
+                                            EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            if (commonSections == null)
+            {
+                throw new AssemblyException(nameof(commonSections),
+                                            EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            double commonSectionsLength = commonSections.Sections.Last().End;
+            double failureMechanismSectionsLength = failureMechanismSectionList.Sections.Last().End;
+            if (Math.Abs(commonSectionsLength - failureMechanismSectionsLength) > verySmallLengthDifference)
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionList),
+                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+
+            if (failureMechanismSectionList.Sections.Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
+            {
+                throw new AssemblyException(nameof(failureMechanismSectionList),
+                                            EAssemblyErrors.SectionsWithoutCategory);
+            }
+        }
+
+        #endregion
 
         #region 3A1
 
@@ -221,34 +262,6 @@ namespace Assembly.Kernel.Implementations
                                                .Distinct()
                                                .OrderBy(limit => limit)
                                                .ToArray();
-        }
-
-        #endregion
-        
-        #region 3B1
-
-        private static void CheckResultsToCommonSectionsInput(FailureMechanismSectionList commonSections,
-                                                              FailureMechanismSectionList failureMechanismSectionList)
-        {
-            if (commonSections == null || failureMechanismSectionList == null)
-            {
-                throw new AssemblyException(nameof(FailureMechanismSectionList),
-                                            EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (Math.Abs(commonSections.Sections.Last().End -
-                         failureMechanismSectionList.Sections.Last().End) > verySmallLengthDifference)
-            {
-                throw new AssemblyException(nameof(FailureMechanismSectionList),
-                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            }
-
-            FailureMechanismSection firstResult = failureMechanismSectionList.Sections.First();
-            if (!(firstResult is FailureMechanismSectionWithCategory))
-            {
-                throw new AssemblyException(nameof(failureMechanismSectionList),
-                                            EAssemblyErrors.SectionsWithoutCategory);
-            }
         }
 
         #endregion
