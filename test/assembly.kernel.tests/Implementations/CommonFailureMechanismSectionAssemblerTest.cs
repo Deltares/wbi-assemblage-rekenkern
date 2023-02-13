@@ -31,7 +31,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class CommonFailureMechanismSectionAssemblerTests
+    public class CommonFailureMechanismSectionAssemblerTest
     {
         private readonly ICommonFailureMechanismSectionAssembler assembler =
             new CommonFailureMechanismSectionAssembler();
