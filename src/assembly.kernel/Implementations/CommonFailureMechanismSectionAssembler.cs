@@ -92,7 +92,14 @@ namespace Assembly.Kernel.Implementations
         public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections, bool partialAssembly)
         {
-            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = CheckInputBoi3C1(failureMechanismResultsForCommonSections);
+            ValidateCombinedResultPerCommonSectionInput(failureMechanismResultsForCommonSections);
+
+            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = 
+                failureMechanismResultsForCommonSections.Select(resultsList => resultsList.Sections
+                                                                                          .OfType<FailureMechanismSectionWithCategory>()
+                                                                                          .ToArray())
+                                                        .Where(l => l.Any())
+                                                        .ToArray();
 
             FailureMechanismSectionWithCategory[] firstSectionsList = failureMechanismSectionLists.First();
             var combinedSectionResults = new List<FailureMechanismSectionWithCategory>();
@@ -268,33 +275,37 @@ namespace Assembly.Kernel.Implementations
 
         #region 3C1
 
-        private static FailureMechanismSectionWithCategory[][] CheckInputBoi3C1(
-            IEnumerable<FailureMechanismSectionList> failureMechanismResults)
+        /// <summary>
+        /// Validates the combined result per common section input. 
+        /// </summary>
+        /// <param name="failureMechanismResultsForCommonSections">The list of common section results per failure mechanism.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> do not have equal sections.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateCombinedResultPerCommonSectionInput(
+            IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections)
         {
-            if (failureMechanismResults == null)
+            if (failureMechanismResultsForCommonSections == null)
             {
-                throw new AssemblyException(nameof(failureMechanismResults),
+                throw new AssemblyException(nameof(failureMechanismResultsForCommonSections),
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = failureMechanismResults
-                                                                                   .Select(resultsList => resultsList.Sections
-                                                                                                                     .OfType<FailureMechanismSectionWithCategory>()
-                                                                                                                     .ToArray())
-                                                                                   .Where(l => l.Any())
-                                                                                   .ToArray();
-
-            if (!failureMechanismSectionLists.Any())
+            if (!failureMechanismResultsForCommonSections.Any()
+                || failureMechanismResultsForCommonSections.SelectMany(fm => fm.Sections)
+                                                           .Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
             {
-                throw new AssemblyException(nameof(failureMechanismResults), EAssemblyErrors.CommonSectionsWithoutCategoryValues);
+                throw new AssemblyException(nameof(failureMechanismResultsForCommonSections), EAssemblyErrors.CommonSectionsWithoutCategoryValues);
             }
 
-            if (failureMechanismSectionLists.Select(l => l.Length).Distinct().Count() > 1)
+            if (failureMechanismResultsForCommonSections.Select(fmr => fmr.Sections.Count()).Distinct().Count() > 1)
             {
-                throw new AssemblyException(nameof(failureMechanismResults), EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
+                throw new AssemblyException(nameof(failureMechanismResultsForCommonSections), EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
             }
-
-            return failureMechanismSectionLists;
         }
 
         private static bool AreEqualSections(FailureMechanismSection section1,
