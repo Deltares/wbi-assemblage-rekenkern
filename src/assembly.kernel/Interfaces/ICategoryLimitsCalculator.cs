@@ -30,19 +30,19 @@ namespace Assembly.Kernel.Interfaces
     public interface ICategoryLimitsCalculator
     {
         /// <summary>
-        /// Calculate the category limits for an assessment section.
-        /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for.</param>
-        /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="AssessmentSectionCategory"/>
-        /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
-        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
-
-        /// <summary>
         /// Calculate the interpretation category limits for an assessment section.
         /// </summary>
         /// <param name="section">The assessment section to calculate the category limits for.</param>
         /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="InterpretationCategory"/>
         /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
         CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection section);
+        
+        /// <summary>
+        /// Calculate the category limits for an assessment section.
+        /// </summary>
+        /// <param name="section">The assessment section to calculate the category limits for.</param>
+        /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="AssessmentSectionCategory"/>
+        /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
+        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
     }
 }
