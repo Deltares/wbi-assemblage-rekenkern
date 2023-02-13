@@ -94,43 +94,15 @@ namespace Assembly.Kernel.Implementations
         {
             ValidateCombinedResultPerCommonSectionInput(failureMechanismResultsForCommonSections);
 
-            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = 
-                failureMechanismResultsForCommonSections.Select(resultsList => resultsList.Sections
-                                                                                          .OfType<FailureMechanismSectionWithCategory>()
-                                                                                          .ToArray())
-                                                        .Where(l => l.Any())
+            IEnumerable<FailureMechanismSectionWithCategory>[] failureMechanismSectionLists =
+                failureMechanismResultsForCommonSections.Select(resultsList => resultsList.Sections.Cast<FailureMechanismSectionWithCategory>())
                                                         .ToArray();
 
-            FailureMechanismSectionWithCategory[] firstSectionsList = failureMechanismSectionLists.First();
-            var combinedSectionResults = new List<FailureMechanismSectionWithCategory>();
-
-            for (var iSection = 0; iSection < firstSectionsList.Length; iSection++)
-            {
-                var newCombinedSection = new FailureMechanismSectionWithCategory(firstSectionsList[iSection].Start,
-                                                                                 firstSectionsList[iSection].End,
-                                                                                 EInterpretationCategory.NotRelevant);
-
-                foreach (FailureMechanismSectionWithCategory[] failureMechanismSectionList in failureMechanismSectionLists)
-                {
-                    FailureMechanismSectionWithCategory section = failureMechanismSectionList[iSection];
-                    if (!AreEqualSections(section, newCombinedSection))
-                    {
-                        throw new AssemblyException(nameof(failureMechanismResultsForCommonSections),
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
-                    }
-
-                    newCombinedSection.Category = DetermineCombinedCategory(newCombinedSection.Category,
-                                                                            section.Category, partialAssembly);
-                    if (newCombinedSection.Category == EInterpretationCategory.NoResult)
-                    {
-                        break;
-                    }
-                }
-
-                combinedSectionResults.Add(newCombinedSection);
-            }
-
-            return combinedSectionResults;
+            return failureMechanismSectionLists.First()
+                                               .Select(section => new FailureMechanismSectionWithCategory(
+                                                           section.Start, section.End,
+                                                           GetCategory(section, failureMechanismSectionLists, partialAssembly)))
+                                               .ToArray();
         }
 
         #region 3B1
@@ -295,17 +267,44 @@ namespace Assembly.Kernel.Implementations
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
+            IEnumerable<FailureMechanismSection> failureMechanismSectionsPerFailureMechanism = failureMechanismResultsForCommonSections.SelectMany(fm => fm.Sections);
             if (!failureMechanismResultsForCommonSections.Any()
-                || failureMechanismResultsForCommonSections.SelectMany(fm => fm.Sections)
-                                                           .Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
+                || failureMechanismSectionsPerFailureMechanism.Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
             {
                 throw new AssemblyException(nameof(failureMechanismResultsForCommonSections), EAssemblyErrors.CommonSectionsWithoutCategoryValues);
             }
 
-            if (failureMechanismResultsForCommonSections.Select(fmr => fmr.Sections.Count()).Distinct().Count() > 1)
+            IEnumerable<int> numberOfSectionsPerFailureMechanism = failureMechanismResultsForCommonSections.Select(fmr => fmr.Sections.Count());
+            if (numberOfSectionsPerFailureMechanism.Distinct().Count() > 1)
             {
                 throw new AssemblyException(nameof(failureMechanismResultsForCommonSections), EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
             }
+
+            if (failureMechanismSectionsPerFailureMechanism.Select(s => s.Start).Distinct().Count() != numberOfSectionsPerFailureMechanism.First()
+                || failureMechanismSectionsPerFailureMechanism.Select(s => s.End).Distinct().Count() != numberOfSectionsPerFailureMechanism.First())
+            {
+                throw new AssemblyException(nameof(failureMechanismResultsForCommonSections),
+                                            EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
+            }
+        }
+
+        private static EInterpretationCategory GetCategory(FailureMechanismSection currentSection,
+                                                           IEnumerable<IEnumerable<FailureMechanismSectionWithCategory>> failureMechanismSectionLists,
+                                                           bool partialAssembly)
+        {
+            var category = EInterpretationCategory.NotRelevant;
+            foreach (IEnumerable<FailureMechanismSectionWithCategory> failureMechanismSectionList in failureMechanismSectionLists)
+            {
+                FailureMechanismSectionWithCategory section = failureMechanismSectionList.Single(s => AreEqualSections(s, currentSection));
+                category = DetermineCombinedCategory(category, section.Category, partialAssembly);
+
+                if (category == EInterpretationCategory.NoResult)
+                {
+                    break;
+                }
+            }
+
+            return category;
         }
 
         private static bool AreEqualSections(FailureMechanismSection section1,
@@ -319,12 +318,16 @@ namespace Assembly.Kernel.Implementations
                                                                          EInterpretationCategory currentCategory,
                                                                          bool partialAssembly)
         {
-            if (partialAssembly && (currentCategory == EInterpretationCategory.Dominant || currentCategory == EInterpretationCategory.NoResult))
+            if (partialAssembly
+                && (currentCategory == EInterpretationCategory.Dominant
+                    || currentCategory == EInterpretationCategory.NoResult))
             {
                 return combinedCategory;
             }
 
-            return currentCategory > combinedCategory ? currentCategory : combinedCategory;
+            return currentCategory > combinedCategory
+                       ? currentCategory
+                       : combinedCategory;
         }
 
         #endregion
