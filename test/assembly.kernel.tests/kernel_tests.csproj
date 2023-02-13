@@ -56,7 +56,7 @@
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTests.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
-    <Compile Include="Implementations\CategoryLimitsCalculatorTests.cs" />
+    <Compile Include="Implementations\CategoryLimitsCalculatorTest.cs" />
     <Compile Include="Model\FailureMechanismSections\GreatestCommonDenominatorAssemblyResultTests.cs" />
     <Compile Include="Model\Categories\CategoriesListTest.cs" />
     <Compile Include="Model\Categories\TestCategory.cs" />

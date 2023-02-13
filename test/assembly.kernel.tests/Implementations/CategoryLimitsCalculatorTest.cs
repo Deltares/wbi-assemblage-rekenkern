@@ -29,7 +29,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Implementations
 {
     [TestFixture]
-    public class CategoryLimitsCalculatorTests
+    public class CategoryLimitsCalculatorTest
     {
         private ICategoryLimitsCalculator categoryLimitsCalculator;
 
