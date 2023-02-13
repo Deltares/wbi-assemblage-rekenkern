@@ -28,7 +28,9 @@ using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Implementations
 {
+    /// <summary>
     /// Translate assessment results to a failure mechanism section assembly result.
+    /// </summary>
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
         public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
