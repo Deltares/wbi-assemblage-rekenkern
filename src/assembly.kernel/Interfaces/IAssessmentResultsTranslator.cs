@@ -164,7 +164,7 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="category">The interpretation category.</param>
         /// <returns>The failure probability associated with the interpretation category.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="category"/> is invalid or unsupported.exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="category"/> is invalid or unsupported.</exception>
         Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category);
 
         /// <summary>
