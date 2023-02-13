@@ -20,6 +20,7 @@
 // All rights reserved.
 
 using System;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
@@ -36,36 +37,46 @@ namespace Assembly.Kernel.Implementations
         private const double upperLimit = 1.0;
 
         public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(
-            AssessmentSection section)
+            AssessmentSection assessmentSection)
         {
-            var sigDiv1000 = new Probability(section.SignalFloodingProbability / 1000.0);
-            var sigDiv100 = new Probability(section.SignalFloodingProbability / 100.0);
-            var sigDiv10 = new Probability(section.SignalFloodingProbability / 10.0);
-            var lowTimes10 = new Probability(Math.Min(upperLimit, (double) section.MaximumAllowableFloodingProbability * 10.0));
+            if (assessmentSection == null)
+            {
+                throw new AssemblyException(nameof(assessmentSection), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            var sigDiv1000 = new Probability(assessmentSection.SignalFloodingProbability / 1000.0);
+            var sigDiv100 = new Probability(assessmentSection.SignalFloodingProbability / 100.0);
+            var sigDiv10 = new Probability(assessmentSection.SignalFloodingProbability / 10.0);
+            var lowTimes10 = new Probability(Math.Min(upperLimit, (double) assessmentSection.MaximumAllowableFloodingProbability * 10.0));
 
             return new CategoriesList<InterpretationCategory>(new[]
             {
                 new InterpretationCategory(EInterpretationCategory.III, new Probability(lowerLimit), sigDiv1000),
                 new InterpretationCategory(EInterpretationCategory.II, sigDiv1000, sigDiv100),
                 new InterpretationCategory(EInterpretationCategory.I, sigDiv100, sigDiv10),
-                new InterpretationCategory(EInterpretationCategory.Zero, sigDiv10, section.SignalFloodingProbability),
-                new InterpretationCategory(EInterpretationCategory.IMin, section.SignalFloodingProbability, section.MaximumAllowableFloodingProbability),
-                new InterpretationCategory(EInterpretationCategory.IIMin, section.MaximumAllowableFloodingProbability, lowTimes10),
+                new InterpretationCategory(EInterpretationCategory.Zero, sigDiv10, assessmentSection.SignalFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IMin, assessmentSection.SignalFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability),
+                new InterpretationCategory(EInterpretationCategory.IIMin, assessmentSection.MaximumAllowableFloodingProbability, lowTimes10),
                 new InterpretationCategory(EInterpretationCategory.IIIMin, lowTimes10, new Probability(upperLimit))
             });
         }
         
-        public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section)
+        public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection assessmentSection)
         {
-            var sigDiv30 = new Probability(section.SignalFloodingProbability / 30.0);
-            var lowTimes30 = new Probability(Math.Min(upperLimit, (double) section.MaximumAllowableFloodingProbability * 30.0));
+            if (assessmentSection == null)
+            {
+                throw new AssemblyException(nameof(assessmentSection), EAssemblyErrors.ValueMayNotBeNull);
+            }
+            
+            var sigDiv30 = new Probability(assessmentSection.SignalFloodingProbability / 30.0);
+            var lowTimes30 = new Probability(Math.Min(upperLimit, (double) assessmentSection.MaximumAllowableFloodingProbability * 30.0));
 
             return new CategoriesList<AssessmentSectionCategory>(new[]
             {
                 new AssessmentSectionCategory(EAssessmentGrade.APlus, new Probability(lowerLimit), sigDiv30),
-                new AssessmentSectionCategory(EAssessmentGrade.A, sigDiv30, section.SignalFloodingProbability),
-                new AssessmentSectionCategory(EAssessmentGrade.B, section.SignalFloodingProbability, section.MaximumAllowableFloodingProbability),
-                new AssessmentSectionCategory(EAssessmentGrade.C, section.MaximumAllowableFloodingProbability, lowTimes30),
+                new AssessmentSectionCategory(EAssessmentGrade.A, sigDiv30, assessmentSection.SignalFloodingProbability),
+                new AssessmentSectionCategory(EAssessmentGrade.B, assessmentSection.SignalFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability),
+                new AssessmentSectionCategory(EAssessmentGrade.C, assessmentSection.MaximumAllowableFloodingProbability, lowTimes30),
                 new AssessmentSectionCategory(EAssessmentGrade.D, lowTimes30, new Probability(upperLimit))
             });
         }

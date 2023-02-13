@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 
@@ -32,17 +33,19 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Calculate the interpretation category limits for an assessment section.
         /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for.</param>
+        /// <param name="assessmentSection">The assessment section to calculate the category limits for.</param>
         /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="InterpretationCategory"/>
         /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
-        CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection section);
+        /// <exception cref="AssemblyException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
+        CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection assessmentSection);
         
         /// <summary>
         /// Calculate the category limits for an assessment section.
         /// </summary>
-        /// <param name="section">The assessment section to calculate the category limits for.</param>
+        /// <param name="assessmentSection">The assessment section to calculate the category limits for.</param>
         /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="AssessmentSectionCategory"/>
         /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
-        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection section);
+        /// <exception cref="AssemblyException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
+        CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection assessmentSection);
     }
 }

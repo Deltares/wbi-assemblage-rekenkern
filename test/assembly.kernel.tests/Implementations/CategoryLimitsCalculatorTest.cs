@@ -20,6 +20,7 @@
 // All rights reserved.
 
 using System.Collections.Generic;
+using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -43,8 +44,24 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        public void CalculateInterpretationCategoryLimitsBoi01_AssessmentSectionNull_ThrowsAssemblyException()
+        {
+            // Setup
+            var calculator = new CategoryLimitsCalculator();
+
+            // Call
+            void Call() => calculator.CalculateInterpretationCategoryLimitsBoi01(null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("assessmentSection", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
         [TestCaseSource(nameof(GetInterpretationCategoryCases))]
-        public void CalculateInterpretationCategoryLimitsBoi01_Always_ReturnsExpectedCategories(
+        public void CalculateInterpretationCategoryLimitsBoi01_WithAssessmentSection_ReturnsExpectedCategories(
             AssessmentSection assessmentSection, InterpretationCategory[] expectedCategories)
         {
             // Setup
@@ -58,8 +75,24 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
+        public void CalculateAssessmentSectionCategoryLimitsBoi21_AssessmentSectionNull_ThrowsAssemblyException()
+        {
+            // Setup
+            var calculator = new CategoryLimitsCalculator();
+
+            // Call
+            void Call() => calculator.CalculateAssessmentSectionCategoryLimitsBoi21(null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("assessmentSection", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
         [TestCaseSource(nameof(GetAssessmentSectionCategoryCases))]
-        public void CalculateAssessmentSectionCategoryLimitsBoi21_Always_ReturnsExpectedCategories(
+        public void CalculateAssessmentSectionCategoryLimitsBoi21_WithAssessmentSection_ReturnsExpectedCategories(
             AssessmentSection assessmentSection, AssessmentSectionCategory[] expectedCategories)
         {
             // Setup
