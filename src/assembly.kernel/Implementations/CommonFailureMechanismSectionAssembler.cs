@@ -111,9 +111,9 @@ namespace Assembly.Kernel.Implementations
 
         /// <inheritdoc />
         public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
-            IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly)
+            IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections, bool partialAssembly)
         {
-            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = CheckInputBoi3C1(failureMechanismResults);
+            FailureMechanismSectionWithCategory[][] failureMechanismSectionLists = CheckInputBoi3C1(failureMechanismResultsForCommonSections);
 
             FailureMechanismSectionWithCategory[] firstSectionsList = failureMechanismSectionLists.First();
             var combinedSectionResults = new List<FailureMechanismSectionWithCategory>();
@@ -129,7 +129,7 @@ namespace Assembly.Kernel.Implementations
                     var section = failureMechanismSectionList[iSection];
                     if (!AreEqualSections(section, newCombinedSection))
                     {
-                        throw new AssemblyException(nameof(failureMechanismResults),
+                        throw new AssemblyException(nameof(failureMechanismResultsForCommonSections),
                                                     EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
                     }
 

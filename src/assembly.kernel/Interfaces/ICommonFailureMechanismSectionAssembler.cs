@@ -21,12 +21,13 @@
 
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
+using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble failure mechanism section results of multiple failure mechanisms to 
+    /// Interface to assemble failure mechanism section results of multiple failure mechanisms to 
     /// a greatest denominator section result.
     /// </summary>
     public interface ICommonFailureMechanismSectionAssembler
@@ -51,48 +52,56 @@ namespace Assembly.Kernel.Interfaces
             bool partialAssembly);
 
         /// <summary>
-        /// Find the greatest common denominator sections based on a list of all sections for various failure mechanisms.
+        /// Finds the greatest common denominator sections.
         /// </summary>
-        /// <param name="failureMechanismSectionLists">A list of all failure mechanism sections for all relevant failure mechanisms.</param>
-        /// <param name="assessmentSectionLength">The total length of the assessment section. 
-        /// The sum of the section lengths must be equal to this length.</param>
-        /// <returns>The greatest common denominator sections spanning the complete assessment section length.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of failure mechanism sections is not the same as the total assessment section 
-        /// length.</exception>
+        /// <param name="failureMechanismSectionLists">The list of failure mechanism section lists.</param>
+        /// <param name="assessmentSectionLength">The total length of the assessment section.</param>
+        /// <returns>A <see cref="FailureMechanismSectionList"/> with the greatest common denominator sections.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionLists"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="assessmentSectionLength"/> is <see cref="double.NaN"/> or not &gt; 0;</item>
+        /// <item>The sum of the failure mechanism section lengths is not equal to the <paramref name="assessmentSectionLength"/>.</item>
+        /// </list>
+        /// </exception>
         FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength);
 
         /// <summary>
-        /// Translate the results per section of a failure mechanism to results per common greatest denominator section.
+        /// Translates the results per failure mechanism section to results per common greatest denominator section.
         /// </summary>
-        /// <param name="failureMechanismSectionList">This list needs to have also categories.</param>
-        /// <param name="commonSections">The of all common failure mechanism sections.</param>
-        /// <returns>The assembly result per common denominator section for the specified failure mechanism.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionList"/> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="commonSections"/> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when the length of the combined sections in <paramref name="commonSections"/>
-        /// does not equal the length of the sections in <paramref name="failureMechanismSectionList"/>.</exception>
-        /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="failureMechanismSectionList"/>
-        /// are not of type <see cref="FailureMechanismSectionWithCategory"/>.</exception>
+        /// <param name="failureMechanismSectionLists">The list of failure mechanism sections.</param>
+        /// <param name="commonSections">The list of common failure mechanism sections.</param>
+        /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionList"/> is <c>null</c>;</item>
+        /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
+        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSectionList"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismSectionList"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
+        /// </list>
+        /// </exception>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
             FailureMechanismSectionList failureMechanismSectionList,
             FailureMechanismSectionList commonSections);
 
         /// <summary>
-        /// This method determines the combined result per common greatest denominator section based on a list of results for those
-        /// sections per failure mechanism.
+        /// Determines the combined result per common greatest denominator section.
         /// </summary>
-        /// <param name="failureMechanismResults">The list of results per failure mechanism translated to the greatest denominator
-        /// sections across all failure mechanisms. All lists should have equal sections (start and end).</param>
-        /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
-        /// <returns>The greatest common denominator assembly result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections lists do not have equal sections.</exception>
-        /// <exception cref="AssemblyException">Thrown when none of the sections lists in <paramref name="failureMechanismResults"/> have
-        /// sections.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismResults"/> equals null.</exception>
+        /// <param name="failureMechanismResultsForCommonSections">The list of common section results per failure mechanism.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>A list with assembly results per greatest common denominator section.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> do not have equal sections.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, categories <see cref="EInterpretationCategory.Dominant"/> and
+        /// <see cref="EInterpretationCategory.NoResult"/> are ignored.</remarks>
         IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
-            IEnumerable<FailureMechanismSectionList> failureMechanismResults, bool partialAssembly);
+            IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections, bool partialAssembly);
     }
 }
