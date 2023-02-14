@@ -63,8 +63,9 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(r => r.ProbabilitySection.IsDefined
-                                                                                                           && r.ProbabilityProfile.IsDefined);
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
+                    r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined);
+                
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
                     return new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
@@ -148,31 +149,17 @@ namespace Assembly.Kernel.Implementations
             return errors;
         }
 
-        private static double GetHighestProbabilityValue<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
-                                                            Func<T, Probability> getProbabilityFunc,
-                                                            double lengthEffectFactor)
-        {
-            return (double) failureMechanismSectionAssemblyResults.Max(getProbabilityFunc) * lengthEffectFactor;
-        }
-
-        private static Probability GetCombinedFailureProbabilityUncorrelated<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
-                                                                                Func<T, Probability> getProbabilityFunc)
-        {
-            return failureMechanismSectionAssemblyResults.Aggregate(
-                (Probability) 1.0, (current, sectionProbability) => current * getProbabilityFunc(sectionProbability).Inverse).Inverse;
-        }
-
         private static FailureMechanismAssemblyResult CreateFailureMechanismAssemblyResult<T>(
             IEnumerable<T> failureMechanismSectionAssemblyResults,
             Func<T, Probability> getHighestProbabilityValueFunc,
             Func<T, Probability> getCombinedFailureProbabilityUncorrelatedFunc,
             double lengthEffectFactor)
         {
-            double highestProbabilityValue = GetHighestProbabilityValue(
-                failureMechanismSectionAssemblyResults, getHighestProbabilityValueFunc, lengthEffectFactor);
+            double highestProbabilityValue = (double) failureMechanismSectionAssemblyResults.Max(getHighestProbabilityValueFunc) * lengthEffectFactor;
 
-            Probability combinedFailureProbabilityUncorrelated = GetCombinedFailureProbabilityUncorrelated(
-                failureMechanismSectionAssemblyResults, getCombinedFailureProbabilityUncorrelatedFunc);
+            Probability combinedFailureProbabilityUncorrelated = failureMechanismSectionAssemblyResults.Aggregate(
+                (Probability) 1.0,
+                (current, sectionProbability) => current * getCombinedFailureProbabilityUncorrelatedFunc(sectionProbability).Inverse).Inverse;
 
             EFailureMechanismAssemblyMethod assemblyMethod =
                 failureMechanismSectionAssemblyResults.Count() < 2 || highestProbabilityValue > combinedFailureProbabilityUncorrelated
