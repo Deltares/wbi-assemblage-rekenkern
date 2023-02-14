@@ -33,9 +33,6 @@ namespace Assembly.Kernel.Tests.Implementations
     [TestFixture]
     public class CommonFailureMechanismSectionAssemblerTest
     {
-        private readonly ICommonFailureMechanismSectionAssembler assembler =
-            new CommonFailureMechanismSectionAssembler();
-
         [Test]
         public void Constructor_ExpectedValues()
         {
@@ -306,8 +303,126 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DetermineCombinedResultPerCommonSectionReturnsCorrectResults()
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsNull_ThrowsAssemblyException()
         {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(null, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsEmpty_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(Enumerable.Empty<FailureMechanismSectionList>(), false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.CommonSectionsWithoutCategoryValues)
+            });
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsWithoutCategory_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+            {
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSectionWithCategory(0.0, 10.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.Zero)
+                }),
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSection(0.0, 10.0),
+                    new FailureMechanismSection(10.0, 20.0)
+                })
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.CommonSectionsWithoutCategoryValues)
+            });
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsNotEqualLength_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+            {
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSectionWithCategory(0.0, 10.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.Zero)
+                }),
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(5.0, 10.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.Zero)
+                })
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.UnequalCommonFailureMechanismSectionLists)
+            });
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsNotEqual_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+            {
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSectionWithCategory(0.0, 10.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(10.0, 20.0, EInterpretationCategory.Zero)
+                }),
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSectionWithCategory(0.0, 5.0, EInterpretationCategory.Zero),
+                    new FailureMechanismSectionWithCategory(5.0, 20.0, EInterpretationCategory.Zero)
+                })
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections)
+            });
+        }
+
+        [Test]
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_WithValidDataAndPartialAssemblyFalse_ReturnsExpectedResult()
+        {
+            // Setup
             var sectionsList1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
@@ -338,15 +453,18 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
             });
 
-            var commonSectionsWithResults =
-                assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            IEnumerable<FailureMechanismSectionWithCategory> commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(
+                new[]
                 {
                     sectionsList1,
                     sectionsList2,
                     sectionsList3
                 }, false);
 
-            var expectedResults = new List<FailureMechanismSectionWithCategory>
+            AssertFailureMechanismSections(new[]
             {
                 new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
                 new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
@@ -354,158 +472,63 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
                 new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
                 new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
-            };
-
-            AssertCombinedResultsList(expectedResults, commonSectionsWithResults);
+            }, commonSectionsWithResults);
         }
 
         [Test]
-        public void DetermineCombinedResultPerCommonSectionPartialReturnsCorrectResults()
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_WithValidDataAndPartialAssemblyTrue_ReturnsExpectedResult()
         {
+            // Setup
             var sectionsList1 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.III),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.NoResult),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
             });
 
             var sectionsList2 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.Zero),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.II)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.II)
             });
 
             var sectionsList3 = new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.Zero),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
             });
 
-            var commonSectionsWithResults =
-                assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            IEnumerable<FailureMechanismSectionWithCategory> commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(
+                new[]
                 {
                     sectionsList1,
                     sectionsList2,
                     sectionsList3
                 }, true);
 
-            var expectedResults = new List<FailureMechanismSectionWithCategory>
+            AssertFailureMechanismSections(new[]
             {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.IIIMin),
+                new FailureMechanismSectionWithCategory(0.0, 0.5, EInterpretationCategory.NotRelevant),
+                new FailureMechanismSectionWithCategory(0.5, 1.0, EInterpretationCategory.IIIMin),
                 new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.IMin),
                 new FailureMechanismSectionWithCategory(1.5, 2.0, EInterpretationCategory.IIIMin),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.I)
-            };
-
-            AssertCombinedResultsList(expectedResults, commonSectionsWithResults);
-        }
-
-        [Test]
-        public void DetermineCombinedResultPerCommonSectionThrowsOnEmptyList()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[]
-                                                                                {},
-                                                                            false);
-            }, EAssemblyErrors.CommonSectionsWithoutCategoryValues);
-        }
-
-        [Test]
-        public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections1()
-        {
-            var sectionsList1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III)
-            });
-
-            var sectionsList2 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III)
-            });
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
-                    {
-                        sectionsList1,
-                        sectionsList2
-                    }, false);
-            }, EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
-        }
-
-        [Test]
-        public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections2()
-        {
-            var sectionsList1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
-            });
-
-            var sectionsList2 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.0, 1.5, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.5, 2.5, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
-            });
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
-                    {
-                        sectionsList1,
-                        sectionsList2
-                    }, false);
-            }, EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
-        }
-
-        [Test]
-        public void DetermineCombinedResultPerCommonSectionThrowsOnInvalidSections3()
-        {
-            var sectionsList1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(2.0, 3.0, EInterpretationCategory.III)
-            });
-
-            var sectionsList2 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSectionWithCategory(0.0, 1.0, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(1.0, 2.5, EInterpretationCategory.III),
-                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.III)
-            });
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new[]
-                    {
-                        sectionsList1,
-                        sectionsList2
-                    }, false);
-            }, EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
-        }
-
-        [Test]
-        public void DetermineCombinedResultPerCommonSectionThrowsOnNullValue()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSectionsWithResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(null, false);
-            }, EAssemblyErrors.ValueMayNotBeNull);
+                new FailureMechanismSectionWithCategory(2.0, 2.5, EInterpretationCategory.NotDominant),
+                new FailureMechanismSectionWithCategory(2.5, 3.0, EInterpretationCategory.I)
+            }, commonSectionsWithResults);
         }
 
         [Test]
@@ -589,6 +612,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 })
             };
 
+            var assembler = new CommonFailureMechanismSectionAssembler();
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 assembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, 50.0, false);
@@ -728,6 +752,7 @@ namespace Assembly.Kernel.Tests.Implementations
         [Test]
         public void FailureMechanismSectionsListsShouldNotBeNull()
         {
+            var assembler = new CommonFailureMechanismSectionAssembler();
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var result = assembler.AssembleCommonFailureMechanismSections(null, 50.0, false);
@@ -773,25 +798,13 @@ namespace Assembly.Kernel.Tests.Implementations
             IList<FailureMechanismSectionWithCategory> expectedCombinedResult,
             bool partial)
         {
+            var assembler = new CommonFailureMechanismSectionAssembler();
             var result = assembler.AssembleCommonFailureMechanismSections(failureMechanismSections, 50.0, partial);
             Assert.NotNull(result);
 
             AssertFailureMechanismSectionLists(expectedFailureMechanismResults, result.ResultPerFailureMechanism);
 
-            AssertCombinedResultsList(expectedCombinedResult, result.CombinedSectionResult);
-        }
-
-        private static void AssertCombinedResultsList(IList<FailureMechanismSectionWithCategory> expectedCombinedResult,
-                                                      IEnumerable<FailureMechanismSectionWithCategory> result)
-        {
-            List<FailureMechanismSectionWithCategory> combinedResult = result.ToList();
-            Assert.AreEqual(expectedCombinedResult.Count, combinedResult.Count);
-            for (var i = 0; i < expectedCombinedResult.Count; i++)
-            {
-                Assert.AreEqual(expectedCombinedResult[i].Start, combinedResult[i].Start);
-                Assert.AreEqual(expectedCombinedResult[i].End, combinedResult[i].End);
-                Assert.AreEqual(expectedCombinedResult[i].Category, combinedResult[i].Category);
-            }
+            AssertFailureMechanismSections(expectedCombinedResult, result.CombinedSectionResult);
         }
 
         private static void AssertFailureMechanismSectionLists(
