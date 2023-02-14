@@ -40,6 +40,7 @@
     <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
     <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A1Tests.cs" />
+    <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
     <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />

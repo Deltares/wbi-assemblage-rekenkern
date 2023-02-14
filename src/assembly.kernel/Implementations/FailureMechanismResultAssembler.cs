@@ -112,7 +112,7 @@ namespace Assembly.Kernel.Implementations
                 foreach (ResultWithProfileAndSectionProbabilities failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
                     if (!failureMechanismSectionAssemblyResult.ProbabilitySection.IsDefined
-                        || !failureMechanismSectionAssemblyResult.ProbabilityProfile.IsDefined)
+                        && !failureMechanismSectionAssemblyResult.ProbabilityProfile.IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
