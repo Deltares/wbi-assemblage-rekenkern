@@ -51,22 +51,13 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
+            double highestProbabilityValue = (double) failureMechanismSectionAssemblyResults.Max(p => p) * lengthEffectFactor;
             Probability combinedFailureProbabilityUncorrelated = failureMechanismSectionAssemblyResults.Aggregate(
                 (Probability) 1.0, (current, sectionProbability) => current * sectionProbability.Inverse).Inverse;
 
-            double highestProbabilityValue = (double) failureMechanismSectionAssemblyResults.Max(p => p) * lengthEffectFactor;
-            
-            var correlation = EFailureMechanismAssemblyMethod.Correlated;
-            
-            if (failureMechanismSectionAssemblyResults.Count() < 2
-                || highestProbabilityValue > combinedFailureProbabilityUncorrelated)
-            {
-                correlation = EFailureMechanismAssemblyMethod.Uncorrelated;
-            }
-
             return new FailureMechanismAssemblyResult(
                 new Probability(Math.Min(highestProbabilityValue, combinedFailureProbabilityUncorrelated)),
-                correlation);
+                FindCorrelation(failureMechanismSectionAssemblyResults, highestProbabilityValue, combinedFailureProbabilityUncorrelated));
         }
 
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
@@ -78,75 +69,84 @@ namespace Assembly.Kernel.Implementations
 
             if (partialAssembly)
             {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined);
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(r => r.ProbabilitySection.IsDefined
+                                                                                                           && r.ProbabilityProfile.IsDefined);
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
                     return new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
                 }
             }
 
-            double highestFailureProbabilityProfile = (double) failureMechanismSectionAssemblyResults.Max(p => p.ProbabilityProfile) * lengthEffectFactor;
+            double highestFailureProbabilityProfile = (double) failureMechanismSectionAssemblyResults.Max(sectionResult => sectionResult.ProbabilityProfile)
+                                                      * lengthEffectFactor;
             Probability combinedFailureProbabilityUncorrelated = failureMechanismSectionAssemblyResults.Aggregate(
                 (Probability) 1.0, (current, sectionResult) => current * sectionResult.ProbabilitySection.Inverse).Inverse;
 
-            EFailureMechanismAssemblyMethod correlation = FindCorrelation(failureMechanismSectionAssemblyResults, highestFailureProbabilityProfile,
-                                                                          combinedFailureProbabilityUncorrelated);
-            var probabilityValue = (Probability) Math.Min(highestFailureProbabilityProfile, combinedFailureProbabilityUncorrelated);
-
-            return new FailureMechanismAssemblyResult(probabilityValue, correlation);
+            return new FailureMechanismAssemblyResult(
+                new Probability(Math.Min(highestFailureProbabilityProfile, combinedFailureProbabilityUncorrelated)),
+                FindCorrelation(failureMechanismSectionAssemblyResults, highestFailureProbabilityProfile, combinedFailureProbabilityUncorrelated));
         }
 
-        private static EFailureMechanismAssemblyMethod FindCorrelation(IEnumerable<ResultWithProfileAndSectionProbabilities> sectionResults,
-                                                                       double highestFailureProbabilityProfile,
-                                                                       Probability combinedFailureProbabilityUncorrelated)
-        {
-            return sectionResults.Count() < 2
-                   || highestFailureProbabilityProfile > combinedFailureProbabilityUncorrelated
-                       ? EFailureMechanismAssemblyMethod.Uncorrelated
-                       : EFailureMechanismAssemblyMethod.Correlated;
-        }
-
-        private static void CheckInput(IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults, double lengthEffectFactor,
+        private static void CheckInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                       double lengthEffectFactor,
                                        bool partialAssembly)
         {
-            var errors = new List<AssemblyErrorMessage>();
-            
-            if (failureMechanismSectionAssemblyResults == null)
+            List<AssemblyErrorMessage> errors = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+
+            if (!errors.Any() && !partialAssembly)
             {
-                throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
-            }
-            
-            if (!failureMechanismSectionAssemblyResults.Any())
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(FailureMechanismResultAssembler), EAssemblyErrors.EmptyResultsList));
+                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                {
+                    if (!failureMechanismSectionAssemblyResult.IsDefined)
+                    {
+                        errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
+                                                            EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
+                        break;
+                    }
+                }
             }
 
-            if (lengthEffectFactor < 1)
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
-            }
-            
-            if(!partialAssembly && failureMechanismSectionAssemblyResults.Any(r => !r.ProbabilityProfile.IsDefined 
-                                                                                   || !r.ProbabilitySection.IsDefined))
-            {
-                throw new AssemblyException(nameof(FailureMechanismResultAssembler), EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
-            }
-
-            if (errors.Count > 0)
+            if (errors.Any())
             {
                 throw new AssemblyException(errors);
             }
         }
 
-        private static void CheckInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults, double lengthEffectFactor, bool partialAssembly)
+        private static void CheckInput(IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+                                       double lengthEffectFactor,
+                                       bool partialAssembly)
+        {
+            List<AssemblyErrorMessage> errors = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+
+            if (!errors.Any() && !partialAssembly)
+            {
+                foreach (ResultWithProfileAndSectionProbabilities failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                {
+                    if (!failureMechanismSectionAssemblyResult.ProbabilitySection.IsDefined
+                        || !failureMechanismSectionAssemblyResult.ProbabilityProfile.IsDefined)
+                    {
+                        errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
+                                                            EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
+                        break;
+                    }
+                }
+            }
+
+            if (errors.Any())
+            {
+                throw new AssemblyException(errors);
+            }
+        }
+
+        private static IEnumerable<AssemblyErrorMessage> CheckInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults, double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
-            
+
             if (failureMechanismSectionAssemblyResults == null)
             {
                 throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.ValueMayNotBeNull);
             }
-            
+
             if (!failureMechanismSectionAssemblyResults.Any())
             {
                 errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EmptyResultsList));
@@ -157,15 +157,17 @@ namespace Assembly.Kernel.Implementations
                 errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
-            if (!partialAssembly && failureMechanismSectionAssemblyResults.Any(r => !r.IsDefined))
-            {
-                throw new AssemblyException(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
-            }
-
-            if (errors.Count > 0)
-            {
-                throw new AssemblyException(errors);
-            }
+            return errors;
+        }
+        
+        private static EFailureMechanismAssemblyMethod FindCorrelation<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
+                                                                          double highestProbabilityValue,
+                                                                          Probability combinedFailureProbabilityUncorrelated)
+        {
+            return failureMechanismSectionAssemblyResults.Count() < 2
+                   || highestProbabilityValue > combinedFailureProbabilityUncorrelated
+                       ? EFailureMechanismAssemblyMethod.Uncorrelated
+                       : EFailureMechanismAssemblyMethod.Correlated;
         }
     }
 }
