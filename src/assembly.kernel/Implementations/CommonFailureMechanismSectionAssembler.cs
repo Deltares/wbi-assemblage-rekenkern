@@ -71,15 +71,15 @@ namespace Assembly.Kernel.Implementations
         }
 
         public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
-            FailureMechanismSectionList failureMechanismSectionList,
+            FailureMechanismSectionList failureMechanismSections,
             FailureMechanismSectionList commonSections)
         {
-            ValidateFailureMechanismResultsToCommonSectionsInput(failureMechanismSectionList, commonSections);
+            ValidateFailureMechanismResultsToCommonSectionsInput(failureMechanismSections, commonSections);
 
             var resultsToCommonSections = new List<FailureMechanismSection>();
             foreach (FailureMechanismSection commonSection in commonSections.Sections)
             {
-                var section = (FailureMechanismSectionWithCategory) failureMechanismSectionList.GetSectionAtPoint(commonSection.Center);
+                var section = (FailureMechanismSectionWithCategory) failureMechanismSections.GetSectionAtPoint(commonSection.Center);
 
                 resultsToCommonSections.Add(
                     new FailureMechanismSectionWithCategory(
@@ -115,18 +115,18 @@ namespace Assembly.Kernel.Implementations
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionList"/> is <c>null</c>;</item>
+        /// <item><paramref name="failureMechanismSections"/> is <c>null</c>;</item>
         /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
-        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSectionList"/>;</item>
-        /// <item>The elements of <paramref name="failureMechanismSectionList"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
+        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSections"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
         /// </list>
         /// </exception>
         private static void ValidateFailureMechanismResultsToCommonSectionsInput(
-            FailureMechanismSectionList failureMechanismSectionList, FailureMechanismSectionList commonSections)
+            FailureMechanismSectionList failureMechanismSections, FailureMechanismSectionList commonSections)
         {
-            if (failureMechanismSectionList == null)
+            if (failureMechanismSections == null)
             {
-                throw new AssemblyException(nameof(failureMechanismSectionList),
+                throw new AssemblyException(nameof(failureMechanismSections),
                                             EAssemblyErrors.ValueMayNotBeNull);
             }
 
@@ -137,16 +137,16 @@ namespace Assembly.Kernel.Implementations
             }
 
             double commonSectionsLength = commonSections.Sections.Last().End;
-            double failureMechanismSectionsLength = failureMechanismSectionList.Sections.Last().End;
+            double failureMechanismSectionsLength = failureMechanismSections.Sections.Last().End;
             if (Math.Abs(commonSectionsLength - failureMechanismSectionsLength) > verySmallLengthDifference)
             {
-                throw new AssemblyException(nameof(failureMechanismSectionList),
+                throw new AssemblyException(nameof(commonSections),
                                             EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
-            if (failureMechanismSectionList.Sections.Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
+            if (failureMechanismSections.Sections.Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))
             {
-                throw new AssemblyException(nameof(failureMechanismSectionList),
+                throw new AssemblyException(nameof(failureMechanismSections),
                                             EAssemblyErrors.SectionsWithoutCategory);
             }
         }

@@ -71,19 +71,19 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Translates the results per failure mechanism section to results per common greatest denominator section.
         /// </summary>
-        /// <param name="failureMechanismSectionLists">The list of failure mechanism sections.</param>
+        /// <param name="failureMechanismSections">The list of failure mechanism sections.</param>
         /// <param name="commonSections">The list of common failure mechanism sections.</param>
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionList"/> is <c>null</c>;</item>
+        /// <item><paramref name="failureMechanismSections"/> is <c>null</c>;</item>
         /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
-        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSectionList"/>;</item>
-        /// <item>The elements of <paramref name="failureMechanismSectionList"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
+        /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSections"/>;</item>
+        /// <item>The elements of <paramref name="failureMechanismSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
         /// </list>
         /// </exception>
         FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
-            FailureMechanismSectionList failureMechanismSectionList,
+            FailureMechanismSectionList failureMechanismSections,
             FailureMechanismSectionList commonSections);
 
         /// <summary>
