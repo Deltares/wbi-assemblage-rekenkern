@@ -27,45 +27,52 @@ using Assembly.Kernel.Model.FailureMechanismSections;
 namespace Assembly.Kernel.Interfaces
 {
     /// <summary>
-    /// Assemble Failure mechanism section results into one result for the failure mechanism.
+    /// Interface to assemble failure mechanism section results to a failure mechanism result.
     /// </summary>
     public interface IFailureMechanismResultAssembler
     {
         /// <summary>
-        /// Assemble a list of failure mechanism section assembly results with failure probability to
-        /// a single failure mechanism assembly result.
+        /// Calculates a <see cref="FailureMechanismAssemblyResult"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>
-        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for.</param>
-        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results 
-        /// with failure probability to use for this assembly step.</param>
-        /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
-        /// <returns>The combined probability together with the used method in a <see cref="FailureMechanismAssemblyResult"/>.</returns>
-        /// <exception cref="AssemblyException">Thrown when: <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is null or empty.</item>
-        /// <item><paramref name="lengthEffectFactor"/> $lt; 1</item>
-        /// <item><paramref name="partialAssembly"/> equals false and one or more of the results in <paramref name="failureMechanismSectionAssemblyResults"/> has an undefined probability.</item>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
+        /// <seealso cref="Probability.Undefined"/>
+        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
+            double lengthEffectFactor,
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            bool partialAssembly);
+        
+        /// <summary>
+        /// Calculates a <see cref="FailureMechanismAssemblyResult"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// </summary>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
+        /// <seealso cref="Probability.Undefined"/>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            bool partialAssembly);
-
-        /// <summary>
-        /// Assemble a list of section failure probabilities to a single <see cref="FailureMechanismAssemblyResult"/>.
-        /// </summary>
-        /// <param name="lengthEffectFactor">The failure mechanism to assemble the result for.</param>
-        /// <param name="failureMechanismSectionProbabilities">The list of failure probabilities
-        /// to use for this assembly step.</param>
-        /// <param name="partialAssembly">True if the assembly input is part of a partial assembly.</param>
-        /// <returns>The combined probability together with the used method in a <see cref="FailureMechanismAssemblyResult"/>.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> equals null or is empty.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismSectionProbabilities"/> $lt;1.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="partialAssembly"/> equals false and one or more of the
-        /// probabilities in <paramref name="failureMechanismSectionProbabilities"/> is undefined.</exception>
-        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
-            double lengthEffectFactor,
-            IEnumerable<Probability> failureMechanismSectionProbabilities,
             bool partialAssembly);
     }
 }
