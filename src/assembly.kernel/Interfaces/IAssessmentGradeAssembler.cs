@@ -37,7 +37,13 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismProbabilities">The failure mechanism assembly results with failure probability.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>An assembled assessment section result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the list of probabilities is either <c>null</c>, or the list is <c>empty</c>.</exception>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismProbabilities"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismProbabilities"/> contains <c>Undefined</c> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// </list>
+        /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
         /// <seealso cref="Probability.Undefined"/>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
