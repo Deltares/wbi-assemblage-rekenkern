@@ -37,240 +37,144 @@ namespace Assembly.Kernel.Tests.Implementations
             new CommonFailureMechanismSectionAssembler();
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ReturnsCorrectSections()
+        public void Constructor_ExpectedValues()
         {
+            // Call
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Assert
+            Assert.IsInstanceOf<ICommonFailureMechanismSectionAssembler>(assembler);
+        }
+
+        [Test]
+        [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
+        [TestCase(0.0, EAssemblyErrors.SectionLengthOutOfRange)]
+        [TestCase(-1.0, EAssemblyErrors.SectionLengthOutOfRange)]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_InvalidAssessmentSectionLength_ThrowsAssemblyException(
+            double assessmentSectionLength, EAssemblyErrors expectedAssemblyError)
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
+            {
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSection(0.0, 10.0)
+                })
+            }, assessmentSectionLength);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("assessmentSectionLength", expectedAssemblyError)
+            });
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_FailureMechanismSectionsNull_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, 1.0);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionLists", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_FailureMechanismSectionsEmpty_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.FindGreatestCommonDenominatorSectionsBoi3A1(Enumerable.Empty<FailureMechanismSectionList>(), 1.0);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionLists", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_FailureMechanismSectionsLengthNotEqualToAssessmentSectionLength_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new CommonFailureMechanismSectionAssembler();
+
+            // Call
+            void Call() => assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
+            {
+                new FailureMechanismSectionList(new[]
+                {
+                    new FailureMechanismSection(0.0, 10.011)
+                })
+            }, 10.0);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionList", EAssemblyErrors.FailureMechanismSectionLengthInvalid)
+            });
+        }
+
+        [Test]
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_WithData_ReturnsExpectedSections()
+        {
+            // Setup
             const double assessmentSectionLength = 30.0;
             var list1 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
+                new FailureMechanismSection(10.0, 20.001),
+                new FailureMechanismSection(20.001, assessmentSectionLength)
             });
             var list2 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength)
+                new FailureMechanismSection(5.0, 20.0),
+                new FailureMechanismSection(20.0, 25.0),
+                new FailureMechanismSection(25.0, assessmentSectionLength + 0.0001)
             });
             var list3 = new FailureMechanismSectionList(new[]
             {
                 new FailureMechanismSection(0.0, 15.0),
-                new FailureMechanismSection(15.0, 28.0),
+                new FailureMechanismSection(15.0, 25.0001),
+                new FailureMechanismSection(25.0001, 28.0),
                 new FailureMechanismSection(28.0, assessmentSectionLength)
             });
 
-            var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                    {
-                        list1,
-                        list2,
-                        list3
-                    },
-                    assessmentSectionLength);
+            var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var expectedSectionLimits = new[]
+            // Call
+            FailureMechanismSectionList commonSections = assembler.FindGreatestCommonDenominatorSectionsBoi3A1(
+                new[]
                 {
-                    0.0
-                }
-                .Concat(list1.Sections.Select(r => r.End).ToArray())
-                .Concat(list2.Sections.Select(r => r.End).ToArray())
-                .Concat(list3.Sections.Select(r => r.End).ToArray())
-                .Distinct().OrderBy(v => v).ToArray();
+                    list1,
+                    list2,
+                    list3
+                }, assessmentSectionLength);
 
-            var calculatedCommonSections = commonSections.Sections.ToArray();
-            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
-            for (int i = 0; i < calculatedCommonSections.Length; i++)
-            {
-                AssertAreEqualSectionLimits(calculatedCommonSections[i], expectedSectionLimits[i], expectedSectionLimits[i + 1]);
-            }
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1IgnoresSmallCombinedSections()
-        {
-            var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
-            });
-            var list2 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.001),
-                new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
-            });
-            var list3 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0+1E-6),
-                new FailureMechanismSection(20.0+1E-6, assessmentSectionLength)
-            });
-
-            var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                                                                      {
-                                                                          list1,
-                                                                          list2,
-                                                                          list3
-                                                                      },
-                                                                      assessmentSectionLength);
-
-            var expectedSectionLimits = new[]
-            {
-                0.0,
-                10.0,
-                10.001,
-                20.0,
-                assessmentSectionLength
-            };
-
-            var calculatedCommonSections = commonSections.Sections.ToArray();
-            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
-            for (int i = 0; i < calculatedCommonSections.Length; i++)
-            {
-                AssertAreEqualSectionLimits(calculatedCommonSections[i], expectedSectionLimits[i], expectedSectionLimits[i + 1]);
-            }
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1IgnoresSmallSectionBoundaryDifferences()
-        {
-            var delta = 1e-6;
-            var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength + delta)
-            });
-            var list2 = new FailureMechanismSectionList(new[]
+            // Assert
+            AssertFailureMechanismSections(new[]
             {
                 new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength)
-            });
-            var list3 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 5.001),
-                new FailureMechanismSection(5.001, 15.0),
-                new FailureMechanismSection(15.0, 28.0),
+                new FailureMechanismSection(5.0, 10.0),
+                new FailureMechanismSection(10.0, 15.0),
+                new FailureMechanismSection(15.0, 20.0),
+                new FailureMechanismSection(20.0, 20.001),
+                new FailureMechanismSection(20.001, 25.0),
+                new FailureMechanismSection(25.0, 28.0),
                 new FailureMechanismSection(28.0, assessmentSectionLength)
-            });
-
-            var commonSections =
-                assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                                                                      {
-                                                                          list1,
-                                                                          list2,
-                                                                          list3
-                                                                      },
-                                                                      assessmentSectionLength);
-
-            var expectedSectionLimits = new[]
-            {
-                0.0,
-                5.0,
-                5.001,
-                10.0,
-                15.0,
-                20.0,
-                25.0,
-                28.0,
-                assessmentSectionLength
-            };
-
-            var calculatedCommonSections = commonSections.Sections.ToArray();
-            Assert.AreEqual(expectedSectionLimits.Length - 1, calculatedCommonSections.Length);
-            for (int i = 0; i < calculatedCommonSections.Length; i++)
-            {
-                AssertAreEqualSectionLimits(calculatedCommonSections[i], expectedSectionLimits[i], expectedSectionLimits[i + 1]);
-            }
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnEmptySectionLists()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new FailureMechanismSectionList[]
-                        { }, 10.0);
-            }, EAssemblyErrors.EmptyResultsList);
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnNullSectionLists()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, 10.0);
-            }, EAssemblyErrors.ValueMayNotBeNull);
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsMultipleErrors()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, -10.0);
-            }, EAssemblyErrors.SectionLengthOutOfRange, EAssemblyErrors.ValueMayNotBeNull);
-        }
-
-        [Test]
-        [TestCase(-2.3, EAssemblyErrors.SectionLengthOutOfRange)]
-        [TestCase(0.0, EAssemblyErrors.SectionLengthOutOfRange)]
-        [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnInvalidAssessmentLength(double assessmentLength,
-                                                                                               EAssemblyErrors expectedError)
-        {
-            var list1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.0, 20.0),
-                new FailureMechanismSection(20.0, 30.0)
-            });
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                        {
-                            list1
-                        },
-                        assessmentLength);
-            }, expectedError);
-        }
-
-        [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1ThrowsOnInvalidSectionList()
-        {
-            var assessmentSectionLength = 30.0;
-            var list1 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 10.0),
-                new FailureMechanismSection(10.001, 20.0),
-                new FailureMechanismSection(20.0, assessmentSectionLength)
-            });
-            var list2 = new FailureMechanismSectionList(new[]
-            {
-                new FailureMechanismSection(0.0, 5.0),
-                new FailureMechanismSection(5.0, 25.0),
-                new FailureMechanismSection(25.0, assessmentSectionLength - 1.0)
-            });
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var commonSections =
-                    assembler.FindGreatestCommonDenominatorSectionsBoi3A1(new[]
-                        {
-                            list1,
-                            list2
-                        },
-                        assessmentSectionLength);
-            }, EAssemblyErrors.FailureMechanismSectionLengthInvalid);
+            }, commonSections.Sections);
         }
 
         [Test]
@@ -290,18 +194,18 @@ namespace Assembly.Kernel.Tests.Implementations
             });
             var commonSectionsWithResults =
                 assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
-                    commonSectionsList);
+                                                                                 commonSectionsList);
 
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
             Assert.AreEqual(EInterpretationCategory.III,
-                ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(0)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
             Assert.AreEqual(EInterpretationCategory.III,
-                ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(1)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
             Assert.AreEqual(EInterpretationCategory.I,
-                ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(2)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
             Assert.AreEqual(EInterpretationCategory.I,
-                ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(3)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
         [Test]
@@ -325,7 +229,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(resultSectionsList,
-                        commonSectionsList);
+                                                                                     commonSectionsList);
             }, EAssemblyErrors.SectionsWithoutCategory);
         }
 
@@ -361,7 +265,7 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(null, list);
-            },EAssemblyErrors.ValueMayNotBeNull);
+            }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
         [Test]
@@ -372,7 +276,7 @@ namespace Assembly.Kernel.Tests.Implementations
                 new FailureMechanismSection(0.0, 2.5)
             });
 
-            TestHelper.AssertExpectedErrorMessage(() => 
+            TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
                     assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(list, null);
@@ -401,13 +305,13 @@ namespace Assembly.Kernel.Tests.Implementations
             Assert.IsNotNull(commonSectionsWithResults.Sections);
             Assert.AreEqual(4, commonSectionsWithResults.Sections.Count());
             Assert.AreEqual(EInterpretationCategory.III,
-                            ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(0)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(0)).Category);
             Assert.AreEqual(EInterpretationCategory.III,
-                            ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(1)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(1)).Category);
             Assert.AreEqual(EInterpretationCategory.I,
-                            ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(2)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(2)).Category);
             Assert.AreEqual(EInterpretationCategory.I,
-                            ((FailureMechanismSectionWithCategory)commonSectionsWithResults.Sections.ElementAt(3)).Category);
+                            ((FailureMechanismSectionWithCategory) commonSectionsWithResults.Sections.ElementAt(3)).Category);
         }
 
         [Test]
@@ -516,7 +420,8 @@ namespace Assembly.Kernel.Tests.Implementations
             TestHelper.AssertExpectedErrorMessage(() =>
             {
                 var commonSectionsWithResults =
-                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[] {},
+                    assembler.DetermineCombinedResultPerCommonSectionBoi3C1(new FailureMechanismSectionList[]
+                                                                                {},
                                                                             false);
             }, EAssemblyErrors.CommonSectionsWithoutCategoryValues);
         }
@@ -543,7 +448,7 @@ namespace Assembly.Kernel.Tests.Implementations
                         sectionsList1,
                         sectionsList2
                     }, false);
-            },EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
+            }, EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
         }
 
         [Test]
@@ -838,6 +743,20 @@ namespace Assembly.Kernel.Tests.Implementations
             }, EAssemblyErrors.ValueMayNotBeNull);
         }
 
+        private static void AssertFailureMechanismSections(IEnumerable<FailureMechanismSection> expectedSections, IEnumerable<FailureMechanismSection> actualSections)
+        {
+            Assert.AreEqual(expectedSections.Count(), actualSections.Count());
+
+            for (var i = 0; i < expectedSections.Count(); i++)
+            {
+                FailureMechanismSection expectedSection = expectedSections.ElementAt(i);
+                FailureMechanismSection actualSection = actualSections.ElementAt(i);
+
+                Assert.AreEqual(expectedSection.Start, actualSection.Start);
+                Assert.AreEqual(expectedSection.End, actualSection.End);
+            }
+        }
+
         private void TestCombinedFailureMechanismSectionAssembler(
             IEnumerable<FailureMechanismSectionList> failureMechanismSections,
             IList<FailureMechanismSectionList> expectedFailureMechanismResults,
@@ -897,8 +816,8 @@ namespace Assembly.Kernel.Tests.Implementations
                     Assert.AreEqual(expectedResult.End, sectionResult.End);
 
                     Assert.AreEqual(
-                            ((FailureMechanismSectionWithCategory) expectedResult).Category,
-                            ((FailureMechanismSectionWithCategory) sectionResult).Category);
+                        ((FailureMechanismSectionWithCategory) expectedResult).Category,
+                        ((FailureMechanismSectionWithCategory) sectionResult).Category);
                 }
             }
         }
