@@ -39,7 +39,6 @@
     <Compile Include="Implementations\AssessmentResultsTranslatorMainMethodTests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
     <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A1Tests.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryBaseTest.cs" />
@@ -55,7 +54,6 @@
     <Compile Include="AssemblyPerformanceTests.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTest.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTest.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssemblerBoi1A2Tests.cs" />
     <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTest.cs" />
     <Compile Include="Model\FailureMechanismSections\GreatestCommonDenominatorAssemblyResultTests.cs" />
