@@ -26,7 +26,7 @@ namespace Assembly.Kernel.Model.Categories
     /// <summary>
     /// Base class for the category limits classes.
     /// </summary>
-    /// <typeparam name="T">The category type.</typeparam>
+    /// <typeparam name="T">The type of category.</typeparam>
     public abstract class CategoryLimits<T> : ICategoryLimits
     {
         /// <summary>

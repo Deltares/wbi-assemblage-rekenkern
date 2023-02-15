@@ -26,44 +26,43 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// This object is used to obtain a category from a list of categories for a given probability.
+    /// List to of categories.
     /// </summary>
-    public class CategoriesList<TCategory> where TCategory : ICategoryLimits
+    /// <typeparam name="TCategory">The type of category.</typeparam>
+    public class CategoriesList<TCategory>
+        where TCategory : ICategoryLimits
     {
         /// <summary>
-        /// The maximum allowed difference between reliabilities of probabilities that is used when
-        /// comparing category boundaries. Gaps between category boundaries smaller than Epsilon will not be taken into account.
+        /// Creates a new instance of <see cref="CategoriesList{TCategory}"/>.
         /// </summary>
-        private static readonly double Epsilon = 1e-10;
-
-        private readonly Probability requiredMaximumProbability = new Probability(1.0);
-
-        /// <summary>
-        /// This constructor validates a list of category limits and assigns the correct list to the Categories property.
-        /// </summary>
-        /// <param name="categoryLimits">An IEnumerable with categories. This list assumes
-        /// the categories are already sorted from bad (low) to good (high).</param>
-        /// <exception cref="AssemblyException">Thrown in case the limits of the specified categories are not consecutive.</exception>
-        /// <exception cref="AssemblyException">Thrown in case the first category lower limit does not equal 0.</exception>
-        /// <exception cref="AssemblyException">Thrown in case the last category upper limit does not equal 1.</exception>
-        public CategoriesList(IEnumerable<TCategory> categoryLimits)
+        /// <param name="categories">The categories.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="categories"/> is <c>null</c>;</item>
+        /// <item>The first category lower limit is not equal to 0.0;</item>
+        /// <item>The last category upper limit is not equal to 1.0;</item>
+        /// <item>The limits of the categories are not consecutive.</item>
+        /// </list>
+        /// </exception>
+        public CategoriesList(IEnumerable<TCategory> categories)
         {
-            var categories = categoryLimits as TCategory[] ?? categoryLimits.ToArray();
-            CheckCategories(categories);
+            ValidateCategories(categories);
             Categories = categories;
         }
 
         /// <summary>
-        /// The list with categories. This list is guaranteed to span the complete probability range between 0 and 1.
-        /// The categories in this list are ordered from best (low probabilities) to worst (high probabilities).
+        /// Gets the categories.
         /// </summary>
-        public TCategory[] Categories { get; }
+        public IEnumerable<TCategory> Categories { get; }
 
         /// <summary>
-        /// Returns the first category where the upper limit equals or is less then the specified failure probability.
+        /// Get the category that belongs to the given <paramref name="failureProbability"/>.
         /// </summary>
-        /// <param name="failureProbability">The failure probability that should be translated.</param>
+        /// <param name="failureProbability">The failure probability to get the category for.</param>
         /// <returns>The category based on the <paramref name="failureProbability"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="failureProbability"/>
+        /// is <c>Undefined</c>.</exception>
+        /// <seealso cref="Probability.Undefined"/>
         public TCategory GetCategoryForFailureProbability(Probability failureProbability)
         {
             if (!failureProbability.IsDefined)
@@ -74,21 +73,39 @@ namespace Assembly.Kernel.Model.Categories
             return Categories.First(category => failureProbability <= category.UpperLimit);
         }
 
-        private void CheckCategories(TCategory[] categories)
+        /// <summary>
+        /// Validates the categories.
+        /// </summary>
+        /// <param name="categories">The categories to validate.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="categories"/> is <c>null</c>;</item>
+        /// <item>The first category lower limit is not equal to 0.0;</item>
+        /// <item>The last category upper limit is not equal to 1.0;</item>
+        /// <item>The limits of the categories are not consecutive.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateCategories(IEnumerable<TCategory> categories)
         {
-            Probability lastKnownUpperBoundary = (Probability) 0.0;
-
-            foreach (var category in categories)
+            if (categories == null)
             {
-                if (!category.LowerLimit.IsNegligibleDifference(lastKnownUpperBoundary, Epsilon))
+                throw new AssemblyException(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
+            }
+
+            const double epsilon = 1e-10;
+            var lastKnownUpperLimit = new Probability(0.0);
+
+            foreach (TCategory category in categories)
+            {
+                if (!category.LowerLimit.IsNegligibleDifference(lastKnownUpperLimit, epsilon))
                 {
                     throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
                 }
 
-                lastKnownUpperBoundary = category.UpperLimit;
+                lastKnownUpperLimit = category.UpperLimit;
             }
 
-            if (!lastKnownUpperBoundary.IsNegligibleDifference(requiredMaximumProbability, Epsilon))
+            if (!lastKnownUpperLimit.IsNegligibleDifference(new Probability(1.0), epsilon))
             {
                 throw new AssemblyException(nameof(categories), EAssemblyErrors.InvalidCategoryLimits);
             }

@@ -19,9 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
@@ -32,126 +30,115 @@ namespace Assembly.Kernel.Tests.Model.Categories
     [TestFixture]
     public class CategoriesListTest
     {
-        [TestCaseSource(
-             typeof(CategoriesListTest),
-             nameof(InconsistentCategoryBoundariesTestCases))]
-        public void CheckForInconsistentCategories(IEnumerable<TestCategory> categories)
+        [Test]
+        public void Constructor_CategoriesNull_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new CategoriesList<TestCategory>(null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                var list = new CategoriesList<TestCategory>(categories.ToArray());
-            }, EAssemblyErrors.InvalidCategoryLimits);
+                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
+            });
         }
 
         [Test]
-        public void ConstructorAcceptsCorrectListOfCategories()
+        [TestCaseSource(nameof(GetInvalidCategories))]
+        public void Constructor_InvalidCategories_ThrowsAssemblyException(
+            IEnumerable<TestCategory> categories)
         {
-            var list = new CategoriesList<TestCategory>(new[]
+            // Call
+            void Call() => new CategoriesList<TestCategory>(categories);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new TestCategory(0.0, 0.5),
-                new TestCategory(0.5, 1.0)
+                new AssemblyErrorMessage("categories", EAssemblyErrors.InvalidCategoryLimits)
             });
-
-            Assert.IsNotNull(list);
-            Assert.AreEqual(2, list.Categories.Length);
-        }
-
-        [TestCase(0.0, "A")]
-        [TestCase(0.2, "A")]
-        [TestCase(0.3, "A")]
-        [TestCase(0.4, "B")]
-        [TestCase(1.0, "B")]
-        public void GetCategoryForFailureProbabilityTest(double probability, string expectedCategory)
-        {
-            var list = new CategoriesList<TestCategory>(new[]
-            {
-                new TestCategory(0.0, 0.3, "A"),
-                new TestCategory(0.3, 1.0, "B")
-            });
-
-            var category = list.GetCategoryForFailureProbability((Probability) probability);
-
-            Assert.IsNotNull(category);
-            Assert.AreEqual(expectedCategory, category.CategoryIdentifier);
         }
 
         [Test]
-        public void GetCategoryForFailureProbabilityTestThrowsOnInvalidProbability()
+        public void Constructor_ExpectedValues()
         {
-            var list = new CategoriesList<TestCategory>(new[]
+            // Setup
+            var categories = new[]
             {
-                new TestCategory(0.0, 0.3),
-                new TestCategory(0.3, 1.0)
-            });
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var category = list.GetCategoryForFailureProbability(Probability.Undefined);
-            }, EAssemblyErrors.UndefinedProbability);
+                new TestCategory(0.0, 1.0)
+            };
+            
+            // Call
+            var categoriesList = new CategoriesList<TestCategory>(categories);
+            
+            // Assert
+            CollectionAssert.AreEqual(categories, categoriesList.Categories);
         }
 
-        private static IEnumerable InconsistentCategoryBoundariesTestCases
+        [Test]
+        public void GetCategoryForFailureProbability_UndefinedProbability_ThrowsAssemblyException()
         {
-            get
+            // Setup
+            var categoriesList = new CategoriesList<TestCategory>(new[]
             {
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 0.9)
-                    });
+                new TestCategory(0.0, 1.0)
+            });
+            
+            // Call
+            void Call() => categoriesList.GetCategoryForFailureProbability(Probability.Undefined);
+            
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureProbability", EAssemblyErrors.UndefinedProbability)
+            });
+        }
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.1, 0.2),
-                        new TestCategory(0.2, 0.5),
-                        new TestCategory(0.5, 1.0)
-                    });
+        [Test]
+        public void GetCategoryForFailureProbability_WithProbability_ReturnsExpectedCategory()
+        {
+            // Setup
+            var expectedCategory = new TestCategory(0.33, 0.66);
+            TestCategory[] categories = 
+            {
+                new TestCategory(0.0, 0.33),
+                expectedCategory,
+                new TestCategory(0.66, 1.0)
+            };
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 2e-3),
-                        new TestCategory(2e-4, 0.2),
-                        new TestCategory(0.2, 0.5),
-                        new TestCategory(0.5, 1.0)
-                    });
+            var categoriesList = new CategoriesList<TestCategory>(categories);
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 0.1),
-                        new TestCategory(0.1, 0.2),
-                        new TestCategory(0.15, 0.5),
-                        new TestCategory(0.5, 1.0)
-                    });
+            // Call
+            TestCategory category = categoriesList.GetCategoryForFailureProbability(new Probability(0.53));
+            
+            // Assert
+            Assert.AreEqual(expectedCategory.LowerLimit, category.LowerLimit);
+            Assert.AreEqual(expectedCategory.UpperLimit, category.UpperLimit);
+            Assert.AreEqual(expectedCategory.CategoryIdentifier, category.CategoryIdentifier);
+        }
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 0.1),
-                        new TestCategory(0.1, 0.2),
-                        new TestCategory(0.05, 0.5),
-                        new TestCategory(0.5, 1.0)
-                    });
+        private static IEnumerable<TestCaseData> GetInvalidCategories()
+        {
+            yield return new TestCaseData(new List<TestCategory>
+            {
+                new TestCategory(0.0 + 1e-9, 1.0)
+            });
+            
+            yield return new TestCaseData(new List<TestCategory>
+            {
+                new TestCategory(0.0, 1.0 - 1e-9)
+            });
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 0.1),
-                        new TestCategory(0.1, 0.2),
-                        new TestCategory(0.2, 0.5),
-                        new TestCategory(0.5 + 1e-7, 1.0)
-                    });
+            yield return new TestCaseData(new List<TestCategory>
+            {
+                new TestCategory(0.0, 0.6 + 1e-9),
+                new TestCategory(0.6, 1.0)
+            });
 
-                yield return new TestCaseData(
-                    new List<TestCategory>
-                    {
-                        new TestCategory(0.0, 0.1),
-                        new TestCategory(0.2, 0.5),
-                        new TestCategory(0.5, 1.0)
-                    });
-            }
+            yield return new TestCaseData(new List<TestCategory>
+            {
+                new TestCategory(0.0, 0.6),
+                new TestCategory(0.6 + 1e-9, 1.0)
+            });
         }
     }
 }

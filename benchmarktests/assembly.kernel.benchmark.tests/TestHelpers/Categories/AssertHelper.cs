@@ -20,6 +20,7 @@
 // All rights reserved.
 
 using System;
+using System.Linq;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using MathNet.Numerics.Distributions;
@@ -47,12 +48,12 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         {
             try
             {
-                Assert.AreEqual(expectedCategories.Categories.Length, categories.Categories.Length);
-                for (int i = 0; i < categories.Categories.Length; i++)
+                Assert.AreEqual(expectedCategories.Categories.Count(), categories.Categories.Count());
+                for (int i = 0; i < categories.Categories.Count(); i++)
                 {
                     AssertAreEqualCategories(
-                        expectedCategories.Categories[i],
-                        categories.Categories[i]);
+                        expectedCategories.Categories.ElementAt(i),
+                        categories.Categories.ElementAt(i));
                 }
 
                 return true;
