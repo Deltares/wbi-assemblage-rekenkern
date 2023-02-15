@@ -33,68 +33,6 @@ namespace Assembly.Kernel.Implementations
     /// </summary>
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
-        public FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
-            ESectionInitialMechanismProbabilitySpecification relevance,
-            Probability probabilityInitialMechanismSection,
-            ERefinementStatus refinementStatus,
-            Probability refinedProbabilitySection,
-            CategoriesList<InterpretationCategory> categories)
-        {
-            var translator = new AssessmentResultsTranslator();
-            EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
-            if (analysisState == EAnalysisState.ProbabilityEstimated)
-            {
-                Probability probability = translator.DetermineRepresentativeProbabilityBoi0A1(
-                    refinementStatus == ERefinementStatus.Performed,
-                    probabilityInitialMechanismSection,
-                    refinedProbabilitySection);
-                
-                EInterpretationCategory category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-                        probability, categories);
-                
-                return new FailureMechanismSectionAssemblyResult(probability, category);
-            }
-            else
-            {
-                EInterpretationCategory category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                Probability probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
-                return new FailureMechanismSectionAssemblyResult(probability, category);
-            }
-        }
-
-        public FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
-            ESectionInitialMechanismProbabilitySpecification relevance,
-            Probability probabilityInitialMechanismProfile,
-            Probability probabilityInitialMechanismSection,
-            ERefinementStatus refinementStatus,
-            Probability refinedProbabilityProfile,
-            Probability refinedProbabilitySection,
-            CategoriesList<InterpretationCategory> categories)
-        {
-            var translator = new AssessmentResultsTranslator();
-            EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
-            if (analysisState == EAnalysisState.ProbabilityEstimated)
-            {
-                ResultWithProfileAndSectionProbabilities probabilities = translator.DetermineRepresentativeProbabilitiesBoi0A2(
-                    refinementStatus == ERefinementStatus.Performed,
-                    probabilityInitialMechanismProfile,
-                    probabilityInitialMechanismSection,
-                    refinedProbabilityProfile,
-                    refinedProbabilitySection);
-                
-                EInterpretationCategory category = translator.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-                        probabilities.ProbabilitySection, categories);
-                
-                return new FailureMechanismSectionAssemblyResultWithLengthEffect(probabilities.ProbabilityProfile, probabilities.ProbabilitySection, category);
-            }
-            else
-            {
-                EInterpretationCategory category = translator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                Probability probability = translator.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
-                return new FailureMechanismSectionAssemblyResultWithLengthEffect(probability, probability, category);
-            }
-        }
-
         public Probability DetermineRepresentativeProbabilityBoi0A1(
             bool refinementNecessary,
             Probability probabilityInitialMechanismSection,
@@ -171,35 +109,8 @@ namespace Assembly.Kernel.Implementations
         public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
-            
-            return sectionProbability / lengthEffectFactor;
-        }
 
-        private static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
-        {
-            switch (relevance)
-            {
-                case ESectionInitialMechanismProbabilitySpecification.NotRelevant:
-                    return EAnalysisState.NotRelevant;
-                case ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification:
-                case ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification:
-                    switch (refinementStatus)
-                    {
-                        case ERefinementStatus.NotNecessary:
-                            return relevance == ESectionInitialMechanismProbabilitySpecification
-                                       .RelevantNoProbabilitySpecification
-                                       ? EAnalysisState.NoProbabilityEstimationNecessary
-                                       : EAnalysisState.ProbabilityEstimated;
-                        case ERefinementStatus.Necessary:
-                            return EAnalysisState.ProbabilityEstimationNecessary;
-                        case ERefinementStatus.Performed:
-                            return EAnalysisState.ProbabilityEstimated;
-                        default:
-                            throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
-                    }
-                default:
-                    throw new AssemblyException(nameof(refinementStatus), EAssemblyErrors.InvalidEnumValue);
-            }
+            return sectionProbability / lengthEffectFactor;
         }
 
         private static void CheckValidLengthEffectFactor(double lengthEffectFactor)

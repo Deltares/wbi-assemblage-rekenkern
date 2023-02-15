@@ -32,67 +32,6 @@ namespace Assembly.Kernel.Interfaces
     public interface IAssessmentResultsTranslator
     {
         /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments to a 
-        /// single normative result.
-        /// </summary>
-        /// <param name="relevance">Relevance state for the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism
-        /// for the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinementStatus">Refinement status of the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
-        /// mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <see cref="InterpretationCategory"/> to translate a probability to
-        /// an <see cref="EInterpretationCategory"/>.</param>
-        /// <returns>A new result resembling the normative result of the input parameters.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
-        /// <see cref="ERefinementStatus.Performed"/> and <see cref="Probability.Undefined"/> of
-        /// <paramref name="refinedProbabilitySection"/> is true.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
-        /// <see cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
-        /// and <see cref="Probability.Undefined"/> of <paramref name="probabilityInitialMechanismSection"/> is true.</exception>
-        FailureMechanismSectionAssemblyResult TranslateAssessmentResultAggregatedMethod(
-            ESectionInitialMechanismProbabilitySpecification relevance,
-            Probability probabilityInitialMechanismSection,
-            ERefinementStatus refinementStatus,
-            Probability refinedProbabilitySection,
-            CategoriesList<InterpretationCategory> categories);
-
-        /// <summary>
-        /// Translate the assessment result of failure mechanism section assessments to a 
-        /// single normative result.
-        /// </summary>
-        /// <param name="relevance">Relevance state for the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismProfile">Probability of failure estimation of the initial mechanism
-        /// for a representative profile in the failure mechanism section that is being analyzed.</param>
-        /// <param name="probabilityInitialMechanismSection">Probability of failure estimation of the initial mechanism
-        /// for the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinementStatus">Refinement status of the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilityProfile">Probability of failure estimation after refinement for a representative
-        /// profile in the failure mechanism section that is being analyzed.</param>
-        /// <param name="refinedProbabilitySection">Probability of failure estimation after refinement for the failure
-        /// mechanism section that is being analyzed.</param>
-        /// <param name="categories">List of <see cref="InterpretationCategory"/> to translate a probability to an
-        /// <see cref="EInterpretationCategory"/>.</param>
-        /// <returns>A new result resembling the normative result of the input parameters.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="refinementStatus"/> equals
-        /// <see cref="ERefinementStatus.Performed"/> in combination with <paramref name="refinedProbabilitySection"/> equals
-        /// <see cref="Probability.Undefined"/> or when <paramref name="refinedProbabilityProfile"/> equals true.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="relevance"/> equals
-        /// <see cref="ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification"/>
-        /// in combination with <paramref name="probabilityInitialMechanismSection"/> equals <see cref="Probability.Undefined"/> or when
-        /// <paramref name="probabilityInitialMechanismProfile"/> equalsfixed true.</exception>
-        FailureMechanismSectionAssemblyResultWithLengthEffect TranslateAssessmentResultWithLengthEffectAggregatedMethod(
-            ESectionInitialMechanismProbabilitySpecification relevance,
-            Probability probabilityInitialMechanismProfile,
-            Probability probabilityInitialMechanismSection,
-            ERefinementStatus refinementStatus,
-            Probability refinedProbabilityProfile,
-            Probability refinedProbabilitySection,
-            CategoriesList<InterpretationCategory> categories);
-
-        /// <summary>
         /// Determines the representative probability for a section.
         /// </summary>
         /// <param name="refinementNecessary">Indicator whether refinement is necessary.</param>

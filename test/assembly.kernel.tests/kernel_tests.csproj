@@ -36,7 +36,6 @@
     <Compile Include="Exceptions\AssemblyErrorMessageTest.cs" />
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
-    <Compile Include="Implementations\AssessmentResultsTranslatorMainMethodTests.cs" />
     <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
     <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs" />
