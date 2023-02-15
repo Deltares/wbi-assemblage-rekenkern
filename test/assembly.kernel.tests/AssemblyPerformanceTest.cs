@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Assembly.Kernel.Implementations;
-using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
@@ -37,11 +36,7 @@ namespace Assembly.Kernel.Tests
     public class AssemblyPerformanceTest
     {
         const double SectionLength = 3750.0;
-
-        private readonly IFailureMechanismResultAssembler failureMechanismResultAssembler = new FailureMechanismResultAssembler();
-        private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
-        private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler = new CommonFailureMechanismSectionAssembler();
-        private Dictionary<double, List<FailureMechanismSection>> failureMechanismSectionResultsDictionary;
+        private IDictionary<double, List<Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>>> failureMechanismSectionResultsDictionary;
 
         [SetUp]
         public void Setup()
@@ -71,11 +66,12 @@ namespace Assembly.Kernel.Tests
             Console.Out.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms (max: 1000 ms)");
         }
 
-        private void AssembleCommonFailureMechanismSections(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists)
+        private static void AssembleCommonFailureMechanismSections(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists)
         {
+            var combinedSectionAssembler = new CommonFailureMechanismSectionAssembler();
             FailureMechanismSectionList commonSections = combinedSectionAssembler.FindGreatestCommonDenominatorSectionsBoi3A1(
                 failureMechanismSectionLists, SectionLength);
-            
+
             IEnumerable<FailureMechanismSectionList> failureMechanismResults = failureMechanismSectionLists.Select(
                 fms => combinedSectionAssembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(fms, commonSections));
 
@@ -83,84 +79,71 @@ namespace Assembly.Kernel.Tests
                 failureMechanismResults, false);
         }
 
-        private void CalculateAssessmentGrade(AssessmentSection section, List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb)
+        private static void CalculateAssessmentGrade(AssessmentSection section, IEnumerable<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb)
         {
             var categoriesCalculator = new CategoryLimitsCalculator();
-            var categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
-            var failureProb =
-                assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), false);
-            var assessmentGrade = assessmentSectionAssembler.DetermineAssessmentGradeBoi2B1(failureProb, categories);
+            CategoriesList<AssessmentSectionCategory> categories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(section);
+
+            var assessmentSectionAssembler = new AssessmentGradeAssembler();
+            Probability failureProb = assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), false);
+
+            EAssessmentGrade assessmentGrade = assessmentSectionAssembler.DetermineAssessmentGradeBoi2B1(failureProb, categories);
         }
 
         private void AssembleFailureProbabilitiesPerFailureMechanism(
-            List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb, List<FailureMechanismSectionList> failureMechanismSectionLists)
+            List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb,
+            List<FailureMechanismSectionList> failureMechanismSectionLists)
         {
-            foreach (var failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
+            var failureMechanismResultAssembler = new FailureMechanismResultAssembler();
+
+            foreach (KeyValuePair<double, List<Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>>> failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                var result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                FailureMechanismAssemblyResult result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                     failureMechanismSectionResults.Key,
-                    failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Result),
+                    failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Item2),
                     false);
                 failureMechanismResultsWithFailureProb.Add(result);
 
-                failureMechanismSectionLists.Add(
-                    CreateFailureMechanismSectionListForStep3(failureMechanismSectionResults.Value));
+                failureMechanismSectionLists.Add(CreateFailureMechanismSectionListForStep3(failureMechanismSectionResults.Value));
             }
         }
 
         private static FailureMechanismSectionList CreateFailureMechanismSectionListForStep3(
-            List<FailureMechanismSection> failureMechanismSectionResults)
+            IEnumerable<Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>> failureMechanismSectionResults)
         {
-            var failureMechanismSectionList = new FailureMechanismSectionList(failureMechanismSectionResults.Select(failureMechanismSection =>
-                                                                                            new FailureMechanismSectionWithCategory(
-                                                                                                failureMechanismSection.SectionStart,
-                                                                                                failureMechanismSection.SectionEnd,
-                                                                                                failureMechanismSection.Result.InterpretationCategory)));
-            return failureMechanismSectionList;
+            return new FailureMechanismSectionList(failureMechanismSectionResults.Select(
+                                                       failureMechanismSection =>
+                                                           new FailureMechanismSectionWithCategory(
+                                                               failureMechanismSection.Item1.Start,
+                                                               failureMechanismSection.Item1.End,
+                                                               failureMechanismSection.Item2.InterpretationCategory)));
         }
 
         private void CreateTestInput()
         {
-            failureMechanismSectionResultsDictionary = new Dictionary<double, List<FailureMechanismSection>>();
+            failureMechanismSectionResultsDictionary = new Dictionary<double, List<Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>>>();
 
             for (var i = 1; i <= 15; i++)
             {
-                var failureMechanismSections = new List<FailureMechanismSection>();
+                var failureMechanismSections = new List<Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>>();
 
-                var sectionLengthRemaining = SectionLength;
+                double sectionLengthRemaining = SectionLength;
                 for (var k = 0; k < 250; k++)
                 {
-                    var sectionStart = sectionLengthRemaining / (250 - k) * k;
-                    var sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
+                    double sectionStart = sectionLengthRemaining / (250 - k) * k;
+                    double sectionEnd = sectionLengthRemaining / (250 - k) * (k + 1);
                     failureMechanismSections.Add(
-                        new FailureMechanismSection(
-                            new FailureMechanismSectionAssemblyResultWithLengthEffect((Probability)5.0E-5, (Probability)1.0E-4, EInterpretationCategory.I),
-                            sectionStart,
-                            sectionEnd));
+                        new Tuple<FailureMechanismSection, FailureMechanismSectionAssemblyResultWithLengthEffect>(
+                            new FailureMechanismSection(sectionStart, sectionEnd),
+                            new FailureMechanismSectionAssemblyResultWithLengthEffect(
+                                new Probability(5.0E-5), new Probability(1.0E-4), EInterpretationCategory.I)));
 
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }
 
                 failureMechanismSectionResultsDictionary.Add(i, failureMechanismSections);
             }
-        }
-
-        private sealed class FailureMechanismSection
-        {
-            public FailureMechanismSection(FailureMechanismSectionAssemblyResultWithLengthEffect result, double sectionStart,
-                             double sectionEnd)
-            {
-                Result = result;
-                SectionStart = sectionStart;
-                SectionEnd = sectionEnd;
-            }
-
-            public FailureMechanismSectionAssemblyResultWithLengthEffect Result { get; }
-
-            public double SectionStart { get; }
-
-            public double SectionEnd { get; }
         }
     }
 }
