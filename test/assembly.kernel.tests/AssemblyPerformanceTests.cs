@@ -40,8 +40,7 @@ namespace Assembly.Kernel.Tests
 
         private readonly IFailureMechanismResultAssembler failureMechanismResultAssembler = new FailureMechanismResultAssembler();
         private readonly IAssessmentGradeAssembler assessmentSectionAssembler = new AssessmentGradeAssembler();
-        private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler =
-            new CommonFailureMechanismSectionAssembler();
+        private readonly ICommonFailureMechanismSectionAssembler combinedSectionAssembler = new CommonFailureMechanismSectionAssembler();
         private Dictionary<double, List<FailureMechanismSection>> failureMechanismSectionResultsDictionary;
 
         [SetUp]
@@ -65,11 +64,23 @@ namespace Assembly.Kernel.Tests
 
             CalculateAssessmentGrade(section, failureMechanismResultsWithFailureProb);
 
-            combinedSectionAssembler.AssembleCommonFailureMechanismSections(failureMechanismSectionLists, SectionLength,false);
+            AssembleCommonFailureMechanismSections(failureMechanismSectionLists);
 
             watch.Stop();
 
             Console.Out.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms (max: 1000 ms)");
+        }
+
+        private void AssembleCommonFailureMechanismSections(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists)
+        {
+            FailureMechanismSectionList commonSections = combinedSectionAssembler.FindGreatestCommonDenominatorSectionsBoi3A1(
+                failureMechanismSectionLists, SectionLength);
+            
+            IEnumerable<FailureMechanismSectionList> failureMechanismResults = failureMechanismSectionLists.Select(
+                fms => combinedSectionAssembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(fms, commonSections));
+
+            IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResults = combinedSectionAssembler.DetermineCombinedResultPerCommonSectionBoi3C1(
+                failureMechanismResults, false);
         }
 
         private void CalculateAssessmentGrade(AssessmentSection section, List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb)

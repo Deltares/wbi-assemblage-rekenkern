@@ -33,25 +33,6 @@ namespace Assembly.Kernel.Interfaces
     public interface ICommonFailureMechanismSectionAssembler
     {
         /// <summary>
-        /// Assemble failure mechanism section results into a greatest common denominator assembly result.
-        /// </summary>
-        /// <param name="failureMechanismSectionLists">The list of failure mechanism section results 
-        /// grouped by failure mechanism.</param>
-        /// <param name="assessmentSectionLength">The total length of the assessment section. 
-        /// The sum of the section lengths must be equal to this length.</param>
-        /// <param name="partialAssembly">True if this assembly call is a partial call.</param>
-        /// <returns>The greatest common denominator assembly result.</returns>
-        /// <exception cref="AssemblyException">Thrown when the failure mechanism sections aren't consecutive, 
-        /// or when the sum of failure mechanism sections is not the same as the total assessment section 
-        /// length.</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="failureMechanismSectionLists" /> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="failureMechanismSectionLists"/>
-        /// are not of type <see cref="FailureMechanismSectionWithCategory"/>.</exception>
-        GreatestCommonDenominatorAssemblyResult AssembleCommonFailureMechanismSections(
-            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
-            bool partialAssembly);
-
-        /// <summary>
         /// Finds the greatest common denominator sections.
         /// </summary>
         /// <param name="failureMechanismSectionLists">The list of failure mechanism section lists.</param>

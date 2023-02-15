@@ -39,28 +39,6 @@ namespace Assembly.Kernel.Implementations
         private const double maximumAllowedAssessmentSectionLengthDifference = 0.01;
         private const double verySmallLengthDifference = 1e-8;
 
-        public GreatestCommonDenominatorAssemblyResult AssembleCommonFailureMechanismSections(
-            IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists, double assessmentSectionLength,
-            bool partialAssembly)
-        {
-            if (failureMechanismSectionLists == null)
-            {
-                throw new AssemblyException(nameof(failureMechanismSectionLists), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            FailureMechanismSectionList[] failureMechanismSections =
-                failureMechanismSectionLists as FailureMechanismSectionList[] ?? failureMechanismSectionLists.ToArray();
-
-            FailureMechanismSectionList commonSections = FindGreatestCommonDenominatorSectionsBoi3A1(failureMechanismSections, assessmentSectionLength);
-
-            List<FailureMechanismSectionList> failureMechanismResults = failureMechanismSections.Select(
-                failureMechanismSectionList => TranslateFailureMechanismResultsToCommonSectionsBoi3B1(failureMechanismSectionList, commonSections)).ToList();
-
-            IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResult = DetermineCombinedResultPerCommonSectionBoi3C1(failureMechanismResults, partialAssembly);
-
-            return new GreatestCommonDenominatorAssemblyResult(failureMechanismResults, combinedSectionResult);
-        }
-
         public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
