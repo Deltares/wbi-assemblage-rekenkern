@@ -62,18 +62,18 @@ namespace Assembly.Kernel.Tests.Model.Categories
         public void Constructor_ExpectedValues()
         {
             // Setup
+            const int categoryValue = 4;
             var lowerLimit = new Probability(0.0);
             var upperLimit = new Probability(1.0);
-            const int categoryValue = 4;
 
             // Call
             var category = new TestCategoryLimits(categoryValue, lowerLimit, upperLimit);
 
             // Assert
             Assert.IsInstanceOf<ICategoryLimits>(category);
+            Assert.AreEqual(categoryValue, category.Category);
             Assert.AreEqual(lowerLimit, category.LowerLimit, 1e-6);
             Assert.AreEqual(upperLimit, category.UpperLimit, 1e-6);
-            Assert.AreEqual(categoryValue, category.Category);
         }
 
         private class TestCategoryLimits : CategoryLimits<int>

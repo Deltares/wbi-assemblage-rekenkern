@@ -32,7 +32,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <summary>
         /// Creates a new instance of <see cref="CategoryLimits{T}"/>
         /// </summary>
-        /// <param name="category">Category for which the limits are valid.</param>
+        /// <param name="category">Category to witch the limits belong.</param>
         /// <param name="lowerLimit">The lower limit of the category.</param>
         /// <param name="upperLimit">The upper limit of the category.</param>
         /// <exception cref="AssemblyException">Thrown when:

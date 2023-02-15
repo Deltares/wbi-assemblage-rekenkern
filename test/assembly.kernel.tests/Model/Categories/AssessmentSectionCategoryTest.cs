@@ -29,16 +29,19 @@ namespace Assembly.Kernel.Tests.Model.Categories
     public class AssessmentSectionCategoryTest
     {
         [Test]
-        public void ConstructorPassesArguments()
+        public void Constructor_ExpectedValues()
         {
-            var upperLimit = new Probability(0.01);
-            var assessmentGrade = EAssessmentGrade.B;
+            // Setup
+            const EAssessmentGrade categoryValue = EAssessmentGrade.B;
             var lowerLimit = new Probability(0.001);
+            var upperLimit = new Probability(0.01);
 
-            var category = new AssessmentSectionCategory(assessmentGrade, lowerLimit, upperLimit);
+            // Call
+            var category = new AssessmentSectionCategory(categoryValue, lowerLimit, upperLimit);
 
-            Assert.IsNotNull(category);
-            Assert.AreEqual(assessmentGrade,category.Category);
+            // Assert
+            Assert.IsInstanceOf<CategoryLimits<EAssessmentGrade>>(category);
+            Assert.AreEqual(categoryValue, category.Category);
             Assert.AreEqual(lowerLimit, category.LowerLimit);
             Assert.AreEqual(upperLimit, category.UpperLimit);
         }

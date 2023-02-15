@@ -21,18 +21,15 @@
 
 namespace Assembly.Kernel.Model.Categories
 {
-    /// <inheritdoc />
     /// <summary>
     /// Category limits for an assessment section.
     /// </summary>
     public class AssessmentSectionCategory : CategoryLimits<EAssessmentGrade>
     {
+        /// <inheritdoc />
         /// <summary>
-        /// <see cref="AssessmentSectionCategory"/> constructor.
+        /// Creates a new instance of <see cref="AssessmentSectionCategory"/>.
         /// </summary>
-        /// <param name="category">Category for which the limits are valid.</param>
-        /// <param name="lowerLimit">Lower limit of the category.</param>
-        /// <param name="upperLimit">Upper limit of the category.</param>
         public AssessmentSectionCategory(EAssessmentGrade category, Probability lowerLimit, Probability upperLimit)
             : base(category, lowerLimit, upperLimit) {}
     }
