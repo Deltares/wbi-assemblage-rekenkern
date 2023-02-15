@@ -25,7 +25,7 @@ namespace Assembly.Kernel.Model.Categories
     /// <summary>
     /// Category limits for a failure mechanism section.
     /// </summary>
-    public class InterpretationCategory : CategoryBase<EInterpretationCategory>
+    public class InterpretationCategory : CategoryLimits<EInterpretationCategory>
     {
         /// <summary>
         /// Constructor for <see cref="InterpretationCategory"/>.

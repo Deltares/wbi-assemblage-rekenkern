@@ -27,10 +27,10 @@ namespace Assembly.Kernel.Model.Categories
     /// Base class for the category limits classes.
     /// </summary>
     /// <typeparam name="T">The category type.</typeparam>
-    public abstract class CategoryBase<T> : ICategoryLimits
+    public abstract class CategoryLimits<T> : ICategoryLimits
     {
         /// <summary>
-        /// Creates a new instance of <see cref="CategoryBase{T}"/>
+        /// Creates a new instance of <see cref="CategoryLimits{T}"/>
         /// </summary>
         /// <param name="category">Category for which the limits are valid.</param>
         /// <param name="lowerLimit">The lower limit of the category.</param>
@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Model.Categories
         /// </list>
         /// </exception>
         /// <seealso cref="Probability.Undefined"/>
-        protected CategoryBase(T category, Probability lowerLimit, Probability upperLimit)
+        protected CategoryLimits(T category, Probability lowerLimit, Probability upperLimit)
         {
             ValidateLimits(lowerLimit, upperLimit);
 
@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Model.Categories
         public Probability LowerLimit { get; }
 
         /// <summary>
-        /// Validates the limits.
+        /// Validates the category limits.
         /// </summary>
         /// <param name="lowerLimit">The lower limit of the category.</param>
         /// <param name="upperLimit">The upper limit of the category.</param>

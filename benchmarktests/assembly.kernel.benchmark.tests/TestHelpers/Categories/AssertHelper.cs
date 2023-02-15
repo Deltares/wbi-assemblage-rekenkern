@@ -43,7 +43,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         /// <returns><c>tru</c> when the categories are equal; <c>false</c> otherwise.</returns>
         public static bool AssertEqualCategoriesList<TCategory, TCategoryBase>(CategoriesList<TCategory> expectedCategories,
                                                                                CategoriesList<TCategory> categories)
-            where TCategory : CategoryBase<TCategoryBase>, ICategoryLimits
+            where TCategory : CategoryLimits<TCategoryBase>, ICategoryLimits
         {
             try
             {
@@ -81,8 +81,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             }
         }
 
-        private static void AssertAreEqualCategories<TCategory>(CategoryBase<TCategory> expectedCategory,
-                                                                CategoryBase<TCategory> calculatedCategory)
+        private static void AssertAreEqualCategories<TCategory>(CategoryLimits<TCategory> expectedCategory,
+                                                                CategoryLimits<TCategory> calculatedCategory)
         {
             Assert.AreEqual(expectedCategory.Category, calculatedCategory.Category);
             AssertAreEqualProbabilities(expectedCategory.LowerLimit, calculatedCategory.LowerLimit);

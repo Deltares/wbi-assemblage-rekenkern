@@ -60,7 +60,7 @@
         <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
         <Compile Include="Model\AssessmentSection\AssessmentSection.cs" />
         <Compile Include="Model\Categories\EAssessmentGrade.cs" />
-        <Compile Include="Model\Categories\CategoryBase.cs" />
+        <Compile Include="Model\Categories\CategoryLimits.cs" />
         <Compile Include="Model\Categories\AssessmentSectionCategory.cs" />
         <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
         <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionList.cs" />

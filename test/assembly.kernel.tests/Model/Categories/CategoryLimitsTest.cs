@@ -27,7 +27,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model.Categories
 {
     [TestFixture]
-    public class CategoryBaseTest
+    public class CategoryLimitsTest
     {
         [Test]
         [TestCase(double.NaN, 1.0, "lowerLimit")]
@@ -36,7 +36,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
         public void Constructor_UndefinedLimits_ThrowsAssemblyException(double lowerLimit, double upperLimit, string errorEntityId)
         {
             // Call
-            void Call() => new TestCategory(0, new Probability(lowerLimit), new Probability(upperLimit));
+            void Call() => new TestCategoryLimits(0, new Probability(lowerLimit), new Probability(upperLimit));
 
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
@@ -49,7 +49,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
         public void Constructor_LowerLimitLargerThanUpperLimit_ThrowsAssemblyException()
         {
             // Call
-            void Call() => new TestCategory(0, new Probability(1.0), new Probability(0.9));
+            void Call() => new TestCategoryLimits(0, new Probability(1.0), new Probability(0.9));
 
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             const int categoryValue = 4;
 
             // Call
-            var category = new TestCategory(categoryValue, lowerLimit, upperLimit);
+            var category = new TestCategoryLimits(categoryValue, lowerLimit, upperLimit);
 
             // Assert
             Assert.IsInstanceOf<ICategoryLimits>(category);
@@ -76,9 +76,9 @@ namespace Assembly.Kernel.Tests.Model.Categories
             Assert.AreEqual(categoryValue, category.Category);
         }
 
-        private class TestCategory : CategoryBase<int>
+        private class TestCategoryLimits : CategoryLimits<int>
         {
-            public TestCategory(int category, Probability lowerLimit, Probability upperLimit)
+            public TestCategoryLimits(int category, Probability lowerLimit, Probability upperLimit)
                 : base(category, lowerLimit, upperLimit) {}
         }
     }

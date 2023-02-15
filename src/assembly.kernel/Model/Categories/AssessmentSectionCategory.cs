@@ -25,7 +25,7 @@ namespace Assembly.Kernel.Model.Categories
     /// <summary>
     /// Category limits for an assessment section.
     /// </summary>
-    public class AssessmentSectionCategory : CategoryBase<EAssessmentGrade>
+    public class AssessmentSectionCategory : CategoryLimits<EAssessmentGrade>
     {
         /// <summary>
         /// <see cref="AssessmentSectionCategory"/> constructor.
