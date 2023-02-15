@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -31,51 +31,50 @@
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Model\Categories\CategoriesList.cs"/>
-        <Compile Include="Model\Categories\ICategoryLimits.cs"/>
-        <Compile Include="Model\Categories\InterpretationCategory.cs"/>
-        <Compile Include="Model\Categories\EInterpretationCategory.cs"/>
-        <Compile Include="Model\EAnalysisState.cs"/>
-        <Compile Include="Model\EFailureMechanismAssemblyMethod.cs"/>
-        <Compile Include="Model\ERefinementStatus.cs"/>
-        <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs"/>
-        <Compile Include="Model\FailureMechanismAssemblyResult.cs"/>
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResult.cs"/>
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultWithLengthEffect.cs"/>
-        <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilities.cs"/>
-        <Compile Include="Model\Probability.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="Exceptions\EAssemblyErrors.cs"/>
-        <Compile Include="Implementations\AssessmentGradeAssembler.cs"/>
-        <Compile Include="Implementations\CommonFailureMechanismSectionAssembler.cs"/>
-        <Compile Include="Implementations\FailureMechanismResultAssembler.cs"/>
-        <Compile Include="Implementations\AssessmentResultsTranslator.cs"/>
-        <Compile Include="Interfaces\IAssessmentGradeAssembler.cs"/>
-        <Compile Include="Interfaces\ICommonFailureMechanismSectionAssembler.cs"/>
-        <Compile Include="Interfaces\IFailureMechanismResultAssembler.cs"/>
-        <Compile Include="Interfaces\IAssessmentResultsTranslator.cs"/>
-        <Compile Include="Model\FailureMechanismSections\GreatestCommonDenominatorAssemblyResult.cs"/>
-        <Compile Include="Model\AssessmentSection\AssessmentSection.cs"/>
-        <Compile Include="Model\Categories\EAssessmentGrade.cs"/>
-        <Compile Include="Model\Categories\CategoryBase.cs"/>
-        <Compile Include="Model\Categories\AssessmentSectionCategory.cs"/>
-        <Compile Include="Implementations\CategoryLimitsCalculator.cs"/>
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionList.cs"/>
-        <Compile Include="Interfaces\ICategoryLimitsCalculator.cs"/>
-        <Compile Include="Exceptions\AssemblyErrorMessage.cs"/>
-        <Compile Include="Exceptions\AssemblyException.cs"/>
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSection.cs"/>
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategory.cs"/>
+        <Compile Include="Model\Categories\CategoriesList.cs" />
+        <Compile Include="Model\Categories\ICategoryLimits.cs" />
+        <Compile Include="Model\Categories\InterpretationCategory.cs" />
+        <Compile Include="Model\Categories\EInterpretationCategory.cs" />
+        <Compile Include="Model\EAnalysisState.cs" />
+        <Compile Include="Model\EFailureMechanismAssemblyMethod.cs" />
+        <Compile Include="Model\ERefinementStatus.cs" />
+        <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs" />
+        <Compile Include="Model\FailureMechanismAssemblyResult.cs" />
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResult.cs" />
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultWithLengthEffect.cs" />
+        <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilities.cs" />
+        <Compile Include="Model\Probability.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Exceptions\EAssemblyErrors.cs" />
+        <Compile Include="Implementations\AssessmentGradeAssembler.cs" />
+        <Compile Include="Implementations\CommonFailureMechanismSectionAssembler.cs" />
+        <Compile Include="Implementations\FailureMechanismResultAssembler.cs" />
+        <Compile Include="Implementations\AssessmentResultsTranslator.cs" />
+        <Compile Include="Interfaces\IAssessmentGradeAssembler.cs" />
+        <Compile Include="Interfaces\ICommonFailureMechanismSectionAssembler.cs" />
+        <Compile Include="Interfaces\IFailureMechanismResultAssembler.cs" />
+        <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
+        <Compile Include="Model\AssessmentSection\AssessmentSection.cs" />
+        <Compile Include="Model\Categories\EAssessmentGrade.cs" />
+        <Compile Include="Model\Categories\CategoryBase.cs" />
+        <Compile Include="Model\Categories\AssessmentSectionCategory.cs" />
+        <Compile Include="Implementations\CategoryLimitsCalculator.cs" />
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionList.cs" />
+        <Compile Include="Interfaces\ICategoryLimitsCalculator.cs" />
+        <Compile Include="Exceptions\AssemblyErrorMessage.cs" />
+        <Compile Include="Exceptions\AssemblyException.cs" />
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSection.cs" />
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategory.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\build\Assembly.Kernel.licenseheader">
             <Link>Assembly.Kernel.licenseheader</Link>
         </None>
     </ItemGroup>
-    <ItemGroup/>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <ItemGroup />
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
