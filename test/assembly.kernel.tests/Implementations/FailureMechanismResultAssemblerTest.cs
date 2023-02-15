@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
@@ -40,6 +41,12 @@ namespace Assembly.Kernel.Tests.Implementations
 
             // Assert
             Assert.IsInstanceOf<IFailureMechanismResultAssembler>(assembler);
+        }
+
+        private static void AssertFailureMechanismAssemblyResult(FailureMechanismAssemblyResult expectedResult, FailureMechanismAssemblyResult actualResult)
+        {
+            Assert.AreEqual(expectedResult.Probability, actualResult.Probability, 1e-6);
+            Assert.AreEqual(expectedResult.AssemblyMethod, actualResult.AssemblyMethod);
         }
 
         #region CalculateFailureMechanismFailureProbabilityBoi1A1
@@ -96,7 +103,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityBoi1A1_PartialAssemblyFalseAndAssemblyResultsWithUndefinedProbabilities_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
@@ -114,6 +121,148 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            FailureMechanismAssemblyResult result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(1.0, new[]
+            {
+                Probability.Undefined,
+                Probability.Undefined
+            }, true);
+
+            // Assert
+            var expectedResult = new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
+            AssertFailureMechanismAssemblyResult(expectedResult, result);
+        }
+
+        [Test]
+        [TestCase(0.0)]
+        [TestCase(0.33)]
+        [TestCase(0.66)]
+        [TestCase(1.0)]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_OneFailureMechanismSectionAssemblyResult_ReturnsExpectedResult(
+            double failureMechanismSectionAssemblyResult)
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            FailureMechanismAssemblyResult assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(1.0, new[]
+            {
+                new Probability(failureMechanismSectionAssemblyResult)
+            }, false);
+
+            // Assert
+            var expectedAssemblyResult = new FailureMechanismAssemblyResult(
+                new Probability(failureMechanismSectionAssemblyResult), EFailureMechanismAssemblyMethod.Uncorrelated);
+            AssertFailureMechanismAssemblyResult(expectedAssemblyResult, assemblyResult);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A1Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
+            double lenghtEffectFactor, IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            FailureMechanismAssemblyResult expectedAssemblyResult)
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            FailureMechanismAssemblyResult assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
+                lenghtEffectFactor, failureMechanismSectionAssemblyResults, false);
+
+            // Assert
+            AssertFailureMechanismAssemblyResult(expectedAssemblyResult, assemblyResult);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A1Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
+            double lenghtEffectFactor, IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            FailureMechanismAssemblyResult expectedAssemblyResult)
+        {
+            // Setup
+            failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Concat(new[]
+            {
+                Probability.Undefined
+            });
+            
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            FailureMechanismAssemblyResult assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
+                lenghtEffectFactor, failureMechanismSectionAssemblyResults, true);
+
+            // Assert
+            AssertFailureMechanismAssemblyResult(expectedAssemblyResult, assemblyResult);
+        }
+
+        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismFailureProbabilityBoi1A1Cases()
+        {
+            yield return new TestCaseData(
+                14.4,
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.1)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.1), EFailureMechanismAssemblyMethod.Uncorrelated));
+
+            yield return new TestCaseData(
+                14.4,
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.0001),
+                    new Probability(0.0005),
+                    new Probability(0.0007)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.00129953), EFailureMechanismAssemblyMethod.Uncorrelated));
+
+            yield return new TestCaseData(
+                14.4,
+                new[]
+                {
+                    new Probability(0.0005),
+                    new Probability(0.00005)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.000549975), EFailureMechanismAssemblyMethod.Uncorrelated));
+
+            yield return new TestCaseData(
+                14.4,
+                new[]
+                {
+                    new Probability(1.0 / 23.0),
+                    new Probability(0.0),
+                    new Probability(1.0 / 781.0)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.0447030006), EFailureMechanismAssemblyMethod.Uncorrelated));
+
+            yield return new TestCaseData(
+                2,
+                new[]
+                {
+                    new Probability(1.0 / 230.0),
+                    new Probability(1.0 / 264.0),
+                    new Probability(1.0 / 781.0)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.00869565217), EFailureMechanismAssemblyMethod.Correlated));
+
+            yield return new TestCaseData(
+                14.4,
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.0),
+                    new Probability(0.0)
+                },
+                new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated));
         }
 
         #endregion
@@ -173,7 +322,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_PartialAssemblyFalseAndAssemblyResultsWithUndefinedProbabilities_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
@@ -191,6 +340,24 @@ namespace Assembly.Kernel.Tests.Implementations
             {
                 new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            FailureMechanismAssemblyResult assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(1.0, new[]
+            {
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined),
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined)
+            }, true);
+
+            // Assert
+            var expectedAssemblyResult = new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
+            AssertFailureMechanismAssemblyResult(expectedAssemblyResult, assemblyResult);
         }
 
         #endregion
