@@ -21,18 +21,15 @@
 
 namespace Assembly.Kernel.Model.Categories
 {
-    /// <inheritdoc />
     /// <summary>
     /// Category limits for a failure mechanism section.
     /// </summary>
     public class InterpretationCategory : CategoryLimits<EInterpretationCategory>
     {
+        /// <inheritdoc />
         /// <summary>
-        /// Constructor for <see cref="InterpretationCategory"/>.
+        /// Creates a new instance of <see cref="InterpretationCategory"/>.
         /// </summary>
-        /// <param name="category">category for which the limits are valid.</param>
-        /// <param name="lowerLimit">lower limit of the category.</param>
-        /// <param name="upperLimit">upper limit of the category.</param>
         public InterpretationCategory(EInterpretationCategory category, Probability lowerLimit, Probability upperLimit) :
             base(category, lowerLimit, upperLimit) {}
     }

@@ -29,15 +29,18 @@ namespace Assembly.Kernel.Tests.Model.Categories
     public class InterpretationCategoryTest
     {
         [Test]
-        public void ConstructorPassesArguments()
+        public void Constructor_ExpectedValues()
         {
-            var upperLimit = new Probability(0.01);
-            var categoryValue = EInterpretationCategory.II;
+            // Setup
+            const EInterpretationCategory categoryValue = EInterpretationCategory.II;
             var lowerLimit = new Probability(0.001);
+            var upperLimit = new Probability(0.01);
 
+            // Call
             var category = new InterpretationCategory(categoryValue, lowerLimit, upperLimit);
 
-            Assert.IsNotNull(category);
+            // Assert
+            Assert.IsInstanceOf<CategoryLimits<EInterpretationCategory>>(category);
             Assert.AreEqual(categoryValue, category.Category);
             Assert.AreEqual(lowerLimit, category.LowerLimit);
             Assert.AreEqual(upperLimit, category.UpperLimit);
