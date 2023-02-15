@@ -30,17 +30,22 @@ namespace Assembly.Kernel.Model.Categories
     public abstract class CategoryBase<T> : ICategoryLimits
     {
         /// <summary>
-        /// Constructor for <see cref="CategoryBase{T}"/>
+        /// Creates a new instance of <see cref="CategoryBase{T}"/>
         /// </summary>
         /// <param name="category">Category for which the limits are valid.</param>
         /// <param name="lowerLimit">The lower limit of the category.</param>
         /// <param name="upperLimit">The upper limit of the category.</param>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="lowerLimit"/> is undefined (<see cref="Probability.Undefined"/> equals true).</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="upperLimit"/> is undefined (<see cref="Probability.Undefined"/> equals true).</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/>.</exception>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="lowerLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="upperLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/></item>.
+        /// </list>
+        /// </exception>
+        /// <seealso cref="Probability.Undefined"/>
         protected CategoryBase(T category, Probability lowerLimit, Probability upperLimit)
         {
-            CheckInput(lowerLimit, upperLimit);
+            ValidateLimits(lowerLimit, upperLimit);
 
             Category = category;
             LowerLimit = lowerLimit;
@@ -48,30 +53,42 @@ namespace Assembly.Kernel.Model.Categories
         }
 
         /// <summary>
-        /// The category to which the limits belong.
+        /// Gets the category to which the limits belong.
         /// </summary>
         public T Category { get; }
 
-        /// <summary>
-        /// The upper limit of the category.
-        /// </summary>
         public Probability UpperLimit { get; }
 
-        /// <summary>
-        /// The lower limit of the category.
-        /// </summary>
         public Probability LowerLimit { get; }
 
-        private static void CheckInput(Probability lowerLimit, Probability upperLimit)
+        /// <summary>
+        /// Validates the limits.
+        /// </summary>
+        /// <param name="lowerLimit">The lower limit of the category.</param>
+        /// <param name="upperLimit">The upper limit of the category.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="lowerLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="upperLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/></item>.
+        /// </list>
+        /// </exception>
+        /// <seealso cref="Probability.Undefined"/>
+        private static void ValidateLimits(Probability lowerLimit, Probability upperLimit)
         {
-            if (!lowerLimit.IsDefined || !upperLimit.IsDefined)
+            if (!lowerLimit.IsDefined)
             {
-                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.UndefinedProbability);
+                throw new AssemblyException(nameof(lowerLimit), EAssemblyErrors.UndefinedProbability);
+            }
+
+            if (!upperLimit.IsDefined)
+            {
+                throw new AssemblyException(nameof(upperLimit), EAssemblyErrors.UndefinedProbability);
             }
 
             if (lowerLimit > upperLimit)
             {
-                throw new AssemblyException(nameof(CategoryBase<T>), EAssemblyErrors.LowerLimitIsAboveUpperLimit);
+                throw new AssemblyException(nameof(lowerLimit), EAssemblyErrors.LowerLimitIsAboveUpperLimit);
             }
         }
     }

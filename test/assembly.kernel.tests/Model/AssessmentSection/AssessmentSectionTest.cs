@@ -53,8 +53,8 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
             var assessmentSection = new Kernel.Model.AssessmentSection.AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
             
             // Assert
-            Assert.AreEqual(signalFloodingProbability, assessmentSection.SignalFloodingProbability);
-            Assert.AreEqual(maximumAllowableFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability);
+            Assert.AreEqual(signalFloodingProbability, assessmentSection.SignalFloodingProbability, 1e-6);
+            Assert.AreEqual(maximumAllowableFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability, 1e-6);
             
             string expectedString = $"Signal flooding probability: {signalFloodingProbability}, "
                                     + Environment.NewLine

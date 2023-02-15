@@ -30,44 +30,56 @@ namespace Assembly.Kernel.Tests.Model.Categories
     public class CategoryBaseTest
     {
         [Test]
-        [TestCase(double.NaN, 0.1)]
-        [TestCase(0.1, double.NaN)]
-        [TestCase(double.NaN, double.NaN)]
-        public void CategoryBasePerformsInputCheckOnNaNValues(double lowerBoundary, double upperBoundary)
+        [TestCase(double.NaN, 1.0, "lowerLimit")]
+        [TestCase(1.0, double.NaN, "upperLimit")]
+        [TestCase(double.NaN, double.NaN, "lowerLimit")]
+        public void Constructor_UndefinedLimits_ThrowsAssemblyException(double lowerLimit, double upperLimit, string errorEntityId)
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new TestCategory(0, new Probability(lowerLimit), new Probability(upperLimit));
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                var category = new TestCategoryBase(0.2, (Probability)lowerBoundary, (Probability)upperBoundary);
-            }, EAssemblyErrors.UndefinedProbability);
+                new AssemblyErrorMessage(errorEntityId, EAssemblyErrors.UndefinedProbability)
+            });
         }
 
         [Test]
-        public void CategoryBasePerformsInputCheckOnValidValues()
+        public void Constructor_LowerLimitLargerThanUpperLimit_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new TestCategory(0, new Probability(1.0), new Probability(0.9));
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                var category = new TestCategoryBase(0.2, (Probability)0.02, (Probability)0.01);
-            }, EAssemblyErrors.LowerLimitIsAboveUpperLimit);
+                new AssemblyErrorMessage("lowerLimit", EAssemblyErrors.LowerLimitIsAboveUpperLimit)
+            });
         }
 
         [Test]
-        public void CategoryBasePassesInput()
+        public void Constructor_ExpectedValues()
         {
-            var categoryValue = 0.2;
-            var lowerValue = (Probability)0.01;
-            var upperValue = (Probability)0.02;
-            var category = new TestCategoryBase(categoryValue, lowerValue, upperValue);
+            // Setup
+            var lowerLimit = new Probability(0.0);
+            var upperLimit = new Probability(1.0);
+            const int categoryValue = 4;
+
+            // Call
+            var category = new TestCategory(categoryValue, lowerLimit, upperLimit);
+
+            // Assert
+            Assert.IsInstanceOf<ICategoryLimits>(category);
+            Assert.AreEqual(lowerLimit, category.LowerLimit, 1e-6);
+            Assert.AreEqual(upperLimit, category.UpperLimit, 1e-6);
             Assert.AreEqual(categoryValue, category.Category);
-            Assert.AreEqual(lowerValue, category.LowerLimit);
-            Assert.AreEqual(upperValue, category.UpperLimit);
         }
 
-
-        private class TestCategoryBase : CategoryBase<double>
+        private class TestCategory : CategoryBase<int>
         {
-            public TestCategoryBase(double category, Probability lowerLimit, Probability upperLimit) : base(category, lowerLimit, upperLimit)
-            {
-            }
+            public TestCategory(int category, Probability lowerLimit, Probability upperLimit)
+                : base(category, lowerLimit, upperLimit) {}
         }
     }
 }

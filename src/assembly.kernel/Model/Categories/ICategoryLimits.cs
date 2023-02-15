@@ -27,12 +27,12 @@ namespace Assembly.Kernel.Model.Categories
     public interface ICategoryLimits
     {
         /// <summary>
-        /// The upper limit of the category.
+        /// Gets the upper limit of the category.
         /// </summary>
         Probability UpperLimit { get; }
 
         /// <summary>
-        /// The lower limit of the category.
+        /// Gets the lower limit of the category.
         /// </summary>
         Probability LowerLimit { get; }
     }
