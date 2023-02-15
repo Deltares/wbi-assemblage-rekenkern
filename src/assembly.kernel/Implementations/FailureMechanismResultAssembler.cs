@@ -34,6 +34,7 @@ namespace Assembly.Kernel.Implementations
     /// </summary>
     public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
+        /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
             double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
@@ -54,6 +55,7 @@ namespace Assembly.Kernel.Implementations
             return CreateFailureMechanismAssemblyResult(failureMechanismSectionAssemblyResults, p => p, p => p, lengthEffectFactor);
         }
 
+        /// <inheritdoc />
         public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,

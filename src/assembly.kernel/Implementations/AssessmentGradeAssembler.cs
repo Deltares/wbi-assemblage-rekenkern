@@ -33,6 +33,7 @@ namespace Assembly.Kernel.Implementations
     /// </summary>
     public class AssessmentGradeAssembler : IAssessmentGradeAssembler
     {
+        /// <inheritdoc />
         public Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
             IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly)
         {
@@ -50,6 +51,7 @@ namespace Assembly.Kernel.Implementations
             return CalculateFailureProbability(failureMechanismProbabilities);
         }
 
+        /// <inheritdoc />
         public EAssessmentGrade DetermineAssessmentGradeBoi2B1(
             Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
@@ -84,7 +86,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
         }
-        
+
         private static IEnumerable<AssemblyErrorMessage> ValidateProbabilityAndCategories(
             Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {

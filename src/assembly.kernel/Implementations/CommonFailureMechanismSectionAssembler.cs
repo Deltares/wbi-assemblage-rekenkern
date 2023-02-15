@@ -39,6 +39,7 @@ namespace Assembly.Kernel.Implementations
         private const double maximumAllowedAssessmentSectionLengthDifference = 0.01;
         private const double verySmallLengthDifference = 1e-8;
 
+        /// <inheritdoc />
         public FailureMechanismSectionList FindGreatestCommonDenominatorSectionsBoi3A1(
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
@@ -48,6 +49,7 @@ namespace Assembly.Kernel.Implementations
             return new FailureMechanismSectionList(GetCommonSectionLimitsIgnoringSmallDifferences(failureMechanismSectionLists));
         }
 
+        /// <inheritdoc />
         public FailureMechanismSectionList TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
             FailureMechanismSectionList failureMechanismSections,
             FailureMechanismSectionList commonSections)
@@ -67,6 +69,7 @@ namespace Assembly.Kernel.Implementations
             return new FailureMechanismSectionList(resultsToCommonSections);
         }
 
+        /// <inheritdoc />
         public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections, bool partialAssembly)
         {

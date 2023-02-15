@@ -36,6 +36,7 @@ namespace Assembly.Kernel.Implementations
         private const double lowerLimit = 0.0;
         private const double upperLimit = 1.0;
 
+        /// <inheritdoc />
         public CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(
             AssessmentSection assessmentSection)
         {
@@ -60,14 +61,15 @@ namespace Assembly.Kernel.Implementations
                 new InterpretationCategory(EInterpretationCategory.IIIMin, lowTimes10, new Probability(upperLimit))
             });
         }
-        
+
+        /// <inheritdoc />
         public CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection assessmentSection)
         {
             if (assessmentSection == null)
             {
                 throw new AssemblyException(nameof(assessmentSection), EAssemblyErrors.ValueMayNotBeNull);
             }
-            
+
             var sigDiv30 = new Probability(assessmentSection.SignalFloodingProbability / 30.0);
             var lowTimes30 = new Probability(Math.Min(upperLimit, (double) assessmentSection.MaximumAllowableFloodingProbability * 30.0));
 

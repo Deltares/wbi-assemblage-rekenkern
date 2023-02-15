@@ -33,6 +33,7 @@ namespace Assembly.Kernel.Implementations
     /// </summary>
     public class AssessmentResultsTranslator : IAssessmentResultsTranslator
     {
+        /// <inheritdoc />
         public Probability DetermineRepresentativeProbabilityBoi0A1(
             bool refinementNecessary,
             Probability probabilityInitialMechanismSection,
@@ -43,6 +44,7 @@ namespace Assembly.Kernel.Implementations
                        : probabilityInitialMechanismSection;
         }
 
+        /// <inheritdoc />
         public ResultWithProfileAndSectionProbabilities DetermineRepresentativeProbabilitiesBoi0A2(
             bool refinementNecessary,
             Probability probabilityInitialMechanismProfile,
@@ -55,6 +57,7 @@ namespace Assembly.Kernel.Implementations
                        : new ResultWithProfileAndSectionProbabilities(probabilityInitialMechanismProfile, probabilityInitialMechanismSection);
         }
 
+        /// <inheritdoc />
         public EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
             Probability sectionProbability,
             CategoriesList<InterpretationCategory> categories)
@@ -67,6 +70,7 @@ namespace Assembly.Kernel.Implementations
             return categories.GetCategoryForFailureProbability(sectionProbability).Category;
         }
 
+        /// <inheritdoc />
         public EInterpretationCategory DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(
             EAnalysisState analysisState)
         {
@@ -83,6 +87,7 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
+        /// <inheritdoc />
         public Probability TranslateInterpretationCategoryToProbabilityBoi0C2(EInterpretationCategory category)
         {
             switch (category)
@@ -98,6 +103,7 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
+        /// <inheritdoc />
         public Probability CalculateProfileProbabilityToSectionProbabilityBoi0D1(Probability profileProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
@@ -106,6 +112,7 @@ namespace Assembly.Kernel.Implementations
             return new Probability(Math.Min(sectionProbabilityValue, 1.0));
         }
 
+        /// <inheritdoc />
         public Probability CalculateSectionProbabilityToProfileProbabilityBoi0D2(Probability sectionProbability, double lengthEffectFactor)
         {
             CheckValidLengthEffectFactor(lengthEffectFactor);
