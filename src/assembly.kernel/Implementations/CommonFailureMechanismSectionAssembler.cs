@@ -88,7 +88,7 @@ namespace Assembly.Kernel.Implementations
         /// <summary>
         /// Validates the failure mechanism results to common sections input. 
         /// </summary>
-        /// <param name="failureMechanismSectionLists">The list of failure mechanism sections.</param>
+        /// <param name="failureMechanismSections">The list of failure mechanism sections.</param>
         /// <param name="commonSections">The list of common failure mechanism sections.</param>
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
         /// <exception cref="AssemblyException">Thrown when:
