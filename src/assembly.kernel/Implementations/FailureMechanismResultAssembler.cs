@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
-            CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
 
             if (partialAssembly)
             {
@@ -59,13 +59,13 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
-            CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
 
             if (partialAssembly)
             {
                 failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
                     r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined);
-                
+
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
                     return new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
@@ -76,11 +76,25 @@ namespace Assembly.Kernel.Implementations
                                                         sectionResult => sectionResult.ProbabilitySection, lengthEffectFactor);
         }
 
-        private static void CheckInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
-                                       double lengthEffectFactor,
-                                       bool partialAssembly)
+        /// <summary>
+        /// Validates the input.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                          double lengthEffectFactor,
+                                          bool partialAssembly)
         {
-            List<AssemblyErrorMessage> errors = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+            List<AssemblyErrorMessage> errors = ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
 
             if (!errors.Any() && !partialAssembly)
             {
@@ -101,11 +115,25 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static void CheckInput(IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-                                       double lengthEffectFactor,
-                                       bool partialAssembly)
+        /// <summary>
+        /// Validates the input.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateInput(IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+                                          double lengthEffectFactor,
+                                          bool partialAssembly)
         {
-            List<AssemblyErrorMessage> errors = CheckInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+            List<AssemblyErrorMessage> errors = ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
 
             if (!errors.Any() && !partialAssembly)
             {
@@ -127,7 +155,7 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static IEnumerable<AssemblyErrorMessage> CheckInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults, double lengthEffectFactor)
+        private static IEnumerable<AssemblyErrorMessage> ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults, double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
 
