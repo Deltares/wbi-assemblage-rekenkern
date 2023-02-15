@@ -29,33 +29,37 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
     [TestFixture]
     public class AssessmentSectionTest
     {
-        [TestCase(0,0 )]
-        [TestCase(1, 1)]
-        [TestCase(0.1, 0.2)]
-        public void AssessmentSectionInputValidationTest(double signalFloodingProbability,
-            double maximumAllowableFloodingProbability)
+        [Test]
+        public void Constructor_SignalFloodingProbabilityLargerThanMaximumAllowableFloodingProbability_ThrowsAssemblyException()
         {
-            var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability) signalFloodingProbability,
-                (Probability) maximumAllowableFloodingProbability);
-            Assert.AreEqual(signalFloodingProbability, section.SignalFloodingProbability);
-            Assert.AreEqual(maximumAllowableFloodingProbability, section.MaximumAllowableFloodingProbability);
-        }
+            // Call
+            void Call() => new Kernel.Model.AssessmentSection.AssessmentSection(new Probability(1.0), new Probability(0.0));
 
-        [TestCase(0.1, 0.05)]
-        [TestCase(0.2, 0.1)]
-        public void AssessmentSectionInputValidationTestWithException(double signalFloodingProbability, double maximumAllowableFloodingProbability)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                var section = new Kernel.Model.AssessmentSection.AssessmentSection((Probability)signalFloodingProbability, (Probability)maximumAllowableFloodingProbability);
-            }, EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
+                new AssemblyErrorMessage("AssessmentSection", EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability)
+            });
         }
 
         [Test]
-        public void ToStringWorks()
+        public void Constructor_ExpectedValues()
         {
-            var section = new Kernel.Model.AssessmentSection.AssessmentSection(Probability.Undefined, new Probability(0.001));
-            Assert.AreEqual("Signal flooding probability: Undefined, " + Environment.NewLine + "Maximum allowable flooding probability: 1/1000", section.ToString());
+            // Setup
+            var signalFloodingProbability = new Probability(0.9);
+            var maximumAllowableFloodingProbability = new Probability(1.0);
+            
+            // Call
+            var assessmentSection = new Kernel.Model.AssessmentSection.AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
+            
+            // Assert
+            Assert.AreEqual(signalFloodingProbability, assessmentSection.SignalFloodingProbability);
+            Assert.AreEqual(maximumAllowableFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability);
+            
+            string expectedString = $"Signal flooding probability: {signalFloodingProbability}, "
+                                    + Environment.NewLine
+                                    + $"Maximum allowable flooding probability: {maximumAllowableFloodingProbability}";
+            Assert.AreEqual(expectedString, assessmentSection.ToString());
         }
     }
 }

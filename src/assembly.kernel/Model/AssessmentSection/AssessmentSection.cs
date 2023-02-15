@@ -30,18 +30,18 @@ namespace Assembly.Kernel.Model.AssessmentSection
     public class AssessmentSection
     {
         /// <summary>
-        /// <see cref="AssessmentSection"/> Constructor.
+        /// Create a new instance of <see cref="AssessmentSection"/>.
         /// </summary>
-        /// <param name="signalFloodingProbability">Signal flooding probability of the section in 1/years. Has to be between 0 and 1.</param>
-        /// <param name="maximumAllowableFloodingProbability">Maximum allowable flooding probability of the section in 1/years. 
-        ///     Has to be between 0 and 1.</param>
-        /// <exception cref="AssemblyException">Thrown when one of the input values is not valid.</exception>
-        public AssessmentSection(Probability signalFloodingProbability,
-                                 Probability maximumAllowableFloodingProbability)
+        /// <param name="signalFloodingProbability">Signal flooding probability of the section in 1/years.</param>
+        /// <param name="maximumAllowableFloodingProbability">Maximum allowable flooding probability of the section in 1/years.</param>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="signalFloodingProbability"/>
+        /// &gt; <paramref name="maximumAllowableFloodingProbability"/></exception>.
+        public AssessmentSection(Probability signalFloodingProbability, Probability maximumAllowableFloodingProbability)
         {
             if (signalFloodingProbability > maximumAllowableFloodingProbability)
             {
-                throw new AssemblyException(nameof(AssessmentSection), EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
+                throw new AssemblyException(nameof(AssessmentSection),
+                                            EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
             }
 
             SignalFloodingProbability = signalFloodingProbability;
@@ -49,24 +49,20 @@ namespace Assembly.Kernel.Model.AssessmentSection
         }
 
         /// <summary>
-        /// Signal flooding probability of the section in 1/years.
+        /// Gets the signal flooding probability of the section in 1/years.
         /// </summary>
         public Probability SignalFloodingProbability { get; }
 
         /// <summary>
-        /// Maximum allowable flooding probability of the section in 1/years. 
+        /// Gets the maximum allowable flooding probability of the section in 1/years. 
         /// </summary>
         public Probability MaximumAllowableFloodingProbability { get; }
 
-        /// <summary>
-        /// Generates string from assessment section object.
-        /// </summary>
-        /// <returns>Text representation of the assessment section object.</returns>
         public override string ToString()
         {
-            return
-                $"Signal flooding probability: {SignalFloodingProbability}, " + Environment.NewLine +
-                $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
+            return $"Signal flooding probability: {SignalFloodingProbability}, "
+                   + Environment.NewLine
+                   + $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
         }
     }
 }
