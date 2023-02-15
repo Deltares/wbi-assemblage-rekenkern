@@ -34,7 +34,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests
 {
     [TestFixture]
-    public class AssemblyPerformanceTests
+    public class AssemblyPerformanceTest
     {
         const double SectionLength = 3750.0;
 
