@@ -105,13 +105,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
 
             const double threshold = 0.01;
 
-            if (Math.Abs(0.0 - sections.First().Start) > threshold)
+            FailureMechanismSection firstSection = sections.First();
+            if (Math.Abs(0.0 - firstSection.Start) > threshold)
             {
                 throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
             
-            var previousSectionEnd = 0.0;
-            foreach (FailureMechanismSection section in sections)
+            double previousSectionEnd = firstSection.End;
+            foreach (FailureMechanismSection section in sections.Skip(1))
             {
                 if (Math.Abs(previousSectionEnd - section.Start) > threshold)
                 {
