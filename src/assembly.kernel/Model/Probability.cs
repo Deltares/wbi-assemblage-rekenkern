@@ -29,7 +29,9 @@ namespace Assembly.Kernel.Model
     /// This struct represents a probability. It can be used similar to double, but has a limited
     /// value within the range [0,1].
     /// </summary>
-    public struct Probability : IEquatable<Probability>, IEquatable<double>, IFormattable, IComparable, IComparable<Probability>, IComparable<double>
+    public struct Probability : IEquatable<Probability>, IEquatable<double>,
+                                IComparable, IComparable<Probability>, IComparable<double>,
+                                IFormattable
     {
         /// <summary>
         /// Represents an undefined probability.
@@ -40,45 +42,54 @@ namespace Assembly.Kernel.Model
         private readonly double value;
 
         /// <summary>
-        /// Constructs a <see cref="Probability"/> from a double representing the probability value.
+        /// Creates a new instance of <see cref="Probability"/>.
         /// </summary>
         /// <param name="probabilityValue">The value of the probability.</param>
-        /// <exception cref="AssemblyException">Thrown whenever <paramref name="probabilityValue"/>&lt;0 or <paramref name="probabilityValue"/>&gt;1 .</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="probabilityValue"/> 
+        /// is not in range [0.0, 1.0].</exception>
         public Probability(double probabilityValue)
         {
-            ValidateProbabilityValueWithinAllowedRange(probabilityValue);
+            if (probabilityValue < 0.0 || probabilityValue > 1.0)
+            {
+                throw new AssemblyException(nameof(probabilityValue), EAssemblyErrors.FailureProbabilityOutOfRange);
+            }
+
             value = probabilityValue;
         }
 
         /// <summary>
-        /// Represents the return period of this probability.
-        /// </summary>
-        public int ReturnPeriod => (int) Math.Round(1 / value);
-
-        /// <summary>
-        /// Returns a new probability that represents the inverse value of this probability (1-probability).
+        /// Gets a probability that represents the inverse value of this probability.
         /// </summary>
         public Probability Inverse => new Probability(1 - value);
 
         /// <summary>
-        /// Specifies whether the probability is defined.
+        /// Gets whether the probability is defined.
         /// </summary>
         public bool IsDefined => !double.IsNaN(value);
 
         /// <summary>
-        /// Returns whether the difference between two probabilities is negligible based on their reliability indices.
+        /// Gets whether the difference between two probabilities is negligible based on their reliability indices.
         /// </summary>
         /// <param name="other">The probability to compare with.</param>
         /// <param name="maximumRelativeDifference">The maximum allowed relative difference.</param>
-        /// <returns>True in case there is a negligible difference with the specified other probability.</returns>
+        /// <returns><c>true</c> in case there is a negligible difference with the specified other probability;
+        /// <c>false</c> otherwise.</returns>
         public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
         {
-            var average = (this + (double) other) * 0.5;
-            var absoluteDifference = Math.Abs(this - (double) other);
-            var relativeDifference = absoluteDifference / average;
+            double average = (this + (double) other) * 0.5;
+            double absoluteDifference = Math.Abs(this - (double) other);
+            double relativeDifference = absoluteDifference / average;
 
-            return !(relativeDifference < double.PositiveInfinity) | relativeDifference <= maximumRelativeDifference;
+            return !(relativeDifference < double.PositiveInfinity) || relativeDifference <= maximumRelativeDifference;
         }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+
+        #region Operators
 
         /// <summary>
         /// Specifies the == operator.
@@ -226,7 +237,7 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Specifies the <= operator.
+        /// Specifies the &lt;= operator.
         /// </summary>
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
@@ -270,7 +281,7 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Specifies the <= operator.
+        /// Specifies the &lt;= operator.
         /// </summary>
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
@@ -302,137 +313,17 @@ namespace Assembly.Kernel.Model
             return left.value >= right;
         }
 
-        /// <summary>
-        /// Translates the probability to a string representation.
-        /// </summary>
-        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
-        /// <returns>A string representation of the probability.</returns>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
-        }
+        #endregion
+
+        #region ToString
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((Probability) obj);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return value.GetHashCode();
-        }
-
-        /// <summary>
-        /// Translates the probability to a string representation.
-        /// </summary>
-        /// <returns>A string representation of the probability.</returns>
         public override string ToString()
         {
             return ToString(null, null);
         }
 
-        /// <summary>
-        /// Compares this probability with another object.
-        /// </summary>
-        /// <param name="obj">The object to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other object equals null of a probability or double $gt; this probability.</item>
-        /// <item>0 in case the other object is a Probability or double with equal value.</item>
-        /// <item>-1 in case the other object is a Probability or double $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        /// <exception cref="ArgumentException">Thrown in case the <paramref name="obj"/> is not a double or <see cref="Probability"/>.</exception>
-        public int CompareTo(object obj)
-        {
-            if (obj == null)
-            {
-                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
-            if (obj is Probability probability)
-            {
-                return CompareTo(probability);
-            }
-
-            if (obj is double d)
-            {
-                return CompareTo(d);
-            }
-
-            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
-        }
-
-        /// <summary>
-        /// Compares this probability with another double.
-        /// </summary>
-        /// <param name="other">The value to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other value $gt; this probability.</item>
-        /// <item>0 in case the other value and this probability are equal.</item>
-        /// <item>-1 in case the other value $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        public int CompareTo(double other)
-        {
-            return value.CompareTo(other);
-        }
-
-        /// <summary>
-        /// Compares this probability with another <see cref="Probability"/>.
-        /// </summary>
-        /// <param name="other">The <see cref="Probability"/> to compare with.</param>
-        /// <returns>
-        /// <list type="bullet">
-        /// <item>1 in case the other probability $gt; this probability.</item>
-        /// <item>0 in case the other probability and this probability are equal.</item>
-        /// <item>-1 in case the other probability $lt; this probability.</item>
-        /// </list>
-        /// </returns>
-        public int CompareTo(Probability other)
-        {
-            return value.CompareTo(other.value);
-        }
-
-        /// <summary>
-        /// Check equality of the probability with the specified double.
-        /// </summary>
-        /// <param name="other">The probability value to compare with.</param>
-        /// <returns>A boolean indicating whether the values are equal.</returns>
-        public bool Equals(double other)
-        {
-            return value.Equals(other);
-        }
-
-        /// <summary>
-        /// Check equality of the probability with the specified double.
-        /// </summary>
-        /// <param name="other">The probability value to compare with.</param>
-        /// <returns>A boolean indicating whether the values are equal.</returns>
-        public bool Equals(Probability other)
-        {
-            return other.value.Equals(value);
-        }
-
-        /// <summary>
-        /// Translates the probability to a string representation.
-        /// </summary>
-        /// <param name="format">The string format used to represent the value.</param>
-        /// <param name="formatProvider">The <see cref="IFormatProvider"/> used to translate the probability to a string presentation.</param>
-        /// <returns>A string representation of the probability.</returns>
+        /// <inheritdoc />
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (Math.Abs(value) < ToStringPrecision)
@@ -458,18 +349,75 @@ namespace Assembly.Kernel.Model
             return value.ToString(format, formatProvider ?? CultureInfo.CurrentCulture);
         }
 
-        /// <summary>
-        /// Validates <paramref name="probability"/> for being a valid probability. This means a double within the range [0-1].
-        /// </summary>
-        /// <param name="probability">The probability to validate</param>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> is smaller than 0</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probability"/> exceeds 1</exception>
-        private static void ValidateProbabilityValueWithinAllowedRange(double probability)
+        #endregion
+
+        #region CompareTo
+
+        /// <inheritdoc />
+        public int CompareTo(object obj)
         {
-            if (!double.IsNaN(probability) && (probability < 0 || probability > 1))
+            if (obj == null)
             {
-                throw new AssemblyException(nameof(probability), EAssemblyErrors.FailureProbabilityOutOfRange);
+                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
             }
+
+            if (obj is Probability probability)
+            {
+                return CompareTo(probability);
+            }
+
+            if (obj is double d)
+            {
+                return CompareTo(d);
+            }
+
+            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
         }
+
+        /// <inheritdoc />
+        public int CompareTo(double other)
+        {
+            return value.CompareTo(other);
+        }
+
+        /// <inheritdoc />
+        public int CompareTo(Probability other)
+        {
+            return value.CompareTo(other.value);
+        }
+
+        #endregion
+
+        #region Equals
+
+        /// <inheritdoc />
+        public bool Equals(double other)
+        {
+            return value.Equals(other);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Probability other)
+        {
+            return other.value.Equals(value);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((Probability) obj);
+        }
+
+        #endregion
     }
 }

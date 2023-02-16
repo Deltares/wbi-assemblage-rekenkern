@@ -58,6 +58,7 @@ namespace Assembly.Kernel.Model.AssessmentSection
         /// </summary>
         public Probability MaximumAllowableFloodingProbability { get; }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Signal flooding probability: {SignalFloodingProbability}, "

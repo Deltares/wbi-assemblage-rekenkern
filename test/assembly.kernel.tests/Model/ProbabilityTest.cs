@@ -31,39 +31,133 @@ namespace Assembly.Kernel.Tests.Model
     public class ProbabilityTest
     {
         [Test]
-        public void UndefinedProbabilityReturnsUndefinedProbability()
+        [TestCase(-0.000001)]
+        [TestCase(1.000001)]
+        public void Constructor_InvalidValue_ThrowsAssemblyException(double value)
         {
-            var nanValue = Probability.Undefined;
+            // Call
+            void Call() => new Probability(value);
 
-            Assert.IsAssignableFrom<Probability>(nanValue);
-            Assert.IsFalse(nanValue.IsDefined);
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("probabilityValue", EAssemblyErrors.FailureProbabilityOutOfRange)
+            });
         }
 
         [Test]
-        public void ConstructorPassesValue()
+        public void Constructor_ExpectedValues()
         {
-            var returnPeriod = 1000.0;
-            var val = 1.0 / returnPeriod;
-            var probability = new Probability(val);
+            // Setup
+            const double value = 0.5;
 
-            Assert.AreEqual(val, probability);
-            Assert.AreEqual(returnPeriod, probability.ReturnPeriod);
+            // Call
+            var probability = new Probability(value);
+
+            // Assert
+            Assert.IsInstanceOf<IEquatable<Probability>>(probability);
+            Assert.IsInstanceOf<IEquatable<double>>(probability);
+            Assert.IsInstanceOf<IComparable>(probability);
+            Assert.IsInstanceOf<IComparable<Probability>>(probability);
+            Assert.IsInstanceOf<IComparable<double>>(probability);
+            Assert.IsInstanceOf<IFormattable>(probability);
+
+            Assert.AreEqual(value, probability, 1e-6);
         }
 
         [Test]
-        public void InverseWorks()
+        public void Undefined_Always_ReturnsExpectedValue()
         {
-            var probability = new Probability(0.9);
-            Assert.AreEqual(0.1, probability.Inverse, 1E-10);
+            // Call
+            Probability probability = Probability.Undefined;
+
+            // Assert
+            Assert.IsNaN(probability);
         }
 
         [Test]
-        public void IsDefinedReturnsCorrectValue()
+        public void Inverse_ProbabilityUndefined_ReturnsExpectedValue()
         {
-            Assert.IsTrue(new Probability(0.2).IsDefined);
-            Assert.IsFalse(new Probability(double.NaN).IsDefined);
-            Assert.IsFalse(((Probability) double.NaN).IsDefined);
-            Assert.IsFalse(Probability.Undefined.IsDefined);
+            // Setup
+            Probability probability = Probability.Undefined;
+
+            // Call
+            Probability inverse = probability.Inverse;
+
+            // Assert
+            Assert.AreNotSame(probability, inverse);
+            Assert.IsNaN(inverse);
+        }
+
+        [Test]
+        [TestCase(0.178, 0.822)]
+        [TestCase(0.9826, 0.0174)]
+        public void Inverse_ProbabilityDefined_ReturnsExpectedValue(double value, double expectedInverse)
+        {
+            // Setup
+            var probability = new Probability(value);
+
+            // Call
+            Probability inverse = probability.Inverse;
+
+            // Assert
+            Assert.AreNotSame(probability, inverse);
+            Assert.AreEqual(expectedInverse, inverse, 1e-6);
+        }
+
+        [Test]
+        [TestCase(0.3, true)]
+        [TestCase(double.NaN, false)]
+        public void IsDefined_Always_ReturnsExpectedValue(double value, bool expectedIsDefined)
+        {
+            // Setup
+            var probability = new Probability(value);
+
+            // Call
+            bool isDefined = probability.IsDefined;
+
+            // Assert
+            Assert.AreEqual(expectedIsDefined, isDefined);
+        }
+        
+        [Test]
+        [TestCase(0, 0, true)]
+        [TestCase(0, 0.2, false)]
+        [TestCase(0.2, 0, false)]
+        [TestCase(1, 1, true)]
+        [TestCase(0.001, 0.001 + 1e-40, true)]
+        [TestCase(0.001, 0.001 + 1e-8, false)]
+        [TestCase(2e-40, 2e-40, true)]
+        [TestCase(2e-10, 3e-10, false)]
+        public void IsNegligibleDifference_DefaultPrecision_ReturnsExpectedResult(double value1, double value2, bool expectedResult)
+        {
+            // Setup
+            var probability1 = new Probability(value1);
+            var probability2 = new Probability(value2);
+
+            // Call
+            bool isNegligibleDifference1 = probability1.IsNegligibleDifference(probability2);
+            bool isNegligibleDifference2 = probability2.IsNegligibleDifference(probability1);
+            
+            // Assert
+            Assert.AreEqual(expectedResult, isNegligibleDifference1);
+            Assert.AreEqual(expectedResult, isNegligibleDifference2);
+        }
+
+        [Test]
+        [TestCase(1e-3, true)]
+        [TestCase(1e-4, false)]
+        public void IsNegligibleDifference_DifferentPrecisions_ReturnsExpectedResult(double precision, bool expectedResult)
+        {
+            // Setup
+            var probability = new Probability(1e-20);
+            var other = new Probability(1.001e-20);
+
+            // Call
+            bool isNegligibleDifference = probability.IsNegligibleDifference(other, precision);
+            
+            // Assert
+            Assert.AreEqual(expectedResult, isNegligibleDifference);
         }
 
         [Test]
@@ -71,7 +165,7 @@ namespace Assembly.Kernel.Tests.Model
         [SetCulture("nl-NL")]
         public void ToStringWorksWithFormatProvider()
         {
-            var probability = new Probability(1.425E-15);
+            var probability = new Probability(1.425e-15);
 
             Assert.AreEqual("1.4250E-015", probability.ToString("E4", CultureInfo.InvariantCulture));
             Assert.AreEqual("1.4250E-015", probability.ToString("E4", new CultureInfo("en-US")));
@@ -81,29 +175,14 @@ namespace Assembly.Kernel.Tests.Model
         [Test]
         public void ToStringWorksWithFormat()
         {
-            var probability = new Probability(1.425E-15);
+            var probability = new Probability(1.425e-15);
             Assert.AreEqual("1.42500E-015", probability.ToString("E5", CultureInfo.InvariantCulture));
-        }
-
-        [Test]
-        public void ConstructorPassesUndefinedProbability()
-        {
-            var undefinedProbability = new Probability(double.NaN);
-            Assert.IsFalse(undefinedProbability.IsDefined);
-        }
-
-        [Test]
-        [TestCase(-0.2)]
-        [TestCase(10.2)]
-        public void ConstructorValidatesValue(double value)
-        {
-            Assert.Throws<AssemblyException>(() => { new Probability(value); });
         }
 
         [Test]
         public void OperatorsWork()
         {
-            var precision = 1E-10;
+            const double precision = 1e-10;
 
             Assert.IsTrue(new Probability(0.1) == (Probability) 0.1);
             Assert.IsFalse((Probability) 0.01 == (Probability) 0.1);
@@ -226,37 +305,10 @@ namespace Assembly.Kernel.Tests.Model
             }, EAssemblyErrors.InvalidArgumentType);
         }
 
-        [TestCase(0, 0, true)]
-        [TestCase(0, 0.2, false)]
-        [TestCase(0.2, 0, false)]
-        [TestCase(1, 1, true)]
-        [TestCase(0.001, 0.001 + 1E-40, true)]
-        [TestCase(0.001, 0.001 + 1E-8, false)]
-        [TestCase(2E-40, 2E-40, true)]
-        [TestCase(2E-10, 3E-10, false)]
-        public void IsNegligibleDifferenceWorks(double x, double y, bool expectedResult)
-        {
-            var probabilityX = (Probability) x;
-            var probabilityY = (Probability) y;
-
-            Assert.AreEqual(expectedResult, probabilityX.IsNegligibleDifference(probabilityY));
-            Assert.AreEqual(expectedResult, probabilityY.IsNegligibleDifference(probabilityX));
-        }
-
-        [TestCase(1E-3, true)]
-        [TestCase(1E-4, false)]
-        public void IsNegligibleDifferenceTakesPrecision(double precision, bool expectedResult)
-        {
-            var probability = new Probability(1E-20);
-            var other = new Probability(1.001E-20);
-
-            Assert.AreEqual(expectedResult, probability.IsNegligibleDifference(other, precision));
-        }
-
         [TestCase(0.0002516, "1/3975")]
         [TestCase(double.NaN, "Undefined")]
-        [TestCase(1E-101, "0")]
-        [TestCase(1 - 1E-101, "1")]
+        [TestCase(1e-101, "0")]
+        [TestCase(1 - 1e-101, "1")]
         public void ToStringWorks(double value, string expectedString)
         {
             var probability = new Probability(value);
