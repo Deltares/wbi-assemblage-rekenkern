@@ -28,7 +28,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
 {
     [TestFixture]
-    public class FailureMechanismSectionListTests
+    public class FailureMechanismSectionListTest
     {
         [Test]
         public void Constructor_SectionsNull_ThrowsAssemblyException()

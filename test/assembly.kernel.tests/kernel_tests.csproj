@@ -56,7 +56,7 @@
     <Compile Include="Model\Categories\CategoriesListTest.cs" />
     <Compile Include="Model\Categories\TestCategory.cs" />
     <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTests.cs" />
+    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionTest.cs" />
     <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategoryTest.cs" />
     <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilitiesTest.cs" />
