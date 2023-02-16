@@ -19,32 +19,32 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using Assembly.Kernel.Interfaces;
-
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Result class for <see cref="IAssessmentResultsTranslator.DetermineRepresentativeProbabilityBoi0A1"/>.
-    /// This class holds a combination of the calculated probability and the method that was used to obtain the probability.
+    /// Failure mechanism assembly result with the calculated probability
+    /// and the method that was used to obtain the probability.
     /// </summary>
     public class FailureMechanismAssemblyResult
     {
         /// <summary>
-        /// Constructor of the <see cref="FailureMechanismAssemblyResult"/> class.
+        /// Create a new instance of <see cref="FailureMechanismAssemblyResult"/>.
         /// </summary>
-        public FailureMechanismAssemblyResult(Probability probability, EFailureMechanismAssemblyMethod mechanismAssemblyMethod)
+        /// <param name="probability">The calculated probability.</param>
+        /// <param name="assemblyMethod">The used assembly method.</param>
+        public FailureMechanismAssemblyResult(Probability probability, EFailureMechanismAssemblyMethod assemblyMethod)
         {
             Probability = probability;
-            AssemblyMethod = mechanismAssemblyMethod;
+            AssemblyMethod = assemblyMethod;
         }
 
         /// <summary>
-        /// The calculated combined probability for all sections.
+        /// Gets the calculated probability.
         /// </summary>
         public Probability Probability { get; }
 
         /// <summary>
-        /// The method that was used to calculate the acquired probability.
+        /// Gets the used assembly method.
         /// </summary>
         public EFailureMechanismAssemblyMethod AssemblyMethod { get; }
     }

@@ -28,14 +28,17 @@ namespace Assembly.Kernel.Tests.Model
     public class FailureMechanismAssemblyResultTest
     {
         [Test]
-        public void ConstructorPassesArguments()
+        public void Constructor_ExpectedValues()
         {
+            // Setup
             var probability = new Probability(0.5);
-            var method = EFailureMechanismAssemblyMethod.Uncorrelated;
+            const EFailureMechanismAssemblyMethod method = EFailureMechanismAssemblyMethod.Uncorrelated;
+
+            // Call
             var result = new FailureMechanismAssemblyResult(probability, method);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(probability, result.Probability);
+            // Assert
+            Assert.AreEqual(probability, result.Probability, 1e-6);
             Assert.AreEqual(method, result.AssemblyMethod);
         }
     }
