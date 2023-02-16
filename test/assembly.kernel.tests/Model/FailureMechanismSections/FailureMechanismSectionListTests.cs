@@ -19,7 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System.Collections.Generic;
+using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
@@ -31,123 +31,144 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     public class FailureMechanismSectionListTests
     {
         [Test]
-        public void ResultListNullInputTest()
+        public void Constructor_SectionsNull_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new FailureMechanismSectionList(null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new FailureMechanismSectionList(null);
-            }, EAssemblyErrors.ValueMayNotBeNull);
+                new AssemblyErrorMessage("sections", EAssemblyErrors.ValueMayNotBeNull)
+            });
         }
 
         [Test]
-        public void EmptyListInputTest()
+        public void Constructor_SectionsEmpty_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new FailureMechanismSectionList(Enumerable.Empty<FailureMechanismSection>());
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new FailureMechanismSectionList(new List<FailureMechanismSection>());
-            }, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                new AssemblyErrorMessage("sections", EAssemblyErrors.CommonFailureMechanismSectionsInvalid)
+            });
         }
 
         [Test]
-        public void DifferentSectionTypesInputTest()
+        public void Constructor_SectionsNotSameType_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSection(1, 5),
-                        new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
-                    });
-            }, EAssemblyErrors.InputNotTheSameType);
+                new FailureMechanismSection(0.0, 1.0),
+                new FailureMechanismSectionWithCategory(1.0, 2.0, EInterpretationCategory.Dominant)
+            });
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("sections", EAssemblyErrors.InputNotTheSameType)
+            });
         }
 
         [Test]
-        public void FirstSectionStartNotZeroInputTest()
+        public void Constructor_SectionsNotStartingAtZero_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSectionWithCategory(1, 5, EInterpretationCategory.I),
-                        new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
-                    });
-            }, EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                new FailureMechanismSection(0.011, 1.0)
+            });
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("sections", EAssemblyErrors.CommonFailureMechanismSectionsInvalid)
+            });
         }
 
         [Test]
-        public void GapBetweenSectionsInputTest()
+        public void Constructor_SectionsNotConsecutive_ThrowsAssemblyException()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Call
+            void Call() => new FailureMechanismSectionList(new[]
             {
-                new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSectionWithCategory(0, 5, EInterpretationCategory.I),
-                        new FailureMechanismSectionWithCategory(10, 15, EInterpretationCategory.I)
-                    });
-            }, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+                new FailureMechanismSection(0.0, 1.0),
+                new FailureMechanismSection(1.011, 2.0)
+            });
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("sections", EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive)
+            });
         }
 
         [Test]
-        public void GetCategoryOfSectionOutsideOfRange()
+        public void Constructor_ExpectedValues()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Setup
+            var sections = new[]
             {
-                var failureMechanismSectionList = new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.I)
-                    });
-                failureMechanismSectionList.GetSectionAtPoint(25.0);
-            }, EAssemblyErrors.RequestedPointOutOfRange);
+                new FailureMechanismSection(0.0, 132.0),
+                new FailureMechanismSection(132.0, 823.01),
+                new FailureMechanismSection(823.0, 1846.0),
+                new FailureMechanismSection(1846.01, 3201.8)
+            };
+
+            // Call
+            var sectionList = new FailureMechanismSectionList(sections);
+
+            // Assert
+            Assert.AreSame(sections, sectionList.Sections);
         }
 
         [Test]
-        public void GetCategoryOfSectionReturnsCategory()
+        public void GetSectionAtPoint_PointOutOfRange_ThrowsAssemblyException()
         {
-            var failureMechanismSectionList = new FailureMechanismSectionList(
-                new List<FailureMechanismSection>
-                {
-                    new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
-                    new FailureMechanismSectionWithCategory(10, 20, EInterpretationCategory.II)
-                });
-            var s = failureMechanismSectionList.GetSectionAtPoint(15.0);
-            Assert.AreEqual(10,s.Start);
-            Assert.AreEqual(20, s.End);
-            var sectionWithCategory = s as FailureMechanismSectionWithCategory;
-            Assert.IsNotNull(sectionWithCategory);
-            Assert.AreEqual(EInterpretationCategory.II, sectionWithCategory.Category);
+            // Setup
+            var sections = new[]
+            {
+                new FailureMechanismSection(0.0, 132.0),
+                new FailureMechanismSection(132.0, 823.01),
+                new FailureMechanismSection(823.0, 1846.0),
+                new FailureMechanismSection(1846.01, 3201.8)
+            };
+
+            var sectionList = new FailureMechanismSectionList(sections);
+
+            // Call
+            void Call() => sectionList.GetSectionAtPoint(3201.81);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("pointInAssessmentSection", EAssemblyErrors.RequestedPointOutOfRange)
+            });
         }
 
         [Test]
-        public void OverlappingSectionsInputTest()
+        public void GetSectionAtPoint_PointInRange_ReturnsExpectedSection()
         {
-            TestHelper.AssertExpectedErrorMessage(() =>
+            // Setup
+            var expectedSection = new FailureMechanismSection(132.0, 823.01);
+            FailureMechanismSection[] sections =
             {
-                new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailureMechanismSectionWithCategory(5, 15, EInterpretationCategory.I)
-                    });
-            }, EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-        }
+                new FailureMechanismSection(0.0, 132.0),
+                expectedSection,
+                new FailureMechanismSection(823.0, 1846.0),
+                new FailureMechanismSection(1846.01, 3201.8)
+            };
 
-        [Test]
-        public void ZeroLengthSectionInputTest()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                new FailureMechanismSectionList(
-                    new List<FailureMechanismSection>
-                    {
-                        new FailureMechanismSectionWithCategory(0, 10, EInterpretationCategory.I),
-                        new FailureMechanismSectionWithCategory(10, 10, EInterpretationCategory.I)
-                    });
-            }, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
+            var sectionList = new FailureMechanismSectionList(sections);
+
+            // Call
+            FailureMechanismSection section = sectionList.GetSectionAtPoint(574);
+
+            // Assert
+            Assert.AreSame(expectedSection, section);
         }
     }
 }

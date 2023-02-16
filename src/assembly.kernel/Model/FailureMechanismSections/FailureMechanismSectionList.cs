@@ -27,40 +27,44 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure mechanism section categories of a single failure mechanism.
+    /// Failure mechanism section list.
     /// </summary>
     public class FailureMechanismSectionList
     {
         /// <summary>
-        /// Failure mechanism section list constructor.
+        /// Creates a new instance of <see cref="FailureMechanismSectionList"/>.
         /// </summary>
-        /// <param name="sectionResults">The interpretation categories, this list will be sorted by section start.</param>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> equals null.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> is empty.</exception>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="sectionResults"/> contains a mix of results of different type.</exception>
-        /// <exception cref="AssemblyException">Thrown when <see cref="FailureMechanismSection.Start"/> of the first section does not equal 0.0.</exception>
-        /// <exception cref="AssemblyException">Thrown when the sections in <paramref name="sectionResults"/> are not consecutive
-        /// (<see cref="FailureMechanismSection.Start"/> of a section equals <see cref="FailureMechanismSection.End"/> of the previous section).</exception>
-        public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sectionResults)
+        /// <param name="sections">The failure mechanism sections.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="sections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="sections"/> contains a mix of different types;</item>
+        /// <item>The first section start is not equal to 0.0;</item>
+        /// <item>The sections are not consecutive.</item>
+        /// </list>
+        /// </exception>
+        public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sections)
         {
-            Sections = OrderAndCheckSectionResults(sectionResults);
+            ValidateSections(sections);
+            Sections = sections;
         }
 
         /// <summary>
-        /// The list of failure mechanism section assessment results grouped.
+        /// Gets the sections.
         /// </summary>
         public IEnumerable<FailureMechanismSection> Sections { get; }
 
         /// <summary>
-        /// Get the section with category which belongs to the point in the assessment section.
+        /// Get the section that belongs to the given <paramref name="pointInAssessmentSection"/>.
         /// </summary>
         /// <param name="pointInAssessmentSection">The point in the assessment section in meters 
         /// from the beginning of the assessment section.</param>
-        /// <exception cref="AssemblyException">Thrown when the requested point in the assessment section is $gt; the end of the last section.</exception>
         /// <returns>The section with category belonging to the point in the assessment section.</returns>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="pointInAssessmentSection"/>
+        /// &gt; the end of the last section.</exception>
         public FailureMechanismSection GetSectionAtPoint(double pointInAssessmentSection)
         {
-            var section = Sections.FirstOrDefault(s => s.End >= pointInAssessmentSection);
+            FailureMechanismSection section = Sections.FirstOrDefault(s => s.End >= pointInAssessmentSection);
 
             if (section == null)
             {
@@ -70,57 +74,52 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             return section;
         }
 
-        private static IEnumerable<FailureMechanismSection> OrderAndCheckSectionResults(
-            IEnumerable<FailureMechanismSection> sectionResults)
+        /// <summary>
+        /// Validates the sections.
+        /// </summary>
+        /// <param name="sections">The failure mechanism sections.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="sections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="sections"/> contains a mix of different types;</item>
+        /// <item>The first section start is not equal to 0.0;</item>
+        /// <item>The sections are not consecutive.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateSections(IEnumerable<FailureMechanismSection> sections)
         {
-            if (sectionResults == null)
+            if (sections == null)
             {
-                throw new AssemblyException(nameof(sectionResults), EAssemblyErrors.ValueMayNotBeNull);
+                throw new AssemblyException(nameof(sections), EAssemblyErrors.ValueMayNotBeNull);
             }
 
-            var sectionResultsArray = sectionResults.ToArray();
-
-            if (sectionResultsArray.Length == 0)
+            if (!sections.Any())
             {
-                throw new AssemblyException(nameof(sectionResults),
-                                            EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+                throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
 
-            // Check if all entries are of the same type.
-            if (sectionResultsArray.GroupBy(r => r.GetType()).Count() > 1)
+            if (sections.GroupBy(r => r.GetType()).Count() > 1)
             {
-                throw new AssemblyException(nameof(sectionResults),
-                                            EAssemblyErrors.InputNotTheSameType);
+                throw new AssemblyException(nameof(sections), EAssemblyErrors.InputNotTheSameType);
             }
 
-            var orderedResults = sectionResultsArray
-                                 .OrderBy(sectionResult => sectionResult.Start)
-                                 .ToArray();
+            const double threshold = 0.01;
 
-            FailureMechanismSection previousFailureMechanismSection = null;
-            foreach (var section in orderedResults)
+            if (Math.Abs(0.0 - sections.First().Start) > threshold)
             {
-                if (previousFailureMechanismSection == null)
+                throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            }
+            
+            var previousSectionEnd = 0.0;
+            foreach (FailureMechanismSection section in sections)
+            {
+                if (Math.Abs(previousSectionEnd - section.Start) > threshold)
                 {
-                    if (section.Start > 0.0)
-                    {
-                        throw new AssemblyException(nameof(sectionResults),
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-                    }
-                }
-                else
-                {
-                    if (Math.Abs(previousFailureMechanismSection.End - section.Start) > 0.01)
-                    {
-                        throw new AssemblyException(nameof(sectionResults),
-                                                    EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-                    }
+                    throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
                 }
 
-                previousFailureMechanismSection = section;
+                previousSectionEnd = section.End;
             }
-
-            return orderedResults;
         }
     }
 }
