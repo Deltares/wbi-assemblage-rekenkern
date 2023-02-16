@@ -29,48 +29,49 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     public class FailureMechanismSectionTest
     {
         [Test]
-        public void ConstructorPassesInput()
+        [TestCase(double.NaN, EAssemblyErrors.UndefinedProbability)]
+        [TestCase(-0.1, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)]
+        public void Constructor_InvalidStart_ThrowsAssemblyException(double start, EAssemblyErrors expectedError)
         {
-            var sectionStart = 2.0;
-            var sectionEnd = 20.0;
-            var section = new FailureMechanismSection(sectionStart,sectionEnd);
+            // Call
+            void Call() => new FailureMechanismSection(start, 10.0);
 
-            Assert.AreEqual(sectionStart,section.Start);
-            Assert.AreEqual(sectionEnd, section.End);
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("start", expectedError)
+            });
         }
 
         [Test]
-        public void CenterIsCalculatedCorrectly()
+        [TestCase(double.NaN, EAssemblyErrors.UndefinedProbability)]
+        [TestCase(9.0, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)]
+        public void Constructor_InvalidEnd_ThrowsAssemblyException(double end, EAssemblyErrors expectedError)
         {
-            var sectionStart = 2.0;
-            var sectionEnd = 3.0;
+            // Call
+            void Call() => new FailureMechanismSection(10.0, end);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("end", expectedError)
+            });
+        }
+
+        [Test]
+        public void Constructor_ExpectedValues()
+        {
+            // Setup
+            const double sectionStart = 2.0;
+            const double sectionEnd = 20.0;
+
+            // Call
             var section = new FailureMechanismSection(sectionStart, sectionEnd);
 
-            Assert.AreEqual(2.5, section.Center);
-        }
-
-        [Test,
-        TestCase(-0.1,30),
-        TestCase(10.0, 4.0),
-        TestCase(10.0, 10.0)]
-        public void ConstructorChecksIncorrectInput(double start, double end)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var section = new FailureMechanismSection(start,end);
-            }, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
-        }
-
-        [Test,
-         TestCase(double.NaN, 30),
-         TestCase(10.0, double.NaN),
-         TestCase(double.NaN, double.NaN)]
-        public void ConstructorChecksForNaNValues(double start, double end)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var section = new FailureMechanismSection(start, end);
-            }, EAssemblyErrors.UndefinedProbability);
+            // Assert
+            Assert.AreEqual(sectionStart, section.Start);
+            Assert.AreEqual(sectionEnd, section.End);
+            Assert.AreEqual(11.0, section.Center);
         }
     }
 }

@@ -24,20 +24,23 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure mechanism section with assessment category.
+    /// Failure mechanism section.
     /// </summary>
     public class FailureMechanismSection
     {
         /// <summary>
-        /// Failure mechanism with category constructor.
+        /// Creates a new instance of <see cref="FailureMechanismSection"/>.
         /// </summary>
-        /// <param name="start">The start of the section in meters from the beginning of the assessment section.
-        ///  Must not be &lt; 0.</param>
-        /// <param name="end">The end of the section in meters from the beginning of the assessment section.
-        ///  Must be &gt; the start of the section.</param>
-        /// <exception cref="AssemblyException">Thrown when start or end are equal to NaN.</exception>
-        /// <exception cref="AssemblyException">Thrown when start &lt; 0.</exception>
-        /// <exception cref="AssemblyException">Thrown when start &gt; end.</exception>
+        /// <param name="start">The start of the section in meters from the beginning of the assessment section.</param>
+        /// <param name="end">The end of the section in meters from the beginning of the assessment section.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="start"/> is <see cref="double.NaN"/>;</item>
+        /// <item><paramref name="end"/> is <see cref="double.NaN"/>;</item>
+        /// <item><paramref name="start"/> &lt; 0;</item>
+        /// <item><paramref name="end"/> &lt;= <paramref name="start"/>.</item>
+        /// </list>
+        /// </exception>
         public FailureMechanismSection(double start, double end)
         {
             if (double.IsNaN(start))
@@ -50,9 +53,14 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
                 throw new AssemblyException(nameof(end), EAssemblyErrors.UndefinedProbability);
             }
 
-            if (start < 0.0 || end <= start)
+            if (start < 0.0)
             {
-                throw new AssemblyException(nameof(FailureMechanismSection), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
+                throw new AssemblyException(nameof(start), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
+            }
+
+            if (end <= start)
+            {
+                throw new AssemblyException(nameof(end), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }
 
             Start = start;
@@ -61,17 +69,17 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         }
 
         /// <summary>
-        /// The start of the section in meters from the beginning of the assessment section.
+        /// Gets the start of the section in meters from the beginning of the assessment section.
         /// </summary>
         public double Start { get; }
 
         /// <summary>
-        /// The end of the section in meters from the beginning of the assessment section.
+        /// Gets the end of the section in meters from the beginning of the assessment section.
         /// </summary>
         public double End { get; }
 
         /// <summary>
-        /// Represents the center of the section (average between <see cref="Start"/> and <see cref="End"/>.
+        /// Gets the center of the section in meters from the beginning of the assessment section.
         /// </summary>
         public double Center { get; }
     }
