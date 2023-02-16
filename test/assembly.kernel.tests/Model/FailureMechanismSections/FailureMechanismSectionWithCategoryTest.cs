@@ -29,14 +29,21 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     public class FailureMechanismSectionWithCategoryTest
     {
         [Test]
-        public void ConstructorPassesInput()
+        public void Constructor_ExpectedValues()
         {
-            var sectionStart = 0.10;
-            var sectionEnd = 5189.015;
-            var section = new FailureMechanismSectionWithCategory(sectionStart, sectionEnd, EInterpretationCategory.II);
+            // Setup
+            const double sectionStart = 0.10;
+            const double sectionEnd = 5189.015;
+            const EInterpretationCategory category = EInterpretationCategory.II;
+
+            // Call
+            var section = new FailureMechanismSectionWithCategory(sectionStart, sectionEnd, category);
+
+            // Assert
+            Assert.IsInstanceOf<FailureMechanismSection>(section);
             Assert.AreEqual(sectionStart, section.Start);
             Assert.AreEqual(sectionEnd, section.End);
-            Assert.AreEqual(EInterpretationCategory.II, section.Category);
+            Assert.AreEqual(category, section.Category);
         }
     }
 }

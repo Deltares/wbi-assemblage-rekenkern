@@ -24,23 +24,24 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Failure mechanism with assessment result category.
+    /// Failure mechanism section with category.
     /// </summary>
     public class FailureMechanismSectionWithCategory : FailureMechanismSection
     {
+        /// <inheritdoc/>
         /// <summary>
-        /// Failure mechanism with category.
+        /// Creates a new instance of <see cref="FailureMechanismSectionWithCategory"/>.
         /// </summary>
         /// <param name="category">The interpretation category of the failure mechanism section.</param>
-        /// <inheritdoc/>
-        public FailureMechanismSectionWithCategory(double start, double end, EInterpretationCategory category) : base(start, end)
+        public FailureMechanismSectionWithCategory(double start, double end, EInterpretationCategory category)
+            : base(start, end)
         {
             Category = category;
         }
 
         /// <summary>
-        /// The interpretation category of the failure mechanism of this section.
+        /// Gets the interpretation category.
         /// </summary>
-        public EInterpretationCategory Category { get; set; }
+        public EInterpretationCategory Category { get; }
     }
 }
