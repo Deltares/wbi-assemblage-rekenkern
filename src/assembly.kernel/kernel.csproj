@@ -44,8 +44,6 @@
         <Compile Include="Model\ERefinementStatus.cs" />
         <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs" />
         <Compile Include="Model\FailureMechanismAssemblyResult.cs" />
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResult.cs" />
-        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionAssemblyResultWithLengthEffect.cs" />
         <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilities.cs" />
         <Compile Include="Model\Probability.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

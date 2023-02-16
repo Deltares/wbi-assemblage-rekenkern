@@ -185,9 +185,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                             .Select(s =>
-                                new FailureMechanismSectionAssemblyResultWithLengthEffect(s.ExpectedCombinedProbabilityProfile,
-                                    s.ExpectedCombinedProbabilitySection,
-                                    s.ExpectedInterpretationCategory)).ToArray(),
+                                new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
+                                                                             s.ExpectedCombinedProbabilitySection))
+                            .ToArray(),
                         false);
                 }
                 catch (AssemblyException e)
@@ -215,9 +215,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                         .Select(s =>
-                            new FailureMechanismSectionAssemblyResultWithLengthEffect(s.ExpectedCombinedProbabilityProfile,
-                                s.ExpectedCombinedProbabilitySection,
-                                s.ExpectedInterpretationCategory)).ToArray(),
+                            new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
+                                                                         s.ExpectedCombinedProbabilitySection))
+                        .ToArray(),
                     true);
 
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
