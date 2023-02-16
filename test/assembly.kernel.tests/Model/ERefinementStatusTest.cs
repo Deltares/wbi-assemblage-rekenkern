@@ -29,7 +29,7 @@ namespace Assembly.Kernel.Tests.Model
     public class ERefinementStatusTest
     {
         [Test]
-        public void TestEnumContract()
+        public void ERefinementStatus_Always_ExpectedValues()
         {
             Assert.AreEqual(3, Enum.GetValues(typeof(ERefinementStatus)).Length);
             Assert.AreEqual(0, (int) ERefinementStatus.NotNecessary);

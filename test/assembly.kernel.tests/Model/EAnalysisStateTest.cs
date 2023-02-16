@@ -29,9 +29,13 @@ namespace Assembly.Kernel.Tests.Model
     public class EAnalysisStateTest
     {
         [Test]
-        public void TestContract()
+        public void EAnalysisState_Always_ExpectedValues()
         {
             Assert.AreEqual(4, Enum.GetValues(typeof(EAnalysisState)).Length);
+            Assert.AreEqual(0, (int) EAnalysisState.NotRelevant);
+            Assert.AreEqual(1, (int) EAnalysisState.NoProbabilityEstimationNecessary);
+            Assert.AreEqual(2, (int) EAnalysisState.ProbabilityEstimationNecessary);
+            Assert.AreEqual(3, (int) EAnalysisState.ProbabilityEstimated);
         }
     }
 }

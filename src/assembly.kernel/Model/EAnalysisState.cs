@@ -19,12 +19,9 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using Assembly.Kernel.Interfaces;
-
 namespace Assembly.Kernel.Model
 {
     /// <summary>
-    /// Input for <see cref="IAssessmentResultsTranslator.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1"/>.
     /// This enum describes the state of the failure probability analysis.
     /// </summary>
     public enum EAnalysisState
@@ -47,8 +44,7 @@ namespace Assembly.Kernel.Model
         ProbabilityEstimationNecessary,
 
         /// <summary>
-        /// A probability estimation has been made (either based on the initial mechanism or
-        /// after refinement).
+        /// A probability estimation has been made.
         /// </summary>
         ProbabilityEstimated
     }

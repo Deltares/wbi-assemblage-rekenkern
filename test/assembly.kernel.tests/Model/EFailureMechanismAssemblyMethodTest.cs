@@ -26,14 +26,14 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
-    public class EFailureMechanismAssemblyMethodTest
+    public class EFailureMechanismAssemblyMethod_Always_ExpectedValues
     {
         [Test]
         public void EFailureMechanismAssemblyMethodContractTest()
         {
             Assert.AreEqual(2, Enum.GetValues(typeof(EFailureMechanismAssemblyMethod)).Length);
-            Assert.AreEqual(1, (int)EFailureMechanismAssemblyMethod.Correlated);
-            Assert.AreEqual(2, (int)EFailureMechanismAssemblyMethod.Uncorrelated);
+            Assert.AreEqual(1, (int) EFailureMechanismAssemblyMethod.Correlated);
+            Assert.AreEqual(2, (int) EFailureMechanismAssemblyMethod.Uncorrelated);
         }
     }
 }

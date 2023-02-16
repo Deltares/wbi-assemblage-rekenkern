@@ -29,12 +29,12 @@ namespace Assembly.Kernel.Tests.Model
     public class ESectionInitialMechanismProbabilitySpecificationTest
     {
         [Test]
-        public void TestEnumContract()
+        public void ESectionInitialMechanismProbabilitySpecification_Always_ExpectedValues()
         {
             Assert.AreEqual(3, Enum.GetValues(typeof(ESectionInitialMechanismProbabilitySpecification)).Length);
-            Assert.AreEqual(0, (int)ESectionInitialMechanismProbabilitySpecification.NotRelevant);
-            Assert.AreEqual(1, (int)ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
-            Assert.AreEqual(2, (int)ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
+            Assert.AreEqual(0, (int) ESectionInitialMechanismProbabilitySpecification.NotRelevant);
+            Assert.AreEqual(1, (int) ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification);
+            Assert.AreEqual(2, (int) ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification);
         }
     }
 }
