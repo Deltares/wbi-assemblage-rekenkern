@@ -29,40 +29,55 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     [TestFixture]
     public class ResultWithProfileAndSectionProbabilitiesTest
     {
+        [Test]
+        [TestCase(double.NaN, 0.1)]
+        [TestCase(0.1, double.NaN)]
+        public void Constructor_ProbabilitiesDifferentDefined_ThrowsAssemblyException(double probabilityProfile, double probabilitySection)
+        {
+            // Call
+            void Call() => new ResultWithProfileAndSectionProbabilities(
+                new Probability(probabilityProfile), new Probability(probabilitySection));
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("probabilityProfile", EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined)
+            });
+        }
+
+        [Test]
+        public void Constructor_ProbabilityProfileGreaterThanProbabilitySection_ThrowsAssemblyException()
+        {
+            // Call
+            void Call() => new ResultWithProfileAndSectionProbabilities(
+                new Probability(0.1), new Probability(0.02));
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("probabilityProfile", EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability)
+            });
+        }
+
+        [Test]
         [TestCase(0.2, 0.4, 2.0)]
         [TestCase(0.01, 0.1, 10.0)]
         [TestCase(double.NaN, double.NaN, 1.0)]
         [TestCase(0.0, 0.0, 1.0)]
         [TestCase(1E-5, 1E-5, 1.0)]
-
-        public void ConstructorPassesArguments(double probabilityProfileValue, double probabilitySectionValue, double expectedLengthEffectFactor)
+        public void Constructor_ExpectedValues(double probabilityProfileValue, double probabilitySectionValue, double expectedLengthEffectFactor)
         {
+            // Setup
             var probabilityProfile = new Probability(probabilityProfileValue);
             var probabilitySection = new Probability(probabilitySectionValue);
+
+            // Call
             var result = new ResultWithProfileAndSectionProbabilities(probabilityProfile, probabilitySection);
 
-            Assert.AreEqual(probabilityProfile, result.ProbabilityProfile);
-            Assert.AreEqual(probabilitySection, result.ProbabilitySection);
+            // Result
+            Assert.AreEqual(probabilityProfile, result.ProbabilityProfile, 1e-6);
+            Assert.AreEqual(probabilitySection, result.ProbabilitySection, 1e-6);
             Assert.AreEqual(expectedLengthEffectFactor, result.LengthEffectFactor);
-        }
-
-        [TestCase(double.NaN, 0.1)]
-        [TestCase(0.1, double.NaN)]
-        public void ConstructorChecksEquallyDefinedProbabilities(double profileProbability, double sectionProbability)
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var result = new ResultWithProfileAndSectionProbabilities((Probability) profileProbability, (Probability) sectionProbability);
-            }, EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
-        }
-
-        [Test]
-        public void ConstructorChecksForSmallerProfileProbabilities()
-        {
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var result = new ResultWithProfileAndSectionProbabilities((Probability)0.1, (Probability)0.002);
-            }, EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
         }
     }
 }

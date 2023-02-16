@@ -24,51 +24,72 @@ using Assembly.Kernel.Exceptions;
 namespace Assembly.Kernel.Model.FailureMechanismSections
 {
     /// <summary>
-    /// Class that holds two probabilities for a profile and section. As both
-    /// probabilities are connected they should be both defined or both undefined.
+    /// Class that holds two probabilities for a profile and section.
     /// </summary>
     public class ResultWithProfileAndSectionProbabilities
     {
         /// <summary>
-        /// Constructs the result with profile and section probability.
+        /// Creates a new instance of <see cref="ResultWithProfileAndSectionProbabilities"/>.
         /// </summary>
-        /// <param name="probabilityProfile">Probability of failure of a profile.</param>
-        /// <param name="probabilitySection">Probability of failure of a section.</param>
-        /// <exception cref="AssemblyException">Thrown in case just one of <paramref name="probabilityProfile"/> and <paramref name="probabilitySection"/> is defined.</exception>
-        /// <exception cref="AssemblyException">Thrown in case <paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</exception>
+        /// <param name="probabilityProfile">The probability of failure of a profile.</param>
+        /// <param name="probabilitySection">The probability of failure of a section.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="probabilityProfile"/> and <paramref name="probabilitySection"/> are not both <c>Defined</c> or <c>Undefined</c>;</item>
+        /// <item><paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <seealso cref="Probability.Undefined"/>
         public ResultWithProfileAndSectionProbabilities(Probability probabilityProfile, Probability probabilitySection)
         {
-            if (probabilitySection.IsDefined != probabilityProfile.IsDefined)
-            {
-                throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
-            }
-
-            if (probabilitySection.IsDefined && probabilitySection < probabilityProfile)
-            {
-                throw new AssemblyException(nameof(ResultWithProfileAndSectionProbabilities), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-            }
+            ValidateProbabilities(probabilityProfile, probabilitySection);
 
             ProbabilityProfile = probabilityProfile;
             ProbabilitySection = probabilitySection;
 
-            LengthEffectFactor = !probabilitySection.IsDefined || !probabilityProfile.IsDefined || probabilitySection == probabilityProfile
-                                     ? 1.0
-                                     : (double) probabilitySection / (double) probabilityProfile;
+            LengthEffectFactor = probabilitySection.IsDefined && !probabilitySection.IsNegligibleDifference(probabilityProfile)
+                                     ? (double) probabilitySection / (double) probabilityProfile
+                                     : 1.0;
         }
 
         /// <summary>
-        /// Estimated probability of failure for a representative profile in the section.
+        /// Gets the probability of failure of a profile.
         /// </summary>
         public Probability ProbabilityProfile { get; }
 
         /// <summary>
-        /// Estimated probability of failure of the section.
+        /// Gets the probability of failure of a section.
         /// </summary>
         public Probability ProbabilitySection { get; }
 
         /// <summary>
-        /// The length-effect factor.
+        /// Gets the length-effect factor.
         /// </summary>
         public double LengthEffectFactor { get; }
+
+        /// <summary>
+        /// Validates the probabilities.
+        /// </summary>
+        /// <param name="probabilityProfile">The probability of failure of a profile.</param>
+        /// <param name="probabilitySection">The probability of failure of a section.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="probabilityProfile"/> and <paramref name="probabilitySection"/> are not both <c>Defined</c> or <c>Undefined</c>;</item>
+        /// <item><paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</item>
+        /// </list>
+        /// </exception>
+        /// <seealso cref="Probability.Undefined"/>
+        private static void ValidateProbabilities(Probability probabilityProfile, Probability probabilitySection)
+        {
+            if (probabilitySection.IsDefined != probabilityProfile.IsDefined)
+            {
+                throw new AssemblyException(nameof(probabilityProfile), EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
+            }
+
+            if (probabilitySection.IsDefined && probabilitySection < probabilityProfile)
+            {
+                throw new AssemblyException(nameof(probabilityProfile), EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+            }
+        }
     }
 }
