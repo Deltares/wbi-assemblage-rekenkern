@@ -33,24 +33,28 @@ namespace assembly.kernel.benchmark.tests
     public static class BenchmarkTestReportWriter
     {
         /// <summary>
-        /// Writes the report.
+        /// Writes the reports.
         /// </summary>
-        /// <param name="order">The order.</param>
-        /// <param name="result">The result.</param>
+        /// <param name="results">The results.</param>
         /// <param name="reportDirectory">The report directory.</param>
-        public static void WriteReport(int order, BenchmarkTestResult result, string reportDirectory)
+        public static void WriteReports(IEnumerable<BenchmarkTestResult> results, string reportDirectory)
         {
             string template = GetReportTemplate();
+            
+            for (var i = 0; i < results.Count(); i++)
+            {
+                BenchmarkTestResult result = results.ElementAt(i);
+                
+                string resultTemplate = template.Replace("$BenchmarkTestName$", result.TestName.Replace("_", @"\_"));
+                resultTemplate = template.Replace("$Order$", i.ToString());
 
-            template = template.Replace("$BenchmarkTestName$", result.TestName.Replace("_", @"\_"));
-            template = template.Replace("$Order$", order.ToString());
+                resultTemplate = ReplaceFailureMechanismsTableWithResult(resultTemplate, result);
+                resultTemplate = ReplaceCategoriesKeywordsWithResult(resultTemplate, result);
+                resultTemplate = ReplaceFinalVerdictKeywordsWithResult(resultTemplate, result);
+                resultTemplate = ReplaceCommonSectionsKeywordsWithResult(resultTemplate, result);
 
-            template = ReplaceFailureMechanismsTableWithResult(template, result);
-            template = ReplaceCategoriesKeywordsWithResult(template, result);
-            template = ReplaceFinalVerdictKeywordsWithResult(template, result);
-            template = ReplaceCommonSectionsKeywordsWithResult(template, result);
-
-            WriteReportToDestination(template, reportDirectory, GetTargetFileNameFromInputName(result.FileName));
+                WriteReportToDestination(resultTemplate, reportDirectory, GetTargetFileNameFromInputName(result.FileName));
+            }
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace assembly.kernel.benchmark.tests
         /// </summary>
         /// <param name="destinationFileName">The name of the destination file.</param>
         /// <param name="testResults">The test results.</param>
-        public static void WriteSummary(string destinationFileName, Dictionary<string, BenchmarkTestResult> testResults)
+        public static void WriteSummary(string destinationFileName, IDictionary<string, BenchmarkTestResult> testResults)
         {
             string str =
                 "\\section{Samenvatting van de testresultaten per methode} \n      \\label{sec:summary} \n In deze paragraaf zijn de resultaten tijdens alle benchmarktests weergegeven per methode, zie \\autoref{tab:ResultatenPerMethode}. \n\n";

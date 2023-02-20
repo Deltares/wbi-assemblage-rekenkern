@@ -34,16 +34,34 @@ namespace assembly.kernel.benchmark.tests
     [TestFixture]
     public class AssemblyKernelBenchmarkTests
     {
-        private const string NameOfSummaryTex = "Summary.tex";
+        private const string nameOfSummaryTex = "Summary.tex";
         private string reportDirectory;
-        private Dictionary<string, BenchmarkTestResult> testResults;
         private string summaryTargetFileName;
+        private IDictionary<string, BenchmarkTestResult> testResults;
 
-        [Test, TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
+            summaryTargetFileName = Path.Combine(reportDirectory, nameOfSummaryTex);
+            CreateOrCleanReportDirectory();
+            
+            testResults = new Dictionary<string, BenchmarkTestResult>();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            BenchmarkTestReportWriter.WriteReports(testResults.Select(tr => tr.Value), reportDirectory);
+            BenchmarkTestReportWriter.WriteSummary(summaryTargetFileName, testResults);
+        }
+
+        [Test]
+        [TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
         public void RunBenchmarkTest(string testName, string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
+            var testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
             BenchmarkTestRunner.TestEqualInterpretationCategories(input, testResult);
@@ -55,51 +73,30 @@ namespace assembly.kernel.benchmark.tests
             }
 
             BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);
-
             BenchmarkTestRunner.TestAssemblyOfCombinedSections(input, testResult);
 
-            testResults[testName] = testResult;
+            testResults.Add(testName, testResult);
         }
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
+        private void CreateOrCleanReportDirectory()
         {
-            reportDirectory = PrepareReportDirectory();
-            summaryTargetFileName = Path.Combine(reportDirectory, NameOfSummaryTex);
-
-            testResults = new Dictionary<string, BenchmarkTestResult>();
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            for (int i = 0; i < testResults.Count; i++)
+            if (!Directory.Exists(reportDirectory))
             {
-                BenchmarkTestReportWriter.WriteReport(i, testResults.ElementAt(i).Value, reportDirectory);
-            }
-            BenchmarkTestReportWriter.WriteSummary(summaryTargetFileName, testResults);
-        }
-
-        private static string PrepareReportDirectory()
-        {
-            var reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
-            if (Directory.Exists(reportDirectory))
-            {
-                var di = new DirectoryInfo(reportDirectory);
-
-                foreach (FileInfo file in di.GetFiles().Where(name => !name.Name.EndsWith(".gitignore")))
-                {
-                    file.Delete();
-                }
-
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }
+                Directory.CreateDirectory(reportDirectory);
+                return;
             }
 
-            Directory.CreateDirectory(reportDirectory);
-            return reportDirectory;
+            var directoryInfo = new DirectoryInfo(reportDirectory);
+            
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo dir in directoryInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
         }
     }
 }
