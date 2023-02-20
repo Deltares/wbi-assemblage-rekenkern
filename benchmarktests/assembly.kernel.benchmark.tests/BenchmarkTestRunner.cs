@@ -53,7 +53,7 @@ namespace assembly.kernel.benchmark.tests
             var calculator = new CategoryLimitsCalculator();
 
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsBoi21(
-                new AssessmentSection((Probability) input.SignalFloodingProbability, (Probability) input.MaximumAllowableFloodingProbability));
+                new AssessmentSection((Probability) input.SignalFloodingProbability,(Probability) input.MaximumAllowableFloodingProbability));
             CategoriesList<AssessmentSectionCategory> expectedCategories = input.ExpectedAssessmentSectionCategories;
 
             result.AreEqualCategoriesListAssessmentSection = AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
@@ -90,20 +90,20 @@ namespace assembly.kernel.benchmark.tests
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                         BenchmarkTestResult testResult, CategoriesList<InterpretationCategory> interpretationCategories)
         {
-            var failureMechanismTestResult =
-                GetBenchmarkTestFailureMechanismResult(testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
+            BenchmarkFailureMechanismTestResult failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(
+                testResult, expectedFailureMechanismResult.Name,
+                expectedFailureMechanismResult.MechanismId, expectedFailureMechanismResult.HasLengthEffect);
 
-            var failureMechanismTester =
-                expectedFailureMechanismResult.HasLengthEffect
-                    ? new FailureMechanismWithLengthEffectResultTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories) as IFailureMechanismResultTester
-                    : new FailureMechanismResultTester(testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
+            IFailureMechanismResultTester failureMechanismTester = expectedFailureMechanismResult.HasLengthEffect
+                                                                       ? (IFailureMechanismResultTester) new FailureMechanismWithLengthEffectResultTester(
+                                                                           testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories)
+                                                                       : new FailureMechanismResultTester(testResult.MethodResults,
+                                                                                                          expectedFailureMechanismResult,
+                                                                                                          interpretationCategories);
 
-            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection =
-                failureMechanismTester.TestCombinedAssessment();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection =
-                failureMechanismTester.TestAssessmentSectionResult();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionPartial =
-                failureMechanismTester.TestAssessmentSectionResultPartial();
+            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = failureMechanismTester.TestCombinedAssessment();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = failureMechanismTester.TestAssessmentSectionResult();
+            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionPartial = failureMechanismTester.TestAssessmentSectionResultPartial();
         }
 
         /// <summary>
@@ -133,13 +133,14 @@ namespace assembly.kernel.benchmark.tests
             foreach (FailureMechanismSectionListWithFailureMechanismId failureMechanismsCombinedResult in input
                          .ExpectedCombinedSectionResultPerFailureMechanism)
             {
-                var mechanism = input.ExpectedFailureMechanismsResults.First(r => r.MechanismId == failureMechanismsCombinedResult.FailureMechanismId);
-                TestCombinedSectionsFailureMechanismResults(input, result, mechanism.Name, failureMechanismsCombinedResult.FailureMechanismId, mechanism.HasLengthEffect);
+                ExpectedFailureMechanismResult mechanism = input.ExpectedFailureMechanismsResults.First(
+                    r => r.MechanismId == failureMechanismsCombinedResult.FailureMechanismId);
+                TestCombinedSectionsFailureMechanismResults(
+                    input, result, mechanism.Name, failureMechanismsCombinedResult.FailureMechanismId, mechanism.HasLengthEffect);
             }
         }
 
-        private static void TestCalculatingAssessmentSectionFailureProbability(BenchmarkTestInput input,
-                                                                               BenchmarkTestResult result)
+        private static void TestCalculatingAssessmentSectionFailureProbability(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             try
             {
@@ -170,8 +171,7 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCalculatingAssessmentSectionFailureProbabilityPartial(BenchmarkTestInput input,
-                                                                                      BenchmarkTestResult result)
+        private static void TestCalculatingAssessmentSectionFailureProbabilityPartial(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             try
             {
@@ -211,21 +211,20 @@ namespace assembly.kernel.benchmark.tests
                 try
                 {
                     var assembler = new AssessmentGradeAssembler();
-                    assessmentGrade =
-                        assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, input.ExpectedAssessmentSectionCategories);
+                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
+                        input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability,
+                        input.ExpectedAssessmentSectionCategories);
                 }
                 catch (AssemblyException)
                 {
-                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade ==
-                                  EExpectedAssessmentGrade.Exception);
+                    Assert.IsTrue(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade == EExpectedAssessmentGrade.Exception);
                     result.AreEqualAssemblyResultFinalVerdict = true;
                     result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
                     return;
                 }
 
-                Assert.AreEqual(
-                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
-                    assessmentGrade);
+                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
+                                assessmentGrade);
                 result.AreEqualAssemblyResultFinalVerdict = true;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
             }
@@ -236,8 +235,7 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestDeterminingAssessmentGradePartial(BenchmarkTestInput input,
-                                                                  BenchmarkTestResult result)
+        private static void TestDeterminingAssessmentGradePartial(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             try
             {
@@ -245,7 +243,9 @@ namespace assembly.kernel.benchmark.tests
                 try
                 {
                     var assembler = new AssessmentGradeAssembler();
-                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, input.ExpectedAssessmentSectionCategories);
+                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
+                        input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial,
+                        input.ExpectedAssessmentSectionCategories);
                 }
                 catch (AssemblyException)
                 {
@@ -256,9 +256,8 @@ namespace assembly.kernel.benchmark.tests
                     return;
                 }
 
-                Assert.AreEqual(
-                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial
-                         .ToEAssessmentGrade(), assessmentGrade);
+                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial.ToEAssessmentGrade(),
+                                assessmentGrade);
 
                 result.AreEqualAssemblyResultFinalVerdictPartial = true;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
@@ -274,21 +273,20 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
             // BOI-3A-1
-            var combinedSections = assembler.FindGreatestCommonDenominatorSectionsBoi3A1(
+            FailureMechanismSectionList combinedSections = assembler.FindGreatestCommonDenominatorSectionsBoi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
-                         fm => new FailureMechanismSectionListWithFailureMechanismId(fm.Name,
-                                                                                     fm.Sections.Select(
-                                                                                         s => new FailureMechanismSection(s.Start, s.End))))
-                     .ToArray()
-                , input.Length);
+                         fm => new FailureMechanismSectionListWithFailureMechanismId(
+                             fm.Name, fm.Sections.Select(s => new FailureMechanismSection(s.Start, s.End))))
+                     .ToArray(),
+                input.Length);
 
             try
             {
                 Assert.IsNotNull(combinedSections);
-                var expectedSections = input.ExpectedCombinedSectionResult.ToArray();
-                var calculatedSections = combinedSections.Sections.ToArray();
+                FailureMechanismSectionWithCategory[] expectedSections = input.ExpectedCombinedSectionResult.ToArray();
+                FailureMechanismSection[] calculatedSections = combinedSections.Sections.ToArray();
                 Assert.AreEqual(expectedSections.Length, calculatedSections.Length);
-                for (int i = 0; i < expectedSections.Length; i++)
+                for (var i = 0; i < expectedSections.Length; i++)
                 {
                     Assert.AreEqual(expectedSections[i].Start, calculatedSections[i].Start, 0.01);
                     Assert.AreEqual(expectedSections[i].End, calculatedSections[i].End, 0.01);
@@ -308,15 +306,14 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var calculatedResults = assembler
-                                    .DetermineCombinedResultPerCommonSectionBoi3C1(
-                                        input.ExpectedCombinedSectionResultPerFailureMechanism,
-                                        false).ToArray();
-            var expectedResults = input.ExpectedCombinedSectionResult.ToArray();
+            FailureMechanismSectionWithCategory[] calculatedResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(
+                                                                                   input.ExpectedCombinedSectionResultPerFailureMechanism, false)
+                                                                               .ToArray();
+            FailureMechanismSectionWithCategory[] expectedResults = input.ExpectedCombinedSectionResult.ToArray();
             try
             {
                 Assert.AreEqual(expectedResults.Length, calculatedResults.Length);
-                for (int i = 0; i < expectedResults.Length; i++)
+                for (var i = 0; i < expectedResults.Length; i++)
                 {
                     Assert.AreEqual(expectedResults[i].Start, calculatedResults[i].Start, 0.01);
                     Assert.AreEqual(expectedResults[i].End, calculatedResults[i].End, 0.01);
@@ -338,15 +335,14 @@ namespace assembly.kernel.benchmark.tests
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
-            var calculatedResults = assembler
-                                    .DetermineCombinedResultPerCommonSectionBoi3C1(
-                                        input.ExpectedCombinedSectionResultPerFailureMechanism,
-                                        true).ToArray();
-            var expectedResults = input.ExpectedCombinedSectionResultPartial.ToArray();
+            FailureMechanismSectionWithCategory[] calculatedResults = assembler.DetermineCombinedResultPerCommonSectionBoi3C1(
+                                                                                   input.ExpectedCombinedSectionResultPerFailureMechanism, true)
+                                                                               .ToArray();
+            FailureMechanismSectionWithCategory[] expectedResults = input.ExpectedCombinedSectionResultPartial.ToArray();
             try
             {
                 Assert.AreEqual(expectedResults.Length, calculatedResults.Length);
-                for (int i = 0; i < expectedResults.Length; i++)
+                for (var i = 0; i < expectedResults.Length; i++)
                 {
                     Assert.AreEqual(expectedResults[i].Start, calculatedResults[i].Start, 0.01);
                     Assert.AreEqual(expectedResults[i].End, calculatedResults[i].End, 0.01);
@@ -363,31 +359,36 @@ namespace assembly.kernel.benchmark.tests
             }
         }
 
-        private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input,
-                                                                        BenchmarkTestResult result, string mechanismName, string mechanismId, bool hasLengthEffect)
+        private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input, BenchmarkTestResult result,
+                                                                        string mechanismName, string mechanismId, bool hasLengthEffect)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
             var combinedSections = new FailureMechanismSectionList(input.ExpectedCombinedSectionResult);
-            var failureMechanismSectionList = new FailureMechanismSectionList(
-                input.ExpectedFailureMechanismsResults.First(fm => fm.MechanismId == mechanismId).Sections
-                     .OfType<ExpectedFailureMechanismSection>()
-                     .Select(CreateExpectedFailureMechanismSectionWithResult));
+            var failureMechanismSectionList = new FailureMechanismSectionList(input.ExpectedFailureMechanismsResults
+                                                                                   .First(fm => fm.MechanismId == mechanismId).Sections
+                                                                                   .OfType<ExpectedFailureMechanismSection>()
+                                                                                   .Select(CreateExpectedFailureMechanismSectionWithResult));
 
-            var calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
-                failureMechanismSectionList,
-                combinedSections);
+            FailureMechanismSectionList calculatedSectionResults = assembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(
+                failureMechanismSectionList, combinedSections);
+            
+            FailureMechanismSectionWithCategory[] calculatedSections = calculatedSectionResults.Sections
+                                                                                               .OfType<FailureMechanismSectionWithCategory>()
+                                                                                               .ToArray();
+            FailureMechanismSectionWithCategory[] expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism
+                                                                          .First(l => l.FailureMechanismId == mechanismId)
+                                                                          .Sections
+                                                                          .OfType<FailureMechanismSectionWithCategory>()
+                                                                          .ToArray();
 
-            var calculatedSections = calculatedSectionResults.Sections.OfType<FailureMechanismSectionWithCategory>().ToArray();
-            var expectedSections = input.ExpectedCombinedSectionResultPerFailureMechanism.First(l => l.FailureMechanismId == mechanismId).Sections
-                                        .OfType<FailureMechanismSectionWithCategory>().ToArray();
-
-            var failureMechanismResult = GetBenchmarkTestFailureMechanismResult(result, mechanismName, mechanismId, hasLengthEffect);
+            BenchmarkFailureMechanismTestResult failureMechanismResult = GetBenchmarkTestFailureMechanismResult(
+                result, mechanismName, mechanismId, hasLengthEffect);
 
             try
             {
                 Assert.AreEqual(expectedSections.Length, calculatedSections.Length);
-                for (int i = 0; i < expectedSections.Length; i++)
+                for (var i = 0; i < expectedSections.Length; i++)
                 {
                     Assert.AreEqual(expectedSections[i].Start, calculatedSections[i].Start, 0.01);
                     Assert.AreEqual(expectedSections[i].End, calculatedSections[i].End, 0.01);
@@ -399,7 +400,7 @@ namespace assembly.kernel.benchmark.tests
             }
             catch (AssertionException e)
             {
-                Console.WriteLine("Error matching combined sections for {0}: {1}", failureMechanismResult.Name, e.Message);
+                Console.WriteLine($"Error matching combined sections for {failureMechanismResult.Name}: {e.Message}");
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = false;
                 result.MethodResults.Boi3B1 = false;
             }
@@ -414,7 +415,7 @@ namespace assembly.kernel.benchmark.tests
             BenchmarkTestResult result,
             string mechanismName, string mechanismId, bool hasLengthEffect)
         {
-            var failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.MechanismId == mechanismId);
+            BenchmarkFailureMechanismTestResult failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(fmr => fmr.MechanismId == mechanismId);
             if (failureMechanismTestResult == null)
             {
                 failureMechanismTestResult = new BenchmarkFailureMechanismTestResult(mechanismName, mechanismId, hasLengthEffect);
