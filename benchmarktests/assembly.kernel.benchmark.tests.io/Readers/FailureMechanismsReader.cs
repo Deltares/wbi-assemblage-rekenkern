@@ -42,7 +42,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary.</param>
         /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet.</param>
-        public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B")
+        public FailureMechanismsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+            : base(worksheetPart, workbookPart, "B")
         {
             sectionReaderFactory = new SectionReaderFactory(worksheetPart, workbookPart);
         }
@@ -55,8 +56,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput, string mechanismId)
         {
             bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
-            ExpectedFailureMechanismResult expectedFailureMechanismResult =
-                new ExpectedFailureMechanismResult(GetCellValueAsString("C", "Faalpad"), mechanismId, hasLengthEffect);
+            var expectedFailureMechanismResult = new ExpectedFailureMechanismResult(GetCellValueAsString("C", "Faalpad"),
+                                                                                    mechanismId, hasLengthEffect);
 
             ReadGeneralInformation(expectedFailureMechanismResult);
             ReadFailureMechanismSections(expectedFailureMechanismResult);
@@ -73,22 +74,24 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             expectedFailureMechanismResult.LengthEffectFactor = GetCellValueAsDouble("C", "Ntraject");
         }
 
-        private EFailureMechanismAssemblyMethod ToCorrelation(bool correlated)
+        private static EFailureMechanismAssemblyMethod ToCorrelation(bool correlated)
         {
-            return correlated ? EFailureMechanismAssemblyMethod.Correlated : EFailureMechanismAssemblyMethod.Uncorrelated;
+            return correlated
+                       ? EFailureMechanismAssemblyMethod.Correlated
+                       : EFailureMechanismAssemblyMethod.Uncorrelated;
         }
 
         private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             var sections = new List<IExpectedFailureMechanismSection>();
-            var startRow = GetRowId("Vaknaam") + 1;
-            var sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.HasLengthEffect);
+            int startRow = GetRowId("Vaknaam") + 1;
+            ISectionReader<IExpectedFailureMechanismSection> sectionReader = sectionReaderFactory.CreateReader(expectedFailureMechanismResult.HasLengthEffect);
 
-            var iRow = startRow;
+            int iRow = startRow;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
-                var endMeters = GetCellValueAsDouble("D", iRow) * KilometersToMeters;
+                double startMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
+                double endMeters = GetCellValueAsDouble("D", iRow) * KilometersToMeters;
 
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {

@@ -37,8 +37,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary.</param>
         /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet.</param>
-        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
-            worksheetPart, workbookPart, "A") {}
+        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) 
+            : base(worksheetPart, workbookPart, "A") {}
 
         /// <summary>
         /// Reads the general information of an assessment section.
@@ -51,21 +51,20 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             benchmarkTestInput.Length = GetCellValueAsDouble("B", "Trajectlengte") * 1000.0;
 
             var assessmentGradeCategories = new List<AssessmentSectionCategory>();
-            for (int iRow = 4; iRow <= 8; iRow++)
+            for (var iRow = 4; iRow <= 8; iRow++)
             {
-                var expectedAssessmentGrade = GetCellValueAsString("D", iRow).ToExpectedAssessmentGrade();
+                EExpectedAssessmentGrade expectedAssessmentGrade = GetCellValueAsString("D", iRow).ToExpectedAssessmentGrade();
                 assessmentGradeCategories.Add(new AssessmentSectionCategory(
                                                   expectedAssessmentGrade.ToEAssessmentGrade(),
                                                   new Probability(GetCellValueAsDouble("F", iRow)),
                                                   new Probability(GetCellValueAsDouble("E", iRow))));
             }
 
-            benchmarkTestInput.ExpectedAssessmentSectionCategories =
-                new CategoriesList<AssessmentSectionCategory>(assessmentGradeCategories);
+            benchmarkTestInput.ExpectedAssessmentSectionCategories = new CategoriesList<AssessmentSectionCategory>(assessmentGradeCategories);
 
             var interpretationCategories = new List<InterpretationCategory>();
             var lastKnownBoundary = new Probability(0);
-            for (int iRow = 13; iRow <= 19; iRow++)
+            for (var iRow = 13; iRow <= 19; iRow++)
             {
                 var newBoundary = new Probability(GetCellValueAsDouble("E", iRow));
                 interpretationCategories.Add(new InterpretationCategory(
@@ -75,8 +74,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
                 lastKnownBoundary = newBoundary;
             }
 
-            benchmarkTestInput.ExpectedInterpretationCategories =
-                new CategoriesList<InterpretationCategory>(interpretationCategories);
+            benchmarkTestInput.ExpectedInterpretationCategories = new CategoriesList<InterpretationCategory>(interpretationCategories);
         }
     }
 }

@@ -31,8 +31,6 @@ namespace assembly.kernel.benchmark.tests.io
     /// </summary>
     public static class StringExtensions
     {
-        private const string NoResultCategoryRepresentation = "gr";
-
         /// <summary>
         /// Translate a string value to a specific <see cref="EAssessmentGrade"/>.
         /// </summary>
@@ -40,24 +38,21 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns>The translated <see cref="EAssessmentGrade"/>.</returns>
         public static EExpectedAssessmentGrade ToExpectedAssessmentGrade(this string str)
         {
-            EExpectedAssessmentGrade sectionCategory;
-            if (!Enum.TryParse(str, true, out sectionCategory))
+            if (Enum.TryParse(str, true, out EExpectedAssessmentGrade sectionCategory))
             {
-                switch (str.ToLower())
-                {
-                    case "a+":
-                        sectionCategory = EExpectedAssessmentGrade.APlus;
-                        break;
-                    case "-":
-                    case NoResultCategoryRepresentation:
-                        sectionCategory = EExpectedAssessmentGrade.Exception;
-                        break;
-                    default:
-                        throw new InvalidEnumArgumentException(str);
-                }
+                return sectionCategory;
             }
 
-            return sectionCategory;
+            switch (str.ToLower())
+            {
+                case "a+":
+                    return EExpectedAssessmentGrade.APlus;
+                case "-":
+                case "gr":
+                    return EExpectedAssessmentGrade.Exception;
+                default:
+                    throw new InvalidEnumArgumentException(str);
+            }
         }
 
         /// <summary>
@@ -67,45 +62,32 @@ namespace assembly.kernel.benchmark.tests.io
         /// <returns>The translated <see cref="EInterpretationCategory"/>.</returns>
         public static EInterpretationCategory ToInterpretationCategory(this string str)
         {
-            EInterpretationCategory interpretationCategory;
             switch (str.ToLower())
             {
                 case "nr":
-                    interpretationCategory = EInterpretationCategory.NotRelevant;
-                    break;
+                    return EInterpretationCategory.NotRelevant;
                 case "d":
-                    interpretationCategory = EInterpretationCategory.Dominant;
-                    break;
+                    return EInterpretationCategory.Dominant;
                 case "nd":
-                    interpretationCategory = EInterpretationCategory.NotDominant;
-                    break;
+                    return EInterpretationCategory.NotDominant;
                 case "+iii":
-                    interpretationCategory = EInterpretationCategory.III;
-                    break;
+                    return EInterpretationCategory.III;
                 case "+ii":
-                    interpretationCategory = EInterpretationCategory.II;
-                    break;
+                    return EInterpretationCategory.II;
                 case "+i":
-                    interpretationCategory = EInterpretationCategory.I;
-                    break;
+                    return EInterpretationCategory.I;
                 case "+0":
                 case "0":
-                    interpretationCategory = EInterpretationCategory.Zero;
-                    break;
+                    return EInterpretationCategory.Zero;
                 case "-i":
-                    interpretationCategory = EInterpretationCategory.IMin;
-                    break;
+                    return EInterpretationCategory.IMin;
                 case "-ii":
-                    interpretationCategory = EInterpretationCategory.IIMin;
-                    break;
+                    return EInterpretationCategory.IIMin;
                 case "-iii":
-                    interpretationCategory = EInterpretationCategory.IIIMin;
-                    break;
+                    return EInterpretationCategory.IIIMin;
                 default:
                     throw new InvalidEnumArgumentException(str);
             }
-
-            return interpretationCategory;
         }
     }
 }

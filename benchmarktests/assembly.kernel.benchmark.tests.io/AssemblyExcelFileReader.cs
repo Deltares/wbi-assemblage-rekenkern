@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.Readers;
@@ -43,7 +44,7 @@ namespace assembly.kernel.benchmark.tests.io
                 var benchmarkTestInput = new BenchmarkTestInput();
 
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ExcelReaderHelper.ReadWorkSheetParts(workbookPart);
+                Dictionary<string, WorksheetPart> workSheetParts = ExcelReaderHelper.ReadWorkSheetParts(workbookPart);
 
                 ReadGeneralAssessmentSectionInformation(workSheetParts["Normen en duidingsklassen"], workbookPart, benchmarkTestInput);
 
@@ -54,9 +55,11 @@ namespace assembly.kernel.benchmark.tests.io
                     "Veiligheidsoordeel",
                     "Gecombineerd vakoordeel"
                 };
-                var failureMechanismsTabs = workSheetParts.Select(wsp => wsp.Key).Except(tabsToIgnore).ToArray();
+                string[] failureMechanismsTabs = workSheetParts.Select(wsp => wsp.Key)
+                                                               .Except(tabsToIgnore)
+                                                               .ToArray();
 
-                foreach (var failureMechanismsTab in failureMechanismsTabs)
+                foreach (string failureMechanismsTab in failureMechanismsTabs)
                 {
                     ReadFailureMechanism(failureMechanismsTab, workSheetParts[failureMechanismsTab], workbookPart, benchmarkTestInput);
                 }

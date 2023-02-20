@@ -44,15 +44,15 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="benchmarkTestInput">The test input.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability =
-                new Probability(GetCellValueAsDouble("D", "Overstromingskans traject"));
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial =
-                new Probability(GetCellValueAsDouble("D", "Overstromingskans traject (tussentijds)"));
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability = new Probability(
+                GetCellValueAsDouble("D", "Overstromingskans traject"));
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial = new Probability(
+                GetCellValueAsDouble("D", "Overstromingskans traject (tussentijds)"));
 
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade =
-                GetCellValueAsString("E", "Overstromingskans traject").ToExpectedAssessmentGrade();
-            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial =
-                GetCellValueAsString("E", "Overstromingskans traject (tussentijds)").ToExpectedAssessmentGrade();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade = GetCellValueAsString(
+                "E", "Overstromingskans traject").ToExpectedAssessmentGrade();
+            benchmarkTestInput.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial = GetCellValueAsString(
+                "E", "Overstromingskans traject (tussentijds)").ToExpectedAssessmentGrade();
         }
     }
 }

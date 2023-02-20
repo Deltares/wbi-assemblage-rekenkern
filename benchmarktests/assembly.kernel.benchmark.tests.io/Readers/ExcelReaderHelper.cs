@@ -22,6 +22,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
@@ -44,10 +45,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             var dict = new Dictionary<string, int>();
 
-            int iRow = 1;
+            var iRow = 1;
             while (iRow <= maxRow)
             {
-                var keyword = GetCellValueAsString(worksheetPart.Worksheet, column + iRow, workbookPart);
+                string keyword = GetCellValueAsString(worksheetPart.Worksheet, column + iRow, workbookPart);
                 if (!(string.IsNullOrWhiteSpace(keyword) || dict.ContainsKey(keyword)))
                 {
                     dict[keyword] = iRow;
@@ -68,20 +69,16 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <returns>The cell value as <see cref="double"/>.</returns>
         public static double GetCellValueAsDouble(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
         {
-            var cellValue = GetCellValueAsString(worksheet, cellReference, workbookPart);
+            string cellValue = GetCellValueAsString(worksheet, cellReference, workbookPart);
             if (string.IsNullOrWhiteSpace(cellValue))
             {
                 return double.NaN;
             }
 
-            var culture = cellValue.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
-            double cellValueAsDouble;
-            if (!double.TryParse(cellValue, NumberStyles.Any, culture, out cellValueAsDouble))
-            {
-                return double.NaN;
-            }
-
-            return cellValueAsDouble;
+            CultureInfo culture = cellValue.Contains(",") ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
+            return double.TryParse(cellValue, NumberStyles.Any, culture, out double cellValueAsDouble)
+                       ? cellValueAsDouble
+                       : double.NaN;
         }
 
         /// <summary>
@@ -93,13 +90,10 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <returns>The cell value as <see cref="string"/>.</returns>
         public static string GetCellValueAsString(Worksheet worksheet, string cellReference, WorkbookPart workbookPart)
         {
-            var cell = GetCell(worksheet, cellReference);
-            if (cell == null)
-            {
-                return "";
-            }
-
-            return CellValueAsStringFromCell(cell, workbookPart);
+            Cell cell = GetCell(worksheet, cellReference);
+            return cell != null
+                       ? CellValueAsStringFromCell(cell, workbookPart)
+                       : "";
         }
 
         /// <summary>
@@ -138,28 +132,27 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();
 
-            foreach (var worksheetPart in workbookPart.WorksheetParts)
+            foreach (WorksheetPart worksheetPart in workbookPart.WorksheetParts)
             {
-                var sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
+                Sheet sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
                 workSheetParts[sheet.Name] = worksheetPart;
             }
 
             return workSheetParts;
         }
 
-        private static Cell GetCell(Worksheet worksheet, string addressName)
+        private static Cell GetCell(OpenXmlElement worksheet, string addressName)
         {
             return worksheet.Descendants<Cell>().FirstOrDefault(c => c.CellReference == addressName);
         }
 
-        private static string CellValueAsStringFromCell(Cell cell, WorkbookPart workbookPart)
+        private static string CellValueAsStringFromCell(CellType cell, WorkbookPart workbookPart)
         {
-            string cellValue = string.Empty;
+            var cellValue = string.Empty;
 
             if (cell.DataType != null && cell.DataType == CellValues.SharedString && workbookPart != null)
             {
-                int id;
-                if (int.TryParse(cell.InnerText, out id))
+                if (int.TryParse(cell.InnerText, out int id))
                 {
                     SharedStringItem item = GetSharedStringItemById(workbookPart, id);
 
@@ -189,8 +182,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             return cellValue;
         }
 
-        private static Sheet GetSheetFromWorkSheet
-            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
+        private static Sheet GetSheetFromWorkSheet(WorkbookPart workbookPart, OpenXmlPart worksheetPart)
         {
             string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
             IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();
