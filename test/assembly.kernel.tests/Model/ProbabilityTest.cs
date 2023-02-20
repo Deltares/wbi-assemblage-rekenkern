@@ -161,154 +161,6 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void ToString_WithFormat_ReturnsExpectedValue()
-        {
-            // Setup
-            var probability = new Probability(1.425e-15);
-
-            // Call
-            var toString = probability.ToString("E5", CultureInfo.InvariantCulture);
-
-            // Assert
-            Assert.AreEqual("1.42500E-015", toString);
-        }
-
-        [Test]
-        public void Equals_ToNull_ReturnsFalse()
-        {
-            // Setup
-            var probability = new Probability(0.1);
-
-            // Call
-            bool isEqual = probability.Equals(null);
-
-            // Assert
-            Assert.IsFalse(isEqual);
-        }
-
-        [Test]
-        public void Equals_ToSameInstance_ReturnsTrue()
-        {
-            // Setup
-            var probability = new Probability(0.1);
-
-            // Call
-            bool isEqual = probability.Equals(probability);
-
-            // Assert
-            Assert.IsTrue(isEqual);
-        }
-
-        [Test]
-        public void Equals_ToSameObjectInstance_ReturnsTrue()
-        {
-            // Setup
-            var probability = new Probability(0.1);
-
-            // Call
-            bool isEqual = probability.Equals((object) probability);
-
-            // Assert
-            Assert.IsTrue(isEqual);
-        }
-
-        [Test]
-        public void Equals_ObjectOfSomeOtherType_ReturnsFalse()
-        {
-            // Setup
-            var probability = new Probability(0.1);
-            var someOtherObject = new object();
-
-            // Call
-            bool isEqual1 = probability.Equals(someOtherObject);
-            bool isEqual2 = someOtherObject.Equals(probability);
-
-            // Assert
-            Assert.IsFalse(isEqual1);
-            Assert.IsFalse(isEqual2);
-        }
-
-        [Test]
-        public void Equals_ToOtherEqualProbability_ReturnsTrue()
-        {
-            // Setup
-            const double probabilityValue = 0.0012345;
-            var baseProbability = new Probability(probabilityValue);
-            object comparisonProbability = new Probability(probabilityValue);
-
-            // Call
-            bool isEqual1 = baseProbability.Equals(comparisonProbability);
-            bool isEqual2 = comparisonProbability.Equals(baseProbability);
-
-            // Assert
-            Assert.IsTrue(isEqual1);
-            Assert.IsTrue(isEqual2);
-        }
-
-        [Test]
-        public void Equals_ProbabilityEqualToDouble_ReturnsTrue()
-        {
-            // Setup
-            const double probabilityValue = 0.0012345;
-            var probability = new Probability(probabilityValue);
-
-            // Call
-            bool isEqual1 = probability.Equals(probabilityValue);
-            bool isEqual2 = probabilityValue.Equals(probability);
-
-            // Assert
-            Assert.IsTrue(isEqual1);
-            Assert.IsTrue(isEqual2);
-        }
-
-        [Test]
-        public void Equals_ProbabilityNotEqualToDouble_ReturnsFalse()
-        {
-            // Setup
-            var probability = new Probability(0.0012345);
-            const double otherValue = 0.0017362;
-
-            // Call
-            bool isEqual1 = probability.Equals(otherValue);
-            bool isEqual2 = otherValue.Equals(probability);
-
-            // Assert
-            Assert.IsFalse(isEqual1);
-            Assert.IsFalse(isEqual2);
-        }
-
-        [Test]
-        public void GetHashCode_TwoEqualInstances_ReturnsSameHash()
-        {
-            // Setup
-            const double probabilityValue = 0.0012345;
-            var baseProbability = new Probability(probabilityValue);
-            object comparisonProbability = new Probability(probabilityValue);
-
-            // Call
-            int hash1 = baseProbability.GetHashCode();
-            int hash2 = comparisonProbability.GetHashCode();
-
-            // Assert
-            Assert.AreEqual(hash1, hash2);
-        }
-
-        [Test]
-        public void GetHashCode_ProbabilityEqualToDouble_ReturnsSameHashCode()
-        {
-            // Setup
-            const double probabilityValue = 0.0012345;
-            var probability = new Probability(probabilityValue);
-
-            // Call
-            int hash1 = probability.GetHashCode();
-            int hash2 = probabilityValue.GetHashCode();
-
-            // Assert
-            Assert.AreEqual(hash1, hash2);
-        }
-
-        [Test]
         public void EqualityOperator_TwoEqualProbabilities_ReturnsTrue()
         {
             // Setup
@@ -588,7 +440,7 @@ namespace Assembly.Kernel.Tests.Model
             void Call1() => result = probability / new Probability(probabilityValue);
             void Call2() => result = probability / probabilityValue;
             void Call3() => result = -probabilityValue / probability;
-            
+
             // Assert
             var expectedErrorMessages = new[]
             {
@@ -607,11 +459,11 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8192378;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 < probability2;
             bool isLessThan2 = probability1 < probabilityValue2;
-            
+
             // Assert
             Assert.IsTrue(isLessThan1);
             Assert.IsTrue(isLessThan2);
@@ -625,11 +477,11 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 < probability2;
             bool isLessThan2 = probability1 < probabilityValue2;
-            
+
             // Assert
             Assert.IsFalse(isLessThan1);
             Assert.IsFalse(isLessThan2);
@@ -643,7 +495,7 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8192378;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 <= probability2;
             bool isLessThan2 = probability1 <= probabilityValue2;
@@ -651,7 +503,7 @@ namespace Assembly.Kernel.Tests.Model
             bool isLessThan4 = probability1 <= probabilityValue1;
             bool isLessThan5 = probability2 <= probability2;
             bool isLessThan6 = probability2 <= probabilityValue2;
-            
+
             // Assert
             Assert.IsTrue(isLessThan1);
             Assert.IsTrue(isLessThan2);
@@ -669,16 +521,16 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 <= probability2;
             bool isLessThan2 = probability1 <= probabilityValue2;
-            
+
             // Assert
             Assert.IsFalse(isLessThan1);
             Assert.IsFalse(isLessThan2);
         }
-        
+
         [Test]
         public void OperatorGreaterThan_LeftGreaterThanRight_ReturnsTrue()
         {
@@ -687,11 +539,11 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 > probability2;
             bool isLessThan2 = probability1 > probabilityValue2;
-            
+
             // Assert
             Assert.IsTrue(isLessThan1);
             Assert.IsTrue(isLessThan2);
@@ -705,16 +557,16 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8192378;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 > probability2;
             bool isLessThan2 = probability1 > probabilityValue2;
-            
+
             // Assert
             Assert.IsFalse(isLessThan1);
             Assert.IsFalse(isLessThan2);
         }
-        
+
         [Test]
         public void OperatorGreaterThanOrEqualTo_LeftGreaterThanOrEqualRight_ReturnsTrue()
         {
@@ -723,7 +575,7 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 >= probability2;
             bool isLessThan2 = probability1 >= probabilityValue2;
@@ -731,7 +583,7 @@ namespace Assembly.Kernel.Tests.Model
             bool isLessThan4 = probability1 >= probabilityValue1;
             bool isLessThan5 = probability2 >= probability2;
             bool isLessThan6 = probability2 >= probabilityValue2;
-            
+
             // Assert
             Assert.IsTrue(isLessThan1);
             Assert.IsTrue(isLessThan2);
@@ -749,11 +601,11 @@ namespace Assembly.Kernel.Tests.Model
             const double probabilityValue2 = 0.8192378;
             var probability1 = new Probability(probabilityValue1);
             var probability2 = new Probability(probabilityValue2);
-            
+
             // Call
             bool isLessThan1 = probability1 >= probability2;
             bool isLessThan2 = probability1 >= probabilityValue2;
-            
+
             // Assert
             Assert.IsFalse(isLessThan1);
             Assert.IsFalse(isLessThan2);
@@ -775,6 +627,7 @@ namespace Assembly.Kernel.Tests.Model
             }, EAssemblyErrors.InvalidArgumentType);
         }
 
+        [Test]
         [TestCase(0.0002516, "1/3975")]
         [TestCase(double.NaN, "Undefined")]
         [TestCase(1e-101, "0")]
@@ -791,6 +644,20 @@ namespace Assembly.Kernel.Tests.Model
             Assert.AreEqual(expectedString, toString);
         }
 
+        [Test]
+        public void ToString_WithFormat_ReturnsExpectedValue()
+        {
+            // Setup
+            var probability = new Probability(1.425e-15);
+
+            // Call
+            var toString = probability.ToString("E5", CultureInfo.InvariantCulture);
+
+            // Assert
+            Assert.AreEqual("1.42500E-015", toString);
+        }
+
+        [Test]
         [TestCase(0.2, 1)]
         [TestCase(0.3, 0)]
         [TestCase(0.4, -1)]
@@ -801,6 +668,141 @@ namespace Assembly.Kernel.Tests.Model
             Assert.AreEqual(expectedResult, probability.CompareTo((Probability) inputValue));
             Assert.AreEqual(expectedResult, probability.CompareTo((object) inputValue));
             Assert.AreEqual(expectedResult, probability.CompareTo((object) (Probability) inputValue));
+        }
+
+        [Test]
+        public void Equals_ToNull_ReturnsFalse()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            bool isEqual = probability.Equals(null);
+
+            // Assert
+            Assert.IsFalse(isEqual);
+        }
+
+        [Test]
+        public void Equals_ToSameInstance_ReturnsTrue()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            bool isEqual = probability.Equals(probability);
+
+            // Assert
+            Assert.IsTrue(isEqual);
+        }
+
+        [Test]
+        public void Equals_ToSameObjectInstance_ReturnsTrue()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            bool isEqual = probability.Equals((object) probability);
+
+            // Assert
+            Assert.IsTrue(isEqual);
+        }
+
+        [Test]
+        public void Equals_ObjectOfSomeOtherType_ReturnsFalse()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+            var someOtherObject = new object();
+
+            // Call
+            bool isEqual1 = probability.Equals(someOtherObject);
+            bool isEqual2 = someOtherObject.Equals(probability);
+
+            // Assert
+            Assert.IsFalse(isEqual1);
+            Assert.IsFalse(isEqual2);
+        }
+
+        [Test]
+        public void Equals_ToOtherEqualProbability_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue = 0.0012345;
+            var baseProbability = new Probability(probabilityValue);
+            object comparisonProbability = new Probability(probabilityValue);
+
+            // Call
+            bool isEqual1 = baseProbability.Equals(comparisonProbability);
+            bool isEqual2 = comparisonProbability.Equals(baseProbability);
+
+            // Assert
+            Assert.IsTrue(isEqual1);
+            Assert.IsTrue(isEqual2);
+        }
+
+        [Test]
+        public void Equals_ProbabilityEqualToDouble_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue = 0.0012345;
+            var probability = new Probability(probabilityValue);
+
+            // Call
+            bool isEqual1 = probability.Equals(probabilityValue);
+            bool isEqual2 = probabilityValue.Equals(probability);
+
+            // Assert
+            Assert.IsTrue(isEqual1);
+            Assert.IsTrue(isEqual2);
+        }
+
+        [Test]
+        public void Equals_ProbabilityNotEqualToDouble_ReturnsFalse()
+        {
+            // Setup
+            var probability = new Probability(0.0012345);
+            const double otherValue = 0.0017362;
+
+            // Call
+            bool isEqual1 = probability.Equals(otherValue);
+            bool isEqual2 = otherValue.Equals(probability);
+
+            // Assert
+            Assert.IsFalse(isEqual1);
+            Assert.IsFalse(isEqual2);
+        }
+
+        [Test]
+        public void GetHashCode_TwoEqualInstances_ReturnsSameHash()
+        {
+            // Setup
+            const double probabilityValue = 0.0012345;
+            var baseProbability = new Probability(probabilityValue);
+            object comparisonProbability = new Probability(probabilityValue);
+
+            // Call
+            int hash1 = baseProbability.GetHashCode();
+            int hash2 = comparisonProbability.GetHashCode();
+
+            // Assert
+            Assert.AreEqual(hash1, hash2);
+        }
+
+        [Test]
+        public void GetHashCode_ProbabilityEqualToDouble_ReturnsSameHashCode()
+        {
+            // Setup
+            const double probabilityValue = 0.0012345;
+            var probability = new Probability(probabilityValue);
+
+            // Call
+            int hash1 = probability.GetHashCode();
+            int hash2 = probabilityValue.GetHashCode();
+
+            // Assert
+            Assert.AreEqual(hash1, hash2);
         }
     }
 }

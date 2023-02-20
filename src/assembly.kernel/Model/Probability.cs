@@ -83,12 +83,6 @@ namespace Assembly.Kernel.Model
             return !(relativeDifference < double.PositiveInfinity) || relativeDifference <= maximumRelativeDifference;
         }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return value.GetHashCode();
-        }
-
         #region Operators
 
         /// <summary>
@@ -416,6 +410,12 @@ namespace Assembly.Kernel.Model
             }
 
             return Equals((Probability) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
         }
 
         #endregion
