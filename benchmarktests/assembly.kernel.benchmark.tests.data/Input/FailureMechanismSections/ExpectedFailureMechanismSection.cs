@@ -29,7 +29,12 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
     /// </summary>
     public class ExpectedFailureMechanismSection : IExpectedFailureMechanismSection
     {
-        public ExpectedFailureMechanismSection(string sectionName, double start, double end, bool isRelevant, Probability initialMechanismProbabilitySection, ERefinementStatus refinementStatus, Probability refinedProbabilitySection, Probability expectedCombinedProbabilitySection, EInterpretationCategory expectedInterpretationCategory)
+        public ExpectedFailureMechanismSection(string sectionName, double start, double end, bool isRelevant,
+                                               Probability initialMechanismProbabilitySection,
+                                               ERefinementStatus refinementStatus,
+                                               Probability refinedProbabilitySection,
+                                               Probability expectedCombinedProbabilitySection,
+                                               EInterpretationCategory expectedInterpretationCategory)
         {
             SectionName = sectionName;
             Start = start;

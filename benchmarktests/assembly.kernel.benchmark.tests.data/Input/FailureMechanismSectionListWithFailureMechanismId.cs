@@ -29,7 +29,8 @@ namespace assembly.kernel.benchmark.tests.data.Input
     /// </summary>
     public class FailureMechanismSectionListWithFailureMechanismId : FailureMechanismSectionList
     {
-        public FailureMechanismSectionListWithFailureMechanismId(string failureMechanismId, IEnumerable<FailureMechanismSection> sections) : base(sections)
+        public FailureMechanismSectionListWithFailureMechanismId(string failureMechanismId, IEnumerable<FailureMechanismSection> sections)
+            : base(sections)
         {
             FailureMechanismId = failureMechanismId;
         }

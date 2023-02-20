@@ -44,10 +44,7 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// <param name="expectedCombinedProbabilityProfile">The expected combined probability for a single profile.</param>
         /// <param name="expectedCombinedProbabilitySection">The expected combined probability for the complete section.</param>
         /// <param name="expectedInterpretationCategory">The expected interpretation category for the section.</param>
-        public ExpectedFailureMechanismSectionWithLengthEffect(string sectionName,
-                                                               double start,
-                                                               double end,
-                                                               bool isRelevant,
+        public ExpectedFailureMechanismSectionWithLengthEffect(string sectionName, double start, double end, bool isRelevant,
                                                                Probability initialMechanismProbabilityProfile,
                                                                Probability initialMechanismProbabilitySection,
                                                                ERefinementStatus refinementStatus,
@@ -56,7 +53,8 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
                                                                Probability expectedCombinedProbabilityProfile,
                                                                Probability expectedCombinedProbabilitySection,
                                                                EInterpretationCategory expectedInterpretationCategory)
-            : base(sectionName, start, end, isRelevant, initialMechanismProbabilitySection, refinementStatus, refinedProbabilitySection, expectedCombinedProbabilitySection, expectedInterpretationCategory)
+            : base(sectionName, start, end, isRelevant, initialMechanismProbabilitySection, refinementStatus,
+                   refinedProbabilitySection, expectedCombinedProbabilitySection, expectedInterpretationCategory)
         {
             InitialMechanismProbabilityProfile = initialMechanismProbabilityProfile;
             RefinedProbabilityProfile = refinedProbabilityProfile;
