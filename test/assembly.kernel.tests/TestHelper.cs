@@ -31,20 +31,6 @@ namespace Assembly.Kernel.Tests
     /// </summary>
     public static class TestHelper
     {
-        public static void AssertExpectedErrorMessage(TestDelegate testDelegate, params EAssemblyErrors[] expectedErrors)
-        {
-            AssemblyErrorMessage[] errors = Assert.Throws<AssemblyException>(testDelegate).Errors.ToArray();
-
-            Assert.AreEqual(expectedErrors.Length, errors.Length);
-
-            for (int i = 0; i < expectedErrors.Length; i++)
-            {
-                var message = errors.ElementAt(i);
-                Assert.NotNull(message);
-                Assert.AreEqual(expectedErrors.ElementAt(i), message.ErrorCode);
-            }
-        }
-
         /// <summary>
         /// Asserts that the <see cref="AssemblyException"/> is thrown and that it contains the <paramref name="expectedErrorMessages"/>.
         /// </summary>
