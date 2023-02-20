@@ -45,7 +45,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <inheritdoc />
         public FailureMechanismResultTester(MethodResultsListing methodResults,
                                             ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                            CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
+                                            CategoriesList<InterpretationCategory> interpretationCategories) 
+            : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
@@ -65,18 +66,25 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             {
                 var exception = new AssertionException("Errors occurred");
 
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>())
+                foreach (ExpectedFailureMechanismSection section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>())
                 {
-                    var relevance = section.IsRelevant
-                                        ? double.IsNaN(section.InitialMechanismProbabilitySection)
-                                              ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                                              : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
-                                        : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
-                    var refinementStatus = section.RefinementStatus;
+                    ESectionInitialMechanismProbabilitySpecification relevance;
+                    if (!section.IsRelevant)
+                    {
+                        relevance = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+                    }
+                    else
+                    {
+                        relevance = double.IsNaN(section.InitialMechanismProbabilitySection) 
+                                        ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification 
+                                        : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification;
+                    }
+                    
+                    ERefinementStatus refinementStatus = section.RefinementStatus;
                     Probability probability;
                     EInterpretationCategory category;
 
-                    var analysisState = GetAnalysisState(relevance, refinementStatus);
+                    EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
                         probability = assembler.DetermineRepresentativeProbabilityBoi0A1(refinementStatus == ERefinementStatus.Performed,
@@ -141,16 +149,17 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                FailureMechanismAssemblyResult result = null;
+                FailureMechanismAssemblyResult result;
                 try
                 {
                     result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
-                        ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
+                        ExpectedFailureMechanismResult.Sections
+                                                      .OfType<ExpectedFailureMechanismSection>()
                                                       .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
                         false);
                 }
-                catch (AssemblyException e)
+                catch (AssemblyException)
                 {
                     result = new FailureMechanismAssemblyResult(Probability.Undefined, EFailureMechanismAssemblyMethod.Correlated);
                 }
@@ -171,9 +180,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
+                FailureMechanismAssemblyResult result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
-                    ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
+                    ExpectedFailureMechanismResult.Sections
+                                                  .OfType<ExpectedFailureMechanismSection>()
                                                   .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
                     true);
 

@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
@@ -67,39 +68,45 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             if (ExpectedFailureMechanismResult != null)
             {
                 var exception = new AssertionException("Errors occurred");
-                foreach (var section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>())
+                IEnumerable<ExpectedFailureMechanismSectionWithLengthEffect> failureMechanismSectionWithLengthEffects
+                    = ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>();
+                foreach (ExpectedFailureMechanismSectionWithLengthEffect section in failureMechanismSectionWithLengthEffects)
                 {
-                    var calculatedCombinedSectionProbability =
-                        assembler.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
-                            section.ExpectedCombinedProbabilityProfile, section.LengthEffectFactorCombinedProbability);
-                    var calculatedCombinedProfileProbability =
-                        assembler.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
-                            section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
+                    Probability calculatedCombinedSectionProbability = assembler.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
+                        section.ExpectedCombinedProbabilityProfile, section.LengthEffectFactorCombinedProbability);
+                    Probability calculatedCombinedProfileProbability = assembler.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
+                        section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
 
-                    var relevance = section.IsRelevant
-                                        ? double.IsNaN(section.InitialMechanismProbabilitySection)
-                                              ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                                              : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
-                                        : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
-                    var refinementStatus = section.RefinementStatus;
+                    ESectionInitialMechanismProbabilitySpecification relevance;
+                    if (!section.IsRelevant)
+                    {
+                        relevance = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+                    }
+                    else
+                    {
+                        relevance = double.IsNaN(section.InitialMechanismProbabilitySection) 
+                                        ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification 
+                                        : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification;
+                    }
+
+                    ERefinementStatus refinementStatus = section.RefinementStatus;
                     ResultWithProfileAndSectionProbabilities probabilitiesResult;
                     EInterpretationCategory category;
 
-                    var analysisState = GetAnalysisState(relevance, refinementStatus);
+                    EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
-                        probabilitiesResult = assembler.DetermineRepresentativeProbabilitiesBoi0A2(refinementStatus == ERefinementStatus.Performed,
-                                                                                                   section.InitialMechanismProbabilityProfile,
-                                                                                                   section.InitialMechanismProbabilitySection,
-                                                                                                   section.RefinedProbabilityProfile,
-                                                                                                   section.RefinedProbabilitySection);
+                        probabilitiesResult = assembler.DetermineRepresentativeProbabilitiesBoi0A2(
+                            refinementStatus == ERefinementStatus.Performed, section.InitialMechanismProbabilityProfile,
+                            section.InitialMechanismProbabilitySection, section.RefinedProbabilityProfile,
+                            section.RefinedProbabilitySection);
                         category = assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                             probabilitiesResult.ProbabilitySection, InterpretationCategories);
                     }
                     else
                     {
                         category = assembler.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                        var probability = assembler.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+                        Probability probability = assembler.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
                         probabilitiesResult = new ResultWithProfileAndSectionProbabilities(probability, probability);
                     }
 
@@ -181,10 +188,11 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 {
                     result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
-                        ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                      .Select(s =>
-                                                                  new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
-                                                                                                               s.ExpectedCombinedProbabilitySection))
+                        ExpectedFailureMechanismResult.Sections
+                                                      .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
+                                                      .Select(s => new ResultWithProfileAndSectionProbabilities(
+                                                                  s.ExpectedCombinedProbabilityProfile,
+                                                                  s.ExpectedCombinedProbabilitySection))
                                                       .ToArray(),
                         false);
                 }
@@ -209,12 +217,13 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                FailureMechanismAssemblyResult result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
-                    ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                  .Select(s =>
-                                                              new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
-                                                                                                           s.ExpectedCombinedProbabilitySection))
+                    ExpectedFailureMechanismResult.Sections
+                                                  .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
+                                                  .Select(s => new ResultWithProfileAndSectionProbabilities(
+                                                              s.ExpectedCombinedProbabilityProfile,
+                                                              s.ExpectedCombinedProbabilitySection))
                                                   .ToArray(),
                     true);
 

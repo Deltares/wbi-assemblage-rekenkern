@@ -49,7 +49,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
             try
             {
                 Assert.AreEqual(expectedCategories.Categories.Count(), categories.Categories.Count());
-                for (int i = 0; i < categories.Categories.Count(); i++)
+                for (var i = 0; i < categories.Categories.Count(); i++)
                 {
                     AssertAreEqualCategories(
                         expectedCategories.Categories.ElementAt(i),
@@ -72,14 +72,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
         /// <param name="actualProbability">The actual probability.</param>
         public static void AssertAreEqualProbabilities(Probability expectedProbability, Probability actualProbability)
         {
-            try
-            {
-                Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
-            }
-            catch (AssertionException)
-            {
-                throw new AssertionException("Probabilities were not equal." + Environment.NewLine + " Expected value: {expectedProbability} (1/{expectedProbability.ReturnPeriod})\n Actual value: {actualProbability} (1/{actualProbability.ReturnPeriod})" + Environment.NewLine);
-            }
+            Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
         }
 
         private static void AssertAreEqualCategories<TCategory>(CategoryLimits<TCategory> expectedCategory,

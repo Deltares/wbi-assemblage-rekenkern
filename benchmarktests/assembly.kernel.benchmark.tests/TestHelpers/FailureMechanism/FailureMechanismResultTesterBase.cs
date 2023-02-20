@@ -49,13 +49,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                                    ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                    CategoriesList<InterpretationCategory> interpretationCategories)
         {
+            if (expectedFailureMechanismResult == null || interpretationCategories == null)
+            {
+                throw new ArgumentNullException();
+            }
+            
             ExpectedFailureMechanismResult = expectedFailureMechanismResult;
             MethodResults = methodResults;
             InterpretationCategories = interpretationCategories;
-            if (ExpectedFailureMechanismResult == null || InterpretationCategories == null)
-            {
-                throw new ArgumentException();
-            }
         }
 
         /// <summary>
@@ -74,8 +75,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             {
                 foreach (DictionaryEntry entry in e.Data)
                 {
-                    Console.WriteLine("{0}: Gecombineerde faalkans per vak - vaknaam '{1}' : {2}", ExpectedFailureMechanismResult.Name,
-                                      entry.Key, ((AssertionException) entry.Value).Message);
+                    Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Gecombineerde faalkans per vak - vaknaam '{entry.Key}' " +
+                                      $": {((AssertionException) entry.Value).Message}");
                 }
 
                 SetCombinedAssessmentMethodResult(false);
@@ -97,8 +98,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (AssertionException e)
             {
-                Console.WriteLine("{0}: Faalkans per traject - {1}", ExpectedFailureMechanismResult.Name,
-                                  e.Message);
+                Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Faalkans per traject - {e.Message}");
                 SetAssessmentSectionMethodResult(false);
                 return false;
             }
@@ -118,8 +118,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             }
             catch (AssertionException e)
             {
-                Console.WriteLine("{0}: Voorlopig toetsoordeel per traject - {1}", ExpectedFailureMechanismResult.Name,
-                                  e.Message);
+                Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Voorlopig toetsoordeel per traject - {e.Message}");
                 SetAssessmentSectionMethodResultPartial(false);
                 return false;
             }
@@ -137,7 +136,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected virtual void TestAssessmentSectionResultPartialInternal() {}
 
-        protected EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
+        protected static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance,
+                                                         ERefinementStatus refinementStatus)
         {
             if (relevance == ESectionInitialMechanismProbabilitySpecification.NotRelevant)
             {
