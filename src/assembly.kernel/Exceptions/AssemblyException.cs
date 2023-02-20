@@ -22,12 +22,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
     /// Exception that is thrown when performing an assembly has failed.
     /// </summary>
+    [Serializable]
     public class AssemblyException : Exception
     {
         /// <summary>
@@ -56,6 +58,20 @@ namespace Assembly.Kernel.Exceptions
 
             Errors = errorMessages;
         }
+        
+        /// <summary>
+        /// Creates a new instance of <see cref="AssemblyFactoryException"/> with
+        /// serialized data.</summary>
+        /// <param name="info">The <see cref="SerializationInfo"/> that holds the serialized
+        /// object data about the exception being thrown.</param>
+        /// <param name="context">The <see cref="StreamingContext"/> that contains contextual
+        /// information about the source or destination.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="info"/> parameter is
+        /// <c>null</c>.</exception>
+        /// <exception cref="SerializationException">The class name is <c>null</c> or
+        /// <see cref="Exception.HResult" /> is zero (0).</exception>
+        protected AssemblyException(SerializationInfo info, StreamingContext context) 
+            : base(info, context) {}
 
         /// <summary>
         /// Gets the exception message.
