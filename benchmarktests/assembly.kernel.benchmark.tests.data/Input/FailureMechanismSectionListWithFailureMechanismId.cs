@@ -38,6 +38,5 @@ namespace assembly.kernel.benchmark.tests.data.Input
         /// ID of the failure mechanism.
         /// </summary>
         public string FailureMechanismId { get; }
-
     }
 }

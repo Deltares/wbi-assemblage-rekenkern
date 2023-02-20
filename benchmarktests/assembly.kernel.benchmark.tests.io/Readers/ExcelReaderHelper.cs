@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="column">The column that contains the keywords.</param>
         /// <param name="maxRow">The last row to include in the dictionary.</param>
         /// <returns>The created dictionary.</returns>
-        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart,string column, int maxRow)
+        public static Dictionary<string, int> ReadKeywordsDictionary(WorksheetPart worksheetPart, WorkbookPart workbookPart, string column, int maxRow)
         {
             var dict = new Dictionary<string, int>();
 

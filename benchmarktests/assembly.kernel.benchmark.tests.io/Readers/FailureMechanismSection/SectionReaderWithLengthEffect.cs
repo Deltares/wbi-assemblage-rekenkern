@@ -36,9 +36,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="worksheetPart">Required <see cref="WorksheetPart"/>.</param>
         /// <param name="workbookPart">Required <see cref="WorkbookPart"/>.</param>
-        public SectionReaderWithLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart,workbookPart,"B")
-        {
-        }
+        public SectionReaderWithLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Read the section on a specific row.
@@ -61,20 +59,20 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
             EInterpretationCategory expectedInterpretationCategory = GetCellValueAsString("O", iRow).ToInterpretationCategory();
 
             var eRefinementStatus = !refinedAnalysisNecessary ? ERefinementStatus.NotNecessary :
-                double.IsNaN(refinedProbabilityProfile) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
+                                    double.IsNaN(refinedProbabilityProfile) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
 
-            return new ExpectedFailureMechanismSectionWithLengthEffect(sectionName, 
-                startMeters, 
-                endMeters, 
-                isRelevant,
-                probabilityInitialMechanismProfile, 
-                probabilityInitialMechanismSection,
-                eRefinementStatus,
-                refinedProbabilityProfile,
-                refinedProbabilitySection,
-                expectedCombinedProbabilityProfile,
-                expectedCombinedProbabilitySection, 
-                expectedInterpretationCategory);
+            return new ExpectedFailureMechanismSectionWithLengthEffect(sectionName,
+                                                                       startMeters,
+                                                                       endMeters,
+                                                                       isRelevant,
+                                                                       probabilityInitialMechanismProfile,
+                                                                       probabilityInitialMechanismSection,
+                                                                       eRefinementStatus,
+                                                                       refinedProbabilityProfile,
+                                                                       refinedProbabilitySection,
+                                                                       expectedCombinedProbabilityProfile,
+                                                                       expectedCombinedProbabilitySection,
+                                                                       expectedInterpretationCategory);
         }
     }
 }

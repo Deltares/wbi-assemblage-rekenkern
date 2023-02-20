@@ -40,10 +40,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers
         public static bool? GetUpdatedMethodResult(bool? currentResult, bool? newResult)
         {
             return !newResult.HasValue
-                ? currentResult
-                : currentResult.HasValue
-                    ? currentResult.Value && newResult.Value
-                    : newResult;
+                       ? currentResult
+                       : currentResult.HasValue
+                           ? currentResult.Value && newResult.Value
+                           : newResult;
         }
 
         /// <summary>

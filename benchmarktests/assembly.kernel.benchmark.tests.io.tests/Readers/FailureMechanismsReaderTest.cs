@@ -52,7 +52,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbability,1e-4);
+                Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
                 Assert.AreEqual(6.07E-02, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
             }
         }

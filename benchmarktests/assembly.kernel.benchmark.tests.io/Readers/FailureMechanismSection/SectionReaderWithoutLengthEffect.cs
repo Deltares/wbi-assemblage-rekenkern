@@ -36,9 +36,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="worksheetPart">Required <see cref="WorksheetPart"/>.</param>
         /// <param name="workbookPart">Required <see cref="WorkbookPart"/>.</param>
-        public SectionReaderWithoutLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B")
-        {
-        }
+        public SectionReaderWithoutLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Read the section on a specific row.
@@ -58,17 +56,17 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
             EInterpretationCategory expectedInterpretationCategory = GetCellValueAsString("K", iRow).ToInterpretationCategory();
 
             var eRefinementStatus = !refinedAnalysisNecessary ? ERefinementStatus.NotNecessary :
-                double.IsNaN(refinedProbabilitySection) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
+                                    double.IsNaN(refinedProbabilitySection) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
 
             return new ExpectedFailureMechanismSection(sectionName,
-                startMeters,
-                endMeters,
-                isRelevant,
-                probabilityInitialMechanismSection,
-                eRefinementStatus,
-                refinedProbabilitySection,
-                expectedCombinedProbabilitySection,
-                expectedInterpretationCategory);
+                                                       startMeters,
+                                                       endMeters,
+                                                       isRelevant,
+                                                       probabilityInitialMechanismSection,
+                                                       eRefinementStatus,
+                                                       refinedProbabilitySection,
+                                                       expectedCombinedProbabilitySection,
+                                                       expectedInterpretationCategory);
         }
     }
 }

@@ -51,8 +51,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         public ISectionReader<IExpectedFailureMechanismSection> CreateReader(bool hasLengthEffectWithinSection)
         {
             return hasLengthEffectWithinSection
-                ? new SectionReaderWithLengthEffect(worksheetPart, workbookPart) as ISectionReader<IExpectedFailureMechanismSection>
-                : new SectionReaderWithoutLengthEffect(worksheetPart, workbookPart);
+                       ? new SectionReaderWithLengthEffect(worksheetPart, workbookPart) as ISectionReader<IExpectedFailureMechanismSection>
+                       : new SectionReaderWithoutLengthEffect(worksheetPart, workbookPart);
         }
     }
 }

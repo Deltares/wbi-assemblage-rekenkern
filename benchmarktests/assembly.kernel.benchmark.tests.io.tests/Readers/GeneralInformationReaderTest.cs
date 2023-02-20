@@ -73,7 +73,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         private void AssertAreEqualGradeCategories(EAssessmentGrade expectedCategory, double expectedLowerLimit,
-                                              double expectedUpperLimit, AssessmentSectionCategory assessmentSectionCategory)
+                                                   double expectedUpperLimit, AssessmentSectionCategory assessmentSectionCategory)
         {
             Assert.AreEqual(expectedCategory, assessmentSectionCategory.Category);
             Assert.AreEqual(expectedLowerLimit, assessmentSectionCategory.LowerLimit, 1e-15);
@@ -81,7 +81,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         private void AssertAreEqualInterpretationCategories(EInterpretationCategory expectedCategory, double expectedLowerLimit,
-            double expectedUpperLimit, InterpretationCategory interpretationCategory)
+                                                            double expectedUpperLimit, InterpretationCategory interpretationCategory)
         {
             Assert.AreEqual(expectedCategory, interpretationCategory.Category);
             Assert.AreEqual(expectedLowerLimit, interpretationCategory.LowerLimit, 1e-15);

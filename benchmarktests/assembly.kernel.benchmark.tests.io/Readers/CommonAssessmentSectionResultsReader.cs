@@ -76,7 +76,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections.</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet.</param>
         public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
-            worksheetPart, workbookPart,"B") {}
+            worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Reads the input and expected output of assembly of the combined section results.
@@ -114,7 +114,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism.AddRange(
                 failureMechanismSpecificCommonSectionsWithResults.Select(kv =>
-                    new FailureMechanismSectionListWithFailureMechanismId(kv.Key, kv.Value)));
+                                                                             new FailureMechanismSectionListWithFailureMechanismId(kv.Key, kv.Value)));
         }
 
         private void AddSectionToList(List<FailureMechanismSectionWithCategory> list, string columnReference, int iRow,
@@ -130,8 +130,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 var type = GetCellValueAsString(columnString, CommonSectionsHeaderRowId);
                 dict[type] = columnString;
-
             }
+
             return dict;
         }
     }

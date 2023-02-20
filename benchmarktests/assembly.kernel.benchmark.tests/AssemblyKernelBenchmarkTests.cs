@@ -39,23 +39,6 @@ namespace assembly.kernel.benchmark.tests
         private string summaryTargetFileName;
         private IDictionary<string, BenchmarkTestResult> testResults;
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
-        {
-            reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
-            summaryTargetFileName = Path.Combine(reportDirectory, nameOfSummaryTex);
-            CreateOrCleanReportDirectory();
-            
-            testResults = new Dictionary<string, BenchmarkTestResult>();
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            BenchmarkTestReportWriter.WriteReports(testResults.Select(tr => tr.Value), reportDirectory);
-            BenchmarkTestReportWriter.WriteSummary(summaryTargetFileName, testResults);
-        }
-
         [Test]
         [TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
         public void RunBenchmarkTest(string testName, string fileName)
@@ -78,6 +61,23 @@ namespace assembly.kernel.benchmark.tests
             testResults.Add(testName, testResult);
         }
 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
+            summaryTargetFileName = Path.Combine(reportDirectory, nameOfSummaryTex);
+            CreateOrCleanReportDirectory();
+
+            testResults = new Dictionary<string, BenchmarkTestResult>();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            BenchmarkTestReportWriter.WriteReports(testResults.Select(tr => tr.Value), reportDirectory);
+            BenchmarkTestReportWriter.WriteSummary(summaryTargetFileName, testResults);
+        }
+
         private void CreateOrCleanReportDirectory()
         {
             if (!Directory.Exists(reportDirectory))
@@ -87,7 +87,7 @@ namespace assembly.kernel.benchmark.tests
             }
 
             var directoryInfo = new DirectoryInfo(reportDirectory);
-            
+
             foreach (FileInfo file in directoryInfo.GetFiles())
             {
                 file.Delete();

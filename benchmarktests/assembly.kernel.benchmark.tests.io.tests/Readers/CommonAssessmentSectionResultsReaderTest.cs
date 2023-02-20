@@ -40,13 +40,27 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         private readonly Dictionary<string, EInterpretationCategory> expectedDirectResults =
             new Dictionary<string, EInterpretationCategory>
             {
-                {"STPH", EInterpretationCategory.I},
-                {"STBI", EInterpretationCategory.III},
-                {"GEKB", EInterpretationCategory.II},
-                {"DA", EInterpretationCategory.III},
-                {"STKWp", EInterpretationCategory.III},
-                {"BSKW", EInterpretationCategory.III},
-                {"HTKW", EInterpretationCategory.III}
+                {
+                    "STPH", EInterpretationCategory.I
+                },
+                {
+                    "STBI", EInterpretationCategory.III
+                },
+                {
+                    "GEKB", EInterpretationCategory.II
+                },
+                {
+                    "DA", EInterpretationCategory.III
+                },
+                {
+                    "STKWp", EInterpretationCategory.III
+                },
+                {
+                    "BSKW", EInterpretationCategory.III
+                },
+                {
+                    "HTKW", EInterpretationCategory.III
+                }
             };
 
         [Test]
@@ -78,7 +92,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 Assert.AreEqual(104, result.ExpectedCombinedSectionResult.Count());
                 AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResult.ElementAt(9));
-                AssertResultsIsAsExpected(2519.652041,  3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(18));
+                AssertResultsIsAsExpected(2519.652041, 3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(18));
                 AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResult.ElementAt(19));
 
                 AssertResultsIsAsExpected(342.187662, 910, EInterpretationCategory.III, result.ExpectedCombinedSectionResultPartial.ElementAt(9));
@@ -101,7 +115,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         }
 
         private static void AssertResultsIsAsExpected(double start, double end, EInterpretationCategory category,
-                                               FailureMechanismSectionWithCategory section)
+                                                      FailureMechanismSectionWithCategory section)
         {
             Assert.AreEqual(start, section.Start, MaximumAllowedSmallLengthDifference);
             Assert.AreEqual(end, section.End, MaximumAllowedSmallLengthDifference);

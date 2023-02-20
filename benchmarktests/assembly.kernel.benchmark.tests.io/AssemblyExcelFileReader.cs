@@ -49,7 +49,10 @@ namespace assembly.kernel.benchmark.tests.io
 
                 var tabsToIgnore = new[]
                 {
-                    "Informatiepagina", "Normen en duidingsklassen", "Veiligheidsoordeel", "Gecombineerd vakoordeel"
+                    "Informatiepagina",
+                    "Normen en duidingsklassen",
+                    "Veiligheidsoordeel",
+                    "Gecombineerd vakoordeel"
                 };
                 var failureMechanismsTabs = workSheetParts.Select(wsp => wsp.Key).Except(tabsToIgnore).ToArray();
 

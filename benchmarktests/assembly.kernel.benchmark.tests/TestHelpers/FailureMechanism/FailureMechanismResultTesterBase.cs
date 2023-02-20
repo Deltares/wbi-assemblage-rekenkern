@@ -46,8 +46,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         /// <param name="interpretationCategories">The interpretation categories needed as input for the calculations.</param>
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
-            ExpectedFailureMechanismResult expectedFailureMechanismResult,
-            CategoriesList<InterpretationCategory> interpretationCategories)
+                                                   ExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                   CategoriesList<InterpretationCategory> interpretationCategories)
         {
             ExpectedFailureMechanismResult = expectedFailureMechanismResult;
             MethodResults = methodResults;
@@ -75,8 +75,9 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 foreach (DictionaryEntry entry in e.Data)
                 {
                     Console.WriteLine("{0}: Gecombineerde faalkans per vak - vaknaam '{1}' : {2}", ExpectedFailureMechanismResult.Name,
-                        entry.Key,((AssertionException)entry.Value).Message);
+                                      entry.Key, ((AssertionException) entry.Value).Message);
                 }
+
                 SetCombinedAssessmentMethodResult(false);
                 return false;
             }
@@ -126,15 +127,15 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
         protected abstract void SetCombinedAssessmentMethodResult(bool result);
 
-        protected virtual void TestCombinedAssessmentInternal() { }
+        protected virtual void TestCombinedAssessmentInternal() {}
 
         protected abstract void SetAssessmentSectionMethodResult(bool result);
 
-        protected virtual void TestAssessmentSectionResultInternal() { }
+        protected virtual void TestAssessmentSectionResultInternal() {}
 
         protected abstract void SetAssessmentSectionMethodResultPartial(bool result);
 
-        protected virtual void TestAssessmentSectionResultPartialInternal() { }
+        protected virtual void TestAssessmentSectionResultPartialInternal() {}
 
         protected EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance, ERefinementStatus refinementStatus)
         {
@@ -147,14 +148,14 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
             {
                 case ERefinementStatus.NotNecessary:
                     return relevance == ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                        ? EAnalysisState.NoProbabilityEstimationNecessary
-                        : EAnalysisState.ProbabilityEstimated;
+                               ? EAnalysisState.NoProbabilityEstimationNecessary
+                               : EAnalysisState.ProbabilityEstimated;
                 case ERefinementStatus.Necessary:
                     return EAnalysisState.ProbabilityEstimationNecessary;
                 case ERefinementStatus.Performed:
                     return EAnalysisState.ProbabilityEstimated;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int)refinementStatus, typeof(ERefinementStatus));
+                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int) refinementStatus, typeof(ERefinementStatus));
             }
         }
     }

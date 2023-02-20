@@ -46,9 +46,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
         private bool? boi0D2TestResult;
 
         /// <inheritdoc />
-        public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults, ExpectedFailureMechanismResult expectedFailureMechanismResult, CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories)
-        {
-        }
+        public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults, ExpectedFailureMechanismResult expectedFailureMechanismResult, CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
         {
@@ -79,10 +77,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                             section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
 
                     var relevance = section.IsRelevant
-                        ? double.IsNaN(section.InitialMechanismProbabilitySection)
-                            ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                            : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
-                        : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+                                        ? double.IsNaN(section.InitialMechanismProbabilitySection)
+                                              ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                                              : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification
+                                        : ESectionInitialMechanismProbabilitySpecification.NotRelevant;
                     var refinementStatus = section.RefinementStatus;
                     ResultWithProfileAndSectionProbabilities probabilitiesResult;
                     EInterpretationCategory category;
@@ -91,10 +89,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
                         probabilitiesResult = assembler.DetermineRepresentativeProbabilitiesBoi0A2(refinementStatus == ERefinementStatus.Performed,
-                            section.InitialMechanismProbabilityProfile,
-                            section.InitialMechanismProbabilitySection,
-                            section.RefinedProbabilityProfile,
-                            section.RefinedProbabilitySection);
+                                                                                                   section.InitialMechanismProbabilityProfile,
+                                                                                                   section.InitialMechanismProbabilitySection,
+                                                                                                   section.RefinedProbabilityProfile,
+                                                                                                   section.RefinedProbabilitySection);
                         category = assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                             probabilitiesResult.ProbabilitySection, InterpretationCategories);
                     }
@@ -129,7 +127,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
 
                     try
                     {
-                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilityProfile, probabilitiesResult.ProbabilityProfile); 
+                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilityProfile, probabilitiesResult.ProbabilityProfile);
                         AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, probabilitiesResult.ProbabilitySection);
                         Assert.AreEqual(section.ExpectedInterpretationCategory, category);
                         if (analysisState == EAnalysisState.ProbabilityEstimated)
@@ -184,10 +182,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                     result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                         ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                            .Select(s =>
-                                new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
-                                                                             s.ExpectedCombinedProbabilitySection))
-                            .ToArray(),
+                                                      .Select(s =>
+                                                                  new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
+                                                                                                               s.ExpectedCombinedProbabilitySection))
+                                                      .ToArray(),
                         false);
                 }
                 catch (AssemblyException e)
@@ -214,10 +212,10 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                 var result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
                     ExpectedFailureMechanismResult.LengthEffectFactor,
                     ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                        .Select(s =>
-                            new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
-                                                                         s.ExpectedCombinedProbabilitySection))
-                        .ToArray(),
+                                                  .Select(s =>
+                                                              new ResultWithProfileAndSectionProbabilities(s.ExpectedCombinedProbabilityProfile,
+                                                                                                           s.ExpectedCombinedProbabilitySection))
+                                                  .ToArray(),
                     true);
 
                 AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);

@@ -55,9 +55,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 var expectedAssessmentGrade = GetCellValueAsString("D", iRow).ToExpectedAssessmentGrade();
                 assessmentGradeCategories.Add(new AssessmentSectionCategory(
-                             expectedAssessmentGrade.ToEAssessmentGrade(),
-                             new Probability(GetCellValueAsDouble("F", iRow)),
-                             new Probability(GetCellValueAsDouble("E", iRow))));
+                                                  expectedAssessmentGrade.ToEAssessmentGrade(),
+                                                  new Probability(GetCellValueAsDouble("F", iRow)),
+                                                  new Probability(GetCellValueAsDouble("E", iRow))));
             }
 
             benchmarkTestInput.ExpectedAssessmentSectionCategories =
@@ -69,15 +69,14 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             {
                 var newBoundary = new Probability(GetCellValueAsDouble("E", iRow));
                 interpretationCategories.Add(new InterpretationCategory(
-                    GetCellValueAsString("D", iRow).ToInterpretationCategory(),
-                    lastKnownBoundary,
-                    newBoundary));
+                                                 GetCellValueAsString("D", iRow).ToInterpretationCategory(),
+                                                 lastKnownBoundary,
+                                                 newBoundary));
                 lastKnownBoundary = newBoundary;
             }
 
             benchmarkTestInput.ExpectedInterpretationCategories =
                 new CategoriesList<InterpretationCategory>(interpretationCategories);
-
         }
     }
 }

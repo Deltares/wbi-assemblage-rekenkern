@@ -48,16 +48,6 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         public string SectionName { get; }
 
         /// <summary>
-        /// Start of the section along the assessment section (in meters).
-        /// </summary>
-        public double Start { get; }
-
-        /// <summary>
-        /// End of the section along the assessment section (in meters).
-        /// </summary>
-        public double End { get; }
-
-        /// <summary>
         /// Indicates whether the specific failure mechanism is relevant along this section.
         /// </summary>
         public bool IsRelevant { get; }
@@ -86,5 +76,15 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections
         /// The expected interpretation category of the section.
         /// </summary>
         public EInterpretationCategory ExpectedInterpretationCategory { get; }
+
+        /// <summary>
+        /// Start of the section along the assessment section (in meters).
+        /// </summary>
+        public double Start { get; }
+
+        /// <summary>
+        /// End of the section along the assessment section (in meters).
+        /// </summary>
+        public double End { get; }
     }
 }

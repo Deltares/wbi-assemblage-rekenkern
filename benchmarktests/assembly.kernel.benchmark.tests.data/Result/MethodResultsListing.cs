@@ -40,22 +40,22 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool? Boi0A1 { get; set; }
-        
+
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool? Boi0A2 { get; set; }
-        
+
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool? Boi0B1 { get; set; }
-        
+
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool? Boi0C1 { get; set; }
-        
+
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
@@ -125,6 +125,5 @@ namespace assembly.kernel.benchmark.tests.data.Result
         /// Indicates whether all tests went positive (true) or one or more tests failed (false).
         /// </summary>
         public bool Boi3C1P { get; set; }
-
     }
 }

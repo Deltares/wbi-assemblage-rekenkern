@@ -48,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 reader.Read(result);
 
                 var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
-                Assert.AreEqual(0.64, assemblyResult.CombinedProbability,1e-2);
+                Assert.AreEqual(0.64, assemblyResult.CombinedProbability, 1e-2);
                 Assert.AreEqual(0.64, assemblyResult.CombinedProbabilityPartial, 1e-2);
                 Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.CombinedAssessmentGrade);
                 Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.CombinedAssessmentGradePartial);

@@ -88,6 +88,5 @@ namespace assembly.kernel.benchmark.tests.data.Input.FailureMechanisms
         /// Length-effect factor for this failure mechanism.
         /// </summary>
         public double LengthEffectFactor { get; set; }
-
     }
 }
