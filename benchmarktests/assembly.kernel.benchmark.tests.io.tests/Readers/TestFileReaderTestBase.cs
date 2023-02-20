@@ -39,7 +39,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         /// Find the location of the test-data.
         /// </summary>
         /// <returns>Location of the test-data folder.</returns>
-        protected string GetTestDir()
+        protected static string GetTestDir()
         {
             return Path.Combine(GetSolutionRoot(), "benchmarktests", "assembly.kernel.benchmark.tests.io.tests", "test-data");
         }
@@ -53,9 +53,9 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         {
             var workSheetParts = new Dictionary<string, WorksheetPart>();
 
-            foreach (var worksheetPart in workbookPart.WorksheetParts)
+            foreach (WorksheetPart worksheetPart in workbookPart.WorksheetParts)
             {
-                var sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
+                Sheet sheet = GetSheetFromWorkSheet(workbookPart, worksheetPart);
                 workSheetParts[sheet.Name] = worksheetPart;
             }
 
@@ -81,8 +81,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
             return Path.GetFullPath(curDir);
         }
 
-        private static Sheet GetSheetFromWorkSheet
-            (WorkbookPart workbookPart, WorksheetPart worksheetPart)
+        private static Sheet GetSheetFromWorkSheet(WorkbookPart workbookPart, OpenXmlPart worksheetPart)
         {
             string relationshipId = workbookPart.GetIdOfPart(worksheetPart);
             IEnumerable<Sheet> sheets = workbookPart.Workbook.Sheets.Elements<Sheet>();

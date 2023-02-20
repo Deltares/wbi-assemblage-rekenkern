@@ -66,13 +66,13 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeel.xlsx");
+            string testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Gecombineerd vakoordeel"];
+                Dictionary<string, WorksheetPart> workSheetParts = ReadWorkSheetParts(workbookPart);
+                WorksheetPart workSheetPart = workSheetParts["Gecombineerd vakoordeel"];
 
                 var reader = new CommonAssessmentSectionResultsReader(workSheetPart, workbookPart);
 
@@ -99,15 +99,14 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
                 AssertResultsIsAsExpected(2519.652041, 3010, EInterpretationCategory.I, result.ExpectedCombinedSectionResultPartial.ElementAt(18));
                 AssertResultsIsAsExpected(3010, 3313.767881, EInterpretationCategory.I, result.ExpectedCombinedSectionResultPartial.ElementAt(19));
 
-                Assert.AreEqual(7, result.ExpectedCombinedSectionResultPerFailureMechanism.Count());
-                foreach (var failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
+                Assert.AreEqual(7, result.ExpectedCombinedSectionResultPerFailureMechanism.Count);
+                foreach (FailureMechanismSectionListWithFailureMechanismId failureMechanismSectionList in result.ExpectedCombinedSectionResultPerFailureMechanism)
                 {
                     Assert.AreEqual(104, failureMechanismSectionList.Sections.Count());
                     FailureMechanismSection fourteenthSection = failureMechanismSectionList.Sections.ElementAt(13);
-                    var mechanismId = failureMechanismSectionList.FailureMechanismId;
-                    if (fourteenthSection is FailureMechanismSectionWithCategory)
+                    string mechanismId = failureMechanismSectionList.FailureMechanismId;
+                    if (fourteenthSection is FailureMechanismSectionWithCategory sectionWithCategory)
                     {
-                        var sectionWithCategory = (FailureMechanismSectionWithCategory) fourteenthSection;
                         AssertResultsIsAsExpected(1440, 1545.093896, expectedDirectResults[mechanismId], sectionWithCategory);
                     }
                 }

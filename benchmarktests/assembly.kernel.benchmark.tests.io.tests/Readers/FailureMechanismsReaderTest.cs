@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Input;
@@ -35,12 +36,12 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsFailureMechanismWithLengthEffectInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism with length-effect.xlsx");
+            string testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism with length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Sheet1"];
+                Dictionary<string, WorksheetPart> workSheetParts = ReadWorkSheetParts(workbookPart);
+                WorksheetPart workSheetPart = workSheetParts["Sheet1"];
 
                 var reader = new FailureMechanismsReader(workSheetPart, workbookPart);
 
@@ -60,12 +61,12 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsFailureMechanismWithoutLengthEffectInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism without length-effect.xlsx");
+            string testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism without length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Sheet1"];
+                Dictionary<string, WorksheetPart> workSheetParts = ReadWorkSheetParts(workbookPart);
+                WorksheetPart workSheetPart = workSheetParts["Sheet1"];
 
                 var reader = new FailureMechanismsReader(workSheetPart, workbookPart);
 

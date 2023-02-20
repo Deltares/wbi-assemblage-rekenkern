@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System.Collections.Generic;
 using System.IO;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.Readers;
@@ -33,13 +34,13 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            var testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Veiligheidsoordeel.xlsx");
+            string testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Veiligheidsoordeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                var workSheetParts = ReadWorkSheetParts(workbookPart);
-                var workSheetPart = workSheetParts["Veiligheidsoordeel"];
+                Dictionary<string, WorksheetPart> workSheetParts = ReadWorkSheetParts(workbookPart);
+                WorksheetPart workSheetPart = workSheetParts["Veiligheidsoordeel"];
 
                 var reader = new SafetyAssessmentFinalResultReader(workSheetPart, workbookPart);
 
@@ -47,7 +48,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
 
                 reader.Read(result);
 
-                var assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
+                ExpectedSafetyAssessmentAssemblyResult assemblyResult = result.ExpectedSafetyAssessmentAssemblyResult;
                 Assert.AreEqual(0.64, assemblyResult.CombinedProbability, 1e-2);
                 Assert.AreEqual(0.64, assemblyResult.CombinedProbabilityPartial, 1e-2);
                 Assert.AreEqual(EExpectedAssessmentGrade.APlus, assemblyResult.CombinedAssessmentGrade);

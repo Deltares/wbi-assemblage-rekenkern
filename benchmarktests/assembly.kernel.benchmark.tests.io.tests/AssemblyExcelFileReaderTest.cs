@@ -20,6 +20,7 @@
 // All rights reserved.
 
 using System.IO;
+using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.io.tests.Readers;
 using NUnit.Framework;
 
@@ -31,8 +32,8 @@ namespace assembly.kernel.benchmark.tests.io.tests
         [Test]
         public void ReaderReads()
         {
-            var fileName = Path.Combine(GetTestDir(), "Benchmartktest - voorbeeld - 83-1.xlsx");
-            var result = AssemblyExcelFileReader.Read(fileName);
+            string fileName = Path.Combine(GetTestDir(), "Benchmartktest - voorbeeld - 83-1.xlsx");
+            BenchmarkTestInput result = AssemblyExcelFileReader.Read(fileName);
             Assert.IsNotNull(result);
         }
     }
