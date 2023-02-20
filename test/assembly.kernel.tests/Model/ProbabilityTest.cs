@@ -20,6 +20,7 @@
 // All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
@@ -687,12 +688,7 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        [TestCase(1.0, 1.0, 0)]
-        [TestCase(1.0, 0.000009, 1)]
-        [TestCase(0.000009, 1.0, -1)]
-        [TestCase(double.NaN, 1.0, -1)]
-        [TestCase(1.0, double.NaN, 1)]
-        [TestCase(double.NaN, double.NaN, 0)]
+        [TestCaseSource(nameof(GetCompareToCases))]
         public void CompareTo_ProbabilityToDouble_ReturnsExpectedResult(
             double probabilityValue, double value, int expectedProbabilityIndex)
         {
@@ -709,12 +705,22 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        [TestCase(1.0, 1.0, 0)]
-        [TestCase(1.0, 0.000009, 1)]
-        [TestCase(0.000009, 1.0, -1)]
-        [TestCase(double.NaN, 1.0, -1)]
-        [TestCase(1.0, double.NaN, 1)]
-        [TestCase(double.NaN, double.NaN, 0)]
+        [TestCaseSource(nameof(GetCompareToCases))]
+        public void CompareTo_ProbabilityToToImplicitDouble_ReturnsExpectedResult(
+            double probabilityValue, double value, int expectedProbabilityIndex)
+        {
+            // Setup
+            var probability = new Probability(probabilityValue);
+
+            // Call
+            int probabilityResult = probability.CompareTo((object) value);
+
+            // Assert
+            Assert.AreEqual(expectedProbabilityIndex, probabilityResult);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCompareToCases))]
         public void CompareTo_ProbabilityToProbability_ReturnsExpectedResult(
             double probabilityValue1, double probabilityValue2, int expectedProbabilityIndex)
         {
@@ -725,6 +731,24 @@ namespace Assembly.Kernel.Tests.Model
             // Call
             int probabilityResult1 = probability1.CompareTo(probability2);
             int probabilityResult2 = probability2.CompareTo(probability1);
+
+            // Assert
+            Assert.AreEqual(expectedProbabilityIndex, probabilityResult1);
+            Assert.AreEqual(-1 * expectedProbabilityIndex, probabilityResult2);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCompareToCases))]
+        public void CompareTo_ProbabilityToImplicitProbability_ReturnsExpectedResult(
+            double probabilityValue1, double probabilityValue2, int expectedProbabilityIndex)
+        {
+            // Setup
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+
+            // Call
+            int probabilityResult1 = probability1.CompareTo((object) probability2);
+            int probabilityResult2 = probability2.CompareTo((object) probability1);
 
             // Assert
             Assert.AreEqual(expectedProbabilityIndex, probabilityResult1);
@@ -864,6 +888,16 @@ namespace Assembly.Kernel.Tests.Model
 
             // Assert
             Assert.AreEqual(hash1, hash2);
+        }
+
+        private static IEnumerable<TestCaseData> GetCompareToCases()
+        {
+            yield return new TestCaseData(1.0, 1.0, 0);
+            yield return new TestCaseData(1.0, 0.000009, 1);
+            yield return new TestCaseData(0.000009, 1.0, -1);
+            yield return new TestCaseData(double.NaN, 1.0, -1);
+            yield return new TestCaseData(1.0, double.NaN, 1);
+            yield return new TestCaseData(double.NaN, double.NaN, 0);
         }
     }
 }
