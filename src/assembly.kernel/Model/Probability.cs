@@ -218,39 +218,6 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Specifies the &lt;= operator.
-        /// </summary>
-        /// <param name="left">The probability on the left side of the sign.</param>
-        /// <param name="right">The probability on the right side of the sign.</param>
-        /// <returns>Whether left is equal to or $lt; right.</returns>
-        public static bool operator <=(Probability left, Probability right)
-        {
-            return left.value <= right.value;
-        }
-
-        /// <summary>
-        /// Specifies the > operator.
-        /// </summary>
-        /// <param name="left">The probability on the left side of the sign.</param>
-        /// <param name="right">The probability on the right side of the sign.</param>
-        /// <returns>Whether left $gt; right.</returns>
-        public static bool operator >(Probability left, Probability right)
-        {
-            return left.value > right.value;
-        }
-
-        /// <summary>
-        /// Specifies the >= operator.
-        /// </summary>
-        /// <param name="left">The probability on the left side of the sign.</param>
-        /// <param name="right">The probability on the right side of the sign.</param>
-        /// <returns>Whether left is equal to or $gt; right.</returns>
-        public static bool operator >=(Probability left, Probability right)
-        {
-            return left.value >= right.value;
-        }
-
-        /// <summary>
         /// Specifies the $lt; operator.
         /// </summary>
         /// <param name="left">The probability on the left side of the sign.</param>
@@ -259,6 +226,17 @@ namespace Assembly.Kernel.Model
         public static bool operator <(Probability left, double right)
         {
             return left.value < right;
+        }
+
+        /// <summary>
+        /// Specifies the &lt;= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $lt; right.</returns>
+        public static bool operator <=(Probability left, Probability right)
+        {
+            return left.value <= right.value;
         }
 
         /// <summary>
@@ -278,9 +256,31 @@ namespace Assembly.Kernel.Model
         /// <param name="left">The probability on the left side of the sign.</param>
         /// <param name="right">The probability on the right side of the sign.</param>
         /// <returns>Whether left $gt; right.</returns>
+        public static bool operator >(Probability left, Probability right)
+        {
+            return left.value > right.value;
+        }
+
+        /// <summary>
+        /// Specifies the > operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left $gt; right.</returns>
         public static bool operator >(Probability left, double right)
         {
             return left.value > right;
+        }
+
+        /// <summary>
+        /// Specifies the >= operator.
+        /// </summary>
+        /// <param name="left">The probability on the left side of the sign.</param>
+        /// <param name="right">The probability on the right side of the sign.</param>
+        /// <returns>Whether left is equal to or $gt; right.</returns>
+        public static bool operator >=(Probability left, Probability right)
+        {
+            return left.value >= right.value;
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Assembly.Kernel.Model
         {
             return left.value >= right;
         }
-        
+
         /// <summary>
         /// Facilitates implicit conversion between <see cref="Probability"/> and double.
         /// </summary>

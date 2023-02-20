@@ -160,22 +160,6 @@ namespace Assembly.Kernel.Tests.Model
             Assert.AreEqual(expectedResult, isNegligibleDifference);
         }
 
-        [TestCase(0.0002516, "1/3975")]
-        [TestCase(double.NaN, "Undefined")]
-        [TestCase(1e-101, "0")]
-        [TestCase(1 - 1e-101, "1")]
-        public void ToString_WithoutFormat_ReturnsExpectedValue(double value, string expectedString)
-        {
-            // Setup
-            var probability = new Probability(value);
-
-            // Call
-            var toString = probability.ToString();
-
-            // Assert
-            Assert.AreEqual(expectedString, toString);
-        }
-
         [Test]
         public void ToString_WithFormat_ReturnsExpectedValue()
         {
@@ -389,91 +373,390 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void OperatorsWork()
+        public void InequalityOperator_TwoEqualProbabilities_ReturnsFalse()
         {
-            const double precision = 1e-10;
+            // Setup
+            var probability1 = new Probability(0.0101);
+            var probability2 = new Probability(0.0101);
 
-            Assert.IsTrue(new Probability(0.1) == (Probability) 0.1);
-            Assert.IsFalse((Probability) 0.01 == (Probability) 0.1);
-            Assert.IsTrue((Probability) 0.01 != (Probability) 0.1);
-            Assert.IsFalse(new Probability(0.1) != (Probability) 0.1);
-            Assert.AreEqual((Probability) 0.1, (Probability) 0.2 - (Probability) 0.1);
-            Assert.AreEqual((Probability) 0.3, (Probability) 0.2 + (Probability) 0.1, precision);
-            Assert.AreEqual((Probability) 0.01, (Probability) 0.1 * (Probability) 0.1, precision);
-            Assert.AreEqual((Probability) 0.01, (Probability) 0.1 * 0.1, precision);
-            Assert.AreEqual((Probability) 0.01, 0.1 * (Probability) 0.1, precision);
-            Assert.AreEqual((Probability) 0.2, (Probability) 0.1 / (Probability) 0.5, precision);
-            Assert.AreEqual((Probability) 0.05, (Probability) 0.1 / 2.0, precision);
-            Assert.AreEqual((Probability) 0.2, 0.1 / (Probability) 0.5, precision);
-            Assert.AreEqual(0.3, (Probability) 0.3, precision);
+            // Call
+            bool isEqual1 = probability1 != probability2;
+            bool isEqual2 = probability2 != probability1;
 
-            Assert.AreEqual((Probability) 1.0, (Probability) 0.2 + (Probability) 0.9, precision);
-            Assert.AreEqual((Probability) 0.0, (Probability) 0.2 - (Probability) 0.5, precision);
-
-            Assert.IsTrue((Probability) 0.2 > (Probability) 0.1);
-            Assert.IsFalse((Probability) 0.01 > (Probability) 0.1);
-            Assert.IsTrue((Probability) 0.2 >= (Probability) 0.1);
-            Assert.IsFalse((Probability) 0.01 >= (Probability) 0.1);
-            Assert.IsTrue(new Probability(0.1) >= (Probability) 0.1);
-            Assert.IsTrue((Probability) 0.2 > 0.1);
-            Assert.IsFalse((Probability) 0.01 > 0.1);
-            Assert.IsTrue((Probability) 0.2 >= 0.1);
-            Assert.IsFalse((Probability) 0.01 >= 0.1);
-            Assert.IsTrue((Probability) 0.1 >= 0.1);
-            Assert.IsTrue(0.2 > (Probability) 0.1);
-            Assert.IsFalse(0.01 > (Probability) 0.1);
-            Assert.IsTrue(0.2 >= (Probability) 0.1);
-            Assert.IsFalse(0.01 >= (Probability) 0.1);
-            Assert.IsTrue(0.1 >= (Probability) 0.1);
-
-            Assert.IsFalse((Probability) 0.2 < (Probability) 0.1);
-            Assert.IsTrue((Probability) 0.01 < (Probability) 0.1);
-            Assert.IsFalse((Probability) 0.2 <= (Probability) 0.1);
-            Assert.IsTrue((Probability) 0.01 <= (Probability) 0.1);
-            Assert.IsTrue(new Probability(0.1) <= (Probability) 0.1);
-            Assert.IsFalse(0.2 < (Probability) 0.1);
-            Assert.IsTrue(0.01 < (Probability) 0.1);
-            Assert.IsFalse(0.2 <= (Probability) 0.1);
-            Assert.IsTrue(0.01 <= (Probability) 0.1);
-            Assert.IsTrue(0.1 <= (Probability) 0.1);
-            Assert.IsFalse((Probability) 0.2 < 0.1);
-            Assert.IsTrue((Probability) 0.01 < 0.1);
-            Assert.IsFalse((Probability) 0.2 <= 0.1);
-            Assert.IsTrue((Probability) 0.01 <= 0.1);
-            Assert.IsTrue((Probability) 0.1 <= 0.1);
+            // Assert
+            Assert.IsFalse(isEqual1);
+            Assert.IsFalse(isEqual2);
         }
 
         [Test]
-        [TestCase(10.0, "*")]
-        [TestCase(-10.0, "*")]
-        [TestCase(-1.0, "*")]
-        [TestCase(0.00001, "/")]
-        [TestCase(-0.00001, "/")]
-        [TestCase(-1.0, "/")]
-        public void OperatorThrowsOnInvalidOutcome(double factor, string operation)
+        public void InequalityOperator_TwoUnequalProbabilities_ReturnsTrue()
         {
-            Action target;
+            // Setup
+            var probability1 = new Probability(0.0101);
+            var probability2 = new Probability(0.01011);
 
-            switch (operation)
+            // Call
+            bool isEqual1 = probability1 != probability2;
+            bool isEqual2 = probability2 != probability1;
+
+            // Assert
+            Assert.IsTrue(isEqual1);
+            Assert.IsTrue(isEqual2);
+        }
+
+        [Test]
+        public void DoubleInequalityOperator_DoubleIsEqualToProbability_ReturnsFalse()
+        {
+            // Setup
+            const double probabilityValue = 0.0101;
+            var probability1 = new Probability(probabilityValue);
+
+            // Call
+            bool isEqual1 = probability1 != probabilityValue;
+            bool isEqual2 = probabilityValue != probability1;
+
+            // Assert
+            Assert.IsFalse(isEqual1);
+            Assert.IsFalse(isEqual2);
+        }
+
+        [Test]
+        public void DoubleInequalityOperator_DoubleIsUnequalToProbability_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue = 0.0101;
+            var probability1 = new Probability(0.065749);
+
+            // Call
+            bool isEqual1 = probability1 != probabilityValue;
+            bool isEqual2 = probabilityValue != probability1;
+
+            // Assert
+            Assert.IsTrue(isEqual1);
+            Assert.IsTrue(isEqual2);
+        }
+
+        [Test]
+        public void OperatorMinus_OperationResultLessThanZero_ReturnsZero()
+        {
+            // Setup
+            var probability1 = new Probability(0.123);
+            var probability2 = new Probability(0.2);
+
+            // Call
+            Probability result = probability1 - probability2;
+
+            // Assert
+            Assert.AreEqual(0.0, result);
+        }
+
+        [Test]
+        public void OperatorMinus_OperationResultGreaterThanZero_ReturnsResult()
+        {
+            // Setup
+            var probability1 = new Probability(0.123);
+            var probability2 = new Probability(0.2);
+
+            // Call
+            Probability result = probability2 - probability1;
+
+            // Assert
+            Assert.AreEqual(0.077, result, 1e-3);
+        }
+
+        [Test]
+        public void OperatorPlus_OperationResultGreaterThenOne_ReturnsOne()
+        {
+            // Setup
+            var probability1 = new Probability(0.123);
+            var probability2 = new Probability(0.9);
+
+            // Call
+            Probability result1 = probability1 + probability2;
+            Probability result2 = probability2 + probability1;
+
+            // Assert
+            Assert.AreEqual(1.0, result1);
+            Assert.AreEqual(1.0, result2);
+        }
+
+        [Test]
+        public void OperatorPlus_OperationResultLessThenOne_ReturnsResult()
+        {
+            // Setup
+            var probability1 = new Probability(0.123);
+            var probability2 = new Probability(0.2);
+
+            // Call
+            Probability result1 = probability1 + probability2;
+            Probability result2 = probability2 + probability1;
+
+            // Assert
+            Assert.AreEqual(0.323, result1);
+            Assert.AreEqual(0.323, result2);
+        }
+
+        [Test]
+        public void OperatorTimes_OperationResultValid_ReturnsResult()
+        {
+            // Setup
+            const double probabilityValue1 = 0.123;
+            const double probabilityValue2 = 0.2;
+
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+
+            // Call
+            Probability result1 = probability1 * probability2;
+            Probability result2 = probability2 * probability1;
+            Probability result3 = probability1 * probabilityValue2;
+            Probability result4 = probabilityValue2 * probability1;
+            Probability result5 = probabilityValue1 * probability2;
+            Probability result6 = probability2 * probabilityValue1;
+
+            // Assert
+            const double expectedResult = 0.0246;
+            Assert.AreEqual(expectedResult, result1);
+            Assert.AreEqual(expectedResult, result2);
+            Assert.AreEqual(expectedResult, result3);
+            Assert.AreEqual(expectedResult, result4);
+            Assert.AreEqual(expectedResult, result5);
+            Assert.AreEqual(expectedResult, result6);
+        }
+
+        [Test]
+        [TestCase(10)]
+        [TestCase(-1)]
+        public void OperatorTimes_OperationResultInvalid_ThrowsAssemblyException(
+            double probabilityValue2)
+        {
+            // Setup
+            var probability = new Probability(0.123);
+
+            // Call
+            Probability result;
+            void Call1() => result = probability * probabilityValue2;
+            void Call2() => result = probabilityValue2 * probability;
+
+            // Assert
+            var expectedErrorMessages = new[]
             {
-                case "*":
-                    target = () =>
-                    {
-                        var a = new Probability(0.5) * factor;
-                    };
-                    break;
-                case "/":
-                    target = () =>
-                    {
-                        var a = new Probability(0.5) / factor;
-                    };
-                    break;
-                default:
-                    Assert.Fail("No valid test input");
-                    return;
-            }
+                new AssemblyErrorMessage("probabilityValue", EAssemblyErrors.FailureProbabilityOutOfRange)
+            };
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call1, expectedErrorMessages);
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call2, expectedErrorMessages);
+        }
 
-            Assert.Throws<AssemblyException>(new TestDelegate(target));
+        [Test]
+        public void OperatorDivision_OperationResultValid_ReturnsResult()
+        {
+            // Setup
+            const double probabilityValue1 = 0.05;
+            const double probabilityValue2 = 0.2;
+            const double probabilityValue3 = 0.4;
+            const double probabilityValue4 = 0.09;
+
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            var probability3 = new Probability(probabilityValue3);
+            var probability4 = new Probability(probabilityValue4);
+
+            // Call
+            Probability result1 = probability1 / probability2;
+            Probability result2 = probability4 / probability3;
+            Probability result3 = probability1 / probabilityValue2;
+            Probability result4 = probabilityValue4 / probability3;
+
+            // Assert
+            const double expectedResult1 = 0.25;
+            const double expectedResult2 = 0.225;
+            Assert.AreEqual(expectedResult1, result1, 1e-3);
+            Assert.AreEqual(expectedResult2, result2, 1e-3);
+            Assert.AreEqual(expectedResult1, result3, 1e-3);
+            Assert.AreEqual(expectedResult2, result4, 1e-3);
+        }
+
+        [Test]
+        public void OperatorDivision_OperationResultInvalid_ThrowsAssemblyException()
+        {
+            // Setup
+            const double probabilityValue = 0.1;
+            var probability = new Probability(1.0);
+
+            // Call
+            Probability result;
+            void Call1() => result = probability / new Probability(probabilityValue);
+            void Call2() => result = probability / probabilityValue;
+            void Call3() => result = -probabilityValue / probability;
+            
+            // Assert
+            var expectedErrorMessages = new[]
+            {
+                new AssemblyErrorMessage("probabilityValue", EAssemblyErrors.FailureProbabilityOutOfRange)
+            };
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call1, expectedErrorMessages);
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call2, expectedErrorMessages);
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call3, expectedErrorMessages);
+        }
+
+        [Test]
+        public void OperatorLessThan_LeftLessThanRight_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8;
+            const double probabilityValue2 = 0.8192378;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 < probability2;
+            bool isLessThan2 = probability1 < probabilityValue2;
+            
+            // Assert
+            Assert.IsTrue(isLessThan1);
+            Assert.IsTrue(isLessThan2);
+        }
+
+        [Test]
+        public void OperatorLessThan_LeftGreaterThanRight_ReturnsFalse()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8192378;
+            const double probabilityValue2 = 0.8;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 < probability2;
+            bool isLessThan2 = probability1 < probabilityValue2;
+            
+            // Assert
+            Assert.IsFalse(isLessThan1);
+            Assert.IsFalse(isLessThan2);
+        }
+
+        [Test]
+        public void OperatorLessThanOrEqualTo_LeftLessThanOrEqualRight_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8;
+            const double probabilityValue2 = 0.8192378;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 <= probability2;
+            bool isLessThan2 = probability1 <= probabilityValue2;
+            bool isLessThan3 = probability1 <= probability1;
+            bool isLessThan4 = probability1 <= probabilityValue1;
+            bool isLessThan5 = probability2 <= probability2;
+            bool isLessThan6 = probability2 <= probabilityValue2;
+            
+            // Assert
+            Assert.IsTrue(isLessThan1);
+            Assert.IsTrue(isLessThan2);
+            Assert.IsTrue(isLessThan3);
+            Assert.IsTrue(isLessThan4);
+            Assert.IsTrue(isLessThan5);
+            Assert.IsTrue(isLessThan6);
+        }
+
+        [Test]
+        public void OperatorLessThanOrEqualTo_LeftGreaterThanRight_ReturnsFalse()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8192378;
+            const double probabilityValue2 = 0.8;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 <= probability2;
+            bool isLessThan2 = probability1 <= probabilityValue2;
+            
+            // Assert
+            Assert.IsFalse(isLessThan1);
+            Assert.IsFalse(isLessThan2);
+        }
+        
+        [Test]
+        public void OperatorGreaterThan_LeftGreaterThanRight_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8192378;
+            const double probabilityValue2 = 0.8;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 > probability2;
+            bool isLessThan2 = probability1 > probabilityValue2;
+            
+            // Assert
+            Assert.IsTrue(isLessThan1);
+            Assert.IsTrue(isLessThan2);
+        }
+
+        [Test]
+        public void OperatorGreaterThan_LeftLessThanRight_ReturnsFalse()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8;
+            const double probabilityValue2 = 0.8192378;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 > probability2;
+            bool isLessThan2 = probability1 > probabilityValue2;
+            
+            // Assert
+            Assert.IsFalse(isLessThan1);
+            Assert.IsFalse(isLessThan2);
+        }
+        
+        [Test]
+        public void OperatorGreaterThanOrEqualTo_LeftGreaterThanOrEqualRight_ReturnsTrue()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8192378;
+            const double probabilityValue2 = 0.8;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 >= probability2;
+            bool isLessThan2 = probability1 >= probabilityValue2;
+            bool isLessThan3 = probability1 >= probability1;
+            bool isLessThan4 = probability1 >= probabilityValue1;
+            bool isLessThan5 = probability2 >= probability2;
+            bool isLessThan6 = probability2 >= probabilityValue2;
+            
+            // Assert
+            Assert.IsTrue(isLessThan1);
+            Assert.IsTrue(isLessThan2);
+            Assert.IsTrue(isLessThan3);
+            Assert.IsTrue(isLessThan4);
+            Assert.IsTrue(isLessThan5);
+            Assert.IsTrue(isLessThan6);
+        }
+
+        [Test]
+        public void OperatorGreaterThanOrEqualTo_LeftLessThanRight_ReturnsFalse()
+        {
+            // Setup
+            const double probabilityValue1 = 0.8;
+            const double probabilityValue2 = 0.8192378;
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+            
+            // Call
+            bool isLessThan1 = probability1 >= probability2;
+            bool isLessThan2 = probability1 >= probabilityValue2;
+            
+            // Assert
+            Assert.IsFalse(isLessThan1);
+            Assert.IsFalse(isLessThan2);
         }
 
         [Test]
@@ -490,6 +773,22 @@ namespace Assembly.Kernel.Tests.Model
             {
                 var compareTo = probability.CompareTo("string");
             }, EAssemblyErrors.InvalidArgumentType);
+        }
+
+        [TestCase(0.0002516, "1/3975")]
+        [TestCase(double.NaN, "Undefined")]
+        [TestCase(1e-101, "0")]
+        [TestCase(1 - 1e-101, "1")]
+        public void ToString_WithoutFormat_ReturnsExpectedValue(double value, string expectedString)
+        {
+            // Setup
+            var probability = new Probability(value);
+
+            // Call
+            var toString = probability.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedString, toString);
         }
 
         [TestCase(0.2, 1)]
