@@ -207,25 +207,6 @@ namespace Assembly.Kernel.Model
         }
 
         /// <summary>
-        /// Facilitates implicit conversion between <see cref="Probability"/> and double.
-        /// </summary>
-        /// <param name="d">The <see cref="Probability"/> to convert from.</param>
-        public static implicit operator double(Probability d)
-        {
-            return d.value;
-        }
-
-        /// <summary>
-        /// Facilitates explicit conversion between double and <see cref="Probability"/>.
-        /// </summary>
-        /// <param name="d">The double to convert from.</param>
-        /// <exception cref="AssemblyException">Thrown in case the probability &lt; 0 or &gt;1.</exception>
-        public static explicit operator Probability(double d)
-        {
-            return new Probability(d);
-        }
-
-        /// <summary>
         /// Specifies the $lt; operator.
         /// </summary>
         /// <param name="left">The probability on the left side of the sign.</param>
@@ -311,6 +292,25 @@ namespace Assembly.Kernel.Model
         public static bool operator >=(Probability left, double right)
         {
             return left.value >= right;
+        }
+        
+        /// <summary>
+        /// Facilitates implicit conversion between <see cref="Probability"/> and double.
+        /// </summary>
+        /// <param name="d">The <see cref="Probability"/> to convert from.</param>
+        public static implicit operator double(Probability d)
+        {
+            return d.value;
+        }
+
+        /// <summary>
+        /// Facilitates explicit conversion between double and <see cref="Probability"/>.
+        /// </summary>
+        /// <param name="d">The double to convert from.</param>
+        /// <exception cref="AssemblyException">Thrown in case the probability &lt; 0 or &gt;1.</exception>
+        public static explicit operator Probability(double d)
+        {
+            return new Probability(d);
         }
 
         #endregion
