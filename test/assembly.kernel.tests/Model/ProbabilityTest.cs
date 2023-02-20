@@ -612,22 +612,6 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void CompareToThrowsOnInvalidInput()
-        {
-            var probability = new Probability(0.31);
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var compareTo = probability.CompareTo(null);
-            }, EAssemblyErrors.ValueMayNotBeNull);
-
-            TestHelper.AssertExpectedErrorMessage(() =>
-            {
-                var compareTo = probability.CompareTo("string");
-            }, EAssemblyErrors.InvalidArgumentType);
-        }
-
-        [Test]
         [TestCase(0.0002516, "1/3975")]
         [TestCase(double.NaN, "Undefined")]
         [TestCase(1e-101, "0")]
@@ -658,16 +642,93 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        [TestCase(0.2, 1)]
-        [TestCase(0.3, 0)]
-        [TestCase(0.4, -1)]
-        public void CompareToReturnsCorrectValues(double inputValue, int expectedResult)
+        public void CompareTo_Null_ThrowsAssemblyException()
         {
-            var probability = new Probability(0.3);
-            Assert.AreEqual(expectedResult, probability.CompareTo(inputValue));
-            Assert.AreEqual(expectedResult, probability.CompareTo((Probability) inputValue));
-            Assert.AreEqual(expectedResult, probability.CompareTo((object) inputValue));
-            Assert.AreEqual(expectedResult, probability.CompareTo((object) (Probability) inputValue));
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            void Call() => probability.CompareTo(null);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("obj", EAssemblyErrors.ValueMayNotBeNull)
+            });
+        }
+
+        [Test]
+        public void CompareTo_Object_ThrowsAssemblyException()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            void Call() => probability.CompareTo(new object());
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("obj", EAssemblyErrors.InvalidArgumentType)
+            });
+        }
+
+        [Test]
+        public void CompareTo_Itself_ReturnsZero()
+        {
+            // Setup
+            var probability = new Probability(0.1);
+
+            // Call
+            int result = probability.CompareTo(probability);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        [TestCase(1.0, 1.0, 0)]
+        [TestCase(1.0, 0.000009, 1)]
+        [TestCase(0.000009, 1.0, -1)]
+        [TestCase(double.NaN, 1.0, -1)]
+        [TestCase(1.0, double.NaN, 1)]
+        [TestCase(double.NaN, double.NaN, 0)]
+        public void CompareTo_ProbabilityToDouble_ReturnsExpectedResult(
+            double probabilityValue, double value, int expectedProbabilityIndex)
+        {
+            // Setup
+            var probability = new Probability(probabilityValue);
+
+            // Call
+            int probabilityResult = probability.CompareTo(value);
+            int doubleResult = value.CompareTo(probability);
+
+            // Assert
+            Assert.AreEqual(expectedProbabilityIndex, probabilityResult);
+            Assert.AreEqual(-1 * expectedProbabilityIndex, doubleResult);
+        }
+
+        [Test]
+        [TestCase(1.0, 1.0, 0)]
+        [TestCase(1.0, 0.000009, 1)]
+        [TestCase(0.000009, 1.0, -1)]
+        [TestCase(double.NaN, 1.0, -1)]
+        [TestCase(1.0, double.NaN, 1)]
+        [TestCase(double.NaN, double.NaN, 0)]
+        public void CompareTo_ProbabilityToProbability_ReturnsExpectedResult(
+            double probabilityValue1, double probabilityValue2, int expectedProbabilityIndex)
+        {
+            // Setup
+            var probability1 = new Probability(probabilityValue1);
+            var probability2 = new Probability(probabilityValue2);
+
+            // Call
+            int probabilityResult1 = probability1.CompareTo(probability2);
+            int probabilityResult2 = probability2.CompareTo(probability1);
+
+            // Assert
+            Assert.AreEqual(expectedProbabilityIndex, probabilityResult1);
+            Assert.AreEqual(-1 * expectedProbabilityIndex, probabilityResult2);
         }
 
         [Test]
