@@ -80,7 +80,7 @@ namespace Assembly.Kernel.Model
             double absoluteDifference = Math.Abs(this - (double) other);
             double relativeDifference = absoluteDifference / average;
 
-            return !(relativeDifference < double.PositiveInfinity) || relativeDifference <= maximumRelativeDifference;
+            return double.IsNaN(relativeDifference) || relativeDifference <= maximumRelativeDifference;
         }
 
         #region Operators
