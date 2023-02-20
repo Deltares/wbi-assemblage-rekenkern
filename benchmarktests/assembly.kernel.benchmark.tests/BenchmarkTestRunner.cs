@@ -54,12 +54,11 @@ namespace assembly.kernel.benchmark.tests
 
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsBoi21(
                 new AssessmentSection((Probability) input.SignalFloodingProbability, (Probability) input.MaximumAllowableFloodingProbability));
-            CategoriesList<AssessmentSectionCategory> expectedCategories =
-                input.ExpectedAssessmentSectionCategories;
+            CategoriesList<AssessmentSectionCategory> expectedCategories = input.ExpectedAssessmentSectionCategories;
 
-            result.AreEqualCategoriesListAssessmentSection =
-                AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
-                    expectedCategories, categories);
+            result.AreEqualCategoriesListAssessmentSection = AssertHelper.AssertEqualCategoriesList<AssessmentSectionCategory, EAssessmentGrade>(
+                expectedCategories, categories);
+            
             result.MethodResults.Boi21 = result.AreEqualCategoriesListAssessmentSection;
         }
 

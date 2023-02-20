@@ -33,29 +33,27 @@ namespace assembly.kernel.benchmark.tests
     [TestFixture]
     public class AssemblyKernelBenchmarkTestsExplicit
     {
-        [Test, Explicit("Run only local")]
+        [Test]
+        [Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            var testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
-            var fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsx").First();
-            var testName = BenchmarkTestHelper.GetTestName(fileName);
+            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
+            string fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsx").First();
+            string testName = BenchmarkTestHelper.GetTestName(fileName);
 
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);
-            BenchmarkTestResult testResult = new BenchmarkTestResult(fileName, testName);
+            var testResult = new BenchmarkTestResult(fileName, testName);
 
             BenchmarkTestRunner.TestEqualNormCategories(input, testResult);
             BenchmarkTestRunner.TestEqualInterpretationCategories(input, testResult);
 
-            foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input
-                .ExpectedFailureMechanismsResults)
+            foreach (ExpectedFailureMechanismResult expectedFailureMechanismResult in input.ExpectedFailureMechanismsResults)
             {
-                BenchmarkTestRunner.TestFailureMechanismAssembly(expectedFailureMechanismResult,
-                    testResult,
-                    input.ExpectedInterpretationCategories);
+                BenchmarkTestRunner.TestFailureMechanismAssembly(
+                    expectedFailureMechanismResult, testResult, input.ExpectedInterpretationCategories);
             }
 
             BenchmarkTestRunner.TestFinalVerdictAssembly(input, testResult);
-
             BenchmarkTestRunner.TestAssemblyOfCombinedSections(input, testResult);
         }
     }
