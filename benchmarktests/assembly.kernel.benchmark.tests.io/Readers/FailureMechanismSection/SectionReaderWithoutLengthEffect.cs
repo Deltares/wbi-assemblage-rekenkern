@@ -49,24 +49,28 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
             string sectionName = GetCellValueAsString("B", iRow);
             bool isRelevant = GetCellValueAsString("E", iRow) == "Ja";
-            Probability probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("G", iRow));
+            var probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("G", iRow));
             bool refinedAnalysisNecessary = GetCellValueAsString("H", iRow) == "Ja";
-            Probability refinedProbabilitySection = new Probability(GetCellValueAsDouble("I", iRow));
-            Probability expectedCombinedProbabilitySection = new Probability(GetCellValueAsDouble("J", iRow));
+            var refinedProbabilitySection = new Probability(GetCellValueAsDouble("I", iRow));
+            var expectedCombinedProbabilitySection = new Probability(GetCellValueAsDouble("J", iRow));
             EInterpretationCategory expectedInterpretationCategory = GetCellValueAsString("K", iRow).ToInterpretationCategory();
 
-            var eRefinementStatus = !refinedAnalysisNecessary ? ERefinementStatus.NotNecessary :
-                                    double.IsNaN(refinedProbabilitySection) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
+            ERefinementStatus eRefinementStatus;
+            if (!refinedAnalysisNecessary)
+            {
+                eRefinementStatus = ERefinementStatus.NotNecessary;
+            }
+            else
+            {
+                eRefinementStatus = double.IsNaN(refinedProbabilitySection)
+                                        ? ERefinementStatus.Necessary
+                                        : ERefinementStatus.Performed;
+            }
 
-            return new ExpectedFailureMechanismSection(sectionName,
-                                                       startMeters,
-                                                       endMeters,
-                                                       isRelevant,
-                                                       probabilityInitialMechanismSection,
-                                                       eRefinementStatus,
-                                                       refinedProbabilitySection,
-                                                       expectedCombinedProbabilitySection,
-                                                       expectedInterpretationCategory);
+            return new ExpectedFailureMechanismSection(
+                sectionName, startMeters, endMeters, isRelevant, probabilityInitialMechanismSection,
+                eRefinementStatus, refinedProbabilitySection, expectedCombinedProbabilitySection,
+                expectedInterpretationCategory);
         }
     }
 }

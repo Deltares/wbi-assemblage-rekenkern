@@ -36,7 +36,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         /// </summary>
         /// <param name="worksheetPart">Required <see cref="WorksheetPart"/>.</param>
         /// <param name="workbookPart">Required <see cref="WorkbookPart"/>.</param>
-        public SectionReaderWithLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B") {}
+        public SectionReaderWithLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+            : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Read the section on a specific row.
@@ -49,30 +50,31 @@ namespace assembly.kernel.benchmark.tests.io.Readers.FailureMechanismSection
         {
             string sectionName = GetCellValueAsString("B", iRow);
             bool isRelevant = GetCellValueAsString("E", iRow) == "Ja";
-            Probability probabilityInitialMechanismProfile = new Probability(GetCellValueAsDouble("G", iRow));
-            Probability probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("H", iRow));
+            var probabilityInitialMechanismProfile = new Probability(GetCellValueAsDouble("G", iRow));
+            var probabilityInitialMechanismSection = new Probability(GetCellValueAsDouble("H", iRow));
             bool refinedAnalysisNecessary = GetCellValueAsString("I", iRow) == "Ja";
-            Probability refinedProbabilityProfile = new Probability(GetCellValueAsDouble("J", iRow));
-            Probability refinedProbabilitySection = new Probability(GetCellValueAsDouble("K", iRow));
-            Probability expectedCombinedProbabilityProfile = new Probability(GetCellValueAsDouble("L", iRow));
-            Probability expectedCombinedProbabilitySection = new Probability(GetCellValueAsDouble("M", iRow));
+            var refinedProbabilityProfile = new Probability(GetCellValueAsDouble("J", iRow));
+            var refinedProbabilitySection = new Probability(GetCellValueAsDouble("K", iRow));
+            var expectedCombinedProbabilityProfile = new Probability(GetCellValueAsDouble("L", iRow));
+            var expectedCombinedProbabilitySection = new Probability(GetCellValueAsDouble("M", iRow));
             EInterpretationCategory expectedInterpretationCategory = GetCellValueAsString("O", iRow).ToInterpretationCategory();
 
-            var eRefinementStatus = !refinedAnalysisNecessary ? ERefinementStatus.NotNecessary :
-                                    double.IsNaN(refinedProbabilityProfile) ? ERefinementStatus.Necessary : ERefinementStatus.Performed;
+            ERefinementStatus eRefinementStatus;
+            if (!refinedAnalysisNecessary)
+            {
+                eRefinementStatus = ERefinementStatus.NotNecessary;
+            }
+            else
+            {
+                eRefinementStatus = double.IsNaN(refinedProbabilityProfile)
+                                        ? ERefinementStatus.Necessary
+                                        : ERefinementStatus.Performed;
+            }
 
-            return new ExpectedFailureMechanismSectionWithLengthEffect(sectionName,
-                                                                       startMeters,
-                                                                       endMeters,
-                                                                       isRelevant,
-                                                                       probabilityInitialMechanismProfile,
-                                                                       probabilityInitialMechanismSection,
-                                                                       eRefinementStatus,
-                                                                       refinedProbabilityProfile,
-                                                                       refinedProbabilitySection,
-                                                                       expectedCombinedProbabilityProfile,
-                                                                       expectedCombinedProbabilitySection,
-                                                                       expectedInterpretationCategory);
+            return new ExpectedFailureMechanismSectionWithLengthEffect(
+                sectionName, startMeters, endMeters, isRelevant, probabilityInitialMechanismProfile,
+                probabilityInitialMechanismSection, eRefinementStatus, refinedProbabilityProfile, refinedProbabilitySection,
+                expectedCombinedProbabilityProfile, expectedCombinedProbabilitySection, expectedInterpretationCategory);
         }
     }
 }

@@ -75,8 +75,8 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections.</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet.</param>
-        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(
-            worksheetPart, workbookPart, "B") {}
+        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) 
+            : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Reads the input and expected output of assembly of the combined section results.
@@ -85,18 +85,18 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var failureMechanismSpecificCommonSectionsWithResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
-            foreach (var failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
+            foreach (string failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
             {
                 failureMechanismSpecificCommonSectionsWithResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
             }
 
-            var columnKeys = MatchColumnNamesWithFailureMechanismCodes();
+            Dictionary<string, string> columnKeys = MatchColumnNamesWithFailureMechanismCodes();
 
-            int iRow = 3;
+            var iRow = 3;
             while (iRow <= MaxRow)
             {
-                var startMeters = GetCellValueAsDouble("B", iRow) * KilometersToMeters;
-                var endMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
+                double startMeters = GetCellValueAsDouble("B", iRow) * KilometersToMeters;
+                double endMeters = GetCellValueAsDouble("C", iRow) * KilometersToMeters;
                 if (double.IsNaN(startMeters) || double.IsNaN(endMeters))
                 {
                     break;
@@ -104,7 +104,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
 
                 AddSectionToList(benchmarkTestInput.ExpectedCombinedSectionResult, "D", iRow, startMeters, endMeters);
                 AddSectionToList(benchmarkTestInput.ExpectedCombinedSectionResultPartial, "E", iRow, startMeters, endMeters);
-                foreach (var keyValuePair in failureMechanismSpecificCommonSectionsWithResults)
+                foreach (KeyValuePair<string, List<FailureMechanismSectionWithCategory>> keyValuePair in failureMechanismSpecificCommonSectionsWithResults)
                 {
                     AddSectionToList(keyValuePair.Value, columnKeys[keyValuePair.Key], iRow, startMeters, endMeters);
                 }
@@ -113,11 +113,11 @@ namespace assembly.kernel.benchmark.tests.io.Readers
             }
 
             benchmarkTestInput.ExpectedCombinedSectionResultPerFailureMechanism.AddRange(
-                failureMechanismSpecificCommonSectionsWithResults.Select(kv =>
-                                                                             new FailureMechanismSectionListWithFailureMechanismId(kv.Key, kv.Value)));
+                failureMechanismSpecificCommonSectionsWithResults.Select(
+                    kv => new FailureMechanismSectionListWithFailureMechanismId(kv.Key, kv.Value)));
         }
 
-        private void AddSectionToList(List<FailureMechanismSectionWithCategory> list, string columnReference, int iRow,
+        private void AddSectionToList(ICollection<FailureMechanismSectionWithCategory> list, string columnReference, int iRow,
                                       double startMeters, double endMeters)
         {
             list.Add(new FailureMechanismSectionWithCategory(startMeters, endMeters, GetCellValueAsString(columnReference, iRow).ToInterpretationCategory()));
@@ -126,9 +126,9 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         private Dictionary<string, string> MatchColumnNamesWithFailureMechanismCodes()
         {
             var dict = new Dictionary<string, string>();
-            foreach (var columnString in columnStrings.Skip(4))
+            foreach (string columnString in columnStrings.Skip(4))
             {
-                var type = GetCellValueAsString(columnString, CommonSectionsHeaderRowId);
+                string type = GetCellValueAsString(columnString, CommonSectionsHeaderRowId);
                 dict[type] = columnString;
             }
 
