@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
@@ -31,16 +32,14 @@ namespace Assembly.Kernel.Tests.Model.Categories
     public class CategoriesListTest
     {
         [Test]
-        public void Constructor_CategoriesNull_ThrowsAssemblyException()
+        public void Constructor_CategoriesNull_ThrowsArgumentNullException()
         {
             // Call
             void Call() => new CategoriesList<TestCategory>(null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("categories", exception.ParamName);
         }
 
         [Test]
@@ -66,10 +65,10 @@ namespace Assembly.Kernel.Tests.Model.Categories
             {
                 new TestCategory(0.0, 1.0)
             };
-            
+
             // Call
             var categoriesList = new CategoriesList<TestCategory>(categories);
-            
+
             // Assert
             CollectionAssert.AreEqual(categories, categoriesList.Categories);
         }
@@ -82,10 +81,10 @@ namespace Assembly.Kernel.Tests.Model.Categories
             {
                 new TestCategory(0.0, 1.0)
             });
-            
+
             // Call
             void Call() => categoriesList.GetCategoryForFailureProbability(Probability.Undefined);
-            
+
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
@@ -98,7 +97,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
         {
             // Setup
             var expectedCategory = new TestCategory(0.33, 0.66);
-            TestCategory[] categories = 
+            TestCategory[] categories =
             {
                 new TestCategory(0.0, 0.33),
                 expectedCategory,
@@ -109,7 +108,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
 
             // Call
             TestCategory category = categoriesList.GetCategoryForFailureProbability(new Probability(0.53));
-            
+
             // Assert
             Assert.AreEqual(expectedCategory.LowerLimit, category.LowerLimit);
             Assert.AreEqual(expectedCategory.UpperLimit, category.UpperLimit);
@@ -122,7 +121,7 @@ namespace Assembly.Kernel.Tests.Model.Categories
             {
                 new TestCategory(0.0 + 1e-9, 1.0)
             });
-            
+
             yield return new TestCaseData(new List<TestCategory>
             {
                 new TestCategory(0.0, 1.0 - 1e-9)

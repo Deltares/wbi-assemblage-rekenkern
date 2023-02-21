@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -36,9 +37,9 @@ namespace Assembly.Kernel.Model.Categories
         /// Creates a new instance of <see cref="CategoriesList{TCategory}"/>.
         /// </summary>
         /// <param name="categories">The categories.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="categories"/> is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="categories"/> is <c>null</c>;</item>
         /// <item>The first category lower limit is not equal to 0.0;</item>
         /// <item>The last category upper limit is not equal to 1.0;</item>
         /// <item>The limits of the categories are not consecutive.</item>
@@ -46,6 +47,11 @@ namespace Assembly.Kernel.Model.Categories
         /// </exception>
         public CategoriesList(IEnumerable<TCategory> categories)
         {
+            if (categories == null)
+            {
+                throw new ArgumentNullException(nameof(categories));
+            }
+
             ValidateCategories(categories);
             Categories = categories;
         }
@@ -78,7 +84,6 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="categories">The categories to validate.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="categories"/> is <c>null</c>;</item>
         /// <item>The first category lower limit is not equal to 0.0;</item>
         /// <item>The last category upper limit is not equal to 1.0;</item>
         /// <item>The limits of the categories are not consecutive.</item>
@@ -86,11 +91,6 @@ namespace Assembly.Kernel.Model.Categories
         /// </exception>
         private static void ValidateCategories(IEnumerable<TCategory> categories)
         {
-            if (categories == null)
-            {
-                throw new AssemblyException(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
             const double epsilon = 1e-10;
             var lastKnownUpperLimit = new Probability(0.0);
 
