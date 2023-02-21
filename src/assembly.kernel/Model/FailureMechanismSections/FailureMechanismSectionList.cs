@@ -35,9 +35,10 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// Creates a new instance of <see cref="FailureMechanismSectionList"/>.
         /// </summary>
         /// <param name="sections">The failure mechanism sections.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="sections"/> is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="sections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="sections"/> is <c>empty</c>;</item>
         /// <item><paramref name="sections"/> contains a mix of different types;</item>
         /// <item>The first section start is not equal to 0.0;</item>
         /// <item>The sections are not consecutive.</item>
@@ -45,6 +46,11 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </exception>
         public FailureMechanismSectionList(IEnumerable<FailureMechanismSection> sections)
         {
+            if (sections == null)
+            {
+                throw new ArgumentNullException(nameof(sections));
+            }
+
             ValidateSections(sections);
             Sections = sections;
         }
@@ -80,7 +86,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <param name="sections">The failure mechanism sections.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="sections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="sections"/> is <c>empty</c>;</item>
         /// <item><paramref name="sections"/> contains a mix of different types;</item>
         /// <item>The first section start is not equal to 0.0;</item>
         /// <item>The sections are not consecutive.</item>
@@ -88,11 +94,6 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </exception>
         private static void ValidateSections(IEnumerable<FailureMechanismSection> sections)
         {
-            if (sections == null)
-            {
-                throw new AssemblyException(nameof(sections), EAssemblyErrors.ValueMayNotBeNull);
-            }
-
             if (!sections.Any())
             {
                 throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
@@ -110,7 +111,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
             {
                 throw new AssemblyException(nameof(sections), EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
             }
-            
+
             double previousSectionEnd = firstSection.End;
             foreach (FailureMechanismSection section in sections.Skip(1))
             {

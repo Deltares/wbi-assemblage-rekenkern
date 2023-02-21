@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
@@ -31,16 +32,14 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     public class FailureMechanismSectionListTest
     {
         [Test]
-        public void Constructor_SectionsNull_ThrowsAssemblyException()
+        public void Constructor_SectionsNull_ThrowsArgumentNullException()
         {
             // Call
             void Call() => new FailureMechanismSectionList(null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("sections", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("sections", exception.ParamName);
         }
 
         [Test]
