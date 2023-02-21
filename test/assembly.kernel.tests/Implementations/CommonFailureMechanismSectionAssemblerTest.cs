@@ -45,11 +45,11 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        [TestCase(double.NaN, EAssemblyErrors.ValueMayNotBeNull)]
-        [TestCase(0.0, EAssemblyErrors.SectionLengthOutOfRange)]
-        [TestCase(-1.0, EAssemblyErrors.SectionLengthOutOfRange)]
+        [TestCase(double.NaN)]
+        [TestCase(0.0)]
+        [TestCase(-1.0)]
         public void FindGreatestCommonDenominatorSectionsBoi3A1_InvalidAssessmentSectionLength_ThrowsAssemblyException(
-            double assessmentSectionLength, EAssemblyErrors expectedAssemblyError)
+            double assessmentSectionLength)
         {
             // Setup
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -66,7 +66,7 @@ namespace Assembly.Kernel.Tests.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("assessmentSectionLength", expectedAssemblyError)
+                new AssemblyErrorMessage("assessmentSectionLength", EAssemblyErrors.SectionLengthOutOfRange)
             });
         }
 

@@ -161,13 +161,7 @@ namespace Assembly.Kernel.Implementations
         {
             var errors = new List<AssemblyErrorMessage>();
 
-            if (double.IsNaN(assessmentSectionLength))
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(assessmentSectionLength),
-                                                    EAssemblyErrors.ValueMayNotBeNull));
-            }
-
-            if (assessmentSectionLength <= 0.0)
+            if (double.IsNaN(assessmentSectionLength) || assessmentSectionLength <= 0.0)
             {
                 errors.Add(new AssemblyErrorMessage(nameof(assessmentSectionLength),
                                                     EAssemblyErrors.SectionLengthOutOfRange));
