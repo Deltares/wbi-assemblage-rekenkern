@@ -57,10 +57,10 @@ namespace Assembly.Kernel.Model.Categories
         public T Category { get; }
 
         /// <inheritdoc />
-        public Probability UpperLimit { get; }
+        public Probability LowerLimit { get; }
 
         /// <inheritdoc />
-        public Probability LowerLimit { get; }
+        public Probability UpperLimit { get; }
 
         /// <summary>
         /// Validates the category limits.
