@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (categories == null)
             {
-                throw new AssemblyException(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(categories));
             }
 
             return categories.GetCategoryForFailureProbability(sectionProbability).Category;

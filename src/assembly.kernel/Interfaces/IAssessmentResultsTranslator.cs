@@ -75,8 +75,9 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="sectionProbability">The section probability.</param>
         /// <param name="categories">The categories to use.</param>
         /// <returns>The <see cref="EInterpretationCategory"/> of the failure mechanism section.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="categories"/> is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when <paramref name="sectionProbability"/> is
-        /// <see cref="Probability.Undefined"/> or <paramref name="categories"/> is <c>null</c>.</exception>
+        /// <see cref="Probability.Undefined"/>.</exception>
         EInterpretationCategory DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
             Probability sectionProbability,
             CategoriesList<InterpretationCategory> categories);

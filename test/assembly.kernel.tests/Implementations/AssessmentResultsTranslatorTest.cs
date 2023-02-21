@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
@@ -81,7 +82,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1_CategoriesNull_ThrowsAssemblyException()
+        public void DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1_CategoriesNull_ThrowsArgumentNullException()
         {
             // Setup
             var translator = new AssessmentResultsTranslator();
@@ -91,10 +92,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 new Probability(0.1), null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("categories", exception.ParamName);
         }
 
         [Test]
