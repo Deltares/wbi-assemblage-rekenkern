@@ -51,9 +51,8 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
                 Assert.AreEqual(expectedCategories.Categories.Count(), categories.Categories.Count());
                 for (var i = 0; i < categories.Categories.Count(); i++)
                 {
-                    AssertAreEqualCategories(
-                        expectedCategories.Categories.ElementAt(i),
-                        categories.Categories.ElementAt(i));
+                    AssertAreEqualCategories(expectedCategories.Categories.ElementAt(i),
+                                             categories.Categories.ElementAt(i));
                 }
 
                 return true;
