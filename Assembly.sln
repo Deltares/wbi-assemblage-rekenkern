@@ -4,7 +4,7 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel", "src\assembly.kernel\Assembly.Kernel.csproj", "{2925251D-96CC-4A66-8AC6-2B4D39DFD399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kernel_tests", "test\assembly.kernel.tests\kernel_tests.csproj", "{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Test", "test\Assembly.Kernel.Test\Assembly.Kernel.Test.csproj", "{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{519B2F97-C2AE-495D-B432-A32250D41182}"
 EndProject

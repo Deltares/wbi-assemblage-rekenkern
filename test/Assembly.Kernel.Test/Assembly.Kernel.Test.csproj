@@ -71,7 +71,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\assembly.kernel\kernel.csproj">
+    <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
       <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
       <Name>kernel</Name>
     </ProjectReference>
