@@ -40,7 +40,7 @@ namespace assembly.kernel.benchmark.tests
         private IDictionary<string, BenchmarkTestResult> testResults;
 
         [Test]
-        [TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.BenchmarkTestCases))]
+        [TestCaseSource(typeof(BenchmarkTestCaseFactory), nameof(BenchmarkTestCaseFactory.GetBenchmarkTestCases))]
         public void RunBenchmarkTest(string testName, string fileName)
         {
             BenchmarkTestInput input = AssemblyExcelFileReader.Read(fileName);

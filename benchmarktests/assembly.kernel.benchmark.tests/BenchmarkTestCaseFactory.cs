@@ -35,16 +35,15 @@ namespace assembly.kernel.benchmark.tests
         /// <summary>
         /// Gets all benchmark test cases.
         /// </summary>
-        public static IEnumerable<TestCaseData> BenchmarkTestCases =>
-            AcquireAllBenchmarkTests().Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
+        public static IEnumerable<TestCaseData> GetBenchmarkTestCases()
+        {
+            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
+            string[] benchmarkTestFiles = Directory.GetFiles(testDirectory, "*.xlsx");
+            
+            return benchmarkTestFiles.Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
             {
                 TestName = BenchmarkTestHelper.GetTestName(t)
             });
-
-        private static IEnumerable<string> AcquireAllBenchmarkTests()
-        {
-            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
-            return Directory.GetFiles(testDirectory, "*.xlsx");
         }
     }
 }

@@ -85,7 +85,7 @@ namespace assembly.kernel.benchmark.tests.io.Readers
         public void Read(BenchmarkTestInput benchmarkTestInput)
         {
             var failureMechanismSpecificCommonSectionsWithResults = new Dictionary<string, List<FailureMechanismSectionWithCategory>>();
-            foreach (string failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId).ToArray())
+            foreach (string failureMechanismsKey in benchmarkTestInput.ExpectedFailureMechanismsResults.Select(r => r.MechanismId))
             {
                 failureMechanismSpecificCommonSectionsWithResults[failureMechanismsKey] = new List<FailureMechanismSectionWithCategory>();
             }
