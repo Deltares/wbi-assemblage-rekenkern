@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -52,7 +53,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region CalculateFailureMechanismFailureProbabilityBoi1A1
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityBoi1A1_FailureMechanismSectionAssemblyResultsNull_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A1_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
@@ -61,10 +62,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(1.0, null, false);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSectionAssemblyResults", exception.ParamName);
         }
 
         [Test]
@@ -270,7 +269,7 @@ namespace Assembly.Kernel.Tests.Implementations
         #region CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsNull_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
@@ -279,10 +278,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(1.0, null, false);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSectionAssemblyResults", exception.ParamName);
         }
 
         [Test]

@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
@@ -38,9 +39,11 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
+        /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
@@ -51,7 +54,7 @@ namespace Assembly.Kernel.Interfaces
             double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             bool partialAssembly);
-        
+
         /// <summary>
         /// Calculates a <see cref="FailureMechanismAssemblyResult"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>
@@ -59,9 +62,11 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
+        /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
