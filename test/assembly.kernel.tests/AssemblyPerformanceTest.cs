@@ -50,7 +50,7 @@ namespace Assembly.Kernel.Tests
         {
             var watch = Stopwatch.StartNew();
 
-            var section = new AssessmentSection((Probability) 1.0E-3, (Probability) (1.0 / 300.0));
+            var section = new AssessmentSection((Probability) 1.0e-3, (Probability) (1.0 / 300.0));
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
             var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
@@ -142,7 +142,7 @@ namespace Assembly.Kernel.Tests
                         new Tuple<FailureMechanismSection, ResultWithProfileAndSectionProbabilities>(
                             new FailureMechanismSection(sectionStart, sectionEnd),
                             new ResultWithProfileAndSectionProbabilities(
-                                new Probability(5.0E-5), new Probability(1.0E-4))));
+                                new Probability(5.0e-5), new Probability(1.0e-4))));
 
                     sectionLengthRemaining -= sectionEnd - sectionStart;
                 }

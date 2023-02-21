@@ -74,7 +74,7 @@ namespace Assembly.Kernel.Model
         /// <param name="maximumRelativeDifference">The maximum allowed relative difference.</param>
         /// <returns><c>true</c> in case there is a negligible difference with the specified other probability;
         /// <c>false</c> otherwise.</returns>
-        public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1E-6)
+        public bool IsNegligibleDifference(Probability other, double maximumRelativeDifference = 1e-6)
         {
             double average = (this + (double) other) * 0.5;
             double absoluteDifference = Math.Abs(this - (double) other);

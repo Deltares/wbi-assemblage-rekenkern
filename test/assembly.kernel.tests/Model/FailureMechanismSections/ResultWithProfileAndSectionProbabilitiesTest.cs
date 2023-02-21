@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
         [TestCase(0.01, 0.1, 10.0)]
         [TestCase(double.NaN, double.NaN, 1.0)]
         [TestCase(0.0, 0.0, 1.0)]
-        [TestCase(1E-5, 1E-5, 1.0)]
+        [TestCase(1e-5, 1e-5, 1.0)]
         public void Constructor_ExpectedValues(double probabilityProfileValue, double probabilitySectionValue, double expectedLengthEffectFactor)
         {
             // Setup
