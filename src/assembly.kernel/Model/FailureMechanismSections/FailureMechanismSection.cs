@@ -43,22 +43,12 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// </exception>
         public FailureMechanismSection(double start, double end)
         {
-            if (double.IsNaN(start))
-            {
-                throw new AssemblyException(nameof(start), EAssemblyErrors.UndefinedProbability);
-            }
-
-            if (double.IsNaN(end))
-            {
-                throw new AssemblyException(nameof(end), EAssemblyErrors.UndefinedProbability);
-            }
-
-            if (start < 0.0)
+            if (double.IsNaN(start) || start < 0.0)
             {
                 throw new AssemblyException(nameof(start), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }
 
-            if (end <= start)
+            if (double.IsNaN(end) || end <= start)
             {
                 throw new AssemblyException(nameof(end), EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
             }

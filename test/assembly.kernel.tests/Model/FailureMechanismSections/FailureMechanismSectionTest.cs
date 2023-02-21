@@ -29,9 +29,9 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
     public class FailureMechanismSectionTest
     {
         [Test]
-        [TestCase(double.NaN, EAssemblyErrors.UndefinedProbability)]
-        [TestCase(-0.1, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)]
-        public void Constructor_InvalidStart_ThrowsAssemblyException(double start, EAssemblyErrors expectedError)
+        [TestCase(double.NaN)]
+        [TestCase(-0.1)]
+        public void Constructor_InvalidStart_ThrowsAssemblyException(double start)
         {
             // Call
             void Call() => new FailureMechanismSection(start, 10.0);
@@ -39,14 +39,14 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("start", expectedError)
+                new AssemblyErrorMessage("start", EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)
             });
         }
 
         [Test]
-        [TestCase(double.NaN, EAssemblyErrors.UndefinedProbability)]
-        [TestCase(9.0, EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)]
-        public void Constructor_InvalidEnd_ThrowsAssemblyException(double end, EAssemblyErrors expectedError)
+        [TestCase(double.NaN)]
+        [TestCase(9.0)]
+        public void Constructor_InvalidEnd_ThrowsAssemblyException(double end)
         {
             // Call
             void Call() => new FailureMechanismSection(10.0, end);
@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Tests.Model.FailureMechanismSections
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("end", expectedError)
+                new AssemblyErrorMessage("end", EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid)
             });
         }
 
