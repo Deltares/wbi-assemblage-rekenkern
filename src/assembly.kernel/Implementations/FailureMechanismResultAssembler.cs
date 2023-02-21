@@ -76,7 +76,7 @@ namespace Assembly.Kernel.Implementations
             if (partialAssembly)
             {
                 failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
-                    r => r.ProbabilitySection.IsDefined && r.ProbabilityProfile.IsDefined);
+                    r => r.ProbabilitySection.IsDefined);
 
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
@@ -151,8 +151,7 @@ namespace Assembly.Kernel.Implementations
             {
                 foreach (ResultWithProfileAndSectionProbabilities failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
-                    if (!failureMechanismSectionAssemblyResult.ProbabilitySection.IsDefined
-                        && !failureMechanismSectionAssemblyResult.ProbabilityProfile.IsDefined)
+                    if (!failureMechanismSectionAssemblyResult.ProbabilitySection.IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
