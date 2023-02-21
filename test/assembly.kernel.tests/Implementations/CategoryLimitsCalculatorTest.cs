@@ -19,8 +19,8 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
-using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
@@ -43,7 +43,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateInterpretationCategoryLimitsBoi01_AssessmentSectionNull_ThrowsAssemblyException()
+        public void CalculateInterpretationCategoryLimitsBoi01_AssessmentSectionNull_ThrowsArgumentNullException()
         {
             // Setup
             var calculator = new CategoryLimitsCalculator();
@@ -52,10 +52,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => calculator.CalculateInterpretationCategoryLimitsBoi01(null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("assessmentSection", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("assessmentSection", exception.ParamName);
         }
 
         [Test]
@@ -74,7 +72,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateAssessmentSectionCategoryLimitsBoi21_AssessmentSectionNull_ThrowsAssemblyException()
+        public void CalculateAssessmentSectionCategoryLimitsBoi21_AssessmentSectionNull_ThrowsArgumentNullException()
         {
             // Setup
             var calculator = new CategoryLimitsCalculator();
@@ -83,10 +81,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => calculator.CalculateAssessmentSectionCategoryLimitsBoi21(null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("assessmentSection", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("assessmentSection", exception.ParamName);
         }
 
         [Test]

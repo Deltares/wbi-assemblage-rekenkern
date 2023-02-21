@@ -20,7 +20,6 @@
 // All rights reserved.
 
 using System;
-using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
@@ -41,7 +40,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (assessmentSection == null)
             {
-                throw new AssemblyException(nameof(assessmentSection), EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(assessmentSection));
             }
 
             var sigDiv1000 = new Probability(assessmentSection.SignalFloodingProbability / 1000.0);
@@ -66,7 +65,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (assessmentSection == null)
             {
-                throw new AssemblyException(nameof(assessmentSection), EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(assessmentSection));
             }
 
             var sigDiv30 = new Probability(assessmentSection.SignalFloodingProbability / 30.0);

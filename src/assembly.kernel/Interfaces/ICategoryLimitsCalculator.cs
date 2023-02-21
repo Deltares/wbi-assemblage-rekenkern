@@ -19,7 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using Assembly.Kernel.Exceptions;
+using System;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 
@@ -36,16 +36,16 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="assessmentSection">The assessment section to calculate the category limits for.</param>
         /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="InterpretationCategory"/>
         /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
         CategoriesList<InterpretationCategory> CalculateInterpretationCategoryLimitsBoi01(AssessmentSection assessmentSection);
-        
+
         /// <summary>
         /// Calculate the category limits for an assessment section.
         /// </summary>
         /// <param name="assessmentSection">The assessment section to calculate the category limits for.</param>
         /// <returns>A <see cref="CategoriesList{TCategory}"/> of <see cref="AssessmentSectionCategory"/>
         /// based on the maximum allowable flooding probability and the signal flooding probability.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="assessmentSection"/> is <c>null</c>.</exception>
         CategoriesList<AssessmentSectionCategory> CalculateAssessmentSectionCategoryLimitsBoi21(AssessmentSection assessmentSection);
     }
 }
