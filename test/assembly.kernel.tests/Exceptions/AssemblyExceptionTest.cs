@@ -76,16 +76,14 @@ namespace Assembly.Kernel.Tests.Exceptions
         }
 
         [Test]
-        public void ConstructorWithMultipleErrors_ErrorsNull_ExpectedValues()
+        public void ConstructorWithMultipleErrors_ErrorMessagesNull_ThrowsArgumentNullException()
         {
             // Call
-            var exception = new AssemblyException(null);
+            void Call() => new AssemblyException(null);
 
             // Assert
-            Assert.AreEqual(1, exception.Errors.Count());
-            AssemblyErrorMessage errorMessage = exception.Errors.First();
-            Assert.AreEqual(nameof(AssemblyException), errorMessage.EntityId);
-            Assert.AreEqual(EAssemblyErrors.ErrorConstructingErrorMessage, errorMessage.ErrorCode);
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("errorMessages", exception.ParamName);
         }
 
         [Test]

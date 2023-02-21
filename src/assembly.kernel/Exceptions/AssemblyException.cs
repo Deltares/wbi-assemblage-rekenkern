@@ -44,14 +44,13 @@ namespace Assembly.Kernel.Exceptions
         /// Creates a new instance of <see cref="AssemblyException"/> with multiple error messages.
         /// </summary>
         /// <param name="errorMessages">A list of error messages.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="errorMessages"/>
+        /// is <c>null</c>.</exception>
         internal AssemblyException(IEnumerable<AssemblyErrorMessage> errorMessages)
         {
             if (errorMessages == null)
             {
-                errorMessages = new List<AssemblyErrorMessage>
-                {
-                    new AssemblyErrorMessage(nameof(AssemblyException), EAssemblyErrors.ErrorConstructingErrorMessage)
-                };
+                throw new ArgumentNullException(nameof(errorMessages));
             }
 
             Errors = errorMessages;
