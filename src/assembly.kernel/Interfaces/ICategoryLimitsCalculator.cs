@@ -20,7 +20,7 @@
 // All rights reserved.
 
 using Assembly.Kernel.Exceptions;
-using Assembly.Kernel.Model.AssessmentSection;
+using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Interfaces

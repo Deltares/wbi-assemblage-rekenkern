@@ -24,7 +24,7 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.AssessmentSection
+namespace Assembly.Kernel.Tests.Model
 {
     [TestFixture]
     public class AssessmentSectionTest
@@ -33,7 +33,7 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
         public void Constructor_SignalFloodingProbabilityLargerThanMaximumAllowableFloodingProbability_ThrowsAssemblyException()
         {
             // Call
-            void Call() => new Kernel.Model.AssessmentSection.AssessmentSection(new Probability(1.0), new Probability(0.0));
+            void Call() => new AssessmentSection(new Probability(1.0), new Probability(0.0));
 
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
@@ -48,14 +48,14 @@ namespace Assembly.Kernel.Tests.Model.AssessmentSection
             // Setup
             var signalFloodingProbability = new Probability(0.9);
             var maximumAllowableFloodingProbability = new Probability(1.0);
-            
+
             // Call
-            var assessmentSection = new Kernel.Model.AssessmentSection.AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
-            
+            var assessmentSection = new AssessmentSection(signalFloodingProbability, maximumAllowableFloodingProbability);
+
             // Assert
             Assert.AreEqual(signalFloodingProbability, assessmentSection.SignalFloodingProbability, 1e-6);
             Assert.AreEqual(maximumAllowableFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability, 1e-6);
-            
+
             string expectedString = $"Signal flooding probability: {signalFloodingProbability}, "
                                     + Environment.NewLine
                                     + $"Maximum allowable flooding probability: {maximumAllowableFloodingProbability}";

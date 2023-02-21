@@ -39,6 +39,7 @@
     <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
     <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs" />
     <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs" />
+    <Compile Include="Model\AssessmentSectionTest.cs" />
     <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
     <Compile Include="Model\Categories\CategoryLimitsTest.cs" />
     <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />
@@ -51,7 +52,6 @@
     <Compile Include="AssemblyPerformanceTest.cs" />
     <Compile Include="Implementations\AssessmentGradeAssemblerTest.cs" />
     <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTest.cs" />
-    <Compile Include="Model\AssessmentSection\AssessmentSectionTest.cs" />
     <Compile Include="Implementations\CategoryLimitsCalculatorTest.cs" />
     <Compile Include="Model\Categories\CategoriesListTest.cs" />
     <Compile Include="Model\Categories\TestCategory.cs" />
@@ -85,7 +85,6 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

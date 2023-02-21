@@ -35,6 +35,7 @@
         <Reference Include="System.Core" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Model\AssessmentSection.cs" />
         <Compile Include="Model\Categories\CategoriesList.cs" />
         <Compile Include="Model\Categories\ICategoryLimits.cs" />
         <Compile Include="Model\Categories\InterpretationCategory.cs" />
@@ -56,7 +57,6 @@
         <Compile Include="Interfaces\ICommonFailureMechanismSectionAssembler.cs" />
         <Compile Include="Interfaces\IFailureMechanismResultAssembler.cs" />
         <Compile Include="Interfaces\IAssessmentResultsTranslator.cs" />
-        <Compile Include="Model\AssessmentSection\AssessmentSection.cs" />
         <Compile Include="Model\Categories\EAssessmentGrade.cs" />
         <Compile Include="Model\Categories\CategoryLimits.cs" />
         <Compile Include="Model\Categories\AssessmentSectionCategory.cs" />
@@ -73,6 +73,5 @@
             <Link>Assembly.Kernel.licenseheader</Link>
         </None>
     </ItemGroup>
-    <ItemGroup />
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,7 +22,7 @@
 using System;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Model.AssessmentSection
+namespace Assembly.Kernel.Model
 {
     /// <summary>
     /// Assessment Section data object.

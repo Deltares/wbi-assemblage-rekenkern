@@ -32,7 +32,6 @@ using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
-using Assembly.Kernel.Model.AssessmentSection;
 using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
