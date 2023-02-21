@@ -643,19 +643,16 @@ namespace Assembly.Kernel.Tests.Model
         }
 
         [Test]
-        public void CompareTo_Null_ThrowsAssemblyException()
+        public void CompareTo_Null_ReturnsExpectedResult()
         {
             // Setup
             var probability = new Probability(0.1);
 
             // Call
-            void Call() => probability.CompareTo(null);
+            int result = probability.CompareTo(null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("obj", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            Assert.AreEqual(1, result);
         }
 
         [Test]
@@ -668,10 +665,8 @@ namespace Assembly.Kernel.Tests.Model
             void Call() => probability.CompareTo(new object());
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("obj", EAssemblyErrors.InvalidArgumentType)
-            });
+            var exception = Assert.Throws<ArgumentException>(Call);
+            Assert.AreEqual("obj must be Double or Probability", exception.Message);
         }
 
         [Test]

@@ -352,7 +352,7 @@ namespace Assembly.Kernel.Model
         {
             if (obj == null)
             {
-                throw new AssemblyException(nameof(obj), EAssemblyErrors.ValueMayNotBeNull);
+                return 1;
             }
 
             if (obj is Probability probability)
@@ -365,7 +365,7 @@ namespace Assembly.Kernel.Model
                 return CompareTo(d);
             }
 
-            throw new AssemblyException(nameof(obj), EAssemblyErrors.InvalidArgumentType);
+            throw new ArgumentException($"{nameof(obj)} must be {nameof(Double)} or {nameof(Probability)}");
         }
 
         /// <inheritdoc />
