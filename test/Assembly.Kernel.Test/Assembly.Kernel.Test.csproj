@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Assembly.Kernel.Tests</RootNamespace>
-    <AssemblyName>Assembly.Kernel.Tests</AssemblyName>
+    <RootNamespace>Assembly.Kernel.Test</RootNamespace>
+    <AssemblyName>Assembly.Kernel.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

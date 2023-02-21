@@ -24,7 +24,7 @@ using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model
+namespace Assembly.Kernel.Test.Model
 {
     [TestFixture]
     public class AssessmentSectionTest

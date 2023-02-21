@@ -22,7 +22,7 @@
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Exceptions
+namespace Assembly.Kernel.Test.Exceptions
 {
     [TestFixture]
     public class AssemblyErrorMessageTest

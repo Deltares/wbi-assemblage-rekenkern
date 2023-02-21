@@ -22,7 +22,7 @@
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Test.Model.Categories
 {
     public class TestCategory : ICategoryLimits
     {

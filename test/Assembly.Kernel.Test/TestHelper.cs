@@ -24,7 +24,7 @@ using System.Linq;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests
+namespace Assembly.Kernel.Test
 {
     /// <summary>
     /// Class containing helper functions which can be used for unit tests.

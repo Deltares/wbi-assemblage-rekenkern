@@ -57,4 +57,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("22.2.1.0")]
 [assembly: AssemblyInformationalVersion("22.2.1.0 - snapshot")]
 
-[assembly: InternalsVisibleTo("Assembly.Kernel.Tests")]
+[assembly: InternalsVisibleTo("Assembly.Kernel.Test")]

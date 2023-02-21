@@ -23,7 +23,7 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Model.Categories
+namespace Assembly.Kernel.Test.Model.Categories
 {
     [TestFixture]
     public class InterpretationCategoryTest

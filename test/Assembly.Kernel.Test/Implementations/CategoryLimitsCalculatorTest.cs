@@ -27,7 +27,7 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Implementations
+namespace Assembly.Kernel.Test.Implementations
 {
     [TestFixture]
     public class CategoryLimitsCalculatorTest

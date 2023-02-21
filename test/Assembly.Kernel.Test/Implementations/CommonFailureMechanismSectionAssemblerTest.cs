@@ -29,7 +29,7 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Tests.Implementations
+namespace Assembly.Kernel.Test.Implementations
 {
     [TestFixture]
     public class CommonFailureMechanismSectionAssemblerTest

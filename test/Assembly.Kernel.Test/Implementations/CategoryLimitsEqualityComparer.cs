@@ -22,7 +22,7 @@
 using System.Collections;
 using Assembly.Kernel.Model.Categories;
 
-namespace Assembly.Kernel.Tests.Implementations
+namespace Assembly.Kernel.Test.Implementations
 {
     /// <summary>
     /// Defines an equality comparer for <see cref="ICategoryLimits"/>.
