@@ -61,8 +61,7 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="failureProbability">The failure probability to get the category for.</param>
         /// <returns>The category based on the <paramref name="failureProbability"/>.</returns>
         /// <exception cref="AssemblyException">Thrown when <paramref name="failureProbability"/>
-        /// is <c>Undefined</c>.</exception>
-        /// <seealso cref="Probability.Undefined"/>
+        /// is <see cref="Probability.Undefined"/>.</exception>
         public TCategory GetCategoryForFailureProbability(Probability failureProbability)
         {
             if (!failureProbability.IsDefined)

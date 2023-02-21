@@ -39,7 +39,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <item><paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</item>
         /// </list>
         /// </exception>
-        /// <seealso cref="Probability.Undefined"/>
+        /// <seealso cref="Probability.IsDefined"/>
         public ResultWithProfileAndSectionProbabilities(Probability probabilityProfile, Probability probabilitySection)
         {
             ValidateProbabilities(probabilityProfile, probabilitySection);
@@ -78,7 +78,7 @@ namespace Assembly.Kernel.Model.FailureMechanismSections
         /// <item><paramref name="probabilityProfile"/> &gt; <paramref name="probabilitySection"/>.</item>
         /// </list>
         /// </exception>
-        /// <seealso cref="Probability.Undefined"/>
+        /// <seealso cref="Probability.IsDefined"/>
         private static void ValidateProbabilities(Probability probabilityProfile, Probability probabilitySection)
         {
             if (probabilitySection.IsDefined != probabilityProfile.IsDefined)

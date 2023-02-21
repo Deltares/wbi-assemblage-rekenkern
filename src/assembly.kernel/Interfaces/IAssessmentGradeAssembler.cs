@@ -40,12 +40,11 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismProbabilities"/> is <c>null</c> or <c>empty</c>;</item>
-        /// <item><paramref name="failureMechanismProbabilities"/> contains <c>Undefined</c> probabilities
+        /// <item><paramref name="failureMechanismProbabilities"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
-        /// <seealso cref="Probability.Undefined"/>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
             IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly);
 

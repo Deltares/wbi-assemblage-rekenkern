@@ -41,13 +41,12 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
-        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
-        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
-        /// <seealso cref="Probability.Undefined"/>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
             double lengthEffectFactor,
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
@@ -63,13 +62,12 @@ namespace Assembly.Kernel.Interfaces
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
-        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <c>Undefined</c> probabilities
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
-        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
-        /// <seealso cref="Probability.Undefined"/>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
         FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
             double lengthEffectFactor,
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,

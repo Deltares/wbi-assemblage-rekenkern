@@ -37,12 +37,11 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="upperLimit">The upper limit of the category.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="lowerLimit"/> is <c>Undefined</c>;</item>
-        /// <item><paramref name="upperLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="lowerLimit"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="upperLimit"/> is <see cref="Probability.Undefined"/>;</item>
         /// <item><paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/></item>.
         /// </list>
         /// </exception>
-        /// <seealso cref="Probability.Undefined"/>
         protected CategoryLimits(T category, Probability lowerLimit, Probability upperLimit)
         {
             ValidateLimits(lowerLimit, upperLimit);
@@ -70,12 +69,11 @@ namespace Assembly.Kernel.Model.Categories
         /// <param name="upperLimit">The upper limit of the category.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="lowerLimit"/> is <c>Undefined</c>;</item>
-        /// <item><paramref name="upperLimit"/> is <c>Undefined</c>;</item>
+        /// <item><paramref name="lowerLimit"/> is <see cref="Probability.Undefined"/>;</item>
+        /// <item><paramref name="upperLimit"/> is <see cref="Probability.Undefined"/>;</item>
         /// <item><paramref name="lowerLimit"/> &gt; <paramref name="upperLimit"/></item>.
         /// </list>
         /// </exception>
-        /// <seealso cref="Probability.Undefined"/>
         private static void ValidateLimits(Probability lowerLimit, Probability upperLimit)
         {
             if (!lowerLimit.IsDefined)
