@@ -44,6 +44,11 @@ namespace Assembly.Kernel.Implementations
             IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists,
             double assessmentSectionLength)
         {
+            if (failureMechanismSectionLists == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionLists));
+            }
+
             ValidateGreatestCommonDenominatorInput(failureMechanismSectionLists, assessmentSectionLength);
 
             return new FailureMechanismSectionList(GetCommonSectionLimitsIgnoringSmallDifferences(failureMechanismSectionLists));
@@ -73,6 +78,11 @@ namespace Assembly.Kernel.Implementations
         public IEnumerable<FailureMechanismSectionWithCategory> DetermineCombinedResultPerCommonSectionBoi3C1(
             IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections, bool partialAssembly)
         {
+            if (failureMechanismResultsForCommonSections == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismResultsForCommonSections));
+            }
+
             ValidateCombinedResultPerCommonSectionInput(failureMechanismResultsForCommonSections);
 
             IEnumerable<FailureMechanismSectionWithCategory>[] failureMechanismSectionLists =
@@ -94,10 +104,9 @@ namespace Assembly.Kernel.Implementations
         /// <param name="failureMechanismSections">The list of failure mechanism sections.</param>
         /// <param name="commonSections">The list of common failure mechanism sections.</param>
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when any parameter is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSections"/> is <c>null</c>;</item>
-        /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
         /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSections"/>;</item>
         /// <item>The elements of <paramref name="failureMechanismSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
         /// </list>
@@ -107,14 +116,12 @@ namespace Assembly.Kernel.Implementations
         {
             if (failureMechanismSections == null)
             {
-                throw new AssemblyException(nameof(failureMechanismSections),
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(failureMechanismSections));
             }
 
             if (commonSections == null)
             {
-                throw new AssemblyException(nameof(commonSections),
-                                            EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(commonSections));
             }
 
             double commonSectionsLength = commonSections.Sections.Last().End;
@@ -143,7 +150,7 @@ namespace Assembly.Kernel.Implementations
         /// <param name="assessmentSectionLength">The total length of the assessment section.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionLists"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionLists"/> is <c>empty</c>;</item>
         /// <item><paramref name="assessmentSectionLength"/> is <see cref="double.NaN"/> or not &gt; 0;</item>
         /// <item>The sum of the failure mechanism section lengths is not equal to the <paramref name="assessmentSectionLength"/>.</item>
         /// </list>
@@ -166,12 +173,7 @@ namespace Assembly.Kernel.Implementations
                                                     EAssemblyErrors.SectionLengthOutOfRange));
             }
 
-            if (failureMechanismSectionLists == null)
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionLists),
-                                                    EAssemblyErrors.ValueMayNotBeNull));
-            }
-            else if (!failureMechanismSectionLists.Any())
+            if (!failureMechanismSectionLists.Any())
             {
                 errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionLists),
                                                     EAssemblyErrors.EmptyResultsList));
@@ -234,7 +236,7 @@ namespace Assembly.Kernel.Implementations
         /// <param name="failureMechanismResultsForCommonSections">The list of common section results per failure mechanism.</param>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>empty</c>;</item>
         /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>;</item>
         /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> do not have equal sections.</item>
         /// </list>
@@ -242,12 +244,6 @@ namespace Assembly.Kernel.Implementations
         private static void ValidateCombinedResultPerCommonSectionInput(
             IEnumerable<FailureMechanismSectionList> failureMechanismResultsForCommonSections)
         {
-            if (failureMechanismResultsForCommonSections == null)
-            {
-                throw new AssemblyException(nameof(failureMechanismResultsForCommonSections),
-                                            EAssemblyErrors.ValueMayNotBeNull);
-            }
-
             IEnumerable<FailureMechanismSection> failureMechanismSectionsPerFailureMechanism = failureMechanismResultsForCommonSections.SelectMany(fm => fm.Sections);
             if (!failureMechanismResultsForCommonSections.Any()
                 || failureMechanismSectionsPerFailureMechanism.Any(s => s.GetType() != typeof(FailureMechanismSectionWithCategory)))

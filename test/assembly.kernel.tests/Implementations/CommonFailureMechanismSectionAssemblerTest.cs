@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -70,7 +71,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void FindGreatestCommonDenominatorSectionsBoi3A1_FailureMechanismSectionsNull_ThrowsAssemblyException()
+        public void FindGreatestCommonDenominatorSectionsBoi3A1_FailureMechanismSectionsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -79,10 +80,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => assembler.FindGreatestCommonDenominatorSectionsBoi3A1(null, 1.0);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismSectionLists", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSectionLists", exception.ParamName);
         }
 
         [Test]
@@ -175,7 +174,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1_FailureMechanismSectionsNull_ThrowsAssemblyException()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1_FailureMechanismSectionsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -188,14 +187,12 @@ namespace Assembly.Kernel.Tests.Implementations
                 }));
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismSections", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSections", exception.ParamName);
         }
 
         [Test]
-        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1_CommonSectionsNull_ThrowsAssemblyException()
+        public void TranslateFailureMechanismResultsToCommonSectionsBoi3B1_CommonSectionsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -208,10 +205,8 @@ namespace Assembly.Kernel.Tests.Implementations
                 }), null);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("commonSections", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("commonSections", exception.ParamName);
         }
 
         [Test]
@@ -303,7 +298,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsNull_ThrowsAssemblyException()
+        public void DetermineCombinedResultPerCommonSectionBoi3C1_FailureMechanismResultsForCommonSectionsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new CommonFailureMechanismSectionAssembler();
@@ -312,10 +307,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => assembler.DetermineCombinedResultPerCommonSectionBoi3C1(null, false);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismResultsForCommonSections", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismResultsForCommonSections", exception.ParamName);
         }
 
         [Test]

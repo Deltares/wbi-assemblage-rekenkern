@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model.Categories;
@@ -38,9 +39,10 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionLists">The list of failure mechanism section lists.</param>
         /// <param name="assessmentSectionLength">The total length of the assessment section.</param>
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the greatest common denominator sections.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionLists"/> is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSectionLists"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionLists"/> is <c>empty</c>;</item>
         /// <item><paramref name="assessmentSectionLength"/> is <see cref="double.NaN"/> or not &gt; 0;</item>
         /// <item>The sum of the failure mechanism section lengths is not equal to the <paramref name="assessmentSectionLength"/>.</item>
         /// </list>
@@ -55,10 +57,9 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSections">The list of failure mechanism sections.</param>
         /// <param name="commonSections">The list of common failure mechanism sections.</param>
         /// <returns>A <see cref="FailureMechanismSectionList"/> with the assembly result per common denominator section.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when any parameter is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismSections"/> is <c>null</c>;</item>
-        /// <item><paramref name="commonSections"/> is <c>null</c>;</item>
         /// <item>The length of the <paramref name="commonSections"/> is not equal to the lenght of the <paramref name="failureMechanismSections"/>;</item>
         /// <item>The elements of <paramref name="failureMechanismSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>.</item>
         /// </list>
@@ -73,9 +74,10 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismResultsForCommonSections">The list of common section results per failure mechanism.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>A list with assembly results per greatest common denominator section.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismResultsForCommonSections"/> is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismResultsForCommonSections"/> is <c>empty</c>;</item>
         /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> are not of type <see cref="FailureMechanismSectionWithCategory"/>;</item>
         /// <item>The elements of <paramref name="failureMechanismResultsForCommonSections"/> do not have equal sections.</item>
         /// </list>
