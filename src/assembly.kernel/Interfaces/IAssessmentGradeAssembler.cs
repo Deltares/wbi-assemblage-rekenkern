@@ -37,14 +37,17 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismProbabilities">The failure mechanism assembly results with failure probability.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>An assembled assessment section result.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismProbabilities"/>
+        /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
-        /// <item><paramref name="failureMechanismProbabilities"/> is <c>null</c> or <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismProbabilities"/> is <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismProbabilities"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// </list>
         /// </exception>
-        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <c>Undefined</c> probabilities are ignored.</remarks>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/>
+        /// probabilities are ignored.</remarks>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
             IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly);
 
@@ -54,8 +57,10 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureProbability">The failure probability of the assessment section.</param>
         /// <param name="categories">The categories to use.</param>
         /// <returns>The <see cref="EAssessmentGrade"/> of the assessment section.</returns>
-        /// <exception cref="AssemblyException">Thrown when <paramref name="categories"/> is <c>null</c>
-        /// or <paramref name="failureProbability"/> is undefined.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="categories"/>
+        /// is <c>null</c>.</exception>
+        /// <exception cref="AssemblyException">Thrown when <paramref name="failureProbability"/>
+        /// is <see cref="Probability.Undefined"/>.</exception>
         EAssessmentGrade DetermineAssessmentGradeBoi2B1(
             Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories);
     }

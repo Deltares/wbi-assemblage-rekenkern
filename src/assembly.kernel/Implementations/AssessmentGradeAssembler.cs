@@ -19,6 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
@@ -39,7 +40,7 @@ namespace Assembly.Kernel.Implementations
         {
             if (failureMechanismProbabilities == null)
             {
-                throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.ValueMayNotBeNull);
+                throw new ArgumentNullException(nameof(failureMechanismProbabilities));
             }
 
             if (partialAssembly)
@@ -55,11 +56,14 @@ namespace Assembly.Kernel.Implementations
         public EAssessmentGrade DetermineAssessmentGradeBoi2B1(
             Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
-            AssemblyErrorMessage[] validationErrors = ValidateProbabilityAndCategories(failureProbability, categories).ToArray();
-
-            if (validationErrors.Any())
+            if (categories == null)
             {
-                throw new AssemblyException(validationErrors);
+                throw new ArgumentNullException(nameof(categories));
+            }
+
+            if (!failureProbability.IsDefined)
+            {
+                throw new AssemblyException(nameof(failureProbability), EAssemblyErrors.UndefinedProbability);
             }
 
             return categories.GetCategoryForFailureProbability(failureProbability).Category;
@@ -84,20 +88,6 @@ namespace Assembly.Kernel.Implementations
                 {
                     throw new AssemblyException(nameof(failureMechanismProbability), EAssemblyErrors.UndefinedProbability);
                 }
-            }
-        }
-
-        private static IEnumerable<AssemblyErrorMessage> ValidateProbabilityAndCategories(
-            Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
-        {
-            if (!failureProbability.IsDefined)
-            {
-                yield return new AssemblyErrorMessage(nameof(failureProbability), EAssemblyErrors.UndefinedProbability);
-            }
-
-            if (categories == null)
-            {
-                yield return new AssemblyErrorMessage(nameof(categories), EAssemblyErrors.ValueMayNotBeNull);
             }
         }
 

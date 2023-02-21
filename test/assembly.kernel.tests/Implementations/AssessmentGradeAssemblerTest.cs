@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesNull_ThrowsAssemblyException()
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A1_FailureMechanismProbabilitiesNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new AssessmentGradeAssembler();
@@ -53,10 +53,8 @@ namespace Assembly.Kernel.Tests.Implementations
             void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(null, false);
 
             // Assert
-            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
-            {
-                new AssemblyErrorMessage("failureMechanismProbabilities", EAssemblyErrors.ValueMayNotBeNull)
-            });
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismProbabilities", exception.ParamName);
         }
 
         [Test]
@@ -133,19 +131,37 @@ namespace Assembly.Kernel.Tests.Implementations
         }
 
         [Test]
-        public void DetermineAssessmentGradeBoi2B1_ProbabilityUndefinedAndCategoriesNull_ThrowsAssemblyException()
+        public void DetermineAssessmentGradeBoi2B1_dCategoriesNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new AssessmentGradeAssembler();
 
             // Call
-            void Call() => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined, null);
+            void Call() => assembler.DetermineAssessmentGradeBoi2B1(new Probability(0.0), null);
+
+            // Assert
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("categories", exception.ParamName);
+        }
+
+        [Test]
+        public void DetermineAssessmentGradeBoi2B1_ProbabilityUndefined_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.DetermineAssessmentGradeBoi2B1(Probability.Undefined,
+                                                                    new CategoriesList<AssessmentSectionCategory>(new[]
+                                                                    {
+                                                                        new AssessmentSectionCategory(EAssessmentGrade.APlus, new Probability(0.0), new Probability(0.1)),
+                                                                        new AssessmentSectionCategory(EAssessmentGrade.A, new Probability(0.1), new Probability(1.0))
+                                                                    }));
 
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureProbability", EAssemblyErrors.UndefinedProbability),
-                new AssemblyErrorMessage("categories", EAssemblyErrors.ValueMayNotBeNull)
+                new AssemblyErrorMessage("failureProbability", EAssemblyErrors.UndefinedProbability)
             });
         }
 
@@ -156,7 +172,7 @@ namespace Assembly.Kernel.Tests.Implementations
             (double failureProbability, EAssessmentGrade expectedAssessmentGrade)
         {
             // Setup
-            var categories = new CategoriesList<AssessmentSectionCategory>(new []
+            var categories = new CategoriesList<AssessmentSectionCategory>(new[]
             {
                 new AssessmentSectionCategory(EAssessmentGrade.APlus, new Probability(0), new Probability(0.1)),
                 new AssessmentSectionCategory(EAssessmentGrade.A, new Probability(0.1), new Probability(0.2)),
