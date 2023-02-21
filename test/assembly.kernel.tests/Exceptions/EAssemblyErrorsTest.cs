@@ -35,34 +35,30 @@ namespace Assembly.Kernel.Tests.Exceptions
             Array assemblyErrors = Enum.GetValues(typeof(EAssemblyErrors));
             
             // Assert
-            Assert.AreEqual(27, assemblyErrors.Length);
+            Assert.AreEqual(23, assemblyErrors.Length);
             Assert.AreEqual(0, (int) EAssemblyErrors.LengthEffectFactorOutOfRange);
             Assert.AreEqual(1, (int) EAssemblyErrors.SectionLengthOutOfRange);
             Assert.AreEqual(2, (int) EAssemblyErrors.SignalFloodingProbabilityAboveMaximumAllowableFloodingProbability);
             Assert.AreEqual(3, (int) EAssemblyErrors.LowerLimitIsAboveUpperLimit);
-            Assert.AreEqual(4, (int) EAssemblyErrors.ValueMayNotBeNull);
-            Assert.AreEqual(5, (int) EAssemblyErrors.FailureMechanismSectionLengthInvalid);
-            Assert.AreEqual(6, (int) EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
-            Assert.AreEqual(7, (int) EAssemblyErrors.FailureProbabilityOutOfRange);
-            Assert.AreEqual(8, (int) EAssemblyErrors.InputNotTheSameType);
-            Assert.AreEqual(9, (int) EAssemblyErrors.EmptyResultsList);
-            Assert.AreEqual(10, (int) EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
-            Assert.AreEqual(11, (int) EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
-            Assert.AreEqual(12, (int) EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
-            Assert.AreEqual(13, (int) EAssemblyErrors.RequestedPointOutOfRange);
-            Assert.AreEqual(14, (int) EAssemblyErrors.InvalidCategoryLimits);
-            Assert.AreEqual(15, (int) EAssemblyErrors.SectionsWithoutCategory);
-            Assert.AreEqual(16, (int) EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
-            Assert.AreEqual(17, (int) EAssemblyErrors.UndefinedProbability);
-            Assert.AreEqual(18, (int) EAssemblyErrors.ErrorConstructingErrorMessage);
-            Assert.AreEqual(19, (int) EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
-            Assert.AreEqual(20, (int) EAssemblyErrors.NonMatchingProbabilityValues);
-            Assert.AreEqual(21, (int) EAssemblyErrors.InvalidCategoryValue);
-            Assert.AreEqual(22, (int) EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
-            Assert.AreEqual(23, (int) EAssemblyErrors.InvalidEnumValue);
-            Assert.AreEqual(24, (int) EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
-            Assert.AreEqual(25, (int) EAssemblyErrors.CommonSectionsWithoutCategoryValues);
-            Assert.AreEqual(26, (int) EAssemblyErrors.InvalidArgumentType);
+            Assert.AreEqual(4, (int) EAssemblyErrors.FailureMechanismSectionLengthInvalid);
+            Assert.AreEqual(5, (int) EAssemblyErrors.FailureMechanismSectionSectionStartEndInvalid);
+            Assert.AreEqual(6, (int) EAssemblyErrors.FailureProbabilityOutOfRange);
+            Assert.AreEqual(7, (int) EAssemblyErrors.InputNotTheSameType);
+            Assert.AreEqual(8, (int) EAssemblyErrors.EmptyResultsList);
+            Assert.AreEqual(9, (int) EAssemblyErrors.CommonFailureMechanismSectionsInvalid);
+            Assert.AreEqual(10, (int) EAssemblyErrors.CommonFailureMechanismSectionsDoNotHaveEqualSections);
+            Assert.AreEqual(11, (int) EAssemblyErrors.CommonFailureMechanismSectionsNotConsecutive);
+            Assert.AreEqual(12, (int) EAssemblyErrors.RequestedPointOutOfRange);
+            Assert.AreEqual(13, (int) EAssemblyErrors.InvalidCategoryLimits);
+            Assert.AreEqual(14, (int) EAssemblyErrors.SectionsWithoutCategory);
+            Assert.AreEqual(15, (int) EAssemblyErrors.ProfileProbabilityGreaterThanSectionProbability);
+            Assert.AreEqual(16, (int) EAssemblyErrors.UndefinedProbability);
+            Assert.AreEqual(17, (int) EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult);
+            Assert.AreEqual(18, (int) EAssemblyErrors.InvalidCategoryValue);
+            Assert.AreEqual(19, (int) EAssemblyErrors.ProbabilitiesNotBothDefinedOrUndefined);
+            Assert.AreEqual(20, (int) EAssemblyErrors.InvalidEnumValue);
+            Assert.AreEqual(21, (int) EAssemblyErrors.UnequalCommonFailureMechanismSectionLists);
+            Assert.AreEqual(22, (int) EAssemblyErrors.CommonSectionsWithoutCategoryValues);
         }
     }
 }

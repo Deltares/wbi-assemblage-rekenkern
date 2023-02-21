@@ -49,11 +49,6 @@ namespace Assembly.Kernel.Exceptions
         LowerLimitIsAboveUpperLimit,
 
         /// <summary>
-        /// The value was null.
-        /// </summary>
-        ValueMayNotBeNull,
-
-        /// <summary>
         /// The length field of the failure mechanism section &lt;=0
         /// or the calculated section length isn't the same as the provided length.
         /// </summary>
@@ -122,19 +117,9 @@ namespace Assembly.Kernel.Exceptions
         UndefinedProbability,
 
         /// <summary>
-        /// An AssemblyException could not be created.
-        /// </summary>
-        ErrorConstructingErrorMessage,
-
-        /// <summary>
         /// The provided list with section results contains one or more sections without result. Assembly cannot be performed.
         /// </summary>
         EncounteredOneOrMoreSectionsWithoutResult,
-
-        /// <summary>
-        /// Probabilities do not match the provided category value.
-        /// </summary>
-        NonMatchingProbabilityValues,
 
         /// <summary>
         /// Incorrect category value is provided.
@@ -159,11 +144,6 @@ namespace Assembly.Kernel.Exceptions
         /// <summary>
         /// The specified common sections do not have interpretation categories.
         /// </summary>
-        CommonSectionsWithoutCategoryValues,
-
-        /// <summary>
-        /// The specified argument has an invalid type.
-        /// </summary>
-        InvalidArgumentType
+        CommonSectionsWithoutCategoryValues
     }
 }
