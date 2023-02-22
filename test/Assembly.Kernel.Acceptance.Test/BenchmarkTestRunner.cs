@@ -22,9 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assembly.Kernel.Acceptance.Test.TestHelpers;
 using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
 using Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism;
+using Assembly.Kernel.Acceptance.TestUtil;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanismSections;

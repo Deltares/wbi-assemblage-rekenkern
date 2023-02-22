@@ -19,14 +19,10 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
 {
@@ -35,15 +31,6 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
     /// </summary>
     public class TestFileReaderTestBase
     {
-        /// <summary>
-        /// Find the location of the test-data.
-        /// </summary>
-        /// <returns>Location of the test-data folder.</returns>
-        protected static string GetTestDir()
-        {
-            return Path.Combine(GetSolutionRoot(), "benchmarktests", "Assembly.Kernel.Acceptance.TestUtil", "test-data");
-        }
-
         /// <summary>
         /// Read all <see cref="WorksheetPart"/> from a <see cref="WorkbookPart"/>.
         /// </summary>
@@ -60,25 +47,6 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
             }
 
             return workSheetParts;
-        }
-
-        private static string GetSolutionRoot()
-        {
-            const string solutionName = "Assembly.sln";
-            var testContext = new TestContext(new TestExecutionContext.AdhocContext());
-            string curDir = testContext.TestDirectory;
-            while (Directory.Exists(curDir) && !File.Exists(curDir + @"\" + solutionName))
-            {
-                curDir += "/../";
-            }
-
-            if (!File.Exists(Path.Combine(curDir, solutionName)))
-            {
-                throw new InvalidOperationException(
-                    $"Solution file '{solutionName}' not found in any folder of '{Directory.GetCurrentDirectory()}'.");
-            }
-
-            return Path.GetFullPath(curDir);
         }
 
         private static Sheet GetSheetFromWorkSheet(WorkbookPart workbookPart, OpenXmlPart worksheetPart)

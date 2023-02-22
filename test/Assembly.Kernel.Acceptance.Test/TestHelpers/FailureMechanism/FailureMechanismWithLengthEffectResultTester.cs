@@ -22,6 +22,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
+using Assembly.Kernel.Acceptance.TestUtil;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanismSections;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Result;

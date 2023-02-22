@@ -24,7 +24,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
-namespace Assembly.Kernel.Acceptance.Test.TestHelpers
+namespace Assembly.Kernel.Acceptance.TestUtil
 {
     /// <summary>
     /// Helper methods for benchmark tests.
@@ -69,14 +69,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers
             int ind = testNameNoPrefix.IndexOf("_(v");
             return ind > -1 ? testNameNoPrefix.Substring(0, ind) : testNameNoPrefix;
         }
-
+        
         /// <summary>
-        /// Gets the benchmark test directory.
+        /// Gets the test data path.
         /// </summary>
-        /// <returns>The benchmark test directory.</returns>
-        public static string GetBenchmarkTestsDirectory()
+        /// <returns>The test data path.</returns>
+        public static string GetTestDataPath(string projectName)
         {
-            return Path.Combine(GetSolutionRoot(), "benchmarktests");
+            return Path.Combine(GetSolutionRoot(), "test", projectName, "test-data");
         }
 
         private static string GetSolutionRoot()

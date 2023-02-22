@@ -48,7 +48,6 @@
         <Compile Include="AssemblyKernelBenchmarkTestsExplicit.cs" />
         <Compile Include="AssemblyKernelBenchmarkTests.cs" />
         <Compile Include="BenchmarkTestCaseFactory.cs" />
-        <Compile Include="TestHelpers\BenchmarkTestHelper.cs" />
         <Compile Include="BenchmarkTestReportWriter.cs" />
         <Compile Include="BenchmarkTestRunner.cs" />
         <Compile Include="TestHelpers\Categories\AssertHelper.cs" />

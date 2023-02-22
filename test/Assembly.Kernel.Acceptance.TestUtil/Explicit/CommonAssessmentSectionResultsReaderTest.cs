@@ -66,7 +66,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
         [Test]
         public void ReaderReadsInformationCorrectly()
         {
-            string testFile = Path.Combine(GetTestDir(), "Benchmarktool Excel assemblage - Gecombineerd vakoordeel.xlsx");
+            string testFile = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.TestUtil"),
+                                           "Benchmarktool Excel assemblage - Gecombineerd vakoordeel.xlsx");
 
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {

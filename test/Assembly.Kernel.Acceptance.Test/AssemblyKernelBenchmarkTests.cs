@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assembly.Kernel.Acceptance.Test.TestHelpers;
+using Assembly.Kernel.Acceptance.TestUtil;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
@@ -64,7 +64,7 @@ namespace Assembly.Kernel.Acceptance.Test
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            reportDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testresults");
+            reportDirectory = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.Test"), "results");
             summaryTargetFileName = Path.Combine(reportDirectory, nameOfSummaryTex);
             CreateOrCleanReportDirectory();
 

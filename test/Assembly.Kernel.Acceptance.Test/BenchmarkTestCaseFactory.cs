@@ -22,7 +22,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Assembly.Kernel.Acceptance.Test.TestHelpers;
+using Assembly.Kernel.Acceptance.TestUtil;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Acceptance.Test
@@ -37,7 +37,8 @@ namespace Assembly.Kernel.Acceptance.Test
         /// </summary>
         public static IEnumerable<TestCaseData> GetBenchmarkTestCases()
         {
-            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
+            string testDirectory = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.Test"),
+                                                "definitions");
             string[] benchmarkTestFiles = Directory.GetFiles(testDirectory, "*.xlsx");
             
             return benchmarkTestFiles.Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)

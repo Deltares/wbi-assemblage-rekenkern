@@ -36,7 +36,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
         [Test]
         public void ReaderReadsFailureMechanismWithLengthEffectInformationCorrectly()
         {
-            string testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism with length-effect.xlsx");
+            string testFile = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.TestUtil"),
+                                           "Benchmarktool assemblage - Failure mechanism with length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
@@ -61,7 +62,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
         [Test]
         public void ReaderReadsFailureMechanismWithoutLengthEffectInformationCorrectly()
         {
-            string testFile = Path.Combine(GetTestDir(), "Benchmarktool assemblage - Failure mechanism without length-effect.xlsx");
+            string testFile = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.TestUtil"),
+                                           "Benchmarktool assemblage - Failure mechanism without length-effect.xlsx");
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(testFile, false))
             {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;

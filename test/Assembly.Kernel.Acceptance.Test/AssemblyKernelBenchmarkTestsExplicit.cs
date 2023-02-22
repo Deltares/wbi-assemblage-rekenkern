@@ -21,7 +21,7 @@
 
 using System.IO;
 using System.Linq;
-using Assembly.Kernel.Acceptance.Test.TestHelpers;
+using Assembly.Kernel.Acceptance.TestUtil;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
@@ -37,7 +37,8 @@ namespace Assembly.Kernel.Acceptance.Test
         [Explicit("Run only local")]
         public void RunBenchmarkTest()
         {
-            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
+            string testDirectory = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.Test"),
+                                                "definitions");
             string fileName = Directory.GetFiles(testDirectory, "*traject 30-4*.xlsx").First();
             string testName = BenchmarkTestHelper.GetTestName(fileName);
 

@@ -32,7 +32,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
         [Test]
         public void ReaderReads()
         {
-            string fileName = Path.Combine(GetTestDir(), "Benchmartktest - voorbeeld - 83-1.xlsx");
+            string fileName = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.TestUtil"),
+                                           "Benchmartktest - voorbeeld - 83-1.xlsx");
             BenchmarkTestInput result = AssemblyExcelFileReader.Read(fileName);
             Assert.IsNotNull(result);
         }
