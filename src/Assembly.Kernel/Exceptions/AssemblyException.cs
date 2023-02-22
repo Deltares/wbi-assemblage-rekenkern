@@ -22,14 +22,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
     /// Exception that is thrown when performing an assembly has failed.
     /// </summary>
+    [Serializable]
     public class AssemblyException : Exception
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="AssemblyException"/> with
+        /// serialized data.</summary>
+        /// <inheritdoc />
+        protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context) {}
+
         /// <summary>
         /// Creates a new instance of <see cref="AssemblyException"/> with a single error message.
         /// </summary>
