@@ -196,7 +196,7 @@ namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
                                                       .ToArray(),
                         false);
                 }
-                catch (AssemblyException e)
+                catch (AssemblyException)
                 {
                     result = new FailureMechanismAssemblyResult(Probability.Undefined, EFailureMechanismAssemblyMethod.Correlated);
                 }
