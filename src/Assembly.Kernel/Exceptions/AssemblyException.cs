@@ -32,20 +32,14 @@ namespace Assembly.Kernel.Exceptions
     [Serializable]
     public class AssemblyException : Exception
     {
+        /// <inheritdoc />
         /// <summary>
         /// Creates a new instance of <see cref="AssemblyException"/> with
-        /// serialized data.</summary>
-        /// <inheritdoc />
+        /// serialized data.
+        /// </summary>
         protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            var errorMessages = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
-            
-            if (errorMessages == null)
-            {
-                throw new ArgumentNullException(nameof(errorMessages));
-            }
-
-            Errors = errorMessages;
+            Errors = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
         }
 
         /// <summary>
