@@ -1,4 +1,4 @@
-﻿// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -19,7 +19,21 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Resources;
 
-[assembly: AssemblyTitle("assembly.kernel.benchmark.tests.io.tests")]
-[assembly: AssemblyProduct("assembly.kernel.benchmark.tests.io.tests")]
+[assembly: AssemblyCompany("Rijkswaterstaat")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCopyright("Copyright © 2022")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: NeutralResourcesLanguage("nl-NL")]
+
+[assembly: ComVisible(false)]
+[assembly: CLSCompliant(false)]
+
+[assembly: AssemblyVersion("22.2.1.0")]
+[assembly: AssemblyFileVersion("22.2.1.0")]

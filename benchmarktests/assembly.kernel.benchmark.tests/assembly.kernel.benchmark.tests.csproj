@@ -80,7 +80,11 @@
         <None Include="packages.config" />
         <EmbeddedResource Include="Resources\reporttemplate.tex" />
     </ItemGroup>
-    <ItemGroup />
+    <ItemGroup>
+        <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
+            <Link>Properties\GlobalAssembly.cs</Link>
+        </Compile>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
         <PropertyGroup>

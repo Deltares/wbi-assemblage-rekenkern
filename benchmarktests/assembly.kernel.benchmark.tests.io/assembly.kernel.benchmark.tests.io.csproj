@@ -69,6 +69,10 @@
             <Name>assembly.kernel.benchmark.tests.data</Name>
         </ProjectReference>
     </ItemGroup>
-    <ItemGroup />
+    <ItemGroup>
+        <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
+            <Link>Properties\GlobalAssembly.cs</Link>
+        </Compile>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

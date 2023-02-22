@@ -60,5 +60,10 @@
             <Link>Assembly.Kernel.licenseheader</Link>
         </None>
     </ItemGroup>
+    <ItemGroup>
+        <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
+            <Link>Properties\GlobalAssembly.cs</Link>
+        </Compile>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
