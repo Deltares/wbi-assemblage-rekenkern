@@ -25,19 +25,18 @@ using Assembly.Kernel.Model.Categories;
 namespace Assembly.Kernel.Test.Implementations
 {
     /// <summary>
-    /// Defines an equality comparer for <see cref="ICategoryLimits"/>.
+    /// Comparer for <see cref="ICategoryLimits"/>.
     /// </summary>
     public class CategoryLimitsEqualityComparer : IComparer
     {
-        /// <inheritdoc />
         public int Compare(object x, object y)
         {
-            var categoryLimitsX = x as ICategoryLimits;
-            var categoryLimitsY = y as ICategoryLimits;
-            return categoryLimitsX != null &&
-                   categoryLimitsY != null &&
-                   categoryLimitsX.LowerLimit.IsNegligibleDifference(categoryLimitsY.LowerLimit) &&
-                   categoryLimitsX.UpperLimit.IsNegligibleDifference(categoryLimitsY.UpperLimit) ? 0 : 1;
+            return x is ICategoryLimits categoryLimitsX
+                   && y is ICategoryLimits categoryLimitsY
+                   && categoryLimitsX.LowerLimit.IsNegligibleDifference(categoryLimitsY.LowerLimit)
+                   && categoryLimitsX.UpperLimit.IsNegligibleDifference(categoryLimitsY.UpperLimit)
+                       ? 0
+                       : 1;
         }
     }
 }
