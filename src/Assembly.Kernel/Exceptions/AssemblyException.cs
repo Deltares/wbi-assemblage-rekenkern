@@ -42,7 +42,7 @@ namespace Assembly.Kernel.Exceptions
         protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             var errorMessages = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
-            
+
             if (errorMessages == null)
             {
                 throw new SerializationException($"Can't construct {nameof(AssemblyException)} when {nameof(errorMessages)} is null.");
@@ -77,13 +77,6 @@ namespace Assembly.Kernel.Exceptions
             Errors = errorMessages;
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Errors", Errors);
-            
-            base.GetObjectData(info, context);
-        }
-
         /// <summary>
         /// Gets the exception message.
         /// </summary>
@@ -100,5 +93,12 @@ namespace Assembly.Kernel.Exceptions
         /// Gets the list of error messages.
         /// </summary>
         public IEnumerable<AssemblyErrorMessage> Errors { get; }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Errors", Errors);
+
+            base.GetObjectData(info, context);
+        }
     }
 }
