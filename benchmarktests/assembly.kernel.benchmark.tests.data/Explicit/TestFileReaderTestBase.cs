@@ -41,7 +41,7 @@ namespace assembly.kernel.benchmark.tests.io.tests.Readers
         /// <returns>Location of the test-data folder.</returns>
         protected static string GetTestDir()
         {
-            return Path.Combine(GetSolutionRoot(), "benchmarktests", "assembly.kernel.benchmark.tests.io.tests", "test-data");
+            return Path.Combine(GetSolutionRoot(), "benchmarktests", "assembly.kernel.benchmark.tests.data", "test-data");
         }
 
         /// <summary>
