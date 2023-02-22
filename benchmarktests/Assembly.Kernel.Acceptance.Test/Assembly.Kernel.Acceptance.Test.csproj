@@ -7,8 +7,8 @@
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
         <ProjectGuid>{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}</ProjectGuid>
         <OutputType>Library</OutputType>
-        <RootNamespace>assembly.kernel.benchmark.tests</RootNamespace>
-        <AssemblyName>assembly.kernel.benchmark.tests</AssemblyName>
+        <RootNamespace>Assembly.Kernel.Acceptance.Test</RootNamespace>
+        <AssemblyName>Assembly.Kernel.Acceptance.Test</AssemblyName>
         <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <Deterministic>true</Deterministic>

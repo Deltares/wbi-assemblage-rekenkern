@@ -21,10 +21,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
-using assembly.kernel.benchmark.tests.TestHelpers.Categories;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
@@ -32,7 +32,7 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
+namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 {
     /// <summary>
     /// Tester for the methods related to a failure mechanism with length-effect.

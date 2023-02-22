@@ -22,13 +22,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assembly.Kernel.Acceptance.Test.TestHelpers;
+using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
+using Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
 using assembly.kernel.benchmark.tests.data.Result;
-using assembly.kernel.benchmark.tests.TestHelpers;
-using assembly.kernel.benchmark.tests.TestHelpers.Categories;
-using assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;
@@ -36,7 +36,7 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests
+namespace Assembly.Kernel.Acceptance.Test
 {
     /// <summary>
     /// The benchmark test runner.

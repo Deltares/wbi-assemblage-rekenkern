@@ -28,7 +28,7 @@ using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests.TestHelpers.FailureMechanism
+namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 {
     /// <summary>
     /// Base class for failure mechanism result tester.

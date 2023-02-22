@@ -24,7 +24,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
-namespace assembly.kernel.benchmark.tests.TestHelpers
+namespace Assembly.Kernel.Acceptance.Test.TestHelpers
 {
     /// <summary>
     /// Helper methods for benchmark tests.

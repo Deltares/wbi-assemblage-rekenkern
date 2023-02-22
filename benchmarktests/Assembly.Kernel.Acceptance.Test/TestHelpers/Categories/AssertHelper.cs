@@ -26,7 +26,7 @@ using Assembly.Kernel.Model.Categories;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests.TestHelpers.Categories
+namespace Assembly.Kernel.Acceptance.Test.TestHelpers.Categories
 {
     /// <summary>
     /// Helper class to assert categories.

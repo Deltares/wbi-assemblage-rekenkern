@@ -25,7 +25,7 @@ using System.IO;
 using System.Linq;
 using assembly.kernel.benchmark.tests.data.Result;
 
-namespace assembly.kernel.benchmark.tests
+namespace Assembly.Kernel.Acceptance.Test
 {
     /// <summary>
     /// Writer to write benchmark test report.

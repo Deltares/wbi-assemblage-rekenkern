@@ -22,14 +22,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assembly.Kernel.Acceptance.Test.TestHelpers;
 using assembly.kernel.benchmark.tests.data.Input;
 using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
 using assembly.kernel.benchmark.tests.data.Result;
 using assembly.kernel.benchmark.tests.io;
-using assembly.kernel.benchmark.tests.TestHelpers;
 using NUnit.Framework;
 
-namespace assembly.kernel.benchmark.tests
+namespace Assembly.Kernel.Acceptance.Test
 {
     [TestFixture]
     public class AssemblyKernelBenchmarkTests

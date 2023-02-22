@@ -19,31 +19,27 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using assembly.kernel.benchmark.tests.TestHelpers;
-using NUnit.Framework;
-
-namespace assembly.kernel.benchmark.tests
+namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 {
     /// <summary>
-    /// Factory for creating benchmark test cases.
+    /// Interface describing the failure mechanism result tester.
     /// </summary>
-    public class BenchmarkTestCaseFactory
+    public interface IFailureMechanismResultTester
     {
         /// <summary>
-        /// Gets all benchmark test cases.
+        /// Tests the combined assessment.
         /// </summary>
-        public static IEnumerable<TestCaseData> GetBenchmarkTestCases()
-        {
-            string testDirectory = Path.Combine(BenchmarkTestHelper.GetBenchmarkTestsDirectory(), "testdefinitions");
-            string[] benchmarkTestFiles = Directory.GetFiles(testDirectory, "*.xlsx");
-            
-            return benchmarkTestFiles.Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
-            {
-                TestName = BenchmarkTestHelper.GetTestName(t)
-            });
-        }
+        /// <returns><c>true</c> when the combined assessment is valid;
+        /// <c>false</c> otherwise.</returns>
+        bool TestCombinedAssessment();
+
+        /// <summary>
+        /// Tests the assessment section result.
+        /// </summary>
+        /// <returns><c>true</c> when the assessment section result is valid;
+        /// <c>false</c> otherwise.</returns>
+        bool TestAssessmentSectionResult();
+
+        bool TestAssessmentSectionResultPartial();
     }
 }
