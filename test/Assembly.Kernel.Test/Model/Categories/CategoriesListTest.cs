@@ -96,7 +96,7 @@ namespace Assembly.Kernel.Test.Model.Categories
         public void GetCategoryForFailureProbability_WithProbability_ReturnsExpectedCategory()
         {
             // Setup
-            var expectedCategory = new TestCategory(0.33, 0.66);
+            var expectedCategory = new TestCategory(0.33, 0.66, "test category");
             TestCategory[] categories =
             {
                 new TestCategory(0.0, 0.33),
@@ -138,6 +138,22 @@ namespace Assembly.Kernel.Test.Model.Categories
                 new TestCategory(0.0, 0.6),
                 new TestCategory(0.6 + 1e-9, 1.0)
             });
+        }
+
+        public class TestCategory : ICategoryLimits
+        {
+            public TestCategory(double lowerLimit, double upperLimit, string categoryIdentifier = "")
+            {
+                LowerLimit = new Probability(lowerLimit);
+                UpperLimit = new Probability(upperLimit);
+                CategoryIdentifier = categoryIdentifier;
+            }
+
+            public Probability LowerLimit { get; }
+            
+            public Probability UpperLimit { get; }
+            
+            public string CategoryIdentifier { get; }
         }
     }
 }
