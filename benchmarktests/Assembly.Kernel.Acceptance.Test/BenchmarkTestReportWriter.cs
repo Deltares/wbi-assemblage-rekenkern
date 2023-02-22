@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using assembly.kernel.benchmark.tests.data.Data.Result;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
 
 namespace Assembly.Kernel.Acceptance.Test
 {
@@ -220,7 +220,7 @@ namespace Assembly.Kernel.Acceptance.Test
         private static string GetReportTemplate()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var resourceName = "assembly.kernel.benchmark.tests.Resources.reporttemplate.tex";
+            var resourceName = "Assembly.Kernel.Acceptance.Test.Resources.reporttemplate.tex";
 
             string templateString;
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))

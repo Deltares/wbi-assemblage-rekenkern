@@ -63,9 +63,9 @@
             <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
             <Name>Assembly.Kernel</Name>
         </ProjectReference>
-        <ProjectReference Include="..\assembly.kernel.benchmark.tests.data\assembly.kernel.benchmark.tests.data.csproj">
-            <Project>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</Project>
-            <Name>assembly.kernel.benchmark.tests.data</Name>
+        <ProjectReference Include="..\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj">
+            <Project>{ae6ee545-d958-4f8f-ba37-50be961a0348}</Project>
+            <Name>Assembly.Kernel.Acceptance.TestUtil</Name>
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>

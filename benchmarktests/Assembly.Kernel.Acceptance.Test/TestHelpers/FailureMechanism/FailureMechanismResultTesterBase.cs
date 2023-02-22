@@ -22,8 +22,8 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-using assembly.kernel.benchmark.tests.data.Data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Data.Result;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;

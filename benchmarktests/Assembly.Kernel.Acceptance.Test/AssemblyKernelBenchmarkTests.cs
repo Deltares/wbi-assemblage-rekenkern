@@ -23,10 +23,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Assembly.Kernel.Acceptance.Test.TestHelpers;
-using assembly.kernel.benchmark.tests.data.Data.Input;
-using assembly.kernel.benchmark.tests.data.Data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Data.Result;
-using assembly.kernel.benchmark.tests.data.IO;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Input;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
+using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
+using Assembly.Kernel.Acceptance.TestUtil.IO;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Acceptance.Test

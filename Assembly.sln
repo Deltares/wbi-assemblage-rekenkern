@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarktests", "benchmark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.Test", "benchmarktests\Assembly.Kernel.Acceptance.Test\Assembly.Kernel.Acceptance.Test.csproj", "{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assembly.kernel.benchmark.tests.data", "benchmarktests\assembly.kernel.benchmark.tests.data\assembly.kernel.benchmark.tests.data.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.TestUtil", "benchmarktests\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
