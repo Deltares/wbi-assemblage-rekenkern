@@ -31,6 +31,7 @@ using NUnit.Framework;
 namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
 {
     [TestFixture]
+    [Explicit("Only for local use.")]
     public class GeneralInformationReaderTest : TestFileReaderTestBase
     {
         [Test]
