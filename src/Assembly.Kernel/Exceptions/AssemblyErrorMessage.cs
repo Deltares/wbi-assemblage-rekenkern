@@ -19,11 +19,14 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
+
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
     /// Error message containing detailed information of the origin of the error.
     /// </summary>
+    [Serializable]
     public class AssemblyErrorMessage
     {
         /// <summary>

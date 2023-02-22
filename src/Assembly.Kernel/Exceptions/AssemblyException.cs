@@ -36,7 +36,17 @@ namespace Assembly.Kernel.Exceptions
         /// Creates a new instance of <see cref="AssemblyException"/> with
         /// serialized data.</summary>
         /// <inheritdoc />
-        protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context) {}
+        protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            var errorMessages = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
+            
+            if (errorMessages == null)
+            {
+                throw new ArgumentNullException(nameof(errorMessages));
+            }
+
+            Errors = errorMessages;
+        }
 
         /// <summary>
         /// Creates a new instance of <see cref="AssemblyException"/> with a single error message.
@@ -62,6 +72,13 @@ namespace Assembly.Kernel.Exceptions
             }
 
             Errors = errorMessages;
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Errors", Errors);
+            
+            base.GetObjectData(info, context);
         }
 
         /// <summary>

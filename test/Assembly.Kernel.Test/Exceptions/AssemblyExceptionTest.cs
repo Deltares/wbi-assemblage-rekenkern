@@ -98,7 +98,8 @@ namespace Assembly.Kernel.Test.Exceptions
             AssemblyException persistedException = SerializeAndDeserializeException(originalException);
 
             // Assert
-            Assert.IsNull(persistedException.Errors);
+            CollectionAssert.AreEqual(originalException.Errors, persistedException.Errors, new AssemblyErrorMessageComparer());
+            Assert.AreEqual(originalException.Message, persistedException.Message);
         }
 
         [Test]
@@ -118,7 +119,7 @@ namespace Assembly.Kernel.Test.Exceptions
         }
 
         [Test]
-        public void Message_ExceptionWithMultipleErros_ReturnsExpectedMessage()
+        public void Message_ExceptionWithMultipleErrors_ReturnsExpectedMessage()
         {
             // Setup
             var exception = new AssemblyException(new[]
