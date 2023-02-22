@@ -37,9 +37,18 @@ namespace Assembly.Kernel.Exceptions
         /// Creates a new instance of <see cref="AssemblyException"/> with
         /// serialized data.
         /// </summary>
+        /// <exception cref="SerializationException">Thrown when <paramref name="info"/> does not contain
+        /// <see cref="Errors"/>.</exception>
         protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Errors = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
+            var errorMessages = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
+            
+            if (errorMessages == null)
+            {
+                throw new SerializationException($"Can't construct {nameof(AssemblyException)} when {nameof(errorMessages)} is null.");
+            }
+
+            Errors = errorMessages;
         }
 
         /// <summary>
