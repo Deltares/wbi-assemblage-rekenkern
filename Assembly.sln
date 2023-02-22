@@ -16,10 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assembly.kernel.benchmark.tests.data", "benchmarktests\assembly.kernel.benchmark.tests.data\assembly.kernel.benchmark.tests.data.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assembly.kernel.benchmark.tests.io", "benchmarktests\assembly.kernel.benchmark.tests.io\assembly.kernel.benchmark.tests.io.csproj", "{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "assembly.kernel.benchmark.tests.io.tests", "benchmarktests\assembly.kernel.benchmark.tests.io.tests\assembly.kernel.benchmark.tests.io.tests.csproj", "{CEF51E59-7750-46DA-94CF-43913C94988F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -42,14 +38,6 @@ Global
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Debug|x86.Build.0 = Debug|x86
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Release|x86.ActiveCfg = Release|x86
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Release|x86.Build.0 = Release|x86
-		{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}.Debug|x86.ActiveCfg = Debug|x86
-		{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}.Debug|x86.Build.0 = Debug|x86
-		{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}.Release|x86.ActiveCfg = Release|x86
-		{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}.Release|x86.Build.0 = Release|x86
-		{CEF51E59-7750-46DA-94CF-43913C94988F}.Debug|x86.ActiveCfg = Debug|x86
-		{CEF51E59-7750-46DA-94CF-43913C94988F}.Debug|x86.Build.0 = Debug|x86
-		{CEF51E59-7750-46DA-94CF-43913C94988F}.Release|x86.ActiveCfg = Release|x86
-		{CEF51E59-7750-46DA-94CF-43913C94988F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,8 +47,6 @@ Global
 		{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
 		{08148E6E-5DCF-46CA-9B90-24BCD958ED1A} = {9F17BCA6-F071-4728-A523-35B3021FA241}
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348} = {9F17BCA6-F071-4728-A523-35B3021FA241}
-		{8E98D2C5-9059-4468-A4C9-7E2C11E646B0} = {9F17BCA6-F071-4728-A523-35B3021FA241}
-		{CEF51E59-7750-46DA-94CF-43913C94988F} = {9F17BCA6-F071-4728-A523-35B3021FA241}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82191FC9-A15C-4F5D-9FAB-62F1ACB237F0}

@@ -67,10 +67,6 @@
             <Project>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</Project>
             <Name>assembly.kernel.benchmark.tests.data</Name>
         </ProjectReference>
-        <ProjectReference Include="..\assembly.kernel.benchmark.tests.io\assembly.kernel.benchmark.tests.io.csproj">
-            <Project>{8E98D2C5-9059-4468-A4C9-7E2C11E646B0}</Project>
-            <Name>assembly.kernel.benchmark.tests.io</Name>
-        </ProjectReference>
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\build\Assembly.Kernel.licenseheader">
