@@ -20,7 +20,6 @@
 // All rights reserved.
 
 using System.Collections.Generic;
-using System.Linq;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 
@@ -48,19 +47,7 @@ namespace Assembly.Kernel.Test
             IEnumerable<AssemblyErrorMessage> expectedErrorMessages)
         {
             var exception = Assert.Throws<AssemblyException>(call);
-            IEnumerable<AssemblyErrorMessage> actualErrorMessages = exception.Errors; 
-            
-            Assert.AreEqual(expectedErrorMessages.Count(), actualErrorMessages.Count());
-
-            for (var i = 0; i < expectedErrorMessages.Count(); i++)
-            {
-                AssemblyErrorMessage expectedErrorMessage = expectedErrorMessages.ElementAt(i);
-                AssemblyErrorMessage actualErrorMessage = actualErrorMessages.ElementAt(i);
-                
-                Assert.AreEqual(expectedErrorMessage.EntityId, actualErrorMessage.EntityId);
-                Assert.AreEqual(expectedErrorMessage.ErrorCode, actualErrorMessage.ErrorCode);
-            }
+            CollectionAssert.AreEqual(expectedErrorMessages, exception.Errors, new AssemblyErrorMessageComparer());
         }
-
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using Assembly.Kernel.Exceptions;
 
-namespace Assembly.Kernel.Test.Exceptions
+namespace Assembly.Kernel.Test
 {
     /// <summary>
     /// Comparer for <see cref="AssemblyErrorMessage"/>.
