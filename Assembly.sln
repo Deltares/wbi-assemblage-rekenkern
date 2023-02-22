@@ -10,11 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{519B2F97-C2A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD370CA0-AD63-423F-9458-26C420B2E29F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarktests", "benchmarktests", "{9F17BCA6-F071-4728-A523-35B3021FA241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.Test", "test\Assembly.Kernel.Acceptance.Test\Assembly.Kernel.Acceptance.Test.csproj", "{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.Test", "benchmarktests\Assembly.Kernel.Acceptance.Test\Assembly.Kernel.Acceptance.Test.csproj", "{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.TestUtil", "benchmarktests\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.TestUtil", "test\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +43,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2925251D-96CC-4A66-8AC6-2B4D39DFD399} = {519B2F97-C2AE-495D-B432-A32250D41182}
 		{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
-		{08148E6E-5DCF-46CA-9B90-24BCD958ED1A} = {9F17BCA6-F071-4728-A523-35B3021FA241}
-		{AE6EE545-D958-4F8F-BA37-50BE961A0348} = {9F17BCA6-F071-4728-A523-35B3021FA241}
+		{08148E6E-5DCF-46CA-9B90-24BCD958ED1A} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
+		{AE6EE545-D958-4F8F-BA37-50BE961A0348} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82191FC9-A15C-4F5D-9FAB-62F1ACB237F0}

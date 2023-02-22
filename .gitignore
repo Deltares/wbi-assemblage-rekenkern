@@ -61,4 +61,4 @@ $RECYCLE.BIN/
 *.gz
 
 build/latextemplate/ReportTemplate.pdf
-benchmarktests/testresults
+test/Assembly.Kernel.Acceptance.Test/testresults
