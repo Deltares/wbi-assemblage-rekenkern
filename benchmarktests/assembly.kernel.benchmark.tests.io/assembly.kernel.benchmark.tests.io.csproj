@@ -39,19 +39,7 @@
         <Reference Include="WindowsBase" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AssemblyExcelFileReader.cs" />
-        <Compile Include="Readers\ExcelReaderHelper.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Readers\ExcelSheetReaderBase.cs" />
-        <Compile Include="Readers\FailureMechanismSection\SectionReaderWithLengthEffect.cs" />
-        <Compile Include="Readers\FailureMechanismSection\SectionReaderWithoutLengthEffect.cs" />
-        <Compile Include="Readers\FailureMechanismsReader.cs" />
-        <Compile Include="Readers\GeneralInformationReader.cs" />
-        <Compile Include="Readers\CommonAssessmentSectionResultsReader.cs" />
-        <Compile Include="Readers\FailureMechanismSection\ISectionReader.cs" />
-        <Compile Include="Readers\SafetyAssessmentFinalResultReader.cs" />
-        <Compile Include="Readers\FailureMechanismSection\SectionReaderFactory.cs" />
-        <Compile Include="StringExtensions.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\..\build\Assembly.Kernel.licenseheader">
@@ -73,6 +61,9 @@
         <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
             <Link>Properties\GlobalAssembly.cs</Link>
         </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Readers" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

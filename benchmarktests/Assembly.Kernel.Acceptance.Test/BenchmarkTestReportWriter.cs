@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using assembly.kernel.benchmark.tests.data.Result;
+using assembly.kernel.benchmark.tests.data.Data.Result;
 
 namespace Assembly.Kernel.Acceptance.Test
 {

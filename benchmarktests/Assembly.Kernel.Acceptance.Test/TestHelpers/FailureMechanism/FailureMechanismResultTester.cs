@@ -21,9 +21,9 @@
 
 using System.Linq;
 using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanismSections;
-using assembly.kernel.benchmark.tests.data.Result;
+using assembly.kernel.benchmark.tests.data.Data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Data.Input.FailureMechanismSections;
+using assembly.kernel.benchmark.tests.data.Data.Result;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Model;

@@ -22,10 +22,10 @@
 using System.IO;
 using System.Linq;
 using Assembly.Kernel.Acceptance.Test.TestHelpers;
-using assembly.kernel.benchmark.tests.data.Input;
-using assembly.kernel.benchmark.tests.data.Input.FailureMechanisms;
-using assembly.kernel.benchmark.tests.data.Result;
-using assembly.kernel.benchmark.tests.io;
+using assembly.kernel.benchmark.tests.data.Data.Input;
+using assembly.kernel.benchmark.tests.data.Data.Input.FailureMechanisms;
+using assembly.kernel.benchmark.tests.data.Data.Result;
+using assembly.kernel.benchmark.tests.data.IO;
 using NUnit.Framework;
 
 namespace Assembly.Kernel.Acceptance.Test
