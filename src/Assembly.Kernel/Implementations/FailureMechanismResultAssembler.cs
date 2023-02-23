@@ -35,8 +35,7 @@ namespace Assembly.Kernel.Implementations
     public class FailureMechanismResultAssembler : IFailureMechanismResultAssembler
     {
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
-            double lengthEffectFactor,
+        public Probability CalculateFailureMechanismFailureProbabilityBoi1A1(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
         {
@@ -45,7 +44,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, 1.0, partialAssembly);
 
             if (partialAssembly)
             {
@@ -53,11 +52,13 @@ namespace Assembly.Kernel.Implementations
 
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
-                    return new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
+                    return new Probability(0.0);
                 }
             }
 
-            return CreateFailureMechanismAssemblyResult(failureMechanismSectionAssemblyResults, p => p, p => p, lengthEffectFactor);
+            return failureMechanismSectionAssemblyResults.Aggregate(
+                (Probability) 1.0,
+                (current, sectionProbability) => current * sectionProbability.Inverse).Inverse;
         }
 
         /// <inheritdoc />

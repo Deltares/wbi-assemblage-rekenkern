@@ -1,4 +1,4 @@
-﻿// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -33,25 +33,22 @@ namespace Assembly.Kernel.Interfaces
     public interface IFailureMechanismResultAssembler
     {
         /// <summary>
-        /// Calculates a <see cref="FailureMechanismAssemblyResult"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// Calculates a <see cref="Probability"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>
-        /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
-        /// when <paramref name="partialAssembly"/> is <c>false</c>;</item>
-        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
-        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityBoi1A1(
-            double lengthEffectFactor,
+        Probability CalculateFailureMechanismFailureProbabilityBoi1A1(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             bool partialAssembly);
 
@@ -83,7 +80,7 @@ namespace Assembly.Kernel.Interfaces
         /// </summary>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <returns>The calculated <see cref="Probability"/>.</returns>\
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
@@ -104,7 +101,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <returns>The calculated <see cref="Probability"/>.</returns>\
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:

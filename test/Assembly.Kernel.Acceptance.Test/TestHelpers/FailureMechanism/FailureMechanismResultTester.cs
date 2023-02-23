@@ -46,7 +46,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// <inheritdoc />
         public FailureMechanismResultTester(MethodResultsListing methodResults,
                                             ExpectedFailureMechanismResult expectedFailureMechanismResult,
-                                            CategoriesList<InterpretationCategory> interpretationCategories) 
+                                            CategoriesList<InterpretationCategory> interpretationCategories)
             : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
         protected override void SetCombinedAssessmentMethodResult(bool result)
@@ -76,11 +76,11 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                     }
                     else
                     {
-                        relevance = double.IsNaN(section.InitialMechanismProbabilitySection) 
-                                        ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification 
+                        relevance = double.IsNaN(section.InitialMechanismProbabilitySection)
+                                        ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
                                         : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification;
                     }
-                    
+
                     ERefinementStatus refinementStatus = section.RefinementStatus;
                     Probability probability;
                     EInterpretationCategory category;
@@ -150,23 +150,21 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                FailureMechanismAssemblyResult result;
+                Probability result;
                 try
                 {
                     result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
-                        ExpectedFailureMechanismResult.LengthEffectFactor,
                         ExpectedFailureMechanismResult.Sections
                                                       .OfType<ExpectedFailureMechanismSection>()
-                                                      .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
+                                                      .Select(s => s.ExpectedCombinedProbabilitySection),
                         false);
                 }
                 catch (AssemblyException)
                 {
-                    result = new FailureMechanismAssemblyResult(Probability.Undefined, EFailureMechanismAssemblyMethod.Correlated);
+                    result = Probability.Undefined;
                 }
 
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelated, result.AssemblyMethod);
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
             }
         }
 
@@ -181,15 +179,13 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                FailureMechanismAssemblyResult result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
-                    ExpectedFailureMechanismResult.LengthEffectFactor,
+                Probability result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
                     ExpectedFailureMechanismResult.Sections
                                                   .OfType<ExpectedFailureMechanismSection>()
-                                                  .Select(s => s.ExpectedCombinedProbabilitySection).ToArray(),
+                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
                     true);
 
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial, result.AssemblyMethod);
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
             }
         }
 
