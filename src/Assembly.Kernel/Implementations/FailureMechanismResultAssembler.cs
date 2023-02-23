@@ -62,10 +62,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
-            double lengthEffectFactor,
-            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            bool partialAssembly)
+        public Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            double lengthEffectFactor, bool partialAssembly)
         {
             if (failureMechanismSectionAssemblyResults == null)
             {
@@ -77,18 +76,19 @@ namespace Assembly.Kernel.Implementations
             if (partialAssembly)
             {
                 failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
-                    r => r.ProbabilitySection.IsDefined);
+                    r => r.IsDefined);
 
                 if (!failureMechanismSectionAssemblyResults.Any())
                 {
-                    return new FailureMechanismAssemblyResult(new Probability(0.0), EFailureMechanismAssemblyMethod.Correlated);
+                    return new Probability(0.0);
                 }
             }
 
-            return CreateFailureMechanismAssemblyResult(failureMechanismSectionAssemblyResults, sectionResult => sectionResult.ProbabilityProfile,
-                                                        sectionResult => sectionResult.ProbabilitySection, lengthEffectFactor);
+            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar) * lengthEffectFactor;
+            return new Probability(Math.Min(1.0, assemblyResult));
         }
 
+        /// <inheritdoc />
         public Probability CalculateFailureMechanismFailureProbabilityBoi1A3(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
@@ -116,6 +116,7 @@ namespace Assembly.Kernel.Implementations
                 (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse;
         }
 
+        /// <inheritdoc />
         public Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly)
@@ -138,7 +139,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(fmsar => fmsar.ProbabilityProfile) * lengthEffectFactor;
+            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar.ProbabilityProfile) * lengthEffectFactor;
             return new Probability(Math.Min(1.0, assemblyResult));
         }
 

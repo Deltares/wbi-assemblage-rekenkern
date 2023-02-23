@@ -184,11 +184,10 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                FailureMechanismAssemblyResult result = null;
+                Probability result;
                 try
                 {
-                    result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
-                        ExpectedFailureMechanismResult.LengthEffectFactor,
+                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A3(
                         ExpectedFailureMechanismResult.Sections
                                                       .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                                                       .Select(s => new ResultWithProfileAndSectionProbabilities(
@@ -199,11 +198,10 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 }
                 catch (AssemblyException)
                 {
-                    result = new FailureMechanismAssemblyResult(Probability.Undefined, EFailureMechanismAssemblyMethod.Correlated);
+                    result = Probability.Undefined;
                 }
 
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelated, result.AssemblyMethod);
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
             }
         }
 
@@ -218,8 +216,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
             if (ExpectedFailureMechanismResult != null)
             {
-                FailureMechanismAssemblyResult result = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
-                    ExpectedFailureMechanismResult.LengthEffectFactor,
+                Probability result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A3(
                     ExpectedFailureMechanismResult.Sections
                                                   .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
                                                   .Select(s => new ResultWithProfileAndSectionProbabilities(
@@ -228,8 +225,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                                                   .ToArray(),
                     true);
 
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result.Probability);
-                Assert.AreEqual(ExpectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial, result.AssemblyMethod);
+                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
             }
         }
 

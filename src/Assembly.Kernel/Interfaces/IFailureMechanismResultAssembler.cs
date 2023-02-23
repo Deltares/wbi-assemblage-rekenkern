@@ -1,4 +1,4 @@
-// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+﻿// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -53,10 +53,10 @@ namespace Assembly.Kernel.Interfaces
             bool partialAssembly);
 
         /// <summary>
-        /// Calculates a <see cref="FailureMechanismAssemblyResult"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// Calculates a <see cref="Probability"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>
-        /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
@@ -70,10 +70,9 @@ namespace Assembly.Kernel.Interfaces
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
-        FailureMechanismAssemblyResult CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
-            double lengthEffectFactor,
-            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            bool partialAssembly);
+        Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            double lengthEffectFactor, bool partialAssembly);
 
         /// <summary>
         /// Calculates a <see cref="Probability"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.

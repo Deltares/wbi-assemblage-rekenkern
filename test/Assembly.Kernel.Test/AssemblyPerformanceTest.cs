@@ -52,7 +52,7 @@ namespace Assembly.Kernel.Test
             var section = new AssessmentSection((Probability) 1.0e-3, (Probability) (1.0 / 300.0));
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
-            var failureMechanismResultsWithFailureProb = new List<FailureMechanismAssemblyResult>();
+            var failureMechanismResultsWithFailureProb = new List<Probability>();
 
             var categoriesCalculator = new CategoryLimitsCalculator();
 
@@ -83,17 +83,17 @@ namespace Assembly.Kernel.Test
                 failureMechanismResults, false);
         }
 
-        private static void CalculateAssessmentGrade(IEnumerable<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb,
+        private static void CalculateAssessmentGrade(IEnumerable<Probability> failureMechanismResultsWithFailureProb,
                                                      CategoriesList<AssessmentSectionCategory> categories)
         {
             var assessmentSectionAssembler = new AssessmentGradeAssembler();
             Probability failureProb = assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                failureMechanismResultsWithFailureProb.Select(r => r.Probability).ToArray(), false);
+                failureMechanismResultsWithFailureProb, false);
 
             EAssessmentGrade assessmentGrade = assessmentSectionAssembler.DetermineAssessmentGradeBoi2B1(failureProb, categories);
         }
 
-        private void AssembleFailureProbabilitiesPerFailureMechanism(List<FailureMechanismAssemblyResult> failureMechanismResultsWithFailureProb,
+        private void AssembleFailureProbabilitiesPerFailureMechanism(List<Probability> failureMechanismResultsWithFailureProb,
                                                                      List<FailureMechanismSectionList> failureMechanismSectionLists,
                                                                      CategoriesList<InterpretationCategory> categoriesList)
         {
@@ -101,9 +101,9 @@ namespace Assembly.Kernel.Test
 
             foreach (KeyValuePair<double, List<Tuple<FailureMechanismSection, ResultWithProfileAndSectionProbabilities>>> failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                FailureMechanismAssemblyResult result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
-                    failureMechanismSectionResults.Key,
+                Probability result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
                     failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Item2),
+                    failureMechanismSectionResults.Key,
                     false);
                 failureMechanismResultsWithFailureProb.Add(result);
 
