@@ -115,6 +115,32 @@ namespace Assembly.Kernel.Implementations
                 (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse;
         }
 
+        public Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            double lengthEffectFactor, bool partialAssembly)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
+            }
+
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
+                    r => r.ProbabilityProfile.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new Probability(0.0);
+                }
+            }
+
+            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(fmsar => fmsar.ProbabilityProfile) * lengthEffectFactor;
+            return new Probability(Math.Min(1.0, assemblyResult));
+        }
+
         /// <summary>
         /// Validates the input.
         /// </summary>
@@ -193,7 +219,8 @@ namespace Assembly.Kernel.Implementations
             }
         }
 
-        private static IEnumerable<AssemblyErrorMessage> ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults, double lengthEffectFactor)
+        private static IEnumerable<AssemblyErrorMessage> ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
+                                                                          double lengthEffectFactor)
         {
             var errors = new List<AssemblyErrorMessage>();
 
