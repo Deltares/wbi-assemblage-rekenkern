@@ -88,6 +88,33 @@ namespace Assembly.Kernel.Implementations
                                                         sectionResult => sectionResult.ProbabilitySection, lengthEffectFactor);
         }
 
+        public Probability CalculateFailureMechanismFailureProbabilityBoi1A3(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            bool partialAssembly)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
+            }
+
+            ValidateInput(failureMechanismSectionAssemblyResults, 1.0, partialAssembly);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
+                    r => r.ProbabilitySection.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new Probability(0.0);
+                }
+            }
+
+            return failureMechanismSectionAssemblyResults.Aggregate(
+                (Probability) 1.0,
+                (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse;
+        }
+
         /// <summary>
         /// Validates the input.
         /// </summary>
