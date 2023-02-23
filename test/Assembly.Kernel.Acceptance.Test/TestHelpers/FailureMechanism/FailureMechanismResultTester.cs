@@ -19,6 +19,8 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Acceptance.Test.TestHelpers.Categories;
 using Assembly.Kernel.Acceptance.TestUtil;
@@ -148,24 +150,30 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             var assembler = new FailureMechanismResultAssembler();
 
-            if (ExpectedFailureMechanismResult != null)
+            Func<IEnumerable<Probability>, Probability> assemblyMethod;
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
-                Probability result;
-                try
-                {
-                    result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
-                        ExpectedFailureMechanismResult.Sections
-                                                      .OfType<ExpectedFailureMechanismSection>()
-                                                      .Select(s => s.ExpectedCombinedProbabilitySection),
-                        false);
-                }
-                catch (AssemblyException)
-                {
-                    result = Probability.Undefined;
-                }
-
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(sr, false);
             }
+            else
+            {
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                    sr, ExpectedFailureMechanismResult.LengthEffectFactor, false);
+            }
+
+            Probability result;
+            try
+            {
+                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
+                                                                      .OfType<ExpectedFailureMechanismSection>()
+                                                                      .Select(s => s.ExpectedCombinedProbabilitySection));
+            }
+            catch (AssemblyException)
+            {
+                result = Probability.Undefined;
+            }
+
+            AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
         }
 
         protected override void SetAssessmentSectionMethodResultPartial(bool result)
@@ -177,16 +185,30 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             var assembler = new FailureMechanismResultAssembler();
 
-            if (ExpectedFailureMechanismResult != null)
+            Func<IEnumerable<Probability>, Probability> assemblyMethod;
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
-                Probability result = assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(
-                    ExpectedFailureMechanismResult.Sections
-                                                  .OfType<ExpectedFailureMechanismSection>()
-                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
-                    true);
-
-                AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A1(sr, true);
             }
+            else
+            {
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+                    sr, ExpectedFailureMechanismResult.LengthEffectFactor, true);
+            }
+
+            Probability result;
+            try
+            {
+                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
+                                                                      .OfType<ExpectedFailureMechanismSection>()
+                                                                      .Select(s => s.ExpectedCombinedProbabilitySection));
+            }
+            catch (AssemblyException)
+            {
+                result = Probability.Undefined;
+            }
+
+            AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
         }
 
         private void ResetTestResults()

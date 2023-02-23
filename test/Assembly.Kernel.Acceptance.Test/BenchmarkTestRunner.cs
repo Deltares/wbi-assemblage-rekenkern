@@ -90,7 +90,7 @@ namespace Assembly.Kernel.Acceptance.Test
         public static void TestFailureMechanismAssembly(ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                         BenchmarkTestResult testResult, CategoriesList<InterpretationCategory> interpretationCategories)
         {
-            BenchmarkFailureMechanismTestResult failureMechanismTestResult = GetBenchmarkTestFailureMechanismResult(
+            BenchmarkFailureMechanismTestResult failureMechanismTestResult = CreateOrGetBenchmarkTestFailureMechanismResult(
                 testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId,
                 expectedFailureMechanismResult.HasLengthEffect);
 
@@ -385,7 +385,7 @@ namespace Assembly.Kernel.Acceptance.Test
                                                                           .OfType<FailureMechanismSectionWithCategory>()
                                                                           .ToArray();
 
-            BenchmarkFailureMechanismTestResult failureMechanismResult = GetBenchmarkTestFailureMechanismResult(
+            BenchmarkFailureMechanismTestResult failureMechanismResult = CreateOrGetBenchmarkTestFailureMechanismResult(
                 result, mechanismName, mechanismId, hasLengthEffect);
 
             try
@@ -414,9 +414,8 @@ namespace Assembly.Kernel.Acceptance.Test
             return new FailureMechanismSectionWithCategory(section.Start, section.End, section.ExpectedInterpretationCategory);
         }
 
-        private static BenchmarkFailureMechanismTestResult GetBenchmarkTestFailureMechanismResult(
-            BenchmarkTestResult result,
-            string mechanismName, string mechanismId, bool hasLengthEffect)
+        private static BenchmarkFailureMechanismTestResult CreateOrGetBenchmarkTestFailureMechanismResult(
+            BenchmarkTestResult result, string mechanismName, string mechanismId, bool hasLengthEffect)
         {
             BenchmarkFailureMechanismTestResult failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(
                 fmr => fmr.MechanismId == mechanismId);
