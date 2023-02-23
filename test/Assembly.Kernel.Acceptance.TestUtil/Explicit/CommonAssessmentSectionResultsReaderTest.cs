@@ -81,13 +81,13 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
                 var result = new BenchmarkTestInput();
                 result.ExpectedFailureMechanismsResults.AddRange(new[]
                 {
-                    new ExpectedFailureMechanismResult("Piping", "STPH", true),
-                    new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true),
-                    new ExpectedFailureMechanismResult("Graserosie kruin en binnentalud", "GEKB", true),
-                    new ExpectedFailureMechanismResult("Duinafslag", "DA", true),
-                    new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true),
-                    new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true),
-                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true)
+                    new ExpectedFailureMechanismResult("Piping", "STPH", true, "P1"),
+                    new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true, "P1"),
+                    new ExpectedFailureMechanismResult("Graserosie kruin en binnentalud", "GEKB", true, "P2"),
+                    new ExpectedFailureMechanismResult("Duinafslag", "DA", true, "P2"),
+                    new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true, "P1"),
+                    new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true, "P2"),
+                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true, "P1")
                 });
 
                 reader.Read(result);

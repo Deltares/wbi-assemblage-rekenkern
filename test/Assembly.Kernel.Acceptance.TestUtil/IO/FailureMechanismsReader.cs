@@ -56,8 +56,10 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
         public void Read(BenchmarkTestInput benchmarkTestInput, string mechanismId)
         {
             bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
-            var expectedFailureMechanismResult = new ExpectedFailureMechanismResult(GetCellValueAsString("C", "Faalpad"),
-                                                                                    mechanismId, hasLengthEffect);
+            string failureMechanismType = GetCellValueAsString("C", "Faalpad");
+            string assemblyMethod = GetCellValueAsString("C", "Methode");
+            var expectedFailureMechanismResult = new ExpectedFailureMechanismResult(
+                failureMechanismType, mechanismId, hasLengthEffect, assemblyMethod);
 
             ReadGeneralInformation(expectedFailureMechanismResult);
             ReadFailureMechanismSections(expectedFailureMechanismResult);

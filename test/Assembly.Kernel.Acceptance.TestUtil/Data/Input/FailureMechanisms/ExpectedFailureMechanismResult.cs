@@ -36,11 +36,13 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         /// <param name="name">The name of the failure mechanism result.</param>
         /// <param name="mechanismId">Unique identifier of the mechanism.</param>
         /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism.</param>
-        public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect)
+        /// <param name="assemblyMethod">The assembly method to use.</param>
+        public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect, string assemblyMethod)
         {
             Name = name;
             MechanismId = mechanismId;
             HasLengthEffect = hasLengthEffect;
+            AssemblyMethod = assemblyMethod;
             Sections = new List<IExpectedFailureMechanismSection>();
         }
 
@@ -58,6 +60,11 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         /// Indicates whether there is a length-effect within a single section.
         /// </summary>
         public bool HasLengthEffect { get; }
+
+        /// <summary>
+        /// Gets the assembly method to use.
+        /// </summary>
+        public string AssemblyMethod { get; }
 
         /// <summary>
         /// The expected combined probability.
