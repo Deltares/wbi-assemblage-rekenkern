@@ -37,13 +37,13 @@
     <ItemGroup>
         <Compile Include="Model\AssessmentSection.cs" />
         <Compile Include="Model\Categories\CategoriesList.cs" />
-        <Compile Include="Model\Categories\IHasBoundaryLimits.cs" />
         <Compile Include="Model\Categories\InterpretationCategory.cs" />
         <Compile Include="Model\Categories\EInterpretationCategory.cs" />
         <Compile Include="Model\EAnalysisState.cs" />
         <Compile Include="Model\ERefinementStatus.cs" />
         <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs" />
         <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilities.cs" />
+        <Compile Include="Model\IHasBoundaryLimits.cs" />
         <Compile Include="Model\Probability.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Exceptions\EAssemblyErrors.cs" />

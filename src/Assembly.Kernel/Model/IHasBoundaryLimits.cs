@@ -19,7 +19,7 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-namespace Assembly.Kernel.Model.Categories
+namespace Assembly.Kernel.Model
 {
     /// <summary>
     /// Interface for objects that has boundary limits.
