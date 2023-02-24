@@ -68,7 +68,8 @@ namespace Assembly.Kernel.Test.Implementations
             CategoriesList<InterpretationCategory> categories = calculator.CalculateInterpretationCategoryLimitsBoi01(assessmentSection);
 
             // Assert
-            CollectionAssert.AreEqual(expectedCategories, categories.Categories, new CategoryLimitsEqualityComparer());
+            CollectionAssert.AreEqual(expectedCategories, categories.Categories,
+                                      new CategoryLimitsEqualityComparer<InterpretationCategory, EInterpretationCategory>());
         }
 
         [Test]
@@ -97,7 +98,8 @@ namespace Assembly.Kernel.Test.Implementations
             CategoriesList<AssessmentSectionCategory> categories = calculator.CalculateAssessmentSectionCategoryLimitsBoi21(assessmentSection);
 
             // Assert
-            CollectionAssert.AreEqual(expectedCategories, categories.Categories, new CategoryLimitsEqualityComparer());
+            CollectionAssert.AreEqual(expectedCategories, categories.Categories,
+                                      new CategoryLimitsEqualityComparer<AssessmentSectionCategory, EAssessmentGrade>());
         }
 
         private static IEnumerable<TestCaseData> GetInterpretationCategoryCases()

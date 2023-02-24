@@ -19,22 +19,28 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
+using System;
 using System.Collections;
-using Assembly.Kernel.Model;
+using Assembly.Kernel.Model.Categories;
 
 namespace Assembly.Kernel.Test.Implementations
 {
     /// <summary>
-    /// Comparer for <see cref="IHasBoundaryLimits"/>.
+    /// Comparer for <see cref="CategoryLimits{TCategory}"/>.
     /// </summary>
-    public class CategoryLimitsEqualityComparer : IComparer
+    /// <typeparam name="TCategoryLimits">The type of category limits.</typeparam>
+    /// <typeparam name="TCategory">The type of category.</typeparam>
+    public class CategoryLimitsEqualityComparer<TCategoryLimits, TCategory> : IComparer
+        where TCategoryLimits : CategoryLimits<TCategory>
+        where TCategory : struct
     {
         public int Compare(object x, object y)
         {
-            return x is IHasBoundaryLimits boundaryLimitsX
-                   && y is IHasBoundaryLimits boundaryLimitsY
-                   && boundaryLimitsX.LowerLimit.IsNegligibleDifference(boundaryLimitsY.LowerLimit)
-                   && boundaryLimitsX.UpperLimit.IsNegligibleDifference(boundaryLimitsY.UpperLimit)
+            return x is TCategoryLimits categoryLimitsX
+                   && y is TCategoryLimits categoryLimitsY
+                   && categoryLimitsX.LowerLimit.IsNegligibleDifference(categoryLimitsY.LowerLimit)
+                   && categoryLimitsX.UpperLimit.IsNegligibleDifference(categoryLimitsY.UpperLimit)
+                   && Convert.ToInt32(categoryLimitsX.Category) == Convert.ToInt32(categoryLimitsY.Category)
                        ? 0
                        : 1;
         }
