@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyErrorMessageComparer.cs" />
+    <Compile Include="BoundaryLimitsTest.cs" />
     <Compile Include="Exceptions\AssemblyErrorMessageTest.cs" />
     <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
     <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />

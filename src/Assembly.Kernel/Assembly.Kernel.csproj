@@ -36,6 +36,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Model\AssessmentSection.cs" />
+        <Compile Include="Model\BoundaryLimits.cs" />
         <Compile Include="Model\Categories\CategoriesList.cs" />
         <Compile Include="Model\Categories\InterpretationCategory.cs" />
         <Compile Include="Model\Categories\EInterpretationCategory.cs" />
