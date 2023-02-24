@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Acceptance.Test
         {
             BenchmarkFailureMechanismTestResult failureMechanismTestResult = CreateOrGetBenchmarkTestFailureMechanismResult(
                 testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId,
-                expectedFailureMechanismResult.HasLengthEffect);
+                expectedFailureMechanismResult.HasLengthEffect, expectedFailureMechanismResult.AssemblyMethod);
 
             IFailureMechanismResultTester failureMechanismTester;
             if (expectedFailureMechanismResult.HasLengthEffect)
@@ -141,7 +141,8 @@ namespace Assembly.Kernel.Acceptance.Test
                 ExpectedFailureMechanismResult mechanism = input.ExpectedFailureMechanismsResults.First(
                     r => r.MechanismId == failureMechanismsCombinedResult.FailureMechanismId);
                 TestCombinedSectionsFailureMechanismResults(
-                    input, result, mechanism.Name, failureMechanismsCombinedResult.FailureMechanismId, mechanism.HasLengthEffect);
+                    input, result, mechanism.Name, failureMechanismsCombinedResult.FailureMechanismId,
+                    mechanism.HasLengthEffect, mechanism.AssemblyMethod);
             }
         }
 
@@ -364,7 +365,8 @@ namespace Assembly.Kernel.Acceptance.Test
         }
 
         private static void TestCombinedSectionsFailureMechanismResults(BenchmarkTestInput input, BenchmarkTestResult result,
-                                                                        string mechanismName, string mechanismId, bool hasLengthEffect)
+                                                                        string mechanismName, string mechanismId,
+                                                                        bool hasLengthEffect, string assemblyMethod)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
 
@@ -386,7 +388,7 @@ namespace Assembly.Kernel.Acceptance.Test
                                                                           .ToArray();
 
             BenchmarkFailureMechanismTestResult failureMechanismResult = CreateOrGetBenchmarkTestFailureMechanismResult(
-                result, mechanismName, mechanismId, hasLengthEffect);
+                result, mechanismName, mechanismId, hasLengthEffect, assemblyMethod);
 
             try
             {
@@ -415,14 +417,14 @@ namespace Assembly.Kernel.Acceptance.Test
         }
 
         private static BenchmarkFailureMechanismTestResult CreateOrGetBenchmarkTestFailureMechanismResult(
-            BenchmarkTestResult result, string mechanismName, string mechanismId, bool hasLengthEffect)
+            BenchmarkTestResult result, string mechanismName, string mechanismId, bool hasLengthEffect, string assemblyMethod)
         {
             BenchmarkFailureMechanismTestResult failureMechanismTestResult = result.FailureMechanismResults.FirstOrDefault(
                 fmr => fmr.MechanismId == mechanismId);
 
             if (failureMechanismTestResult == null)
             {
-                failureMechanismTestResult = new BenchmarkFailureMechanismTestResult(mechanismName, mechanismId, hasLengthEffect);
+                failureMechanismTestResult = new BenchmarkFailureMechanismTestResult(mechanismName, mechanismId, hasLengthEffect, assemblyMethod);
                 result.FailureMechanismResults.Add(failureMechanismTestResult);
             }
 

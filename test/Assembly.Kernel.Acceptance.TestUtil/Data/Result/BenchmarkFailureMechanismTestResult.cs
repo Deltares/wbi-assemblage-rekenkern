@@ -32,11 +32,13 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// <param name="name">The name of the failure mechanism.</param>
         /// <param name="mechanismId">The Id of the failure mechanism.</param>
         /// <param name="hasLengthEffect">The assembly hasLengthEffect of the failure mechanism.</param>
-        public BenchmarkFailureMechanismTestResult(string name, string mechanismId, bool hasLengthEffect)
+        /// <param name="assemblyMethod">The used assembly method.</param>
+        public BenchmarkFailureMechanismTestResult(string name, string mechanismId, bool hasLengthEffect, string assemblyMethod)
         {
             Name = name;
             MechanismId = mechanismId;
             HasLengthEffect = hasLengthEffect;
+            AssemblyMethod = assemblyMethod;
         }
 
         /// <summary>
@@ -53,6 +55,11 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// Indicates whether this failure mechanism has length effect within a section.
         /// </summary>
         public bool HasLengthEffect { get; }
+        
+        /// <summary>
+        /// Gets the used assembly method.
+        /// </summary>
+        public string AssemblyMethod { get; }
 
         /// <summary>
         /// Indicates whether all assessment results per section were translated correctly to a combined assessment result per mechanism section during assembly.
