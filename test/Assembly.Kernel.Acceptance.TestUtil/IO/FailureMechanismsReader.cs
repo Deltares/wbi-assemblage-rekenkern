@@ -70,19 +70,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
         private void ReadGeneralInformation(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
             expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
-            expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial = ToCorrelation(GetCellValueAsString("C", "Vakken gecorreleerd?") == "Ja");
             expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
-            expectedFailureMechanismResult.ExpectedIsSectionsCorrelated = ToCorrelation(
-                double.IsNaN(expectedFailureMechanismResult.ExpectedCombinedProbability)
-                || expectedFailureMechanismResult.ExpectedIsSectionsCorrelatedPartial == EFailureMechanismAssemblyMethod.Correlated);
             expectedFailureMechanismResult.LengthEffectFactor = GetCellValueAsDouble("C", "Ntraject");
-        }
-
-        private static EFailureMechanismAssemblyMethod ToCorrelation(bool correlated)
-        {
-            return correlated
-                       ? EFailureMechanismAssemblyMethod.Correlated
-                       : EFailureMechanismAssemblyMethod.Uncorrelated;
         }
 
         private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)

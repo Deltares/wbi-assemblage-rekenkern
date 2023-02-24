@@ -72,19 +72,9 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         public Probability ExpectedCombinedProbability { get; set; }
 
         /// <summary>
-        /// Indicates whether we expect correlated sections or not when determining the combined probability.
-        /// </summary>
-        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelated { get; set; }
-
-        /// <summary>
         /// The expected result while performing partial assembly.
         /// </summary>
         public Probability ExpectedCombinedProbabilityPartial { get; set; }
-
-        /// <summary>
-        /// Indicates whether we expect correlated sections or not when determining the combined probability.
-        /// </summary>
-        public EFailureMechanismAssemblyMethod ExpectedIsSectionsCorrelatedPartial { get; set; }
 
         /// <summary>
         /// A listing of all sections within the failure mechanism.

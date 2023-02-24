@@ -41,10 +41,8 @@
         <Compile Include="Model\Categories\InterpretationCategory.cs" />
         <Compile Include="Model\Categories\EInterpretationCategory.cs" />
         <Compile Include="Model\EAnalysisState.cs" />
-        <Compile Include="Model\EFailureMechanismAssemblyMethod.cs" />
         <Compile Include="Model\ERefinementStatus.cs" />
         <Compile Include="Model\ESectionInitialMechanismProbabilitySpecification.cs" />
-        <Compile Include="Model\FailureMechanismAssemblyResult.cs" />
         <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilities.cs" />
         <Compile Include="Model\Probability.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
