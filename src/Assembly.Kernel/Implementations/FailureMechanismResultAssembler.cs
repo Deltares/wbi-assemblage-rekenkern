@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, 1.0, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p);
 
             if (partialAssembly)
             {
@@ -71,7 +71,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly, p => p);
 
             if (partialAssembly)
             {
@@ -98,7 +98,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, 1.0, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p.ProbabilitySection);
 
             if (partialAssembly)
             {
@@ -126,7 +126,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly, p => p.ProbabilityProfile);
 
             if (partialAssembly)
             {
@@ -147,27 +147,31 @@ namespace Assembly.Kernel.Implementations
         /// Validates the input.
         /// </summary>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
-        /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <param name="getProbabilityFunc">The <see cref="Func{T1,TResult}"/> to get the probability from the assembly result.</param>
+        /// <typeparam name="T">The type of assembly result.</typeparam>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
-        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
-        private static void ValidateInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
-                                          double lengthEffectFactor,
-                                          bool partialAssembly)
+        private static void ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
+                                             bool partialAssembly, Func<T, Probability> getProbabilityFunc)
         {
-            List<AssemblyErrorMessage> errors = ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+            var errors = new List<AssemblyErrorMessage>();
+
+            if (!failureMechanismSectionAssemblyResults.Any())
+            {
+                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EmptyResultsList));
+            }
 
             if (!errors.Any() && !partialAssembly)
             {
-                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                foreach (T failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
-                    if (!failureMechanismSectionAssemblyResult.IsDefined)
+                    if (!getProbabilityFunc(failureMechanismSectionAssemblyResult).IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
@@ -188,25 +192,37 @@ namespace Assembly.Kernel.Implementations
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <param name="getProbabilityFunc">The <see cref="Func{T1,TResult}"/> to get the probability from the assembly result.</param>
+        /// <typeparam name="T">The type of assembly result.</typeparam>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
-        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// when <paramref name="partialAssembly"/> is <c>false</c>;</item>
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
-        private static void ValidateInput(IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-                                          double lengthEffectFactor,
-                                          bool partialAssembly)
+        private static void ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
+                                             double lengthEffectFactor, bool partialAssembly,
+                                             Func<T, Probability> getProbabilityFunc)
         {
-            List<AssemblyErrorMessage> errors = ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor).ToList();
+            var errors = new List<AssemblyErrorMessage>();
+
+            if (!failureMechanismSectionAssemblyResults.Any())
+            {
+                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EmptyResultsList));
+            }
+
+            if (lengthEffectFactor < 1.0)
+            {
+                errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
+            }
 
             if (!errors.Any() && !partialAssembly)
             {
-                foreach (ResultWithProfileAndSectionProbabilities failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                foreach (T failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
-                    if (!failureMechanismSectionAssemblyResult.ProbabilitySection.IsDefined)
+                    if (!getProbabilityFunc(failureMechanismSectionAssemblyResult).IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
@@ -219,24 +235,6 @@ namespace Assembly.Kernel.Implementations
             {
                 throw new AssemblyException(errors);
             }
-        }
-
-        private static IEnumerable<AssemblyErrorMessage> ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
-                                                                          double lengthEffectFactor)
-        {
-            var errors = new List<AssemblyErrorMessage>();
-
-            if (!failureMechanismSectionAssemblyResults.Any())
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EmptyResultsList));
-            }
-
-            if (lengthEffectFactor < 1)
-            {
-                errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
-            }
-
-            return errors;
         }
     }
 }
