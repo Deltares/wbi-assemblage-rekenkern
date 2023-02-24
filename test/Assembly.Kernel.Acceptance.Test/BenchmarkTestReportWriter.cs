@@ -152,8 +152,8 @@ namespace Assembly.Kernel.Acceptance.Test
             var str = "";
             for (var index = 0; index < result.FailureMechanismResults.Count; index++)
             {
-                var m = result.FailureMechanismResults[index];
-                str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " +
+                BenchmarkFailureMechanismTestResult m = result.FailureMechanismResults[index];
+                str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " + m.AssemblyMethod + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
                        ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
@@ -220,12 +220,12 @@ namespace Assembly.Kernel.Acceptance.Test
         private static string GetReportTemplate()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var resourceName = "Assembly.Kernel.Acceptance.Test.Resources.reporttemplate.tex";
+            const string resourceName = "Assembly.Kernel.Acceptance.Test.Resources.reporttemplate.tex";
 
             string templateString;
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream))
                 {
                     templateString = reader.ReadToEnd();
                 }
