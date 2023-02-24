@@ -20,21 +20,21 @@
 // All rights reserved.
 
 using System.Collections;
-using Assembly.Kernel.Model.Categories;
+using Assembly.Kernel.Model;
 
 namespace Assembly.Kernel.Test.Implementations
 {
     /// <summary>
-    /// Comparer for <see cref="ICategoryLimits"/>.
+    /// Comparer for <see cref="IHasBoundaryLimits"/>.
     /// </summary>
     public class CategoryLimitsEqualityComparer : IComparer
     {
         public int Compare(object x, object y)
         {
-            return x is ICategoryLimits categoryLimitsX
-                   && y is ICategoryLimits categoryLimitsY
-                   && categoryLimitsX.LowerLimit.IsNegligibleDifference(categoryLimitsY.LowerLimit)
-                   && categoryLimitsX.UpperLimit.IsNegligibleDifference(categoryLimitsY.UpperLimit)
+            return x is IHasBoundaryLimits boundaryLimitsX
+                   && y is IHasBoundaryLimits boundaryLimitsY
+                   && boundaryLimitsX.LowerLimit.IsNegligibleDifference(boundaryLimitsY.LowerLimit)
+                   && boundaryLimitsX.UpperLimit.IsNegligibleDifference(boundaryLimitsY.UpperLimit)
                        ? 0
                        : 1;
         }

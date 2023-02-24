@@ -31,7 +31,7 @@ namespace Assembly.Kernel.Model.Categories
     /// </summary>
     /// <typeparam name="TCategory">The type of category.</typeparam>
     public class CategoriesList<TCategory>
-        where TCategory : ICategoryLimits
+        where TCategory : IHasBoundaryLimits
     {
         /// <summary>
         /// Creates a new instance of <see cref="CategoriesList{TCategory}"/>.

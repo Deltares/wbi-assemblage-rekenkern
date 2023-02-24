@@ -44,7 +44,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.Categories
         /// <returns><c>tru</c> when the categories are equal; <c>false</c> otherwise.</returns>
         public static bool AssertEqualCategoriesList<TCategory, TCategoryBase>(CategoriesList<TCategory> expectedCategories,
                                                                                CategoriesList<TCategory> categories)
-            where TCategory : CategoryLimits<TCategoryBase>, ICategoryLimits
+            where TCategory : CategoryLimits<TCategoryBase>, IHasBoundaryLimits
         {
             try
             {

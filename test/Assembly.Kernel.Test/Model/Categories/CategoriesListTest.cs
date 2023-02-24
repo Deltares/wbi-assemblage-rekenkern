@@ -140,7 +140,7 @@ namespace Assembly.Kernel.Test.Model.Categories
             });
         }
 
-        public class TestCategory : ICategoryLimits
+        public class TestCategory : IHasBoundaryLimits
         {
             public TestCategory(double lowerLimit, double upperLimit, string categoryIdentifier = "")
             {

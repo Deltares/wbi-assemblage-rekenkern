@@ -22,17 +22,17 @@
 namespace Assembly.Kernel.Model.Categories
 {
     /// <summary>
-    /// Interface for a category with upper and lower limit.
+    /// Interface for objects that has boundary limits.
     /// </summary>
-    public interface ICategoryLimits
+    public interface IHasBoundaryLimits
     {
         /// <summary>
-        /// Gets the lower limit of the category.
+        /// Gets the lower boundary limit.
         /// </summary>
         Probability LowerLimit { get; }
         
         /// <summary>
-        /// Gets the upper limit of the category.
+        /// Gets the upper boundary limit.
         /// </summary>
         Probability UpperLimit { get; }
     }

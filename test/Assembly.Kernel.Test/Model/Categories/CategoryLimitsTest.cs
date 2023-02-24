@@ -70,7 +70,7 @@ namespace Assembly.Kernel.Test.Model.Categories
             var category = new TestCategoryLimits(categoryValue, lowerLimit, upperLimit);
 
             // Assert
-            Assert.IsInstanceOf<ICategoryLimits>(category);
+            Assert.IsInstanceOf<IHasBoundaryLimits>(category);
             Assert.AreEqual(categoryValue, category.Category);
             Assert.AreEqual(lowerLimit, category.LowerLimit, 1e-6);
             Assert.AreEqual(upperLimit, category.UpperLimit, 1e-6);
