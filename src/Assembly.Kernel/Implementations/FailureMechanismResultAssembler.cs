@@ -238,27 +238,5 @@ namespace Assembly.Kernel.Implementations
 
             return errors;
         }
-
-        private static FailureMechanismAssemblyResult CreateFailureMechanismAssemblyResult<T>(
-            IEnumerable<T> failureMechanismSectionAssemblyResults,
-            Func<T, Probability> getHighestProbabilityValueFunc,
-            Func<T, Probability> getCombinedFailureProbabilityUncorrelatedFunc,
-            double lengthEffectFactor)
-        {
-            double highestProbabilityValue = (double) failureMechanismSectionAssemblyResults.Max(getHighestProbabilityValueFunc) * lengthEffectFactor;
-
-            Probability combinedFailureProbabilityUncorrelated = failureMechanismSectionAssemblyResults.Aggregate(
-                (Probability) 1.0,
-                (current, sectionProbability) => current * getCombinedFailureProbabilityUncorrelatedFunc(sectionProbability).Inverse).Inverse;
-
-            EFailureMechanismAssemblyMethod assemblyMethod =
-                failureMechanismSectionAssemblyResults.Count() < 2 || highestProbabilityValue > combinedFailureProbabilityUncorrelated
-                    ? EFailureMechanismAssemblyMethod.Uncorrelated
-                    : EFailureMechanismAssemblyMethod.Correlated;
-
-            return new FailureMechanismAssemblyResult(
-                new Probability(Math.Min(highestProbabilityValue, combinedFailureProbabilityUncorrelated)),
-                assemblyMethod);
-        }
     }
 }

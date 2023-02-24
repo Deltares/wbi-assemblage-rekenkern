@@ -44,12 +44,6 @@ namespace Assembly.Kernel.Test.Implementations
             Assert.IsInstanceOf<IFailureMechanismResultAssembler>(assembler);
         }
 
-        private static void AssertFailureMechanismAssemblyResult(FailureMechanismAssemblyResult expectedResult, FailureMechanismAssemblyResult actualResult)
-        {
-            Assert.AreEqual(expectedResult.Probability, actualResult.Probability, 1e-6);
-            Assert.AreEqual(expectedResult.AssemblyMethod, actualResult.AssemblyMethod);
-        }
-
         #region CalculateFailureMechanismFailureProbabilityBoi1A1
 
         [Test]

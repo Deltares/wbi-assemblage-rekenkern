@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Interfaces
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <returns>A <see cref="FailureMechanismAssemblyResult"/>.</returns>
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="AssemblyException">Thrown when:
