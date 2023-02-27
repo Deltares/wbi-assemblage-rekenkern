@@ -139,7 +139,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected override void SetFailureMechanismMethodResult(bool result)
         {
-            MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
+            {
+                MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+            }
+            else
+            {
+                MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
+            }
         }
 
         protected override void TestFailureMechanismResultInternal()
@@ -174,7 +181,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected override void SetFailureMechanismMethodResultPartial(bool result)
         {
-            MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
+            {
+                MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
+            }
+            else
+            {
+                MethodResults.Boi1A2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2P, result);
+            }
         }
 
         protected override void TestFailureMechanismResultPartialInternal()
@@ -236,7 +250,8 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             try
             {
                 result = assembler.CalculateFailureMechanismBoundariesBoi1B1(
-                    ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
+                    ExpectedFailureMechanismResult.Sections
+                                                  .OfType<ExpectedFailureMechanismSection>()
                                                   .Select(s => s.ExpectedCombinedProbabilitySection),
                     true);
             }

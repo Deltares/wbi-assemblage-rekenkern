@@ -74,42 +74,46 @@ namespace Assembly.Kernel.Acceptance.Test
             str += @"   \hline" + "\n";
             str += @"   \endhead" + "\n";
             str += @"   \T" + "\n";
-            str += "   " + @"BOI-0-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi01) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-2-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi21) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi01)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-2-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi21)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"BOI-0A-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A1) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0A-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A2) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0B-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0B1) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0C-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C1) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0C-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C2) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0D-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D1) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-0D-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D2) +
-                                                                               @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0A-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A1)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0A-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0A2)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0B-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0B1)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0C-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C1)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0C-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0C2)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0D-1" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D1)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-0D-2" + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi0D2)
+                                                                                     + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline" + "\n";
-            str += "   " + @"BOI-1A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A1) + " & " +
-                                                                                ToResultText(t.Value.MethodResults.Boi1A1P))) + @" \\" + "\n";
-            str += "   " + @"BOI-1A-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A2) + " & " +
-                                                                                ToResultText(t.Value.MethodResults.Boi1A2P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A1) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1A1P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1A-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A2) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1A2P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1A-3 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A3) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1A3P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1A-4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A4) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1A4P))) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
-            str += "   " + @"BOI-2A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2A1) + " & " +
-                                                                                ToResultText(t.Value.MethodResults.Boi2A1P))) + @" \\" + "\n";
-            str += "   " + @"BOI-2B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2B1) +
-                                                                                @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-2A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2A1) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi2A1P))) + @" \\" + "\n";
+            str += "   " + @"BOI-2B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2B1)
+                                                                                      + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
-            str += "   " + @"BOI-3A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3A1) +
-                                                                                @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-3B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3B1) +
-                                                                                @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
-            str += "   " + @"BOI-3C-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3C1) + " & " +
-                                                                                ToResultText(t.Value.MethodResults.Boi3C1P))) + @" \\" + "\n";
+            str += "   " + @"BOI-3A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3A1)
+                                                                                      + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-3B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3B1)
+                                                                                      + @" & \cellcolor{lightbluegray}")) + @" \\" + "\n";
+            str += "   " + @"BOI-3C-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi3C1) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi3C1P))) + @" \\" + "\n";
             str += @"   \hline" + "\n";
             str += @"\end{longtable}" + "\n";
 
