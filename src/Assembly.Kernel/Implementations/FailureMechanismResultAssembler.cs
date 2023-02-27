@@ -44,21 +44,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p);
-
-            if (partialAssembly)
-            {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(r => r.IsDefined);
-
-                if (!failureMechanismSectionAssemblyResults.Any())
-                {
-                    return new Probability(0.0);
-                }
-            }
-
-            return failureMechanismSectionAssemblyResults.Aggregate(
-                (Probability) 1.0,
-                (current, sectionProbability) => current * sectionProbability.Inverse).Inverse;
+            return CalculateFailureMechanismFailureProbabilityP1(failureMechanismSectionAssemblyResults, partialAssembly);
         }
 
         /// <inheritdoc />
@@ -71,21 +57,7 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly, p => p);
-
-            if (partialAssembly)
-            {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
-                    r => r.IsDefined);
-
-                if (!failureMechanismSectionAssemblyResults.Any())
-                {
-                    return new Probability(0.0);
-                }
-            }
-
-            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar) * lengthEffectFactor;
-            return new Probability(Math.Min(1.0, assemblyResult));
+            return CalculateFailureMechanismFailureProbabilityP2(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
         }
 
         /// <inheritdoc />
@@ -98,22 +70,8 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p.ProbabilitySection);
-
-            if (partialAssembly)
-            {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
-                    r => r.ProbabilitySection.IsDefined);
-
-                if (!failureMechanismSectionAssemblyResults.Any())
-                {
-                    return new Probability(0.0);
-                }
-            }
-
-            return failureMechanismSectionAssemblyResults.Aggregate(
-                (Probability) 1.0,
-                (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse;
+            return CalculateFailureMechanismFailureProbabilityP1(failureMechanismSectionAssemblyResults.Select(fmsar => fmsar.ProbabilitySection),
+                                                                 partialAssembly);
         }
 
         /// <inheritdoc />
@@ -126,21 +84,8 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
-            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly, p => p.ProbabilityProfile);
-
-            if (partialAssembly)
-            {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
-                    r => r.ProbabilityProfile.IsDefined);
-
-                if (!failureMechanismSectionAssemblyResults.Any())
-                {
-                    return new Probability(0.0);
-                }
-            }
-
-            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar.ProbabilityProfile) * lengthEffectFactor;
-            return new Probability(Math.Min(1.0, assemblyResult));
+            return CalculateFailureMechanismFailureProbabilityP2(failureMechanismSectionAssemblyResults.Select(fmsar => fmsar.ProbabilityProfile),
+                                                                 lengthEffectFactor, partialAssembly);
         }
 
         /// <inheritdoc />
@@ -171,6 +116,78 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <summary>
+        /// Calculates a <see cref="Probability"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
+        private static Probability CalculateFailureMechanismFailureProbabilityP1(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            bool partialAssembly)
+        {
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(r => r.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new Probability(0.0);
+                }
+            }
+
+            return failureMechanismSectionAssemblyResults.Aggregate(
+                (Probability) 1.0,
+                (current, sectionProbability) => current * sectionProbability.Inverse).Inverse;
+        }
+
+        /// <summary>
+        /// Calculates a <see cref="Probability"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="lengthEffectFactor">The length effect factor.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>The calculated <see cref="Probability"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>;</item>
+        /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
+        private static Probability CalculateFailureMechanismFailureProbabilityP2(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            double lengthEffectFactor, bool partialAssembly)
+        {
+            ValidateInput(failureMechanismSectionAssemblyResults, lengthEffectFactor, partialAssembly);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(
+                    r => r.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new Probability(0.0);
+                }
+            }
+
+            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar) * lengthEffectFactor;
+            return new Probability(Math.Min(1.0, assemblyResult));
+        }
+
+        /// <summary>
         /// Calculates <see cref="BoundaryLimits"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
@@ -187,7 +204,7 @@ namespace Assembly.Kernel.Implementations
         private static BoundaryLimits CalculateFailureMechanismBoundaries(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
                                                                           bool partialAssembly)
         {
-            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p);
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly);
 
             if (partialAssembly)
             {
@@ -211,8 +228,6 @@ namespace Assembly.Kernel.Implementations
         /// </summary>
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <param name="getProbabilityFunc">The <see cref="Func{T1,TResult}"/> to get the probability from the assembly result.</param>
-        /// <typeparam name="T">The type of assembly result.</typeparam>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
@@ -220,8 +235,8 @@ namespace Assembly.Kernel.Implementations
         /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
         /// </list>
         /// </exception>
-        private static void ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
-                                             bool partialAssembly, Func<T, Probability> getProbabilityFunc)
+        private static void ValidateInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                          bool partialAssembly)
         {
             var errors = new List<AssemblyErrorMessage>();
 
@@ -232,9 +247,9 @@ namespace Assembly.Kernel.Implementations
 
             if (!errors.Any() && !partialAssembly)
             {
-                foreach (T failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
-                    if (!getProbabilityFunc(failureMechanismSectionAssemblyResult).IsDefined)
+                    if (!failureMechanismSectionAssemblyResult.IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
@@ -255,8 +270,6 @@ namespace Assembly.Kernel.Implementations
         /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
         /// <param name="lengthEffectFactor">The length effect factor.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
-        /// <param name="getProbabilityFunc">The <see cref="Func{T1,TResult}"/> to get the probability from the assembly result.</param>
-        /// <typeparam name="T">The type of assembly result.</typeparam>
         /// <exception cref="AssemblyException">Thrown when:
         /// <list type="bullet">
         /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>null</c> or <c>empty</c>;</item>
@@ -265,9 +278,8 @@ namespace Assembly.Kernel.Implementations
         /// <item><paramref name="lengthEffectFactor"/> is &lt; 1.</item>
         /// </list>
         /// </exception>
-        private static void ValidateInput<T>(IEnumerable<T> failureMechanismSectionAssemblyResults,
-                                             double lengthEffectFactor, bool partialAssembly,
-                                             Func<T, Probability> getProbabilityFunc)
+        private static void ValidateInput(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                          double lengthEffectFactor, bool partialAssembly)
         {
             var errors = new List<AssemblyErrorMessage>();
 
@@ -283,9 +295,9 @@ namespace Assembly.Kernel.Implementations
 
             if (!errors.Any() && !partialAssembly)
             {
-                foreach (T failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
+                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
                 {
-                    if (!getProbabilityFunc(failureMechanismSectionAssemblyResult).IsDefined)
+                    if (!failureMechanismSectionAssemblyResult.IsDefined)
                     {
                         errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
                                                             EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
