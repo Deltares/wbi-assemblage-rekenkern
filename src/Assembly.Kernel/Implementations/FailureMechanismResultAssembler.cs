@@ -153,6 +153,40 @@ namespace Assembly.Kernel.Implementations
                 throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
             }
 
+            return CalculateFailureMechanismBoundaries(failureMechanismSectionAssemblyResults, partialAssembly);
+        }
+
+        /// <inheritdoc />
+        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B2(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            bool partialAssembly)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
+            }
+
+            return CalculateFailureMechanismBoundaries(failureMechanismSectionAssemblyResults.Select(fmsar => fmsar.ProbabilitySection),
+                                                       partialAssembly);
+        }
+
+        /// <summary>
+        /// Calculates <see cref="BoundaryLimits"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>The calculated <see cref="BoundaryLimits"/>.</returns>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
+        private static BoundaryLimits CalculateFailureMechanismBoundaries(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                                                          bool partialAssembly)
+        {
             ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p);
 
             if (partialAssembly)
@@ -170,34 +204,6 @@ namespace Assembly.Kernel.Implementations
                 failureMechanismSectionAssemblyResults.Aggregate(
                     (Probability) 1.0,
                     (current, sectionProbability) => current * sectionProbability.Inverse).Inverse);
-        }
-
-        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B2(
-            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            bool partialAssembly)
-        {
-            if (failureMechanismSectionAssemblyResults == null)
-            {
-                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
-            }
-
-            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p.ProbabilitySection);
-
-            if (partialAssembly)
-            {
-                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(p => p.ProbabilitySection.IsDefined);
-
-                if (!failureMechanismSectionAssemblyResults.Any())
-                {
-                    return new BoundaryLimits(new Probability(0.0), new Probability(0.0));
-                }
-            }
-
-            return new BoundaryLimits(
-                failureMechanismSectionAssemblyResults.Max(p => p.ProbabilitySection),
-                failureMechanismSectionAssemblyResults.Aggregate(
-                    (Probability) 1.0,
-                    (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse);
         }
 
         /// <summary>
