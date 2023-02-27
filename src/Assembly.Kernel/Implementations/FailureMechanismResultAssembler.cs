@@ -144,8 +144,9 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
-                                                                        bool partialAssembly)
+        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            bool partialAssembly)
         {
             if (failureMechanismSectionAssemblyResults == null)
             {
