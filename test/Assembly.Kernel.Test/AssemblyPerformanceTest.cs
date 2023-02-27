@@ -101,7 +101,7 @@ namespace Assembly.Kernel.Test
 
             foreach (KeyValuePair<double, List<Tuple<FailureMechanismSection, ResultWithProfileAndSectionProbabilities>>> failureMechanismSectionResults in failureMechanismSectionResultsDictionary)
             {
-                Probability result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+                Probability result = failureMechanismResultAssembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                     failureMechanismSectionResults.Value.Select(failureMechanismSection => failureMechanismSection.Item2),
                     failureMechanismSectionResults.Key,
                     false);

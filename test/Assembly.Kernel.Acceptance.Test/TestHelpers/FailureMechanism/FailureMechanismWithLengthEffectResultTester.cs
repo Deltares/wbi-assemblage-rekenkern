@@ -190,7 +190,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
             else
             {
-                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                     sr, ExpectedFailureMechanismResult.LengthEffectFactor, false);
             }
 
@@ -228,7 +228,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
             else
             {
-                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+                assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                     sr, ExpectedFailureMechanismResult.LengthEffectFactor, true);
             }
 

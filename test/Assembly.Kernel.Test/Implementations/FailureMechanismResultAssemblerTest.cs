@@ -232,16 +232,16 @@ namespace Assembly.Kernel.Test.Implementations
 
         #endregion
 
-        #region CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2
+        #region CalculateFailureMechanismFailureProbabilityBoi1A2
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(null, 1.0, false);
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(null, 1.0, false);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Call);
@@ -249,13 +249,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
                 Enumerable.Empty<Probability>(), 1.0, false);
 
             // Assert
@@ -266,13 +266,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_LengthEffectFactorInvalid_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_LengthEffectFactorInvalid_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(new[]
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(new[]
             {
                 new Probability(0.0)
             }, 0.0, false);
@@ -285,13 +285,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(new[]
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(new[]
             {
                 new Probability(0.0),
                 Probability.Undefined,
@@ -306,13 +306,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(new[]
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(new[]
             {
                 Probability.Undefined,
                 Probability.Undefined
@@ -323,8 +323,8 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2Cases))]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A2Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             Probability expectedAssemblyResult)
         {
@@ -332,7 +332,7 @@ namespace Assembly.Kernel.Test.Implementations
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
                 failureMechanismSectionAssemblyResults, 14.4, false);
 
             // Assert
@@ -340,8 +340,8 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2Cases))]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A2Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             Probability expectedAssemblyResult)
         {
@@ -354,14 +354,14 @@ namespace Assembly.Kernel.Test.Implementations
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A2(
                 failureMechanismSectionAssemblyResults, 14.4, true);
 
             // Assert
             Assert.AreEqual(expectedAssemblyResult, assemblyResult, 1e-10);
         }
 
-        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2Cases()
+        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismFailureProbabilityBoi1A2Cases()
         {
             yield return new TestCaseData(
                 new[]
@@ -576,16 +576,16 @@ namespace Assembly.Kernel.Test.Implementations
 
         #endregion
 
-        #region CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4
+        #region CalculateFailureMechanismFailureProbabilityBoi1A4
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(null, 1.0, false);
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(null, 1.0, false);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Call);
@@ -593,13 +593,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                 Enumerable.Empty<ResultWithProfileAndSectionProbabilities>(), 1.0, false);
 
             // Assert
@@ -610,13 +610,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(new[]
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(new[]
             {
                 new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0)),
                 new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined),
@@ -631,13 +631,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_LengthEffectFactorInvalid_ThrowsAssemblyException()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_LengthEffectFactorInvalid_ThrowsAssemblyException()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            void Call() => assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(new[]
+            void Call() => assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(new[]
             {
                 new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0))
             }, 0.0, false);
@@ -650,13 +650,13 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
         {
             // Setup
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(new[]
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(new[]
             {
                 new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined),
                 new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined)
@@ -667,8 +667,8 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4Cases))]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A4Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             Probability expectedAssemblyResult)
         {
@@ -676,7 +676,7 @@ namespace Assembly.Kernel.Test.Implementations
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                 failureMechanismSectionAssemblyResults, 14.4, false);
 
             // Assert
@@ -684,8 +684,8 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4Cases))]
-        public void CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
+        [TestCaseSource(nameof(GetCalculateFailureMechanismFailureProbabilityBoi1A4Cases))]
+        public void CalculateFailureMechanismFailureProbabilityBoi1A4_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             Probability expectedAssemblyResult)
         {
@@ -698,14 +698,14 @@ namespace Assembly.Kernel.Test.Implementations
             var assembler = new FailureMechanismResultAssembler();
 
             // Call
-            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+            Probability assemblyResult = assembler.CalculateFailureMechanismFailureProbabilityBoi1A4(
                 failureMechanismSectionAssemblyResults, 14.4, true);
 
             // Assert
             Assert.AreEqual(expectedAssemblyResult, assemblyResult, 1e-10);
         }
 
-        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4Cases()
+        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismFailureProbabilityBoi1A4Cases()
         {
             yield return new TestCaseData(
                 new[]

@@ -62,7 +62,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+        public Probability CalculateFailureMechanismFailureProbabilityBoi1A2(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly)
         {
@@ -117,7 +117,7 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+        public Probability CalculateFailureMechanismFailureProbabilityBoi1A4(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly)
         {

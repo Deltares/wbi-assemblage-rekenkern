@@ -70,7 +70,7 @@ namespace Assembly.Kernel.Interfaces
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
-        Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A2(
+        Probability CalculateFailureMechanismFailureProbabilityBoi1A2(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly);
 
@@ -112,7 +112,7 @@ namespace Assembly.Kernel.Interfaces
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
-        Probability CalculateFailureMechanismFailureProbabilityWithLengthEffectBoi1A4(
+        Probability CalculateFailureMechanismFailureProbabilityBoi1A4(
             IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly);
 
