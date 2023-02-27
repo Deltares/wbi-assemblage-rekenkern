@@ -88,18 +88,18 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// Test calculation of the combined assessment result (probability) for this failure mechanism.
         /// </summary>
         /// <returns>Whether the tests were a success or not.</returns>
-        public bool TestAssessmentSectionResult()
+        public bool TestFailureMechanismResult()
         {
             try
             {
-                TestAssessmentSectionResultInternal();
-                SetAssessmentSectionMethodResult(true);
+                TestFailureMechanismResultInternal();
+                SetFailureMechanismMethodResult(true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Faalkans per traject - {e.Message}");
-                SetAssessmentSectionMethodResult(false);
+                SetFailureMechanismMethodResult(false);
                 return false;
             }
         }
@@ -108,18 +108,18 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// Test calculation of the combined assessment result (probability) for this failure mechanism using partial assembly.
         /// </summary>
         /// <returns>Whether the tests were a success or not.</returns>
-        public bool TestAssessmentSectionResultPartial()
+        public bool TestFailureMechanismResultPartial()
         {
             try
             {
-                TestAssessmentSectionResultPartialInternal();
-                SetAssessmentSectionMethodResultPartial(true);
+                TestFailureMechanismResultPartialInternal();
+                SetFailureMechanismMethodResultPartial(true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Voorlopig toetsoordeel per traject - {e.Message}");
-                SetAssessmentSectionMethodResultPartial(false);
+                SetFailureMechanismMethodResultPartial(false);
                 return false;
             }
         }
@@ -128,13 +128,13 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected abstract void TestCombinedAssessmentInternal();
 
-        protected abstract void SetAssessmentSectionMethodResult(bool result);
+        protected abstract void SetFailureMechanismMethodResult(bool result);
 
-        protected abstract void TestAssessmentSectionResultInternal();
+        protected abstract void TestFailureMechanismResultInternal();
 
-        protected abstract void SetAssessmentSectionMethodResultPartial(bool result);
+        protected abstract void SetFailureMechanismMethodResultPartial(bool result);
 
-        protected abstract void TestAssessmentSectionResultPartialInternal();
+        protected abstract void TestFailureMechanismResultPartialInternal();
 
         protected static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance,
                                                          ERefinementStatus refinementStatus)

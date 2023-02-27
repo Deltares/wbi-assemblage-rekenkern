@@ -138,12 +138,12 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void SetAssessmentSectionMethodResult(bool result)
+        protected override void SetFailureMechanismMethodResult(bool result)
         {
             MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
         }
 
-        protected override void TestAssessmentSectionResultInternal()
+        protected override void TestFailureMechanismResultInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 
@@ -173,12 +173,12 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
         }
 
-        protected override void SetAssessmentSectionMethodResultPartial(bool result)
+        protected override void SetFailureMechanismMethodResultPartial(bool result)
         {
             MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
         }
 
-        protected override void TestAssessmentSectionResultPartialInternal()
+        protected override void TestFailureMechanismResultPartialInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
 
