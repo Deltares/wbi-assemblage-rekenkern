@@ -91,8 +91,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                     probability = assembler.DetermineRepresentativeProbabilityBoi0A1(refinementStatus == ERefinementStatus.Performed,
                                                                                      section.InitialMechanismProbabilitySection,
                                                                                      section.RefinedProbabilitySection);
-                    category =
-                        assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                    category = assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
                             probability, InterpretationCategories);
                 }
                 else
