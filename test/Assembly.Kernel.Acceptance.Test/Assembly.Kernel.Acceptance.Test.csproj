@@ -55,7 +55,6 @@
         <Compile Include="TestHelpers\FailureMechanism\FailureMechanismResultTesterBase.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="TestHelpers\FailureMechanism\FailureMechanismWithLengthEffectResultTester.cs" />
-        <Compile Include="TestHelpers\FailureMechanism\IFailureMechanismResultTester.cs" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">

@@ -94,7 +94,7 @@ namespace Assembly.Kernel.Acceptance.Test
                 testResult, expectedFailureMechanismResult.Name, expectedFailureMechanismResult.MechanismId,
                 expectedFailureMechanismResult.HasLengthEffect, expectedFailureMechanismResult.AssemblyMethod);
 
-            IFailureMechanismResultTester failureMechanismTester;
+            FailureMechanismResultTesterBase failureMechanismTester;
             if (expectedFailureMechanismResult.HasLengthEffect)
             {
                 failureMechanismTester = new FailureMechanismWithLengthEffectResultTester(

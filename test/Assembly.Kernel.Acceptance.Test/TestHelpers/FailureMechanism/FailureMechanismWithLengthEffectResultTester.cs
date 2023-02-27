@@ -49,9 +49,12 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         private bool? boi0D2TestResult;
 
         /// <inheritdoc />
-        public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults, ExpectedFailureMechanismResult expectedFailureMechanismResult, CategoriesList<InterpretationCategory> interpretationCategories) : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
+        public FailureMechanismWithLengthEffectResultTester(MethodResultsListing methodResults,
+                                                            ExpectedFailureMechanismResult expectedFailureMechanismResult,
+                                                            CategoriesList<InterpretationCategory> interpretationCategories)
+            : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
-        protected override void SetCombinedAssessmentMethodResult(bool result)
+        protected override void SetCombinedAssessmentMethodResult()
         {
             MethodResults.Boi0A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0A2, boi0A2TestResult);
             MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
@@ -67,110 +70,107 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             var assembler = new AssessmentResultsTranslator();
             ResetTestResults();
 
-            if (ExpectedFailureMechanismResult != null)
+            var exception = new AssertionException("Errors occurred");
+            IEnumerable<ExpectedFailureMechanismSectionWithLengthEffect> failureMechanismSectionWithLengthEffects
+                = ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>();
+            foreach (ExpectedFailureMechanismSectionWithLengthEffect section in failureMechanismSectionWithLengthEffects)
             {
-                var exception = new AssertionException("Errors occurred");
-                IEnumerable<ExpectedFailureMechanismSectionWithLengthEffect> failureMechanismSectionWithLengthEffects
-                    = ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>();
-                foreach (ExpectedFailureMechanismSectionWithLengthEffect section in failureMechanismSectionWithLengthEffects)
+                Probability calculatedCombinedSectionProbability = assembler.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
+                    section.ExpectedCombinedProbabilityProfile, section.LengthEffectFactorCombinedProbability);
+                Probability calculatedCombinedProfileProbability = assembler.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
+                    section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
+
+                ESectionInitialMechanismProbabilitySpecification relevance;
+                if (!section.IsRelevant)
                 {
-                    Probability calculatedCombinedSectionProbability = assembler.CalculateProfileProbabilityToSectionProbabilityBoi0D1(
-                        section.ExpectedCombinedProbabilityProfile, section.LengthEffectFactorCombinedProbability);
-                    Probability calculatedCombinedProfileProbability = assembler.CalculateSectionProbabilityToProfileProbabilityBoi0D2(
-                        section.ExpectedCombinedProbabilitySection, section.LengthEffectFactorCombinedProbability);
+                    relevance = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
+                }
+                else
+                {
+                    relevance = double.IsNaN(section.InitialMechanismProbabilitySection)
+                                    ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
+                                    : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification;
+                }
 
-                    ESectionInitialMechanismProbabilitySpecification relevance;
-                    if (!section.IsRelevant)
-                    {
-                        relevance = ESectionInitialMechanismProbabilitySpecification.NotRelevant;
-                    }
-                    else
-                    {
-                        relevance = double.IsNaN(section.InitialMechanismProbabilitySection)
-                                        ? ESectionInitialMechanismProbabilitySpecification.RelevantNoProbabilitySpecification
-                                        : ESectionInitialMechanismProbabilitySpecification.RelevantWithProbabilitySpecification;
-                    }
+                ERefinementStatus refinementStatus = section.RefinementStatus;
+                ResultWithProfileAndSectionProbabilities probabilitiesResult;
+                EInterpretationCategory category;
 
-                    ERefinementStatus refinementStatus = section.RefinementStatus;
-                    ResultWithProfileAndSectionProbabilities probabilitiesResult;
-                    EInterpretationCategory category;
+                EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
+                if (analysisState == EAnalysisState.ProbabilityEstimated)
+                {
+                    probabilitiesResult = assembler.DetermineRepresentativeProbabilitiesBoi0A2(
+                        refinementStatus == ERefinementStatus.Performed, section.InitialMechanismProbabilityProfile,
+                        section.InitialMechanismProbabilitySection, section.RefinedProbabilityProfile,
+                        section.RefinedProbabilitySection);
+                    category = assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
+                        probabilitiesResult.ProbabilitySection, InterpretationCategories);
+                }
+                else
+                {
+                    category = assembler.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
+                    Probability probability = assembler.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
+                    probabilitiesResult = new ResultWithProfileAndSectionProbabilities(probability, probability);
+                }
 
-                    EAnalysisState analysisState = GetAnalysisState(relevance, refinementStatus);
+                try
+                {
+                    Assert.IsTrue(calculatedCombinedSectionProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilitySection));
+                    boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, true);
+                }
+                catch (AssertionException e)
+                {
+                    exception.Data.Add(section.SectionName + " (BOI-0D-1)", e);
+                    boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, false);
+                }
+
+                try
+                {
+                    Assert.IsTrue(calculatedCombinedProfileProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilityProfile));
+                    boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, true);
+                }
+                catch (AssertionException e)
+                {
+                    exception.Data.Add(section.SectionName + " (BOI-0D-2)", e);
+                    boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, false);
+                }
+
+                try
+                {
+                    AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilityProfile, probabilitiesResult.ProbabilityProfile);
+                    AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, probabilitiesResult.ProbabilitySection);
+                    Assert.AreEqual(section.ExpectedInterpretationCategory, category);
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
-                        probabilitiesResult = assembler.DetermineRepresentativeProbabilitiesBoi0A2(
-                            refinementStatus == ERefinementStatus.Performed, section.InitialMechanismProbabilityProfile,
-                            section.InitialMechanismProbabilitySection, section.RefinedProbabilityProfile,
-                            section.RefinedProbabilitySection);
-                        category = assembler.DetermineInterpretationCategoryFromFailureMechanismSectionProbabilityBoi0B1(
-                            probabilitiesResult.ProbabilitySection, InterpretationCategories);
+                        boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, true);
+                        boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, true);
                     }
                     else
                     {
-                        category = assembler.DetermineInterpretationCategoryWithoutProbabilityEstimationBoi0C1(analysisState);
-                        Probability probability = assembler.TranslateInterpretationCategoryToProbabilityBoi0C2(category);
-                        probabilitiesResult = new ResultWithProfileAndSectionProbabilities(probability, probability);
-                    }
-
-                    try
-                    {
-                        Assert.IsTrue(calculatedCombinedSectionProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilitySection));
-                        boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, true);
-                    }
-                    catch (AssertionException e)
-                    {
-                        exception.Data.Add(section.SectionName + " (BOI-0D-1)", e);
-                        boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, false);
-                    }
-
-                    try
-                    {
-                        Assert.IsTrue(calculatedCombinedProfileProbability.IsNegligibleDifference(section.ExpectedCombinedProbabilityProfile));
-                        boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, true);
-                    }
-                    catch (AssertionException e)
-                    {
-                        exception.Data.Add(section.SectionName + " (BOI-0D-2)", e);
-                        boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, false);
-                    }
-
-                    try
-                    {
-                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilityProfile, probabilitiesResult.ProbabilityProfile);
-                        AssertHelper.AssertAreEqualProbabilities(section.ExpectedCombinedProbabilitySection, probabilitiesResult.ProbabilitySection);
-                        Assert.AreEqual(section.ExpectedInterpretationCategory, category);
-                        if (analysisState == EAnalysisState.ProbabilityEstimated)
-                        {
-                            boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, true);
-                            boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, true);
-                        }
-                        else
-                        {
-                            boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, true);
-                            boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, true);
-                        }
-                    }
-                    catch (AssertionException e)
-                    {
-                        if (analysisState == EAnalysisState.ProbabilityEstimated)
-                        {
-                            exception.Data.Add(section.SectionName + " (BOI-0A-2 / BOI-0B-1)", e);
-                            boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, false);
-                            boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, false);
-                        }
-                        else
-                        {
-                            exception.Data.Add(section.SectionName + " (BOI-0C-*)", e);
-                            boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, false);
-                            boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, false);
-                        }
+                        boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, true);
+                        boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, true);
                     }
                 }
-
-                if (exception.Data.Count > 0)
+                catch (AssertionException e)
                 {
-                    throw exception;
+                    if (analysisState == EAnalysisState.ProbabilityEstimated)
+                    {
+                        exception.Data.Add(section.SectionName + " (BOI-0A-2 / BOI-0B-1)", e);
+                        boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, false);
+                        boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, false);
+                    }
+                    else
+                    {
+                        exception.Data.Add(section.SectionName + " (BOI-0C-*)", e);
+                        boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, false);
+                        boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, false);
+                    }
                 }
+            }
+
+            if (exception.Data.Count > 0)
+            {
+                throw exception;
             }
         }
 

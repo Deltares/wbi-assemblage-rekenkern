@@ -33,7 +33,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
     /// <summary>
     /// Base class for failure mechanism result tester.
     /// </summary>
-    public abstract class FailureMechanismResultTesterBase : IFailureMechanismResultTester
+    public abstract class FailureMechanismResultTesterBase
     {
         protected readonly ExpectedFailureMechanismResult ExpectedFailureMechanismResult;
         protected readonly MethodResultsListing MethodResults;
@@ -63,12 +63,12 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// Test assembly of the probabilities and interpretation categories per failure mechanism section.
         /// </summary>
         /// <returns>Whether the tests were a success or not.</returns>
-        public virtual bool TestCombinedAssessment()
+        public bool TestCombinedAssessment()
         {
             try
             {
                 TestCombinedAssessmentInternal();
-                SetCombinedAssessmentMethodResult(true);
+                SetCombinedAssessmentMethodResult();
                 return true;
             }
             catch (AssertionException e)
@@ -79,7 +79,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                                       $": {((AssertionException) entry.Value).Message}");
                 }
 
-                SetCombinedAssessmentMethodResult(false);
+                SetCombinedAssessmentMethodResult();
                 return false;
             }
         }
@@ -88,7 +88,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// Test calculation of the combined assessment result (probability) for this failure mechanism.
         /// </summary>
         /// <returns>Whether the tests were a success or not.</returns>
-        public virtual bool TestAssessmentSectionResult()
+        public bool TestAssessmentSectionResult()
         {
             try
             {
@@ -108,7 +108,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// Test calculation of the combined assessment result (probability) for this failure mechanism using partial assembly.
         /// </summary>
         /// <returns>Whether the tests were a success or not.</returns>
-        public virtual bool TestAssessmentSectionResultPartial()
+        public bool TestAssessmentSectionResultPartial()
         {
             try
             {
@@ -124,17 +124,17 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        protected abstract void SetCombinedAssessmentMethodResult(bool result);
+        protected abstract void SetCombinedAssessmentMethodResult();
 
-        protected virtual void TestCombinedAssessmentInternal() {}
+        protected abstract void TestCombinedAssessmentInternal();
 
         protected abstract void SetAssessmentSectionMethodResult(bool result);
 
-        protected virtual void TestAssessmentSectionResultInternal() {}
+        protected abstract void TestAssessmentSectionResultInternal();
 
         protected abstract void SetAssessmentSectionMethodResultPartial(bool result);
 
-        protected virtual void TestAssessmentSectionResultPartialInternal() {}
+        protected abstract void TestAssessmentSectionResultPartialInternal();
 
         protected static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance,
                                                          ERefinementStatus refinementStatus)
