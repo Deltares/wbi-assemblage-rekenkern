@@ -69,9 +69,15 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
 
         private void ReadGeneralInformation(ExpectedFailureMechanismResult expectedFailureMechanismResult)
         {
-            expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
-            expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
             expectedFailureMechanismResult.LengthEffectFactor = GetCellValueAsDouble("C", "Ntraject");
+            expectedFailureMechanismResult.ExpectedCombinedProbability = new Probability(GetCellValueAsDouble("C", "Faalkans"));
+            expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial = new Probability(GetCellValueAsDouble("C", "Faalkans tussentijds"));
+            expectedFailureMechanismResult.ExpectedTheoreticalBoundaries = new BoundaryLimits(
+                new Probability(GetCellValueAsDouble("C", "Ondergrens")),
+                new Probability(GetCellValueAsDouble("C", "Bovengrens")));
+            expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial = new BoundaryLimits(
+                new Probability(GetCellValueAsDouble("C", "Ondergrens tussentijds")),
+                new Probability(GetCellValueAsDouble("C", "Bovengrens tussentijds")));
         }
 
         private void ReadFailureMechanismSections(ExpectedFailureMechanismResult expectedFailureMechanismResult)

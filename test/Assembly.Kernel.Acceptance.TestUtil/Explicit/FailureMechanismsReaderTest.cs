@@ -53,10 +53,17 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
+                
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(6.07e-02, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
-                Assert.AreEqual(6.07e-02, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
+                Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
+                Assert.AreEqual("P1", expectedFailureMechanismResult.AssemblyMethod);
+                Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
+                Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
+                
+                Assert.AreEqual(3.31e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.LowerLimit, 1e-4);
+                Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.UpperLimit, 1e-4);
+                Assert.AreEqual(3.31e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.LowerLimit, 1e-4);
+                Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.UpperLimit, 1e-4);
             }
         }
 
@@ -78,12 +85,18 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
                 reader.Read(result, "GEKB");
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
-                ExpectedFailureMechanismResult expectedFailureMechanismResult =
-                    result.ExpectedFailureMechanismsResults.First();
-                Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
+                ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
+                
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(4.46e-06, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
-                Assert.AreEqual(4.46e-06, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
+                Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
+                Assert.AreEqual("P2", expectedFailureMechanismResult.AssemblyMethod);
+                Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
+                Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
+                
+                Assert.AreEqual(2.23e-6, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.LowerLimit, 1e-4);
+                Assert.AreEqual(1.26e-5, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.UpperLimit, 1e-4);
+                Assert.AreEqual(2.23e-6, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.LowerLimit, 1e-4);
+                Assert.AreEqual(1.26e-5, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.UpperLimit, 1e-4);
             }
         }
     }

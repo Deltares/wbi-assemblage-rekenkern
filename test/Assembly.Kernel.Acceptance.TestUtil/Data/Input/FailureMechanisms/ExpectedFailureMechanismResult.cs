@@ -47,12 +47,12 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         }
 
         /// <summary>
-        /// Name of the failure mechanism.
+        /// Gets the name of the failure mechanism.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// MechanismId of the failure mechanism.
+        /// Gets the mechanismId of the failure mechanism.
         /// </summary>
         public string MechanismId { get; }
 
@@ -67,23 +67,33 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         public string AssemblyMethod { get; }
 
         /// <summary>
-        /// The expected combined probability.
+        /// Gets or sets the expected combined probability.
         /// </summary>
         public Probability ExpectedCombinedProbability { get; set; }
 
         /// <summary>
-        /// The expected result while performing partial assembly.
+        /// Gets or sets the expected result while performing partial assembly.
         /// </summary>
         public Probability ExpectedCombinedProbabilityPartial { get; set; }
 
         /// <summary>
-        /// A listing of all sections within the failure mechanism.
+        /// Gets or sets a listing of all sections within the failure mechanism.
         /// </summary>
         public IEnumerable<IExpectedFailureMechanismSection> Sections { get; set; }
 
         /// <summary>
-        /// Length-effect factor for this failure mechanism.
+        /// Gets or sets the length-effect factor for this failure mechanism.
         /// </summary>
         public double LengthEffectFactor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expected theoretical boundaries.
+        /// </summary>
+        public BoundaryLimits ExpectedTheoreticalBoundaries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expected theoretical boundaries while performing partial assembly.
+        /// </summary>
+        public BoundaryLimits ExpectedTheoreticalBoundariesPartial { get; set; }
     }
 }
