@@ -132,10 +132,10 @@ namespace Assembly.Kernel.Acceptance.Test
             {
                 BenchmarkFailureMechanismTestResult m = result.FailureMechanismResults[index];
                 str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " + m.AssemblyMethod + " & " +
-                       ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
-                       ToResultText(m.AreEqualCombinedAssessmentResultsPerSection) + " & " +
-                       ToResultText(m.AreEqualAssessmentResultPerAssessmentSection) + " & " +
-                       ToResultText(m.AreEqualAssessmentResultPerAssessmentSectionPartial) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismSectionsResults) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismSectionsResults) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismResult) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismResultPartial) + " & " +
                        ToResultText(m.AreEqualCombinedResultsCombinedSections);
                 if (index != result.FailureMechanismResults.Count - 1)
                 {

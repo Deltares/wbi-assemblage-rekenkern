@@ -106,9 +106,9 @@ namespace Assembly.Kernel.Acceptance.Test
                     testResult.MethodResults, expectedFailureMechanismResult, interpretationCategories);
             }
 
-            failureMechanismTestResult.AreEqualCombinedAssessmentResultsPerSection = failureMechanismTester.TestCombinedAssessment();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSection = failureMechanismTester.TestFailureMechanismResult();
-            failureMechanismTestResult.AreEqualAssessmentResultPerAssessmentSectionPartial = failureMechanismTester.TestFailureMechanismResultPartial();
+            failureMechanismTestResult.AreEqualFailureMechanismSectionsResults = failureMechanismTester.TestFailureMechanismSectionResults();
+            failureMechanismTestResult.AreEqualFailureMechanismResult = failureMechanismTester.TestFailureMechanismResult();
+            failureMechanismTestResult.AreEqualFailureMechanismResultPartial = failureMechanismTester.TestFailureMechanismResultPartial();
         }
 
         /// <summary>

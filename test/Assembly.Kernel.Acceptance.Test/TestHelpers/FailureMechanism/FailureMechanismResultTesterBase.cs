@@ -46,13 +46,20 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         /// <param name="methodResults">The method results.</param>
         /// <param name="expectedFailureMechanismResult">The expected failure mechanism results.</param>
         /// <param name="interpretationCategories">The interpretation categories needed as input for the calculations.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="expectedFailureMechanismResult"/>
+        /// or <paramref name="interpretationCategories"/> is <c>null</c>.</exception>
         protected FailureMechanismResultTesterBase(MethodResultsListing methodResults,
                                                    ExpectedFailureMechanismResult expectedFailureMechanismResult,
                                                    CategoriesList<InterpretationCategory> interpretationCategories)
         {
-            if (expectedFailureMechanismResult == null || interpretationCategories == null)
+            if (expectedFailureMechanismResult == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(expectedFailureMechanismResult));
+            }
+
+            if (interpretationCategories == null)
+            {
+                throw new ArgumentNullException(nameof(interpretationCategories));
             }
 
             ExpectedFailureMechanismResult = expectedFailureMechanismResult;
@@ -61,15 +68,15 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         }
 
         /// <summary>
-        /// Test assembly of the probabilities and interpretation categories per failure mechanism section.
+        /// Test the assembly of the probabilities and interpretation categories per failure mechanism section.
         /// </summary>
-        /// <returns>Whether the tests were a success or not.</returns>
-        public bool TestCombinedAssessment()
+        /// <returns>Indicator whether the tests were successful or not.</returns>
+        public bool TestFailureMechanismSectionResults()
         {
             try
             {
-                TestCombinedAssessmentInternal();
-                SetCombinedAssessmentMethodResult();
+                TestFailureMechanismSectionResultsInternal();
+                SetFailureMechanismSectionMethodResults();
                 return true;
             }
             catch (AssertionException e)
@@ -80,15 +87,15 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                                       $": {((AssertionException) entry.Value).Message}");
                 }
 
-                SetCombinedAssessmentMethodResult();
+                SetFailureMechanismSectionMethodResults();
                 return false;
             }
         }
 
         /// <summary>
-        /// Test calculation of the combined assessment result (probability) for this failure mechanism.
+        /// Test the assembly of the combined failure mechanism section results for this failure mechanism.
         /// </summary>
-        /// <returns>Whether the tests were a success or not.</returns>
+        /// <returns>Indicator whether the tests were successful or not.</returns>
         public bool TestFailureMechanismResult()
         {
             try
@@ -106,9 +113,9 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         }
 
         /// <summary>
-        /// Test calculation of the combined assessment result (probability) for this failure mechanism using partial assembly.
+        /// Test the assembly of the combined failure mechanism section results for this failure mechanism using partial assembly.
         /// </summary>
-        /// <returns>Whether the tests were a success or not.</returns>
+        /// <returns>Indicator whether the tests were successful or not.</returns>
         public bool TestFailureMechanismResultPartial()
         {
             try
@@ -125,9 +132,9 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        protected abstract void SetCombinedAssessmentMethodResult();
+        protected abstract void SetFailureMechanismSectionMethodResults();
 
-        protected abstract void TestCombinedAssessmentInternal();
+        protected abstract void TestFailureMechanismSectionResultsInternal();
 
         protected abstract void SetFailureMechanismMethodResult(bool result);
 

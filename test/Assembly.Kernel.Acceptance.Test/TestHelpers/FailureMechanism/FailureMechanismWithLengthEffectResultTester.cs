@@ -54,7 +54,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                                                             CategoriesList<InterpretationCategory> interpretationCategories)
             : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
-        protected override void SetCombinedAssessmentMethodResult()
+        protected override void SetFailureMechanismSectionMethodResults()
         {
             MethodResults.Boi0A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0A2, boi0A2TestResult);
             MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
@@ -65,7 +65,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             ResetTestResults();
         }
 
-        protected override void TestCombinedAssessmentInternal()
+        protected override void TestFailureMechanismSectionResultsInternal()
         {
             var assembler = new AssessmentResultsTranslator();
             ResetTestResults();

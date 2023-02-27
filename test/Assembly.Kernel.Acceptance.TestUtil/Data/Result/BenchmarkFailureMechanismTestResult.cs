@@ -62,22 +62,22 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         public string AssemblyMethod { get; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result per mechanism section during assembly.
+        /// Gets or sets whether all failure mechanism section results were translated correctly during assembly.
         /// </summary>
-        public bool AreEqualCombinedAssessmentResultsPerSection { get; set; }
+        public bool AreEqualFailureMechanismSectionsResults { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result for the failure mechanism during assembly.
+        /// Gets or sets whether all failure mechanism section results were translated correctly during assembly.
         /// </summary>
-        public bool AreEqualAssessmentResultPerAssessmentSection { get; set; }
+        public bool AreEqualFailureMechanismResult { get; set; }
 
         /// <summary>
-        /// Indicates whether all assessment results per section were translated correctly to a combined assessment result for the failure mechanism during assembly while performing partial assembly.
+        /// Gets or sets whether all failure mechanism section results were translated correctly during a partial assembly.
         /// </summary>
-        public bool AreEqualAssessmentResultPerAssessmentSectionPartial { get; set; }
+        public bool AreEqualFailureMechanismResultPartial { get; set; }
 
         /// <summary>
-        /// Indicates whether all combined results for the combined sections were translated correctly during assembly.
+        /// Gets or sets whether all results for the combined sections were translated correctly during assembly.
         /// </summary>
         public bool AreEqualCombinedResultsCombinedSections { get; set; }
     }
