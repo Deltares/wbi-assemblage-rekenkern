@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
@@ -53,7 +54,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             {
                 throw new ArgumentNullException();
             }
-            
+
             ExpectedFailureMechanismResult = expectedFailureMechanismResult;
             MethodResults = methodResults;
             InterpretationCategories = interpretationCategories;
@@ -157,6 +158,18 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 default:
                     throw new InvalidEnumArgumentException(nameof(refinementStatus), (int) refinementStatus, typeof(ERefinementStatus));
             }
+        }
+
+        protected static void ThrowAssertionExceptionWithGivenErrors(IDictionary<string, AssertionException> errorsList)
+        {
+            var exception = new AssertionException("Errors occurred");
+
+            foreach (KeyValuePair<string, AssertionException> error in errorsList)
+            {
+                exception.Data.Add(error.Key, error.Value);
+            }
+
+            throw exception;
         }
     }
 }

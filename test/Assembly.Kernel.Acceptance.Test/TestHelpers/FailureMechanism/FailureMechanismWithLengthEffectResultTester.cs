@@ -70,7 +70,8 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             var assembler = new AssessmentResultsTranslator();
             ResetTestResults();
 
-            var exception = new AssertionException("Errors occurred");
+            var errorsList = new Dictionary<string, AssertionException>();
+
             IEnumerable<ExpectedFailureMechanismSectionWithLengthEffect> failureMechanismSectionWithLengthEffects
                 = ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSectionWithLengthEffect>();
             foreach (ExpectedFailureMechanismSectionWithLengthEffect section in failureMechanismSectionWithLengthEffects)
@@ -120,7 +121,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 }
                 catch (AssertionException e)
                 {
-                    exception.Data.Add(section.SectionName + " (BOI-0D-1)", e);
+                    errorsList.Add(section.SectionName + " (BOI-0D-1)", e);
                     boi0D1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D1TestResult, false);
                 }
 
@@ -131,7 +132,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 }
                 catch (AssertionException e)
                 {
-                    exception.Data.Add(section.SectionName + " (BOI-0D-2)", e);
+                    errorsList.Add(section.SectionName + " (BOI-0D-2)", e);
                     boi0D2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0D2TestResult, false);
                 }
 
@@ -155,22 +156,22 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 {
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
-                        exception.Data.Add(section.SectionName + " (BOI-0A-2 / BOI-0B-1)", e);
+                        errorsList.Add(section.SectionName + " (BOI-0A-2 / BOI-0B-1)", e);
                         boi0A2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A2TestResult, false);
                         boi0B1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0B1TestResult, false);
                     }
                     else
                     {
-                        exception.Data.Add(section.SectionName + " (BOI-0C-*)", e);
+                        errorsList.Add(section.SectionName + " (BOI-0C-*)", e);
                         boi0C1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C1TestResult, false);
                         boi0C2TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0C2TestResult, false);
                     }
                 }
             }
 
-            if (exception.Data.Count > 0)
+            if (errorsList.Any())
             {
-                throw exception;
+                ThrowAssertionExceptionWithGivenErrors(errorsList);
             }
         }
 

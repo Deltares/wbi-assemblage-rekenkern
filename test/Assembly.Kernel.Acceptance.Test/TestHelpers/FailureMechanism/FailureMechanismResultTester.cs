@@ -65,8 +65,8 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             var assembler = new AssessmentResultsTranslator();
             ResetTestResults();
 
-            var exception = new AssertionException("Errors occurred");
-
+            var errorsList = new Dictionary<string, AssertionException>();
+            
             foreach (ExpectedFailureMechanismSection section in ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>())
             {
                 ESectionInitialMechanismProbabilitySpecification relevance;
@@ -118,7 +118,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 }
                 catch (AssertionException e)
                 {
-                    exception.Data.Add(section.SectionName, e);
+                    errorsList.Add(section.SectionName, e);
                     if (analysisState == EAnalysisState.ProbabilityEstimated)
                     {
                         boi0A1TestResult = BenchmarkTestHelper.GetUpdatedMethodResult(boi0A1TestResult, false);
@@ -132,9 +132,9 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 }
             }
 
-            if (exception.Data.Count > 0)
+            if (errorsList.Any())
             {
-                throw exception;
+                ThrowAssertionExceptionWithGivenErrors(errorsList);
             }
         }
 
