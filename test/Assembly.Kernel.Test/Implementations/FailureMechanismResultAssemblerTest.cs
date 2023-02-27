@@ -751,5 +751,175 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         #endregion
+
+        #region CalculateFailureMechanismBoundariesBoi1B1
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B1_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B1(null, false);
+
+            // Assert
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSectionAssemblyResults", exception.ParamName);
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B1_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B1(Enumerable.Empty<Probability>(), false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B1_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B1(new[]
+            {
+                new Probability(0.0),
+                Probability.Undefined,
+                new Probability(0.0)
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+            });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B1_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits result = assembler.CalculateFailureMechanismBoundariesBoi1B1(new[]
+            {
+                Probability.Undefined,
+                Probability.Undefined
+            }, true);
+
+            // Assert
+            Assert.AreEqual(0.0, result.LowerLimit);
+            Assert.AreEqual(0.0, result.UpperLimit);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismBoundariesBoi1B1Cases))]
+        public void CalculateFailureMechanismBoundariesBoi1B1_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            BoundaryLimits expectedBoundaryLimits)
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits boundaryLimits = assembler.CalculateFailureMechanismBoundariesBoi1B1(
+                failureMechanismSectionAssemblyResults, false);
+
+            // Assert
+            Assert.AreEqual(expectedBoundaryLimits.LowerLimit, boundaryLimits.LowerLimit, 1e-10);
+            Assert.AreEqual(expectedBoundaryLimits.UpperLimit, boundaryLimits.UpperLimit, 1e-10);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismBoundariesBoi1B1Cases))]
+        public void CalculateFailureMechanismBoundariesBoi1B1_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            BoundaryLimits expectedBoundaryLimits)
+        {
+            // Setup
+            failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Concat(new[]
+            {
+                Probability.Undefined
+            });
+
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits boundaryLimits = assembler.CalculateFailureMechanismBoundariesBoi1B1(
+                failureMechanismSectionAssemblyResults, true);
+
+            // Assert
+            Assert.AreEqual(expectedBoundaryLimits.LowerLimit, boundaryLimits.LowerLimit, 1e-10);
+            Assert.AreEqual(expectedBoundaryLimits.UpperLimit, boundaryLimits.UpperLimit, 1e-10);
+        }
+
+        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismBoundariesBoi1B1Cases()
+        {
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.1)
+                },
+                new BoundaryLimits(new Probability(0.1), new Probability(0.1)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.0001),
+                    new Probability(0.0005),
+                    new Probability(0.0007)
+                },
+                new BoundaryLimits(new Probability(0.0007), new Probability(0.00129953)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(0.0005),
+                    new Probability(0.00005)
+                },
+                new BoundaryLimits(new Probability(0.0005), new Probability(0.0005499749)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(1.0 / 23.0),
+                    new Probability(0.0),
+                    new Probability(1.0 / 781.0)
+                },
+                new BoundaryLimits(new Probability(0.0434782608), new Probability(0.0447030006)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(1.0 / 230.0),
+                    new Probability(1.0 / 264.0),
+                    new Probability(1.0 / 781.0)
+                },
+                new BoundaryLimits(new Probability(0.0043478261), new Probability(0.0093892496)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new Probability(0.0),
+                    new Probability(0.0),
+                    new Probability(0.0)
+                },
+                new BoundaryLimits(new Probability(0.0), new Probability(0.0)));
+        }
+
+        #endregion
     }
 }

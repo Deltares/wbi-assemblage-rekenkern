@@ -143,6 +143,34 @@ namespace Assembly.Kernel.Implementations
             return new Probability(Math.Min(1.0, assemblyResult));
         }
 
+        /// <inheritdoc />
+        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+                                                                        bool partialAssembly)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
+            }
+
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(p => p.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new BoundaryLimits(new Probability(0.0), new Probability(0.0));
+                }
+            }
+
+            return new BoundaryLimits(
+                failureMechanismSectionAssemblyResults.Max(p => p),
+                failureMechanismSectionAssemblyResults.Aggregate(
+                    (Probability) 1.0,
+                    (current, sectionProbability) => current * sectionProbability.Inverse).Inverse);
+        }
+
         /// <summary>
         /// Validates the input.
         /// </summary>
