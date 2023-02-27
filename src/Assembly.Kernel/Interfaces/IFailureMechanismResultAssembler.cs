@@ -132,7 +132,28 @@ namespace Assembly.Kernel.Interfaces
         /// </list>
         /// </exception>
         /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
-        BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(IEnumerable<Probability> failureMechanismSectionAssemblyResults,
-                                                                 bool partialAssembly);
+        BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(
+            IEnumerable<Probability> failureMechanismSectionAssemblyResults,
+            bool partialAssembly);
+
+        /// <summary>
+        /// Calculates <see cref="BoundaryLimits"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
+        /// </summary>
+        /// <param name="failureMechanismSectionAssemblyResults">The list of failure mechanism section assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>The calculated <see cref="BoundaryLimits"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismSectionAssemblyResults"/>
+        /// is <c>null</c>.</exception>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> is <c>empty</c>;</item>
+        /// <item><paramref name="failureMechanismSectionAssemblyResults"/> contains <see cref="Probability.Undefined"/> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/> probabilities are ignored.</remarks>
+        BoundaryLimits CalculateFailureMechanismBoundariesBoi1B2(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            bool partialAssembly);
     }
 }

@@ -172,6 +172,34 @@ namespace Assembly.Kernel.Implementations
                     (current, sectionProbability) => current * sectionProbability.Inverse).Inverse);
         }
 
+        public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B2(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            bool partialAssembly)
+        {
+            if (failureMechanismSectionAssemblyResults == null)
+            {
+                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
+            }
+
+            ValidateInput(failureMechanismSectionAssemblyResults, partialAssembly, p => p.ProbabilitySection);
+
+            if (partialAssembly)
+            {
+                failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Where(p => p.ProbabilitySection.IsDefined);
+
+                if (!failureMechanismSectionAssemblyResults.Any())
+                {
+                    return new BoundaryLimits(new Probability(0.0), new Probability(0.0));
+                }
+            }
+
+            return new BoundaryLimits(
+                failureMechanismSectionAssemblyResults.Max(p => p.ProbabilitySection),
+                failureMechanismSectionAssemblyResults.Aggregate(
+                    (Probability) 1.0,
+                    (current, sectionProbability) => current * sectionProbability.ProbabilitySection.Inverse).Inverse);
+        }
+
         /// <summary>
         /// Validates the input.
         /// </summary>

@@ -921,5 +921,165 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         #endregion
+
+        #region CalculateFailureMechanismBoundariesBoi1B2
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B2_FailureMechanismSectionAssemblyResultsNull_ThrowsArgumentNullException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B2(null, false);
+
+            // Assert
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("failureMechanismSectionAssemblyResults", exception.ParamName);
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B2_FailureMechanismSectionAssemblyResultsEmpty_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B2(
+                Enumerable.Empty<ResultWithProfileAndSectionProbabilities>(), false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B2_AssemblyResultsWithUndefinedProbabilitiesAndPartialAssemblyFalse_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            void Call() => assembler.CalculateFailureMechanismBoundariesBoi1B2(new[]
+            {
+                new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0)),
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined),
+                new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0))
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+            });
+        }
+
+        [Test]
+        public void CalculateFailureMechanismBoundariesBoi1B21_AssemblyResultsWithOnlyUndefinedProbabilitiesAndPartialAssemblyTrue_ReturnsExpectedResult()
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits result = assembler.CalculateFailureMechanismBoundariesBoi1B2(new[]
+            {
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined),
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined)
+            }, true);
+
+            // Assert
+            Assert.AreEqual(0.0, result.LowerLimit);
+            Assert.AreEqual(0.0, result.UpperLimit);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismBoundariesBoi1B2Cases))]
+        public void CalculateFailureMechanismBoundariesBoi1B2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyFalse_ReturnsExpectedResult(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            BoundaryLimits expectedBoundaryLimits)
+        {
+            // Setup
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits boundaryLimits = assembler.CalculateFailureMechanismBoundariesBoi1B2(
+                failureMechanismSectionAssemblyResults, false);
+
+            // Assert
+            Assert.AreEqual(expectedBoundaryLimits.LowerLimit, boundaryLimits.LowerLimit, 1e-10);
+            Assert.AreEqual(expectedBoundaryLimits.UpperLimit, boundaryLimits.UpperLimit, 1e-10);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetCalculateFailureMechanismBoundariesBoi1B2Cases))]
+        public void CalculateFailureMechanismBoundariesBoi1B2_FailureMechanismSectionAssemblyResultsAndPartialAssemblyTrue_ReturnsExpectedResult(
+            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
+            BoundaryLimits expectedBoundaryLimits)
+        {
+            // Setup
+            failureMechanismSectionAssemblyResults = failureMechanismSectionAssemblyResults.Concat(new[]
+            {
+                new ResultWithProfileAndSectionProbabilities(Probability.Undefined, Probability.Undefined)
+            });
+
+            var assembler = new FailureMechanismResultAssembler();
+
+            // Call
+            BoundaryLimits boundaryLimits = assembler.CalculateFailureMechanismBoundariesBoi1B2(
+                failureMechanismSectionAssemblyResults, true);
+
+            // Assert
+            Assert.AreEqual(expectedBoundaryLimits.LowerLimit, boundaryLimits.LowerLimit, 1e-10);
+            Assert.AreEqual(expectedBoundaryLimits.UpperLimit, boundaryLimits.UpperLimit, 1e-10);
+        }
+
+        private static IEnumerable<TestCaseData> GetCalculateFailureMechanismBoundariesBoi1B2Cases()
+        {
+            yield return new TestCaseData(
+                new[]
+                {
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.1), new Probability(0.1))
+                },
+                new BoundaryLimits(new Probability(0.1), new Probability(0.1)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0001), new Probability(0.001)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0005), new Probability(0.005)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0007), new Probability(0.0008))
+                },
+                new BoundaryLimits(new Probability(0.005), new Probability(0.006790204)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0005), new Probability(0.0005)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.00005), new Probability(0.00005))
+                },
+                new BoundaryLimits(new Probability(0.0005), new Probability(0.0005499749)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new ResultWithProfileAndSectionProbabilities(new Probability(1.0 / 1234.0), new Probability(1.0 / 23.0)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(1.0 / 1820.0), new Probability(1.0 / 781.0))
+                },
+                new BoundaryLimits(new Probability(0.04347826086), new Probability(0.0447030006)));
+
+            yield return new TestCaseData(
+                new[]
+                {
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0)),
+                    new ResultWithProfileAndSectionProbabilities(new Probability(0.0), new Probability(0.0))
+                },
+                new BoundaryLimits(new Probability(0.0), new Probability(0.0)));
+        }
+
+        #endregion
     }
 }
