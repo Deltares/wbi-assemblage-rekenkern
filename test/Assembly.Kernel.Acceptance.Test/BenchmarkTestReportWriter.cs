@@ -136,6 +136,8 @@ namespace Assembly.Kernel.Acceptance.Test
                        ToResultText(m.AreEqualFailureMechanismSectionsResults) + " & " +
                        ToResultText(m.AreEqualFailureMechanismResult) + " & " +
                        ToResultText(m.AreEqualFailureMechanismResultPartial) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismTheoreticalBoundaries) + " & " +
+                       ToResultText(m.AreEqualFailureMechanismTheoreticalBoundariesPartial) + " & " +
                        ToResultText(m.AreEqualCombinedResultsCombinedSections);
                 if (index != result.FailureMechanismResults.Count - 1)
                 {

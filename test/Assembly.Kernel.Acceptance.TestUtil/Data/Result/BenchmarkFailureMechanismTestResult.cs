@@ -55,7 +55,7 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// Indicates whether this failure mechanism has length effect within a section.
         /// </summary>
         public bool HasLengthEffect { get; }
-        
+
         /// <summary>
         /// Gets the used assembly method.
         /// </summary>
@@ -75,6 +75,16 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// Gets or sets whether all failure mechanism section results were translated correctly during a partial assembly.
         /// </summary>
         public bool AreEqualFailureMechanismResultPartial { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the theoretical boundaries were translated correctly during assembly.
+        /// </summary>
+        public bool AreEqualFailureMechanismTheoreticalBoundaries { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the theoretical boundaries were translated correctly during a partial assembly.
+        /// </summary>
+        public bool AreEqualFailureMechanismTheoreticalBoundariesPartial { get; set; }
 
         /// <summary>
         /// Gets or sets whether all results for the combined sections were translated correctly during assembly.
