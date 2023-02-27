@@ -109,6 +109,8 @@ namespace Assembly.Kernel.Acceptance.Test
             failureMechanismTestResult.AreEqualFailureMechanismSectionsResults = failureMechanismTester.TestFailureMechanismSectionResults();
             failureMechanismTestResult.AreEqualFailureMechanismResult = failureMechanismTester.TestFailureMechanismResult();
             failureMechanismTestResult.AreEqualFailureMechanismResultPartial = failureMechanismTester.TestFailureMechanismResultPartial();
+            failureMechanismTestResult.AreEqualFailureMechanismTheoreticalBoundaries = failureMechanismTester.TestFailureMechanismTheoreticalBoundaries();
+            failureMechanismTestResult.AreEqualFailureMechanismTheoreticalBoundariesPartial = failureMechanismTester.TestFailureMechanismTheoreticalBoundariesPartial();
         }
 
         /// <summary>

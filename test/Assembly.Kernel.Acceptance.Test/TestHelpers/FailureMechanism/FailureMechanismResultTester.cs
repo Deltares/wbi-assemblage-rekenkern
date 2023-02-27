@@ -207,6 +207,49 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
         }
 
+        protected override void TestFailureMechanismTheoreticalBoundariesInternal()
+        {
+            var assembler = new FailureMechanismResultAssembler();
+            BoundaryLimits result;
+            try
+            {
+                result = assembler.CalculateFailureMechanismBoundariesBoi1B1(
+                    ExpectedFailureMechanismResult.Sections
+                                                  .OfType<ExpectedFailureMechanismSection>()
+                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
+                    false);
+            }
+            catch (AssemblyException)
+            {
+                result = new BoundaryLimits(Probability.Undefined, Probability.Undefined);
+            }
+
+            BoundaryLimits expectedBoundaries = ExpectedFailureMechanismResult.ExpectedTheoreticalBoundaries;
+            AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.LowerLimit, result.LowerLimit);
+            AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.UpperLimit, result.UpperLimit);
+        }
+
+        protected override void TestFailureMechanismTheoreticalBoundariesPartialInternal()
+        {
+            var assembler = new FailureMechanismResultAssembler();
+            BoundaryLimits result;
+            try
+            {
+                result = assembler.CalculateFailureMechanismBoundariesBoi1B1(
+                    ExpectedFailureMechanismResult.Sections.OfType<ExpectedFailureMechanismSection>()
+                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
+                    true);
+            }
+            catch (AssemblyException)
+            {
+                result = new BoundaryLimits(Probability.Undefined, Probability.Undefined);
+            }
+
+            BoundaryLimits expectedBoundaries = ExpectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial;
+            AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.LowerLimit, result.LowerLimit);
+            AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.UpperLimit, result.UpperLimit);
+        }
+
         private void ResetTestResults()
         {
             boi0A1TestResult = null;

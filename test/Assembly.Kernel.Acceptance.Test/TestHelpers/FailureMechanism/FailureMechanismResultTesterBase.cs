@@ -132,6 +132,34 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
+        public bool TestFailureMechanismTheoreticalBoundaries()
+        {
+            try
+            {
+                TestFailureMechanismTheoreticalBoundariesInternal();
+                return true;
+            }
+            catch (AssertionException e)
+            {
+                Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Theoretische grenzen per faalmechanisme - {e.Message}");
+                return false;
+            }
+        }
+
+        public bool TestFailureMechanismTheoreticalBoundariesPartial()
+        {
+            try
+            {
+                TestFailureMechanismTheoreticalBoundariesPartialInternal();
+                return true;
+            }
+            catch (AssertionException e)
+            {
+                Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Voorlopige theoretische grenzen per faalmechanisme - {e.Message}");
+                return false;
+            }
+        }
+
         protected abstract void SetFailureMechanismSectionMethodResults();
 
         protected abstract void TestFailureMechanismSectionResultsInternal();
@@ -143,6 +171,10 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         protected abstract void SetFailureMechanismMethodResultPartial(bool result);
 
         protected abstract void TestFailureMechanismResultPartialInternal();
+
+        protected abstract void TestFailureMechanismTheoreticalBoundariesInternal();
+
+        protected abstract void TestFailureMechanismTheoreticalBoundariesPartialInternal();
 
         protected static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance,
                                                          ERefinementStatus refinementStatus)

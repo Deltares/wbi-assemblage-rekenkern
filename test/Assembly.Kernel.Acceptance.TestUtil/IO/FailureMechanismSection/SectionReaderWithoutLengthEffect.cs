@@ -36,7 +36,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO.FailureMechanismSection
         /// </summary>
         /// <param name="worksheetPart">Required <see cref="WorksheetPart"/>.</param>
         /// <param name="workbookPart">Required <see cref="WorkbookPart"/>.</param>
-        public SectionReaderWithoutLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart) : base(worksheetPart, workbookPart, "B") {}
+        public SectionReaderWithoutLengthEffect(WorksheetPart worksheetPart, WorkbookPart workbookPart)
+            : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>
         /// Read the section on a specific row.
