@@ -159,19 +159,20 @@ namespace Assembly.Kernel.Acceptance.Test
 
                 AssertHelper.AssertAreEqualProbabilities(
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
+
                 result.AreEqualAssemblyResultFinalVerdictProbability = true;
-                result.MethodResults.Boi2A1 = true;
+                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, true);
             }
             catch (AssemblyException)
             {
                 bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined;
                 result.AreEqualAssemblyResultFinalVerdictProbability = !combinedProbabilityIsDefined;
-                result.MethodResults.Boi2A1 = !combinedProbabilityIsDefined;
+                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, !combinedProbabilityIsDefined);
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbability = false;
-                result.MethodResults.Boi2A1 = false;
+                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, false);
             }
         }
 
@@ -187,18 +188,18 @@ namespace Assembly.Kernel.Acceptance.Test
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
 
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
-                result.MethodResults.Boi2A1P = true;
+                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, true);
             }
             catch (AssemblyException)
             {
                 bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined;
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = !combinedProbabilityIsDefined;
-                result.MethodResults.Boi2A1P = !combinedProbabilityIsDefined;
+                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, !combinedProbabilityIsDefined);
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = false;
-                result.MethodResults.Boi2A1P = false;
+                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, false);
             }
         }
 
@@ -390,7 +391,7 @@ namespace Assembly.Kernel.Acceptance.Test
             {
                 Console.WriteLine($"Error matching combined sections for {failureMechanismResult.Name}: {e.Message}");
                 failureMechanismResult.AreEqualCombinedResultsCombinedSections = false;
-                result.MethodResults.Boi3B1 = false;
+                result.MethodResults.Boi3B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi3B1, false);
             }
         }
 
