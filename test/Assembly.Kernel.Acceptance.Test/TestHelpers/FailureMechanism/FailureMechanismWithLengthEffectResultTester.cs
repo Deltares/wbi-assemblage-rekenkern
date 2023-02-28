@@ -179,7 +179,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             var assembler = new FailureMechanismResultAssembler();
 
-            Func<ResultWithProfileAndSectionProbabilities[], Probability> assemblyMethod;
+            Func<IEnumerable<ResultWithProfileAndSectionProbabilities>, Probability> assemblyMethod;
             if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
                 assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A3(sr, false);
@@ -193,12 +193,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             Probability result;
             try
             {
-                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
-                                                                      .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                                      .Select(s => new ResultWithProfileAndSectionProbabilities(
-                                                                                  s.ExpectedCombinedProbabilityProfile,
-                                                                                  s.ExpectedCombinedProbabilitySection))
-                                                                      .ToArray());
+                result = assemblyMethod(GetFailureMechanismSectionAssemblyResults());
             }
             catch (AssemblyException)
             {
@@ -224,7 +219,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             var assembler = new FailureMechanismResultAssembler();
 
-            Func<ResultWithProfileAndSectionProbabilities[], Probability> assemblyMethod;
+            Func<IEnumerable<ResultWithProfileAndSectionProbabilities>, Probability> assemblyMethod;
             if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
                 assemblyMethod = sr => assembler.CalculateFailureMechanismFailureProbabilityBoi1A3(sr, true);
@@ -239,12 +234,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
             try
             {
-                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
-                                                                      .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                                      .Select(s => new ResultWithProfileAndSectionProbabilities(
-                                                                                  s.ExpectedCombinedProbabilityProfile,
-                                                                                  s.ExpectedCombinedProbabilitySection))
-                                                                      .ToArray());
+                result = assemblyMethod(GetFailureMechanismSectionAssemblyResults());
             }
             catch (AssemblyException)
             {
@@ -273,13 +263,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             try
             {
                 result = assembler.CalculateFailureMechanismBoundariesBoi1B2(
-                    ExpectedFailureMechanismResult.Sections
-                                                  .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                  .Select(s => new ResultWithProfileAndSectionProbabilities(
-                                                              s.ExpectedCombinedProbabilityProfile,
-                                                              s.ExpectedCombinedProbabilitySection))
-                                                  .ToArray(),
-                    false);
+                    GetFailureMechanismSectionAssemblyResults(), false);
             }
             catch (AssemblyException)
             {
@@ -303,13 +287,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             try
             {
                 result = assembler.CalculateFailureMechanismBoundariesBoi1B2(
-                    ExpectedFailureMechanismResult.Sections
-                                                  .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
-                                                  .Select(s => new ResultWithProfileAndSectionProbabilities(
-                                                              s.ExpectedCombinedProbabilityProfile,
-                                                              s.ExpectedCombinedProbabilitySection))
-                                                  .ToArray(),
-                    true);
+                    GetFailureMechanismSectionAssemblyResults(), true);
             }
             catch (AssemblyException)
             {
@@ -324,6 +302,16 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         protected override void SetFailureMechanismTheoreticalBoundariesResultPartial(bool result)
         {
             MethodResults.Boi1B2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1B2P, result);
+        }
+
+        private IEnumerable<ResultWithProfileAndSectionProbabilities> GetFailureMechanismSectionAssemblyResults()
+        {
+            return ExpectedFailureMechanismResult.Sections
+                                                 .OfType<ExpectedFailureMechanismSectionWithLengthEffect>()
+                                                 .Select(s => new ResultWithProfileAndSectionProbabilities(
+                                                             s.ExpectedCombinedProbabilityProfile,
+                                                             s.ExpectedCombinedProbabilitySection))
+                                                 .ToArray();
         }
 
         private void ResetTestResults()

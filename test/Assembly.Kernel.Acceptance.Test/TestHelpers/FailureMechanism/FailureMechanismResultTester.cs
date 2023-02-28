@@ -155,9 +155,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             Probability result;
             try
             {
-                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
-                                                                      .OfType<ExpectedFailureMechanismSection>()
-                                                                      .Select(s => s.ExpectedCombinedProbabilitySection));
+                result = assemblyMethod(GetFailureMechanismSectionAssemblyResults());
             }
             catch (AssemblyException)
             {
@@ -197,9 +195,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             Probability result;
             try
             {
-                result = assemblyMethod(ExpectedFailureMechanismResult.Sections
-                                                                      .OfType<ExpectedFailureMechanismSection>()
-                                                                      .Select(s => s.ExpectedCombinedProbabilitySection));
+                result = assemblyMethod(GetFailureMechanismSectionAssemblyResults());
             }
             catch (AssemblyException)
             {
@@ -228,10 +224,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             try
             {
                 result = assembler.CalculateFailureMechanismBoundariesBoi1B1(
-                    ExpectedFailureMechanismResult.Sections
-                                                  .OfType<ExpectedFailureMechanismSection>()
-                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
-                    false);
+                    GetFailureMechanismSectionAssemblyResults(), false);
             }
             catch (AssemblyException)
             {
@@ -255,10 +248,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             try
             {
                 result = assembler.CalculateFailureMechanismBoundariesBoi1B1(
-                    ExpectedFailureMechanismResult.Sections
-                                                  .OfType<ExpectedFailureMechanismSection>()
-                                                  .Select(s => s.ExpectedCombinedProbabilitySection),
-                    true);
+                    GetFailureMechanismSectionAssemblyResults(), true);
             }
             catch (AssemblyException)
             {
@@ -269,10 +259,17 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.LowerLimit, result.LowerLimit);
             AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.UpperLimit, result.UpperLimit);
         }
-        
+
         protected override void SetFailureMechanismTheoreticalBoundariesResultPartial(bool result)
         {
             MethodResults.Boi1B1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1B1P, result);
+        }
+
+        private IEnumerable<Probability> GetFailureMechanismSectionAssemblyResults()
+        {
+            return ExpectedFailureMechanismResult.Sections
+                                                 .OfType<ExpectedFailureMechanismSection>()
+                                                 .Select(s => s.ExpectedCombinedProbabilitySection);
         }
 
         private void ResetTestResults()
