@@ -35,7 +35,7 @@ namespace Assembly.Kernel.Interfaces
         /// <summary>
         /// Assembles failure mechanism results with failure probability into one assessment section result.
         /// </summary>
-        /// <param name="failureMechanismProbabilities">The failure mechanism assembly results with failure probability.</param>
+        /// <param name="failureMechanismProbabilities">The failure mechanism assembly results.</param>
         /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
         /// <returns>An assembled assessment section result.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="failureMechanismProbabilities"/>
@@ -51,6 +51,30 @@ namespace Assembly.Kernel.Interfaces
         /// probabilities are ignored.</remarks>
         Probability CalculateAssessmentSectionFailureProbabilityBoi2A1(
             IEnumerable<Probability> failureMechanismProbabilities, bool partialAssembly);
+
+        /// <summary>
+        /// Assembles failure mechanism results with failure probability into one assessment section result.
+        /// </summary>
+        /// <param name="correlatedFailureMechanismProbabilities">The correlated failure mechanism assembly results.</param>
+        /// <param name="uncorrelatedFailureMechanismProbabilities">The uncorrelated failure mechanism assembly results.</param>
+        /// <param name="partialAssembly">Indicator whether partial assembly is required.</param>
+        /// <returns>An assembled assessment section result.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="correlatedFailureMechanismProbabilities"/>
+        /// or <paramref name="uncorrelatedFailureMechanismProbabilities"/> is <c>null</c>.</exception>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="correlatedFailureMechanismProbabilities"/> is <c>empty</c>;</item>
+        /// <item><paramref name="correlatedFailureMechanismProbabilities"/> or
+        /// <paramref name="uncorrelatedFailureMechanismProbabilities"/> contains <see cref="Probability.Undefined"/> probabilities
+        /// when <paramref name="partialAssembly"/> is <c>false</c>.</item>
+        /// </list>
+        /// </exception>
+        /// <remarks>When <paramref name="partialAssembly"/> is <c>true</c>, all <see cref="Probability.Undefined"/>
+        /// probabilities are ignored.</remarks>
+        Probability CalculateAssessmentSectionFailureProbabilityBoi2A2(
+            IEnumerable<Probability> correlatedFailureMechanismProbabilities,
+            IEnumerable<Probability> uncorrelatedFailureMechanismProbabilities,
+            bool partialAssembly);
 
         /// <summary>
         /// Determine the assessment grade given the failure probability of an assessment section.

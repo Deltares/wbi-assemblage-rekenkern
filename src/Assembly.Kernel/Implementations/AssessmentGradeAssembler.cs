@@ -53,6 +53,38 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
+        public Probability CalculateAssessmentSectionFailureProbabilityBoi2A2(
+            IEnumerable<Probability> correlatedFailureMechanismProbabilities,
+            IEnumerable<Probability> uncorrelatedFailureMechanismProbabilities,
+            bool partialAssembly)
+        {
+            if (correlatedFailureMechanismProbabilities == null)
+            {
+                throw new ArgumentNullException(nameof(correlatedFailureMechanismProbabilities));
+            }
+
+            if (uncorrelatedFailureMechanismProbabilities == null)
+            {
+                throw new ArgumentNullException(nameof(uncorrelatedFailureMechanismProbabilities));
+            }
+
+            if (partialAssembly)
+            {
+                correlatedFailureMechanismProbabilities = correlatedFailureMechanismProbabilities.Where(p => p.IsDefined);
+                uncorrelatedFailureMechanismProbabilities = uncorrelatedFailureMechanismProbabilities.Where(p => p.IsDefined);
+            }
+
+            ValidateProbabilities(correlatedFailureMechanismProbabilities, uncorrelatedFailureMechanismProbabilities);
+
+            IEnumerable<Probability> failureMechanismProbabilities = uncorrelatedFailureMechanismProbabilities.Concat(new[]
+            {
+                correlatedFailureMechanismProbabilities.Max(p => p)
+            });
+
+            return CalculateFailureProbability(failureMechanismProbabilities);
+        }
+
+        /// <inheritdoc />
         public EAssessmentGrade DetermineAssessmentGradeBoi2B1(
             Probability failureProbability, CategoriesList<AssessmentSectionCategory> categories)
         {
@@ -72,7 +104,7 @@ namespace Assembly.Kernel.Implementations
         /// <summary>
         /// Validates the <paramref name="failureMechanismProbabilities"/>.
         /// </summary>
-        /// <param name="failureMechanismProbabilities">The <see cref="IEnumerable{T}"/> of <see cref="Probability"/> to validate.</param>
+        /// <param name="failureMechanismProbabilities">The failure mechanism assembly results.</param>
         /// <exception cref="AssemblyException">Thrown when <paramref name="failureMechanismProbabilities"/> is <c>empty</c>
         /// or has undefined probabilities.</exception>
         private static void ValidateProbabilities(IEnumerable<Probability> failureMechanismProbabilities)
@@ -82,12 +114,41 @@ namespace Assembly.Kernel.Implementations
                 throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.EmptyResultsList);
             }
 
-            foreach (Probability failureMechanismProbability in failureMechanismProbabilities)
+            if (!failureMechanismProbabilities.All(failureMechanismProbability => failureMechanismProbability.IsDefined))
             {
-                if (!failureMechanismProbability.IsDefined)
-                {
-                    throw new AssemblyException(nameof(failureMechanismProbability), EAssemblyErrors.UndefinedProbability);
-                }
+                throw new AssemblyException(nameof(failureMechanismProbabilities), EAssemblyErrors.UndefinedProbability);
+            }
+        }
+
+        /// <summary>
+        /// Validates the <paramref name="correlatedFailureMechanismProbabilities"/> and
+        /// <paramref name="uncorrelatedFailureMechanismProbabilities"/>.
+        /// </summary>
+        /// <param name="correlatedFailureMechanismProbabilities">The correlated failure mechanism assembly results.</param>
+        /// <param name="uncorrelatedFailureMechanismProbabilities">The uncorrelated failure mechanism assembly results.</param>
+        /// <exception cref="AssemblyException">Thrown when:
+        /// <list type="bullet">
+        /// <item><paramref name="correlatedFailureMechanismProbabilities"/> is <c>empty</c>;</item>
+        /// <item><paramref name="correlatedFailureMechanismProbabilities"/> or
+        /// <paramref name="uncorrelatedFailureMechanismProbabilities"/> contains <see cref="Probability.Undefined"/> probabilities.</item>
+        /// </list>
+        /// </exception>
+        private static void ValidateProbabilities(IEnumerable<Probability> correlatedFailureMechanismProbabilities,
+                                                  IEnumerable<Probability> uncorrelatedFailureMechanismProbabilities)
+        {
+            if (!correlatedFailureMechanismProbabilities.Any())
+            {
+                throw new AssemblyException(nameof(correlatedFailureMechanismProbabilities), EAssemblyErrors.EmptyResultsList);
+            }
+
+            if (!correlatedFailureMechanismProbabilities.All(failureMechanismProbability => failureMechanismProbability.IsDefined))
+            {
+                throw new AssemblyException(nameof(correlatedFailureMechanismProbabilities), EAssemblyErrors.UndefinedProbability);
+            }
+
+            if (!uncorrelatedFailureMechanismProbabilities.All(failureMechanismProbability => failureMechanismProbability.IsDefined))
+            {
+                throw new AssemblyException(nameof(uncorrelatedFailureMechanismProbabilities), EAssemblyErrors.UndefinedProbability);
             }
         }
 

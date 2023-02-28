@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Implementations;
 using Assembly.Kernel.Interfaces;
@@ -64,7 +65,7 @@ namespace Assembly.Kernel.Test.Implementations
             var assembler = new AssessmentGradeAssembler();
 
             // Call
-            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(Array.Empty<Probability>(), false);
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(Enumerable.Empty<Probability>(), false);
 
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
@@ -88,7 +89,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismProbability", EAssemblyErrors.UndefinedProbability)
+                new AssemblyErrorMessage("failureMechanismProbabilities", EAssemblyErrors.UndefinedProbability)
             });
         }
 
@@ -112,7 +113,7 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        [TestCaseSource(nameof(GetFailureMechanismProbabilities))]
+        [TestCaseSource(nameof(GetBoi2A1Cases))]
         public void CalculateAssessmentSectionFailureProbabilityBoi2A1_WithFailureMechanismProbabilities_ReturnsExpectedResult(
             bool partialAssembly, Probability probability1, Probability probability2, Probability expectedProbability)
         {
@@ -131,7 +132,137 @@ namespace Assembly.Kernel.Test.Implementations
         }
 
         [Test]
-        public void DetermineAssessmentGradeBoi2B1_dCategoriesNull_ThrowsArgumentNullException()
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_UncorrelatedFailureMechanismProbabilitiesNull_ThrowsArgumentNullException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(Enumerable.Empty<Probability>(), null, false);
+
+            // Assert
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("uncorrelatedFailureMechanismProbabilities", exception.ParamName);
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_CorrelatedFailureMechanismProbabilitiesNull_ThrowsArgumentNullException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(null, Enumerable.Empty<Probability>(), false);
+
+            // Assert
+            var exception = Assert.Throws<ArgumentNullException>(Call);
+            Assert.AreEqual("correlatedFailureMechanismProbabilities", exception.ParamName);
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_CorrelatedFailureMechanismProbabilitiesEmpty_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(Enumerable.Empty<Probability>(), new[]
+            {
+                new Probability(0.0)
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("correlatedFailureMechanismProbabilities", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_PartialAssemblyFalseAndCorrelatedFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(new[]
+            {
+                Probability.Undefined
+            }, new[]
+            {
+                new Probability(0.0)
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("correlatedFailureMechanismProbabilities", EAssemblyErrors.UndefinedProbability)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_PartialAssemblyFalseAndUncorrelatedFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(new[]
+            {
+                new Probability(0.0)
+            }, new[]
+            {
+                Probability.Undefined
+            }, false);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("uncorrelatedFailureMechanismProbabilities", EAssemblyErrors.UndefinedProbability)
+            });
+        }
+
+        [Test]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_PartialAssemblyTrueAndCorrelatedFailureMechanismProbabilitiesUndefined_ThrowsAssemblyException()
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            void Call() => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(new[]
+            {
+                Probability.Undefined
+            }, new[]
+            {
+                new Probability(0.0)
+            }, true);
+
+            // Assert
+            TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
+            {
+                new AssemblyErrorMessage("correlatedFailureMechanismProbabilities", EAssemblyErrors.EmptyResultsList)
+            });
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetBoi2A2Cases))]
+        public void CalculateAssessmentSectionFailureProbabilityBoi2A2_WithFailureMechanismProbabilities_ReturnsExpectedResult(
+            bool partialAssembly, IEnumerable<Probability> correlatedFailureMechanismProbabilities,
+            IEnumerable<Probability> uncorrelatedFailureMechanismProbabilities, Probability expectedProbability)
+        {
+            // Setup
+            var assembler = new AssessmentGradeAssembler();
+
+            // Call
+            Probability actualProbability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(
+                correlatedFailureMechanismProbabilities, uncorrelatedFailureMechanismProbabilities, partialAssembly);
+
+            // Assert
+            Assert.AreEqual(expectedProbability, actualProbability, 1e-6);
+        }
+
+        [Test]
+        public void DetermineAssessmentGradeBoi2B1_CategoriesNull_ThrowsArgumentNullException()
         {
             // Setup
             var assembler = new AssessmentGradeAssembler();
@@ -190,11 +321,49 @@ namespace Assembly.Kernel.Test.Implementations
             Assert.AreEqual(expectedAssessmentGrade, assessmentGrade);
         }
 
-        private static IEnumerable<TestCaseData> GetFailureMechanismProbabilities()
+        private static IEnumerable<TestCaseData> GetBoi2A1Cases()
         {
             yield return new TestCaseData(false, new Probability(0.0), new Probability(0.1), new Probability(0.1));
             yield return new TestCaseData(false, new Probability(0.0005), new Probability(0.00005), new Probability(0.000549975));
             yield return new TestCaseData(true, new Probability(0.00003), Probability.Undefined, new Probability(0.00003));
+        }
+
+        private static IEnumerable<TestCaseData> GetBoi2A2Cases()
+        {
+            yield return new TestCaseData(false,
+                                          new[]
+                                          {
+                                              new Probability(0.0001),
+                                              new Probability(0.1)
+                                          },
+                                          Enumerable.Empty<Probability>(),
+                                          new Probability(0.1));
+
+            yield return new TestCaseData(false,
+                                          new[]
+                                          {
+                                              new Probability(0.0005),
+                                              new Probability(0.00005)
+                                          },
+                                          new[]
+                                          {
+                                              new Probability(0.00034),
+                                              new Probability(0.000034)
+                                          },
+                                          new Probability(0.0008738014));
+
+            yield return new TestCaseData(true,
+                                          new[]
+                                          {
+                                              new Probability(0.00003),
+                                              Probability.Undefined
+                                          },
+                                          new[]
+                                          {
+                                              new Probability(0.0617),
+                                              Probability.Undefined
+                                          },
+                                          new Probability(0.0617281489));
         }
     }
 }
