@@ -54,17 +54,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                                                             CategoriesList<InterpretationCategory> interpretationCategories)
             : base(methodResults, expectedFailureMechanismResult, interpretationCategories) {}
 
-        protected override void SetFailureMechanismSectionMethodResults()
-        {
-            MethodResults.Boi0A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0A2, boi0A2TestResult);
-            MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
-            MethodResults.Boi0C1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C1, boi0C1TestResult);
-            MethodResults.Boi0C2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C2, boi0C2TestResult);
-            MethodResults.Boi0D1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D1, boi0D1TestResult);
-            MethodResults.Boi0D2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D2, boi0D2TestResult);
-            ResetTestResults();
-        }
-
         protected override void TestFailureMechanismSectionResultsInternal()
         {
             var assembler = new AssessmentResultsTranslator();
@@ -175,16 +164,15 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        protected override void SetFailureMechanismMethodResult(bool result)
+        protected override void SetFailureMechanismSectionMethodResults()
         {
-            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
-            {
-                MethodResults.Boi1A3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A3, result);
-            }
-            else
-            {
-                MethodResults.Boi1A4 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A4, result);
-            }
+            MethodResults.Boi0A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0A2, boi0A2TestResult);
+            MethodResults.Boi0B1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0B1, boi0B1TestResult);
+            MethodResults.Boi0C1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C1, boi0C1TestResult);
+            MethodResults.Boi0C2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0C2, boi0C2TestResult);
+            MethodResults.Boi0D1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D1, boi0D1TestResult);
+            MethodResults.Boi0D2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi0D2, boi0D2TestResult);
+            ResetTestResults();
         }
 
         protected override void TestFailureMechanismResultInternal()
@@ -220,15 +208,15 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbability, result);
         }
 
-        protected override void SetFailureMechanismMethodResultPartial(bool result)
+        protected override void SetFailureMechanismMethodResult(bool result)
         {
             if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
-                MethodResults.Boi1A3P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A3P, result);
+                MethodResults.Boi1A3 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A3, result);
             }
             else
             {
-                MethodResults.Boi1A4P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A4P, result);
+                MethodResults.Boi1A4 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A4, result);
             }
         }
 
@@ -266,6 +254,18 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, result);
         }
 
+        protected override void SetFailureMechanismMethodResultPartial(bool result)
+        {
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
+            {
+                MethodResults.Boi1A3P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A3P, result);
+            }
+            else
+            {
+                MethodResults.Boi1A4P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A4P, result);
+            }
+        }
+
         protected override void TestFailureMechanismTheoreticalBoundariesInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
@@ -291,6 +291,11 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.UpperLimit, result.UpperLimit);
         }
 
+        protected override void SetFailureMechanismTheoreticalBoundariesResult(bool result)
+        {
+            MethodResults.Boi1B2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1B2, result);
+        }
+
         protected override void TestFailureMechanismTheoreticalBoundariesPartialInternal()
         {
             var assembler = new FailureMechanismResultAssembler();
@@ -314,6 +319,11 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             BoundaryLimits expectedBoundaries = ExpectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial;
             AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.LowerLimit, result.LowerLimit);
             AssertHelper.AssertAreEqualProbabilities(expectedBoundaries.UpperLimit, result.UpperLimit);
+        }
+
+        protected override void SetFailureMechanismTheoreticalBoundariesResultPartial(bool result)
+        {
+            MethodResults.Boi1B2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1B2P, result);
         }
 
         private void ResetTestResults()

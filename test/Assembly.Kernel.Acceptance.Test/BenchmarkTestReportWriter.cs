@@ -102,6 +102,10 @@ namespace Assembly.Kernel.Acceptance.Test
                                                                                 + ToResultText(t.Value.MethodResults.Boi1A3P))) + @" \\" + "\n";
             str += "   " + @"BOI-1A-4 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1A4) + " & "
                                                                                 + ToResultText(t.Value.MethodResults.Boi1A4P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1B-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1B1) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1B1P))) + @" \\" + "\n";
+            str += "   " + @"BOI-1B-2 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi1B2) + " & "
+                                                                                + ToResultText(t.Value.MethodResults.Boi1B2P))) + @" \\" + "\n";
             str += "   " + @"\grayhline " + "\n";
             str += "   " + @"BOI-2A-1 " + string.Concat(testResults.Select(t => " & " + ToResultText(t.Value.MethodResults.Boi2A1) + " & "
                                                                                 + ToResultText(t.Value.MethodResults.Boi2A1P))) + @" \\" + "\n";
