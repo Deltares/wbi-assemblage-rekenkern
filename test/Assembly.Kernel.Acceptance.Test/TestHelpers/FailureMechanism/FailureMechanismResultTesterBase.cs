@@ -100,14 +100,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             try
             {
-                TestFailureMechanismResultInternal();
-                SetFailureMechanismMethodResult(true);
+                TestFailureMechanismResultInternal(false, ExpectedFailureMechanismResult.ExpectedCombinedProbability);
+                SetFailureMechanismMethodResult(false, true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Faalkans per traject - {e.Message}");
-                SetFailureMechanismMethodResult(false);
+                SetFailureMechanismMethodResult(false, false);
                 return false;
             }
         }
@@ -120,14 +120,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             try
             {
-                TestFailureMechanismResultPartialInternal();
-                SetFailureMechanismMethodResultPartial(true);
+                TestFailureMechanismResultInternal(true, ExpectedFailureMechanismResult.ExpectedCombinedProbabilityPartial);
+                SetFailureMechanismMethodResult(true, true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Voorlopig toetsoordeel per traject - {e.Message}");
-                SetFailureMechanismMethodResultPartial(false);
+                SetFailureMechanismMethodResult(true, false);
                 return false;
             }
         }
@@ -136,14 +136,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             try
             {
-                TestFailureMechanismTheoreticalBoundariesInternal();
-                SetFailureMechanismTheoreticalBoundariesResult(true);
+                TestFailureMechanismTheoreticalBoundariesInternal(false, ExpectedFailureMechanismResult.ExpectedTheoreticalBoundaries);
+                SetFailureMechanismTheoreticalBoundariesResult(false, true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Theoretische grenzen per faalmechanisme - {e.Message}");
-                SetFailureMechanismTheoreticalBoundariesResult(false);
+                SetFailureMechanismTheoreticalBoundariesResult(false, false);
                 return false;
             }
         }
@@ -152,14 +152,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
         {
             try
             {
-                TestFailureMechanismTheoreticalBoundariesPartialInternal();
-                SetFailureMechanismTheoreticalBoundariesResultPartial(true);
+                TestFailureMechanismTheoreticalBoundariesInternal(true, ExpectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial);
+                SetFailureMechanismTheoreticalBoundariesResult(true, true);
                 return true;
             }
             catch (AssertionException e)
             {
                 Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Voorlopige theoretische grenzen per faalmechanisme - {e.Message}");
-                SetFailureMechanismTheoreticalBoundariesResultPartial(false);
+                SetFailureMechanismTheoreticalBoundariesResult(true, false);
                 return false;
             }
         }
@@ -168,21 +168,13 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected abstract void SetFailureMechanismSectionMethodResults();
 
-        protected abstract void TestFailureMechanismResultInternal();
+        protected abstract void TestFailureMechanismResultInternal(bool partial, Probability expectedProbability);
 
-        protected abstract void SetFailureMechanismMethodResult(bool result);
+        protected abstract void SetFailureMechanismMethodResult(bool partial, bool result);
 
-        protected abstract void TestFailureMechanismResultPartialInternal();
+        protected abstract void TestFailureMechanismTheoreticalBoundariesInternal(bool partial, BoundaryLimits expectedBoundaries);
 
-        protected abstract void SetFailureMechanismMethodResultPartial(bool result);
-
-        protected abstract void TestFailureMechanismTheoreticalBoundariesInternal();
-
-        protected abstract void SetFailureMechanismTheoreticalBoundariesResult(bool result);
-
-        protected abstract void TestFailureMechanismTheoreticalBoundariesPartialInternal();
-        
-        protected abstract void SetFailureMechanismTheoreticalBoundariesResultPartial(bool result);
+        protected abstract void SetFailureMechanismTheoreticalBoundariesResult(bool partial, bool result);
 
         protected static EAnalysisState GetAnalysisState(ESectionInitialMechanismProbabilitySpecification relevance,
                                                          ERefinementStatus refinementStatus)
