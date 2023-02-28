@@ -152,28 +152,23 @@ namespace Assembly.Kernel.Acceptance.Test
         {
             try
             {
-                Probability probability;
-                try
-                {
-                    var assembler = new AssessmentGradeAssembler();
-                    probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                        input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
-                        false);
-                }
-                catch (AssemblyException)
-                {
-                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined);
-                    result.AreEqualAssemblyResultFinalVerdictProbability = true;
-                    result.MethodResults.Boi2A1 = true;
-                    return;
-                }
+                var assembler = new AssessmentGradeAssembler();
+                Probability probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
+                    false);
 
                 AssertHelper.AssertAreEqualProbabilities(
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
                 result.AreEqualAssemblyResultFinalVerdictProbability = true;
                 result.MethodResults.Boi2A1 = true;
             }
-            catch (Exception)
+            catch (AssemblyException)
+            {
+                bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined;
+                result.AreEqualAssemblyResultFinalVerdictProbability = !combinedProbabilityIsDefined;
+                result.MethodResults.Boi2A1 = !combinedProbabilityIsDefined;
+            }
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbability = false;
                 result.MethodResults.Boi2A1 = false;
@@ -184,20 +179,9 @@ namespace Assembly.Kernel.Acceptance.Test
         {
             try
             {
-                Probability probability;
-                try
-                {
-                    var assembler = new AssessmentGradeAssembler();
-                    probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                        input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityPartial), true);
-                }
-                catch (AssemblyException)
-                {
-                    Assert.IsFalse(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined);
-                    result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
-                    result.MethodResults.Boi2A1P = true;
-                    return;
-                }
+                var assembler = new AssessmentGradeAssembler();
+                Probability probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityPartial), true);
 
                 AssertHelper.AssertAreEqualProbabilities(
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
@@ -205,7 +189,13 @@ namespace Assembly.Kernel.Acceptance.Test
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
                 result.MethodResults.Boi2A1P = true;
             }
-            catch (Exception)
+            catch (AssemblyException)
+            {
+                bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined;
+                result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = !combinedProbabilityIsDefined;
+                result.MethodResults.Boi2A1P = !combinedProbabilityIsDefined;
+            }
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = false;
                 result.MethodResults.Boi2A1P = false;
@@ -216,28 +206,24 @@ namespace Assembly.Kernel.Acceptance.Test
         {
             try
             {
-                EAssessmentGrade assessmentGrade;
-                try
-                {
-                    var assembler = new AssessmentGradeAssembler();
-                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
-                        input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability,
-                        input.ExpectedAssessmentSectionCategories);
-                }
-                catch (AssemblyException)
-                {
-                    Assert.AreEqual(EExpectedAssessmentGrade.Exception, input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade);
-                    result.AreEqualAssemblyResultFinalVerdict = true;
-                    result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
-                    return;
-                }
+                var assembler = new AssessmentGradeAssembler();
+                EAssessmentGrade assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability,
+                    input.ExpectedAssessmentSectionCategories);
 
                 Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
                                 assessmentGrade);
+
                 result.AreEqualAssemblyResultFinalVerdict = true;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
             }
-            catch (Exception)
+            catch (AssemblyException)
+            {
+                bool gradeResult = EExpectedAssessmentGrade.Exception == input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade;
+                result.AreEqualAssemblyResultFinalVerdict = gradeResult;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, gradeResult);
+            }
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdict = false;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
@@ -248,21 +234,10 @@ namespace Assembly.Kernel.Acceptance.Test
         {
             try
             {
-                EAssessmentGrade assessmentGrade;
-                try
-                {
-                    var assembler = new AssessmentGradeAssembler();
-                    assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
-                        input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial,
-                        input.ExpectedAssessmentSectionCategories);
-                }
-                catch (AssemblyException)
-                {
-                    Assert.AreEqual(EExpectedAssessmentGrade.Exception, input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial);
-                    result.AreEqualAssemblyResultFinalVerdictPartial = true;
-                    result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
-                    return;
-                }
+                var assembler = new AssessmentGradeAssembler();
+                EAssessmentGrade assessmentGrade = assembler.DetermineAssessmentGradeBoi2B1(
+                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial,
+                    input.ExpectedAssessmentSectionCategories);
 
                 Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial.ToEAssessmentGrade(),
                                 assessmentGrade);
@@ -270,7 +245,13 @@ namespace Assembly.Kernel.Acceptance.Test
                 result.AreEqualAssemblyResultFinalVerdictPartial = true;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
             }
-            catch (Exception)
+            catch (AssemblyException)
+            {
+                bool gradeResult = EExpectedAssessmentGrade.Exception == input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial;
+                result.AreEqualAssemblyResultFinalVerdictPartial = gradeResult;
+                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, gradeResult);
+            }
+            catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictPartial = false;
                 result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
@@ -280,11 +261,11 @@ namespace Assembly.Kernel.Acceptance.Test
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
         {
             var assembler = new CommonFailureMechanismSectionAssembler();
-            // BOI-3A-1
+
             FailureMechanismSectionList combinedSections = assembler.FindGreatestCommonDenominatorSectionsBoi3A1(
                 input.ExpectedFailureMechanismsResults.Select(
-                         fm => new FailureMechanismSectionListWithFailureMechanismId(
-                             fm.Name, fm.Sections.Select(s => new FailureMechanismSection(s.Start, s.End)))),
+                    fm => new FailureMechanismSectionListWithFailureMechanismId(
+                        fm.Name, fm.Sections.Select(s => new FailureMechanismSection(s.Start, s.End)))),
                 input.Length);
 
             try
