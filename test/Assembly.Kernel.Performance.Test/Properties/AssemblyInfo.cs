@@ -21,5 +21,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("Assemly.Kernel.Performance.Test")]
-[assembly: AssemblyProduct("Assemly.Kernel.Performance.Test")]
+[assembly: AssemblyTitle("Assembly.Kernel.Performance.Test")]
+[assembly: AssemblyProduct("Assembly.Kernel.Performance.Test")]
