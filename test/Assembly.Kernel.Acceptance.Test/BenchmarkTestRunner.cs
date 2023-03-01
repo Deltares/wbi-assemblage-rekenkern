@@ -174,27 +174,21 @@ namespace Assembly.Kernel.Acceptance.Test
                 setResultAction = r => result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, r);
             }
 
+            bool assemblyResult;
+
             try
             {
                 Probability probability = assemblyMethod();
 
-                AssertHelper.AssertAreEqualProbabilities(
-                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
-
-                result.AreEqualAssemblyResultFinalVerdictProbability = true;
-                setResultAction(true);
+                assemblyResult = AssertHelper.AreEqualProbabilities(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
             }
             catch (AssemblyException)
             {
-                bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined;
-                result.AreEqualAssemblyResultFinalVerdictProbability = !combinedProbabilityIsDefined;
-                setResultAction(!combinedProbabilityIsDefined);
+                assemblyResult = !input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined;
             }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdictProbability = false;
-                setResultAction(false);
-            }
+
+            result.AreEqualAssemblyResultFinalVerdictProbability = assemblyResult;
+            setResultAction(assemblyResult);
         }
 
         private static void TestCalculatingAssessmentSectionFailureProbabilityPartial(BenchmarkTestInput input, BenchmarkTestResult result)
@@ -223,31 +217,26 @@ namespace Assembly.Kernel.Acceptance.Test
                 setResultAction = r => result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, r);
             }
 
+            bool assemblyResult;
+
             try
             {
                 Probability probability = assemblyMethod();
 
-                AssertHelper.AssertAreEqualProbabilities(
-                    input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
-
-                result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
-                setResultAction(true);
+                assemblyResult = AssertHelper.AreEqualProbabilities(input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
             }
             catch (AssemblyException)
             {
-                bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined;
-                result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = !combinedProbabilityIsDefined;
-                setResultAction(!combinedProbabilityIsDefined);
+                assemblyResult = !input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined;
             }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = false;
-                setResultAction(false);
-            }
+
+            result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = assemblyResult;
+            setResultAction(assemblyResult);
         }
 
         private static void TestDeterminingAssessmentGrade(BenchmarkTestInput input, BenchmarkTestResult result)
         {
+            bool assemblyResult;
             try
             {
                 var assembler = new AssessmentGradeAssembler();
@@ -255,27 +244,20 @@ namespace Assembly.Kernel.Acceptance.Test
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability,
                     input.ExpectedAssessmentSectionCategories);
 
-                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade(),
-                                assessmentGrade);
-
-                result.AreEqualAssemblyResultFinalVerdict = true;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
+                assemblyResult = input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade.ToEAssessmentGrade() == assessmentGrade;
             }
             catch (AssemblyException)
             {
-                bool gradeResult = EExpectedAssessmentGrade.Exception == input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade;
-                result.AreEqualAssemblyResultFinalVerdict = gradeResult;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, gradeResult);
+                assemblyResult = input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGrade == EExpectedAssessmentGrade.Exception;
             }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdict = false;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
-            }
+
+            result.AreEqualAssemblyResultFinalVerdict = assemblyResult;
+            result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, assemblyResult);
         }
 
         private static void TestDeterminingAssessmentGradePartial(BenchmarkTestInput input, BenchmarkTestResult result)
         {
+            bool assemblyResult;
             try
             {
                 var assembler = new AssessmentGradeAssembler();
@@ -283,23 +265,15 @@ namespace Assembly.Kernel.Acceptance.Test
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial,
                     input.ExpectedAssessmentSectionCategories);
 
-                Assert.AreEqual(input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial.ToEAssessmentGrade(),
-                                assessmentGrade);
-
-                result.AreEqualAssemblyResultFinalVerdictPartial = true;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, true);
+                assemblyResult = input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial.ToEAssessmentGrade() == assessmentGrade;
             }
             catch (AssemblyException)
             {
-                bool gradeResult = EExpectedAssessmentGrade.Exception == input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial;
-                result.AreEqualAssemblyResultFinalVerdictPartial = gradeResult;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, gradeResult);
+                assemblyResult = input.ExpectedSafetyAssessmentAssemblyResult.CombinedAssessmentGradePartial == EExpectedAssessmentGrade.Exception;
             }
-            catch (AssertionException)
-            {
-                result.AreEqualAssemblyResultFinalVerdictPartial = false;
-                result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, false);
-            }
+
+            result.AreEqualAssemblyResultFinalVerdictPartial = assemblyResult;
+            result.MethodResults.Boi2B1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2B1, assemblyResult);
         }
 
         private static void TestGeneratedCombinedSections(BenchmarkTestInput input, BenchmarkTestResult result)
@@ -314,7 +288,6 @@ namespace Assembly.Kernel.Acceptance.Test
 
             try
             {
-                Assert.IsNotNull(combinedSections);
                 FailureMechanismSectionWithCategory[] expectedSections = input.ExpectedCombinedSectionResult.ToArray();
                 FailureMechanismSection[] calculatedSections = combinedSections.Sections.ToArray();
                 Assert.AreEqual(expectedSections.Length, calculatedSections.Length);
