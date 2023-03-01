@@ -29,7 +29,7 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Performance.Test
+namespace Assembly.Kernel.Test
 {
     [TestFixture]
     public class AssemblyPerformanceTest
@@ -44,18 +44,41 @@ namespace Assembly.Kernel.Performance.Test
         }
 
         [Test]
-        [Timeout(1000)]
-        public void FullAssembly()
+        public void GivenAssemblyKernel_WhenCategoriesAndFailureMechanismSectionsAssemblyPerformed_ThenElapsedTimeLessThan200()
         {
-            var watch = Stopwatch.StartNew();
-
+            // Given
             var section = new AssessmentSection((Probability) 1.0e-3, (Probability) (1.0 / 300.0));
             var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
 
             var failureMechanismResultsWithFailureProb = new List<Probability>();
 
-            var categoriesCalculator = new CategoryLimitsCalculator();
+            // When
+            var watch = Stopwatch.StartNew();
 
+            var categoriesCalculator = new CategoryLimitsCalculator();
+            CategoriesList<InterpretationCategory> c = categoriesCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
+            AssembleFailureProbabilitiesPerFailureMechanism(failureMechanismResultsWithFailureProb, failureMechanismSectionLists, c);
+
+            watch.Stop();
+
+            // Then
+            Console.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms");
+            Assert.Less(watch.Elapsed.TotalMilliseconds, 200);
+        }
+
+        [Test]
+        public void GivenAssemblyKernel_WhenFullAssemblyPerformed_ThenElapsedTimeLessThan1000()
+        {
+            // Given
+            var section = new AssessmentSection((Probability) 1.0e-3, (Probability) (1.0 / 300.0));
+            var failureMechanismSectionLists = new List<FailureMechanismSectionList>();
+
+            var failureMechanismResultsWithFailureProb = new List<Probability>();
+
+            // When
+            var watch = Stopwatch.StartNew();
+
+            var categoriesCalculator = new CategoryLimitsCalculator();
             CategoriesList<InterpretationCategory> c = categoriesCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
             AssembleFailureProbabilitiesPerFailureMechanism(failureMechanismResultsWithFailureProb, failureMechanismSectionLists, c);
 
@@ -67,7 +90,9 @@ namespace Assembly.Kernel.Performance.Test
 
             watch.Stop();
 
-            Console.Out.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms (max: 1000 ms)");
+            // Then
+            Console.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms");
+            Assert.Less(watch.Elapsed.TotalMilliseconds, 1000);
         }
 
         private static void AssembleCommonFailureMechanismSections(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists)
@@ -79,8 +104,7 @@ namespace Assembly.Kernel.Performance.Test
             IEnumerable<FailureMechanismSectionList> failureMechanismResults = failureMechanismSectionLists.Select(
                 fms => combinedSectionAssembler.TranslateFailureMechanismResultsToCommonSectionsBoi3B1(fms, commonSections));
 
-            IEnumerable<FailureMechanismSectionWithCategory> combinedSectionResults = combinedSectionAssembler.DetermineCombinedResultPerCommonSectionBoi3C1(
-                failureMechanismResults, false);
+            combinedSectionAssembler.DetermineCombinedResultPerCommonSectionBoi3C1(failureMechanismResults, false);
         }
 
         private static void CalculateAssessmentGrade(IEnumerable<Probability> failureMechanismResultsWithFailureProb,
@@ -90,7 +114,7 @@ namespace Assembly.Kernel.Performance.Test
             Probability failureProb = assessmentSectionAssembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
                 failureMechanismResultsWithFailureProb, false);
 
-            EAssessmentGrade assessmentGrade = assessmentSectionAssembler.DetermineAssessmentGradeBoi2B1(failureProb, categories);
+            assessmentSectionAssembler.DetermineAssessmentGradeBoi2B1(failureProb, categories);
         }
 
         private void AssembleFailureProbabilitiesPerFailureMechanism(List<Probability> failureMechanismResultsWithFailureProb,
