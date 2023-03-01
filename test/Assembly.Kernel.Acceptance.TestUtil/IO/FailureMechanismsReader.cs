@@ -58,8 +58,9 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
             string failureMechanismType = GetCellValueAsString("C", "Faalpad");
             bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
             string assemblyMethod = GetCellValueAsString("C", "Methode");
+            bool isCorrelated = GetCellValueAsString("C", "Gecorreleerd") == "Ja";
             var expectedFailureMechanismResult = new ExpectedFailureMechanismResult(
-                failureMechanismType, mechanismId, hasLengthEffect, assemblyMethod);
+                failureMechanismType, mechanismId, hasLengthEffect, assemblyMethod, isCorrelated);
 
             ReadGeneralInformation(expectedFailureMechanismResult);
             ReadFailureMechanismSections(expectedFailureMechanismResult);

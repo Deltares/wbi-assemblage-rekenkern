@@ -37,12 +37,15 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         /// <param name="mechanismId">Unique identifier of the mechanism.</param>
         /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism.</param>
         /// <param name="assemblyMethod">The assembly method to use.</param>
-        public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect, string assemblyMethod)
+        /// <param name="isCorrelated">Specifies whether the failure mechanism is correlated.</param>
+        public ExpectedFailureMechanismResult(string name, string mechanismId, bool hasLengthEffect,
+                                              string assemblyMethod, bool isCorrelated)
         {
             Name = name;
             MechanismId = mechanismId;
             HasLengthEffect = hasLengthEffect;
             AssemblyMethod = assemblyMethod;
+            IsCorrelated = isCorrelated;
             Sections = new List<IExpectedFailureMechanismSection>();
         }
 
@@ -57,7 +60,7 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         public string MechanismId { get; }
 
         /// <summary>
-        /// Indicates whether there is a length-effect within a single section.
+        /// Gets whether there is a length-effect within a single section.
         /// </summary>
         public bool HasLengthEffect { get; }
 
@@ -65,6 +68,11 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms
         /// Gets the assembly method to use.
         /// </summary>
         public string AssemblyMethod { get; }
+
+        /// <summary>
+        /// Gets whether the failure mechanism is correlated.
+        /// </summary>
+        public bool IsCorrelated { get; }
 
         /// <summary>
         /// Gets or sets the expected combined probability.

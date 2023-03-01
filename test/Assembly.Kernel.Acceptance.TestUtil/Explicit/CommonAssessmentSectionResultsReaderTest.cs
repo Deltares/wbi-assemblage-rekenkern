@@ -81,13 +81,13 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
                 var result = new BenchmarkTestInput();
                 result.ExpectedFailureMechanismsResults.AddRange(new[]
                 {
-                    new ExpectedFailureMechanismResult("Piping", "STPH", true, "P1"),
-                    new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true, "P1"),
-                    new ExpectedFailureMechanismResult("Graserosie kruin en binnentalud", "GEKB", true, "P2"),
-                    new ExpectedFailureMechanismResult("Duinafslag", "DA", true, "P2"),
-                    new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true, "P1"),
-                    new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true, "P2"),
-                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true, "P1")
+                    new ExpectedFailureMechanismResult("Piping", "STPH", true, "P1", false),
+                    new ExpectedFailureMechanismResult("Macrostabiliteit binnen", "STBI", true, "P1", false),
+                    new ExpectedFailureMechanismResult("Graserosie kruin en binnentalud", "GEKB", true, "P2", false),
+                    new ExpectedFailureMechanismResult("Duinafslag", "DA", true, "P2", false),
+                    new ExpectedFailureMechanismResult("Kunstwerken puntconstructies", "STKWp", true, "P1", false),
+                    new ExpectedFailureMechanismResult("Betrouwbaarheid sluiting kunstwerk", "BSKW", true, "P2", false),
+                    new ExpectedFailureMechanismResult("Hoogte kunstwerk", "HTKW", true, "P1", false)
                 });
 
                 reader.Read(result);

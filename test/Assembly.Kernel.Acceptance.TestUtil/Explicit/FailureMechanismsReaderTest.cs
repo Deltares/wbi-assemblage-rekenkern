@@ -55,8 +55,9 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(true, expectedFailureMechanismResult.HasLengthEffect);
+                Assert.IsTrue(expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("P1", expectedFailureMechanismResult.AssemblyMethod);
+                Assert.IsFalse(expectedFailureMechanismResult.IsCorrelated);
                 Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
                 Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
                 
@@ -88,8 +89,9 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
                 
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
-                Assert.AreEqual(false, expectedFailureMechanismResult.HasLengthEffect);
+                Assert.IsFalse(expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("P2", expectedFailureMechanismResult.AssemblyMethod);
+                Assert.IsTrue(expectedFailureMechanismResult.IsCorrelated);
                 Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
                 Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
                 
