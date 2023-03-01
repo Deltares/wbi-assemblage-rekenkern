@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Kernel.Acceptance.TestUtil", "test\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj", "{AE6EE545-D958-4F8F-BA37-50BE961A0348}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assemly.Kernel.Performance.Test", "test\Assemly.Kernel.Performance.Test\Assemly.Kernel.Performance.Test.csproj", "{427E5979-AC99-4160-AC5A-BB3EEA87D291}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -36,6 +38,10 @@ Global
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Debug|x86.Build.0 = Debug|x86
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Release|x86.ActiveCfg = Release|x86
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348}.Release|x86.Build.0 = Release|x86
+		{427E5979-AC99-4160-AC5A-BB3EEA87D291}.Debug|x86.ActiveCfg = Debug|x86
+		{427E5979-AC99-4160-AC5A-BB3EEA87D291}.Debug|x86.Build.0 = Debug|x86
+		{427E5979-AC99-4160-AC5A-BB3EEA87D291}.Release|x86.ActiveCfg = Release|x86
+		{427E5979-AC99-4160-AC5A-BB3EEA87D291}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
 		{08148E6E-5DCF-46CA-9B90-24BCD958ED1A} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
 		{AE6EE545-D958-4F8F-BA37-50BE961A0348} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
+		{427E5979-AC99-4160-AC5A-BB3EEA87D291} = {DD370CA0-AD63-423F-9458-26C420B2E29F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82191FC9-A15C-4F5D-9FAB-62F1ACB237F0}
