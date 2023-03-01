@@ -19,7 +19,6 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model
@@ -57,13 +56,5 @@ namespace Assembly.Kernel.Model
         /// Gets the maximum allowable flooding probability of the section in 1/years. 
         /// </summary>
         public Probability MaximumAllowableFloodingProbability { get; }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"Signal flooding probability: {SignalFloodingProbability}, "
-                   + Environment.NewLine
-                   + $"Maximum allowable flooding probability: {MaximumAllowableFloodingProbability}";
-        }
     }
 }

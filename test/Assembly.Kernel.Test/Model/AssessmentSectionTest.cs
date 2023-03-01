@@ -19,7 +19,6 @@
 // Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
 // All rights reserved.
 
-using System;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
@@ -55,11 +54,6 @@ namespace Assembly.Kernel.Test.Model
             // Assert
             Assert.AreEqual(signalFloodingProbability, assessmentSection.SignalFloodingProbability, 1e-6);
             Assert.AreEqual(maximumAllowableFloodingProbability, assessmentSection.MaximumAllowableFloodingProbability, 1e-6);
-
-            string expectedString = $"Signal flooding probability: {signalFloodingProbability}, "
-                                    + Environment.NewLine
-                                    + $"Maximum allowable flooding probability: {maximumAllowableFloodingProbability}";
-            Assert.AreEqual(expectedString, assessmentSection.ToString());
         }
     }
 }

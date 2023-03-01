@@ -20,7 +20,6 @@
 // All rights reserved.
 
 using System;
-using System.Globalization;
 using Assembly.Kernel.Exceptions;
 
 namespace Assembly.Kernel.Model
@@ -30,15 +29,13 @@ namespace Assembly.Kernel.Model
     /// value within the range [0,1].
     /// </summary>
     public struct Probability : IEquatable<Probability>, IEquatable<double>,
-                                IComparable, IComparable<Probability>, IComparable<double>,
-                                IFormattable
+                                IComparable, IComparable<Probability>, IComparable<double>
     {
         /// <summary>
         /// Represents an undefined probability.
         /// </summary>
         public static readonly Probability Undefined = new Probability(double.NaN);
 
-        private static readonly double ToStringPrecision = 1e-100;
         private readonly double value;
 
         /// <summary>
@@ -305,42 +302,6 @@ namespace Assembly.Kernel.Model
         public static explicit operator Probability(double d)
         {
             return new Probability(d);
-        }
-
-        #endregion
-
-        #region ToString
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
-        /// <inheritdoc />
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (Math.Abs(value) < ToStringPrecision)
-            {
-                return "0";
-            }
-
-            if (Math.Abs(value - 1) < ToStringPrecision)
-            {
-                return "1";
-            }
-
-            if (double.IsNaN(value))
-            {
-                return "Undefined";
-            }
-
-            if (format == null)
-            {
-                return "1/" + (1 / value).ToString("F0", formatProvider ?? CultureInfo.CurrentCulture);
-            }
-
-            return value.ToString(format, formatProvider ?? CultureInfo.CurrentCulture);
         }
 
         #endregion

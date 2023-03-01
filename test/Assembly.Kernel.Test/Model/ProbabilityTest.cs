@@ -21,7 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Assembly.Kernel.Exceptions;
 using Assembly.Kernel.Model;
 using NUnit.Framework;
@@ -61,7 +60,6 @@ namespace Assembly.Kernel.Test.Model
             Assert.IsInstanceOf<IComparable>(probability);
             Assert.IsInstanceOf<IComparable<Probability>>(probability);
             Assert.IsInstanceOf<IComparable<double>>(probability);
-            Assert.IsInstanceOf<IFormattable>(probability);
 
             Assert.AreEqual(value, probability, 1e-6);
         }
@@ -610,36 +608,6 @@ namespace Assembly.Kernel.Test.Model
             // Assert
             Assert.IsFalse(isLessThan1);
             Assert.IsFalse(isLessThan2);
-        }
-
-        [Test]
-        [TestCase(0.0002516, "1/3975")]
-        [TestCase(double.NaN, "Undefined")]
-        [TestCase(1e-101, "0")]
-        [TestCase(1 - 1e-101, "1")]
-        public void ToString_WithoutFormat_ReturnsExpectedValue(double value, string expectedString)
-        {
-            // Setup
-            var probability = new Probability(value);
-
-            // Call
-            var toString = probability.ToString();
-
-            // Assert
-            Assert.AreEqual(expectedString, toString);
-        }
-
-        [Test]
-        public void ToString_WithFormat_ReturnsExpectedValue()
-        {
-            // Setup
-            var probability = new Probability(1.425e-15);
-
-            // Call
-            var toString = probability.ToString("E5", CultureInfo.InvariantCulture);
-
-            // Assert
-            Assert.AreEqual("1.42500E-015", toString);
         }
 
         [Test]
