@@ -5,7 +5,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-        <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
+        <ProjectGuid>{427E5979-AC99-4160-AC5A-BB3EEA87D291}</ProjectGuid>
         <OutputType>Library</OutputType>
         <RootNamespace>Assembly.Kernel.Performance.Test</RootNamespace>
         <AssemblyName>Assembly.Kernel.Performance.Test</AssemblyName>
