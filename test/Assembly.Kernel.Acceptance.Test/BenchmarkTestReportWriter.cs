@@ -93,6 +93,7 @@ namespace Assembly.Kernel.Acceptance.Test
             str += WriteMethodResults("BOI-1B-2", testResults.Select(t => new Tuple<bool?, bool?>(t.Value.MethodResults.Boi1B2, t.Value.MethodResults.Boi1B2P)));
             str += "   " + @"\grayhline " + "\n";
             str += WriteMethodResults("BOI-2A-1", testResults.Select(t => new Tuple<bool?, bool?>(t.Value.MethodResults.Boi2A1, t.Value.MethodResults.Boi2A1P)));
+            str += WriteMethodResults("BOI-2A-2", testResults.Select(t => new Tuple<bool?, bool?>(t.Value.MethodResults.Boi2A2, t.Value.MethodResults.Boi2A2P)));
             str += WriteMethodResults("BOI-2B-1", testResults.Select(t => t.Value.MethodResults.Boi2B1));
             str += "   " + @"\grayhline " + "\n";
             str += WriteMethodResults("BOI-3A-1", testResults.Select(t => (bool?) t.Value.MethodResults.Boi3A1));
