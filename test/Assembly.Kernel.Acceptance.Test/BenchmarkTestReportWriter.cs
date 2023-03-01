@@ -131,18 +131,23 @@ namespace Assembly.Kernel.Acceptance.Test
         private static string ReplaceFailureMechanismsTableWithResult(string template, BenchmarkTestResult result)
         {
             var str = "";
-            for (var index = 0; index < result.FailureMechanismResults.Count; index++)
+            BenchmarkFailureMechanismTestResult lastFailureMechanismResult = result.FailureMechanismResults.Last();
+            foreach (BenchmarkFailureMechanismTestResult failureMechanismResult in result.FailureMechanismResults)
             {
-                BenchmarkFailureMechanismTestResult m = result.FailureMechanismResults[index];
-                str += m.Name + " & " + m.MechanismId + " & " + m.HasLengthEffect + " & " + m.AssemblyMethod + " & " +
-                       ToResultText(m.AreEqualFailureMechanismSectionsResults) + " & " +
-                       ToResultText(m.AreEqualFailureMechanismSectionsResults) + " & " +
-                       ToResultText(m.AreEqualFailureMechanismResult) + " & " +
-                       ToResultText(m.AreEqualFailureMechanismResultPartial) + " & " +
-                       ToResultText(m.AreEqualFailureMechanismTheoreticalBoundaries) + " & " +
-                       ToResultText(m.AreEqualFailureMechanismTheoreticalBoundariesPartial) + " & " +
-                       ToResultText(m.AreEqualCombinedResultsCombinedSections);
-                if (index != result.FailureMechanismResults.Count - 1)
+                str += failureMechanismResult.Name + " & ";
+                str += failureMechanismResult.MechanismId + " & ";
+                str += failureMechanismResult.IsCorrelated + " & ";
+                str += failureMechanismResult.HasLengthEffect + " & ";
+                str += failureMechanismResult.AssemblyMethod + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismSectionsResults) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismSectionsResults) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismResult) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismResultPartial) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismTheoreticalBoundaries) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualFailureMechanismTheoreticalBoundariesPartial) + " & ";
+                str += ToResultText(failureMechanismResult.AreEqualCombinedResultsCombinedSections);
+
+                if (failureMechanismResult != lastFailureMechanismResult)
                 {
                     str += @" \B \\ \T" + "\n";
                 }
