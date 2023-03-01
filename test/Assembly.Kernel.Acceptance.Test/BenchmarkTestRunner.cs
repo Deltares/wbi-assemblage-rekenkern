@@ -150,56 +150,99 @@ namespace Assembly.Kernel.Acceptance.Test
 
         private static void TestCalculatingAssessmentSectionFailureProbability(BenchmarkTestInput input, BenchmarkTestResult result)
         {
+            var assembler = new AssessmentGradeAssembler();
+
+            IEnumerable<Probability> correlatedProbabilities = input.ExpectedFailureMechanismsResults
+                                                                    .Where(fmr => fmr.IsCorrelated)
+                                                                    .Select(fmr => fmr.ExpectedCombinedProbability);
+            IEnumerable<Probability> uncorrelatedProbabilities = input.ExpectedFailureMechanismsResults
+                                                                      .Where(fmr => !fmr.IsCorrelated)
+                                                                      .Select(fmr => fmr.ExpectedCombinedProbability);
+
+            Func<Probability> assemblyMethod;
+            Action<bool> setResultAction;
+            if (correlatedProbabilities.Any())
+            {
+                assemblyMethod = () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(
+                    correlatedProbabilities, uncorrelatedProbabilities, false);
+                setResultAction = r => result.MethodResults.Boi2A2 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A2, r);
+            }
+            else
+            {
+                assemblyMethod = () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    uncorrelatedProbabilities, false);
+                setResultAction = r => result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, r);
+            }
+
             try
             {
-                var assembler = new AssessmentGradeAssembler();
-                Probability probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbability),
-                    false);
+                Probability probability = assemblyMethod();
 
                 AssertHelper.AssertAreEqualProbabilities(
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability, probability);
 
                 result.AreEqualAssemblyResultFinalVerdictProbability = true;
-                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, true);
+                setResultAction(true);
             }
             catch (AssemblyException)
             {
                 bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbability.IsDefined;
                 result.AreEqualAssemblyResultFinalVerdictProbability = !combinedProbabilityIsDefined;
-                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, !combinedProbabilityIsDefined);
+                setResultAction(!combinedProbabilityIsDefined);
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbability = false;
-                result.MethodResults.Boi2A1 = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1, false);
+                setResultAction(false);
             }
         }
 
         private static void TestCalculatingAssessmentSectionFailureProbabilityPartial(BenchmarkTestInput input, BenchmarkTestResult result)
         {
+            var assembler = new AssessmentGradeAssembler();
+
+            IEnumerable<Probability> correlatedProbabilities = input.ExpectedFailureMechanismsResults
+                                                                    .Where(fmr => fmr.IsCorrelated)
+                                                                    .Select(fmr => fmr.ExpectedCombinedProbabilityPartial);
+            IEnumerable<Probability> uncorrelatedProbabilities = input.ExpectedFailureMechanismsResults
+                                                                      .Where(fmr => !fmr.IsCorrelated)
+                                                                      .Select(fmr => fmr.ExpectedCombinedProbabilityPartial);
+
+            Func<Probability> assemblyMethod;
+            Action<bool> setResultAction;
+            if (correlatedProbabilities.Any())
+            {
+                assemblyMethod = () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A2(
+                    correlatedProbabilities, uncorrelatedProbabilities, true);
+                setResultAction = r => result.MethodResults.Boi2A2P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A2P, r);
+            }
+            else
+            {
+                assemblyMethod = () => assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
+                    uncorrelatedProbabilities, true);
+                setResultAction = r => result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, r);
+            }
+
             try
             {
-                var assembler = new AssessmentGradeAssembler();
-                Probability probability = assembler.CalculateAssessmentSectionFailureProbabilityBoi2A1(
-                    input.ExpectedFailureMechanismsResults.Select(fmr => fmr.ExpectedCombinedProbabilityPartial), true);
+                Probability probability = assemblyMethod();
 
                 AssertHelper.AssertAreEqualProbabilities(
                     input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial, probability);
 
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = true;
-                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, true);
+                setResultAction(true);
             }
             catch (AssemblyException)
             {
                 bool combinedProbabilityIsDefined = input.ExpectedSafetyAssessmentAssemblyResult.CombinedProbabilityPartial.IsDefined;
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = !combinedProbabilityIsDefined;
-                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, !combinedProbabilityIsDefined);
+                setResultAction(!combinedProbabilityIsDefined);
             }
             catch (AssertionException)
             {
                 result.AreEqualAssemblyResultFinalVerdictProbabilityPartial = false;
-                result.MethodResults.Boi2A1P = BenchmarkTestHelper.GetUpdatedMethodResult(result.MethodResults.Boi2A1P, false);
+                setResultAction(false);
             }
         }
 
