@@ -37,7 +37,7 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
         /// </summary>
         /// <param name="worksheetPart">The worksheet for which to create a dictionary.</param>
         /// <param name="workbookPart">The workbook part of the workbook that contains this worksheet.</param>
-        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) 
+        public GeneralInformationReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
             : base(worksheetPart, workbookPart, "A") {}
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace Assembly.Kernel.Test.Exceptions
         {
             // Call
             Array assemblyErrors = Enum.GetValues(typeof(EAssemblyErrors));
-            
+
             // Assert
             Assert.AreEqual(23, assemblyErrors.Length);
             Assert.AreEqual(0, (int) EAssemblyErrors.LengthEffectFactorOutOfRange);

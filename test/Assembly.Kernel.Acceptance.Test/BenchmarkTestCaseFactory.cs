@@ -40,7 +40,7 @@ namespace Assembly.Kernel.Acceptance.Test
             string testDirectory = Path.Combine(BenchmarkTestHelper.GetTestDataPath("Assembly.Kernel.Acceptance.Test"),
                                                 "definitions");
             string[] benchmarkTestFiles = Directory.GetFiles(testDirectory, "*.xlsx");
-            
+
             return benchmarkTestFiles.Select(t => new TestCaseData(BenchmarkTestHelper.GetTestName(t), t)
             {
                 TestName = BenchmarkTestHelper.GetTestName(t)

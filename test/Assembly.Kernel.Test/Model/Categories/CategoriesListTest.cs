@@ -149,11 +149,11 @@ namespace Assembly.Kernel.Test.Model.Categories
                 CategoryIdentifier = categoryIdentifier;
             }
 
-            public Probability LowerLimit { get; }
-            
-            public Probability UpperLimit { get; }
-            
             public string CategoryIdentifier { get; }
+
+            public Probability LowerLimit { get; }
+
+            public Probability UpperLimit { get; }
         }
     }
 }

@@ -53,14 +53,14 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                
+
                 Assert.AreEqual("STPH", expectedFailureMechanismResult.MechanismId);
                 Assert.IsTrue(expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("P1", expectedFailureMechanismResult.AssemblyMethod);
                 Assert.IsFalse(expectedFailureMechanismResult.IsCorrelated);
                 Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
                 Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
-                
+
                 Assert.AreEqual(3.31e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.LowerLimit, 1e-4);
                 Assert.AreEqual(6.07e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.UpperLimit, 1e-4);
                 Assert.AreEqual(3.31e-2, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.LowerLimit, 1e-4);
@@ -87,14 +87,14 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Explicit
 
                 Assert.AreEqual(1, result.ExpectedFailureMechanismsResults.Count);
                 ExpectedFailureMechanismResult expectedFailureMechanismResult = result.ExpectedFailureMechanismsResults.First();
-                
+
                 Assert.AreEqual("GEKB", expectedFailureMechanismResult.MechanismId);
                 Assert.IsFalse(expectedFailureMechanismResult.HasLengthEffect);
                 Assert.AreEqual("P2", expectedFailureMechanismResult.AssemblyMethod);
                 Assert.IsTrue(expectedFailureMechanismResult.IsCorrelated);
                 Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbability, 1e-4);
                 Assert.AreEqual(4.46e-6, expectedFailureMechanismResult.ExpectedCombinedProbabilityPartial, 1e-4);
-                
+
                 Assert.AreEqual(2.23e-6, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.LowerLimit, 1e-4);
                 Assert.AreEqual(1.26e-5, expectedFailureMechanismResult.ExpectedTheoreticalBoundaries.UpperLimit, 1e-4);
                 Assert.AreEqual(2.23e-6, expectedFailureMechanismResult.ExpectedTheoreticalBoundariesPartial.LowerLimit, 1e-4);

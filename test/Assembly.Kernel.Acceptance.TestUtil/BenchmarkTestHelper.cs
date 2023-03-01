@@ -69,7 +69,7 @@ namespace Assembly.Kernel.Acceptance.TestUtil
             int ind = testNameNoPrefix.IndexOf("_(v");
             return ind > -1 ? testNameNoPrefix.Substring(0, ind) : testNameNoPrefix;
         }
-        
+
         /// <summary>
         /// Gets the test data path.
         /// </summary>

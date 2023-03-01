@@ -75,7 +75,7 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
         /// </summary>
         /// <param name="worksheetPart">The WorksheetPart that contains information on the combined assessment section sections.</param>
         /// <param name="workbookPart">The workbook containing the specified worksheet.</param>
-        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart) 
+        public CommonAssessmentSectionResultsReader(WorksheetPart worksheetPart, WorkbookPart workbookPart)
             : base(worksheetPart, workbookPart, "B") {}
 
         /// <summary>

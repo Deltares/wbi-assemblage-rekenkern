@@ -30,7 +30,7 @@ namespace Assembly.Kernel.Model
         /// Gets the lower boundary limit.
         /// </summary>
         Probability LowerLimit { get; }
-        
+
         /// <summary>
         /// Gets the upper boundary limit.
         /// </summary>
