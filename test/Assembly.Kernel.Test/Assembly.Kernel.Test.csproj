@@ -1,95 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\NUnit.3.13.3\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.13.3\build\NUnit.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Assembly.Kernel.Test</RootNamespace>
-    <AssemblyName>Assembly.Kernel.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>none</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyErrorMessageComparer.cs" />
-    <Compile Include="BoundaryLimitsTest.cs" />
-    <Compile Include="Exceptions\AssemblyErrorMessageTest.cs" />
-    <Compile Include="Exceptions\AssemblyExceptionTest.cs" />
-    <Compile Include="Exceptions\EAssemblyErrorsTest.cs" />
-    <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs" />
-    <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs" />
-    <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs" />
-    <Compile Include="Model\AssessmentSectionTest.cs" />
-    <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs" />
-    <Compile Include="Model\Categories\CategoryLimitsTest.cs" />
-    <Compile Include="Model\Categories\InterpretationCategoryTest.cs" />
-    <Compile Include="Model\EAnalysisStateTest.cs" />
-    <Compile Include="Model\ERefinementStatusTest.cs" />
-    <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs" />
-    <Compile Include="Model\Categories\EInterpretationCategoryTest.cs" />
-    <Compile Include="Implementations\AssessmentGradeAssemblerTest.cs" />
-    <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTest.cs" />
-    <Compile Include="Implementations\CategoryLimitsCalculatorTest.cs" />
-    <Compile Include="Model\Categories\CategoriesListTest.cs" />
-    <Compile Include="Model\Categories\EAssessmentGradeTest.cs" />
-    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTest.cs" />
-    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionTest.cs" />
-    <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategoryTest.cs" />
-    <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilitiesTest.cs" />
-    <Compile Include="Model\ProbabilityTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
-      <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
-      <Name>kernel</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\build\Assembly.Kernel.licenseheader">
-      <Link>Assembly.Kernel.licenseheader</Link>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
-      <Link>Properties\GlobalAssembly.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <Import Project="..\..\packages\NUnit.3.13.3\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.13.3\build\NUnit.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+        <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <RootNamespace>Assembly.Kernel.Test</RootNamespace>
+        <AssemblyName>Assembly.Kernel.Test</AssemblyName>
+        <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\NUnit.3.13.3\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.13.3\build\NUnit.props'))" />
-  </Target>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\x86\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugType>full</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <Prefer32Bit>false</Prefer32Bit>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+        <OutputPath>bin\x86\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>none</DebugType>
+        <PlatformTarget>x86</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+        <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+        <Prefer32Bit>false</Prefer32Bit>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="AssemblyErrorMessageComparer.cs"/>
+        <Compile Include="BoundaryLimitsTest.cs"/>
+        <Compile Include="Exceptions\AssemblyErrorMessageTest.cs"/>
+        <Compile Include="Exceptions\AssemblyExceptionTest.cs"/>
+        <Compile Include="Exceptions\EAssemblyErrorsTest.cs"/>
+        <Compile Include="Implementations\AssessmentResultsTranslatorTest.cs"/>
+        <Compile Include="Implementations\CategoryLimitsEqualityComparer.cs"/>
+        <Compile Include="Implementations\FailureMechanismResultAssemblerTest.cs"/>
+        <Compile Include="Model\AssessmentSectionTest.cs"/>
+        <Compile Include="Model\Categories\AssessmentSectionCategoryTest.cs"/>
+        <Compile Include="Model\Categories\CategoryLimitsTest.cs"/>
+        <Compile Include="Model\Categories\InterpretationCategoryTest.cs"/>
+        <Compile Include="Model\EAnalysisStateTest.cs"/>
+        <Compile Include="Model\ERefinementStatusTest.cs"/>
+        <Compile Include="Model\ESectionInitialMechanismProbabilitySpecificationTest.cs"/>
+        <Compile Include="Model\Categories\EInterpretationCategoryTest.cs"/>
+        <Compile Include="Implementations\AssessmentGradeAssemblerTest.cs"/>
+        <Compile Include="Implementations\CommonFailureMechanismSectionAssemblerTest.cs"/>
+        <Compile Include="Implementations\CategoryLimitsCalculatorTest.cs"/>
+        <Compile Include="Model\Categories\CategoriesListTest.cs"/>
+        <Compile Include="Model\Categories\EAssessmentGradeTest.cs"/>
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionListTest.cs"/>
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionTest.cs"/>
+        <Compile Include="Model\FailureMechanismSections\FailureMechanismSectionWithCategoryTest.cs"/>
+        <Compile Include="Model\FailureMechanismSections\ResultWithProfileAndSectionProbabilitiesTest.cs"/>
+        <Compile Include="Model\ProbabilityTest.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="TestHelper.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
+        </Reference>
+        <Reference Include="System"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
+            <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
+            <Name>kernel</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\build\Assembly.Kernel.licenseheader">
+            <Link>Assembly.Kernel.licenseheader</Link>
+        </None>
+        <None Include="packages.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="$(SolutionDir)build\GlobalAssembly.cs">
+            <Link>Properties\GlobalAssembly.cs</Link>
+        </Compile>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+        <PropertyGroup>
+            <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+        </PropertyGroup>
+        <Error Condition="!Exists('..\..\packages\NUnit.3.13.3\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.13.3\build\NUnit.props'))"/>
+    </Target>
 </Project>
