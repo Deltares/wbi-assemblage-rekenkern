@@ -29,30 +29,32 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// <summary>
         /// Create a new instance of <see cref="BenchmarkFailureMechanismTestResult"/>.
         /// </summary>
-        /// <param name="name">The name of the failure mechanism.</param>
-        /// <param name="mechanismId">The Id of the failure mechanism.</param>
-        /// <param name="hasLengthEffect">The assembly hasLengthEffect of the failure mechanism.</param>
-        /// <param name="assemblyMethod">The used assembly method.</param>
-        public BenchmarkFailureMechanismTestResult(string name, string mechanismId, bool hasLengthEffect, string assemblyMethod)
+        /// <param name="name">The name of the failure mechanism result.</param>
+        /// <param name="mechanismId">Unique identifier of the mechanism.</param>
+        /// <param name="hasLengthEffect">Specifies whether there is length-effect within a section in this mechanism.</param>
+        /// <param name="assemblyMethod">The assembly method to use.</param>
+        /// <param name="isCorrelated">Specifies whether the failure mechanism is correlated.</param>
+        public BenchmarkFailureMechanismTestResult(string name, string mechanismId, bool hasLengthEffect, string assemblyMethod, bool isCorrelated)
         {
             Name = name;
             MechanismId = mechanismId;
             HasLengthEffect = hasLengthEffect;
             AssemblyMethod = assemblyMethod;
+            IsCorrelated = isCorrelated;
         }
 
         /// <summary>
-        /// Name of the failure mechanism.
+        /// Gets the name of the failure mechanism.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// MechanismId / code of the failure mechanism.
+        /// Gets the mechanismId / code of the failure mechanism.
         /// </summary>
         public string MechanismId { get; }
 
         /// <summary>
-        /// Indicates whether this failure mechanism has length effect within a section.
+        /// Gets whether this failure mechanism has length effect within a section.
         /// </summary>
         public bool HasLengthEffect { get; }
 
@@ -60,6 +62,11 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// Gets the used assembly method.
         /// </summary>
         public string AssemblyMethod { get; }
+
+        /// <summary>
+        /// Gets whether the failure mechanism is correlated.
+        /// </summary>
+        public bool IsCorrelated { get; }
 
         /// <summary>
         /// Gets or sets whether all failure mechanism section results were translated correctly during assembly.
