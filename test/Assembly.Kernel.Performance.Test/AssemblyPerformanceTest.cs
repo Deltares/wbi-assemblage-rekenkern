@@ -29,7 +29,7 @@ using Assembly.Kernel.Model.Categories;
 using Assembly.Kernel.Model.FailureMechanismSections;
 using NUnit.Framework;
 
-namespace Assembly.Kernel.Test
+namespace Assembly.Kernel.Performance.Test
 {
     [TestFixture]
     public class AssemblyPerformanceTest
@@ -58,7 +58,7 @@ namespace Assembly.Kernel.Test
 
             CategoriesList<InterpretationCategory> c = categoriesCalculator.CalculateInterpretationCategoryLimitsBoi01(section);
             AssembleFailureProbabilitiesPerFailureMechanism(failureMechanismResultsWithFailureProb, failureMechanismSectionLists, c);
-            
+
             CategoriesList<AssessmentSectionCategory> assessmentGradeCategories = categoriesCalculator.CalculateAssessmentSectionCategoryLimitsBoi21(
                 section);
             CalculateAssessmentGrade(failureMechanismResultsWithFailureProb, assessmentGradeCategories);
