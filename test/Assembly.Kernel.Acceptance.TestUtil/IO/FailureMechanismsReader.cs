@@ -55,8 +55,8 @@ namespace Assembly.Kernel.Acceptance.TestUtil.IO
         /// <param name="mechanismId">String used to identify the failure mechanism.</param>
         public void Read(BenchmarkTestInput benchmarkTestInput, string mechanismId)
         {
-            bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
             string failureMechanismType = GetCellValueAsString("C", "Faalpad");
+            bool hasLengthEffect = GetCellValueAsString("C", "Lengte-effect") == "Ja";
             string assemblyMethod = GetCellValueAsString("C", "Methode");
             var expectedFailureMechanismResult = new ExpectedFailureMechanismResult(
                 failureMechanismType, mechanismId, hasLengthEffect, assemblyMethod);
