@@ -1,6 +1,6 @@
 default_excludes: true
 component_base_dirs:
-- "AssemblageKernel_src/src/Assemblagy.Kernel"
+- "src/Assemblagy.Kernel"
 languages:
 - name: "Csharp"
 dependencychecker:
