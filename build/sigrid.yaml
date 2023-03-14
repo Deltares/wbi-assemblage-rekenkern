@@ -1,11 +1,11 @@
 default_excludes: true
 component_depth: 1
 exclude:
-- ".*/.*[.]TestUtil/.*"
+- ".*/*[.]TestUtil/.*"
 languages:
 - name: "Csharp"
 dependencychecker:
   enabled: true
   exclude:
-  - ".*/.*[.]Test/.*"
-  - ".*/.*[.]TestUtil/.*"
+  - ".*/*[.]Test/.*"
+  - ".*/*[.]TestUtil/.*"
