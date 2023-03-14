@@ -1,6 +1,8 @@
 default_excludes: true
-component_base_dirs:
-- "Assembly.Kernel"
+component_depth: 1
+exclude:
+- ".*/*[.]Test/.*"
+- ".*/*[.]TestUtil/.*"
 languages:
 - name: "Csharp"
 dependencychecker:
