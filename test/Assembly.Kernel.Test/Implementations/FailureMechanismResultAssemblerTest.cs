@@ -93,7 +93,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 
@@ -301,7 +301,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 
@@ -469,7 +469,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 
@@ -626,7 +626,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 
@@ -801,7 +801,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 
@@ -972,7 +972,7 @@ namespace Assembly.Kernel.Test.Implementations
             // Assert
             TestHelper.AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(Call, new[]
             {
-                new AssemblyErrorMessage("failureMechanismSectionAssemblyResult", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
+                new AssemblyErrorMessage("failureMechanismSectionAssemblyResults", EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult)
             });
         }
 

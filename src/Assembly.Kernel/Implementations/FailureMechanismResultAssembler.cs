@@ -245,17 +245,10 @@ namespace Assembly.Kernel.Implementations
                 errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults), EAssemblyErrors.EmptyResultsList));
             }
 
-            if (!errors.Any() && !partialAssembly)
+            if (!errors.Any() && !partialAssembly && failureMechanismSectionAssemblyResults.Any(fmsar => !fmsar.IsDefined))
             {
-                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
-                {
-                    if (!failureMechanismSectionAssemblyResult.IsDefined)
-                    {
-                        errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
-                                                            EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
-                        break;
-                    }
-                }
+                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults),
+                                                    EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
             }
 
             if (errors.Any())
@@ -293,17 +286,10 @@ namespace Assembly.Kernel.Implementations
                 errors.Add(new AssemblyErrorMessage(nameof(lengthEffectFactor), EAssemblyErrors.LengthEffectFactorOutOfRange));
             }
 
-            if (!errors.Any() && !partialAssembly)
+            if (!errors.Any() && !partialAssembly && failureMechanismSectionAssemblyResults.Any(fmsar => !fmsar.IsDefined))
             {
-                foreach (Probability failureMechanismSectionAssemblyResult in failureMechanismSectionAssemblyResults)
-                {
-                    if (!failureMechanismSectionAssemblyResult.IsDefined)
-                    {
-                        errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResult),
-                                                            EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
-                        break;
-                    }
-                }
+                errors.Add(new AssemblyErrorMessage(nameof(failureMechanismSectionAssemblyResults),
+                                                    EAssemblyErrors.EncounteredOneOrMoreSectionsWithoutResult));
             }
 
             if (errors.Any())
