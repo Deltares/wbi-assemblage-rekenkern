@@ -74,9 +74,14 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.Categories
             Assert.AreEqual(ProbabilityToReliability(expectedProbability), ProbabilityToReliability(actualProbability), 1e-3);
         }
 
+        /// <summary>
+        /// Assert whether two probabilities are equal.
+        /// </summary>
+        /// <param name="expectedProbability">The expected probability.</param>
+        /// <param name="actualProbability">The actual probability.</param>
         public static bool AreEqualProbabilities(Probability expectedProbability, Probability actualProbability)
         {
-            return Math.Abs(ProbabilityToReliability(expectedProbability) - ProbabilityToReliability(actualProbability)) < 1e3;
+            return Math.Abs(ProbabilityToReliability(expectedProbability) - ProbabilityToReliability(actualProbability)) < 1e-3;
         }
 
         private static void AssertAreEqualCategories<TCategory>(CategoryLimits<TCategory> expectedCategory,
