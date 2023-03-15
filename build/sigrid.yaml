@@ -6,6 +6,8 @@ languages:
 - name: "Csharp"
 dependencychecker:
   enabled: true
+  blacklist:
+  - "NONE"
   exclude:
   - ".*/*[.]Test/.*"
   - ".*/*[.]TestUtil/.*"
