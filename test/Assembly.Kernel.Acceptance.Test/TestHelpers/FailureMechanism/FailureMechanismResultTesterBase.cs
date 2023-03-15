@@ -67,10 +67,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             InterpretationCategories = interpretationCategories;
         }
 
-        /// <summary>
-        /// Test the assembly of the probabilities and interpretation categories per failure mechanism section.
-        /// </summary>
-        /// <returns>Indicator whether the tests were successful or not.</returns>
         public bool TestFailureMechanismSectionResults()
         {
             try
@@ -92,10 +88,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        /// <summary>
-        /// Test the assembly of the combined failure mechanism section results for this failure mechanism.
-        /// </summary>
-        /// <returns>Indicator whether the tests were successful or not.</returns>
         public bool TestFailureMechanismResult()
         {
             try
@@ -112,10 +104,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
         }
 
-        /// <summary>
-        /// Test the assembly of the combined failure mechanism section results for this failure mechanism using partial assembly.
-        /// </summary>
-        /// <returns>Indicator whether the tests were successful or not.</returns>
         public bool TestFailureMechanismResultPartial()
         {
             try
