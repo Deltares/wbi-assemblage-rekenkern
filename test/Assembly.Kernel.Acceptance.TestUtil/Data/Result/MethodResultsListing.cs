@@ -94,26 +94,6 @@ namespace Assembly.Kernel.Acceptance.TestUtil.Data.Result
         /// <summary>
         /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
         /// </summary>
-        public bool? Boi1A3 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Boi1A3P { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Boi1A4 { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
-        public bool? Boi1A4P { get; set; }
-
-        /// <summary>
-        /// Indicates whether this method was not tested (null), all tests went positive (true) or one or more tests failed (false).
-        /// </summary>
         public bool? Boi1B1 { get; set; }
 
         /// <summary>

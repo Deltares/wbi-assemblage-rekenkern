@@ -61,34 +61,6 @@ namespace Assembly.Kernel.Implementations
         }
 
         /// <inheritdoc />
-        public Probability CalculateFailureMechanismFailureProbabilityBoi1A3(
-            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            bool partialAssembly)
-        {
-            if (failureMechanismSectionAssemblyResults == null)
-            {
-                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
-            }
-
-            return CalculateFailureMechanismFailureProbabilityP1(failureMechanismSectionAssemblyResults.Select(fmsar => fmsar.ProbabilitySection),
-                                                                 partialAssembly);
-        }
-
-        /// <inheritdoc />
-        public Probability CalculateFailureMechanismFailureProbabilityBoi1A4(
-            IEnumerable<ResultWithProfileAndSectionProbabilities> failureMechanismSectionAssemblyResults,
-            double lengthEffectFactor, bool partialAssembly)
-        {
-            if (failureMechanismSectionAssemblyResults == null)
-            {
-                throw new ArgumentNullException(nameof(failureMechanismSectionAssemblyResults));
-            }
-
-            return CalculateFailureMechanismFailureProbabilityP2(failureMechanismSectionAssemblyResults.Select(fmsar => fmsar.ProbabilityProfile),
-                                                                 lengthEffectFactor, partialAssembly);
-        }
-
-        /// <inheritdoc />
         public BoundaryLimits CalculateFailureMechanismBoundariesBoi1B1(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             bool partialAssembly)
