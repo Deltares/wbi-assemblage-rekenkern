@@ -166,32 +166,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             AssertHelper.AssertAreEqualProbabilities(expectedProbability, result);
         }
 
-        protected override void SetFailureMechanismMethodResult(bool partial, bool result)
-        {
-            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
-            {
-                if (partial)
-                {
-                    MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
-                }
-                else
-                {
-                    MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
-                }
-            }
-            else
-            {
-                if (partial)
-                {
-                    MethodResults.Boi1A2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2P, result);
-                }
-                else
-                {
-                    MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
-                }
-            }
-        }
-
         protected override void TestFailureMechanismTheoreticalBoundariesInternal(bool partial, BoundaryLimits expectedBoundaries)
         {
             var assembler = new FailureMechanismResultAssembler();

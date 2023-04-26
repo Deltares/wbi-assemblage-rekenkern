@@ -73,6 +73,7 @@ namespace Assembly.Kernel.Interfaces
         Probability CalculateFailureMechanismFailureProbabilityBoi1A2(
             IEnumerable<Probability> failureMechanismSectionAssemblyResults,
             double lengthEffectFactor, bool partialAssembly);
+
         /// <summary>
         /// Calculates <see cref="BoundaryLimits"/> from <paramref name="failureMechanismSectionAssemblyResults"/>.
         /// </summary>

@@ -23,6 +23,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Assembly.Kernel.Acceptance.TestUtil;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Input.FailureMechanisms;
 using Assembly.Kernel.Acceptance.TestUtil.Data.Result;
 using Assembly.Kernel.Model;
@@ -80,7 +81,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 foreach (DictionaryEntry entry in e.Data)
                 {
                     Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Gecombineerde faalkans per vak - vaknaam '{entry.Key}' " +
-                                      $": {((AssertionException) entry.Value).Message}");
+                                      $": {((AssertionException)entry.Value).Message}");
                 }
 
                 SetFailureMechanismSectionMethodResults();
@@ -158,7 +159,31 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected abstract void TestFailureMechanismResultInternal(bool partial, Probability expectedProbability);
 
-        protected abstract void SetFailureMechanismMethodResult(bool partial, bool result);
+        protected virtual void SetFailureMechanismMethodResult(bool partial, bool result)
+        {
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
+            {
+                if (partial)
+                {
+                    MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
+                }
+                else
+                {
+                    MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+                }
+            }
+            else
+            {
+                if (partial)
+                {
+                    MethodResults.Boi1A2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2P, result);
+                }
+                else
+                {
+                    MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
+                }
+            }
+        }
 
         protected abstract void TestFailureMechanismTheoreticalBoundariesInternal(bool partial, BoundaryLimits expectedBoundaries);
 
@@ -183,7 +208,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 case ERefinementStatus.Performed:
                     return EAnalysisState.ProbabilityEstimated;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int) refinementStatus, typeof(ERefinementStatus));
+                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int)refinementStatus, typeof(ERefinementStatus));
             }
         }
 
