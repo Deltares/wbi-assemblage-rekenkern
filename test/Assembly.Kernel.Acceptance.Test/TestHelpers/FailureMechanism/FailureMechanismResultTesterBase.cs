@@ -159,32 +159,6 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected abstract void TestFailureMechanismResultInternal(bool partial, Probability expectedProbability);
 
-        private void SetFailureMechanismMethodResult(bool partial, bool result)
-        {
-            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
-            {
-                if (partial)
-                {
-                    MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
-                }
-                else
-                {
-                    MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
-                }
-            }
-            else
-            {
-                if (partial)
-                {
-                    MethodResults.Boi1A2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2P, result);
-                }
-                else
-                {
-                    MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
-                }
-            }
-        }
-
         protected abstract void TestFailureMechanismTheoreticalBoundariesInternal(bool partial, BoundaryLimits expectedBoundaries);
 
         protected abstract void SetFailureMechanismTheoreticalBoundariesResult(bool partial, bool result);
@@ -222,6 +196,32 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
             }
 
             throw exception;
+        }
+
+        private void SetFailureMechanismMethodResult(bool partial, bool result)
+        {
+            if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
+            {
+                if (partial)
+                {
+                    MethodResults.Boi1A1P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1P, result);
+                }
+                else
+                {
+                    MethodResults.Boi1A1 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A1, result);
+                }
+            }
+            else
+            {
+                if (partial)
+                {
+                    MethodResults.Boi1A2P = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2P, result);
+                }
+                else
+                {
+                    MethodResults.Boi1A2 = BenchmarkTestHelper.GetUpdatedMethodResult(MethodResults.Boi1A2, result);
+                }
+            }
         }
     }
 }
