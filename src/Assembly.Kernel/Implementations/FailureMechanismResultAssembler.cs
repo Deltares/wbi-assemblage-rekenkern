@@ -57,7 +57,7 @@ namespace Assembly.Kernel.Implementations
             }
 
             return failureMechanismSectionAssemblyResults.Aggregate(
-                (Probability)1.0,
+                (Probability) 1.0,
                 (current, sectionProbability) => current * sectionProbability.Inverse).Inverse;
         }
 
@@ -84,7 +84,7 @@ namespace Assembly.Kernel.Implementations
                 }
             }
 
-            double assemblyResult = (double)failureMechanismSectionAssemblyResults.Max(ar => ar) * lengthEffectFactor;
+            double assemblyResult = (double) failureMechanismSectionAssemblyResults.Max(ar => ar) * lengthEffectFactor;
             return new Probability(Math.Min(1.0, assemblyResult));
         }
 
@@ -147,7 +147,7 @@ namespace Assembly.Kernel.Implementations
             return new BoundaryLimits(
                 failureMechanismSectionAssemblyResults.Max(p => p),
                 failureMechanismSectionAssemblyResults.Aggregate(
-                    (Probability)1.0,
+                    (Probability) 1.0,
                     (current, sectionProbability) => current * sectionProbability.Inverse).Inverse);
         }
 

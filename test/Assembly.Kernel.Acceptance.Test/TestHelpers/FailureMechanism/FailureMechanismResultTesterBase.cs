@@ -81,7 +81,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 foreach (DictionaryEntry entry in e.Data)
                 {
                     Console.WriteLine($"{ExpectedFailureMechanismResult.Name}: Gecombineerde faalkans per vak - vaknaam '{entry.Key}' " +
-                                      $": {((AssertionException)entry.Value).Message}");
+                                      $": {((AssertionException) entry.Value).Message}");
                 }
 
                 SetFailureMechanismSectionMethodResults();
@@ -159,7 +159,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
 
         protected abstract void TestFailureMechanismResultInternal(bool partial, Probability expectedProbability);
 
-        protected virtual void SetFailureMechanismMethodResult(bool partial, bool result)
+        private void SetFailureMechanismMethodResult(bool partial, bool result)
         {
             if (ExpectedFailureMechanismResult.AssemblyMethod == "P1")
             {
@@ -208,7 +208,7 @@ namespace Assembly.Kernel.Acceptance.Test.TestHelpers.FailureMechanism
                 case ERefinementStatus.Performed:
                     return EAnalysisState.ProbabilityEstimated;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int)refinementStatus, typeof(ERefinementStatus));
+                    throw new InvalidEnumArgumentException(nameof(refinementStatus), (int) refinementStatus, typeof(ERefinementStatus));
             }
         }
 
