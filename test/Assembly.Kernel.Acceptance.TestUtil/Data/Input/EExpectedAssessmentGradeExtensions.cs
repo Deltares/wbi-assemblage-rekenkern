@@ -1,4 +1,4 @@
-﻿// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+﻿// Copyright (C) Stichting Deltares and State of the Netherlands 2023. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
-// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All names, logos, and references to "Deltares" are registered trademarks of
+// Stichting Deltares and remain full property of Stichting Deltares at all times.
 // All rights reserved.
 
 using System.ComponentModel;
