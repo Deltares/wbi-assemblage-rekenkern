@@ -1,4 +1,4 @@
-// Copyright (C) Rijkswaterstaat 2022. All rights reserved.
+// Copyright (C) Stichting Deltares and State of the Netherlands 2023. All rights reserved.
 //
 // This file is part of the Assembly kernel.
 //
@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// All names, logos, and references to "Rijkswaterstaat" are registered trademarks of
-// Rijkswaterstaat and remain full property of Rijkswaterstaat at all times.
+// All names, logos, and references to "Deltares" are registered trademarks of
+// Stichting Deltares and remain full property of Stichting Deltares at all times.
 // All rights reserved.
 
 using System;
@@ -24,10 +24,10 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Rijkswaterstaat")]
+[assembly: AssemblyCompany("Stichting Deltares and State of the Netherlands")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCopyright("Copyright © 2022")]
+[assembly: AssemblyCopyright("Copyright © 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("nl-NL")]
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 
-[assembly: AssemblyVersion("22.2.1.0")]
-[assembly: AssemblyFileVersion("22.2.1.0")]
+[assembly: AssemblyVersion("23.1.1.0")]
+[assembly: AssemblyFileVersion("23.1.1.0")]
