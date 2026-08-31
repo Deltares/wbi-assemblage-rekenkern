@@ -2,27 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)build\Test.targets" />
     <PropertyGroup>
-        <ProjectGuid>{427E5979-AC99-4160-AC5A-BB3EEA87D291}</ProjectGuid>
-        <RootNamespace>Assembly.Kernel.Performance.Test</RootNamespace>
-        <AssemblyName>Assembly.Kernel.Performance.Test</AssemblyName>
         <TestProjectType>UnitTest</TestProjectType>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-            <HintPath>..\..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
-        </Reference>
-        <Reference Include="System"/>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="..\..\build\Assembly.Kernel.licenseheader">
-            <Link>Assembly.Kernel.licenseheader</Link>
-        </None>
-        <None Include="packages.config"/>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\assembly.kernel\Assembly.Kernel.csproj">
-            <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
-            <Name>Assembly.Kernel</Name>
-        </ProjectReference>
+        <ProjectReference Include="..\..\src\assembly.kernel\Assembly.Kernel.csproj" />
     </ItemGroup>
 </Project>

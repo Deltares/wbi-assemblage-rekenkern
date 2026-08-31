@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)build\Test.targets" />
-    <PropertyGroup>
-        <ProjectGuid>{AE6EE545-D958-4F8F-BA37-50BE961A0348}</ProjectGuid>
-        <RootNamespace>Assembly.Kernel.Acceptance.TestUtil</RootNamespace>
-        <AssemblyName>Assembly.Kernel.Acceptance.TestUtil</AssemblyName>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Xml"/>
-        <Reference Include="WindowsBase"/>
-    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.5.1"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
-            <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
-            <Name>Assembly.Kernel</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="..\..\build\Assembly.Kernel.licenseheader">
-            <Link>Assembly.Kernel.licenseheader</Link>
-        </None>
-        <None Include="packages.config"/>
+        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj" />
     </ItemGroup>
 </Project>

@@ -2,31 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)build\Test.targets" />
     <PropertyGroup>
-        <AssemblyName>Assembly.Kernel.Acceptance.Test</AssemblyName>
-        <RootNamespace>Assembly.Kernel.Acceptance.Test</RootNamespace>
-        <Deterministic>true</Deterministic>
-        <ProjectGuid>{08148E6E-5DCF-46CA-9B90-24BCD958ED1A}</ProjectGuid>
         <TestProjectType>UnitTest</TestProjectType>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="MathNet.Numerics" Version="5.0.0"/>
-    </ItemGroup>   
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
-            <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
-            <Name>Assembly.Kernel</Name>
-        </ProjectReference>
-        <ProjectReference Include="..\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj">
-            <Project>{ae6ee545-d958-4f8f-ba37-50be961a0348}</Project>
-            <Name>Assembly.Kernel.Acceptance.TestUtil</Name>
-        </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-        <None Include="..\..\build\Assembly.Kernel.licenseheader">
-            <Link>Assembly.Kernel.licenseheader</Link>
-        </None>
-        <None Include="app.config"/>
-        <None Include="packages.config"/>
+        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj" />
+        <ProjectReference Include="..\Assembly.Kernel.Acceptance.TestUtil\Assembly.Kernel.Acceptance.TestUtil.csproj" />
+    </ItemGroup>
+    <ItemGroup>
         <EmbeddedResource Include="Resources\reporttemplate.tex"/>
     </ItemGroup>
 </Project>

@@ -1,21 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)build\Test.targets" />
-    <PropertyGroup>
-        <ProjectGuid>{3E7D4EDD-ED89-4DDA-9E84-01364C00FB59}</ProjectGuid>
-        <RootNamespace>Assembly.Kernel.Test</RootNamespace>
-        <AssemblyName>Assembly.Kernel.Test</AssemblyName>
-    </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj">
-            <Project>{2925251d-96cc-4a66-8ac6-2b4d39dfd399}</Project>
-            <Name>kernel</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="..\..\build\Assembly.Kernel.licenseheader">
-            <Link>Assembly.Kernel.licenseheader</Link>
-        </None>
-        <None Include="packages.config"/>
+        <ProjectReference Include="..\..\src\Assembly.Kernel\Assembly.Kernel.csproj" />
     </ItemGroup>
 </Project>

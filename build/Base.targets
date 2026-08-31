@@ -38,4 +38,9 @@
   <ItemGroup>
     <PackageReference Include="MSBuildConfigurationDefaults" Version="1.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Assembly.Kernel.licenseheader">
+      <Link>Assembly.Kernel.licenseheader</Link>
+    </None>
+  </ItemGroup>
 </Project>
