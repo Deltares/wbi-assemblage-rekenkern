@@ -26,6 +26,7 @@ using Assembly.Kernel.Interfaces;
 using Assembly.Kernel.Model;
 using Assembly.Kernel.Model.Categories;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Assembly.Kernel.Test.Implementations
 {

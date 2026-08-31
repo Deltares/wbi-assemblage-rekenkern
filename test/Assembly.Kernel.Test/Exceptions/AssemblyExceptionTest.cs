@@ -21,11 +21,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Assembly.Kernel.Test.Exceptions
 {
@@ -142,13 +143,15 @@ namespace Assembly.Kernel.Test.Exceptions
 
         private static AssemblyException SerializeAndDeserializeException(AssemblyException original)
         {
-            var formatter = new BinaryFormatter();
-            using (var stream = new MemoryStream())
-            {
-                formatter.Serialize(stream, original);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (AssemblyException) formatter.Deserialize(stream);
-            }
+#pragma warning disable SYSLIB0050, SYSLIB0051
+            var info = new SerializationInfo(typeof(AssemblyException), new FormatterConverter());
+            original.GetObjectData(info, new StreamingContext(StreamingContextStates.All));
+            return (AssemblyException) Activator.CreateInstance(
+                typeof(AssemblyException),
+                BindingFlags.NonPublic | BindingFlags.Instance,
+                null, [info, new StreamingContext(StreamingContextStates.All)],
+                null);
+#pragma warning restore SYSLIB0050, SYSLIB0051
         }
     }
 }

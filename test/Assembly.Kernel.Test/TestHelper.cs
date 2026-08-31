@@ -22,6 +22,7 @@
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Assembly.Kernel.Test
 {
