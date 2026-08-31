@@ -22,35 +22,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Assembly.Kernel.Exceptions
 {
     /// <summary>
     /// Exception that is thrown when performing an assembly has failed.
     /// </summary>
-    [Serializable]
     public class AssemblyException : Exception
     {
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates a new instance of <see cref="AssemblyException"/> with
-        /// serialized data.
-        /// </summary>
-        /// <exception cref="SerializationException">Thrown when <paramref name="info"/> does not contain
-        /// <see cref="Errors"/>.</exception>
-        protected AssemblyException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            var errorMessages = (IEnumerable<AssemblyErrorMessage>) info.GetValue("Errors", typeof(IEnumerable<AssemblyErrorMessage>));
-
-            if (errorMessages == null)
-            {
-                throw new SerializationException($"Can't construct {nameof(AssemblyException)} when {nameof(errorMessages)} is null.");
-            }
-
-            Errors = errorMessages;
-        }
-
         /// <summary>
         /// Creates a new instance of <see cref="AssemblyException"/> with a single error message.
         /// </summary>
@@ -93,12 +72,5 @@ namespace Assembly.Kernel.Exceptions
         /// Gets the list of error messages.
         /// </summary>
         public IEnumerable<AssemblyErrorMessage> Errors { get; }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Errors", Errors);
-
-            base.GetObjectData(info, context);
-        }
     }
 }

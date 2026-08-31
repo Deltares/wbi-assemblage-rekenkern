@@ -22,8 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
@@ -89,19 +87,6 @@ namespace Assembly.Kernel.Test.Exceptions
             Assert.AreEqual("errorMessages", exception.ParamName);
         }
 
-        [Test]
-        public void Constructor_SerializationRoundTrip_ExceptionProperlyInitialized()
-        {
-            // Setup
-            var originalException = new AssemblyException("test", EAssemblyErrors.UndefinedProbability);
-
-            // Call
-            AssemblyException persistedException = SerializeAndDeserializeException(originalException);
-
-            // Assert
-            CollectionAssert.AreEqual(originalException.Errors, persistedException.Errors, new AssemblyErrorMessageComparer());
-            Assert.AreEqual(originalException.Message, persistedException.Message);
-        }
 
         [Test]
         public void Message_ExceptionWithSingleError_ReturnsExpectedMessage()
@@ -139,19 +124,6 @@ namespace Assembly.Kernel.Test.Exceptions
                                      + Environment.NewLine
                                      + EAssemblyErrors.LengthEffectFactorOutOfRange;
             Assert.AreEqual(expectedMessage, message);
-        }
-
-        private static AssemblyException SerializeAndDeserializeException(AssemblyException original)
-        {
-#pragma warning disable SYSLIB0050, SYSLIB0051
-            var info = new SerializationInfo(typeof(AssemblyException), new FormatterConverter());
-            original.GetObjectData(info, new StreamingContext(StreamingContextStates.All));
-            return (AssemblyException) Activator.CreateInstance(
-                typeof(AssemblyException),
-                BindingFlags.NonPublic | BindingFlags.Instance,
-                null, [info, new StreamingContext(StreamingContextStates.All)],
-                null);
-#pragma warning restore SYSLIB0050, SYSLIB0051
         }
     }
 }
