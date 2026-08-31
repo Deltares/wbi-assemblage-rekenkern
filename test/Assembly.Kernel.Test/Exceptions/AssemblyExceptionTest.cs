@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 
 namespace Assembly.Kernel.Test.Exceptions
 {
@@ -86,7 +85,6 @@ namespace Assembly.Kernel.Test.Exceptions
             var exception = Assert.Throws<ArgumentNullException>(Call);
             Assert.AreEqual("errorMessages", exception.ParamName);
         }
-
 
         [Test]
         public void Message_ExceptionWithSingleError_ReturnsExpectedMessage()
