@@ -9,7 +9,14 @@
     <FileAlignment>512</FileAlignment>
     <Company>Deltares</Company>
     <Copyright>Copyright © Stichting Deltares and State of the Netherlands 2026</Copyright>
-    <Version>26.1.1</Version>
+    <VersionBase>26.1.1</VersionBase>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">0</BuildNumber>
+    <PreRelease Condition="'$(PreRelease)' == ''">true</PreRelease>
+    <PreReleaseLabel Condition="'$(PreReleaseLabel)' == ''">dev</PreReleaseLabel>
+    <VersionPrefix>$(VersionBase)</VersionPrefix>
+    <VersionSuffix Condition="'$(PreRelease)' == 'true'">$(PreReleaseLabel).$(BuildNumber)</VersionSuffix>
+    <AssemblyVersion>$(VersionBase).$(BuildNumber)</AssemblyVersion>
+    <FileVersion>$(VersionBase).$(BuildNumber)</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MSBuildConfigurationDefaults" Version="1.0.1" />
