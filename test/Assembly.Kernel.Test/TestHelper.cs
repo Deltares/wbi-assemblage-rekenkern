@@ -19,9 +19,11 @@
 // Stichting Deltares and remain full property of Stichting Deltares at all times.
 // All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace Assembly.Kernel.Test
 {
@@ -43,7 +45,7 @@ namespace Assembly.Kernel.Test
         /// <item>The <see cref="AssemblyErrorMessage.ErrorCode"/> of the elements are not equal.</item>
         /// </list></exception>
         public static void AssertThrowsAssemblyExceptionWithAssemblyErrorMessages(
-            TestDelegate call,
+            Action call,
             IEnumerable<AssemblyErrorMessage> expectedErrorMessages)
         {
             var exception = Assert.Throws<AssemblyException>(call);

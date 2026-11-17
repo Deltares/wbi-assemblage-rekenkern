@@ -21,9 +21,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using Assembly.Kernel.Exceptions;
 using NUnit.Framework;
 
@@ -89,20 +87,6 @@ namespace Assembly.Kernel.Test.Exceptions
         }
 
         [Test]
-        public void Constructor_SerializationRoundTrip_ExceptionProperlyInitialized()
-        {
-            // Setup
-            var originalException = new AssemblyException("test", EAssemblyErrors.UndefinedProbability);
-
-            // Call
-            AssemblyException persistedException = SerializeAndDeserializeException(originalException);
-
-            // Assert
-            CollectionAssert.AreEqual(originalException.Errors, persistedException.Errors, new AssemblyErrorMessageComparer());
-            Assert.AreEqual(originalException.Message, persistedException.Message);
-        }
-
-        [Test]
         public void Message_ExceptionWithSingleError_ReturnsExpectedMessage()
         {
             // Setup
@@ -138,17 +122,6 @@ namespace Assembly.Kernel.Test.Exceptions
                                      + Environment.NewLine
                                      + EAssemblyErrors.LengthEffectFactorOutOfRange;
             Assert.AreEqual(expectedMessage, message);
-        }
-
-        private static AssemblyException SerializeAndDeserializeException(AssemblyException original)
-        {
-            var formatter = new BinaryFormatter();
-            using (var stream = new MemoryStream())
-            {
-                formatter.Serialize(stream, original);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (AssemblyException) formatter.Deserialize(stream);
-            }
         }
     }
 }

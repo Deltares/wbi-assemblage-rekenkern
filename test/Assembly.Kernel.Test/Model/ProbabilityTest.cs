@@ -498,9 +498,9 @@ namespace Assembly.Kernel.Test.Model
             // Call
             bool isLessThan1 = probability1 <= probability2;
             bool isLessThan2 = probability1 <= probabilityValue2;
-            bool isLessThan3 = probability1 <= probability1;
+            bool isLessThan3 = probability1 <= new Probability(probability1);
             bool isLessThan4 = probability1 <= probabilityValue1;
-            bool isLessThan5 = probability2 <= probability2;
+            bool isLessThan5 = probability2 <=  new Probability(probability2);
             bool isLessThan6 = probability2 <= probabilityValue2;
 
             // Assert
@@ -578,9 +578,9 @@ namespace Assembly.Kernel.Test.Model
             // Call
             bool isLessThan1 = probability1 >= probability2;
             bool isLessThan2 = probability1 >= probabilityValue2;
-            bool isLessThan3 = probability1 >= probability1;
+            bool isLessThan3 = probability1 >= new Probability(probability1);
             bool isLessThan4 = probability1 >= probabilityValue1;
-            bool isLessThan5 = probability2 >= probability2;
+            bool isLessThan5 = probability2 >= new Probability(probability2);
             bool isLessThan6 = probability2 >= probabilityValue2;
 
             // Assert

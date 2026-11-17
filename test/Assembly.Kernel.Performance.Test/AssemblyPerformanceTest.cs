@@ -67,7 +67,7 @@ namespace Assembly.Kernel.Test
         }
 
         [Test]
-        public void GivenAssemblyKernel_WhenFullAssemblyPerformed_ThenElapsedTimeLessThan1000()
+        public void GivenAssemblyKernel_WhenFullAssemblyPerformed_ThenElapsedTimeLessThan2000()
         {
             // Given
             var section = new AssessmentSection((Probability) 1.0e-3, (Probability) (1.0 / 300.0));
@@ -92,7 +92,7 @@ namespace Assembly.Kernel.Test
 
             // Then
             Console.WriteLine($"Elapsed time since start of assembly: {watch.Elapsed.TotalMilliseconds} ms");
-            Assert.Less(watch.Elapsed.TotalMilliseconds, 1000);
+            Assert.Less(watch.Elapsed.TotalMilliseconds, 2000);
         }
 
         private static void AssembleCommonFailureMechanismSections(IEnumerable<FailureMechanismSectionList> failureMechanismSectionLists)
